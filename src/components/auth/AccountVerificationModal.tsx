@@ -78,7 +78,7 @@ const AccountVerificationModal = ({
       <ScrollArea className="max-h-[90vh]">
         <DialogHeader className="relative overflow-hidden pt-4">
           <DialogTitle className="font-bold text-2xl">
-            Sign <span className="text-primary">In</span>
+            Account <span className="text-primary">Verification</span>
           </DialogTitle>
           <Image
             src={ufo}
@@ -90,21 +90,9 @@ const AccountVerificationModal = ({
           <Separator className="scale-x-[1.09] bg-[#292929]" />
         </DialogHeader>
 
-        <Button
-          variant="secondary"
-          className="w-full flex items-center gap-1 mt-5"
-        >
-          <GoogleLogo size={22} weight="fill" /> Sign in with Google
-        </Button>
-        {/* <Button variant="secondary" className="w-full items-center gap-1 mt-3">
-          <Image src={metamask} width={22} height={22} alt="ufo" />
-          Sign in with Metamask
-        </Button> */}
-        <div className="flex items-center justify-between gap-4 mt-5 mb-5">
-          <Separator className="bg-[#292929] w-[45%]" />
-          <p className="font-bold">OR</p>
-          <Separator className="bg-[#292929] w-[45%]" />
-        </div>
+       
+        
+       
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -156,7 +144,7 @@ const AccountVerificationModal = ({
               )}
             />
             <button className="opacity-70 font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
-              Forgot your password?
+              Didn't receive the code? Request again
             </button>
             <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
               <Button type="submit" className="font-bold w-full">

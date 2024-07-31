@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/popover';
 import SignInModal from '@/components/auth/SignInModal';
 import SignUpModal from '@/components/auth/SignUpModal';
+
 import { AuthMode } from '@/types/types';
 import { Bell } from '@phosphor-icons/react/dist/ssr';
 import { AnimatePresence, motion } from 'framer-motion';

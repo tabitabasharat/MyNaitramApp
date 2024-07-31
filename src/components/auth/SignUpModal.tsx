@@ -1,5 +1,5 @@
 'use client';
-
+import { useState } from 'react';
 import {
   DialogContent,
   DialogFooter,
@@ -36,6 +36,7 @@ import { PasswordInput } from '@/components/ui/password-input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AuthMode } from '@/types/types';
 import { Dispatch, SetStateAction } from 'react';
+import AccountVerificationModal from './AccountVerificationModal';
 
 const formSchema = z
   .object({
@@ -74,6 +75,7 @@ const SignUpModal = ({
 }: {
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
 }) => {
+  const [isVerificationModalOpen, setVerificationModalOpen] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -87,10 +89,14 @@ const SignUpModal = ({
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    console.log("account verification opening")
+    setVerificationModalOpen(true);
 
     console.log(values);
   }
   return (
+    <>
+  
     <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
       <ScrollArea className="max-h-[90vh]">
         <DialogHeader className="relative overflow-hidden pt-4">
@@ -240,6 +246,9 @@ const SignUpModal = ({
         </Form>
       </ScrollArea>
     </DialogContent>
+    {isVerificationModalOpen && <AccountVerificationModal setAuthMode={setAuthMode} />}
+
+    </>
   );
 };
 
