@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useAppDispatch } from "@/services/hooks";
+// import { useAppDispatch } from "@/services/hooks";
+import { useAppDispatch } from "@/lib/hooks";
 
 import {
   DialogContent,
@@ -38,7 +39,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { AuthMode } from "@/types/types";
 import { Dispatch, SetStateAction } from "react";
 import AccountVerificationModal from "./AccountVerificationModal";
-import { signup } from "@/services/redux/middleware/signin";
+// import { signup } from "@/services/redux/middleware/signin";
+import { signup } from "@/lib/middleware/signin";
 import { useRouter } from 'next/navigation';
 
 
@@ -109,35 +111,34 @@ const SignUpModal = ({
     console.log(values);
   };
 
-  // async function SignupUser() {
-  //   console.log("User Account Signup");
+  async function SignupUser() {
+    console.log("User Account Signup");
    
-  //   setLoader(true);
-  //   try {
-  //     const data = {
-  //       // google: false,
-  //       email: email,
-  //       password: password,
-  //       fullname: fullname,
-  //       isGoogleSignIn:false,
-  //     };
-  //     dispatch(signup(data)).then((res) => {
-  //       if (res?.payload?.status === 200) {
-  //         setLoader(false);
-  //         console.log(data);
-  //         // SuccessToast("User Signed Up Successfully");
-  //         // navigate(`/SignUp-Verify/${email}`);
+    setLoader(true);
+    try {
+      // const data = {
+      //   // google: false,
+      //   email: email,
+      //   password: password,
+      //   fullname: fullname,
+      //   isGoogleSignIn:false,
+      // };
+      dispatch(signup()).then((res:any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          // SuccessToast("User Signed Up Successfully");
+          // navigate(`/SignUp-Verify/${email}`);
         
-  //       } else {
-  //         setLoader(false);
+        } else {
+          setLoader(false);
 
-  //       console.log(res?.payload?.message);
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // }
+        console.log(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
   return (
     <>
       <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
