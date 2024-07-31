@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-
+import getUserInfo from './reducer/getUserInfo'
 export const makeStore = () => {
   return configureStore({
-    reducer: {},
+    reducer: {
+      profileInfo: getUserInfo,
+    },
   })
 }
 

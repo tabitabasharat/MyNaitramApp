@@ -41,8 +41,7 @@ import { Dispatch, SetStateAction } from "react";
 import AccountVerificationModal from "./AccountVerificationModal";
 // import { signup } from "@/services/redux/middleware/signin";
 import { signup } from "@/lib/middleware/signin";
-import { useRouter } from 'next/navigation';
-
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -89,7 +88,7 @@ const SignUpModal = ({
   const [fullname, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
-  const[loader,setLoader]=useState(false);
+  const [loader, setLoader] = useState(false);
   console.log("my email is", email);
   console.log("my pass is", password);
 
@@ -103,36 +102,36 @@ const SignUpModal = ({
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    
-    console.log("account verification opening");
-    setVerificationModalOpen(true);
+  // function onSubmit(values: z.infer<typeof formSchema>) {
 
-    console.log(values);
-  };
+  //   console.log("account verification opening");
+  //   setVerificationModalOpen(true);
 
-  async function SignupUser() {
+  //   console.log(values);
+  // };
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("my values",values);
     console.log("User Account Signup");
-   
+
     setLoader(true);
     try {
-      // const data = {
-      //   // google: false,
-      //   email: email,
-      //   password: password,
-      //   fullname: fullname,
-      //   isGoogleSignIn:false,
-      // };
-      dispatch(signup()).then((res:any) => {
+      const data = {
+        // google: false,
+        email: email,
+        password: password,
+        fullname: fullname,
+        isGoogleSignIn: false,
+      };
+      dispatch(signup()).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
           // SuccessToast("User Signed Up Successfully");
           // navigate(`/SignUp-Verify/${email}`);
-        
         } else {
           setLoader(false);
 
-        console.log(res?.payload?.message);
+          console.log(res?.payload?.message);
         }
       });
     } catch (error) {

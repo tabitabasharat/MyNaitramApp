@@ -21,3 +21,22 @@ export const signup = createAsyncThunk("signin", async (data) => {
       };
     }
   });
+  export const getProfileInfo = createAsyncThunk(
+    "getProfileInfo",
+    async (data) => {
+      try {
+        console.log("inde the profile");
+        const res = await api.get(`${API_URL}/api/getUserInfo/${data}`);
+        // localStorage.setItem("token", res?.data?.token);
+        return {
+          status: res?.status,
+          data: res?.data,
+        };
+      } catch (error) {
+        return {
+          message: error?.response?.data?.error,
+          status: error?.response?.status,
+        };
+      }
+    }
+  );
