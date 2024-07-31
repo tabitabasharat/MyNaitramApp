@@ -54,28 +54,6 @@ const Resetpassword = ({
     },
   });
 
-  const [email, setEmal] = useState();
-  const [formValidation, setFormValidation] = useState(false);
-
-  useEffect(() => {
-    if (email) {
-      setFormValidation(true);
-      console.log("Valid input");
-    } else {
-      setFormValidation(false);
-      console.log("Mount");
-    }
-  }, [email]);
-
-  const complete = () => {
-    if (formValidation) {
-      console.log("VALID");
-      // Perform the navigation or other actions
-    } else {
-      alert("Please complete all required fields");
-    }
-  };
-
   const [comfirmpass, setComfirmResetpass] = useState(false);
 
   const handlerResetPass = () => {
@@ -116,7 +94,7 @@ const Resetpassword = ({
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="relative mb-11">
+                  <FormItem className="relative mb-14">
                     <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
                       EMAIL
                     </FormLabel>

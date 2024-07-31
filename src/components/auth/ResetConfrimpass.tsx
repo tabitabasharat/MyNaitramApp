@@ -98,8 +98,8 @@ const ResetConfrimpass = ({
           Enter your new password
         </div>
 
-        <Form {...form} >
-          <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-4 ">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-4 mb-14 ">
             <FormField
               control={form.control}
               name="password"
@@ -123,11 +123,11 @@ const ResetConfrimpass = ({
                 </FormItem>
               )}
             />
-                        <FormField
+            <FormField
               control={form.control}
               name="confirm_password"
               render={({ field }) => (
-                <FormItem className="relative mb-11">
+                <FormItem className="relative">
                   <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
                     CONFORM PASSWORD
                   </FormLabel>
@@ -146,12 +146,12 @@ const ResetConfrimpass = ({
                 </FormItem>
               )}
             />
-            <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
-              <Button type="submit" className="font-bold w-full">
-                Submit
-              </Button>
-            </DialogFooter>
           </form>
+          <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
+            <Button type="submit" className="font-bold w-full">
+              Submit
+            </Button>
+          </DialogFooter>
         </Form>
       </ScrollArea>
     </DialogContent>

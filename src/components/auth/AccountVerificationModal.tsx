@@ -220,14 +220,7 @@ const AccountVerificationModal = ({
                 </FormItem>
               )}
             /> */}
-            <button className="opacity-70 font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
-              Didn't receive the code? Request again
-            </button>
-            <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
-              <Button type="submit" className="font-bold w-full">
-                Verify
-              </Button>
-            </DialogFooter>
+
             {/* <p className="font-bold text-center">
               Don't have an account?{" "}
               <span
@@ -240,6 +233,14 @@ const AccountVerificationModal = ({
               </span>
             </p> */}
           </form>
+          <button className="opacity-70 font-bold mb-14 hover:opacity-100 underline translate-y-[-0.4rem]">
+            Didn't receive the code? Request again
+          </button>
+          <DialogFooter className="w-full pt-4 bg-[#101010] border-t border-muted">
+            <Button type="submit" className="font-bold w-full">
+              Verify
+            </Button>
+          </DialogFooter>
         </Form>
       </ScrollArea>
     </DialogContent>
