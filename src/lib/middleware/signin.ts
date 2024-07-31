@@ -4,7 +4,7 @@ import api from "../apiInterceptor";
 import { API_URL } from "../client";
 
 
-export const signup = createAsyncThunk("signin", async (data) => {
+export const signup = createAsyncThunk("signin", async (data:any) => {
     try {
       console.log("Signup");
       const res = await api.post(`${API_URL}/auth/signup`, data);
@@ -32,7 +32,7 @@ export const signup = createAsyncThunk("signin", async (data) => {
           status: res?.status,
           data: res?.data,
         };
-      } catch (error) {
+      } catch (error:any) {
         return {
           message: error?.response?.data?.error,
           status: error?.response?.status,

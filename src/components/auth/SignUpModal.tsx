@@ -123,7 +123,7 @@ const SignUpModal = ({
         fullname: fullname,
         isGoogleSignIn: false,
       };
-      dispatch(signup()).then((res: any) => {
+      dispatch(signup(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
           // SuccessToast("User Signed Up Successfully");
