@@ -34,6 +34,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { signin } from '@/lib/middleware/signin';
 import { useAppDispatch } from '@/lib/hooks';
 import { useState,useEffect } from 'react';
+import { ErrorToast } from '../reusable-components/Toaster/Toaster';
 
 const formSchema = z.object({
   email: z
@@ -73,48 +74,48 @@ const SignInModal = ({
     },
   });
 
-  // async function login() {
+  async function login(alues: z.infer<typeof formSchema>) {
   
-  //   setLoader(true);
-  //   try {
-  //     const data = {
-  //       email: email,
-  //       password: password,
-  //     };
-  //     dispatch(signin(data)).then((res:any) => {
-  //       if (res?.payload?.status === 200) {
-  //         setLoader(false);
-  //         console.log("login res", res?.payload?.data);
-  //         localStorage.setItem("_id", res?.payload?.data?.id);
-  //         localStorage.setItem("token", res?.payload?.token);
-  //         localStorage.setItem("role", res?.payload?.data?.role);
-  //         localStorage.setItem("name", res?.payload?.data?.fullname);
+    setLoader(true);
+    try {
+      const data = {
+        email: email,
+        password: password,
+      };
+      dispatch(signin(data)).then((res:any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          console.log("login res", res?.payload?.data);
+          localStorage.setItem("_id", res?.payload?.data?.id);
+          localStorage.setItem("token", res?.payload?.token);
+          localStorage.setItem("role", res?.payload?.data?.role);
+          localStorage.setItem("name", res?.payload?.data?.fullname);
 
 
-  //         SuccessToast("Signed In Successfully");
-  //         navigate("/Dashboard");
-  //         // localStorage.setItem("profileupdate", res?.payload?.data?.profileUpdate);
+          // localStorage.setItem("profileupdate", res?.payload?.data?.profileUpdate);
 
-  //         if (res?.payload?.data?.profileUpdate) {
-  //           navigate("/Dashboard");
-  //         } else {
-  //           navigate("/Profile");
-  //         }
-  //       } else {
-  //         setLoader(false);
-  //         ErrorToast(res?.payload?.message);
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // }
+          if (res?.payload?.data?.profileUpdate) {
+            // navigate("/Dashboard");
+            console.log("dash")
+          } else {
+            // navigate("/Profile");
+            console.log("profile")
+          }
+        } else {
+          setLoader(false);
+         console.log(res?.payload?.message);
+         ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+ 
 
     console.log(values);
   }
@@ -152,7 +153,7 @@ const SignInModal = ({
         </div>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(login)} className="space-y-4">
             <FormField
               control={form.control}
               name="email"
@@ -170,6 +171,10 @@ const SignInModal = ({
                       placeholder="youremail@example.com"
                       className="pt-11 pb-5 font-bold placeholder:font-normal"
                       {...field}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        field.onChange(e);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -194,6 +199,10 @@ const SignInModal = ({
                       placeholder="Input password"
                       className="pt-11 pb-5 font-bold placeholder:font-normal"
                       {...field}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        field.onChange(e);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
