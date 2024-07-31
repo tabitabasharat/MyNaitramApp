@@ -31,6 +31,9 @@ import { PasswordInput } from '@/components/ui/password-input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AuthMode } from '@/types/types';
 import { Dispatch, SetStateAction } from 'react';
+import { signin } from '@/lib/middleware/signin';
+import { useAppDispatch } from '@/lib/hooks';
+import { useState,useEffect } from 'react';
 
 const formSchema = z.object({
   email: z
@@ -58,6 +61,10 @@ const SignInModal = ({
 }: {
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
 }) => {
+  const dispatch = useAppDispatch();
+  const [loader,setLoader]=useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -65,6 +72,44 @@ const SignInModal = ({
       password: '',
     },
   });
+
+  // async function login() {
+  
+  //   setLoader(true);
+  //   try {
+  //     const data = {
+  //       email: email,
+  //       password: password,
+  //     };
+  //     dispatch(signin(data)).then((res:any) => {
+  //       if (res?.payload?.status === 200) {
+  //         setLoader(false);
+  //         console.log("login res", res?.payload?.data);
+  //         localStorage.setItem("_id", res?.payload?.data?.id);
+  //         localStorage.setItem("token", res?.payload?.token);
+  //         localStorage.setItem("role", res?.payload?.data?.role);
+  //         localStorage.setItem("name", res?.payload?.data?.fullname);
+
+
+  //         SuccessToast("Signed In Successfully");
+  //         navigate("/Dashboard");
+  //         // localStorage.setItem("profileupdate", res?.payload?.data?.profileUpdate);
+
+  //         if (res?.payload?.data?.profileUpdate) {
+  //           navigate("/Dashboard");
+  //         } else {
+  //           navigate("/Profile");
+  //         }
+  //       } else {
+  //         setLoader(false);
+  //         ErrorToast(res?.payload?.message);
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // }
+
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getProfileInfo } from "../middleware/signin";
 
-const initialState = {
+const initialState:any = {
   loading: false,
   error: "",
   userProfile: [],

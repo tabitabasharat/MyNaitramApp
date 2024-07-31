@@ -21,6 +21,25 @@ export const signup = createAsyncThunk("signin", async (data:any) => {
       };
     }
   });
+
+  export const signin = createAsyncThunk("signin", async (data:any) => {
+    try {
+      console.log("inside the Login modal");
+      const res = await api.post(`${API_URL}/auth/login`, data);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+        token: res?.data?.token,
+      };
+    } catch (error:any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  });
+  
   export const getProfileInfo = createAsyncThunk(
     "getProfileInfo",
     async (data) => {
