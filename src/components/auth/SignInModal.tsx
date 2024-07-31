@@ -30,7 +30,8 @@ import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AuthMode } from '@/types/types';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import Resetpassword from './Resetpassword';
 
 const formSchema = z.object({
   email: z
@@ -66,6 +67,12 @@ const SignInModal = ({
     },
   });
 
+  const [resetpass,setResetpass] = useState(false);
+
+  const handlerResetPass = () =>{
+   setResetpass(!resetpass)
+  }
+
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -74,6 +81,7 @@ const SignInModal = ({
     console.log(values);
   }
   return (
+    <>
     <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
       <ScrollArea className="max-h-[90vh]">
         <DialogHeader className="relative overflow-hidden pt-4">
@@ -155,7 +163,8 @@ const SignInModal = ({
                 </FormItem>
               )}
             />
-            <button className="opacity-70 font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
+            <button className="opacity-70 font-bold hover:opacity-100 underline translate-y-[-0.4rem]" onClick={handlerResetPass} >
+
               Forgot your password?
             </button>
             <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
@@ -178,6 +187,9 @@ const SignInModal = ({
         </Form>
       </ScrollArea>
     </DialogContent>
+      {resetpass && <Resetpassword/>}
+      </>
+
   );
 };
 
