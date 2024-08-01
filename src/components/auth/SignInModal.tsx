@@ -35,6 +35,10 @@ import { signin } from '@/lib/middleware/signin';
 import { useAppDispatch } from '@/lib/hooks';
 import { useState,useEffect } from 'react';
 import { ErrorToast } from '../reusable-components/Toaster/Toaster';
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+
+
 
 const formSchema = z.object({
   email: z
@@ -113,6 +117,60 @@ const SignInModal = ({
   }
 
 
+  const logingoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const datas = await axios.get(
+        `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenResponse.access_token}`
+      );
+
+      try {
+        const data = {
+          // id: userId,
+          email: datas?.data?.email,
+          fullname: datas?.data?.name,
+          isGoogleSignIn: true,
+          islinkedinSignIn: false,
+          
+        };
+        console.log("datas", datas);
+        console.log("data only", datas?.data);
+
+        dispatch(signin(data)).then((res:any) => {
+          if (res?.payload?.status === 200) {
+            setLoader(false);
+            console.log(" google login data is ", data);
+            console.log("Google Login Success");
+            console.log("google login response", res);
+
+            localStorage.setItem("_id", res?.payload?.data?.id);
+            localStorage.setItem("token", res?.payload?.token);
+            localStorage.setItem(
+              "profileupdate",
+              res?.payload?.data?.profileUpdate
+            );
+            localStorage.setItem("role", res?.payload?.data?.role);
+          localStorage.setItem("name", res?.payload?.data?.fullname);
+
+            console.log("my role",res?.payload?.data?.role);
+
+            if (res?.payload?.data?.profileUpdate) {
+              // navigate("/Dashboard");
+              console.log("dashboard")
+
+            } else {
+              // navigate("/Profile");
+              console.log("profile")
+            }
+          } else {
+            setLoader(false);
+            console.log(res?.payload?.message);
+          }
+        });
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    },
+  });
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
  
