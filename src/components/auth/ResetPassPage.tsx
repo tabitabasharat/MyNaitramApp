@@ -17,11 +17,15 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+
 import ufo from "@/assets/ufo.png";
+import metamask from "@/assets/metamask.svg";
+
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Envelope, GoogleLogo, Lock } from "@phosphor-icons/react/dist/ssr";
 import { Separator } from "@/components/ui/separator";
+
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -30,8 +34,6 @@ import { Dispatch, SetStateAction, useState, useEffect } from "react";
 
 import "./AccountVerificationModal.css";
 import ResetConfrimpass from "./ResetConfrimpass";
-import { forgetPassword } from "@/lib/middleware/signin";
-import { useAppDispatch } from "@/lib/hooks";
 
 const formSchema = z.object({
   email: z
@@ -42,10 +44,8 @@ const formSchema = z.object({
 
 const Resetpassword = ({
   setAuthMode,
-  onClose
 }: {
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
-  onClose:() => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,15 +53,11 @@ const Resetpassword = ({
       email: "",
     },
   });
-  const dispatch = useAppDispatch();
 
-  const [comfirmpassModal, setComfirmResetpassModal] = useState(false);
-
-  const [email, setEmail] = useState();
-  const [loader, setLoader] = useState(false);
+  const [comfirmpass, setComfirmResetpass] = useState(false);
 
   const handlerResetPass = () => {
-    setComfirmResetpassModal(!comfirmpassModal);
+    setComfirmResetpass(!comfirmpass);
   };
 
   // 2. Define a submit handler.
@@ -71,30 +67,6 @@ const Resetpassword = ({
 
     console.log(values);
   }
-
-  const onForgotPassword = (values: z.infer<typeof formSchema>) => {
-    setLoader(true);
-    const data = {
-      email: email,
-    };
-    try {
-      dispatch(forgetPassword(data)).then((res: any) => {
-        if (res?.payload?.status === 200) {
-          setLoader(false);
-          console.log("Email Sent Successfully");
-          // onClose();
-
-          setComfirmResetpassModal(true);
-          // navigate("/New-Password");
-        } else {
-          console.log(res?.payload?.message);
-          setLoader(false);
-        }
-      });
-    } catch (error) {
-      setLoader(false);
-    }
-  };
   return (
     <>
       <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
@@ -117,7 +89,7 @@ const Resetpassword = ({
           </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onForgotPassword)} className=" space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-4">
               <FormField
                 control={form.control}
                 name="email"
@@ -135,10 +107,6 @@ const Resetpassword = ({
                         placeholder="youremail@example.com"
                         className="pt-11 pb-5 font-bold placeholder:font-normal"
                         {...field}
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                          field.onChange(e);
-                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -170,7 +138,7 @@ const Resetpassword = ({
           </Form>
         </ScrollArea>
       </DialogContent>
-      {comfirmpassModal && <ResetConfrimpass />}
+      {comfirmpass && <ResetConfrimpass/> }
     </>
   );
 };

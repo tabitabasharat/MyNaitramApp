@@ -83,7 +83,7 @@ const SignUpModal = ({
 }: {
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
 }) => {
-  const router = useRouter();
+
   const dispatch = useAppDispatch();
 
   const [isVerificationModalOpen, setVerificationModalOpen] = useState(false);
