@@ -21,6 +21,8 @@ import { useForm } from "react-hook-form";
 import ufo from "@/assets/ufo.png";
 import metamask from "@/assets/metamask.svg";
 
+import { useRef } from "react";
+
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Envelope, GoogleLogo, Lock } from "@phosphor-icons/react/dist/ssr";
@@ -31,6 +33,8 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AuthMode } from "@/types/types";
 import { Dispatch, SetStateAction } from "react";
+
+// import ufo from "@/assets/ufo.png";
 
 import "./AccountVerificationModal.css";
 
@@ -77,13 +81,38 @@ const AccountVerificationModal = ({
     },
   });
 
+  const inputRefs = [
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+  ];
+
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
-    console.log(values);
+    console.log("my values" ,values);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+    if (e.key === 'ArrowRight' || e.key === 'Tab') {
+      e.preventDefault();
+      const nextInput = inputRefs[index + 1];
+      if (nextInput && nextInput.current) {
+        nextInput.current.focus();
+      }
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const prevInput = inputRefs[index - 1];
+      if (prevInput && prevInput.current) {
+        prevInput.current.focus();
+      }
+    }
+    
   }
+
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
       <ScrollArea className="max-h-[90vh]">
@@ -104,134 +133,42 @@ const AccountVerificationModal = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="input-stlying">
-              <FormField
-                control={form.control}
-                name="textbox"
-                render={({ field }) => (
-                  <FormItem className="relative">
-                    {/* <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
-                    EMAIL
-                  </FormLabel> */}
-                    {/* <Envelope
-                    className="absolute right-3 translate-y-[0.9rem]"
-                    size={20}
-                  /> */}
-                    <FormControl>
-                      <Input
-                        placeholder=""
-                        className="accnt-verification-input font-bold placeholder:font-normal"
-                        {...field}
-                      />
-                    </FormControl>
-                    {/* <FormMessage /> */}
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="textbox1"
-                render={({ field }) => (
-                  <FormItem className="relative">
-                    {/* <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
-                    EMAIL
-                  </FormLabel> */}
-                    {/* <Envelope
-                    className="absolute right-3 translate-y-[0.9rem]"
-                    size={20}
-                  /> */}
-                    <FormControl>
-                      <Input
-                        placeholder=""
-                        className="accnt-verification-input font-bold placeholder:font-normal"
-                        {...field}
-                      />
-                    </FormControl>
-                    {/* <FormMessage /> */}
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="textbox2"
-                render={({ field }) => (
-                  <FormItem className="relative">
-                    {/* <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
-                    EMAIL
-                  </FormLabel> */}
-                    {/* <Envelope
-                    className="absolute right-3 translate-y-[0.9rem]"
-                    size={20}
-                  /> */}
-                    <FormControl>
-                      <Input
-                        placeholder=""
-                        className="accnt-verification-input font-bold placeholder:font-normal"
-                        {...field}
-                      />
-                    </FormControl>
-                    {/* <FormMessage /> */}
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="textbox3"
-                render={({ field }) => (
-                  <FormItem className="relative">
-                    {/* <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
-                    EMAIL
-                  </FormLabel> */}
-                    {/* <Envelope
-                    className="absolute right-3 translate-y-[0.9rem]"
-                    size={20}
-                  /> */}
-                    <FormControl>
-                      <Input
-                        placeholder=""
-                        className="accnt-verification-input font-bold placeholder:font-normal"
-                        {...field}
-                      />
-                    </FormControl>
-                    {/* <FormMessage /> */}
-                  </FormItem>
-                )}
-              />
-            </div>
-            {/* <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem className="relative">
-                  <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
-                    PASSWORD
-                  </FormLabel>
-                  <Lock
-                    className="absolute right-3 translate-y-[0.9rem] z-10"
-                    size={20}
-                  />
-                  <FormControl>
-                    <PasswordInput
-                      placeholder="Input password"
-                      className="pt-11 pb-5 font-bold placeholder:font-normal"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
+              {["textbox", "textbox1", "textbox2", "textbox3"].map(
+                (name, index) => (
+                  <FormField
+                    Key={name}  
+                    control={form.control}
+                    name={name as keyof z.infer<typeof formSchema>}
+                    render={({ field }) => (
+                      <FormItem className="relative">
 
-            {/* <p className="font-bold text-center">
-              Don't have an account?{" "}
-              <span
-                onClick={() => {
-                  setAuthMode("SIGNUP");
-                }}
-                className="underline cursor-pointer hover:opacity-60 duration-300"
-              >
-                Sign up now
-              </span>
-            </p> */}
+                        <FormControl>
+                          <Input
+                            placeholder=""
+                            className="accnt-verification-input text-center font-bold placeholder:font-normal"
+                            {...field}
+                            ref={inputRefs[index]}
+                            onChange={(e) => {
+                              if (e.target.value.length <= 1) {
+                                field.onChange(e);
+                                 }
+                              if (e.target.value.length === 1) {
+                                const nextInput = inputRefs[index + 1];
+                                if (nextInput && nextInput.current) {
+                                  nextInput.current.focus();
+                                }
+                              }
+                            }}
+                            onKeyDown={(e) => handleKeyDown(e, index)}
+                          />
+                        </FormControl>
+                        {/* <FormMessage /> */}
+                      </FormItem>
+                    )}
+                  />
+                )
+              )}
+            </div>
           </form>
           <button className="opacity-70 font-bold mb-14 hover:opacity-100 underline translate-y-[-0.4rem]">
             Didn't receive the code? Request again

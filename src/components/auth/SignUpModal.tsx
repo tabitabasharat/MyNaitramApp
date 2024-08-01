@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useAppDispatch } from '@/lib/hooks';
 import {
   DialogContent,
   DialogFooter,
@@ -75,7 +76,7 @@ const SignUpModal = ({
 }: {
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
 }) => {
-  const router = useRouter();
+
   const dispatch = useAppDispatch();
 
   const [isVerificationModalOpen, setVerificationModalOpen] = useState(false);

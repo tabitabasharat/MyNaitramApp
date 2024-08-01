@@ -14,8 +14,44 @@
     gap: 25px;
     margin: 24px 0px 20px;
 }
+.bg-image{
+    background-image: url('../../assets/240625\ Reset\ Password.png');
+    height: 100vh;
+    background-size: cover;
+    width:  100%;
+    padding-left: 112px;
+    padding-right: 112px;
+    padding-top: 100px;
+}
+.resetpass-stlying-main-div{
+    /* margin: 100px ; */
+    width: 440px;
+    height: 412px;
+
+}
+.resetpass-stlying{
+    padding: 50px 0px 30px;
+}
+.logo-stlying{
+    margin-bottom: 50px;
+}
 @media (max-width:768px) {
     .accnt-verification-input{
         width: 100% !important;
+    }
+    .bg-image{
+        display: flex;
+        justify-content: center;
+        padding-top: 100px !important;
+        padding: 45px;
+    }
+    .resetpass-stlying-main-div{
+        width: 100%;
+    }
+}
+@media (max-width:320px) {
+    .bg-image{
+        padding: 30px;
+        padding-top: 100px;
     }
 }
