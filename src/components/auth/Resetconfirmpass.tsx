@@ -29,7 +29,8 @@ import {
   SuccessToast,
   ErrorToast,
 } from "../reusable-components/Toaster/Toaster";
-
+import { useParams, useRouter } from "next/navigation";
+import { newPassword } from "@/lib/middleware/signin";
 const formSchema = z
   .object({
     password: z
@@ -55,7 +56,6 @@ const formSchema = z
     message: "Passwords do not match.",
   });
 
-
 const Resetconfirmpass = ({
   setAuthMode,
 }: {
@@ -67,45 +67,50 @@ const Resetconfirmpass = ({
     defaultValues: {
       password: "",
       confirm_password: "",
-     
     },
   });
+  const router = useRouter();
+  const [passcode, setPasscode] = useState();
 
-  const [loader,setLoader] =useState(false);
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setPasscode(value);
+    console.log("myy", value);
+  }, []);
+
+  const [loader, setLoader] = useState(false);
   const [comfirmpass, setComfirmResetpass] = useState(false);
-  const[password,setPassword]=useState("");
+  const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
 
   const handlerResetPass = () => {
     setComfirmResetpass(!comfirmpass);
   };
 
-
   function onSubmit(values: z.infer<typeof formSchema>) {
-    
-
     console.log(values);
   }
 
-  // const onNewPassword = (values: z.infer<typeof formSchema>) => {
-   
-  //   setLoader(true);
-  //   const data = {
-  //     password: password,
-  //     verificationCode: passcode,
-  //   };
-  //   dispatch(newPassword(data)).then((res) => {
-  //     if (res?.payload?.status === 200) {
-  //       setLoader(false);
-  //       SuccessToast("Password Reset Successfully");
-  //       setModalShow(true);
-  //       // navigate("/New-Password");
-  //     } else {
-  //       ErrorToast(res?.payload?.message);
-  //       setLoader(false);
-  //     }
-  //   });
-  // };
+  const onNewPassword = (values: z.infer<typeof formSchema>) => {
+    setLoader(true);
+    const data = {
+      password: password,
+      verificationCode: passcode,
+    };
+    dispatch(newPassword(data)).then((res: any) => {
+      if (res?.payload?.status === 200) {
+        setLoader(false);
+        SuccessToast("Password Reset Successfully");
+        // setModalShow(true);
+        // navigate("/New-Password");
+      } else {
+        ErrorToast(res?.payload?.message);
+        setLoader(false);
+      }
+    });
+  };
 
   return (
     <div className="bg-image">
@@ -129,7 +134,7 @@ const Resetconfirmpass = ({
           </div>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={form.handleSubmit(onNewPassword)}
               className=" space-y-4 mb-14 "
             >
               <FormField
@@ -193,7 +198,6 @@ const Resetconfirmpass = ({
           </Form>
         </div>
       </section>
-      {/* {comfirmpass && <ResetConfrimpass/> } */}
     </div>
   );
 };

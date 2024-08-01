@@ -63,8 +63,9 @@ const ResetPassPage = ({
       dispatch(forgetPassword(data)).then((res:any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          console.log("Email Sent Successfully");
           SuccessToast("Email Sent Successfully");
+          console.log("Email Sent Successfully");
+        
 
           // router.push("/auth/resetcomfirmpass")
           // navigate("/New-Password");
@@ -130,7 +131,7 @@ const ResetPassPage = ({
                 )}
               />
               <Button type="submit" className="font-bold w-full">
-                <Link href="/auth/resetcomfirmpass">Submit</Link>
+                Submit
               </Button>
             </form>
           </Form>
