@@ -1,0 +1,21 @@
+.accnt-verification-input{
+    width: 89px;
+    height: 88px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 29px 35px;
+    /* padding: 29px, 35px, 29px, 35px; */
+}
+.input-stlying{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    margin: 24px 0px 20px;
+}
+@media (max-width:768px) {
+    .accnt-verification-input{
+        width: 100% !important;
+    }
+}

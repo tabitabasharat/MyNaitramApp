@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 import {
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -13,43 +13,52 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+} from "@/components/ui/form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-import ufo from '@/assets/ufo.png';
-import metamask from '@/assets/metamask.svg';
+import ufo from "@/assets/ufo.png";
+import metamask from "@/assets/metamask.svg";
 
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Envelope, GoogleLogo, Lock } from '@phosphor-icons/react/dist/ssr';
-import { Separator } from '@/components/ui/separator';
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Envelope, GoogleLogo, Lock } from "@phosphor-icons/react/dist/ssr";
+import { Separator } from "@/components/ui/separator";
 
-import { Input } from '@/components/ui/input';
-import { PasswordInput } from '@/components/ui/password-input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { AuthMode } from '@/types/types';
-import { Dispatch, SetStateAction } from 'react';
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { AuthMode } from "@/types/types";
+import { Dispatch, SetStateAction } from "react";
+
+import "./AccountVerificationModal.css";
 
 const formSchema = z.object({
-  email: z
+  textbox: z
     .string()
-    .min(1, { message: 'Email cannot be empty.' })
-    .email({ message: 'Invalid email address.' }),
-
-  password: z
+    .min(1, { message: "Input cannot be empty." })
+    .max(1, { message: "Only one character or number is allowed." })
+    .regex(/^[a-zA-Z0-9]$/, {
+      message: "Invalid input. Only letters and numbers are allowed.",
+    }),
+  textbox1: z
     .string()
-    .min(8, { message: 'Password must contain at least 8 characters.' })
-    .regex(/[a-z]/, {
-      message: 'Password must contain at least one lowercase letter.',
-    })
-    .regex(/[A-Z]/, {
-      message: 'Password must contain at least one uppercase letter.',
-    })
-    .regex(/[0-9]/, { message: 'Password must contain at least one number.' })
-    .regex(/[^a-zA-Z0-9]/, {
-      message: 'Password must contain at least one special character.',
+    .min(1, { message: "Input cannot be empty." })
+    .regex(/^[a-zA-Z0-9]+$/, {
+      message: "Invalid input. Only letters and numbers are allowed.",
+    }),
+  textbox2: z
+    .string()
+    .min(1, { message: "Input cannot be empty." })
+    .regex(/^[a-zA-Z0-9]+$/, {
+      message: "Invalid input. Only letters and numbers are allowed.",
+    }),
+  textbox3: z
+    .string()
+    .min(1, { message: "Input cannot be empty." })
+    .regex(/^[a-zA-Z0-9]+$/, {
+      message: "Invalid input. Only letters and numbers are allowed.",
     }),
 });
 
@@ -61,8 +70,10 @@ const AccountVerificationModal = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      textbox: "",
+      textbox1: "",
+      textbox2: "",
+      textbox3: "",
     },
   });
 
@@ -90,37 +101,103 @@ const AccountVerificationModal = ({
           <Separator className="scale-x-[1.09] bg-[#292929]" />
         </DialogHeader>
 
-       
-        
-       
-
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="relative">
-                  <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
+            <div className="input-stlying">
+              <FormField
+                control={form.control}
+                name="textbox"
+                render={({ field }) => (
+                  <FormItem className="relative">
+                    {/* <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
                     EMAIL
-                  </FormLabel>
-                  <Envelope
+                  </FormLabel> */}
+                    {/* <Envelope
                     className="absolute right-3 translate-y-[0.9rem]"
                     size={20}
-                  />
-                  <FormControl>
-                    <Input
-                      placeholder="youremail@example.com"
-                      className="pt-11 pb-5 font-bold placeholder:font-normal"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
+                  /> */}
+                    <FormControl>
+                      <Input
+                        placeholder=""
+                        className="accnt-verification-input font-bold placeholder:font-normal"
+                        {...field}
+                      />
+                    </FormControl>
+                    {/* <FormMessage /> */}
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="textbox1"
+                render={({ field }) => (
+                  <FormItem className="relative">
+                    {/* <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
+                    EMAIL
+                  </FormLabel> */}
+                    {/* <Envelope
+                    className="absolute right-3 translate-y-[0.9rem]"
+                    size={20}
+                  /> */}
+                    <FormControl>
+                      <Input
+                        placeholder=""
+                        className="accnt-verification-input font-bold placeholder:font-normal"
+                        {...field}
+                      />
+                    </FormControl>
+                    {/* <FormMessage /> */}
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="textbox2"
+                render={({ field }) => (
+                  <FormItem className="relative">
+                    {/* <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
+                    EMAIL
+                  </FormLabel> */}
+                    {/* <Envelope
+                    className="absolute right-3 translate-y-[0.9rem]"
+                    size={20}
+                  /> */}
+                    <FormControl>
+                      <Input
+                        placeholder=""
+                        className="accnt-verification-input font-bold placeholder:font-normal"
+                        {...field}
+                      />
+                    </FormControl>
+                    {/* <FormMessage /> */}
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="textbox3"
+                render={({ field }) => (
+                  <FormItem className="relative">
+                    {/* <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
+                    EMAIL
+                  </FormLabel> */}
+                    {/* <Envelope
+                    className="absolute right-3 translate-y-[0.9rem]"
+                    size={20}
+                  /> */}
+                    <FormControl>
+                      <Input
+                        placeholder=""
+                        className="accnt-verification-input font-bold placeholder:font-normal"
+                        {...field}
+                      />
+                    </FormControl>
+                    {/* <FormMessage /> */}
+                  </FormItem>
+                )}
+              />
+            </div>
+            {/* <FormField
               control={form.control}
               name="password"
               render={({ field }) => (
@@ -142,27 +219,28 @@ const AccountVerificationModal = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />
-            <button className="opacity-70 font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
-              Didn't receive the code? Request again
-            </button>
-            <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
-              <Button type="submit" className="font-bold w-full">
-                Log In
-              </Button>
-            </DialogFooter>
-            <p className="font-bold text-center">
-              Don't have an account?{' '}
+            /> */}
+
+            {/* <p className="font-bold text-center">
+              Don't have an account?{" "}
               <span
                 onClick={() => {
-                  setAuthMode('SIGNUP');
+                  setAuthMode("SIGNUP");
                 }}
                 className="underline cursor-pointer hover:opacity-60 duration-300"
               >
                 Sign up now
               </span>
-            </p>
+            </p> */}
           </form>
+          <button className="opacity-70 font-bold mb-14 hover:opacity-100 underline translate-y-[-0.4rem]">
+            Didn't receive the code? Request again
+          </button>
+          <DialogFooter className="w-full pt-4 bg-[#101010] border-t border-muted">
+            <Button type="submit" className="font-bold w-full">
+              Verify
+            </Button>
+          </DialogFooter>
         </Form>
       </ScrollArea>
     </DialogContent>

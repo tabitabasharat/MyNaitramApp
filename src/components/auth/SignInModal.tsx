@@ -39,6 +39,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
 
+import Resetpassword from './Resetpassword';
 
 const formSchema = z.object({
   email: z
@@ -117,60 +118,66 @@ const SignInModal = ({
   }
 
 
-  const logingoogle = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      const datas = await axios.get(
-        `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenResponse.access_token}`
-      );
+  // const logingoogle = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     const datas = await axios.get(
+  //       `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenResponse.access_token}`
+  //     );
 
-      try {
-        const data = {
-          // id: userId,
-          email: datas?.data?.email,
-          fullname: datas?.data?.name,
-          isGoogleSignIn: true,
-          islinkedinSignIn: false,
+  //     try {
+  //       const data = {
+  //         // id: userId,
+  //         email: datas?.data?.email,
+  //         fullname: datas?.data?.name,
+  //         isGoogleSignIn: true,
+  //         islinkedinSignIn: false,
           
-        };
-        console.log("datas", datas);
-        console.log("data only", datas?.data);
+  //       };
+  //       console.log("datas", datas);
+  //       console.log("data only", datas?.data);
 
-        dispatch(signin(data)).then((res:any) => {
-          if (res?.payload?.status === 200) {
-            setLoader(false);
-            console.log(" google login data is ", data);
-            console.log("Google Login Success");
-            console.log("google login response", res);
+  //       dispatch(signin(data)).then((res:any) => {
+  //         if (res?.payload?.status === 200) {
+  //           setLoader(false);
+  //           console.log(" google login data is ", data);
+  //           console.log("Google Login Success");
+  //           console.log("google login response", res);
 
-            localStorage.setItem("_id", res?.payload?.data?.id);
-            localStorage.setItem("token", res?.payload?.token);
-            localStorage.setItem(
-              "profileupdate",
-              res?.payload?.data?.profileUpdate
-            );
-            localStorage.setItem("role", res?.payload?.data?.role);
-          localStorage.setItem("name", res?.payload?.data?.fullname);
+  //           localStorage.setItem("_id", res?.payload?.data?.id);
+  //           localStorage.setItem("token", res?.payload?.token);
+  //           localStorage.setItem(
+  //             "profileupdate",
+  //             res?.payload?.data?.profileUpdate
+  //           );
+  //           localStorage.setItem("role", res?.payload?.data?.role);
+  //         localStorage.setItem("name", res?.payload?.data?.fullname);
 
-            console.log("my role",res?.payload?.data?.role);
+  //           console.log("my role",res?.payload?.data?.role);
 
-            if (res?.payload?.data?.profileUpdate) {
-              // navigate("/Dashboard");
-              console.log("dashboard")
+  //           if (res?.payload?.data?.profileUpdate) {
+  //             // navigate("/Dashboard");
+  //             console.log("dashboard")
 
-            } else {
-              // navigate("/Profile");
-              console.log("profile")
-            }
-          } else {
-            setLoader(false);
-            console.log(res?.payload?.message);
-          }
-        });
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    },
-  });
+  //           } else {
+  //             // navigate("/Profile");
+  //             console.log("profile")
+  //           }
+  //         } else {
+  //           setLoader(false);
+  //           console.log(res?.payload?.message);
+  //         }
+  //       });
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //   },
+  // });
+  const [resetpass,setResetpass] = useState(false);
+
+  const handlerResetPass = () =>{
+   setResetpass(!resetpass)
+  }
+
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
  
@@ -178,6 +185,7 @@ const SignInModal = ({
     console.log(values);
   }
   return (
+    <>
     <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
       <ScrollArea className="max-h-[90vh]">
         <DialogHeader className="relative overflow-hidden pt-4">
@@ -267,7 +275,8 @@ const SignInModal = ({
                 </FormItem>
               )}
             />
-            <button className="opacity-70 font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
+            <button className="opacity-70 font-bold hover:opacity-100 underline translate-y-[-0.4rem]" onClick={handlerResetPass} >
+
               Forgot your password?
             </button>
             <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
@@ -290,6 +299,9 @@ const SignInModal = ({
         </Form>
       </ScrollArea>
     </DialogContent>
+      {resetpass && <Resetpassword/>}
+      </>
+
   );
 };
 
