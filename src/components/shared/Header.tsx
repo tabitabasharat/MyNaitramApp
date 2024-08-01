@@ -31,6 +31,7 @@ const Header = () => {
   const [fixedBg, setFixedBg] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
   const [notifPopupOpen, setNotifPopupOpen] = useState(false);
+  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
 
   const isLoggedIn = true;
   const pathname = usePathname();
@@ -109,14 +110,14 @@ const Header = () => {
         </nav>
         <div className="flex items-center">
           {isLoggedIn && (
-            <Dialog>
+            <Dialog  open={isLoginDialogOpen} onOpenChange={setIsLoginDialogOpen}>
               <DialogTrigger asChild>
                 <Button variant="ghost" className="hidden lg:block">
                   Sign In
                 </Button>
               </DialogTrigger>
-              {authMode === 'SIGNIN' && (
-                <SignInModal setAuthMode={setAuthMode} />
+              {authMode === 'SIGNIN' && isLoginDialogOpen && (
+                <SignInModal setAuthMode={setAuthMode}   setSigninModal={() => setIsLoginDialogOpen(false)}  />
               )}
               {authMode === 'SIGNUP' && (
                 <SignUpModal setAuthMode={setAuthMode} />

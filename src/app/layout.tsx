@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import StoreProvider from "./StoreProvider";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export const metadata: Metadata = {
   title: "NAITRAM - Your Ticket. Your Event. Your Experience.",
@@ -39,15 +40,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const clientId =
+    "550417388956-o8n6kg03s8h6qdvc0jb3cqr3f1jfhbpt.apps.googleusercontent.com";
+
   return (
-    <StoreProvider>
-      <html lang="en">
-        <body
-          className={`${baseFont.variable} font-sans bg-black text-white overflow-x-clip`}
-        >
-          {children}
-        </body>
-      </html>
-    </StoreProvider>
+    <>
+     
+      <GoogleOAuthProvider clientId={clientId}>
+        <StoreProvider>
+       
+          <html lang="en">
+            <body
+              className={`${baseFont.variable} font-sans bg-black text-white overflow-x-clip`}
+            >
+              {children}
+            </body>
+          </html>
+        </StoreProvider>
+      </GoogleOAuthProvider>
+    </>
   );
 }

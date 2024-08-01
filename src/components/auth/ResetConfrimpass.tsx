@@ -60,8 +60,10 @@ const formSchema = z.object({
 
 const ResetConfrimpass = ({
   setAuthMode,
+  onClose,
 }: {
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
+  onClose: () => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -77,6 +79,8 @@ const ResetConfrimpass = ({
     // ✅ This will be type-safe and validated.
 
     console.log(values);
+    console.log("closing prev")
+    onClose();
   }
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
