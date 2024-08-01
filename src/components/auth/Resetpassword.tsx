@@ -84,7 +84,7 @@ const Resetpassword = ({
             />
             <Separator className="scale-x-[1.09] bg-[#292929]" />
           </DialogHeader>
-          <div className="pt-6 pb-2 font-bold opacity-70">
+          <div className="pt-6 pb-5 font-bold opacity-70">
             Please enter the email address associated with your account.
           </div>
 
@@ -113,32 +113,7 @@ const Resetpassword = ({
                   </FormItem>
                 )}
               />
-              {/* <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem className="relative">
-                  <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
-                    PASSWORD
-                  </FormLabel>
-                  <Lock
-                    className="absolute right-3 translate-y-[0.9rem] z-10"
-                    size={20}
-                  />
-                  <FormControl>
-                    <PasswordInput
-                      placeholder="Input password"
-                      className="pt-11 pb-5 font-bold placeholder:font-normal"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-              {/* <button className="opacity-70 font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
-              Didn't receive the code? Request again
-            </button> */}
+
               <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
                 <Button
                   type="submit"

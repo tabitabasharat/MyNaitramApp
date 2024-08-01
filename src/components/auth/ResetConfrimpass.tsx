@@ -94,7 +94,7 @@ const ResetConfrimpass = ({
           />
           <Separator className="scale-x-[1.09] bg-[#292929]" />
         </DialogHeader>
-        <div className="pt-6 pb-2 font-bold opacity-70">
+        <div className="pt-6 pb-5 font-bold opacity-70">
           Enter your new password
         </div>
 
