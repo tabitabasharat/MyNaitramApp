@@ -77,6 +77,7 @@ const formSchema = z
     path: ["confirm_password"],
     message: "Passwords do not match.",
   });
+  
 
 const SignUpModal = ({
   setAuthMode,
@@ -211,10 +212,7 @@ const SignUpModal = ({
           >
             <GoogleLogo size={22} weight="fill" /> Sign in with Google
           </Button>
-          {/* <Button variant="secondary" className="w-full items-center gap-1 mt-3">
-          <Image src={metamask} width={22} height={22} alt="ufo" />
-          Sign in with Metamask
-        </Button> */}
+         
           <div className="flex items-center justify-between gap-4 mt-5 mb-5">
             <Separator className="bg-[#292929] w-[45%]" />
             <p className="font-bold">OR</p>

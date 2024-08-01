@@ -1,12 +1,12 @@
 "use client";
 
-import Link from 'next/link';
 import {
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+  DialogClose,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -18,29 +18,26 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 import ufo from "@/assets/ufo.png";
-import metamask from "@/assets/metamask.svg";
-
+import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Envelope, GoogleLogo, Lock } from "@phosphor-icons/react/dist/ssr";
 import { Separator } from "@/components/ui/separator";
-
-import { Input } from '@/components/ui/input';
-import { PasswordInput } from '@/components/ui/password-input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { AuthMode } from '@/types/types';
-import { Dispatch, SetStateAction } from 'react';
-import { signin } from '@/lib/middleware/signin';
-import { useAppDispatch } from '@/lib/hooks';
-import { useState,useEffect } from 'react';
-import { ErrorToast } from '../reusable-components/Toaster/Toaster';
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { AuthMode } from "@/types/types";
+import { Dispatch, SetStateAction } from "react";
+import { signin } from "@/lib/middleware/signin";
+import { useAppDispatch } from "@/lib/hooks";
+import { useState, useEffect } from "react";
+import {
+  ErrorToast,
+  SuccessToast,
+} from "../reusable-components/Toaster/Toaster";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-
-
-import Resetpassword from './Resetpassword';
 
 const formSchema = z.object({
   email: z
@@ -83,7 +80,6 @@ const SignInModal = ({
   });
 
   async function login(alues: z.infer<typeof formSchema>) {
-  
     setLoader(true);
     try {
       const data = {
@@ -98,17 +94,19 @@ const SignInModal = ({
           localStorage.setItem("token", res?.payload?.token);
           localStorage.setItem("role", res?.payload?.data?.role);
           localStorage.setItem("name", res?.payload?.data?.fullname);
-          localStorage.setItem("profileupdate", res?.payload?.data?.profileUpdate);
+          localStorage.setItem(
+            "profileupdate",
+            res?.payload?.data?.profileUpdate
+          );
 
-
-          // localStorage.setItem("profileupdate", res?.payload?.data?.profileUpdate);
-
+          SuccessToast("login success");
+          setSigninModal();
           if (res?.payload?.data?.profileUpdate) {
             // navigate("/Dashboard");
-            console.log("dash")
+            console.log("dash");
           } else {
             // navigate("/Profile");
-            console.log("profile")
+            console.log("profile");
           }
         } else {
           setLoader(false);
@@ -121,73 +119,65 @@ const SignInModal = ({
     }
   }
 
+  const logingoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const datas = await axios.get(
+        `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenResponse.access_token}`
+      );
 
-  // const logingoogle = useGoogleLogin({
-  //   onSuccess: async (tokenResponse) => {
-  //     const datas = await axios.get(
-  //       `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenResponse.access_token}`
-  //     );
+      try {
+        const data = {
+          // id: userId,
+          email: datas?.data?.email,
+          fullname: datas?.data?.name,
+          isGoogleSignIn: true,
+        };
+        console.log("datas", datas);
+        console.log("data only", datas?.data);
 
-  //     try {
-  //       const data = {
-  //         // id: userId,
-  //         email: datas?.data?.email,
-  //         fullname: datas?.data?.name,
-  //         isGoogleSignIn: true,
-  //         islinkedinSignIn: false,
-          
-  //       };
-  //       console.log("datas", datas);
-  //       console.log("data only", datas?.data);
+        dispatch(signin(data)).then((res: any) => {
+          if (res?.payload?.status === 200) {
+            setLoader(false);
+            console.log(" google login data is ", data);
+            SuccessToast("Google Login Success");
+            console.log("google login response", res);
 
-  //       dispatch(signin(data)).then((res:any) => {
-  //         if (res?.payload?.status === 200) {
-  //           setLoader(false);
-  //           console.log(" google login data is ", data);
-  //           console.log("Google Login Success");
-  //           console.log("google login response", res);
+            localStorage.setItem("_id", res?.payload?.data?.id);
+            localStorage.setItem("token", res?.payload?.token);
+            localStorage.setItem(
+              "profileupdate",
+              res?.payload?.data?.profileUpdate
+            );
+            localStorage.setItem("role", res?.payload?.data?.role);
+            localStorage.setItem("name", res?.payload?.data?.fullname);
 
-  //           localStorage.setItem("_id", res?.payload?.data?.id);
-  //           localStorage.setItem("token", res?.payload?.token);
-  //           localStorage.setItem(
-  //             "profileupdate",
-  //             res?.payload?.data?.profileUpdate
-  //           );
-  //           localStorage.setItem("role", res?.payload?.data?.role);
-  //         localStorage.setItem("name", res?.payload?.data?.fullname);
+            console.log("my role", res?.payload?.data?.role);
 
-  //           console.log("my role",res?.payload?.data?.role);
+            if (res?.payload?.data?.profileUpdate) {
+              // navigate("/Dashboard");
+              console.log("dashboard");
+            } else {
+              // navigate("/Profile");
+              console.log("profile");
+            }
+          } else {
+            setLoader(false);
+            ErrorToast(res?.payload?.message);
+          }
+        });
+      } catch (error) {
+        console.error("Error:", error);
+        ErrorToast(error);
+      }
+    },
+  });
 
-  //           if (res?.payload?.data?.profileUpdate) {
-  //             // navigate("/Dashboard");
-  //             console.log("dashboard")
+  const [resetpass, setResetpass] = useState(false);
 
-  //           } else {
-  //             // navigate("/Profile");
-  //             console.log("profile")
-  //           }
-  //         } else {
-  //           setLoader(false);
-  //           console.log(res?.payload?.message);
-  //         }
-  //       });
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //     }
-  //   },
-  // });
-  const [resetpass,setResetpass] = useState(false);
+  const handlerResetPass = () => {
+    setResetpass(!resetpass);
+  };
 
-  const handlerResetPass = () =>{
-   setResetpass(!resetpass)
-  }
-
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
- 
-
-    console.log(values);
-  }
   return (
     <>
       <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
@@ -206,21 +196,22 @@ const SignInModal = ({
             <Separator className="scale-x-[1.09] bg-[#292929]" />
           </DialogHeader>
 
-        <Button
-          variant="secondary"
-          className="w-full flex items-center gap-1 mt-5"
-        >
-          <GoogleLogo size={22} weight="fill" /> Sign in with Google
-        </Button>
-        {/* <Button variant="secondary" className="w-full items-center gap-1 mt-3">
+          <Button
+            variant="secondary"
+            className="w-full flex items-center gap-1 mt-5"
+            onClick={logingoogle}
+          >
+            <GoogleLogo size={22} weight="fill" /> Sign in with Google
+          </Button>
+          {/* <Button variant="secondary" className="w-full items-center gap-1 mt-3">
           <Image src={metamask} width={22} height={22} alt="ufo" />
           Sign in with Metamask
         </Button> */}
-        <div className="flex items-center justify-between gap-4 mt-5 mb-5">
-          <Separator className="bg-[#292929] w-[45%]" />
-          <p className="font-bold">OR</p>
-          <Separator className="bg-[#292929] w-[45%]" />
-        </div>
+          <div className="flex items-center justify-between gap-4 mt-5 mb-5">
+            <Separator className="bg-[#292929] w-[45%]" />
+            <p className="font-bold">OR</p>
+            <Separator className="bg-[#292929] w-[45%]" />
+          </div>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(login)} className="space-y-4">
@@ -252,60 +243,57 @@ const SignInModal = ({
                 )}
               />
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem className="relative">
-                  <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
-                    PASSWORD
-                  </FormLabel>
-                  <Lock
-                    className="absolute right-3 translate-y-[0.9rem] z-10"
-                    size={20}
-                  />
-                  <FormControl>
-                    <PasswordInput
-                      placeholder="Input password"
-                      className="pt-11 pb-5 font-bold placeholder:font-normal"
-                      {...field}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                        field.onChange(e);
-                      }}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="relative">
+                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
+                      PASSWORD
+                    </FormLabel>
+                    <Lock
+                      className="absolute right-3 translate-y-[0.9rem] z-10"
+                      size={20}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <button className="opacity-70 font-bold hover:opacity-100 underline translate-y-[-0.4rem]" onClick={handlerResetPass} >
-
-              Forgot your password?
-            </button>
-            <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
-              <Button type="submit" className="font-bold w-full">
-                Log In
-              </Button>
-            </DialogFooter>
-            <p className="font-bold text-center">
-              Don't have an account?{' '}
-              <span
-                onClick={() => {
-                  setAuthMode('SIGNUP');
-                }}
-                className="underline cursor-pointer hover:opacity-60 duration-300"
-              >
-                Sign up now
-              </span>
-            </p>
-          </form>
-        </Form>
-      </ScrollArea>
-    </DialogContent>
-      {resetpass && <Resetpassword/>}
-      </>
-
+                    <FormControl>
+                      <PasswordInput
+                        placeholder="Input password"
+                        className="pt-11 pb-5 font-bold placeholder:font-normal"
+                        {...field}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                          field.onChange(e);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <button className="opacity-70 font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
+                <Link href="/auth/resetpasspage">Forgot your password?</Link>
+              </button>
+              <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
+                <Button type="submit" className="font-bold w-full">
+                  Log In
+                </Button>
+              </DialogFooter>
+              <p className="font-bold text-center">
+                Don't have an account?{" "}
+                <span
+                  onClick={() => {
+                    setAuthMode("SIGNUP");
+                  }}
+                  className="underline cursor-pointer hover:opacity-60 duration-300"
+                >
+                  Sign up now
+                </span>
+              </p>
+            </form>
+          </Form>
+        </ScrollArea>
+      </DialogContent>
+    </>
   );
 };
 

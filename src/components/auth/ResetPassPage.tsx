@@ -1,11 +1,8 @@
 "use client";
-
-import {
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import React from "react";
+import "./AccountVerificationModal.css";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
+import ufo from "@/assets/ufo.png";
 import {
   Form,
   FormControl,
@@ -14,87 +11,102 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
-import ufo from "@/assets/ufo.png";
-import metamask from "@/assets/metamask.svg";
-
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { AuthMode } from "@/types/types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Envelope, GoogleLogo, Lock } from "@phosphor-icons/react/dist/ssr";
 import { Separator } from "@/components/ui/separator";
-
 import { Input } from "@/components/ui/input";
-import { PasswordInput } from "@/components/ui/password-input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { AuthMode } from "@/types/types";
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
-
-import "./AccountVerificationModal.css";
-import ResetConfrimpass from "./ResetConfrimpass";
-
+import logo from "../../assets/N UFO TEXT LOGO.svg";
+import Image from "next/image";
+import Link from "next/link";
+import { useAppDispatch } from "@/lib/hooks";
+import { SuccessToast,ErrorToast } from "../reusable-components/Toaster/Toaster";
+import { forgetPassword } from "@/lib/middleware/signin";
+import { useRouter } from "next/navigation";
 const formSchema = z.object({
   email: z
     .string()
     .min(1, { message: "Email cannot be empty." })
     .email({ message: "Invalid email address." }),
 });
-
-const Resetpassword = ({
+const ResetPassPage = ({
   setAuthMode,
 }: {
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
 }) => {
+  const dispatch = useAppDispatch();
+  const [email,setEmail]= useState();
+  const [loader,setLoader]=useState(false);
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
     },
   });
-
-  const [comfirmpass, setComfirmResetpass] = useState(false);
-
-  const handlerResetPass = () => {
-    setComfirmResetpass(!comfirmpass);
-  };
-
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  // function onSubmit(values: z.infer<typeof formSchema>) {
+  //   // Do something with the form values.
+  //   // :white_tick: This will be type-safe and validated.
+  //   console.log(values);
+  // }
 
-    console.log(values);
-  }
+  const onForgotPassword = (values: z.infer<typeof formSchema>) => {
+    setLoader(true);
+    const data = {
+      email: email,
+    };
+    try {
+      dispatch(forgetPassword(data)).then((res:any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          console.log("Email Sent Successfully");
+          SuccessToast("Email Sent Successfully");
+
+          // router.push("/auth/resetcomfirmpass")
+          // navigate("/New-Password");
+        } else {
+          console.log(res?.payload?.message);
+          setLoader(false);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      setLoader(false);
+      console.log(error);
+      ErrorToast(error);
+    }
+  };
   return (
-    <>
-      <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
-        <ScrollArea className="max-h-[90vh]">
-          <DialogHeader className="relative overflow-hidden pt-4">
-            <DialogTitle className="font-bold text-2xl">
-              Reset <span className="text-primary">Password</span>
-            </DialogTitle>
-            <Image
-              src={ufo}
-              width={100}
-              height={100}
-              className="absolute right-0 scale-[2]"
-              alt="ufo"
-            />
-            <Separator className="scale-x-[1.09] bg-[#292929]" />
-          </DialogHeader>
-          <div className="pt-6 pb-5 font-bold opacity-70">
+    <div className="bg-image">
+      <section
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)),",
+          backgroundPosition: "center",
+        }}
+        className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
+      >
+        <div className="resetpass-stlying-main-div">
+     
+          <Image src={logo} className="logo-stlying" />
+          <Separator className="scale-x-[1.09] bg-[#292929]" />
+          <div className="font-bold text-2xl resetpass-stlying">
+            Reset <span className="text-primary">Password</span>
+          </div>
+          <div className=" pb-4 font-bold opacity-70">
             Please enter the email address associated with your account.
           </div>
-
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-4">
+            <form onSubmit={form.handleSubmit(onForgotPassword)} className=" space-y-4">
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="relative mb-14">
+                  <FormItem className="relative mt-0 mb-14">
                     <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
                       EMAIL
                     </FormLabel>
@@ -107,40 +119,24 @@ const Resetpassword = ({
                         placeholder="youremail@example.com"
                         className="pt-11 pb-5 font-bold placeholder:font-normal"
                         {...field}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                          field.onChange(e);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
-              <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
-                <Button
-                  type="submit"
-                  className="font-bold w-full"
-                  onClick={handlerResetPass}
-                >
-                  Submit
-                </Button>
-              </DialogFooter>
-              {/* <p className="font-bold text-center">
-              Don't have an account?{" "}
-              <span
-                onClick={() => {
-                  setAuthMode("SIGNUP");
-                }}
-                className="underline cursor-pointer hover:opacity-60 duration-300"
-              >
-                Sign up now
-              </span>
-            </p> */}
+              <Button type="submit" className="font-bold w-full">
+                <Link href="/auth/resetcomfirmpass">Submit</Link>
+              </Button>
             </form>
           </Form>
-        </ScrollArea>
-      </DialogContent>
-      {comfirmpass && <ResetConfrimpass/> }
-    </>
+        </div>
+      </section>
+    </div>
   );
 };
-
-export default Resetpassword;
+export default ResetPassPage;

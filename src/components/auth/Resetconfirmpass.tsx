@@ -22,60 +22,90 @@ import { Envelope, GoogleLogo, Lock } from "@phosphor-icons/react/dist/ssr";
 import { Separator } from "@/components/ui/separator";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Input } from "@/components/ui/input";
-import ResetConfrimpass from "./ResetConfrimpass";
+import { useAppDispatch } from "@/lib/hooks";
 import logo from "../../assets/N UFO TEXT LOGO.svg";
 import Image from "next/image";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "../reusable-components/Toaster/Toaster";
 
-const formSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: "Email cannot be empty." })
-    .email({ message: "Invalid email address." }),
-  password: z
-    .string()
-    .min(8, { message: "Password must contain at least 8 characters." })
-    .regex(/[a-z]/, {
-      message: "Password must contain at least one lowercase letter.",
-    })
-    .regex(/[A-Z]/, {
-      message: "Password must contain at least one uppercase letter.",
-    })
-    .regex(/[0-9]/, { message: "Password must contain at least one number." })
-    .regex(/[^a-zA-Z0-9]/, {
-      message: "Password must contain at least one special character.",
-    }),
+const formSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, { message: "Password must contain at least 8 characters." })
+      .regex(/[a-z]/, {
+        message: "Password must contain at least one lowercase letter.",
+      })
+      .regex(/[A-Z]/, {
+        message: "Password must contain at least one uppercase letter.",
+      })
+      .regex(/[0-9]/, { message: "Password must contain at least one number." })
+      .regex(/[^a-zA-Z0-9]/, {
+        message: "Password must contain at least one special character.",
+      }),
 
-  confirm_password: z
-    .string()
-    .min(1, { message: "Confirm Password cannot be empty." }),
-});
+    confirm_password: z
+      .string()
+      .min(1, { message: "Confirm Password cannot be empty." }),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    path: ["confirm_password"],
+    message: "Passwords do not match.",
+  });
+
 
 const Resetconfirmpass = ({
   setAuthMode,
 }: {
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
 }) => {
+  const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
       password: "",
+      confirm_password: "",
+     
     },
   });
 
+  const [loader,setLoader] =useState(false);
   const [comfirmpass, setComfirmResetpass] = useState(false);
+  const[password,setPassword]=useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
 
   const handlerResetPass = () => {
     setComfirmResetpass(!comfirmpass);
   };
 
-  // 2. Define a submit handler.
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    
 
     console.log(values);
   }
+
+  // const onNewPassword = (values: z.infer<typeof formSchema>) => {
+   
+  //   setLoader(true);
+  //   const data = {
+  //     password: password,
+  //     verificationCode: passcode,
+  //   };
+  //   dispatch(newPassword(data)).then((res) => {
+  //     if (res?.payload?.status === 200) {
+  //       setLoader(false);
+  //       SuccessToast("Password Reset Successfully");
+  //       setModalShow(true);
+  //       // navigate("/New-Password");
+  //     } else {
+  //       ErrorToast(res?.payload?.message);
+  //       setLoader(false);
+  //     }
+  //   });
+  // };
 
   return (
     <div className="bg-image">
@@ -119,6 +149,10 @@ const Resetconfirmpass = ({
                         placeholder="Input password"
                         className="pt-11 pb-5 font-bold placeholder:font-normal"
                         {...field}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                          field.onChange(e);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -142,6 +176,10 @@ const Resetconfirmpass = ({
                         placeholder="Input password again"
                         className="pt-11 pb-5 font-bold placeholder:font-normal"
                         {...field}
+                        onChange={(e) => {
+                          setConfirmPassword(e.target.value);
+                          field.onChange(e);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
