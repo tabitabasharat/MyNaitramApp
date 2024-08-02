@@ -2,7 +2,6 @@
 
 import React from "react";
 import "./AccountVerificationModal.css";
-import Resetpassword from "./Resetpassword";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import ufo from "@/assets/ufo.png";
 import {
@@ -59,11 +58,7 @@ const formSchema = z
     message: "Passwords do not match.",
   });
 
-const Resetconfirmpass = ({
-  setAuthMode,
-}: {
-  setAuthMode: Dispatch<SetStateAction<AuthMode>>;
-}) => {
+const Resetconfirmpass = () => {
   const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -73,7 +68,7 @@ const Resetconfirmpass = ({
     },
   });
   const router = useRouter();
-  const [passcode, setPasscode] = useState();
+  const [passcode, setPasscode] = useState<any>();
 
 
   useEffect(() => {
@@ -107,6 +102,7 @@ const Resetconfirmpass = ({
       if (res?.payload?.status === 200) {
         setLoader(false);
         SuccessToast("Password Reset Successfully");
+        router.push("/")
         // setModalShow(true);
         // navigate("/New-Password");
       } else {
@@ -129,7 +125,7 @@ const Resetconfirmpass = ({
              {loader && <ScreenLoader/>}
         <div className="resetpass-stlying-main-div">
           {" "}
-          <Image src={logo} className="logo-stlying" />
+          <Image alt="Logo" src={logo} className="logo-stlying" />
           <Separator className="scale-x-[1.09] bg-[#292929]" />
           <div className="font-bold text-2xl resetpass-stlying">
             Reset <span className="text-primary">Password</span>

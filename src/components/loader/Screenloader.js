@@ -2,7 +2,7 @@ import React from "react";
 import Lottie from "lottie-react";
 import animationData from "./Animation - 1722521489122.json";
 
-function ScreenLoader({ text }) {
+function ScreenLoader() {
   return (
     <div
       style={{
@@ -25,7 +25,7 @@ function ScreenLoader({ text }) {
           autoplay={true}
           style={{ width: 500, height: 500 }}
         />
-        <h2 className="text-white mt-5">{text}</h2>
+        {/* <h2 className="text-white mt-5">{text}</h2> */}
       </div>
     </div>
   );
