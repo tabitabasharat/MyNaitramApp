@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogClose,
 } from "@/components/ui/dialog";
+import Screenloader from "@/components/loader/Screenloader";
 import {
   Form,
   FormControl,
@@ -180,6 +181,7 @@ const SignInModal = ({
 
   return (
     <>
+    {loader && <Screenloader/>}
       <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
         <ScrollArea className="max-h-[90vh]">
           <DialogHeader className="relative overflow-hidden pt-4">
