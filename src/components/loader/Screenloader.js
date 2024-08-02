@@ -2,10 +2,9 @@ import React from "react";
 import Lottie from "lottie-react";
 import animationData from "./Animation - 1722521489122.json";
 
-function ScreenLoader({ text }) {
+function ScreenLoader() {
   return (
     <div
-      className="position-fixed d-flex justify-content-center align-items-center"
       style={{
         zIndex: 999999999999,
         top: 0,
@@ -13,6 +12,10 @@ function ScreenLoader({ text }) {
         width: "100%",
         height: "100%",
         background: "rgba(0, 0, 0, 0.2)",
+        position: "fixed",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <div className="d-flex flex-column align-items-center">
@@ -22,7 +25,7 @@ function ScreenLoader({ text }) {
           autoplay={true}
           style={{ width: 500, height: 500 }}
         />
-        <h2 className="text-white mt-5">{text}</h2>
+        {/* <h2 className="text-white mt-5">{text}</h2> */}
       </div>
     </div>
   );

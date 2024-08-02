@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogClose,
 } from "@/components/ui/dialog";
-import Screenloader from "@/components/loader/Screenloader";
+
 import {
   Form,
   FormControl,
@@ -39,6 +39,7 @@ import {
 } from "../reusable-components/Toaster/Toaster";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import ScreenLoader from "../loader/Screenloader";
 
 const formSchema = z.object({
   email: z
@@ -93,7 +94,7 @@ const SignInModal = ({
           console.log("login res", res?.payload?.data);
           localStorage.setItem("_id", res?.payload?.data?.id);
           localStorage.setItem("token", res?.payload?.token);
-          localStorage.setItem("role", res?.payload?.data?.role);
+         
           localStorage.setItem("name", res?.payload?.data?.fullname);
           localStorage.setItem(
             "profileupdate",
@@ -149,11 +150,11 @@ const SignInModal = ({
               "profileupdate",
               res?.payload?.data?.profileUpdate
             );
-            localStorage.setItem("role", res?.payload?.data?.role);
+           
             localStorage.setItem("name", res?.payload?.data?.fullname);
 
-            console.log("my role", res?.payload?.data?.role);
-
+         
+            setSigninModal();
             if (res?.payload?.data?.profileUpdate) {
               // navigate("/Dashboard");
               console.log("dashboard");
@@ -175,19 +176,19 @@ const SignInModal = ({
 
   const [resetpass, setResetpass] = useState(false);
 
-  const handlerResetPass = () => {
-    setResetpass(!resetpass);
-  };
+
 
   return (
     <>
-    {loader && <Screenloader/>}
+  
       <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
+        {/* {loader && <Screenloader/>} */}
         <ScrollArea className="max-h-[90vh]">
           <DialogHeader className="relative overflow-hidden pt-4">
             <DialogTitle className="font-bold text-2xl">
               Sign <span className="text-primary">In</span>
             </DialogTitle>
+           
             <Image
               src={ufo}
               width={100}
@@ -197,18 +198,20 @@ const SignInModal = ({
             />
             <Separator className="scale-x-[1.09] bg-[#292929]" />
           </DialogHeader>
-
+       
           <Button
             variant="secondary"
             className="w-full flex items-center gap-1 mt-5"
-            onClick={logingoogle}
+            onClick={()=>logingoogle()}
           >
             <GoogleLogo size={22} weight="fill" /> Sign in with Google
           </Button>
           {/* <Button variant="secondary" className="w-full items-center gap-1 mt-3">
           <Image src={metamask} width={22} height={22} alt="ufo" />
-          Sign in with Metamask
+          Sign in with M
+          etamask
         </Button> */}
+         
           <div className="flex items-center justify-between gap-4 mt-5 mb-5">
             <Separator className="bg-[#292929] w-[45%]" />
             <p className="font-bold">OR</p>

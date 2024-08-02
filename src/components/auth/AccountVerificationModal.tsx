@@ -32,6 +32,7 @@ import {
 import "./AccountVerificationModal.css";
 import { useAppDispatch } from "@/lib/hooks";
 import { verifysignup, updateverifycode } from "@/lib/middleware/signin";
+import ScreenLoader from "../loader/Screenloader";
 
 const formSchema = z.object({
   textbox: z
@@ -65,10 +66,12 @@ const AccountVerificationModal = ({
   setAuthMode,
   useremail,
   onVerifyClose,
+  setSigninModal
 }: {
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
   useremail: string;
   onVerifyClose: () => void;
+  setSigninModal:()=>void
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -126,7 +129,6 @@ const AccountVerificationModal = ({
           console.log(data);
           localStorage.setItem("_id", res?.payload?.data?.id);
           localStorage.setItem("name", res?.payload?.data?.fullname);
-          localStorage.setItem("role", res?.payload?.data?.role);
           localStorage.setItem(
             "Profile_Update_Status",
             res?.payload?.data?.profileUpdate
@@ -135,6 +137,7 @@ const AccountVerificationModal = ({
 
           SuccessToast("Account Verified Successfully");
           onVerifyClose();
+          setSigninModal()
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -145,7 +148,7 @@ const AccountVerificationModal = ({
     }
   }
 
-  async function ResentCode(values: z.infer<typeof formSchema>) {
+  async function ResentCode() {
     console.log("Again Signup Verification");
     // console.log(res);
     // if (res === false) {
@@ -175,6 +178,7 @@ const AccountVerificationModal = ({
 
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
+       {loader && <ScreenLoader />}
       <ScrollArea className="max-h-[90vh]">
         <DialogHeader className="relative overflow-hidden pt-4">
           <DialogTitle className="font-bold text-2xl">
@@ -235,7 +239,7 @@ const AccountVerificationModal = ({
             </div>
             <button
               className="opacity-70 font-bold mb-14 hover:opacity-100 underline translate-y-[-0.4rem]"
-              onClick={ResentCode}
+              onClick={()=>{ResentCode()}}
             >
               Didn't receive the code? Request again
             </button>

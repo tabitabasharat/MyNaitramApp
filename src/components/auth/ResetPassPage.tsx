@@ -26,19 +26,16 @@ import { useAppDispatch } from "@/lib/hooks";
 import { SuccessToast,ErrorToast } from "../reusable-components/Toaster/Toaster";
 import { forgetPassword } from "@/lib/middleware/signin";
 import { useRouter } from "next/navigation";
+import ScreenLoader from "../loader/Screenloader";
 const formSchema = z.object({
   email: z
     .string()
     .min(1, { message: "Email cannot be empty." })
     .email({ message: "Invalid email address." }),
 });
-const ResetPassPage = ({
-  setAuthMode,
-}: {
-  setAuthMode: Dispatch<SetStateAction<AuthMode>>;
-}) => {
+const ResetPassPage = () => {
   const dispatch = useAppDispatch();
-  const [email,setEmail]= useState();
+  const [email,setEmail]= useState<any>();
   const [loader,setLoader]=useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -82,6 +79,7 @@ const ResetPassPage = ({
     }
   };
   return (
+
     <div className="bg-image">
       <section
         style={{
@@ -91,9 +89,10 @@ const ResetPassPage = ({
         }}
         className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
       >
+
         <div className="resetpass-stlying-main-div">
      
-          <Image src={logo} className="logo-stlying" />
+          <Image alt="logo" src={logo} className="logo-stlying" />
           <Separator className="scale-x-[1.09] bg-[#292929]" />
           <div className="font-bold text-2xl resetpass-stlying">
             Reset <span className="text-primary">Password</span>

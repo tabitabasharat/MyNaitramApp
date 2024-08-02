@@ -10,7 +10,7 @@ import {
 } from '@phosphor-icons/react/dist/ssr';
 import logo from '@/assets/logo.svg';
 import { slide } from '@/components/animations/variants';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Button } from '../ui/button';
 import Image from 'next/image';
 import SignInModal from '@/components/auth/SignInModal';
@@ -52,6 +52,7 @@ const Menu = ({
       href: '/search',
     },
   ];
+  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
 
   return (
     <>
@@ -116,8 +117,8 @@ const Menu = ({
                 <Button className="px-[3rem]">Sign Up</Button>
               </motion.div>
             </DialogTrigger>
-            {authMode === 'SIGNIN' && <SignInModal setAuthMode={setAuthMode} />}
-            {authMode === 'SIGNUP' && <SignUpModal setAuthMode={setAuthMode} />}
+            {authMode === 'SIGNIN' && <SignInModal setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />}
+            {authMode === 'SIGNUP' && <SignUpModal setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />}
           </Dialog>
           <motion.div
             custom={links.length + 2}

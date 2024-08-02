@@ -45,7 +45,7 @@ import { useRouter } from "next/navigation";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { SuccessToast,ErrorToast } from "../reusable-components/Toaster/Toaster";
-
+import ScreenLoader from "../loader/Screenloader";
 const formSchema = z
   .object({
     full_name: z.string().min(2, { message: "Full name cannot be empty." }),
@@ -81,7 +81,9 @@ const formSchema = z
 
 const SignUpModal = ({
   setAuthMode,
+  setSigninModal,
 }: {
+  setSigninModal: () => void;
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
 }) => {
 
@@ -122,9 +124,10 @@ const SignUpModal = ({
       dispatch(signup(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          SuccessToast("User Signed Up Successfully");
+          SuccessToast("Verification Code Sended");
           // navigate(`/SignUp-Verify/${email}`);
           setVerificationModalOpen(true);
+
         } else {
           setLoader(false);
          ErrorToast(res?.payload?.message);
@@ -158,14 +161,13 @@ const SignUpModal = ({
             console.log("hhh", res);
             localStorage.setItem("_id", res?.payload?.data?.id);
             localStorage.setItem("token", res?.payload?.token);
-            localStorage.setItem("role", res?.payload?.data.role);
             localStorage.setItem(
               "profileupdate",
               res?.payload?.data?.profileUpdate
             );
 
             // navigate(`/OrgnizationDetails/${datas?.data?.email}`);
-
+            setSigninModal()
             if (res?.payload?.data?.profileUpdate) {
               // navigate("/Dashboard");
               console.log("dashboard");
@@ -190,6 +192,7 @@ const SignUpModal = ({
   return (
     <>
       <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
+      {loader && <ScreenLoader />}
         <ScrollArea className="max-h-[90vh]">
           <DialogHeader className="relative overflow-hidden pt-4">
             <DialogTitle className="font-bold text-2xl">
@@ -208,7 +211,7 @@ const SignUpModal = ({
           <Button
             variant="secondary"
             className="w-full flex items-center gap-1 mt-5"
-            onClick={logingoogleUser}
+            onClick={()=>logingoogleUser()}
           >
             <GoogleLogo size={22} weight="fill" /> Sign in with Google
           </Button>
@@ -353,7 +356,7 @@ const SignUpModal = ({
         </ScrollArea>
       </DialogContent>
       {isVerificationModalOpen && (
-        <AccountVerificationModal setAuthMode={setAuthMode}  useremail={email}  onVerifyClose={()=> setVerificationModalOpen(false)}/>
+        <AccountVerificationModal setAuthMode={setAuthMode}  useremail={email}  onVerifyClose={()=> setVerificationModalOpen(false)} setSigninModal={setSigninModal}/>
       )}
     </>
   );
