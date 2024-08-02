@@ -1,0 +1,18 @@
+.main-div-stlying {
+  padding: 111px 216px;
+}
+.LSH-div-stlying{
+    display: flex;
+    gap: 40px;
+}
+.ticket-purchase-div {
+  /* width: 576px;
+  height: 92px; */
+  padding: 16px 20px 16px 20px;
+  border-radius: 12px;
+  background: #007a353d;
+}
+.success-img{
+    width: 80px !important;
+    height: 80px !important;
+}
