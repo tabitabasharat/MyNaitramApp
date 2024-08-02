@@ -29,8 +29,11 @@ import {
   SuccessToast,
   ErrorToast,
 } from "../reusable-components/Toaster/Toaster";
-import { useParams, useRouter } from "next/navigation";
+
+import { useRouter } from "next/navigation";
+
 import { newPassword } from "@/lib/middleware/signin";
+import ScreenLoader from "../loader/Screenloader";
 const formSchema = z
   .object({
     password: z
@@ -71,6 +74,7 @@ const Resetconfirmpass = ({
   });
   const router = useRouter();
   const [passcode, setPasscode] = useState();
+
 
   useEffect(() => {
     const currentUrl = window.location.href;
@@ -122,6 +126,7 @@ const Resetconfirmpass = ({
         }}
         className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
       >
+             {loader && <ScreenLoader/>}
         <div className="resetpass-stlying-main-div">
           {" "}
           <Image src={logo} className="logo-stlying" />

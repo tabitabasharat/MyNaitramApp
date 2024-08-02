@@ -32,6 +32,7 @@ import {
 import "./AccountVerificationModal.css";
 import { useAppDispatch } from "@/lib/hooks";
 import { verifysignup, updateverifycode } from "@/lib/middleware/signin";
+import ScreenLoader from "../loader/Screenloader";
 
 const formSchema = z.object({
   textbox: z
@@ -126,7 +127,6 @@ const AccountVerificationModal = ({
           console.log(data);
           localStorage.setItem("_id", res?.payload?.data?.id);
           localStorage.setItem("name", res?.payload?.data?.fullname);
-          localStorage.setItem("role", res?.payload?.data?.role);
           localStorage.setItem(
             "Profile_Update_Status",
             res?.payload?.data?.profileUpdate
@@ -175,6 +175,7 @@ const AccountVerificationModal = ({
 
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
+       {loader && <ScreenLoader />}
       <ScrollArea className="max-h-[90vh]">
         <DialogHeader className="relative overflow-hidden pt-4">
           <DialogTitle className="font-bold text-2xl">

@@ -5,7 +5,6 @@ import animationData from "./Animation - 1722521489122.json";
 function ScreenLoader({ text }) {
   return (
     <div
-      className="position-fixed d-flex justify-content-center align-items-center"
       style={{
         zIndex: 999999999999,
         top: 0,
@@ -13,6 +12,10 @@ function ScreenLoader({ text }) {
         width: "100%",
         height: "100%",
         background: "rgba(0, 0, 0, 0.2)",
+        position: "fixed",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <div className="d-flex flex-column align-items-center">

@@ -26,6 +26,7 @@ import { useAppDispatch } from "@/lib/hooks";
 import { SuccessToast,ErrorToast } from "../reusable-components/Toaster/Toaster";
 import { forgetPassword } from "@/lib/middleware/signin";
 import { useRouter } from "next/navigation";
+import ScreenLoader from "../loader/Screenloader";
 const formSchema = z.object({
   email: z
     .string()
@@ -82,6 +83,7 @@ const ResetPassPage = ({
     }
   };
   return (
+
     <div className="bg-image">
       <section
         style={{
@@ -91,8 +93,9 @@ const ResetPassPage = ({
         }}
         className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
       >
+
         <div className="resetpass-stlying-main-div">
-     
+     {loader && <ScreenLoader/>}
           <Image src={logo} className="logo-stlying" />
           <Separator className="scale-x-[1.09] bg-[#292929]" />
           <div className="font-bold text-2xl resetpass-stlying">

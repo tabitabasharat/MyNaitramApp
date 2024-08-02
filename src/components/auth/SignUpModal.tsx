@@ -45,7 +45,7 @@ import { useRouter } from "next/navigation";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { SuccessToast,ErrorToast } from "../reusable-components/Toaster/Toaster";
-
+import ScreenLoader from "../loader/Screenloader";
 const formSchema = z
   .object({
     full_name: z.string().min(2, { message: "Full name cannot be empty." }),
@@ -158,7 +158,6 @@ const SignUpModal = ({
             console.log("hhh", res);
             localStorage.setItem("_id", res?.payload?.data?.id);
             localStorage.setItem("token", res?.payload?.token);
-            localStorage.setItem("role", res?.payload?.data.role);
             localStorage.setItem(
               "profileupdate",
               res?.payload?.data?.profileUpdate
@@ -190,6 +189,7 @@ const SignUpModal = ({
   return (
     <>
       <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
+      {loader && <ScreenLoader />}
         <ScrollArea className="max-h-[90vh]">
           <DialogHeader className="relative overflow-hidden pt-4">
             <DialogTitle className="font-bold text-2xl">
