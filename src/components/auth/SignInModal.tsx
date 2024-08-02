@@ -174,7 +174,6 @@ const SignInModal = ({
     },
   });
 
-  const [resetpass, setResetpass] = useState(false);
 
 
 

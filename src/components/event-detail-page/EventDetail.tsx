@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import BuyTicket from '@/components/reusable-components/BuyTicket';
-import FollowPromoter from '@/components/reusable-components/FollowPromoter';
-import { Badge } from '@/components/ui/badge';
-import { events } from '@/lib/dummyData';
+import BuyTicket from "@/components/reusable-components/BuyTicket";
+import FollowPromoter from "@/components/reusable-components/FollowPromoter";
+import { Badge } from "@/components/ui/badge";
+import { events } from "@/lib/dummyData";
 import {
   ArrowLeft,
   Heart,
@@ -16,26 +16,113 @@ import {
   UsersThree,
   Ticket,
   DeviceMobile,
-} from '@phosphor-icons/react/dist/ssr';
-import Image from 'next/image';
-import Link from 'next/link';
-import eventVideo from '@/assets/event-video.png';
-import avatar from '@/assets/avatar.png';
-import gift from '@/assets/gift.png';
+} from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
+import Link from "next/link";
+import eventVideo from "@/assets/event-video.png";
+import avatar from "@/assets/avatar.png";
+import gift from "@/assets/gift.png";
 
-import { Button } from '@/components/ui/button';
-import GradientBorder from '@/components/ui/gradient-border';
-import { useRouter } from 'next/navigation';
-
+import { Button } from "@/components/ui/button";
+import GradientBorder from "@/components/ui/gradient-border";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { getEventById } from "@/lib/middleware/event";
 const EventDetail = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const initalEvent = events[2];
 
+  const [eventid, setEventid] = useState();
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setEventid(value);
+    console.log("my event id is", value);
+    dispatch(getEventById(value));
+  }, []);
+
+  const EventDetail = useAppSelector(
+    (state) => state?.getEventById?.specificEvent?.data?.data[0]
+  );
+  console.log("All Event Data", EventDetail);
+
+  const ConvertDate = (originalDateStr: any) => {
+    const originalDate = new Date(originalDateStr);
+
+    // Extract the day, date, month, and year
+    const dayOfWeek = originalDate.toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+    const date = originalDate.getDate();
+    const month = originalDate.toLocaleDateString("en-US", { month: "long" });
+    const year = originalDate.getFullYear();
+
+    // Function to get ordinal suffix
+    const getOrdinalSuffix = (date: any) => {
+      if (date > 3 && date < 21) return "th"; // covers 11th to 19th
+      switch (date % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+
+    const ordinalSuffix = getOrdinalSuffix(date);
+
+    // Construct the formatted date string
+    const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
+
+    return formattedDate;
+  };
+
+  const ConvertTime = (timeStr: any): string => {
+    // Ensure input is a string
+    if (typeof timeStr !== "string") {
+      console.error("Input must be a string");
+      return "";
+    }
+
+    const parts = timeStr.split(":");
+
+    // Check if timeStr is in HH:MM:SS format
+    if (parts.length !== 3) {
+      console.error("Input time must be in HH:MM:SS format");
+      return "";
+    }
+
+    const [hours, minutes] = parts.map(Number);
+
+    // Ensure the hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      console.error("Invalid time format");
+      return "";
+    }
+
+    // Determine AM or PM
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert hours from 24-hour to 12-hour format
+    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+
+    // Combine hours and period
+    const formattedTime = `${formattedHours} ${period}`;
+
+    return formattedTime;
+  };
   return (
     <section className="relative mx-2xl">
       {/* BLUR BACKGROUND IMAGE */}
       <Image
-        style={{ filter: 'blur(30px)' }}
+        style={{ filter: "blur(30px)" }}
         width={1000}
         height={1000}
         src={`${initalEvent.img}`}
@@ -50,14 +137,14 @@ const EventDetail = () => {
               <ArrowLeft size={22} />
             </button>
             <p>
-              <span className="text-[#BFBFBF]">Event</span> /{' '}
-              <span>PIZDEZ Women's Day Party 2024</span>
+              <span className="text-[#BFBFBF]">Event</span> /{" "}
+              <span>{EventDetail?.name}</span>
             </p>
           </div>
           <div
             style={{
               backgroundImage: `url(${initalEvent.img})`,
-              backgroundPosition: 'center',
+              backgroundPosition: "center",
             }}
             className="bg-cover bg-no-repeat h-[300px] lg:h-[450px] w-full xl:h-[470px] xl:w-[470px] rounded-lg relative"
           >
@@ -79,7 +166,7 @@ const EventDetail = () => {
           </div>
           {/* EVENT DETAILS */}
           <h2 className="text-[28px] lg:w-full lg:text-[40px] xl:text-[55px] font-extrabold leading-[1.2] mt-2">
-            PIZDEZ Women's Day Party 2024
+            {EventDetail?.name}
           </h2>
           <div className="flex flex-col gap-3 mt-6 mb-10">
             <div className="flex items-center gap-3">
@@ -92,19 +179,22 @@ const EventDetail = () => {
               <div className="border gradient-slate p-2 rounded-md border-[#262626] w-fit">
                 <MapPin size={20} weight="fill" />
               </div>
-              <p>DOMA PUB Main floor, Light Street, London</p>
+              <p>{EventDetail?.location}</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="border gradient-slate p-2 rounded-md border-[#262626] w-fit">
                 <Calendar size={20} weight="fill" />
               </div>
-              <p>Saturday, 5th March 2024</p>
+              <p>{ConvertDate(EventDetail?.eventDate)}</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="border gradient-slate p-2 rounded-md border-[#262626] w-fit">
                 <Clock size={20} weight="fill" />
               </div>
-              <p>5 PM - 12 AM</p>
+              <p>
+                {ConvertTime(EventDetail?.startTime)} -{" "}
+                {ConvertTime(EventDetail?.endTime)}{" "}
+              </p>
             </div>
           </div>
           <BuyTicket />
@@ -134,8 +224,8 @@ const EventDetail = () => {
           <GradientBorder className="mt-12">
             <div
               style={{
-                backgroundImage: 'url(/live-activity-bg.png)',
-                backgroundPosition: 'center',
+                backgroundImage: "url(/live-activity-bg.png)",
+                backgroundPosition: "center",
               }}
               className="bg-cover bg-no-repeat w-full h-full rounded-lg relative overflow-hidden py-10"
             >
@@ -167,7 +257,7 @@ const EventDetail = () => {
                   Evelyn and 348 others going
                 </h3>
                 <p className="text-muted">Tap to see the live activities</p>
-                <Link href={'/events/event-detail/live-activity'}>
+                <Link href={"/events/event-detail/live-activity"}>
                   <Button className="flex items-center gap-[0.5rem] rounded-full mt-4 w-fit">
                     <Lock size={20} weight="fill" />
                     Live Activity

@@ -15,11 +15,13 @@ import {
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import { ticketsType } from '@/lib/dummyData';
-import { useState } from 'react';
+
 import GradientBorder from '../ui/gradient-border';
 import { ScrollArea } from '../ui/scroll-area';
 import { Minus, Plus, SealCheck } from '@phosphor-icons/react/dist/ssr';
-
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { getEventById } from "@/lib/middleware/event";
+import { useState,useEffect } from 'react';
 const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
   const [selectedTicket, setSelectedTicket] = useState('');
   const [quantity, setQuantity] = useState(1);
@@ -33,6 +35,23 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
       setQuantity(quantity - 1);
     }
   };
+  const dispatch = useAppDispatch();
+
+  const [eventid, setEventid] = useState();
+  
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setEventid(value);
+    console.log("my event id is", value);
+    dispatch(getEventById(value));
+  }, []);
+
+  const EventDetail = useAppSelector(
+    (state) => state?.getEventById?.specificEvent?.data?.data[0]?.eventTickets
+  );
+  console.log("tickets data in checkout modal", EventDetail);
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[600px] text-white">
       <div>

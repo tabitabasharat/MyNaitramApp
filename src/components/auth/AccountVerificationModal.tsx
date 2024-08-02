@@ -71,7 +71,7 @@ const AccountVerificationModal = ({
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
   useremail: string;
   onVerifyClose: () => void;
-  setSigninModal:()=>void
+  setSigninModal:( )=> void
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -136,8 +136,8 @@ const AccountVerificationModal = ({
           localStorage.setItem("token", res?.payload?.token);
 
           SuccessToast("Account Verified Successfully");
-          onVerifyClose();
-          setSigninModal()
+          // onVerifyClose();
+          // setSigninModal()
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -150,10 +150,7 @@ const AccountVerificationModal = ({
 
   async function ResentCode() {
     console.log("Again Signup Verification");
-    // console.log(res);
-    // if (res === false) {
-    //   return false;
-    // }
+   
     setLoader(true);
     try {
       const data = {

@@ -3,19 +3,22 @@ import HeartBadge from '../ui/heart-badge';
 import Image from 'next/image';
 import { shimmer, toBase64 } from '@/lib/utils';
 import { ScaleReveal } from '../animations/ScaleReveal';
+import event12 from '../../../public/event12.png';
 
 const EventCard = ({
   img,
   title,
+  eventid,
   height = '345px',
 }: {
   img: string;
   title: string;
   height?: string;
+  eventid:any;
 }) => {
   return (
     <ScaleReveal extraStyle="w-full">
-      <Link href={'/events/event-detail'} className="w-full">
+      <Link href={`/events/event-detail/${eventid}`} className="w-full">
         <div
           style={{ height }}
           className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242]"
