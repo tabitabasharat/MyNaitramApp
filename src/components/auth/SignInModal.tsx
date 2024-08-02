@@ -201,7 +201,7 @@ const SignInModal = ({
           <Button
             variant="secondary"
             className="w-full flex items-center gap-1 mt-5"
-            onClick={logingoogle}
+            onClick={()=>logingoogle()}
           >
             <GoogleLogo size={22} weight="fill" /> Sign in with Google
           </Button>

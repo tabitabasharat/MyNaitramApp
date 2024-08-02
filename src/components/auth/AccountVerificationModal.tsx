@@ -65,10 +65,12 @@ const AccountVerificationModal = ({
   setAuthMode,
   useremail,
   onVerifyClose,
+  setSigninModal
 }: {
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
   useremail: string;
   onVerifyClose: () => void;
+  setSigninModal:()=>void
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -135,6 +137,7 @@ const AccountVerificationModal = ({
 
           SuccessToast("Account Verified Successfully");
           onVerifyClose();
+          setSigninModal()
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -145,7 +148,7 @@ const AccountVerificationModal = ({
     }
   }
 
-  async function ResentCode(values: z.infer<typeof formSchema>) {
+  async function ResentCode() {
     console.log("Again Signup Verification");
     // console.log(res);
     // if (res === false) {
@@ -235,7 +238,7 @@ const AccountVerificationModal = ({
             </div>
             <button
               className="opacity-70 font-bold mb-14 hover:opacity-100 underline translate-y-[-0.4rem]"
-              onClick={ResentCode}
+              onClick={()=>{ResentCode()}}
             >
               Didn't receive the code? Request again
             </button>

@@ -32,13 +32,9 @@ const formSchema = z.object({
     .min(1, { message: "Email cannot be empty." })
     .email({ message: "Invalid email address." }),
 });
-const ResetPassPage = ({
-  setAuthMode,
-}: {
-  setAuthMode: Dispatch<SetStateAction<AuthMode>>;
-}) => {
+const ResetPassPage = () => {
   const dispatch = useAppDispatch();
-  const [email,setEmail]= useState();
+  const [email,setEmail]= useState<any>();
   const [loader,setLoader]=useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -93,7 +89,7 @@ const ResetPassPage = ({
       >
         <div className="resetpass-stlying-main-div">
      
-          <Image src={logo} className="logo-stlying" />
+          <Image alt="logo" src={logo} className="logo-stlying" />
           <Separator className="scale-x-[1.09] bg-[#292929]" />
           <div className="font-bold text-2xl resetpass-stlying">
             Reset <span className="text-primary">Password</span>

@@ -120,7 +120,7 @@ const Header = () => {
                 <SignInModal setAuthMode={setAuthMode}   setSigninModal={() => setIsLoginDialogOpen(false)}  />
               )}
               {authMode === 'SIGNUP' && (
-                <SignUpModal setAuthMode={setAuthMode} />
+                <SignUpModal setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />
               )}
             </Dialog>
           )}
