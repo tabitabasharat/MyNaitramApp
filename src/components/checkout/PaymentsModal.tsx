@@ -3,19 +3,23 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Separator } from '@/components/ui/separator';
-import { Button } from '../ui/button';
+} from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "../ui/button";
 import {
   CaretLeft,
   Clock,
   SealCheck,
   StripeLogo,
-} from '@phosphor-icons/react/dist/ssr';
-import { Input } from '../ui/input';
-import Image from 'next/image';
-import { shimmer, toBase64 } from '@/lib/utils';
-import { ScrollArea } from '../ui/scroll-area';
+} from "@phosphor-icons/react/dist/ssr";
+import { Input } from "../ui/input";
+import Image from "next/image";
+import { shimmer, toBase64 } from "@/lib/utils";
+import { ScrollArea } from "../ui/scroll-area";
+import axios from "axios";
+import { API_URL } from "@/lib/client";
+import { useState } from "react";
+import ScreenLoader from "../loader/Screenloader";
 
 const PaymentsModal = ({
   onNext,
@@ -24,14 +28,27 @@ const PaymentsModal = ({
   onNext: () => void;
   handleNext: any;
 }) => {
+  const [loader, setLoader] = useState(false);
+  async function OnclickSubmit() {
+    setLoader(true);
+    const data = await axios.post(`${API_URL}/create-checkout-session`);
+    console.log(data?.data?.url);
+    setLoader(false);
+    if (data?.data?.url) {
+      window.open(data?.data?.url, "_blank");
+    } else {
+      console.error("No URL received");
+    }
+  }
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[650px]">
+      {loader && <ScreenLoader />}
       <ScrollArea className="max-h-[90vh]">
         <DialogHeader>
           <DialogTitle className="font-bold text-2xl">
             <div className="flex items-center gap-4 pb-4">
               <button
-                onClick={() => handleNext('CompleteYourProfile')}
+                onClick={() => handleNext("CompleteYourProfile")}
                 className="bg-white/10 p-2 w-fit rounded-full cursor-pointer"
               >
                 <CaretLeft size={17} weight="bold" />
@@ -47,7 +64,7 @@ const PaymentsModal = ({
             <p className="text-muted text-sm">YOUR PURCHASE</p>
             <p className="font-light flex space-x-1">
               <Clock size={20} className="text-primary" weight="fill" />
-              <span className="font-bold text-primary pr-1">12:43 </span>{' '}
+              <span className="font-bold text-primary pr-1">12:43 </span>{" "}
               <span className="hidden lg:block">left to finish the order</span>
               <span className="lg:hidden">left to order</span>
             </p>
@@ -56,12 +73,12 @@ const PaymentsModal = ({
             <div className="border border-muted p-3 rounded-lg">
               <div className="flex gap-4">
                 <Image
-                  src={'/event4.png'}
+                  src={"/event4.png"}
                   width={800}
                   height={800}
                   className="w-[60px] rounded-lg object-cover"
                   placeholder={`data:image/svg+xml;base64,${toBase64(
-                    shimmer(1200, 1800),
+                    shimmer(1200, 1800)
                   )}`}
                   alt="event"
                 />
@@ -86,7 +103,7 @@ const PaymentsModal = ({
               <p className="font-bold">
                 <span className="font-light opacity-50">2x </span>£15
               </p>
-            </div>{' '}
+            </div>{" "}
             <div className="flex justify-between mb-2">
               <p className="font-light">Fees</p>
               <p className="font-bold">Include</p>
@@ -119,7 +136,7 @@ const PaymentsModal = ({
           </div>
         </div>
         <DialogFooter className="w-full mt-4 pt-4 bg-[#101010] border-t border-muted">
-          <Button onClick={onNext} className="w-full">
+          <Button onClick={OnclickSubmit} className="w-full">
             Pay: £30.00
           </Button>
         </DialogFooter>

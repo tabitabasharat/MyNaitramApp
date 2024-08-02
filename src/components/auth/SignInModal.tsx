@@ -40,6 +40,7 @@ import {
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import ScreenLoader from "../loader/Screenloader";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z
@@ -70,6 +71,7 @@ const SignInModal = ({
   setSigninModal: () => void;
 }) => {
   const dispatch = useAppDispatch();
+  const router=useRouter()
   const [loader, setLoader] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -103,6 +105,7 @@ const SignInModal = ({
 
           SuccessToast("login success");
           setSigninModal();
+          router.push("/events")
           if (res?.payload?.data?.profileUpdate) {
             // navigate("/Dashboard");
             console.log("dash");
@@ -155,6 +158,7 @@ const SignInModal = ({
 
          
             setSigninModal();
+            router.push("/events")
             if (res?.payload?.data?.profileUpdate) {
               // navigate("/Dashboard");
               console.log("dashboard");

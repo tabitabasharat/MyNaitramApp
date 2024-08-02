@@ -89,6 +89,7 @@ const SignUpModal = ({
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
 }) => {
   const dispatch = useAppDispatch();
+  const router=useRouter()
 
   const [isVerificationModalOpen, setVerificationModalOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -164,6 +165,7 @@ const SignUpModal = ({
 
             // navigate(`/OrgnizationDetails/${datas?.data?.email}`);
             setSigninModal();
+            router.push("/events")
             if (res?.payload?.data?.profileUpdate) {
               // navigate("/Dashboard");
               console.log("dashboard");

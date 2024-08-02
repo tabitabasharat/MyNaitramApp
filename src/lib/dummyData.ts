@@ -75,13 +75,13 @@ export const events = [
 ];
 
 export const top5Events = [
-  {
-    id: 1,
-    img: '/event4.png',
-    title: "PIZDEZ Women's Day Party 2024",
-    location: 'DOMA PUB Main Floor, Light Street, London',
-    date: 'Saturday March 5th, 5 PM - 12 AM',
-  },
+  // {
+  //   id: 1,
+  //   img: '/event4.png',
+  //   title: "PIZDEZ Women's Day Party 2024",
+  //   location: 'DOMA PUB Main Floor, Light Street, London',
+  //   date: 'Saturday March 5th, 5 PM - 12 AM',
+  // },
   {
     id: 2,
     img: '/event2.png',
@@ -89,27 +89,27 @@ export const top5Events = [
     location: 'DOMA PUB Main Floor, Light Street, London',
     date: 'Saturday March 5th, 5 PM - 12 AM',
   },
-  {
-    id: 3,
-    img: '/event3.png',
-    title: 'Fashion Friday by Bushmills 2024',
-    location: 'DOMA PUB Main Floor, Light Street, London',
-    date: 'Saturday March 5th, 5 PM - 12 AM',
-  },
-  {
-    id: 4,
-    img: '/event5.png',
-    title: 'Deep Week with Hate Tuesday',
-    location: 'DOMA PUB Main Floor, Light Street, London',
-    date: 'Saturday March 5th, 5 PM - 12 AM',
-  },
-  {
-    id: 5,
-    img: '/event6.png',
-    title: 'After Party for Ladies Night',
-    location: 'DOMA PUB Main Floor, Light Street, London',
-    date: 'Saturday March 5th, 5 PM - 12 AM',
-  },
+  // {
+  //   id: 3,
+  //   img: '/event3.png',
+  //   title: 'Fashion Friday by Bushmills 2024',
+  //   location: 'DOMA PUB Main Floor, Light Street, London',
+  //   date: 'Saturday March 5th, 5 PM - 12 AM',
+  // },
+  // {
+  //   id: 4,
+  //   img: '/event5.png',
+  //   title: 'Deep Week with Hate Tuesday',
+  //   location: 'DOMA PUB Main Floor, Light Street, London',
+  //   date: 'Saturday March 5th, 5 PM - 12 AM',
+  // },
+  // {
+  //   id: 5,
+  //   img: '/event6.png',
+  //   title: 'After Party for Ladies Night',
+  //   location: 'DOMA PUB Main Floor, Light Street, London',
+  //   date: 'Saturday March 5th, 5 PM - 12 AM',
+  // },
 ];
 
 export const attendees = [

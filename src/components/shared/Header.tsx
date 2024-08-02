@@ -57,7 +57,7 @@ const Header = () => {
     { title: 'Events', url: '/events' },
     { title: 'About', url: '/about' },
     { title: 'Gallery', url: '/gallery' },
-    { title: 'Search', url: '/search' },
+    // { title: 'Search', url: '/search' },
   ];
   return (
     <>
@@ -112,7 +112,7 @@ const Header = () => {
           {isLoggedIn && (
             <Dialog  open={isLoginDialogOpen} onOpenChange={setIsLoginDialogOpen}>
               <DialogTrigger asChild>
-                <Button variant="ghost" className="hidden lg:block">
+              <Button variant="secondary" className="hidden lg:block">
                   Sign In
                 </Button>
               </DialogTrigger>
@@ -124,7 +124,7 @@ const Header = () => {
               )}
             </Dialog>
           )}
-          {isLoggedIn && (
+          {/* {isLoggedIn && (
             <div className="mr-2 lg:mr-4 flex items-center gap-4 h-full">
               <Popover open={notifPopupOpen} onOpenChange={setNotifPopupOpen}>
                 <PopoverTrigger asChild>
@@ -165,10 +165,10 @@ const Header = () => {
                 </PopoverContent>
               </Popover>
             </div>
-          )}
-          <Button variant="secondary" className="hidden lg:block">
+          )} */}
+          {/* <Button variant="secondary" className="hidden lg:block">
             Get the App
-          </Button>
+          </Button> */}
           <button
             type="button"
             onClick={toggleMenu}

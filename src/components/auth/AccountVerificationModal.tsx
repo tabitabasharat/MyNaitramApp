@@ -33,6 +33,7 @@ import "./AccountVerificationModal.css";
 import { useAppDispatch } from "@/lib/hooks";
 import { verifysignup, updateverifycode } from "@/lib/middleware/signin";
 import ScreenLoader from "../loader/Screenloader";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   textbox: z
@@ -73,6 +74,8 @@ const AccountVerificationModal = ({
   onVerifyClose: () => void;
   setSigninModal:( )=> void
 }) => {
+
+  const router=useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -136,8 +139,9 @@ const AccountVerificationModal = ({
           localStorage.setItem("token", res?.payload?.token);
 
           SuccessToast("Account Verified Successfully");
-          // onVerifyClose();
-          // setSigninModal()
+          onVerifyClose();
+          setSigninModal()
+          router.push("/events")
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);

@@ -54,7 +54,7 @@ const EventsHeroSlide = ({
           </div>
         </div>
         <div className="lg:w-[70%] ">
-          <div className="lg:flex gap-1 hidden mt-4">
+          {/* <div className="lg:flex gap-1 hidden mt-4">
             {top5Events.map((_, index) => (
               <div
                 key={index}
@@ -64,7 +64,7 @@ const EventsHeroSlide = ({
                 onClick={() => handleBulletClick(index)}
               ></div>
             ))}
-          </div>
+          </div> */}
           <div className="flex gap-[0.35rem] mt-4">
             <Badge>Party</Badge>
             <Badge>Invitation</Badge>
