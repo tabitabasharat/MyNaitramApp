@@ -8,10 +8,10 @@ const EventsPage = () => {
   return (
     <>
       <EventsHero />
-       <PopularEvents />
-      {/* <MobileAppQRCode />
-      <CategoryList />
-      <AllNaitramEvents />  */}
+       {/* <PopularEvents /> */}
+      <MobileAppQRCode />
+      {/* <CategoryList />
+      <AllNaitramEvents />   */}
     </>
   );
 };

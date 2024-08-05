@@ -1,36 +1,51 @@
-'use client';
+"use client";
 
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/autoplay';
-import 'swiper/css/effect-fade';
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
+import "swiper/css/effect-fade";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { A11y, Autoplay, EffectFade, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { A11y, Autoplay, EffectFade, Pagination } from "swiper/modules";
 
-import EventsHeroSlide from './EventsHeroSlide';
-import { top5Events } from '@/lib/dummyData';
-import { useRef, useState } from 'react';
+import EventsHeroSlide from "./EventsHeroSlide";
+import { useEffect, useRef, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { getAllEvents } from "@/lib/middleware/event";
 
 const EventsHero = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const swiperRef = useRef(null);
+  const swiperRef = useRef<any>(null);
 
   const handleSlideChange = (swiper: any) => {
     setActiveIndex(swiper.activeIndex);
   };
+
   const handleBulletClick = (index: number) => {
     if (swiperRef.current) {
-      // @ts-ignore
       swiperRef.current.slideTo(index);
     }
   };
+
+  const dispatch = useAppDispatch();
+  const EventsAllData = useAppSelector(
+    (state) => state?.getAllEvents?.allEvents?.data?.data
+  );
+
+  useEffect(() => {
+    dispatch(getAllEvents());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (swiperRef.current) {
+      swiperRef.current.slideTo(0);
+    }
+  }, [EventsAllData]);
 
   return (
     <section className="h-[130vh] max-w-screen lg:h-[90vh] overflow-hidden relative">
       <Swiper
         onSlideChange={handleSlideChange}
-        // @ts-ignore
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         loop
         effect="fade"
@@ -42,18 +57,21 @@ const EventsHero = () => {
         speed={1000}
         className="fade-slider h-full"
       >
-        {top5Events.map((event, i) => (
-          <SwiperSlide key={i}>
-            <EventsHeroSlide
-              title={event.title}
-              date={event.date}
-              img={event.img}
-              location={event.location}
-              activeIndex={activeIndex}
-              handleBulletClick={handleBulletClick}
-            />
-          </SwiperSlide>
-        ))}
+        {EventsAllData?.events.length > 0 &&
+          EventsAllData?.events.map((event: any, index: number) => (
+            <SwiperSlide key={index}>
+              <EventsHeroSlide
+                title={event?.name}
+                endTime={event?.endTime}
+                startTime={event?.startTime}
+                img={event?.eventPicture}
+                location={event.location}
+                activeIndex={activeIndex}
+                eventDate={event?.eventDate}
+                handleBulletClick={() => handleBulletClick(index)}
+              />
+            </SwiperSlide>
+          ))}
       </Swiper>
     </section>
   );

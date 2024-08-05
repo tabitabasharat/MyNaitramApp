@@ -117,7 +117,7 @@ const Header = () => {
                 </Button>
               </DialogTrigger>
               {authMode === 'SIGNIN' && isLoginDialogOpen && (
-                <SignInModal setAuthMode={setAuthMode}   setSigninModal={() => setIsLoginDialogOpen(false)}  />
+                <SignInModal redirectRoute={`/events`} setAuthMode={setAuthMode}   setSigninModal={() => setIsLoginDialogOpen(false)}  />
               )}
               {authMode === 'SIGNUP' && (
                 <SignUpModal setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />

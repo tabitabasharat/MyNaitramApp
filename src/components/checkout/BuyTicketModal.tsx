@@ -1,30 +1,35 @@
-'use client';
+"use client";
 
 import {
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+} from "@/components/ui/collapsible";
 
-import { Button } from '../ui/button';
-import { Separator } from '../ui/separator';
-import { ticketsType } from '@/lib/dummyData';
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import { ticketsType, ticketsType2 } from "@/lib/dummyData";
 
-import GradientBorder from '../ui/gradient-border';
-import { ScrollArea } from '../ui/scroll-area';
-import { Minus, Plus, SealCheck } from '@phosphor-icons/react/dist/ssr';
+import GradientBorder from "../ui/gradient-border";
+import { ScrollArea } from "../ui/scroll-area";
+import { Minus, Plus, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getEventById } from "@/lib/middleware/event";
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from "react";
 const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
-  const [selectedTicket, setSelectedTicket] = useState('');
+  const [selectedTicket, setSelectedTicket] = useState("");
+  const [selectedTicketPrice, setSelectedTicketPrice] = useState(0);
+  const [eventid, setEventid] = useState<any>();
+
+
   const [quantity, setQuantity] = useState(1);
+  console.log("this is secelected ticket",selectedTicketPrice)
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -35,10 +40,15 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
       setQuantity(quantity - 1);
     }
   };
-  const dispatch = useAppDispatch();
 
-  const [eventid, setEventid] = useState<any>();
-  
+  const dispatch = useAppDispatch();
+  function buyTicket(){
+
+    onNext()
+
+  }
+
+
   useEffect(() => {
     const currentUrl = window.location.href;
     const parts = currentUrl.split("/");
@@ -67,15 +77,16 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
             CHOOSE TICKET TYPE
           </p>
 
-          <ScrollArea className="h-[14.5rem] w-full">
+          <ScrollArea className="h-[25rem] w-full">
             <div className="flex flex-col gap-3">
               {/* ENTRY TICKET */}
+              <p>Entry Ticket</p>
               {ticketsType.map((ticket) =>
                 selectedTicket === ticket.type ? (
                   <Collapsible
                     key={ticket.type}
                     open={selectedTicket === ticket.type}
-                    onOpenChange={() => setSelectedTicket(ticket.type)}
+                    onOpenChange={() => {setSelectedTicket(ticket.type);setSelectedTicketPrice(ticket.price)}}
                     className="w-full"
                   >
                     <CollapsibleTrigger className="w-full">
@@ -105,7 +116,7 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
                   <Collapsible
                     key={ticket.type}
                     open={selectedTicket === ticket.type}
-                    onOpenChange={() => setSelectedTicket(ticket.type)}
+                    onOpenChange={() => {setSelectedTicket(ticket.type);setSelectedTicketPrice(ticket.price)}}
                     className="w-full"
                   >
                     <CollapsibleTrigger className="w-full">
@@ -117,7 +128,59 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
                       </div>
                     </CollapsibleTrigger>
                   </Collapsible>
-                ),
+                )
+              )}
+
+              <p>VIP Table Packages</p>
+              {ticketsType2.map((ticket) =>
+                selectedTicket === ticket.type ? (
+                  <Collapsible
+                    key={ticket.type}
+                    open={selectedTicket === ticket.type}
+                    onOpenChange={() => {setSelectedTicket(ticket.type);setSelectedTicketPrice(ticket.price)}}
+
+                    className="w-full"
+                  >
+                    <CollapsibleTrigger className="w-full">
+                      <GradientBorder>
+                        <div className="border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer">
+                          <div className="flex justify-between">
+                            <p className="font-bold">{ticket.title}</p>
+                            <p className="font-extrabold">£{ticket.price}</p>
+                          </div>
+                          <CollapsibleContent className="border-t border-t-[#282828] mt-2 text-left">
+                            <div className="flex flex-col items-start mt-2">
+                              <p className="text-[#BFBFBF] font-extrabold text-[12px]">
+                                INCLUDED
+                              </p>
+                              <div className="mt-3">
+                                {ticket.included.map((include) => (
+                                  <p className="text-[12px]">{include}</p>
+                                ))}
+                              </div>
+                            </div>
+                          </CollapsibleContent>
+                        </div>
+                      </GradientBorder>
+                    </CollapsibleTrigger>
+                  </Collapsible>
+                ) : (
+                  <Collapsible
+                    key={ticket.type}
+                    open={selectedTicket === ticket.type}
+                    onOpenChange={() => {setSelectedTicket(ticket.type);setSelectedTicketPrice(ticket.price)}}
+                    className="w-full"
+                  >
+                    <CollapsibleTrigger className="w-full">
+                      <div className="border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer">
+                        <div className="flex justify-between">
+                          <p className="font-bold">{ticket.title}</p>
+                          <p className="font-extrabold">£{ticket.price}</p>
+                        </div>
+                      </div>
+                    </CollapsibleTrigger>
+                  </Collapsible>
+                )
               )}
             </div>
           </ScrollArea>
@@ -129,7 +192,7 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
               <div>
                 <span className="text-primary text-sm">Total Price</span>
                 <p className="font-bold text-2xl">
-                  £{30 * quantity}.00{' '}
+                  £{selectedTicketPrice}.00{" "}
                   <span className="text-[12px] text-[#BFBFBF] font-normal">
                     inc fees
                   </span>
@@ -137,12 +200,12 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
                 <div className="flex gap-1">
                   <SealCheck className="text-white" size={14} weight="fill" />
                   <div className="text-[#BFBFBF] items-center text-[12px] flex gap-1">
-                    <p className="line-through">£31.16</p>
-                    <p>12%</p>
+                    <p className="line-through">£{selectedTicketPrice+(selectedTicketPrice/10)}</p>
+                    <p>10%</p>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-evenly gradient-slate border border-muted text-white rounded-lg  py-2 h-fit w-[120px] px-2">
+              {/* <div className="flex items-center justify-evenly gradient-slate border border-muted text-white rounded-lg  py-2 h-fit w-[120px] px-2">
                 <button onClick={handleDecrement} className="">
                   <Minus size={16} />
                 </button>
@@ -150,10 +213,10 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
                 <button onClick={handleIncrement} className="">
                   <Plus size={16} />
                 </button>
-              </div>
+              </div> */}
             </div>
 
-            <Button onClick={onNext} className="w-full">
+            <Button disabled={selectedTicket===""&& true} onClick={()=>{buyTicket()}} className="w-full">
               Continue
             </Button>
           </div>

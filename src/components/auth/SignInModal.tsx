@@ -66,9 +66,11 @@ const formSchema = z.object({
 const SignInModal = ({
   setAuthMode,
   setSigninModal,
+  redirectRoute
 }: {
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
   setSigninModal: () => void;
+  redirectRoute:any
 }) => {
   const dispatch = useAppDispatch();
   const router=useRouter()
@@ -105,7 +107,7 @@ const SignInModal = ({
 
           SuccessToast("login success");
           setSigninModal();
-          router.push("/events")
+          router.push(redirectRoute)
           if (res?.payload?.data?.profileUpdate) {
             // navigate("/Dashboard");
             console.log("dash");
@@ -158,7 +160,7 @@ const SignInModal = ({
 
          
             setSigninModal();
-            router.push("/events")
+            router.push(redirectRoute)
             if (res?.payload?.data?.profileUpdate) {
               // navigate("/Dashboard");
               console.log("dashboard");
