@@ -1,39 +1,176 @@
-.name-input{
-    width: 794.34px;
-    height: 63px;
-    background-color: transparent !important;
-    background: none !important;
-
+.contact-head {
+  background-image: url("../../assets/contact-ellipse.png");
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
-/* .name-input .gradient-slate{
-    background: none !important;
+.contactus-inner {
+  padding-top: 250px;
+}
+.inputs-contain {
+  margin-top: 42px;
+}
+.name-input {
+  width: 794.34px;
+  height: 63px;
+  background-color: transparent !important;
+  background: none !important;
+  border-color: #009540;
+  font-size: 16px;
+  line-height: 21px;
+  border-radius: 10px;
+  padding: 20px 10px;
+  font-weight: bold;
+  color: #ffffff;
+ 
+}
+.name-input::placeholder {
+  font-weight: bold;
+  color: #ffffff;
+}
+.text-area-input::placeholder {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.text-area-input {
+  width: 794.34px;
+  height: 150px;
+  background-color: transparent !important;
+  background: none !important;
+  border-color: #009540;
+  font-weight: bold;
+  color: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  resize: none !important;
+}
+.ready-btn {
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0);
+  border-radius: 5px 5px 5px 5px;
+  padding: 15px 20px 15px 20px;
+  color: #ffffff;
+  background-color: #009540;
+  border-style: none;
+}
+.insta-link {
+  font-size: 17px;
+  font-weight: 400;
+  background-color: #61ce7000;
+  border-style: solid;
+  border-width: 2px 2px 2px 2px;
+  border-color: #009540;
+  /* border-color: #292929; */
+  border-radius: 18px;
+  padding: 23px 25px 23px 25px;
+  margin-top: 10px;
+  text-align: center;
+}
+.insta-link2 {
+  margin-top: 20px;
+}
+.update-box {
+  margin: 120px 0px;
+
+  background-image: url("../../assets/contactus.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* height: 431px; */
+
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* max-width: 1138px; */
+
+  width: 1140px;
+}
+.update-overlay {
+  background-color: rgba(0, 0, 0, 0.75);
+  /* height: 431px; */
+  border-radius: 20px;
+  border: 1px solid #009540;
+  padding: 90px 0px 90px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* max-width: 1138px; */
+  width: 1140px;
+}
+
+.mail-and-btn {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 21px;
+  margin-top: 30px;
+}
+
+.email-input {
+  width: 431.81px;
+  height: 62px;
+  background-color: transparent !important;
+  background: none !important;
+  border-color: #009540;
+  border-width: 1px 1px 1px 1px;
+  border-radius: 10px;
+}
+
+.subscribe-btn {
+  border-radius: 10px;
+  padding: 25px;
+  background-color: #009540;
+  color: #ffffff;
+  border-style: none;
+  height: 65px;
+  width: 173.06px;
+
+  font-size: 15px;
+}
+.email-input-bg {
+  background-color: #ffffff00;
+}
+
+/* .update-op{
+    opacity: 1;
 } */
-
-.text-area-input
-{
-    width: 794.34px;
-    height: 150px;
-    background-color: transparent !important;
-    background: none !important;
-}
-.ready-btn{
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0);
-    border-radius: 5px 5px 5px 5px;
-    padding: 15px 20px 15px 20px;
-    color: #ffffff;
-    background-color: #009540;
-    border-style: none;
-    
-}
-.insta-link{
-    font-size: 17px;
-    font-weight: 400;
-    background-color: #61CE7000;
-    border-style: solid;
-    border-width: 2px 2px 2px 2px;
-    border-color: #009540;
-    /* border-color: #292929; */
-    border-radius: 18px 18px 18px 18px;
-    padding: 23px 25px 23px 25px;
-    margin-top: 10px;
+@media (max-width: 992px) {
+  .name-input,
+  .email-input,
+  .subscribe-btn,
+  .text-area-input,
+  .update-box {
+    width: 100%;
+  }
+  .mail-and-btn {
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  .update-overlay {
+    padding: 40px 20px 40px 20px;
+    height: auto;
+    width: 100%;
+  }
+  .update-box {
+    height: auto;
+    margin: 80px 0px 0px 0px;
+    width: 100%;
+  }
+  .update-overlay h2 br {
+    display: none;
+  }
+  .contactus-inner {
+    padding-top: 120px;
+  }
+  .insta-link {
+    padding: 15px 38px;
+    font-size: 15px;
+  }
+  .insta-link2 {
+    padding: 15px 20px;
+  }
+  .contact-head {
+    padding-bottom: 80px;
+  }
 }

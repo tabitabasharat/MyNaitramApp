@@ -10,6 +10,7 @@ import "./ContactUs.css";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import Link from "next/link";
+import { Reveal } from "@/components/animations/Reveal";
 
 const ContactUsPage = () => {
   const router = useRouter();
@@ -18,6 +19,8 @@ const ContactUsPage = () => {
   const [Lastname, setLastname] = useState("");
 
   const [Email, setEmail] = useState("");
+  const [EmailAddress, setEmailAddress] = useState("");
+
   const [Organization, setOrganization] = useState("");
   const [Role, setRole] = useState("");
   const [Contactno, setContactno] = useState("");
@@ -37,40 +40,22 @@ const ContactUsPage = () => {
       //     "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
       //   backgroundPosition: "center",
       // }}
-      className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
+      className="min-h-screen  bg-cover bg-no-repeat contact-head "
     >
-      <div className="pxpx mx-2xl">
-        {/* <div className="flex items-center gap-4 mb-6">
-          <button onClick={() => router.back()} type="button">
-            <ArrowLeft size={22} />
-          </button>
-          <p>
-            <span className="text-[#BFBFBF]">Home</span> / <span>Search</span>
-          </p>
-        </div> */}
-        {/* <div className="w-full relative mt-12">
-          <Input
-            value={searchTerm}
-            className="w-full h-14 px-5"
-            onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Search Event"
-          />
-          <MagnifyingGlass
-            size={20}
-            className="absolute top-1/2 -translate-y-1/2 right-5"
-          />
-        </div> */}
-        <div className="mt-12">
-          <div className="flex flex-col justify-center items-center w-full h-full text-center mt-24">
-            <h2 className="font-bold text-[24px] lg:text-[36px]">
-              Get in Touch!
-            </h2>
-            <p className="text-[#BFBFBF] font-light">
-              Ready to host on our platform?
-            </p>
-          </div>
+      <div className="pxpx mx-2xl contactus-inner">
+        <div>
+          <Reveal y={100} width="100%">
+            <div className="flex flex-col justify-center items-center w-full h-full text-center">
+              <h2 className="font-bold text-[31px] lg:text-[60px]">
+                Get in Touch!
+              </h2>
+              <p className="text-[#FFFFFF] font-light lg:text-[20px] mt-5">
+                Ready to host on our platform?
+              </p>
+            </div>
+          </Reveal>
 
-          <div className="w-full relative mt-12 flex flex-col justify-center items-center ">
+          <div className="w-full relative flex flex-col justify-center items-center inputs-contain">
             <Input
               value={fullname}
               className=" px-5 name-input"
@@ -78,41 +63,42 @@ const ContactUsPage = () => {
               placeholder="First Name"
             />
             <Input
-              value={fullname}
+              value={Lastname}
               className=" px-5 name-input mt-5"
-              onChange={(event) => setFullname(event.target.value)}
+              onChange={(event) => setLastname(event.target.value)}
               placeholder="Last Name"
             />
             <Input
-              value={fullname}
+              value={Email}
               className=" px-5 name-input mt-5"
-              onChange={(event) => setFullname(event.target.value)}
+              onChange={(event) => setEmail(event.target.value)}
               placeholder="Email Address"
             />
             <Input
-              value={fullname}
+              value={Organization}
               className=" px-5 name-input mt-5"
-              onChange={(event) => setFullname(event.target.value)}
+              onChange={(event) => setOrganization(event.target.value)}
               placeholder="Organization"
             />
             <Input
-              value={fullname}
+              value={Role}
               className=" px-5 name-input mt-5"
-              onChange={(event) => setFullname(event.target.value)}
+              onChange={(event) => setRole(event.target.value)}
               placeholder="Role"
             />
             <Input
-              value={fullname}
+                type="number"
+              value={Contactno}
               className=" px-5 name-input mt-5"
-              onChange={(event) => setFullname(event.target.value)}
+              onChange={(event) => setContactno(event.target.value)}
               placeholder="Contact Number"
             />
 
             <Textarea
-              value={fullname}
+              value={Description}
               className=" px-5 text-area-input mt-5"
-              onChange={(event) => setFullname(event.target.value)}
-              placeholder="Tell us more about you are getting in touch"
+              onChange={(event) => setDescription(event.target.value)}
+              placeholder="Tell us more about why you're getting in touch?"
             />
             {/* <textarea
               name=""
@@ -132,18 +118,42 @@ const ContactUsPage = () => {
             </Button>
 
             <div className="insta-link">
-               <Link href="https://www.instagram.com/naitram.live/">
-               Instagram: @naitram.live
-               </Link>
+              <Link href="https://www.instagram.com/naitram.live/">
+                Instagram: @naitram.live
+              </Link>
             </div>
-            <div className="insta-link">
-               <Link href="https://www.instagram.com/naitram.live/">
-               Customer support: support@naitram.live
-               </Link>
+            <div className="insta-link insta-link2">
+              <Link href="/contactus">
+                Customer support: support@naitram.live
+              </Link>
+            </div>
+
+            <div className="update-box ">
+            <div className="update-overlay">
+              <Reveal y={100} width="100%">
+                <h2 className="font-bold text-[24px] lg:text-[60px] text-center ">
+                  Stay informed and never miss<br></br> an update
+                </h2>
+                <div className="mail-and-btn">
+                  <Input
+                    value={EmailAddress}
+                    className=" px-5 email-input focus:border-[#009540] focus:border-dashed email-input-bg "
+                    onChange={(event) => setEmailAddress(event.target.value)}
+                    placeholder="Your Email Address"
+                  />
+                  <Button
+                    variant="secondary"
+                    className=" flex items-center subscribe-btn"
+                  >
+                    Subscribe
+                  </Button>
+                </div>
+              </Reveal>
             </div>
           </div>
+          </div>
 
-          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 xl:lg:grid-cols-4 gap-[1rem]"></div>
+          
         </div>
       </div>
     </section>
