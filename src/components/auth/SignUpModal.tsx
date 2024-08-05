@@ -44,7 +44,10 @@ import { signup } from "@/lib/middleware/signin";
 import { useRouter } from "next/navigation";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { SuccessToast,ErrorToast } from "../reusable-components/Toaster/Toaster";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "../reusable-components/Toaster/Toaster";
 import ScreenLoader from "../loader/Screenloader";
 const formSchema = z
   .object({
@@ -77,7 +80,6 @@ const formSchema = z
     path: ["confirm_password"],
     message: "Passwords do not match.",
   });
-  
 
 const SignUpModal = ({
   setAuthMode,
@@ -86,8 +88,8 @@ const SignUpModal = ({
   setSigninModal: () => void;
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
 }) => {
-
   const dispatch = useAppDispatch();
+  const router=useRouter()
 
   const [isVerificationModalOpen, setVerificationModalOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -95,7 +97,6 @@ const SignUpModal = ({
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
   const [loader, setLoader] = useState(false);
-  
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -105,8 +106,6 @@ const SignUpModal = ({
       password: "",
     },
   });
-
- 
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("my values", values);
@@ -127,16 +126,14 @@ const SignUpModal = ({
           SuccessToast("Verification Code Sended");
           // navigate(`/SignUp-Verify/${email}`);
           setVerificationModalOpen(true);
-
         } else {
           setLoader(false);
-         ErrorToast(res?.payload?.message);
+          ErrorToast(res?.payload?.message);
         }
       });
     } catch (error) {
       console.error("Error:", error);
       ErrorToast(error);
-
     }
   }
   const logingoogleUser = useGoogleLogin({
@@ -157,7 +154,7 @@ const SignUpModal = ({
           if (res?.payload?.status === 200) {
             setLoader(false);
             console.log(data);
-          SuccessToast("Google Sign Up Successfully");
+            SuccessToast("Google Sign Up Successfully");
             console.log("hhh", res);
             localStorage.setItem("_id", res?.payload?.data?.id);
             localStorage.setItem("token", res?.payload?.token);
@@ -167,7 +164,8 @@ const SignUpModal = ({
             );
 
             // navigate(`/OrgnizationDetails/${datas?.data?.email}`);
-            setSigninModal()
+            setSigninModal();
+            router.push("/events")
             if (res?.payload?.data?.profileUpdate) {
               // navigate("/Dashboard");
               console.log("dashboard");
@@ -178,13 +176,12 @@ const SignUpModal = ({
           } else {
             setLoader(false);
 
-          ErrorToast(res?.payload?.message);
+            ErrorToast(res?.payload?.message);
           }
         });
       } catch (error) {
         console.error("Error:", error);
-        ErrorToast( error);
-
+        ErrorToast(error);
       }
     },
   });
@@ -192,7 +189,7 @@ const SignUpModal = ({
   return (
     <>
       <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
-      {loader && <ScreenLoader />}
+        {loader && <ScreenLoader />}
         <ScrollArea className="max-h-[90vh]">
           <DialogHeader className="relative overflow-hidden pt-4">
             <DialogTitle className="font-bold text-2xl">
@@ -211,11 +208,11 @@ const SignUpModal = ({
           <Button
             variant="secondary"
             className="w-full flex items-center gap-1 mt-5"
-            onClick={()=>logingoogleUser()}
+            onClick={() => logingoogleUser()}
           >
-            <GoogleLogo size={22} weight="fill" /> Sign in with Google
+            <GoogleLogo size={22} weight="fill" /> Sign up with Google
           </Button>
-         
+
           <div className="flex items-center justify-between gap-4 mt-5 mb-5">
             <Separator className="bg-[#292929] w-[45%]" />
             <p className="font-bold">OR</p>
@@ -356,7 +353,12 @@ const SignUpModal = ({
         </ScrollArea>
       </DialogContent>
       {isVerificationModalOpen && (
-        <AccountVerificationModal setAuthMode={setAuthMode}  useremail={email}  onVerifyClose={()=> setVerificationModalOpen(false)} setSigninModal={setSigninModal}/>
+        <AccountVerificationModal
+          setAuthMode={setAuthMode}
+          useremail={email}
+          onVerifyClose={() => setVerificationModalOpen(false)}
+          setSigninModal={setSigninModal}
+        />
       )}
     </>
   );

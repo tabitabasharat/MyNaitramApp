@@ -14,10 +14,10 @@ const HomePage = () => {
     <>
     {/* {loader && <ScreenLoader/>} */}
       <Hero />
-      <Events />
+      {/* <Events /> */}
       <About />
       <RewardProgram />
-      <AllNaitramEvents />
+      {/* <AllNaitramEvents /> */}
       <StayInformed />
     </>
   );

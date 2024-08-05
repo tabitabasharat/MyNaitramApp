@@ -33,6 +33,7 @@ import "./AccountVerificationModal.css";
 import { useAppDispatch } from "@/lib/hooks";
 import { verifysignup, updateverifycode } from "@/lib/middleware/signin";
 import ScreenLoader from "../loader/Screenloader";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   textbox: z
@@ -71,8 +72,10 @@ const AccountVerificationModal = ({
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
   useremail: string;
   onVerifyClose: () => void;
-  setSigninModal:()=>void
+  setSigninModal:( )=> void
 }) => {
+
+  const router=useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -138,6 +141,7 @@ const AccountVerificationModal = ({
           SuccessToast("Account Verified Successfully");
           onVerifyClose();
           setSigninModal()
+          router.push("/events")
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -150,10 +154,7 @@ const AccountVerificationModal = ({
 
   async function ResentCode() {
     console.log("Again Signup Verification");
-    // console.log(res);
-    // if (res === false) {
-    //   return false;
-    // }
+   
     setLoader(true);
     try {
       const data = {

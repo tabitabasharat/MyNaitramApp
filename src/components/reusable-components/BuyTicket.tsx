@@ -1,8 +1,11 @@
+
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
 import CheckOutModal from '@/components/checkout/CheckOutModal';
 
+
 const BuyTicket = () => {
+  
   return (
     <Dialog>
       <div className="w-full lg:w-[665px] bg-[#007A3535] rounded-xl flex flex-col lg:flex-row items-center justify-center lg:items-start lg:justify-between px-6 py-4 gap-4">

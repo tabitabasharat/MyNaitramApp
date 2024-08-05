@@ -1,15 +1,19 @@
-import { configureStore } from '@reduxjs/toolkit'
-import getUserInfo from './reducer/getUserInfo'
+import { configureStore } from "@reduxjs/toolkit";
+import getUserInfo from "./reducer/getUserInfo";
+import getAllEvents from "./reducer/getAllEvents";
+import getEventById from "./reducer/getEventById";
 export const makeStore = () => {
   return configureStore({
     reducer: {
       profileInfo: getUserInfo,
+      getAllEvents: getAllEvents,
+      getEventById:getEventById,
     },
-  })
-}
+  });
+};
 
 // Infer the type of makeStore
-export type AppStore = ReturnType<typeof makeStore>
+export type AppStore = ReturnType<typeof makeStore>;
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<AppStore['getState']>
-export type AppDispatch = AppStore['dispatch']
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];

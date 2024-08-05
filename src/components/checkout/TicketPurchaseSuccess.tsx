@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import { DialogContent } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
@@ -15,7 +16,11 @@ import ufo from '@/assets/ufo.png';
 import { DialogClose } from '@radix-ui/react-dialog';
 import Link from 'next/link';
 
+
+
 const TicketPurchaseSuccess = ({ setCurrentModal }: any) => {
+
+ 
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[500px] px-0 pb-0 overflow-hidden">
       <ScrollArea className="max-h-[90vh]">

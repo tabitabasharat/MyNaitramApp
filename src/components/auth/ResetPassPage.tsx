@@ -23,7 +23,10 @@ import logo from "../../assets/N UFO TEXT LOGO.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { useAppDispatch } from "@/lib/hooks";
-import { SuccessToast,ErrorToast } from "../reusable-components/Toaster/Toaster";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "../reusable-components/Toaster/Toaster";
 import { forgetPassword } from "@/lib/middleware/signin";
 import { useRouter } from "next/navigation";
 import ScreenLoader from "../loader/Screenloader";
@@ -35,8 +38,8 @@ const formSchema = z.object({
 });
 const ResetPassPage = () => {
   const dispatch = useAppDispatch();
-  const [email,setEmail]= useState<any>();
-  const [loader,setLoader]=useState(false);
+  const [email, setEmail] = useState<any>();
+  const [loader, setLoader] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,12 +60,11 @@ const ResetPassPage = () => {
       email: email,
     };
     try {
-      dispatch(forgetPassword(data)).then((res:any) => {
+      dispatch(forgetPassword(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
           SuccessToast("Email Sent Successfully");
           console.log("Email Sent Successfully");
-        
 
           // router.push("/auth/resetcomfirmpass")
           // navigate("/New-Password");
@@ -79,7 +81,6 @@ const ResetPassPage = () => {
     }
   };
   return (
-
     <div className="bg-image">
       <section
         style={{
@@ -89,9 +90,8 @@ const ResetPassPage = () => {
         }}
         className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
       >
-
+        {loader && <ScreenLoader />}
         <div className="resetpass-stlying-main-div">
-     
           <Image alt="logo" src={logo} className="logo-stlying" />
           <Separator className="scale-x-[1.09] bg-[#292929]" />
           <div className="font-bold text-2xl resetpass-stlying">
@@ -101,7 +101,10 @@ const ResetPassPage = () => {
             Please enter the email address associated with your account.
           </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onForgotPassword)} className=" space-y-4">
+            <form
+              onSubmit={form.handleSubmit(onForgotPassword)}
+              className=" space-y-4"
+            >
               <FormField
                 control={form.control}
                 name="email"
