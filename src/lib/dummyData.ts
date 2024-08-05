@@ -148,43 +148,55 @@ export const posts = [
 
 export const ticketsType = [
   {
-    type: 'entry',
-    title: 'Entry Ticket Only',
+    type: 'entry-first',
+    title: 'Women’s',
     price: 10,
-    included: ['Food and Beverages'],
+    included: ['Free Food','Queue jump'],
   },
   {
-    type: 'regular',
+    type: 'regular-first',
 
-    title: 'Regular Package',
-    price: 15,
-    included: [
-      'Food and Beverages',
-      'Mini Party Package',
-      'Security and First Aid',
-    ],
+    title: 'Men’s',
+    price: 20,
+    included: ['Free Food','Queue jump'],
   },
   {
-    type: 'premium',
+    type: 'premium-first',
     title: 'Premium Package',
-    price: 35,
+    price: 40,
+    included: ['Free Food','Queue jump'],
+  }
+];
+export const ticketsType2 = [
+  {
+    type: 'entry-second',
+    title: 'About to take over',
+    price: 500,
+    included: ['6 guest entry','1x spirit + 1x Champagne','Food'],
+  },
+  {
+    type: 'regular-second',
+
+    title: 'Taking over',
+    price: 750,
     included: [
-      'Food and Beverages',
-      'Mini Party Package',
-      'Security and First Aid',
-      'Premium Tables',
+      '8 guest entry',
+      '2x spirit + 1x Champagne',
+      'Queue jump',
+      'Food'
     ],
   },
   {
-    type: 'vip',
-    title: 'VIP Package',
-    price: 50,
+    type: 'premium-second',
+    title: 'Took over',
+    price: 1000,
     included: [
-      'Food and Beverages',
-      'Mini Party Package',
-      'Security and First Aid',
-      'Premium Tables',
-      'VIP Lounge',
+      '10 guest entry',
+      '3x spirit + 2x Champagne',
+      'Queue jump',
+      'food',
     ],
   },
+
 ];
+

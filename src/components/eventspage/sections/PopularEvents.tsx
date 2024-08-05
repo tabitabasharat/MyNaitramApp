@@ -37,7 +37,7 @@ const PopularEvents = () => {
           EventsAllData?.events.map((event: any, index:any) => (
             <EventCard
               key={index}
-              img={event?.img}
+              img={event?.eventPicture}
               title={event?.name}
               eventid={event?.id}
             />

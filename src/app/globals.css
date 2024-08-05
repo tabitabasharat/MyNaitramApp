@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .pxpx {
   @apply px-[1.5rem] lg:px-[4rem];
 }

@@ -16,6 +16,7 @@ const EventCard = ({
   height?: string;
   eventid:any;
 }) => {
+  console.log("image src is",img)
   return (
     <ScaleReveal extraStyle="w-full">
       <Link href={`/events/event-detail/${eventid}`} className="w-full">

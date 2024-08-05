@@ -10,8 +10,80 @@ const EventsHeroSlide = ({
   img,
   location,
   activeIndex,
+  eventDate,
+  endTime,
+  startTime,
   handleBulletClick,
 }: any) => {
+
+  const ConvertDate = (originalDateStr: any) => {
+    const originalDate = new Date(originalDateStr);
+
+    // Extract the day, date, month, and year
+    const dayOfWeek = originalDate.toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+    const date = originalDate.getDate();
+    const month = originalDate.toLocaleDateString("en-US", { month: "long" });
+    const year = originalDate.getFullYear();
+
+    // Function to get ordinal suffix
+    const getOrdinalSuffix = (date: any) => {
+      if (date > 3 && date < 21) return "th"; // covers 11th to 19th
+      switch (date % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+
+    const ordinalSuffix = getOrdinalSuffix(date);
+
+    // Construct the formatted date string
+    const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
+
+    return formattedDate;
+  };
+
+  const ConvertTime = (timeStr: any): string => {
+    // Ensure input is a string
+    if (typeof timeStr !== "string") {
+      console.error("Input must be a string");
+      return "";
+    }
+
+    const parts = timeStr.split(":");
+
+    // Check if timeStr is in HH:MM:SS format
+    if (parts.length !== 3) {
+      console.error("Input time must be in HH:MM:SS format");
+      return "";
+    }
+
+    const [hours, minutes] = parts.map(Number);
+
+    // Ensure the hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      console.error("Invalid time format");
+      return "";
+    }
+
+    // Determine AM or PM
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert hours from 24-hour to 12-hour format
+    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+
+    // Combine hours and period
+    const formattedTime = `${formattedHours} ${period}`;
+
+    return formattedTime;
+  };
   return (
     <>
       {' '}
@@ -74,7 +146,7 @@ const EventsHeroSlide = ({
             {title}
           </h2>
           <p className="text-muted mt-4">{location}</p>
-          <p className="text-muted lg:mt-2 mb-6">{date}</p>
+          <p className="text-muted lg:mt-2 mb-6"> the evetn is on the {ConvertDate(eventDate)} and the time of the event is {ConvertTime(startTime)} and the end time is {ConvertTime(endTime)}</p>
           <BuyTicket />
         </div>
       </div>
