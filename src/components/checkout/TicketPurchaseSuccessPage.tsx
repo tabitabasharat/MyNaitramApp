@@ -34,12 +34,12 @@ function TicketPurchaseSuccessPage({ setCurrentModal }: any) {
 
       <div className="LSH-div-stlying">
         <div>
-          <Image src={girl} className="girl" />
+          <Image alt="girl" src={girl} />
         </div>
         <div className="ticket">
           <div className="ticket-purchase-div ">
             <div>
-              <Image src={success} className="success-img" />
+                <Image alt="success" src={success} className="success-img"/>
             </div>
             <div className="font-bold">
               <h3>Your ticket purchase is confirmed.</h3>
@@ -50,7 +50,7 @@ function TicketPurchaseSuccessPage({ setCurrentModal }: any) {
             PIZDEZ Women’s Day Party 2024
           </h3>
           <div className="flex gap-2 pb-6 items-center">
-            <Image src={calender} />
+            <Image alt="alender" src={calender} />
             <p>Saturday, 5th March 2024</p>
           </div>
           <Link href="/events">
