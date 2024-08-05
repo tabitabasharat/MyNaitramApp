@@ -1,0 +1,16 @@
+.main-div-download-app {
+  /* background-color: red !important; */
+  height: 100vh;
+  padding: 111px 112px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.coming-soon {
+  color: #ffffff;
+  /* font-family: "Nexa", Sans-serif; */
+  font-size: 29px;
+  font-weight: 400;
+  line-height: 1.3em;
+  margin-bottom: 20px;
+}
