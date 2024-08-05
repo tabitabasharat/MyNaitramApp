@@ -16,6 +16,7 @@ import {
   DeviceMobile,
 } from "@phosphor-icons/react/dist/ssr";
 import Browserexplore from "../reusable-components/Toaster/Browserexplore";
+import { Link } from "lucide-react";
 
 function TicketPurchaseSuccessPage({ setCurrentModal }: any) {
   const initalEvent = events[2];
@@ -52,7 +53,9 @@ function TicketPurchaseSuccessPage({ setCurrentModal }: any) {
             <Image src={calender} />
             <p>Saturday, 5th March 2024</p>
           </div>
+          <Link href="/events">
           <Browserexplore />
+          </Link>
         </div>
       </div>
       <div className="flex justify-between gradient-slate border border-[#262626] mt-6 rounded-xl p-8">
