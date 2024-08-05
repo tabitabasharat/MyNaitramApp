@@ -8,18 +8,18 @@ import event12 from '../../../public/event12.png';
 const EventCard = ({
   img,
   title,
-  eventid,
+  // eventid,
   height = '345px',
 }: {
   img: string;
   title: string;
   height?: string;
-  eventid:any;
+  // eventid:any;
 }) => {
   console.log("image src is",img)
   return (
     <ScaleReveal extraStyle="w-full">
-      <Link href={`/events/event-detail/${eventid}`} className="w-full">
+      <Link href={`/events`} className="w-full">
         <div
           style={{ height }}
           className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242]"

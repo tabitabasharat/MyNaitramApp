@@ -39,7 +39,7 @@ const PopularEvents = () => {
               key={index}
               img={event?.eventPicture}
               title={event?.name}
-              eventid={event?.id}
+              // eventid={event?.id}
             />
           ))}
       </div>
@@ -62,7 +62,7 @@ const PopularEvents = () => {
                 key={event.id}
                 img={event.img}
                 title={event.title}
-                eventid={event.id}
+                // eventid={event.id}
               />
             </SwiperSlide>
           ))}

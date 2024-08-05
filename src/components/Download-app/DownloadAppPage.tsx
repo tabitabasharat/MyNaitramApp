@@ -13,24 +13,28 @@ function DownloadAppPage() {
   return (
     <>
       <div className="main-div-download-app">
-        <Image src={elips} className="elips" />
+        <Image alt="" src={elips} className="elips" />
         <div className="mobile-img">
-          <Image src={mobileimg} />
+          <Image alt="" src={mobileimg} />
         </div>
         <div className="sceond-div md:w-[75%] lg:w-[50%]">
           <Reveal y={100} width="100%">
+            <div>
+
+
             <div className="flex items-center flex-col text-center">
-          <Reveal y={100} width="100%">
-              <h2 className=" mb-5 download-text">Download</h2>
+              <Reveal y={100} width="100%">
+                <h2 className=" mb-5 download-text">Download</h2>
               </Reveal>
-              <Image src={natriam} className="mb-5 green-natiram " />
+              <Image alt="" src={natriam} className="mb-5 green-natiram " />
               <h3 className="coming-soon">Coming Soon</h3>
             </div>
             <div className="flex items-center justify-center">
-              <Image src={appstore} className="appstroe" />
-              <Image src={googleplay} className="ps-5" />
+              <Image alt="" src={appstore} className="appstroe" />
+              <Image alt="" src={googleplay} className="ps-5" />
             </div>
-            </Reveal>
+            </div>
+          </Reveal>
         </div>
       </div>
     </>

@@ -117,7 +117,7 @@ const Menu = ({
                 <Button className="px-[3rem]">Sign Up</Button>
               </motion.div>
             </DialogTrigger>
-            {authMode === 'SIGNIN' && <SignInModal setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />}
+            {authMode === 'SIGNIN' && <SignInModal redirectRoute="/events" setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />}
             {authMode === 'SIGNUP' && <SignUpModal setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />}
           </Dialog>
           <motion.div

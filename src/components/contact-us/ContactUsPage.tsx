@@ -131,6 +131,8 @@ const ContactUsPage = () => {
             <div className="update-box ">
             <div className="update-overlay">
               <Reveal y={100} width="100%">
+                <div>
+
                 <h2 className="font-bold text-[24px] lg:text-[60px] text-center ">
                   Stay informed and never miss<br></br> an update
                 </h2>
@@ -147,6 +149,8 @@ const ContactUsPage = () => {
                   >
                     Subscribe
                   </Button>
+                </div>
+
                 </div>
               </Reveal>
             </div>
