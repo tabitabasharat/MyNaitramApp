@@ -37,7 +37,7 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
   };
   const dispatch = useAppDispatch();
 
-  const [eventid, setEventid] = useState();
+  const [eventid, setEventid] = useState<any>();
   
   useEffect(() => {
     const currentUrl = window.location.href;

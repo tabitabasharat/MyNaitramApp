@@ -34,7 +34,7 @@ const EventDetail = () => {
   const dispatch = useAppDispatch();
   const initalEvent = events[2];
 
-  const [eventid, setEventid] = useState();
+  const [eventid, setEventid] = useState<any>();
 
   useEffect(() => {
     const currentUrl = window.location.href;
@@ -125,7 +125,7 @@ const EventDetail = () => {
         style={{ filter: "blur(30px)" }}
         width={1000}
         height={1000}
-        src={`${initalEvent.img}`}
+        src={`${EventDetail?.eventPicture}`}
         className="w-full h-screen absolute object-cover object-center z-0 opacity-30"
         alt=""
       />
@@ -143,7 +143,7 @@ const EventDetail = () => {
           </div>
           <div
             style={{
-              backgroundImage: `url(${initalEvent.img})`,
+              backgroundImage: `url(${EventDetail?.eventPicture})`,
               backgroundPosition: "center",
             }}
             className="bg-cover bg-no-repeat h-[300px] lg:h-[450px] w-full xl:h-[470px] xl:w-[470px] rounded-lg relative"
