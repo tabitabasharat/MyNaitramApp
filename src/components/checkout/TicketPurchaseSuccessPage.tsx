@@ -33,7 +33,7 @@ function TicketPurchaseSuccessPage({ setCurrentModal }: any) {
     <div className="main-div-stlying">
 
       <div className="LSH-div-stlying">
-        <div>
+        <div className="girl-img">
           <Image alt="girl" src={girl} />
         </div>
         <div className="ticket">
@@ -53,13 +53,11 @@ function TicketPurchaseSuccessPage({ setCurrentModal }: any) {
             <Image alt="alender" src={calender} />
             <p>Saturday, 5th March 2024</p>
           </div>
-          <Link href="/events">
           <Browserexplore />
-          </Link>
         </div>
       </div>
-      <div className="flex justify-between gradient-slate border border-[#262626] mt-6 rounded-xl p-8">
-        <div>
+      <div className="flex justify-between gradient-slate border border-[#262626] mt-6 rounded-xl download-main div">
+        <div className="download-App">
           <h2 className="text-2xl">Download NAITRAM App</h2>
           <div className="flex flex-col gap-2 mt-4">
             <div className="flex gap-3">

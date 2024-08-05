@@ -1,0 +1,138 @@
+.main-div-download-app {
+  /* background-color: red !important; */
+  /* height: 100vh; */
+  margin: 0px 0px 60px 0px;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+}
+.coming-soon {
+  color: #ffffff;
+  /* font-family: "Nexa", Sans-serif; */
+  font-size: 29px;
+  font-weight: 700;
+  line-height: 1.3em;
+  margin-bottom: 20px !important;
+}
+.download-text {
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: 800;
+}
+
+.mobile-img img {
+  position: relative;
+}
+.sceond-div {
+  margin-top: 180px;
+  padding: 10px;
+}
+.appstroe {
+  /* padding: 10px; */
+  background-image: url(https://naitram.live/wp-content/uploads/2024/03/Group-16.png);
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.83;
+}
+.elips {
+  position: absolute;
+  top: 203px;
+  left: 120px;
+}
+@media (max-width: 1440px) {
+  .mobile-img {
+    margin: 180px 0px 0px 80px !important;
+    padding: 10px;
+    z-index: 1200;
+  }
+}
+@media (min-width: 1440px) {
+  .main-div-download-app {
+    /* background-color: red !important; */
+    /* height: 100vh; */
+    margin: 0px 0px 60px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* justify-content: space-between; */
+  }
+  .mobile-img {
+    margin: 180px 0px 0px 0px;
+  }
+}
+@media (max-width: 1024px) {
+  .elips {
+    position: absolute;
+    top: 144px;
+    left: -25px;
+    width: 58%;
+}
+}
+@media (max-width: 1438px) {
+  .mobile-img {
+    margin: 180px 0px 0px 0px !important;
+    padding: 10px;
+    z-index: 1200;
+  }
+}
+@media (max-width: 768px) {
+  .mobile-img {
+    margin-left: 0px !important;
+  }
+  .elips {
+    position: absolute;
+    top: 203px;
+    left: 50px;
+    width: 50%;
+}
+}
+
+@media (max-width: 767px) {
+  .main-div-download-app {
+    flex-direction: column;
+    display: flex;
+  }
+  .elips {
+    position: absolute;
+    top: 203px;
+    left: 75px;
+    width: 80%;
+  }
+  .sceond-div{
+    margin: 0px;
+  }
+}
+
+@media (max-width: 425px) {
+  .mobile-img {
+    margin: 180px 0px 0px 0px !important;
+    padding: 10px;
+    z-index: 1200;
+  }
+  .sceond-div {
+    margin-top: 0px;
+  }
+  .download-text {
+    font-size: 25px;
+  }
+  .coming-soon {
+    font-size: 25px;
+  }
+  .green-natiram {
+    width: 48%;
+  }
+  .main-div-download-app {
+    padding: 0px 20px 60px 20px;
+    margin-bottom: 0px;
+  }
+}
+
+@media (max-width: 375px) {
+  .elips {
+    position: absolute;
+    top: 203px;
+    left: 55px;
+    width: 69%;
+  }
+}
