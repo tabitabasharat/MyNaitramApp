@@ -54,6 +54,12 @@ line-height: 55.68px;
 letter-spacing: -0.02em;
 text-align: left;
 }
+.download-main{
+    padding: 32px;
+}
+/* .download-App{
+    width: 100%;
+} */
 @media (max-width:1340px) {
     .main-div-stlying{
         padding: 111px 100px;
@@ -68,6 +74,11 @@ text-align: left;
         display: flex;
         flex-direction: column;
     }
+    .girl-img{
+        display: flex;
+        align-items: center;
+justify-content: center;
+    }
 }
 @media (max-width:600px) {
     .main-div-stlying {
@@ -76,6 +87,24 @@ text-align: left;
 }
 @media (max-width:425px) {
     .main-div-stlying {
-        padding: 111px 30px;
+        padding: 111px 24px;
+    }
+}
+@media (max-width:375px){
+    .download-App{
+        width: 100%;
+
+    }
+    .download-main{
+        padding: 24px 16px;
+    }
+    .ticket-purchase-div {
+        height: auto;
+        padding: 16px 20px 16px 20px;
+        border-radius: 12px;
+        background: #007a353d;
+        gap: 20px;
+        display: flex;
+        align-items: center;
     }
 }
