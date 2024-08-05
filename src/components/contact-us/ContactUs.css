@@ -1,0 +1,39 @@
+.name-input{
+    width: 794.34px;
+    height: 63px;
+    background-color: transparent !important;
+    background: none !important;
+
+}
+/* .name-input .gradient-slate{
+    background: none !important;
+} */
+
+.text-area-input
+{
+    width: 794.34px;
+    height: 150px;
+    background-color: transparent !important;
+    background: none !important;
+}
+.ready-btn{
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0);
+    border-radius: 5px 5px 5px 5px;
+    padding: 15px 20px 15px 20px;
+    color: #ffffff;
+    background-color: #009540;
+    border-style: none;
+    
+}
+.insta-link{
+    font-size: 17px;
+    font-weight: 400;
+    background-color: #61CE7000;
+    border-style: solid;
+    border-width: 2px 2px 2px 2px;
+    border-color: #009540;
+    /* border-color: #292929; */
+    border-radius: 18px 18px 18px 18px;
+    padding: 23px 25px 23px 25px;
+    margin-top: 10px;
+}

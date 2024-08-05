@@ -166,7 +166,7 @@ const Header = () => {
               </Popover>
             </div>
           )} */}
-          {/* <Button variant="secondary" className="hidden lg:block">
+          {/* <Button variant="secondary" className="hidden lg:block ">
             Get the App
           </Button> */}
           <button
