@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import getUserInfo from "./reducer/getUserInfo";
 import getAllEvents from "./reducer/getAllEvents";
 import getEventById from "./reducer/getEventById";
+import addBuyTicketPriceReducer from "./reducer/setBuyTicket";
 export const makeStore = () => {
   return configureStore({
     reducer: {
       profileInfo: getUserInfo,
       getAllEvents: getAllEvents,
+      // addBuyTicketPrice: addBuyTicketPriceReducer,
       getEventById:getEventById,
     },
   });

@@ -1,32 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// const initialState:any = {
-//  buyTicket:null
-// };
+const initialState = {
+ contracteditorcontent:null
+};
 
-interface CounterState {
-    buyTicket: number
-  }
-  
-  // Define the initial state using that type
-  const initialState: CounterState = {
-    buyTicket: 0,
-  }
-
-export const addBuyTicketPrice = createSlice({
-  name: "addBuyTicketPrice",
+export const addcontracteditorSlice = createSlice({
+  name: "addcontracteditorSlice",
   initialState,
   reducers: {
-    setBuyTicket: (state, action:any) => {
-      console.log(action.payload,"inside the Editor Reducer");
-      state.buyTicket = action.payload;
+    setContractEditor: (state, action) => {
+      console.log(action,"inside the Editor Reducer");
+      state.contracteditorcontent = action.payload;
 
     },
   },
 });
 
 // Action creator
-export const { setBuyTicket } = addBuyTicketPrice.actions;
+export const { setContractEditor } = addcontracteditorSlice.actions;
 
 // Reducer
-export default addBuyTicketPrice.reducer;
+export default addcontracteditorSlice.reducer;

@@ -51,9 +51,11 @@ const formSchema = z.object({
 const CompleteYourProfileModal = ({
   onNext,
   handleNext,
+  setProfileInformation
 }: {
   onNext: () => void;
   handleNext: any;
+  setProfileInformation:any
 }) => {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -71,6 +73,7 @@ const CompleteYourProfileModal = ({
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    setProfileInformation(values)
     onNext();
     console.log(values);
   }

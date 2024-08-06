@@ -8,6 +8,7 @@ const EventsHeroSlide = ({
   title,
   date,
   img,
+  event,
   location,
   activeIndex,
   eventDate,
@@ -45,7 +46,7 @@ const EventsHeroSlide = ({
     const ordinalSuffix = getOrdinalSuffix(date);
 
     // Construct the formatted date string
-    const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
+    const formattedDate = `${dayOfWeek} ${month} ${date}${ordinalSuffix} , ${year}`;
 
     return formattedDate;
   };
@@ -145,9 +146,9 @@ const EventsHeroSlide = ({
           <h2 className="text-[28px] lg:w-full lg:text-[40px] xl:text-[55px] font-extrabold leading-[1.2] mt-2">
             {title}
           </h2>
-          <p className="text-muted mt-4">{location}</p>
-          <p className="text-muted lg:mt-2 mb-6"> the evetn is on the {ConvertDate(eventDate)} and the time of the event is {ConvertTime(startTime)} and the end time is {ConvertTime(endTime)}</p>
-          <BuyTicket />
+          <p className="text-muted mt-4">Location: {location}</p>
+          <p className="text-muted lg:mt-2 mb-6"> {ConvertDate(eventDate)} {ConvertTime(startTime)} {"-"} {ConvertTime(endTime)}</p>
+          <BuyTicket event={event} />
         </div>
       </div>
     </>
