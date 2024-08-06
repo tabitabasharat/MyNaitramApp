@@ -28,6 +28,7 @@ const EventsHero = ({setShowTicket}:any) => {
   };
 
   const dispatch = useAppDispatch();
+  const[isAbout,setisAbout]=useState(false);
   const EventsAllData = useAppSelector(
     (state) => state?.getAllEvents?.allEvents?.data?.data
   );
@@ -45,7 +46,7 @@ const EventsHero = ({setShowTicket}:any) => {
   }, [EventsAllData]);
 
   return (
-    <section className="h-[130vh] max-w-screen lg:h-[90vh] overflow-hidden relative">
+    <section  className={`max-w-screen overflow-hidden relative lg:h-[100vh] ${isAbout ? 'h-[130vh]' : 'h-[98vh]'}`}>
       <Swiper
         onSlideChange={handleSlideChange}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
@@ -73,6 +74,8 @@ const EventsHero = ({setShowTicket}:any) => {
                 setShowTicket={setShowTicket}
                 eventDate={event?.eventDate}
                 handleBulletClick={() => handleBulletClick(index)}
+                AboutDrop={isAbout}
+                AboutToggle={() => setisAbout(!isAbout)}
               />
             </SwiperSlide>
           ))}

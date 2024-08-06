@@ -1,7 +1,9 @@
+"use client";
 import BuyTicket from "@/components/reusable-components/BuyTicket";
 import { Badge } from "@/components/ui/badge";
 import { Heart } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
+import { useState } from "react";
 import { top5Events } from "@/lib/dummyData";
 import {
   DownloadSimple,
@@ -10,6 +12,21 @@ import {
   TiktokLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import Arrowdown from "@/assets/arrow-down.svg";
+import {
+  ArrowLeft,
+  User,
+  MapPin,
+  Clock,
+  Lock,
+  UsersThree,
+  Ticket,
+  DeviceMobile,
+} from "@phosphor-icons/react/dist/ssr";
+import Clocktime from "@/assets/clock.svg";
+import Calendar from "@/assets/calendar.svg";
+import Location from "@/assets/location.svg";
+
 const EventsHeroSlide = ({
   title,
   date,
@@ -22,7 +39,10 @@ const EventsHeroSlide = ({
   startTime,
   setShowTicket,
   handleBulletClick,
+  AboutDrop,
+  AboutToggle,
 }: any) => {
+  const [isOpenDropdown, setisOpenDropdown] = useState(false);
   const ConvertDate = (originalDateStr: any) => {
     const originalDate = new Date(originalDateStr);
 
@@ -91,6 +111,9 @@ const EventsHeroSlide = ({
 
     return formattedTime;
   };
+  const toggleAbout = () => {
+    setisOpenDropdown(!isOpenDropdown);
+  };
   return (
     <>
       {" "}
@@ -107,12 +130,12 @@ const EventsHeroSlide = ({
       </div>
       <div className="pxpx mx2xl absolute z-[2] top-32 lg:top-1/2 lg:-translate-y-[38%] flex flex-col lg:flex-row gap-6 lg:gap-12 w-full md:w-[70%] lg:w-fit translate-x-1/2 right-1/2">
         <div>
-          <div className="lg:hidden flex gap-1 mb-3">
+          <div className="hidden flex gap-1 mb-3">
             {top5Events.map((_, index) => (
               <div
                 key={index}
                 className={`size-3 ${
-                  index === activeIndex ? "bg-white" : "border border-white"
+                  index === activeIndex ? "bg-white " : "border border-white"
                 } rounded-full cursor-pointer`}
                 onClick={() => handleBulletClick(index)}
               ></div>
@@ -124,7 +147,7 @@ const EventsHeroSlide = ({
               backgroundImage: `url(${img})`,
               backgroundPosition: "center",
             }}
-            className="bg-cover bg-no-repeat h-[300px] w-full lg:h-[300px] lg:w-[300px] xl:h-[470px] xl:w-[470px] rounded-lg relative"
+            className="bg-cover bg-no-repeat h-[300px] w-full lg:h-[300px] lg:w-[300px] xl:h-full xl:w-[470px] rounded-lg relative"
           >
             {" "}
             <div className="bg-white/20 p-[1rem] rounded-full backdrop-blur-lg webkit-header-blur w-fit absolute right-6 bottom-6">
@@ -158,12 +181,71 @@ const EventsHeroSlide = ({
               <TiktokLogo size={30} weight="fill" />
             </Link>
           </div>
+
           <h2 className="text-[28px] lg:w-full lg:text-[40px] xl:text-[55px] font-extrabold leading-[1.2] mt-2">
             {title}
           </h2>
+          <div
+            className="flex items-center gap-[4px] cursor-pointer mt-[24px]"
+            onClick={() => AboutToggle()}
+          >
+            <p className="text-[#13FF7A]">About </p>
+            <Image src={Arrowdown} alt="arrow-icon" />
+          </div>
+          {AboutDrop && (
+            <div>
+              <div>
+                <p className="text-[#E6E6E6] font-extrabold mt-[10px]">
+                  TAKEOVER Boat Party
+                </p>
+                <div className="flex items-center gap-[4px] mt-[5px]">
+                  <Image src={Location} alt="location" />
+                  <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px]">
+                    Tereza Joanne, King George V Dock, London, E16 2QY
+                  </p>
+                </div>
+                <div className="flex items-center gap-[4px] mt-[10px]">
+                  <Image src={Calendar} alt="location" height={12} width={12} />
+                  <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px]">
+                    Saturday 24th August 24
+                  </p>
+                </div>
+                <div className="flex items-center gap-[4px] mt-[10px]">
+                  <Image src={Clocktime} alt="location" />
+                  <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px]">
+                    16:00- 23:00
+                  </p>
+                </div>
+              </div>
+              <div>
+                <p className="text-[#E6E6E6] mt-[10px]">Dj LINE UP </p>
+
+                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[5px]">
+                  Mars: 16:00 - 18:00
+                </p>
+
+                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[10px] ">
+                  Dj Jada-Kai: 18:00 - 19:00
+                </p>
+
+                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[10px] ">
+                  Dj Miami Lee: 19:00 - 21:00
+                </p>
+                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[10px]">
+                  Dam shaq: 21:00-23:00
+                </p>
+                <p className="mt-[5px] font-extrabold">Host: 5ive</p>
+              </div>
+            </div>
+          )}
+
           <p className="text-muted mt-4">Location: {location}</p>
-          <p className="text-muted lg:mt-2 mb-6"> {ConvertDate(eventDate)} {ConvertTime(startTime)} {"-"} {ConvertTime(endTime)}</p>
-          <BuyTicket setShowTicket={setShowTicket} event={event} />
+          <p className="text-muted lg:mt-2 mb-6">
+            {" "}
+            {ConvertDate(eventDate)} {ConvertTime(startTime)} {"-"}{" "}
+            {ConvertTime(endTime)}
+          </p>
+          <BuyTicket event={event} />
         </div>
       </div>
     </>
