@@ -35,12 +35,16 @@ const ContactUsPage = () => {
   );
   return (
     <section
-      // style={{
-      //   backgroundImage:
-      //     "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
-      //   backgroundPosition: "center",
-      // }}
-      className="min-h-screen  bg-cover bg-no-repeat contact-head "
+     
+      style={{
+       
+        backgroundImage: "url(/contact-ellipse.png)",
+        backgroundPosition: " top center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
+      
+      }}
+      className="min-h-screen  bg-cover bg-no-repeat contact-head"
     >
       <div className="pxpx mx-2xl contactus-inner">
         <div>
