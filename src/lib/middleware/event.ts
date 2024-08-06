@@ -67,3 +67,23 @@ import { API_URL } from "../client";
       }
     }
   );
+
+  export const getTicketsById = createAsyncThunk(
+    "getTicketsById",
+    async (data:any) => {
+      try {
+        const res = await api.get(`${API_URL}/getTicket/${data}`);
+        console.log("inside get specific event",res)
+        // localStorage.setItem("token", res?.data?.token);
+        return {
+          status: res?.status,
+          data: res,
+        };
+      } catch (error:any) {
+        return {
+          message: error?.response?.data?.error,
+          status: error?.response?.status,
+        };
+      }
+    }
+  );
