@@ -65,8 +65,8 @@ const Menu = ({
         <div className="overflow-y-scroll overflow-x-clip h-full scrollbar-hidden">
           <div className="mt-[1.6rem] flex justify-between items-center w-full">
             <Link href="/" className="">
-              <div className="w-[100px]">
-                <Image src={naitramLogo} width={800} height={800} alt="Naitram-Logo" />
+              <div className="">
+                <Image src={naitramLogo}  alt="Naitram-Logo" />
               </div>
             </Link>
             <button
