@@ -61,6 +61,7 @@ const EventsHero = () => {
           EventsAllData?.events.map((event: any, index: number) => (
             <SwiperSlide key={index}>
               <EventsHeroSlide
+              event={event}
                 title={event?.name}
                 endTime={event?.endTime}
                 startTime={event?.startTime}

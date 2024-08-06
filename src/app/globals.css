@@ -140,3 +140,9 @@ input[type='email'] {
   -o-backdrop-filter: blur(30px);
   -ms-backdrop-filter: blur(30px);
 }
+@media(max-width:992px)
+{
+  .dialog-custom{
+    max-width: 90% !important;
+  }
+}

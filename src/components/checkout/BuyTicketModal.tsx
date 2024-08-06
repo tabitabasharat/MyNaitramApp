@@ -22,14 +22,16 @@ import { Minus, Plus, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getEventById } from "@/lib/middleware/event";
 import { useState, useEffect } from "react";
-const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
+import { setContractEditor } from "@/lib/reducer/setBuyTicket";
+// import { setTicketPrice } from "@/lib/reducer/setBuyTicket";
+const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
   const [selectedTicket, setSelectedTicket] = useState("");
   const [selectedTicketPrice, setSelectedTicketPrice] = useState(0);
   const [eventid, setEventid] = useState<any>();
-
+  const count = useAppSelector((state) => state);
+  console.log(count)
 
   const [quantity, setQuantity] = useState(1);
-  console.log("this is secelected ticket",selectedTicketPrice)
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -42,12 +44,13 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
   };
 
   const dispatch = useAppDispatch();
-  function buyTicket(){
+  function buyTicket() {
+    console.log("hellothis is good",selectedTicketPrice)
+    setTicketPrice(selectedTicketPrice)
+    // dispatch(setContractEditor(selectedTicketPrice));
 
-    onNext()
-
+    onNext();
   }
-
 
   useEffect(() => {
     const currentUrl = window.location.href;
@@ -55,7 +58,7 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
     const value = parts[parts.length - 1];
     setEventid(value);
     console.log("my event id is", value);
-    dispatch(getEventById(value));
+    // dispatch(getEventById(value));
   }, []);
 
   const EventDetail = useAppSelector(
@@ -80,13 +83,18 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
           <ScrollArea className="h-[25rem] w-full">
             <div className="flex flex-col gap-3">
               {/* ENTRY TICKET */}
-              <p>Entry Ticket</p>
+              <p className="text-[14px] text-[#BFBFBF] font-[400]">
+                Entry Ticket
+              </p>
               {ticketsType.map((ticket) =>
                 selectedTicket === ticket.type ? (
                   <Collapsible
                     key={ticket.type}
                     open={selectedTicket === ticket.type}
-                    onOpenChange={() => {setSelectedTicket(ticket.type);setSelectedTicketPrice(ticket.price)}}
+                    onOpenChange={() => {
+                      setSelectedTicket(ticket.type);
+                      setSelectedTicketPrice(ticket.price);
+                    }}
                     className="w-full"
                   >
                     <CollapsibleTrigger className="w-full">
@@ -116,7 +124,10 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
                   <Collapsible
                     key={ticket.type}
                     open={selectedTicket === ticket.type}
-                    onOpenChange={() => {setSelectedTicket(ticket.type);setSelectedTicketPrice(ticket.price)}}
+                    onOpenChange={() => {
+                      setSelectedTicket(ticket.type);
+                      setSelectedTicketPrice(ticket.price);
+                    }}
                     className="w-full"
                   >
                     <CollapsibleTrigger className="w-full">
@@ -131,14 +142,18 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
                 )
               )}
 
-              <p>VIP Table Packages</p>
+              <p className="text-[14px] text-[#BFBFBF] font-[400]">
+                VIP Table Packages
+              </p>
               {ticketsType2.map((ticket) =>
                 selectedTicket === ticket.type ? (
                   <Collapsible
                     key={ticket.type}
                     open={selectedTicket === ticket.type}
-                    onOpenChange={() => {setSelectedTicket(ticket.type);setSelectedTicketPrice(ticket.price)}}
-
+                    onOpenChange={() => {
+                      setSelectedTicket(ticket.type);
+                      setSelectedTicketPrice(ticket.price);
+                    }}
                     className="w-full"
                   >
                     <CollapsibleTrigger className="w-full">
@@ -168,7 +183,10 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
                   <Collapsible
                     key={ticket.type}
                     open={selectedTicket === ticket.type}
-                    onOpenChange={() => {setSelectedTicket(ticket.type);setSelectedTicketPrice(ticket.price)}}
+                    onOpenChange={() => {
+                      setSelectedTicket(ticket.type);
+                      setSelectedTicketPrice(ticket.price);
+                    }}
                     className="w-full"
                   >
                     <CollapsibleTrigger className="w-full">
@@ -197,13 +215,13 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
                     inc fees
                   </span>
                 </p>
-                <div className="flex gap-1">
+                {/* <div className="flex gap-1">
                   <SealCheck className="text-white" size={14} weight="fill" />
                   <div className="text-[#BFBFBF] items-center text-[12px] flex gap-1">
                     <p className="line-through">£{selectedTicketPrice+(selectedTicketPrice/10)}</p>
                     <p>10%</p>
                   </div>
-                </div>
+                </div> */}
               </div>
               {/* <div className="flex items-center justify-evenly gradient-slate border border-muted text-white rounded-lg  py-2 h-fit w-[120px] px-2">
                 <button onClick={handleDecrement} className="">
@@ -216,7 +234,13 @@ const BuyTicketModal = ({ onNext }: { onNext: () => void }) => {
               </div> */}
             </div>
 
-            <Button disabled={selectedTicket===""&& true} onClick={()=>{buyTicket()}} className="w-full">
+            <Button
+              disabled={selectedTicket === "" && true}
+              onClick={() => {
+                buyTicket();
+              }}
+              className="w-full"
+            >
               Continue
             </Button>
           </div>

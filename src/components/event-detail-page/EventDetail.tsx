@@ -42,7 +42,7 @@ const EventDetail = () => {
     const value = parts[parts.length - 1];
     setEventid(value);
     console.log("my event id is", value);
-    dispatch(getEventById(value));
+    // dispatch(getEventById(value));
   }, []);
 
   const EventDetail = useAppSelector(

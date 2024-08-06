@@ -44,7 +44,7 @@
   .mobile-img {
     margin: 180px 0px 0px 80px !important;
     padding: 10px;
-    z-index: 1200;
+    z-index: 20;
   }
 }
 @media (min-width: 1440px) {
@@ -73,7 +73,7 @@
   .mobile-img {
     margin: 180px 0px 0px 0px !important;
     padding: 10px;
-    z-index: 1200;
+    z-index: 20;
   }
 }
 @media (max-width: 768px) {
@@ -108,7 +108,7 @@
   .mobile-img {
     margin: 180px 0px 0px 0px !important;
     padding: 10px;
-    z-index: 1200;
+    z-index: 20;
   }
   .sceond-div {
     margin-top: 0px;

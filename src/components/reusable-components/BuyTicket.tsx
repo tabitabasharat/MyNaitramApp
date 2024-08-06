@@ -6,7 +6,7 @@ import SignInModal from "../auth/SignInModal";
 import SignUpModal from "../auth/SignUpModal";
 import { AuthMode } from "@/types/types";
 
-const BuyTicket = ({ eventid }: any) => {
+const BuyTicket = ({ eventid,event }: any) => {
   const [token, setToken] = useState<any>();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
@@ -22,7 +22,7 @@ const BuyTicket = ({ eventid }: any) => {
       <div className="w-full lg:w-[665px] bg-[#007A3535] rounded-xl flex flex-col lg:flex-row items-center justify-center lg:items-start lg:justify-between px-6 py-4 gap-4">
         <div>
           <p className="font-bold text-[24px] text-center lg:text-left">
-            £10 - £50
+            £10 - £1000
           </p>
           <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left">
             Price may vary due to different ticket types
@@ -74,7 +74,7 @@ const BuyTicket = ({ eventid }: any) => {
        
         }
 
-        <CheckOutModal />
+        <CheckOutModal event={event} />
       </div>
     </Dialog>
   );

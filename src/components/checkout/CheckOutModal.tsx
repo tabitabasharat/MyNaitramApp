@@ -7,10 +7,12 @@ import TicketPurchaseExpire from "@/components/checkout/TicketPurchaseExpire";
 import TicketPurchaseSuccess from "@/components/checkout/TicketPurchaseSuccess";
 import { useState, useEffect } from "react";
 
-
-const CheckOutModal = () => {
-  
+const CheckOutModal = ({ event }: any) => {
   const [currentModal, setCurrentModal] = useState("BuyTicket");
+  const [ticketPrice, setTicketPrice] = useState<any>();
+  const [profileInformation, setProfileInformation] = useState<any>();
+
+  console.log("this is ticketPrice", ticketPrice, profileInformation, event);
 
   const handleNext = (nextModal: string) => {
     setCurrentModal(nextModal);
@@ -18,16 +20,23 @@ const CheckOutModal = () => {
   return (
     <>
       {currentModal === "BuyTicket" && (
-        <BuyTicketModal onNext={() => handleNext("CompleteYourProfile")} />
+        <BuyTicketModal
+          onNext={() => handleNext("CompleteYourProfile")}
+          setTicketPrice={setTicketPrice}
+        />
       )}
       {currentModal === "CompleteYourProfile" && (
         <CompleteYourProfileModal
           handleNext={handleNext}
           onNext={() => handleNext("Payments")}
+          setProfileInformation={setProfileInformation}
         />
       )}
       {currentModal === "Payments" && (
         <PaymentsModal
+          ticketPrice={ticketPrice}
+          profileInformation={profileInformation}
+          event={event}
           handleNext={handleNext}
           onNext={() => handleNext("TicketPurchaseSuccess")}
         />

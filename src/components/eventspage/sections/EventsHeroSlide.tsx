@@ -1,13 +1,20 @@
-import BuyTicket from '@/components/reusable-components/BuyTicket';
-import { Badge } from '@/components/ui/badge';
-import { Heart } from '@phosphor-icons/react/dist/ssr';
-import Image from 'next/image';
-import { top5Events } from '@/lib/dummyData';
-
+import BuyTicket from "@/components/reusable-components/BuyTicket";
+import { Badge } from "@/components/ui/badge";
+import { Heart } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
+import { top5Events } from "@/lib/dummyData";
+import {
+  DownloadSimple,
+  LinkedinLogo,
+  InstagramLogo,
+  TiktokLogo,
+} from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 const EventsHeroSlide = ({
   title,
   date,
   img,
+  event,
   location,
   activeIndex,
   eventDate,
@@ -15,7 +22,6 @@ const EventsHeroSlide = ({
   startTime,
   handleBulletClick,
 }: any) => {
-
   const ConvertDate = (originalDateStr: any) => {
     const originalDate = new Date(originalDateStr);
 
@@ -45,7 +51,7 @@ const EventsHeroSlide = ({
     const ordinalSuffix = getOrdinalSuffix(date);
 
     // Construct the formatted date string
-    const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
+    const formattedDate = `${dayOfWeek} ${month} ${date}${ordinalSuffix} , ${year}`;
 
     return formattedDate;
   };
@@ -86,10 +92,10 @@ const EventsHeroSlide = ({
   };
   return (
     <>
-      {' '}
+      {" "}
       <div className="relative h-full">
         <Image
-          style={{ filter: 'blur(30px)' }}
+          style={{ filter: "blur(30px)" }}
           width={1000}
           height={1000}
           src={img}
@@ -105,7 +111,7 @@ const EventsHeroSlide = ({
               <div
                 key={index}
                 className={`size-3 ${
-                  index === activeIndex ? 'bg-white' : 'border border-white'
+                  index === activeIndex ? "bg-white" : "border border-white"
                 } rounded-full cursor-pointer`}
                 onClick={() => handleBulletClick(index)}
               ></div>
@@ -115,11 +121,11 @@ const EventsHeroSlide = ({
           <div
             style={{
               backgroundImage: `url(${img})`,
-              backgroundPosition: 'center',
+              backgroundPosition: "center",
             }}
             className="bg-cover bg-no-repeat h-[300px] w-full lg:h-[300px] lg:w-[300px] xl:h-[470px] xl:w-[470px] rounded-lg relative"
           >
-            {' '}
+            {" "}
             <div className="bg-white/20 p-[1rem] rounded-full backdrop-blur-lg webkit-header-blur w-fit absolute right-6 bottom-6">
               <Heart size={23} weight="fill" />
             </div>
@@ -137,17 +143,26 @@ const EventsHeroSlide = ({
               ></div>
             ))}
           </div> */}
+
           <div className="flex gap-[0.35rem] mt-4">
             <Badge>Party</Badge>
             <Badge>Invitation</Badge>
             <Badge>Women Day</Badge>
           </div>
+          <div className="flex gap-[0.35rem] mt-4">
+            <Link href="https://www.instagram.com/naitram.live?igsh=MXhjcXI1bjlydG16Mw==">
+              <InstagramLogo size={30} weight="fill" />
+            </Link>
+            <Link href="https://www.tiktok.com/@naitram.live?_t=8oczYiZWsN6&_r=1">
+              <TiktokLogo size={30} weight="fill" />
+            </Link>
+          </div>
           <h2 className="text-[28px] lg:w-full lg:text-[40px] xl:text-[55px] font-extrabold leading-[1.2] mt-2">
             {title}
           </h2>
-          <p className="text-muted mt-4">{location}</p>
-          <p className="text-muted lg:mt-2 mb-6"> the evetn is on the {ConvertDate(eventDate)} and the time of the event is {ConvertTime(startTime)} and the end time is {ConvertTime(endTime)}</p>
-          <BuyTicket />
+          <p className="text-muted mt-4">Location: {location}</p>
+          <p className="text-muted lg:mt-2 mb-6"> {ConvertDate(eventDate)} {ConvertTime(startTime)} {"-"} {ConvertTime(endTime)}</p>
+          <BuyTicket event={event} />
         </div>
       </div>
     </>
