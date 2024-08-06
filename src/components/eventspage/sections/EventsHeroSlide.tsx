@@ -146,7 +146,7 @@ const EventsHeroSlide = ({
               backgroundImage: `url(${img})`,
               backgroundPosition: "center",
             }}
-            className="bg-cover bg-no-repeat h-[300px] w-full lg:h-[300px] lg:w-[300px] xl:h-[470px] xl:w-[470px] rounded-lg relative"
+            className="bg-cover bg-no-repeat h-[300px] w-full lg:h-[300px] lg:w-[300px] xl:h-full xl:w-[470px] rounded-lg relative"
           >
             {" "}
             <div className="bg-white/20 p-[1rem] rounded-full backdrop-blur-lg webkit-header-blur w-fit absolute right-6 bottom-6">
