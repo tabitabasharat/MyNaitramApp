@@ -109,18 +109,21 @@ const BuyTicketModal = ({ onNext,setTicketPrice,setTicketType }: any) => {
                             <p className="font-bold">{ticket.title}</p>
                             <p className="font-extrabold">£{ticket.price}</p>
                           </div>
+                          {ticket.included && 
+                          
                           <CollapsibleContent className="border-t border-t-[#282828] mt-2 text-left">
                             <div className="flex flex-col items-start mt-2">
                               <p className="text-[#BFBFBF] font-extrabold text-[12px]">
                                 INCLUDED
                               </p>
                               <div className="mt-3">
-                                {ticket.included.map((include) => (
+                                {ticket.included && ticket.included.map((include) => (
                                   <p className="text-[12px]">{include}</p>
                                 ))}
                               </div>
                             </div>
                           </CollapsibleContent>
+                          }
                         </div>
                       </GradientBorder>
                     </CollapsibleTrigger>

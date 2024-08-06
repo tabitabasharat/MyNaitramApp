@@ -48,12 +48,13 @@ const MobileAppQRCode = () => {
     const ordinalSuffix = getOrdinalSuffix(date);
 
     // Construct the formatted date string
-    const formattedDate = `${dayOfWeek} ${month} ${date}${ordinalSuffix} , ${year}`;
+    const formattedDate = `${dayOfWeek} ${month} ${date}${ordinalSuffix},${year}`;
 
     return formattedDate;
   };
   return (
     <div className="pxpx mx-2xl">
+      <h3 style={{fontSize:"48px",fontWeight:"700",marginTop:"65px",marginBottom:"20px"}}>Your Ticket</h3>
       <div
         style={{
           backgroundImage: "url(/banner.png)",
@@ -93,7 +94,7 @@ const MobileAppQRCode = () => {
               Location: {EventDetail?.data?.data?.event?.location}
             </p>
             <p className="text-muted mt-1 font-normal text-[16px] sm:text-[14px]">
-              {ConvertDate(EventDetail?.data?.data?.event?.eventDate)}
+              {ConvertDate(EventDetail?.data?.data?.event?.eventDate)}. 16:00 - 23:00 
             </p>
             {/* <Button className="flex items-center gap-[0.5rem] rounded-lg mt-6 w-full lg:w-fit">
               <DownloadSimple size={20} weight="bold" />

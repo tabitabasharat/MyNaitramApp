@@ -144,7 +144,7 @@ const PaymentsModal = ({
             <div className="border border-muted p-3 rounded-lg">
               <div className="flex gap-4">
                 <Image
-                  src={event?.eventPicture}
+                  src={"/takeOver.png"}
                   width={800}
                   height={800}
                   className="w-[60px] rounded-lg object-cover"
@@ -166,7 +166,7 @@ const PaymentsModal = ({
               </div>
             </div>
             <div className="flex justify-between">
-              <p className="font-light">{ticketType}</p>
+              <p style={{fontWeight:"bold"}} className="font-light">{ticketType}</p>
               <p className="font-bold">£{ticketPrice}</p>
             </div>
             {/* <div className="flex justify-between">

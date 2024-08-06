@@ -151,14 +151,14 @@ export const ticketsType = [
     type: "entry-first",
     title: "Ladies",
     price: 10,
-    included: ["Free Food", "Queue jump"],
+   
   },
   {
     type: "regular-first",
 
     title: "Gentlemen",
     price: 20,
-    included: ["Queue jump", "Free Food"],
+   
   },
   {
     type: "premium-first",

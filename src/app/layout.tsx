@@ -41,22 +41,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const clientId =
-    "550417388956-o8n6kg03s8h6qdvc0jb3cqr3f1jfhbpt.apps.googleusercontent.com";
+    "423487913735-4r2snu681msvd6nl8lt4leu29fmjuo82.apps.googleusercontent.com";
 
   return (
     <>
       <GoogleOAuthProvider clientId={clientId}>
         <StoreProvider>
           <html lang="en">
-            <head>
-              <link rel="preconnect" href="https://fonts.googleapis.com" />
-              <link
-                rel="icon"
-                href="/logo.png"
-                sizes="5x5"
-                type="image/png"
-              />
-            </head>
+           
             <body
               className={`${baseFont.variable} font-sans bg-black text-white overflow-x-clip`}
             >
