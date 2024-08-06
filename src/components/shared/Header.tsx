@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import logo from "@/assets/logo.svg";
+import naitramlogo from "@/assets/naitram-logo-white.svg";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
@@ -94,9 +95,9 @@ const Header = () => {
         )}
       >
         <Link href="/">
-          <div className="w-[150px]">
-            <Image src={logo} width={800} height={800} alt="Naitram-Logo" />
-          </div>
+          <div className="">
+              <Image src={naitramlogo}  alt="Naitram-Logo" />  
+                </div>
         </Link>
         <nav className="hidden lg:flex gap-[3rem]">
           {links.map((link, i) => (
