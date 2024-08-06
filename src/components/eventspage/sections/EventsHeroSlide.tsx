@@ -122,7 +122,7 @@ const EventsHeroSlide = ({
           style={{ filter: "blur(30px)" }}
           width={1000}
           height={1000}
-          src={img}
+          src={"/takeOver.png"}
           className="w-full h-full object-cover object-center z-0 opacity30"
           alt=""
         />
@@ -144,15 +144,17 @@ const EventsHeroSlide = ({
 
           <div
             style={{
-              backgroundImage: `url(${img})`,
+              backgroundImage: `url(${"/takeOver.png"})`,
               backgroundPosition: "center",
+              backgroundSize:"contain"
+
             }}
             className="bg-cover bg-no-repeat h-[300px] w-full lg:h-[300px] lg:w-[300px] xl:h-full xl:w-[470px] rounded-lg relative"
           >
             {" "}
-            <div className="bg-white/20 p-[1rem] rounded-full backdrop-blur-lg webkit-header-blur w-fit absolute right-6 bottom-6">
+            {/* <div className="bg-white/20 p-[1rem] rounded-full backdrop-blur-lg webkit-header-blur w-fit absolute right-6 bottom-6">
               <Heart size={23} weight="fill" />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="lg:w-[70%] ">
@@ -174,10 +176,10 @@ const EventsHeroSlide = ({
             <Badge>Women Day</Badge>
           </div>
           <div className="flex gap-[0.35rem] mt-4">
-            <Link href="https://www.instagram.com/naitram.live?igsh=MXhjcXI1bjlydG16Mw==">
+            <Link href="https://www.instagram.com/takeovr_uk?igsh=ZzVyMmRvcDhob3po">
               <InstagramLogo size={30} weight="fill" />
             </Link>
-            <Link href="https://www.tiktok.com/@naitram.live?_t=8oczYiZWsN6&_r=1">
+            <Link href="https://www.tiktok.com/@takeovr_uk?_t=8ocugSj8bKa&_r=1">
               <TiktokLogo size={30} weight="fill" />
             </Link>
           </div>
@@ -239,13 +241,13 @@ const EventsHeroSlide = ({
             </div>
           )}
 
-          <p className="text-muted mt-4">Location: {location}</p>
+          {/* <p className="text-muted mt-4">Location: {location}</p> */}
           <p className="text-muted lg:mt-2 mb-6">
             {" "}
-            {ConvertDate(eventDate)} {ConvertTime(startTime)} {"-"}{" "}
-            {ConvertTime(endTime)}
+            {/* {ConvertDate(eventDate)} {ConvertTime(startTime)} {"-"}{" "}
+            {ConvertTime(endTime)} */}
           </p>
-          <BuyTicket event={event} />
+          <BuyTicket event={event} setShowTicket={setShowTicket}/>
         </div>
       </div>
     </>

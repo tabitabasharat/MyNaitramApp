@@ -45,11 +45,18 @@ export default function RootLayout({
 
   return (
     <>
-     
       <GoogleOAuthProvider clientId={clientId}>
         <StoreProvider>
-       
           <html lang="en">
+            <head>
+              <link rel="preconnect" href="https://fonts.googleapis.com" />
+              <link
+                rel="icon"
+                href="/logo.png"
+                sizes="5x5"
+                type="image/png"
+              />
+            </head>
             <body
               className={`${baseFont.variable} font-sans bg-black text-white overflow-x-clip`}
             >
