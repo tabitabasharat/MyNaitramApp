@@ -11,9 +11,9 @@ import { A11y, Autoplay, EffectFade, Pagination } from "swiper/modules";
 import EventsHeroSlide from "./EventsHeroSlide";
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { getAllEvents } from "@/lib/middleware/event";
+import { getAllEvents, getTicketsById } from "@/lib/middleware/event";
 
-const EventsHero = () => {
+const EventsHero = ({setShowTicket}:any) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<any>(null);
 
@@ -34,6 +34,8 @@ const EventsHero = () => {
 
   useEffect(() => {
     dispatch(getAllEvents());
+    const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    dispatch(getTicketsById(id));
   }, [dispatch]);
 
   useEffect(() => {
@@ -61,13 +63,14 @@ const EventsHero = () => {
           EventsAllData?.events.map((event: any, index: number) => (
             <SwiperSlide key={index}>
               <EventsHeroSlide
-              event={event}
+                event={event}
                 title={event?.name}
                 endTime={event?.endTime}
                 startTime={event?.startTime}
                 img={event?.eventPicture}
                 location={event.location}
                 activeIndex={activeIndex}
+                setShowTicket={setShowTicket}
                 eventDate={event?.eventDate}
                 handleBulletClick={() => handleBulletClick(index)}
               />

@@ -27,6 +27,7 @@ const PaymentsModal = ({
   handleNext,
   ticketPrice,
   profileInformation,
+  ticketType,
   event,
 }: {
   onNext: () => void;
@@ -34,6 +35,7 @@ const PaymentsModal = ({
   ticketPrice: any;
   profileInformation: any;
   event: any;
+  ticketType:any
 }) => {
   console.log("this is payemtn modal", ticketPrice, profileInformation, event);
 
@@ -164,17 +166,17 @@ const PaymentsModal = ({
               </div>
             </div>
             <div className="flex justify-between">
-              <p className="font-light">Guest-list Admission</p>
-              <p className="font-bold">FREE</p>
+              <p className="font-light">{ticketType}</p>
+              <p className="font-bold">£{ticketPrice}</p>
             </div>
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
               <p className="font-light">Regular Package</p>
               <p className="font-bold">£{ticketPrice}</p>
             </div>{" "}
             <div className="flex justify-between mb-2">
               <p className="font-light">Fees</p>
               <p className="font-bold">£{ticketPrice}</p>
-            </div>
+            </div> */}
             {/* <Input placeholder="ENTER CODE" /> */}
             {/* <div className="flex justify-between">
               <p className="font-light">Discount</p>

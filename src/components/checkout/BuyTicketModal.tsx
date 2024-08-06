@@ -24,9 +24,10 @@ import { getEventById } from "@/lib/middleware/event";
 import { useState, useEffect } from "react";
 import { setContractEditor } from "@/lib/reducer/setBuyTicket";
 // import { setTicketPrice } from "@/lib/reducer/setBuyTicket";
-const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
+const BuyTicketModal = ({ onNext,setTicketPrice,setTicketType }: any) => {
   const [selectedTicket, setSelectedTicket] = useState("");
   const [selectedTicketPrice, setSelectedTicketPrice] = useState(0);
+  const [selectedTicketType,setSelectedTIcketType]=useState<any>()
   const [eventid, setEventid] = useState<any>();
   const count = useAppSelector((state) => state);
   console.log(count)
@@ -47,6 +48,8 @@ const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
   function buyTicket() {
     console.log("hellothis is good",selectedTicketPrice)
     setTicketPrice(selectedTicketPrice)
+
+    setTicketType(selectedTicketType)
     // dispatch(setContractEditor(selectedTicketPrice));
 
     onNext();
@@ -94,6 +97,8 @@ const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
                     onOpenChange={() => {
                       setSelectedTicket(ticket.type);
                       setSelectedTicketPrice(ticket.price);
+                      setSelectedTIcketType(ticket.title)
+
                     }}
                     className="w-full"
                   >
@@ -127,6 +132,7 @@ const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
                     onOpenChange={() => {
                       setSelectedTicket(ticket.type);
                       setSelectedTicketPrice(ticket.price);
+                      setSelectedTIcketType(ticket.title)
                     }}
                     className="w-full"
                   >
@@ -153,6 +159,7 @@ const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
                     onOpenChange={() => {
                       setSelectedTicket(ticket.type);
                       setSelectedTicketPrice(ticket.price);
+                      setSelectedTIcketType(ticket.title)
                     }}
                     className="w-full"
                   >
@@ -186,6 +193,7 @@ const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
                     onOpenChange={() => {
                       setSelectedTicket(ticket.type);
                       setSelectedTicketPrice(ticket.price);
+                      setSelectedTIcketType(ticket.title)
                     }}
                     className="w-full"
                   >

@@ -20,6 +20,7 @@ const EventsHeroSlide = ({
   eventDate,
   endTime,
   startTime,
+  setShowTicket,
   handleBulletClick,
 }: any) => {
   const ConvertDate = (originalDateStr: any) => {
@@ -162,7 +163,7 @@ const EventsHeroSlide = ({
           </h2>
           <p className="text-muted mt-4">Location: {location}</p>
           <p className="text-muted lg:mt-2 mb-6"> {ConvertDate(eventDate)} {ConvertTime(startTime)} {"-"} {ConvertTime(endTime)}</p>
-          <BuyTicket event={event} />
+          <BuyTicket setShowTicket={setShowTicket} event={event} />
         </div>
       </div>
     </>
