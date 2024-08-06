@@ -129,6 +129,7 @@ const AccountVerificationModal = ({
       dispatch(verifysignup(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
+          console.log(res,"this is verify")
           console.log(data);
           localStorage.setItem("_id", res?.payload?.data?.id);
           localStorage.setItem("name", res?.payload?.data?.fullname);
