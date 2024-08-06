@@ -43,7 +43,7 @@ const EventsHero = () => {
   }, [EventsAllData]);
 
   return (
-    <section className="h-[130vh] max-w-screen lg:h-[90vh] overflow-hidden relative">
+    <section className="h-[95vh] max-w-screen lg:h-[90vh]  overflow-hidden relative">
       <Swiper
         onSlideChange={handleSlideChange}
         onSwiper={(swiper) => (swiperRef.current = swiper)}

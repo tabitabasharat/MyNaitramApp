@@ -16,7 +16,7 @@ import Image from 'next/image';
 import SignInModal from '@/components/auth/SignInModal';
 import SignUpModal from '@/components/auth/SignUpModal';
 import { AuthMode } from '@/types/types';
-
+import naitramLogo from "@/assets/naitram-logo-white.svg"
 const Menu = ({
   authMode,
   setAuthMode,
@@ -66,7 +66,7 @@ const Menu = ({
           <div className="mt-[1.6rem] flex justify-between items-center w-full">
             <Link href="/" className="">
               <div className="w-[100px]">
-                <Image src={logo} width={800} height={800} alt="Naitram-Logo" />
+                <Image src={naitramLogo} width={800} height={800} alt="Naitram-Logo" />
               </div>
             </Link>
             <button

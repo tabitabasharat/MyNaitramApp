@@ -106,12 +106,12 @@ const EventsHeroSlide = ({
       </div>
       <div className="pxpx mx2xl absolute z-[2] top-32 lg:top-1/2 lg:-translate-y-[38%] flex flex-col lg:flex-row gap-6 lg:gap-12 w-full md:w-[70%] lg:w-fit translate-x-1/2 right-1/2">
         <div>
-          <div className="lg:hidden flex gap-1 mb-3">
+          <div className="hidden flex gap-1 mb-3">
             {top5Events.map((_, index) => (
               <div
                 key={index}
                 className={`size-3 ${
-                  index === activeIndex ? "bg-white" : "border border-white"
+                  index === activeIndex ? "bg-white " : "border border-white"
                 } rounded-full cursor-pointer`}
                 onClick={() => handleBulletClick(index)}
               ></div>
