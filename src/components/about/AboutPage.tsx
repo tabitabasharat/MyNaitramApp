@@ -4,6 +4,7 @@ import Journy from "./ourJourny/Journy";
 import Vision from "./vision/Vision";
 import Card from "./vision/card/Card";
 import { Reveal } from "@/components/animations/Reveal";
+import VideoPlayer from "./VedioPlayer/VedioPlayer";
 
 const page = () => {
   return (
@@ -33,9 +34,14 @@ const page = () => {
               </p>
             </div>
           </Reveal>
-          <video className="md:w-[60%] rounded-[50px] w-100% " autoPlay muted>
-            <source src="/About/ABOUT-VIDEO.mp4" type="video/mp4" />
-          </video>
+          <VideoPlayer />
+
+          {/* <div className="flex justify-center relative ">
+            <video className="md:w-[60%] rounded-[50px] w-100% " controls>
+              <source src="/About/ABOUT-VIDEO.mp4" type="video/mp4" />
+            </video>
+            <img src="" alt="/" className=" absolute top-[50%]" />
+          </div> */}
         </div>
         <div className="flex flex-col items-center justify-center py-[100px]">
           <Reveal y={100} width="100%">
