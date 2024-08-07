@@ -24,9 +24,10 @@ import { getEventById } from "@/lib/middleware/event";
 import { useState, useEffect } from "react";
 import { setContractEditor } from "@/lib/reducer/setBuyTicket";
 // import { setTicketPrice } from "@/lib/reducer/setBuyTicket";
-const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
+const BuyTicketModal = ({ onNext,setTicketPrice,setTicketType }: any) => {
   const [selectedTicket, setSelectedTicket] = useState("");
   const [selectedTicketPrice, setSelectedTicketPrice] = useState(0);
+  const [selectedTicketType,setSelectedTIcketType]=useState<any>()
   const [eventid, setEventid] = useState<any>();
   const count = useAppSelector((state) => state);
   console.log(count)
@@ -47,6 +48,8 @@ const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
   function buyTicket() {
     console.log("hellothis is good",selectedTicketPrice)
     setTicketPrice(selectedTicketPrice)
+
+    setTicketType(selectedTicketType)
     // dispatch(setContractEditor(selectedTicketPrice));
 
     onNext();
@@ -94,6 +97,8 @@ const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
                     onOpenChange={() => {
                       setSelectedTicket(ticket.type);
                       setSelectedTicketPrice(ticket.price);
+                      setSelectedTIcketType(ticket.title)
+
                     }}
                     className="w-full"
                   >
@@ -104,18 +109,21 @@ const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
                             <p className="font-bold">{ticket.title}</p>
                             <p className="font-extrabold">£{ticket.price}</p>
                           </div>
+                          {ticket.included && 
+                          
                           <CollapsibleContent className="border-t border-t-[#282828] mt-2 text-left">
                             <div className="flex flex-col items-start mt-2">
                               <p className="text-[#BFBFBF] font-extrabold text-[12px]">
                                 INCLUDED
                               </p>
                               <div className="mt-3">
-                                {ticket.included.map((include) => (
+                                {ticket.included && ticket.included.map((include) => (
                                   <p className="text-[12px]">{include}</p>
                                 ))}
                               </div>
                             </div>
                           </CollapsibleContent>
+                          }
                         </div>
                       </GradientBorder>
                     </CollapsibleTrigger>
@@ -127,6 +135,7 @@ const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
                     onOpenChange={() => {
                       setSelectedTicket(ticket.type);
                       setSelectedTicketPrice(ticket.price);
+                      setSelectedTIcketType(ticket.title)
                     }}
                     className="w-full"
                   >
@@ -153,6 +162,7 @@ const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
                     onOpenChange={() => {
                       setSelectedTicket(ticket.type);
                       setSelectedTicketPrice(ticket.price);
+                      setSelectedTIcketType(ticket.title)
                     }}
                     className="w-full"
                   >
@@ -186,6 +196,7 @@ const BuyTicketModal = ({ onNext,setTicketPrice }: any) => {
                     onOpenChange={() => {
                       setSelectedTicket(ticket.type);
                       setSelectedTicketPrice(ticket.price);
+                      setSelectedTIcketType(ticket.title)
                     }}
                     className="w-full"
                   >

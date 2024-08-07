@@ -10,6 +10,8 @@ import { useState, useEffect } from "react";
 const CheckOutModal = ({ event }: any) => {
   const [currentModal, setCurrentModal] = useState("BuyTicket");
   const [ticketPrice, setTicketPrice] = useState<any>();
+  const [ticketType, setTicketType] = useState<any>();
+
   const [profileInformation, setProfileInformation] = useState<any>();
 
   console.log("this is ticketPrice", ticketPrice, profileInformation, event);
@@ -23,6 +25,7 @@ const CheckOutModal = ({ event }: any) => {
         <BuyTicketModal
           onNext={() => handleNext("CompleteYourProfile")}
           setTicketPrice={setTicketPrice}
+          setTicketType={setTicketType}
         />
       )}
       {currentModal === "CompleteYourProfile" && (
@@ -37,6 +40,7 @@ const CheckOutModal = ({ event }: any) => {
           ticketPrice={ticketPrice}
           profileInformation={profileInformation}
           event={event}
+          ticketType={ticketType}
           handleNext={handleNext}
           onNext={() => handleNext("TicketPurchaseSuccess")}
         />

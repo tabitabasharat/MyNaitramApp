@@ -3,8 +3,8 @@
 import { useRef, useState } from 'react';
 
 const VideoPlayer = () => {
-  const videoRef = useRef(null);
-  const overlayRef = useRef(null);
+  const videoRef = useRef<any>(null);
+  const overlayRef = useRef<any>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
@@ -42,7 +42,6 @@ const VideoPlayer = () => {
         onPause={() => setIsPlaying(false)}
         onPlay={() => setIsPlaying(true)}
         autoPlay
-        muted
       >
         <source src="/About/ABOUT-VIDEO.mp4" type="video/mp4" />
         Your browser does not support the video tag.

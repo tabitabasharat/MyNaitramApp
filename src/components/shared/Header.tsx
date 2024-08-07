@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { cn, shimmer, toBase64 } from "@/lib/utils";
 import { Sling as Hamburger } from "hamburger-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   Popover,
@@ -27,6 +27,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import NotificationPopUp from "../notifications/NotificationPopUp";
 
 import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 const Header = () => {
   const router = useRouter();
@@ -36,6 +37,10 @@ const Header = () => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [notifPopupOpen, setNotifPopupOpen] = useState(false);
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+  const count = useAppSelector((state) => state?.signIn);
+  console.log(count,"this is good")
+  const [token, setToken] = useState<any>();
+  const dispatch=useAppDispatch()
 
   const isLoggedIn = true;
   const pathname = usePathname();
@@ -65,6 +70,15 @@ const Header = () => {
 
     // { title: 'Search', url: '/search' },
   ];
+  useEffect(() => {
+    const id =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setToken(id);
+  }, [token,count]);
+  function logout(){
+    localStorage.clear()
+    setToken("")
+  }
   return (
     <>
       <AnimatePresence mode="wait">
@@ -96,8 +110,8 @@ const Header = () => {
       >
         <Link href="/">
           <div className="">
-              <Image src={naitramlogo}  alt="Naitram-Logo" />  
-                </div>
+            <Image src={naitramlogo} alt="Naitram-Logo" />
+          </div>
         </Link>
         <nav className="hidden lg:flex gap-[3rem]">
           {links.map((link, i) => (
@@ -115,27 +129,40 @@ const Header = () => {
           ))}
         </nav>
         <div className="flex items-center">
-          {isLoggedIn && (
-            <Dialog
-              open={isLoginDialogOpen}
-              onOpenChange={setIsLoginDialogOpen}
-            >
-              <DialogTrigger asChild>
-                <Button variant="secondary" className="hidden lg:block">
-                  Sign In
-                </Button>
-              </DialogTrigger>
-              {authMode === 'SIGNIN' && isLoginDialogOpen && (
-                <SignInModal redirectRoute={`/events`} setAuthMode={setAuthMode}   setSigninModal={() => setIsLoginDialogOpen(false)}  />
-              )}
-              {authMode === "SIGNUP" && (
-                <SignUpModal
-                  setAuthMode={setAuthMode}
-                  setSigninModal={() => setIsLoginDialogOpen(false)}
-                />
-              )}
-            </Dialog>
+          {token ? (
+            <div>
+              <Button onClick={()=>{ logout()}} variant="secondary" className="hidden lg:block">
+               Log out
+              </Button>
+            </div>
+          ) : (
+            isLoggedIn && (
+              <Dialog
+                open={isLoginDialogOpen}
+                onOpenChange={setIsLoginDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <Button variant="secondary" className="hidden lg:block">
+                    Sign In
+                  </Button>
+                </DialogTrigger>
+                {authMode === "SIGNIN" && isLoginDialogOpen && (
+                  <SignInModal
+                    redirectRoute={`/events`}
+                    setAuthMode={setAuthMode}
+                    setSigninModal={() => setIsLoginDialogOpen(false)}
+                  />
+                )}
+                {authMode === "SIGNUP" && (
+                  <SignUpModal
+                    setAuthMode={setAuthMode}
+                    setSigninModal={() => setIsLoginDialogOpen(false)}
+                  />
+                )}
+              </Dialog>
+            )
           )}
+
           {/* {isLoggedIn && (
             <div className="mr-2 lg:mr-4 flex items-center gap-4 h-full">
               <Popover open={notifPopupOpen} onOpenChange={setNotifPopupOpen}>
