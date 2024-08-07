@@ -1,4 +1,7 @@
+"use client";
+
 import { Reveal } from "@/components/animations/Reveal";
+import { Input } from "../../../ui/input";
 
 const Card = () => {
   return (
@@ -42,10 +45,11 @@ const Card = () => {
                 Stay Informed and never miss an update
               </h1>
               <div className="flex justify-center items-center flex-wrap gap-[20px] ">
-                <input
+                <Input
                   placeholder="Your Email Adresss"
                   type="text"
-                  className="border-[#009540] rounded-[10px] border-2 bg-[#FFFFFF00] text-[17px]  w-[100%] md:w-[458px] pl-[30px] h-[62px]"
+                  style={{background:"transparent"}}
+                  className="border-[#009540] rounded-[10px] border-2  text-[17px] bg-transparent  w-[100%] md:w-[458px] pl-[30px] h-[62px] focus:border-[#009540] focus:border-dashed "
                 />
                 <button className="bg-[#009540] text-white rounded-[10px] md:w-[163px] h-[65px] text-[15px] font-[700] w-[100%] ">
                   Subscribe
