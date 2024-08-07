@@ -79,7 +79,7 @@ const MobileAppQRCode = () => {
                 Invitation
               </Badge>
               <Badge className="lg:text-[12px] font-extrabold sm:text-[11px]">
-                Women Day
+              TAKEOVR
               </Badge>
             </div>
             <h3 className="text-[48px] sm:text-[32px] font-extrabold leading-[1.1] mt-3">

@@ -33,7 +33,7 @@ const page = () => {
               </p>
             </div>
           </Reveal>
-          <video className="md:w-[60%] rounded-[50px] w-100% ">
+          <video className="md:w-[60%] rounded-[50px] w-100% " autoPlay muted>
             <source src="/About/ABOUT-VIDEO.mp4" type="video/mp4" />
           </video>
         </div>

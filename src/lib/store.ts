@@ -4,6 +4,7 @@ import getAllEvents from "./reducer/getAllEvents";
 import getEventById from "./reducer/getEventById";
 import addBuyTicketPriceReducer from "./reducer/setBuyTicket";
 import getTicket from "./reducer/getTicket";
+import sign from "./reducer/sign";
 export const makeStore = () => {
   return configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const makeStore = () => {
       getAllEvents: getAllEvents,
       // addBuyTicketPrice: addBuyTicketPriceReducer,
       getEventById:getEventById,
-      getTicketStore:getTicket
+      getTicketStore:getTicket,
+      signIn:sign
     },
   });
 };

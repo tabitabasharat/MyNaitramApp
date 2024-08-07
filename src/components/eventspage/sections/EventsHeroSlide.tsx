@@ -173,13 +173,13 @@ const EventsHeroSlide = ({
           <div className="flex gap-[0.35rem] mt-4">
             <Badge>Party</Badge>
             <Badge>Invitation</Badge>
-            <Badge>Women Day</Badge>
+            <Badge>TAKEOVR</Badge>
           </div>
           <div className="flex gap-[0.35rem] mt-4">
-            <Link href="https://www.instagram.com/takeovr_uk?igsh=ZzVyMmRvcDhob3po">
+            <Link target="_blank" href="https://www.instagram.com/takeovr_uk?igsh=ZzVyMmRvcDhob3po">
               <InstagramLogo size={30} weight="fill" />
             </Link>
-            <Link href="https://www.tiktok.com/@takeovr_uk?_t=8ocugSj8bKa&_r=1">
+            <Link target="_blank" href="https://www.tiktok.com/@takeovr_uk?_t=8ocugSj8bKa&_r=1">
               <TiktokLogo size={30} weight="fill" />
             </Link>
           </div>

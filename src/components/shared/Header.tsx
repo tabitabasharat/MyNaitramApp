@@ -27,6 +27,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import NotificationPopUp from "../notifications/NotificationPopUp";
 
 import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 const Header = () => {
   const router = useRouter();
@@ -36,7 +37,10 @@ const Header = () => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [notifPopupOpen, setNotifPopupOpen] = useState(false);
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+  const count = useAppSelector((state) => state?.signIn);
+  console.log(count,"this is good")
   const [token, setToken] = useState<any>();
+  const dispatch=useAppDispatch()
 
   const isLoggedIn = true;
   const pathname = usePathname();
@@ -70,7 +74,7 @@ const Header = () => {
     const id =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setToken(id);
-  }, [token]);
+  }, [token,count]);
   function logout(){
     localStorage.clear()
     setToken("")

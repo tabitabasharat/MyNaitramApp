@@ -66,13 +66,13 @@ const Footer = () => {
         <Separator className="mb-8 mt-28" />
         <div className="flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-start gap-8 lg:gap-0 pb-4 lg:pb-0">
           <div className=" flex gap-4">
-            <Link href="https://www.linkedin.com/company/naitramlive/">
+            <Link target="_blank" href="https://www.linkedin.com/company/naitramlive/">
               <LinkedinLogo size={30} weight="fill" />
             </Link>
-            <Link href="https://www.instagram.com/naitram.live?igsh=MXhjcXI1bjlydG16Mw==">
+            <Link  target="_blank" href="https://www.instagram.com/naitram.live?igsh=MXhjcXI1bjlydG16Mw==">
               <InstagramLogo size={30} weight="fill" />
             </Link>
-            <Link href="https://www.tiktok.com/@naitram.live?_t=8oczYiZWsN6&_r=1">
+            <Link target="_blank" href="https://www.tiktok.com/@naitram.live?_t=8oczYiZWsN6&_r=1">
               <TiktokLogo size={30} weight="fill" />
             </Link>
           </div>
