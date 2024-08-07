@@ -19,7 +19,7 @@ const EventsPage = () => {
     <>
       <EventsHero setShowTicket={setShowTicket} />
       {/* <PopularEvents /> */}
-      {showTicket && (
+      {!showTicket && (
         <div ref={qrCodeRef}>
           <MobileAppQRCode />
         </div>

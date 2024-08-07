@@ -191,7 +191,7 @@ const EventsHeroSlide = ({
             </Link>
           </div>
 
-          <h2 className="text-[28px] lg:w-full lg:text-[40px] xl:text-[55px] font-extrabold leading-[1.2] my-3">
+          <h2 className="text-[32px] lg:w-full lg:text-[48px] xl:text-[48px] font-extrabold leading-[1.2] my-3 -tracking-[0.02em] ">
             {title}
           </h2>
           <div
@@ -199,13 +199,13 @@ const EventsHeroSlide = ({
             onClick={() => AboutToggle()}
           >
             <p className="text-[#13FF7A]">About </p>
-            <Image src={Arrowdown} alt="arrow-icon" className="mb-0.5" />
+            {/* <Image src={Arrowdown} alt="arrow-icon" className="" /> */}
           </div>
-          {AboutDrop && (
+         
             <div>
               <div>
                 <p className="text-[#E6E6E6] font-extrabold mt-[10px]">
-                  TAKEOVER Boat Party
+                  TAKEOVR Boat Party
                 </p>
                 <div className="flex items-center gap-[4px] mt-[5px]">
                   <Image src={Location} alt="location" />
@@ -246,7 +246,7 @@ const EventsHeroSlide = ({
                 <p className="mt-[5px] font-extrabold">Host: 5ive</p>
               </div>
             </div>
-          )}
+         
 
           {/* <p className="text-muted mt-4">Location: {location}</p> */}
           <p className="text-muted lg:mt-2 mb-5">

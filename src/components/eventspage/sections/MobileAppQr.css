@@ -3,6 +3,7 @@
 @media(max-width:768px)
 {
     .qr-mobile{
-        flex-direction: column-reverse;
+        flex-direction: column-reverse !important;
+        gap: 40px;
     }
 }

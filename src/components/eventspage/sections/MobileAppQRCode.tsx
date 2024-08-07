@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useEffect } from "react";
 import { getTicketsById } from "@/lib/middleware/event";
+import "./MobileAppQr.css"
 
 const MobileAppQRCode = () => {
   const dispatch = useAppDispatch();
@@ -69,7 +70,7 @@ const MobileAppQRCode = () => {
           className="absolute right-[-10%] bottom-0"
           alt="ufo"
         />
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-20  qr-mobile">
+        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-20 qr-mobile">
           <div className="md:w-[70%] w-full">
             <div className="flex gap-[0.35rem] mt-4">
               <Badge className="lg:text-[12px] font-extrabold sm:text-[11px]">
@@ -82,7 +83,7 @@ const MobileAppQRCode = () => {
               TAKEOVR
               </Badge>
             </div>
-            <h3 className="lg:text-[48px] xl:text-[48px] sm:text-[32px] font-extrabold leading-[1.1] mt-3">
+            <h3 className="lg:text-[48px] xl:text-[48px] sm:text-[32px] font-extrabold leading-[1.1] mt-3 -tracking-[0.02em]">
               {EventDetail?.data?.data?.event?.name}
               TAKEOVR BOAT PARTY
             </h3>
@@ -91,10 +92,10 @@ const MobileAppQRCode = () => {
               your phone to effortlessly browse, find, and stay updated on the
               latest happenings around you, anytime and anywhere
             </p> */}
-            <p className="text-muted mt-4 font-normal text-[16px] sm:text-[14px]">
+            <p className="text-[#E6E6E6] mt-[20px] font-normal text-[16px] sm:text-[14px]">
               Location: {EventDetail?.data?.data?.event?.location}
             </p>
-            <p className="text-muted mt-1 font-normal text-[16px] sm:text-[14px]">
+            <p className="text-[#E6E6E6] mt-1 font-normal text-[16px] sm:text-[14px]">
               {ConvertDate(EventDetail?.data?.data?.event?.eventDate)}. 16:00 - 23:00 
             </p>
             {/* <Button className="flex items-center gap-[0.5rem] rounded-lg mt-6 w-full lg:w-fit">

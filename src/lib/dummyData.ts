@@ -74,17 +74,21 @@ export const events = [
   },
   {
     id:13,
-    img: "/new-event.svg",
-    title: "JHOPE - JACK IN THE BOX 2024",
+    // img: "/new-event.svg",
+     img: "/takeOver.png",
+
+    title: "TAKEOVR BOAT PARTY",
   },
   {
     id:14,
-    img: "/new-event-2.svg",
+    img: "/takeOver.png",
     title: "Você não precisa saber",
   },
   {
     id:15,
-    img: "/new-event-3.svg",
+    // img: "/new-event-3.svg",
+    img: "/takeOver.png",
+
     title: "Havana Club Daiquiri",
   }
 ];

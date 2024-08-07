@@ -29,7 +29,7 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
           <p className="font-bold text-[24px] text-center lg:text-left">
             £10 - £1000
           </p>
-          <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left">
+          <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left text-[13px] lg:text-[14px]">
             Price may vary due to different ticket types
           </p>
         </div>
@@ -39,13 +39,14 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
             <Button onClick={()=>{setShowTicket(true)}}>View Ticket</Button>
           </div>
         ) : (
-          <div>
+          <div className="w-full lg:w-auto">
             {token ? (
               <DialogTrigger asChild>
                 <Button
                   onClick={() => {
                     console.log(token);
                   }}
+                  className="w-full "
                   // className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
                 >
                   Buy Ticket
@@ -62,7 +63,7 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
                     onClick={() => {
                       console.log(token);
                     }}
-                    className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
+                    className="text-black px-[4rem] lg:py-7 w-full lg:w-auto"
                   >
                     {EventDetail?.data?.data ? "View Ticket" : "Buy Ticket"}
                   </Button>
