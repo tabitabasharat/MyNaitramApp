@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import SignInModal from "../auth/SignInModal";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { AuthMode } from "@/types/types";
+import SignUpModal from "../auth/SignUpModal";
 
 const HomePage = () => {
   const [loader, setLoader] = useState(true);
@@ -24,7 +25,6 @@ const HomePage = () => {
     return () => clearTimeout(timer);
   }, []);
 
-
   return (
     <>
       {/* {loader && <ScreenLoader/>} */}
@@ -35,9 +35,15 @@ const HomePage = () => {
                     Sign In
                   </Button>
                 </DialogTrigger> */}
-        {showmodal && (
+        {authMode === "SIGNIN" && (
           <SignInModal
             redirectRoute={`/events`}
+            setAuthMode={setAuthMode}
+            setSigninModal={() => setShowModal(false)}
+          />
+        )}
+        {authMode === "SIGNUP" && (
+          <SignUpModal
             setAuthMode={setAuthMode}
             setSigninModal={() => setShowModal(false)}
           />

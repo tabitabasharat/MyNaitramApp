@@ -123,9 +123,11 @@ const SignUpModal = ({
       dispatch(signup(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
+          console.log("my signup data",res?.payload?.data )
+          setVerificationModalOpen(true);
+
           SuccessToast("Verification Code Sended");
           // navigate(`/SignUp-Verify/${email}`);
-          setVerificationModalOpen(true);
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -352,6 +354,7 @@ const SignUpModal = ({
           </Form>
         </ScrollArea>
       </DialogContent>
+      
       {isVerificationModalOpen && (
         <AccountVerificationModal
           setAuthMode={setAuthMode}

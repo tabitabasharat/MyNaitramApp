@@ -4,7 +4,7 @@ import api from "../apiInterceptor";
 import { API_URL } from "../client";
 
 
-export const signup = createAsyncThunk("signin", async (data:any) => {
+export const signup = createAsyncThunk("signup", async (data:any) => {
     try {
       console.log("Signup");
       const res = await api.post(`${API_URL}/auth/signup`, data);
