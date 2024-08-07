@@ -186,11 +186,11 @@ const SignInModal = ({
   return (
     <>
   
-      <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
+      <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0 ">
         {/* {loader && <Screenloader/>} */}
         <ScrollArea className="max-h-[90vh]">
-          <DialogHeader className="relative overflow-hidden pt-4">
-            <DialogTitle className="font-bold text-2xl">
+          <DialogHeader className="relative overflow-hidden pt-4 ">
+            <DialogTitle className="font-bold text-2xl mb-[18px]">
               Sign <span className="text-primary">In</span>
             </DialogTitle>
            
@@ -201,30 +201,30 @@ const SignInModal = ({
               className="absolute right-0 scale-[2]"
               alt="ufo"
             />
-            <Separator className="scale-x-[1.09] bg-[#292929]" />
+            <Separator className="scale-x-[1.09] bg-[#292929] " />
           </DialogHeader>
        
-          <Button
+          {/* <Button
             variant="secondary"
             className="w-full flex items-center gap-1 mt-5"
             onClick={()=>logingoogle()}
           >
             <GoogleLogo size={22} weight="fill" /> Sign in with Google
-          </Button>
+          </Button> */}
           {/* <Button variant="secondary" className="w-full items-center gap-1 mt-3">
           <Image src={metamask} width={22} height={22} alt="ufo" />
           Sign in with M
           etamask
         </Button> */}
          
-          <div className="flex items-center justify-between gap-4 mt-5 mb-5">
+          {/* <div className="flex items-center justify-between gap-4 mt-5 mb-5">
             <Separator className="bg-[#292929] w-[45%]" />
             <p className="font-bold">OR</p>
             <Separator className="bg-[#292929] w-[45%]" />
-          </div>
+          </div> */}
 
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(login)} className="space-y-4">
+          <Form {...form} >
+            <form onSubmit={form.handleSubmit(login)} className="space-y-4 mt-[24px]">
               <FormField
                 control={form.control}
                 name="email"

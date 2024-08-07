@@ -13,20 +13,20 @@ const StayInformed = () => {
       className="pxpx mx-2xl flex gap-4 h-[1180px] md:h-[600px] md:mt-10 md:mb-20"
     >
       <div className="w-1/2 hidden lg:block h-full">
-        <EventCard height="600px" img={events[5].img} title={events[5].title} />
+        <EventCard height="600px" img={events[12].img} title={events[12].title} />
       </div>
 
       <div className="flex-col w-full lg:w-1/2">
         <div className="flex flex-col md:flex-row h-[60.5%] md:h-[58%] gap-4">
           <EventCard
             height="350px"
-            img={events[9].img}
-            title={events[9].title}
+            img={events[13].img}
+            title={events[13].title}
           />
           <EventCard
             height="350px"
-            img={events[10].img}
-            title={events[10].title}
+            img={events[14].img}
+            title={events[14].title}
           />
         </div>
 

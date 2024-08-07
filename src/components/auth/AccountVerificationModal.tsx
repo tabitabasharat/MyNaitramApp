@@ -198,7 +198,7 @@ const AccountVerificationModal = ({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(VerifySignUp)}
-            className="space-y-4"
+            className="space-y-2"
           >
             <div className="input-stlying">
               {["textbox", "textbox1", "textbox2", "textbox3"].map(

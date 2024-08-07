@@ -47,20 +47,19 @@ const Footer = () => {
                 <Link href={''}>Resource</Link> */}
               </div>
             </div>
-            {/* <div className="flex justify-between lg:justify-start gap-16 lg:gap-24 xl:gap-32">
+            <div className="flex justify-between lg:justify-start gap-16 lg:gap-24 xl:gap-32">
               <div className="flex items-start flex-col gap-6 lg:gap-8">
-                <Link href={''}>Link 1</Link>
-                <Link href={''}>Like 2</Link>
-                <Link href={''}>Link 3</Link>
-                <Link href={''}>Link 4</Link>
+                <Link href={''}>Privacy Policy</Link>
+                <Link href={''}>Terms and Condition</Link>
+               
               </div>
-              <div className="flex items-end lg:items-start flex-col gap-6 lg:gap-8">
+              {/* <div className="flex items-end lg:items-start flex-col gap-6 lg:gap-8">
                 <Link href={''}>Help</Link>
                 <Link href={''}>Support</Link>
                 <Link href={''}>Terms of Service</Link>
                 <Link href={''}>Privacy Policy</Link>
-              </div>
-            </div> */}
+              </div> */}
+            </div>
           </div>
         </div>
         <Separator className="mb-8 mt-28" />

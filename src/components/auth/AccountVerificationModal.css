@@ -36,9 +36,7 @@
     margin-bottom: 50px;
 }
 @media (max-width:768px) {
-    .accnt-verification-input{
-        width: 100% !important;
-    }
+   
     .bg-image{
         display: flex;
         justify-content: center;
@@ -47,6 +45,15 @@
     }
     .resetpass-stlying-main-div{
         width: 100%;
+    }
+    .input-stlying{
+        justify-content: space-between;
+        width: 100%;
+    }
+    .accnt-verification-input{
+        padding: 19px 22px;
+        height: auto;
+        width: 100% !important;
     }
 }
 @media (max-width:320px) {

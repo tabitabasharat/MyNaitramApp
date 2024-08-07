@@ -72,6 +72,21 @@ export const events = [
     img: "/event1.png",
     title: "NAITRAM Launch Party 2024",
   },
+  {
+    id:13,
+    img: "/new-event.svg",
+    title: "JHOPE - JACK IN THE BOX 2024",
+  },
+  {
+    id:14,
+    img: "/new-event-2.svg",
+    title: "Você não precisa saber",
+  },
+  {
+    id:15,
+    img: "/new-event-3.svg",
+    title: "Havana Club Daiquiri",
+  }
 ];
 
 export const top5Events = [
