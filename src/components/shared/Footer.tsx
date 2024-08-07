@@ -23,8 +23,9 @@ const Footer = () => {
                 <Image src={NaitramLogo}  alt="Naitram-Logo" />
               </div>
             </Link>
-            <p className="italic mt-4 lg:whitespace-nowrap">
+            <p className="italic mt-4 lg:whitespace-nowrap text-gradient">
               Revolutionize Your Experience
+              
             </p>
             <Button className="flex items-center gap-[0.5rem] mt-8">
               <Link href="/download-app" className="flex items-center gap-[0.5rem]" >

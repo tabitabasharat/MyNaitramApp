@@ -122,7 +122,7 @@ const ContactUsPage = () => {
             </Button>
 
             <div className="insta-link">
-              <Link href="https://www.instagram.com/naitram.live/">
+              <Link href="https://www.instagram.com/naitram.live/" target="_blank">
                 Instagram: @naitram.live
               </Link>
             </div>

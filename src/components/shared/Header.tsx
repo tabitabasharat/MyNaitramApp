@@ -37,10 +37,12 @@ const Header = () => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [notifPopupOpen, setNotifPopupOpen] = useState(false);
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+
   const count = useAppSelector((state) => state?.signIn);
-  console.log(count,"this is good")
+  console.log(count, "this is good");
+
   const [token, setToken] = useState<any>();
-  const dispatch=useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const isLoggedIn = true;
   const pathname = usePathname();
@@ -74,11 +76,16 @@ const Header = () => {
     const id =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setToken(id);
-  }, [token,count]);
-  function logout(){
-    localStorage.clear()
-    setToken("")
-  }
+  }, [token, count]);
+
+
+  
+  const logout = () => {
+    localStorage.clear();
+    setToken("");
+    dispatch({ type: 'LOGOUT' });
+    router.push("/")
+  };
   return (
     <>
       <AnimatePresence mode="wait">
@@ -131,48 +138,58 @@ const Header = () => {
         <div className="flex items-center">
           {token ? (
             <div>
-              <Button onClick={()=>{ logout()}} variant="secondary" className="hidden lg:block">
-               Log out
+              <Button
+                onClick={() => {
+                  logout();
+                }}
+                variant="secondary"
+                className="hidden lg:block"
+              >
+                Log out
+              </Button>
+            </div>
+          ) : count?.signIn?.data?.id ? (
+            <div>
+              <Button
+                onClick={() => {
+                  logout();
+                }}
+                variant="secondary"
+                className="hidden lg:block"
+              >
+                Log out
               </Button>
             </div>
           ) : (
             <>
-          
-           { isLoggedIn && (
-              <Dialog
-                open={isLoginDialogOpen}
-                onOpenChange={setIsLoginDialogOpen}
-              >
-                <DialogTrigger asChild>
-                  <Button variant="secondary" className="hidden lg:block">
-                    Sign In
-                  </Button>
-                </DialogTrigger>
-                {authMode === "SIGNIN" && isLoginDialogOpen && (
-                  <SignInModal
-                    redirectRoute={`/events`}
-                    setAuthMode={setAuthMode}
-                    setSigninModal={() => setIsLoginDialogOpen(false)}
-                  />
-                )}
-                {authMode === "SIGNUP" && (
-                  <SignUpModal
-                    setAuthMode={setAuthMode}
-                    setSigninModal={() => setIsLoginDialogOpen(false)}
-                  />
-                )}
-              </Dialog>
-            )
-          }
+              {isLoggedIn && (
+                <Dialog
+                  open={isLoginDialogOpen}
+                  onOpenChange={setIsLoginDialogOpen}
+                >
+                  <DialogTrigger asChild>
+                    <Button variant="secondary" className="hidden lg:block">
+                      Sign In
+                    </Button>
+                  </DialogTrigger>
+                  {authMode === "SIGNIN" && isLoginDialogOpen && (
+                    <SignInModal
+                      redirectRoute={`/events`}
+                      setAuthMode={setAuthMode}
+                      setSigninModal={() => setIsLoginDialogOpen(false)}
+                    />
+                  )}
+                  {authMode === "SIGNUP" && (
+                    <SignUpModal
+                      setAuthMode={setAuthMode}
+                      setSigninModal={() => setIsLoginDialogOpen(false)}
+                    />
+                  )}
+                </Dialog>
+              )}
 
-            {count?.data?.id && (
-              <div>
-              <Button onClick={()=>{ logout()}} variant="secondary" className="hidden lg:block">
-               Log out
-              </Button>
-            </div>
-            )}
-              </>
+             
+            </>
           )}
 
           {/* {isLoggedIn && (

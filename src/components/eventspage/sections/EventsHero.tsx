@@ -47,7 +47,7 @@ const EventsHero = ({setShowTicket}:any) => {
 
   return (
    
-    <section className={`max-w-screen overflow-hidden relative lg:h-[90vh] ${isAbout ? 'h-[170vh]' : 'h-[130vh]'}`} >
+    <section className={`max-w-screen overflow-hidden relative lg:h-[90vh] ${isAbout ? 'h-[170vh] lg:h-[98vh]' : 'h-[130vh]'}`} >
       
       <Swiper
         onSlideChange={handleSlideChange}

@@ -69,7 +69,7 @@ const MobileAppQRCode = () => {
           className="absolute right-[-10%] bottom-0"
           alt="ufo"
         />
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
+        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-20  qr-mobile">
           <div className="md:w-[70%] w-full">
             <div className="flex gap-[0.35rem] mt-4">
               <Badge className="lg:text-[12px] font-extrabold sm:text-[11px]">
@@ -82,8 +82,9 @@ const MobileAppQRCode = () => {
               TAKEOVR
               </Badge>
             </div>
-            <h3 className="text-[48px] sm:text-[32px] font-extrabold leading-[1.1] mt-3">
+            <h3 className="lg:text-[48px] xl:text-[48px] sm:text-[32px] font-extrabold leading-[1.1] mt-3">
               {EventDetail?.data?.data?.event?.name}
+              TAKEOVR BOAT PARTY
             </h3>
             {/* <p className="text-muted mt-4">
               Discover a world of local events right at your fingertips. Use

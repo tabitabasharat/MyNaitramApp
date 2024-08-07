@@ -10,24 +10,25 @@ const StayInformed = () => {
   return (
     <div
       style={{ height: '' }}
-      className="pxpx mx-2xl flex gap-4 h-[1180px] md:h-[600px] md:mt-10 md:mb-20"
+      className="pxpx mx-2xl flex gap-4 h-[1180px] md:h-[600px] md:mt-10 md:mb-20  "
     >
       <div className="w-1/2 hidden lg:block h-full">
         <EventCard height="600px" img={events[12].img} title={events[12].title} />
       </div>
 
-      <div className="flex-col w-full lg:w-1/2">
-        <div className="flex flex-col md:flex-row h-[60.5%] md:h-[58%] gap-4">
-          <EventCard
+      <div className="flex-col w-full lg:w-1/2 ">
+        <div className="flex flex-col md:flex-row h-[60.5%] md:h-[58%] gap-4 block lg:hidden">
+          {/* <EventCard
             height="350px"
             img={events[13].img}
             title={events[13].title}
-          />
-          <EventCard
+          /> */}
+          <EventCard height="600px" img={events[12].img} title={events[12].title} />
+          {/* <EventCard
             height="350px"
             img={events[14].img}
             title={events[14].title}
-          />
+          /> */}
         </div>
 
         <div className="h-[42%] w-full pt-4">
