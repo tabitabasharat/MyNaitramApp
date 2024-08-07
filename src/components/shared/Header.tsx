@@ -136,7 +136,9 @@ const Header = () => {
               </Button>
             </div>
           ) : (
-            isLoggedIn && (
+            <>
+          
+           { isLoggedIn && (
               <Dialog
                 open={isLoginDialogOpen}
                 onOpenChange={setIsLoginDialogOpen}
@@ -161,6 +163,16 @@ const Header = () => {
                 )}
               </Dialog>
             )
+          }
+
+            {count?.data?.id && (
+              <div>
+              <Button onClick={()=>{ logout()}} variant="secondary" className="hidden lg:block">
+               Log out
+              </Button>
+            </div>
+            )}
+              </>
           )}
 
           {/* {isLoggedIn && (
