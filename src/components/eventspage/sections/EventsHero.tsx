@@ -111,20 +111,20 @@ const EventsHero = ({ setShowTicket }: any) => {
       </div> */}
       <div className="main-div-takeover">
         <div>
-        <Image src={takeover} alt="takeover"   className=" takeover"/>
+        {/* <Image src={takeover} alt="takeover"   className=" takeover"/> */}
 
-          {/* {isAbout ? (
+          {isAbout ? (
           <Image src={takeover} alt="takeover"   className=" takeover"/>
 
           )
         :
         (
-          <Image src={"/takeOver.png"} alt="takeover"  width={230} height={200} className="w-full h-full"/>
+          <Image src={"/takeOver.png"} alt="takeover"  width={330} height={200} className="w-full h-full"/>
 
-          
+
         )
         
-        } */}
+        }
 
 
         </div>

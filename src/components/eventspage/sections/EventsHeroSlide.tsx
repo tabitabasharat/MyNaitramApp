@@ -194,38 +194,38 @@ const EventsHeroSlide = ({
           <h2 className="text-[32px] lg:w-full lg:text-[48px] xl:text-[48px] font-extrabold leading-[1.2] my-3 -tracking-[0.02em] ">
             {title}
           </h2>
+          <div className="">
+            <p className="text-[#E6E6E6] font-extrabold mt-[10px]">
+              TAKEOVR Boat Party
+            </p>
+            <div className="flex items-center gap-[4px] mt-[5px]">
+              <Image src={Location} alt="location" />
+              <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px]">
+                Tereza Joanne, King George V Dock, London, E16 2QY
+              </p>
+            </div>
+            <div className="flex items-center gap-[4px] mt-[10px]">
+              <Image src={Calendar} alt="location" height={12} width={12} />
+              <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px]">
+                Saturday 24th August 24
+              </p>
+            </div>
+            <div className="flex items-center gap-[4px] mt-[10px]">
+              <Image src={Clocktime} alt="location" />
+              <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px]">
+                16:00- 23:00
+              </p>
+            </div>
+          </div>
           <div
-            className="flex items-center gap-[6px] cursor-pointer"
+            className="flex items-center gap-[6px] cursor-pointer mt-[10px]"
             onClick={() => AboutToggle()}
           >
             <p className="text-[#13FF7A]">About </p>
-            {/* <Image src={Arrowdown} alt="arrow-icon" className="" /> */}
+            <Image src={Arrowdown} alt="arrow-icon" className="" />
           </div>
-         
+          {AboutDrop && (
             <div>
-              <div>
-                <p className="text-[#E6E6E6] font-extrabold mt-[10px]">
-                  TAKEOVR Boat Party
-                </p>
-                <div className="flex items-center gap-[4px] mt-[5px]">
-                  <Image src={Location} alt="location" />
-                  <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px]">
-                    Tereza Joanne, King George V Dock, London, E16 2QY
-                  </p>
-                </div>
-                <div className="flex items-center gap-[4px] mt-[10px]">
-                  <Image src={Calendar} alt="location" height={12} width={12} />
-                  <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px]">
-                    Saturday 24th August 24
-                  </p>
-                </div>
-                <div className="flex items-center gap-[4px] mt-[10px]">
-                  <Image src={Clocktime} alt="location" />
-                  <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px]">
-                    16:00- 23:00
-                  </p>
-                </div>
-              </div>
               <div>
                 <p className="text-[#E6E6E6] mt-[10px]">Dj LINE UP </p>
 
@@ -246,7 +246,7 @@ const EventsHeroSlide = ({
                 <p className="mt-[5px] font-extrabold">Host: 5ive</p>
               </div>
             </div>
-         
+          )}
 
           {/* <p className="text-muted mt-4">Location: {location}</p> */}
           <p className="text-muted lg:mt-2 mb-5">
