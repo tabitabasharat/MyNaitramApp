@@ -75,21 +75,25 @@ export const events = [
   {
     id:13,
     // img: "/new-event.svg",
-     img: "/takeOver.png",
+     img: "/takeover-new.png",
 
     title: "TAKEOVR BOAT PARTY",
   },
   {
     id:14,
-    img: "/takeOver.png",
-    title: "Você não precisa saber",
+    img: "/takeover-new.png",
+title: "TAKEOVR BOAT PARTY",
+    // title: "Você não precisa saber",
   },
   {
     id:15,
-    // img: "/new-event-3.svg",
-    img: "/takeOver.png",
+    img: "/takeover-new.png",
+    // img: "/takeOver-new",
 
-    title: "Havana Club Daiquiri",
+    // title: "Havana Club Daiquiri",
+    title: "TAKEOVR BOAT PARTY",
+
+
   }
 ];
 
