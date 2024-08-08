@@ -13,7 +13,10 @@ import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getAllEvents, getTicketsById } from "@/lib/middleware/event";
 import Image from "next/image";
-import takeover from "../../../assets/Images.png"
+import takeover from "../../../assets/Images.png";
+import takeoverfull from "@/assets/takeover-txt-img.svg";
+import takeover1000 from "@/assets/takeover-1000px.svg";
+import takeover500 from "@/assets/takeover-500.svg";
 const EventsHero = ({ setShowTicket }: any) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<any>(null);
@@ -88,15 +91,15 @@ const EventsHero = ({ setShowTicket }: any) => {
     //   </Swiper>
     // </section>
     <section
-    // style={{
-    //   background: "#000000",
-    //   backgroundImage: "url(/takeOver.png)",
-    //   backgroundPosition: " top center",
-    //   backgroundRepeat: "no-repeat",
-    //   backgroundSize: "contain",
-    //   opacity: "1",
-    // }}
-    className="bg-img"
+      // style={{
+      //   background: "#000000",
+      //   backgroundImage: "url(/takeOver.png)",
+      //   backgroundPosition: " top center",
+      //   backgroundRepeat: "no-repeat",
+      //   backgroundSize: "contain",
+      //   opacity: "1",
+      // }}
+      className="bg-img"
     >
       {/* <div className="relative h-full ">
         <Image
@@ -111,22 +114,26 @@ const EventsHero = ({ setShowTicket }: any) => {
       </div> */}
       <div className="main-div-takeover">
         <div>
-        {/* <Image src={takeover} alt="takeover"   className=" takeover"/> */}
+          {/* <Image src={takeover} alt="takeover"   className=" takeover"/> */}
 
           {isAbout ? (
-          <Image src={takeover} alt="takeover"   className=" takeover"/>
-
-          )
-        :
-        (
-          <Image src={"/takeOver.png"} alt="takeover"  width={330} height={200} className="w-full h-full"/>
-
-
-        )
-        
-        }
-
-
+            <Image
+              src={takeover1000}
+              alt="takeover"
+              width={548}
+              height={576}
+              className=" takeover"
+            />
+          ) : (
+            <Image
+              src={takeover500}
+              alt="takeover"
+              width={330}
+              height={200}
+              className=" w-full lg:w-[400px] h-full"
+            />
+            // <Image src={takeover500} alt="takeover"  width={330} height={200} className=" h-full"/>
+          )}
         </div>
         <div>
           {EventsAllData?.events.length > 0 &&

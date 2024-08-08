@@ -46,8 +46,8 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
                   onClick={() => {
                     console.log(token);
                   }}
-                  className="w-full "
-                  // className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
+                
+                  className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
                 >
                   Buy Ticket
                 </Button>
@@ -64,6 +64,7 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
                       console.log(token);
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-auto"
+                   
                   >
                     {EventDetail?.data?.data ? "View Ticket" : "Buy Ticket"}
                   </Button>
