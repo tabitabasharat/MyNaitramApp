@@ -64,9 +64,11 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
           <p className="font-bold text-[24px] text-center lg:text-left">
             £10 - £1000
           </p>
-          <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left text-[13px] lg:text-[14px]">
+          {/* <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left text-[13px] lg:text-[14px]">
             Price may vary due to different ticket types
-          </p>
+          </p> */}
+                <p className="mt-[5px] font-extrabold text-[#00D059]">One ticket per person</p>
+
         </div>
 
         {EventDetail?.data?.data ? (

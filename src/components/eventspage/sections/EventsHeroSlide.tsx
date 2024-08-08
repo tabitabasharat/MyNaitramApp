@@ -243,7 +243,8 @@ const EventsHeroSlide = ({
                 <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[10px]">
                   Dam shaq: 21:00-23:00
                 </p>
-                <p className="mt-[5px] font-extrabold">Host: 5ive</p>
+                <p className="mt-[5px] font-extrabold ">Host: 5ive</p>
+
               </div>
             </div>
           )}

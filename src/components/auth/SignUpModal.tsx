@@ -235,7 +235,7 @@ const SignUpModal = ({
                     />
                     <FormControl>
                       <Input
-                        placeholder="Enter Fullname"
+                        placeholder="Enter Full name"
                         className="pt-11 pb-5 font-bold placeholder:font-normal"
                         {...field}
                         onChange={(e) => {
@@ -310,7 +310,7 @@ const SignUpModal = ({
                 render={({ field }) => (
                   <FormItem className="relative">
                     <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
-                      CONFORM PASSWORD
+                      CONFIRM PASSWORD
                     </FormLabel>
                     <Lock
                       className="absolute right-3 translate-y-[0.9rem] z-10"
