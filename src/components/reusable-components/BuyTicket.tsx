@@ -1,3 +1,4 @@
+"use client";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import CheckOutModal from "@/components/checkout/CheckOutModal";
@@ -5,13 +6,17 @@ import { useEffect, useState } from "react";
 import SignInModal from "../auth/SignInModal";
 import SignUpModal from "../auth/SignUpModal";
 import { AuthMode } from "@/types/types";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+import { whitelistcheck } from "@/lib/middleware/event";
 
 const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
+  const dispatch = useAppDispatch();
   const [token, setToken] = useState<any>();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
+  const [Useremail, setUserEmail] = useState<any>();
 
+  const [canBuyTicket,setCanBuyTicket] =  useState<any>();
   const EventDetail = useAppSelector(
     (state: any) => state?.getTicketStore?.specificEvent?.data
   );
@@ -21,6 +26,36 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
     setToken(token);
   }, [isLoginDialogOpen]);
+
+  useEffect(() => {
+    const useremail = localStorage.getItem("email");
+    setUserEmail(useremail);
+    console.log("user login email", useremail);
+
+  }, []);
+
+  async function BuyTicket() {
+    // setLoader(true);
+    const useremail = localStorage.getItem("email");
+    try {
+      const data = {
+        email: useremail,
+      };
+      dispatch(whitelistcheck(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          console.log("whitelistres", res?.payload?.data?.canBuy);
+          setCanBuyTicket(res?.payload?.data?.canBuy);
+        } else {
+          // setLoader(false);
+          console.log("message",res?.payload);
+          setCanBuyTicket(res?.payload?.data?.canBuy);
+
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
   return (
     <Dialog>
@@ -36,7 +71,13 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
 
         {EventDetail?.data?.data ? (
           <div>
-            <Button onClick={()=>{setShowTicket(true)}}>View Ticket</Button>
+            <Button
+              onClick={() => {
+                setShowTicket(true);
+              }}
+            >
+              View Ticket
+            </Button>
           </div>
         ) : (
           <div className="w-full lg:w-auto">
@@ -45,11 +86,11 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
                 <Button
                   onClick={() => {
                     console.log(token);
+                    BuyTicket();
                   }}
-                
                   className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
                 >
-                  Buy Ticket
+                  Buy Tickets
                 </Button>
               </DialogTrigger>
             ) : (
@@ -64,7 +105,6 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
                       console.log(token);
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-auto"
-                   
                   >
                     {EventDetail?.data?.data ? "View Ticket" : "Buy Ticket"}
                   </Button>
@@ -87,7 +127,7 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
           </div>
         )}
 
-        <CheckOutModal event={event} />
+        <CheckOutModal event={event}  canbuyTicket={canBuyTicket}/>
       </div>
     </Dialog>
   );

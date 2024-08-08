@@ -133,6 +133,8 @@ const AccountVerificationModal = ({
           console.log(data);
           localStorage.setItem("_id", res?.payload?.data?.id);
           localStorage.setItem("name", res?.payload?.data?.fullname);
+          localStorage.setItem("email", res?.payload?.data?.email);
+
           localStorage.setItem(
             "Profile_Update_Status",
             res?.payload?.data?.profileUpdate

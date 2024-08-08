@@ -100,6 +100,8 @@ const SignInModal = ({
           localStorage.setItem("token", res?.payload?.token);
          
           localStorage.setItem("name", res?.payload?.data?.fullname);
+          localStorage.setItem("email", res?.payload?.data?.email);
+
           localStorage.setItem(
             "profileupdate",
             res?.payload?.data?.profileUpdate

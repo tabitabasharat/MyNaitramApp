@@ -118,11 +118,11 @@ const EventsHero = ({ setShowTicket }: any) => {
 
           {isAbout ? (
             <Image
-              src={takeover1000}
+              src={takeoverfull}
               alt="takeover"
-              width={548}
-              height={576}
-              className=" takeover"
+              // width={548}
+              // height={576}
+              className="h-full w-full"
             />
           ) : (
             <Image

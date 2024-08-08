@@ -87,3 +87,24 @@ import { API_URL } from "../client";
       }
     }
   );
+
+
+  export const whitelistcheck = createAsyncThunk("whitelistcheck", async (data:any) => {
+    try {
+      console.log("Inside Whitelist check");
+      const res = await api.post(`${API_URL}/auth/getUserWhiteListed`, data);
+      console.log("Inside Whitelist check", res);
+      
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data,
+        token: res?.data?.token,
+      };
+    } catch (error:any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  });
