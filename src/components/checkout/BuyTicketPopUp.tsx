@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/collapsible";
 import "./ticket.css";
 import Image from "next/image";
-import Iconpop from "@/assets/whitelist-icon.svg"
+import Iconpop from "@/assets/whitelist-icon.svg";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { ticketsType, ticketsType2 } from "@/lib/dummyData";
@@ -84,7 +84,12 @@ const BuyTicketPopUp = ({ onNext, setTicketPrice, setTicketType }: any) => {
             Please contact the email below to get added.
           </p>
 
-          <Button className="mt-[56px] lg:w-[369px] leading-[24px] text-center font-extrabold pt-[16px] pb-[16px] w-full text-[#030303] ">
+          <Button
+            onClick={() => {
+              window.open("https://api.leadconnectorhq.com/widget/form/LvQ5oOH9zKPbzLtYhFh6", "_blank");
+            }}
+            className="mt-[56px] lg:w-[369px] leading-[24px] text-center font-extrabold pt-[16px] pb-[16px] w-full text-[#030303] "
+          >
             hello@naitram.live
           </Button>
         </div>
