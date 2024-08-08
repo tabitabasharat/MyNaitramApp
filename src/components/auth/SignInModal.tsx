@@ -189,7 +189,7 @@ const SignInModal = ({
     <>
   
       <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0 ">
-        {/* {loader && <Screenloader/>} */}
+        {loader && <ScreenLoader/>}
         <ScrollArea className="max-h-[90vh]">
           <DialogHeader className="relative overflow-hidden pt-4 ">
             <DialogTitle className="font-bold text-2xl mb-[18px]">
