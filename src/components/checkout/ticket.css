@@ -60,6 +60,8 @@ text-align: left;
 /* .download-App{
     width: 100%;
 } */
+
+
 @media (max-width:1340px) {
     .main-div-stlying{
         padding: 111px 100px;
@@ -79,6 +81,12 @@ text-align: left;
         align-items: center;
 justify-content: center;
     }
+}
+@media(max-width:768px)
+{
+    .whitelist-txt br{
+        display: none;
+        }
 }
 @media (max-width:600px) {
     .main-div-stlying {
