@@ -10,13 +10,13 @@ import {
 } from '@phosphor-icons/react/dist/ssr';
 import logo from '@/assets/logo.svg';
 import { slide } from '@/components/animations/variants';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Button } from '../ui/button';
 import Image from 'next/image';
 import SignInModal from '@/components/auth/SignInModal';
 import SignUpModal from '@/components/auth/SignUpModal';
 import { AuthMode } from '@/types/types';
-
+import naitramLogo from "@/assets/naitram-logo-white.svg"
 const Menu = ({
   authMode,
   setAuthMode,
@@ -52,6 +52,7 @@ const Menu = ({
       href: '/search',
     },
   ];
+  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
 
   return (
     <>
@@ -64,8 +65,8 @@ const Menu = ({
         <div className="overflow-y-scroll overflow-x-clip h-full scrollbar-hidden">
           <div className="mt-[1.6rem] flex justify-between items-center w-full">
             <Link href="/" className="">
-              <div className="w-[100px]">
-                <Image src={logo} width={800} height={800} alt="Naitram-Logo" />
+              <div className="">
+                <Image src={naitramLogo}  alt="Naitram-Logo" />
               </div>
             </Link>
             <button
@@ -116,8 +117,8 @@ const Menu = ({
                 <Button className="px-[3rem]">Sign Up</Button>
               </motion.div>
             </DialogTrigger>
-            {authMode === 'SIGNIN' && <SignInModal setAuthMode={setAuthMode} />}
-            {authMode === 'SIGNUP' && <SignUpModal setAuthMode={setAuthMode} />}
+            {authMode === 'SIGNIN' && <SignInModal redirectRoute="/events" setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />}
+            {authMode === 'SIGNUP' && <SignUpModal setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />}
           </Dialog>
           <motion.div
             custom={links.length + 2}

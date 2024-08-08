@@ -3,35 +3,123 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Separator } from '@/components/ui/separator';
-import { Button } from '../ui/button';
+} from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "../ui/button";
 import {
   CaretLeft,
   Clock,
   SealCheck,
   StripeLogo,
-} from '@phosphor-icons/react/dist/ssr';
-import { Input } from '../ui/input';
-import Image from 'next/image';
-import { shimmer, toBase64 } from '@/lib/utils';
-import { ScrollArea } from '../ui/scroll-area';
+} from "@phosphor-icons/react/dist/ssr";
+import { Input } from "../ui/input";
+import Image from "next/image";
+import { shimmer, toBase64 } from "@/lib/utils";
+import { ScrollArea } from "../ui/scroll-area";
+import axios from "axios";
+import { API_URL } from "@/lib/client";
+import { useEffect, useState } from "react";
+import ScreenLoader from "../loader/Screenloader";
+import { ErrorToast } from "../reusable-components/Toaster/Toaster";
 
 const PaymentsModal = ({
   onNext,
   handleNext,
+  ticketPrice,
+  profileInformation,
+  ticketType,
+  event,
 }: {
   onNext: () => void;
   handleNext: any;
+  ticketPrice: any;
+  profileInformation: any;
+  event: any;
+  ticketType:any
 }) => {
+  console.log("this is payemtn modal", ticketPrice, profileInformation, event);
+
+  const [loader, setLoader] = useState(false);
+  const [userIds, setUserId] = useState<any>();
+  async function OnclickSubmit() {
+    try{
+      setLoader(true);
+  
+      const data = await axios.post(`${API_URL}/create-checkout-session`, {
+        userId: userIds,
+        ticketType: "woman",
+        ticketPrice: ticketPrice,
+        fullName: profileInformation?.full_name,
+        idNumber: profileInformation?.id_number,
+        email: profileInformation?.email,
+        phoneNo: profileInformation?.phone,
+        address: profileInformation?.address,
+        eventId: event?.id,
+      });
+     
+      setLoader(false);
+      
+
+      if (data?.data?.url) {
+        window.open(data?.data?.url, "_blank");
+      } else {
+        console.error("No URL received");
+      }
+
+    }catch(error:any){
+      setLoader(false)
+      ErrorToast(error?.response?.data?.error      )
+      console.log("this is the error",error)
+    }
+  }
+  const ConvertDate = (originalDateStr: any) => {
+    const originalDate = new Date(originalDateStr);
+
+    // Extract the day, date, month, and year
+    const dayOfWeek = originalDate.toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+    const date = originalDate.getDate();
+    const month = originalDate.toLocaleDateString("en-US", { month: "long" });
+    const year = originalDate.getFullYear();
+
+    // Function to get ordinal suffix
+    const getOrdinalSuffix = (date: any) => {
+      if (date > 3 && date < 21) return "th"; // covers 11th to 19th
+      switch (date % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+
+    const ordinalSuffix = getOrdinalSuffix(date);
+
+    // Construct the formatted date string
+    const formattedDate = `${dayOfWeek} ${month} ${date}${ordinalSuffix} , ${year}`;
+
+    return formattedDate;
+  };
+
+  useEffect(() => {
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setUserId(token);
+  }, []);
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[650px]">
+      {loader && <ScreenLoader />}
       <ScrollArea className="max-h-[90vh]">
         <DialogHeader>
           <DialogTitle className="font-bold text-2xl">
             <div className="flex items-center gap-4 pb-4">
               <button
-                onClick={() => handleNext('CompleteYourProfile')}
+                onClick={() => handleNext("CompleteYourProfile")}
                 className="bg-white/10 p-2 w-fit rounded-full cursor-pointer"
               >
                 <CaretLeft size={17} weight="bold" />
@@ -45,54 +133,52 @@ const PaymentsModal = ({
         <div>
           <div className="flex justify-between mt-6">
             <p className="text-muted text-sm">YOUR PURCHASE</p>
-            <p className="font-light flex space-x-1">
+            {/* <p className="font-light flex space-x-1">
               <Clock size={20} className="text-primary" weight="fill" />
-              <span className="font-bold text-primary pr-1">12:43 </span>{' '}
+              <span className="font-bold text-primary pr-1">12:43 </span>{" "}
               <span className="hidden lg:block">left to finish the order</span>
               <span className="lg:hidden">left to order</span>
-            </p>
+            </p> */}
           </div>
           <div className="flex flex-col gap-3 border border-muted rounded-lg pb-2 pt-4 px-4 mt-2">
             <div className="border border-muted p-3 rounded-lg">
               <div className="flex gap-4">
                 <Image
-                  src={'/event4.png'}
+                  src={"/takeOver.png"}
                   width={800}
                   height={800}
                   className="w-[60px] rounded-lg object-cover"
                   placeholder={`data:image/svg+xml;base64,${toBase64(
-                    shimmer(1200, 1800),
+                    shimmer(1200, 1800)
                   )}`}
                   alt="event"
                 />
                 <div className="flex flex-col justify-between">
                   <div>
                     <p className="text-primary text-sm">
-                      Saturday, 5th March 2024
+                      {ConvertDate(event?.eventDate)}
                     </p>
                     <p className="font-bold leading-[1.2] my-1">
-                      PIZDEZ Women's Day Party 2024
+                      {event?.name}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
             <div className="flex justify-between">
-              <p className="font-light">Guest-list Admission</p>
-              <p className="font-bold">FREE</p>
+              <p style={{fontWeight:"bold"}} className="font-light">{ticketType}</p>
+              <p className="font-bold">£{ticketPrice}</p>
             </div>
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
               <p className="font-light">Regular Package</p>
-              <p className="font-bold">
-                <span className="font-light opacity-50">2x </span>£15
-              </p>
-            </div>{' '}
+              <p className="font-bold">£{ticketPrice}</p>
+            </div>{" "}
             <div className="flex justify-between mb-2">
               <p className="font-light">Fees</p>
-              <p className="font-bold">Include</p>
-            </div>
-            <Input placeholder="ENTER CODE" />
-            <div className="flex justify-between">
+              <p className="font-bold">£{ticketPrice}</p>
+            </div> */}
+            {/* <Input placeholder="ENTER CODE" /> */}
+            {/* <div className="flex justify-between">
               <p className="font-light">Discount</p>
               <div className="flex items-center gap-1 font-light text-sm">
                 <SealCheck
@@ -105,11 +191,11 @@ const PaymentsModal = ({
                   <p>12%</p>
                 </div>
               </div>
-            </div>
+            </div> */}
             <Separator />
             <div className="flex justify-between mb-2 font-bold">
               <p>Total</p>
-              <p>£30</p>
+              <p>£{ticketPrice}</p>
             </div>
           </div>
           <p className="text-sm mt-6">PAYMENT METHOD</p>
@@ -119,8 +205,8 @@ const PaymentsModal = ({
           </div>
         </div>
         <DialogFooter className="w-full mt-4 pt-4 bg-[#101010] border-t border-muted">
-          <Button onClick={onNext} className="w-full">
-            Pay: £30.00
+          <Button onClick={OnclickSubmit} className="w-full">
+            Pay: £{ticketPrice}
           </Button>
         </DialogFooter>
       </ScrollArea>

@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .pxpx {
   @apply px-[1.5rem] lg:px-[4rem];
 }
@@ -32,6 +33,12 @@
 /* .border-primary {
   @apply border-[#13FF7A];
 } */
+
+.text-gradient{
+  background: linear-gradient(90deg, #FFFFFF 0%, #00D059 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 .border-primary {
   background: linear-gradient(161deg, #13ff7a, #002b12, #13ff7a);
@@ -110,7 +117,7 @@
 }
 
 .scrollbar-hidden::-webkit-scrollbar {
-  display: none;
+  display: none !important;
 }
 
 input[type='number']::-webkit-inner-spin-button,
@@ -138,4 +145,22 @@ input[type='email'] {
   -moz-backdrop-filter: blur(30px);
   -o-backdrop-filter: blur(30px);
   -ms-backdrop-filter: blur(30px);
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none !important;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none !important;  /* IE and Edge */
+      scrollbar-width: none !important;  /* Firefox */
+}
+}
+@media(max-width:992px)
+{
+  .dialog-custom{
+    max-width: 90% !important;
+  }
 }

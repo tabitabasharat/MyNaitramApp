@@ -1,0 +1,64 @@
+.accnt-verification-input{
+    width: 89px;
+    height: 88px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 29px 35px;
+    /* padding: 29px, 35px, 29px, 35px; */
+}
+.input-stlying{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    margin: 24px 0px 20px;
+}
+.bg-image{
+    background-image: url('../../assets/240625\ Reset\ Password.png');
+    height: 100vh;
+    background-size: cover;
+    width:  100%;
+    padding-left: 112px;
+    padding-right: 112px;
+    padding-top: 100px;
+}
+.resetpass-stlying-main-div{
+    /* margin: 100px ; */
+    width: 440px;
+    height: 412px;
+
+}
+.resetpass-stlying{
+    padding: 50px 0px 30px;
+}
+.logo-stlying{
+    margin-bottom: 50px;
+}
+@media (max-width:768px) {
+   
+    .bg-image{
+        display: flex;
+        justify-content: center;
+        padding-top: 100px !important;
+        padding: 45px;
+    }
+    .resetpass-stlying-main-div{
+        width: 100%;
+    }
+    .input-stlying{
+        justify-content: space-between;
+        width: 100%;
+    }
+    .accnt-verification-input{
+        padding: 19px 22px;
+        height: auto;
+        width: 100% !important;
+    }
+}
+@media (max-width:320px) {
+    .bg-image{
+        padding: 30px;
+        padding-top: 100px;
+    }
+}
