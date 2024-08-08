@@ -79,10 +79,10 @@ const BuyTicketPopUp = ({ onNext, setTicketPrice, setTicketType }: any) => {
 
         <div className="flex items-center flex-col">
           <Image src={Iconpop} alt="icon" />
-          <p className="mt-[16px] font-weight[700] leading-[24px] whitelist-txt text-center">
+          {/* <p className="mt-[16px] font-weight[700] leading-[24px] whitelist-txt text-center">
             You must be on the whitelist to purchase tickets.<br></br>
             Please contact the email below to get added.
-          </p>
+          </p> */}
 
           <Button
             onClick={() => {
@@ -90,7 +90,7 @@ const BuyTicketPopUp = ({ onNext, setTicketPrice, setTicketType }: any) => {
             }}
             className="mt-[56px] lg:w-[369px] leading-[24px] text-center font-extrabold pt-[16px] pb-[16px] w-full text-[#030303] "
           >
-            hello@naitram.live
+            Join Waitlist
           </Button>
         </div>
       </div>
