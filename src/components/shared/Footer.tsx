@@ -50,8 +50,8 @@ const Footer = () => {
             </div>
             <div className="flex justify-between lg:justify-start gap-16 lg:gap-24 xl:gap-32">
               <div className="flex items-start flex-col gap-6 lg:gap-8">
-                <Link href={''}>Privacy Policy</Link>
-                <Link href={''}>Terms and Condition</Link>
+                <Link href={'/privacypolicy'}>Privacy Policy</Link>
+                <Link href={'/termsandcondition'}>Terms and Condition</Link>
                
               </div>
               {/* <div className="flex items-end lg:items-start flex-col gap-6 lg:gap-8">
