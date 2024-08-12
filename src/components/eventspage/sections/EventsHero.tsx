@@ -11,7 +11,7 @@ import "./EventHero.css";
 import EventsHeroSlide from "./EventsHeroSlide";
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { getAllEvents, getTicketsById } from "@/lib/middleware/event";
+import { getAllEvents, getAllEventsCount, getTicketsById } from "@/lib/middleware/event";
 import Image from "next/image";
 import takeover from "../../../assets/Images.png";
 import takeoverfull from "@/assets/takeover-txt-img.svg";
@@ -49,6 +49,9 @@ const EventsHero = ({ setShowTicket }: any) => {
       swiperRef.current.slideTo(0);
     }
   }, [EventsAllData]);
+  useEffect(()=>{
+    dispatch(getAllEventsCount())
+  },[])
 
   return (
     // <section

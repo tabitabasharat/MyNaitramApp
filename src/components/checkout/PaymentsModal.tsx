@@ -47,7 +47,7 @@ const PaymentsModal = ({
   
       const data = await axios.post(`${API_URL}/create-checkout-session`, {
         userId: userIds,
-        ticketType: "woman",
+        ticketType: ticketType,
         ticketPrice: ticketPrice,
         fullName: profileInformation?.full_name,
         idNumber: profileInformation?.id_number,
