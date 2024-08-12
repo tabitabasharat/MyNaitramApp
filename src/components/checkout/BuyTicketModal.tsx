@@ -122,7 +122,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
                           <div className="flex justify-between">
                             <p className="font-bold">{ticket.title}</p>
                             <p className="font-extrabold">
-                              {isSoldOut ? "Sold" : `£${ticket.price}`}
+                              {isSoldOut ? "Sold out" : `£${ticket.price}`}
                             </p>
                           </div>
                           {ticket.included && (
@@ -170,7 +170,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
                         <div className="flex justify-between">
                           <p className="font-bold">{ticket.title}</p>
                           <p className="font-extrabold">
-                            {isSoldOut ? "Sold" : `£${ticket.price} `}
+                            {isSoldOut ? "Sold out" : `£${ticket.price} `}
                           </p>
                         </div>
                       </div>
@@ -210,7 +210,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
                           <div className="flex justify-between">
                             <p className="font-bold">{ticket.title}</p>
                             <p className="font-extrabold">
-                              {isSoldOut ? "Sold" : `£${ticket.price}`}
+                              {isSoldOut ? "Sold out" : `£${ticket.price}`}
                             </p>
                           </div>
                           {ticket.included && (
@@ -258,7 +258,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
                         <div className="flex justify-between">
                           <p className="font-bold">{ticket.title}</p>
                           <p className="font-extrabold">
-                            {isSoldOut ? "Sold" : `£${ticket.price} `}
+                            {isSoldOut ? "Sold out" : `£${ticket.price} `}
                           </p>
                         </div>
                       </div>
