@@ -513,7 +513,7 @@ export default function TermsAndCondition() {
               This document outlines the terms and conditions for using the
               Naitram ticket selling app, including considerations for Web3 and
               NFT transacations, as well as guidelines for using the event chat
-              function, ensuring clarity and compliance for all par es involved.
+              function, ensuring clarity and compliance for all parties involved.
             </p>
           </ol>
         </ol>

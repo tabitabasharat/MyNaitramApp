@@ -1,0 +1,66 @@
+.create-inner {
+  padding-top: 250px;
+}
+.create-container-head{
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.create-container {
+  background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
+
+ border-top-left-radius: 12px;
+ border-top-right-radius: 12px;
+}
+
+.common-input {
+  /* width: 794.34px; */
+  /* height: 63px; */
+  background-color: transparent !important;
+  background: none !important;
+  font-size: 16px;
+  line-height: 21px;
+  border-radius: 10px;
+  padding: 20px 10px;
+  font-weight: bold;
+  color: #ffffff;
+}
+.common-input::placeholder {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.create-txtarea-input {
+  /* width: 794.34px; */
+  height: 260px;
+  background-color: transparent !important;
+  background: none !important;
+  /* border-color: #009540; */
+  font-weight: bold;
+  color: #ffffff !important;
+  /* padding: 15px; */
+  /* padding-bottom: 204px; */
+  border-radius: 10px;
+  resize: none !important;
+}
+
+.create-txtarea-input::placeholder {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.createEvent__container__top__image {
+  width: 12px;
+  height: 12px;
+  margin-left: 2px;
+}
+.uploadImageButton {
+  border: 1px solid #00d059;
+
+  /* width: Fixed (200px)px;
+    height: Fixed (52px)px; */
+
+  padding: 12px;
+
+  border-radius: 200px;
+}
