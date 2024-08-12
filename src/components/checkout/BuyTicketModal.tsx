@@ -87,7 +87,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
             CHOOSE TICKET TYPE
           </p>
 
-          <ScrollArea className="h-[25rem] w-full">
+          <ScrollArea className="h-[30rem] w-full">
             <div className="flex flex-col gap-3">
               {/* ENTRY TICKET */}
               <p className="text-[14px] text-[#BFBFBF] font-[400]">
