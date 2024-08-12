@@ -73,28 +73,26 @@ export const events = [
     title: "NAITRAM Launch Party 2024",
   },
   {
-    id:13,
+    id: 13,
     // img: "/new-event.svg",
-     img: "/takeover-new.png",
+    img: "/takeover-new.png",
 
     title: "TAKEOVR BOAT PARTY",
   },
   {
-    id:14,
+    id: 14,
     img: "/takeover-new.png",
-title: "TAKEOVR BOAT PARTY",
+    title: "TAKEOVR BOAT PARTY",
     // title: "Você não precisa saber",
   },
   {
-    id:15,
+    id: 15,
     img: "/takeover-new.png",
     // img: "/takeOver-new",
 
     // title: "Havana Club Daiquiri",
     title: "TAKEOVR BOAT PARTY",
-
-
-  }
+  },
 ];
 
 export const top5Events = [
@@ -174,19 +172,19 @@ export const ticketsType = [
     type: "entry-first",
     title: "Ladies",
     price: 10,
-   
+    soldOutCount: 110,
   },
   {
     type: "regular-first",
-
     title: "Gentlemen",
+    soldOutCount: 60,
     price: 20,
-   
   },
   {
     type: "premium-first",
     title: "VIP Entry",
     price: 40,
+    soldOutCount: 38,
     included: ["Queue jump", "Free Food"],
   },
 ];
@@ -195,11 +193,12 @@ export const ticketsType2 = [
     type: "entry-second",
     title: "About To Take Over",
     price: 500,
+    soldOutCount: 1,
     included: ["6 guest entry", "1x spirit + 1x Champagne", "Food"],
   },
   {
     type: "regular-second",
-
+    soldOutCount: 2,
     title: "Taking over",
     price: 750,
     included: [
@@ -213,6 +212,19 @@ export const ticketsType2 = [
     type: "premium-second",
     title: "Took Over",
     price: 1000,
+    soldOutCount: 3,
+    included: [
+      "10 Guest Entry",
+      "3x spirit + 2x Champagne",
+      "Queue Jump",
+      "Food",
+    ],
+  },
+  {
+    type: "premium-second",
+    title: "Exclusive Guest",
+    price: 1000,
+    soldOutCount: 0,
     included: [
       "10 Guest Entry",
       "3x spirit + 2x Champagne",
