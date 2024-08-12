@@ -1,16 +1,16 @@
 .create-inner {
   padding-top: 250px;
 }
-.create-container-head{
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
+.create-container-head {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .create-container {
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
 
- border-top-left-radius: 12px;
- border-top-right-radius: 12px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
 .common-input {
@@ -60,7 +60,77 @@
   /* width: Fixed (200px)px;
     height: Fixed (52px)px; */
 
-  padding: 12px;
+  padding: 12px 41.5px;
 
   border-radius: 200px;
+}
+
+.trash_button {
+  background: none;
+  border: none;
+  padding: 0px;
+  position: absolute;
+  right: -10px;
+  top: -11px;
+}
+
+.custom-datepicker {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  cursor: pointer;
+  background-color: transparent;
+}
+.react-datepicker__input-container input:focus {
+  box-shadow: none !important;
+  border: none !important;
+  outline: 0 !important;
+}
+.react-datepicker__input-container input::placeholder {
+  color: #ffffff !important;
+}
+
+.react-datetime-picker__inputGroup__input:invalid {
+  background: transparent !important;
+}
+.react-datetime-picker__inputGroup {
+  color: #ffffff !important;
+}
+
+.react-datetime-picker__wrapper {
+  border: none !important;
+}
+
+.react-datetime-picker__inputGroup__amPm option {
+  color: black !important;
+}
+
+
+@media(max-width:768px)
+{
+   .common-container{
+    flex-wrap: wrap;
+   }
+   .create-inner {
+    padding-top: 120px;
+  }
+  .gallery-box{
+    height: 320px;
+  }
+  .uploadImageButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+  }
+  .create-container-head{
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .gallery-box-same{
+    padding-right: 15px;
+  }
+  .gallery-top{
+    padding-top:55px;
+  }
 }
