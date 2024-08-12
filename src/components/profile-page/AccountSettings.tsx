@@ -61,15 +61,15 @@ const AccountSettings = () => {
   return (
     <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
       <h2 className="font-bold text-[24px] lg:text-[32px]">Account Settings</h2>
-      <div className="flex flex-col lg:flex-row gap-20 mt-4 lg:mt-10">
-        <div className="flex flex-col mx-auto lg:mx-0 gap-5 w-fit">
+      <div className="flex flex-col lg:flex-row gap-8 mt-8  lg:mt-10">
+        <div className="flex flex-col mx-auto lg:mx-0 gap-4 w-fit">
           <GradientBorder className="rounded-full p-[3px] w-fit">
             <div className="bg-black rounded-full p-[6px]">
               <Image
                 src={'/person3.jpg'}
                 width={500}
                 height={500}
-                className="size-[230px] object-cover object-top rounded-full"
+                className="size-[216px] object-cover object-top rounded-full"
                 placeholder={`data:image/svg+xml;base64,${toBase64(
                   shimmer(1200, 1800),
                 )}`}
@@ -85,13 +85,13 @@ const AccountSettings = () => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 w-full"
+              className=" w-full"
             >
               <FormField
                 control={form.control}
                 name="full_name"
                 render={({ field }) => (
-                  <FormItem className="relative">
+                  <FormItem className="relative mb-6"> 
                     <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
                       FULL NAME
                     </FormLabel>
@@ -114,7 +114,7 @@ const AccountSettings = () => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="relative">
+                  <FormItem className="relative mb-6">
                     <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
                       EMAIL
                     </FormLabel>
@@ -137,7 +137,7 @@ const AccountSettings = () => {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem className="relative">
+                  <FormItem className="relative mb-2">
                     <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
                       PASSWORD
                     </FormLabel>
@@ -156,7 +156,7 @@ const AccountSettings = () => {
                   </FormItem>
                 )}
               />
-              <button className="opacity-70 font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
+              <button className="opacity-70 text-sm pt-2 font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
                 Want to change your password?
               </button>
               <div className="flex justify-start lg:justify-end">
