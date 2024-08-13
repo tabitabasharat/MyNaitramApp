@@ -84,7 +84,7 @@ const MobileAppQRCode = () => {
               </Badge>
             </div>
             <h3 className="lg:text-[48px] xl:text-[48px] sm:text-[32px] font-extrabold leading-[1.1] mt-3 -tracking-[0.02em]">
-              {EventDetail?.data?.data?.event?.name}
+              {/* {EventDetail?.data?.data?.event?.name} */}
               TAKEOVR BOAT PARTY
             </h3>
             {/* <p className="text-muted mt-4">
