@@ -94,7 +94,7 @@ const ProfileSidebar = ({
               setPopupOpen={setPopupOpen}
               title="Live Activity Settings"
               leftElement={<Chats size={20} weight="bold" />}
-              url="/profile/languages"
+              url="/profile/LiveAccntSettings"
             />
           </div>
         </div>
