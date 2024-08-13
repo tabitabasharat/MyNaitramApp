@@ -6,7 +6,9 @@ import ufo from "@/assets/UFO_SVG.png";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import Editicon from "@/assets/Editicon.svg";
+import addicon from "@/assets/add-icon.svg";
 import Link from "next/link";
 import {
   Form,
@@ -18,6 +20,10 @@ import {
 } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "../reusable-components/Toaster/Toaster";
 import { useForm } from "react-hook-form";
 import { UploadSimple } from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
@@ -32,13 +38,22 @@ import "react-time-picker/dist/TimePicker.css";
 // import 'react-clock/dist/Clock.css';
 import "react-datepicker/dist/react-datepicker.css";
 
+import DateTimePicker from "react-datetime-picker";
 
-import DateTimePicker from 'react-datetime-picker';
+import "react-datetime-picker/dist/DateTimePicker.css";
+import "react-calendar/dist/Calendar.css";
+import "react-clock/dist/Clock.css";
 
-import 'react-datetime-picker/dist/DateTimePicker.css';
-import 'react-calendar/dist/Calendar.css';
-import 'react-clock/dist/Clock.css';
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import ScreenLoader from "../loader/Screenloader";
+import { createevent } from "@/lib/middleware/event";
+import api from "@/lib/apiInterceptor";
 
+type TicketType = {
+  type: string;
+  price: any;
+  no: any;
+};
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
   eventcategory: z
@@ -47,26 +62,24 @@ const formSchema = z.object({
   eventlocation: z
     .string()
     .min(1, { message: "Event location cannot be empty." }),
-  eventdate: z.string().min(1, { message: "Event date cannot be empty." }),
+  eventstartdate: z
+    .string()
+    .min(1, { message: "Event start date cannot be empty." }),
+  eventenddate: z
+    .string()
+    .min(1, { message: "Event end date cannot be empty." }),
+
   eventstarttime: z
     .string()
     .min(1, { message: "Event start time cannot be empty." }),
   eventendtime: z
     .string()
     .min(1, { message: "Event end time cannot be empty." }),
+
   eventdescription: z
     .string()
     .min(1, { message: "Event description cannot be empty." }),
-  tickettype: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  ticketpp: z
-    .string()
-    .min(1, { message: "Tickets per person cannot be empty." }),
-  ticketno: z
-    .string()
-    .min(1, { message: "Total ticket number cannot be empty." }),
-  comptickettype: z
-    .string()
-    .min(1, { message: "Complimentary ticket type cannot be empty." }),
+
   compticketno: z
     .string()
     .min(1, { message: "Complimentary ticket number cannot be empty." }),
@@ -82,59 +95,102 @@ const formSchema = z.object({
     .string()
     .url({ message: "Invalid YouTube URL." })
     .min(1, { message: "YouTube URL cannot be empty." }),
+  tiktokurl: z
+    .string()
+    .url({ message: "Invalid TikTok URL." })
+    .min(1, { message: "TikTok URL cannot be empty." }),
+  linkedinurl: z
+    .string()
+    .url({ message: "Invalid Linkedin URL." })
+    .min(1, { message: "Linkedin URL cannot be empty." }),
   telegramurl: z
     .string()
     .url({ message: "Invalid Telegram URL." })
     .min(1, { message: "Telegram URL cannot be empty." }),
+  tickets: z
+    .array(
+      z.object({
+        type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+        price: z
+          .string()
+          .min(1, { message: "Ticket price must be greater than 0." }),
+        no: z
+          .string()
+          .min(1, { message: "Number of tickets must be greater than 0." }),
+      })
+    )
+    .refine((tickets) => tickets.length > 0, {
+      message: "At least one ticket is required.",
+    }),
 });
 
 export default function CreateEvent() {
+  const dispatch = useAppDispatch();
+  const [loader, setLoader] = useState(false);
+  const fileInputRef = useRef(null);
+  const fileInputRef2 = useRef(null);
+
+  const [userid, setUserid] = useState("");
   const [Eventname, setEventname] = useState("");
   const [EventCategory, setEventCategory] = useState("");
   const [EventLocation, setEventLocation] = useState("");
-  const [EventDate, setEventDate] = useState("");
+  const [EventStartDate, setEventStartDate] = useState("");
+  const [EventEndDate, setEventEndDate] = useState("");
 
   const [EventStartTime, setEventStartTime] = useState("");
   const [EventEndTime, setEventEndTime] = useState("");
   const [Eventdescription, setEventdescription] = useState("");
-  const [TicketType, setTicketType] = useState("");
-  const [TicketPrice, setTicketPrice] = useState("");
-  const [TicketNo, setTicketNo] = useState("");
 
-  const [CompTicketType, setCompTicketType] = useState("");
   const [CompTicketNo, setCompTicketNo] = useState("");
   const [MainImg, setMainImg] = useState("");
+  const [MainImgName, setMainImgName] = useState<any>("");
+
   const [CoverImg, setCoverImg] = useState("");
+  const [CoverImgName, setCoverImgName] = useState<any>("");
+
   const [FBUrl, setFBUrl] = useState("");
   const [InstaUrl, setInstaUrl] = useState("");
-  const [TelegramUrl, setTelegramuUrl] = useState("");
+  const [TwitterUrl, setTwitterUrl] = useState("");
 
   const [YoutubeUrl, setYoutubeUrl] = useState("");
+
+  const [tiktokUrl, settiktokUrl] = useState("");
+  const [linkedinUrl, setlinkedinUrl] = useState("");
+  const [eventsFiles, setEventsFile] = useState<any>([]);
+  const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
+    { type: "", price: 0, no: 0 },
+  ]);
 
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
 
   async function verificationCode(values: z.infer<typeof formSchema>) {
+    console.log("clicked");
     console.log("my code is", values);
   }
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       eventname: "",
       eventcategory: "",
       eventlocation: "",
-      eventdate: "",
+      eventstartdate: "",
+      eventenddate: "",
+
       eventstarttime: "",
       eventendtime: "",
+      // eventmainimg: "",
+      // eventcoverimg: "",
       eventdescription: "",
-      tickettype: "",
-      ticketpp: "",
-      ticketno: "",
-      comptickettype: "",
+
       compticketno: "",
       fburl: "",
       instaurl: "",
       youtubeurl: "",
       telegramurl: "",
+      tiktokurl: "",
+      linkedinurl: "",
+      tickets: [],
     },
   });
 
@@ -142,14 +198,203 @@ export default function CreateEvent() {
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);
       setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]); // Update state with all selected files
-      console.log("Gallery files:", filesArray);
+      console.log("Gallery files:", [...galleryFiles, ...filesArray]);
+    }
+  };
+  const handleFileChangeapi = async () => {
+    if (galleryFiles) {
+      setLoader(true);
+
+      try {
+        const filesArray = Array.from(galleryFiles);
+
+        console.log("Gallery files:", filesArray);
+
+        const formData = new FormData();
+
+        filesArray.forEach((file) => formData.append("files", file));
+
+        //  console.log("my res before", formData)
+        const res: any = await api.post(
+          `${API_URL}/upload/uploadMultiple`,
+          formData
+        );
+
+        if (res?.status === 200) {
+          setLoader(false);
+
+          console.log("gallery res", res);
+          console.log("gallery image uploasssded");
+          setEventsFile(res?.data?.imageUrls);
+
+          console.log(res?.data?.data, "this is the gallery url");
+          SuccessToast("Images Uploaded Successfully");
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message || "Error uploading image");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
   };
 
+  const handleInputChange = (
+    index: number,
+    field: keyof TicketType,
+    value: string | number
+  ) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket, i) =>
+        i === index ? { ...ticket, [field]: value } : ticket
+      )
+    );
+  };
+
+  const handleAddTicketType = () => {
+    setTicketTypes((prevTickets) => [
+      ...prevTickets,
+      { type: "", price: 0, no: 0 },
+    ]);
+  };
+
+  const handleSingleFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    console.log("Selected Main cover img is:", file);
+    const filename = file?.name;
+    console.log("file name", filename);
+    setMainImgName(filename);
+
+    if (file) {
+      setLoader(true);
+
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        const res: any = await api.post(
+          `${API_URL}/upload/uploadimage`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (res.status === 200) {
+          setLoader(false);
+
+          console.log("Main cover image", res);
+          console.log("Main cover image uploaded");
+          setMainImg(res?.data?.data);
+          console.log(res?.data?.data, "this is the Main cover image url");
+          SuccessToast("Main Cover Image Uploaded Successfully");
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message || "Error uploading image");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+  const handleCoverSingleFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    console.log("Selected  cover img is:", file);
+    const filename = file?.name;
+    console.log("file name", filename);
+    setCoverImgName(filename);
+    if (file) {
+      setLoader(true);
+
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        const res: any = await api.post(
+          `${API_URL}/upload/uploadimage`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (res.status === 200) {
+          setLoader(false);
+
+          console.log(" cover image", res);
+          console.log(" cover image uploaded");
+          setCoverImg(res?.data?.data);
+          console.log(res?.data?.data, "this is thecover image url");
+          SuccessToast("Cover Event Image Uploaded Successfully");
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message || "Error uploading image");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
   const removeImage = (index: number) => {
     setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
+  useEffect(() => {
+    const userID: any = localStorage.getItem("_id");
+    setUserid(userID);
+    console.log("user ID logged in is", userID);
+  }, []);
+
+  async function EventCreation(values: z.infer<typeof formSchema>) {
+    console.log("my values", values);
+    console.log(" Event Creation");
+
+    setLoader(true);
+    handleFileChangeapi();
+    try {
+      const data = {
+        userId: userid,
+        name: Eventname,
+        category: EventCategory,
+        eventDescription: Eventdescription,
+        location: EventLocation,
+        ticketStartDate: EventStartDate,
+        ticketEndDate: EventEndDate,
+        startTime: EventStartTime,
+        endTime: EventEndTime,
+        mainEventImage: MainImg,
+        coverEventImage: CoverImg,
+        tickets: ticketTypes,
+        totalComplemantaryTickets: CompTicketNo,
+        fbUrl: FBUrl,
+        instaUrl: InstaUrl,
+        youtubeUrl: YoutubeUrl,
+        twitterUrl: TwitterUrl,
+        tiktokUrl: tiktokUrl,
+        linkedinUrl: linkedinUrl,
+        eventmedia: eventsFiles,
+      };
+      dispatch(createevent(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          SuccessToast("Event Created Successfully");
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      ErrorToast(error);
+    }
+  }
+  console.log("Form errors:", form.formState.errors);
   return (
     <section
       style={{
@@ -159,12 +404,17 @@ export default function CreateEvent() {
       }}
       className="min-h-screen  bg-cover bg-no-repeat  pb-[80px] create-inner"
     >
+      {loader && <ScreenLoader />}
       <div className="pxpx mx-2xl  w-full   ">
         <div className="px-[24px] py-[16px] relative create-container ">
-          <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
-            {" "}
-            Create <span className="text-primary">Event</span>
-          </h1>
+          <div className="flex justify-between">
+            <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
+              {" "}
+              Create <span className="text-primary">Event</span>
+            </h1>
+            <Image src={Editicon} alt="Edit-icon" />
+          </div>
+
           <Image
             src={ufo}
             width={350}
@@ -176,22 +426,26 @@ export default function CreateEvent() {
         <div className="gradient-slate w-full pt-[32px] pb-[32px] px-[60px]  create-container-head">
           <Form {...form}>
             <form
-              className="mt-6 w-full"
-              onSubmit={form.handleSubmit(verificationCode)}
+              className=" w-full"
+              // onSubmit={form.handleSubmit(verificationCode)}
+              onSubmit={(event) => {
+                console.log("Form submit triggered");
+                form.handleSubmit(EventCreation)(event);
+              }}
             >
               <div className="flex items-start gap-[24px] w-full common-container">
                 <FormField
                   control={form.control}
                   name="eventname"
                   render={({ field }) => (
-                    <FormItem className="relative w-full ">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
                         Event Name
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Event Name"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                           {...field}
                           onChange={(e) => {
                             setEventname(e.target.value);
@@ -199,6 +453,7 @@ export default function CreateEvent() {
                           }}
                         />
                       </FormControl>
+
                       <FormMessage />
                     </FormItem>
                   )}
@@ -208,14 +463,14 @@ export default function CreateEvent() {
                   control={form.control}
                   name="eventcategory"
                   render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
                         Event Category
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Event Category"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] mt-0"
                           {...field}
                           onChange={(e) => {
                             setEventCategory(e.target.value);
@@ -228,14 +483,40 @@ export default function CreateEvent() {
                   )}
                 />
               </div>
+              <div className="mt-[24px]">
+                <FormField
+                  control={form.control}
+                  name="eventdescription"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full  space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                        Event Description
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          value={Eventdescription}
+                          className="pt-11 create-txtarea-input "
+                          onChange={(e) => {
+                            setEventdescription(e.target.value);
+                            field.onChange(e);
+                          }}
+                          placeholder="Enter Event Description"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+              <div className="mt-[24px]">
                 <FormField
                   control={form.control}
                   name="eventlocation"
                   render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event location
                       </FormLabel>
                       <FormControl>
@@ -253,26 +534,85 @@ export default function CreateEvent() {
                     </FormItem>
                   )}
                 />
+              </div>
 
+              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
                 <FormField
                   control={form.control}
-                  name="eventdate"
+                  name="eventstartdate"
                   render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Event date
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                        Ticketing Start Date
                       </FormLabel>
                       <FormControl>
-                        <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
-                          {/* <DatePicker datelabel={"Enter Event Date"}/> */}
+                        <Input
+                          type="date"
+                          aria-label="Date"
+                          placeholder="Enter Start Date"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          {...field}
+                          onChange={(e) => {
+                            setEventStartDate(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                        {/* <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
+                          <DatePicker datelabel={"Enter Event Date"}/>
                           <DatePicker
-                            selected={EventDate}
-                            onChange={(date) => setEventDate(date)}
+                            selected={EventStartDate}
+                            onChange={(date) => setEventStartDate(date)}
                             autoFocus={false}
                             className="custom-datepicker text-[#ffffff]"
                             placeholderText="Enter Event Date"
                           />
-                        </div>
+                        </div> */}
+                      </FormControl>
+
+                      {/* <Input
+                          placeholder="Enter Event Date"
+                          className="pt-11 pb-5 font-bold placeholder:font-normal"
+                          {...field}
+                          onChange={(e) => {
+                            setEventDate(e.target.value);
+                            field.onChange(e);
+                          }}
+                        /> */}
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="eventenddate"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                        Ticketing End Date
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="date"
+                          aria-label="Date"
+                          placeholder="Enter End Date"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          {...field}
+                          onChange={(e) => {
+                            setEventEndDate(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                        {/* <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
+                          <DatePicker datelabel={"Enter Event Date"}/>
+                          <DatePicker
+                            selected={EventEndDate}
+                            onChange={(date) => setEventEndDate(date)}
+                            autoFocus={false}
+                            className="custom-datepicker text-[#ffffff]"
+                            placeholderText="Enter Event Date"
+                          />
+                        </div> */}
                       </FormControl>
 
                       {/* <Input
@@ -296,31 +636,31 @@ export default function CreateEvent() {
                   control={form.control}
                   name="eventstarttime"
                   render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Event Start time
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                        Event Start Date & time
                       </FormLabel>
                       <FormControl>
-                        <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
-                          {/* <TimePicker
+                        {/* <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
+                           <TimePicker
                             onChange={setEventStartTime}
                             value={EventStartTime}
                             clockAriaLabel={false}
                             disableClock={true}
                             
-                          /> */}
-                           <DateTimePicker  onChange={setEventStartTime}
+                          /> 
+                          <DateTimePicker
+                            onChange={setEventStartTime}
                             value={EventStartTime}
                             disableClock={true}
-                            calendarIcon={false} 
+                            calendarIcon={false}
                             clearIcon={false}
                             className="text-[#000000]"
-                            />
-                        </div>
-                      </FormControl>
-
-                      {/* <FormControl>
+                          />
+                        </div> */}
                         <Input
+                          type="datetime-local"
+                          aria-label="Date and time"
                           placeholder="Enter Start Time"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
@@ -329,7 +669,8 @@ export default function CreateEvent() {
                             field.onChange(e);
                           }}
                         />
-                      </FormControl> */}
+                      </FormControl>
+
                       <FormMessage />
                     </FormItem>
                   )}
@@ -339,25 +680,205 @@ export default function CreateEvent() {
                   control={form.control}
                   name="eventendtime"
                   render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-3 uppercase">
-                        Event end time
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                        Event End Date & time
                       </FormLabel>
                       <FormControl>
                         <Input
+                          type="datetime-local"
+                          aria-label="Date and time"
                           placeholder="Enter End Time"
-                          className="pt-11 pb-5 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
                           onChange={(e) => {
                             setEventEndTime(e.target.value);
                             field.onChange(e);
                           }}
                         />
+                        {/* <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
+                          <TimePicker
+                            onChange={setEventStartTime}
+                            value={EventStartTime}
+                            clockAriaLabel={false}
+                            disableClock={true}
+                            
+                          /> 
+                        <DateTimePicker
+                            onChange={setEventEndTime}
+                            value={EventEndTime}
+                            disableClock={true}
+                            calendarIcon={false}
+                            clearIcon={false}
+                            className="text-[#000000]"
+                          />
+                          
+                        </div> */}
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container ">
+                <FormField
+                  control={form.control}
+                  name="eventmainimg"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                        Main event image
+                      </FormLabel>
+                      <UploadSimple
+                        className="absolute right-[24px] top-[30%] "
+                        size={20}
+                      />
+
+                      <FormControl>
+                        <div>
+                          <label
+                            htmlFor="upload"
+                            className="pt-9 pb-3 font-bold   border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-between items-center "
+                          >
+                            {/* <span>{field.value?.name || "Upload Image"}</span> */}
+                            <span className="pl-[0.75rem]">
+                              {MainImgName || "Upload Image"}
+                            </span>
+
+                            <input
+                              ref={fileInputRef}
+                              type="file"
+                              accept="image/png image/jpg image/jpeg image/svg"
+                              className="hidden"
+                              id="upload"
+                              onChange={handleSingleFileChange}
+                              //   onChange={(e) => handleInputChangeForUploadMedia(e)}
+                            />
+                          </label>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
+                <FormField
+                  control={form.control}
+                  name="eventcoverimg"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                        cover event image
+                      </FormLabel>
+                      <UploadSimple
+                        className="absolute right-[24px] top-[30%] "
+                        size={20}
+                      />
+
+                      <FormControl>
+                        <div>
+                          <label
+                            htmlFor="upload2"
+                            className="pt-9 pb-3 font-bold   border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-between items-center "
+                          >
+                            {/* <span>{field.value?.name || "Upload Image"}</span> */}
+                            <span className="pl-[0.75rem]">
+                              {CoverImgName || "Upload Image"}
+                            </span>
+                            {/* {CoverImgName  &&  CoverImg ? (
+                              <span className="pl-[0.75rem]">
+                                {CoverImgName}
+                              </span>
+                            ) : (
+                              <span>Upload Image</span>
+                            )} */}
+
+                            <input
+                              ref={fileInputRef2}
+                              type="file"
+                              accept="image/png image/jpg image/jpeg image/svg"
+                              className="hidden"
+                              id="upload2"
+                              onChange={handleCoverSingleFileChange}
+
+                              //   onChange={(e) => handleInputChangeForUploadMedia(e)}
+                            />
+                          </label>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+                <FormItem className="relative w-full space-y-0">
+                  <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                    Gallery media
+                    {galleryFiles?.length > 0 && (
+                      <div className="mt-4 pb-4 relative">
+                        <div className="flex flex-wrap gap-[12px] ">
+                          {galleryFiles?.map((file, index) => (
+                            <>
+                              <div
+                                key={index}
+                                className="relative w-[80px] h-[80px] bg-gray-200  rounded-[12px]"
+                              >
+                                <Image
+                                  src={window.URL.createObjectURL(file)}
+                                  alt={`Gallery Image ${index + 1}`}
+                                  className="w-full h-full object-cover relative rounded-[12px]"
+                                  width={80}
+                                  height={80}
+                                />
+
+                                <button
+                                  type="button"
+                                  onClick={() => removeImage(index)}
+                                  className="trash_button"
+                                >
+                                  <Image
+                                    src={crossicon}
+                                    alt="remove"
+                                    width={20}
+                                    height={20}
+                                  />
+                                </button>
+                              </div>
+                            </>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </FormLabel>
+                  <FormControl>
+                    <div>
+                      <label
+                        htmlFor="galleryUpload"
+                        className={` pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px]  ${
+                          galleryFiles.length > 0
+                            ? "h-[200px] gallery-box"
+                            : "pt-9 gallery-top"
+                        }`}
+                      >
+                        <span className="pl-[0.75rem] uploadImageButton">
+                          {"Upload Images"}
+                        </span>
+                        <input
+                          type="file"
+                          multiple
+                          accept="image/png, image/jpg, image/jpeg, image/svg"
+                          className="hidden"
+                          id="galleryUpload"
+                          onChange={handleFileChange}
+                        />
+                      </label>
+                    </div>
+                  </FormControl>
+                </FormItem>
               </div>
 
               {/* <FormField
@@ -382,36 +903,14 @@ export default function CreateEvent() {
                   </FormItem>
                 )}
               /> */}
-              <FormField
-                control={form.control}
-                name="eventdescription"
-                render={({ field }) => (
-                  <FormItem className="relative w-full ">
-                    <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                      Event Description
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        value={Eventdescription}
-                        className="pt-11 create-txtarea-input "
-                        onChange={(e) => {
-                          setEventdescription(e.target.value);
-                        }}
-                        placeholder="Enter Event Description"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
 
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
                 <FormField
                   control={form.control}
                   name="tickettype"
                   render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event Ticke type
                       </FormLabel>
                       <FormControl>
@@ -434,8 +933,8 @@ export default function CreateEvent() {
                   control={form.control}
                   name="ticketpp"
                   render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
                         Event Ticket Price
                       </FormLabel>
                       <FormControl>
@@ -459,8 +958,8 @@ export default function CreateEvent() {
                   control={form.control}
                   name="ticketno"
                   render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event number of tickets
                       </FormLabel>
                       <FormControl>
@@ -481,37 +980,119 @@ export default function CreateEvent() {
                 />
               </div>
 
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                <FormField
-                  control={form.control}
-                  name="comptickettype"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Complimentary ticket type
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter type"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                          {...field}
-                          onChange={(e) => {
-                            setCompTicketType(e.target.value);
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="flex justify-end items-center mt-[12px] ">
+                <Button className="font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold ">
+                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                  Add Ticket Type
+                </Button>
+              </div> */}
 
+              {ticketTypes.map((ticket, index) => (
+                <div
+                  className="flex items-start gap-[24px] w-full mt-[24px] common-container"
+                  key={index}
+                >
+                  <FormField
+                    control={form.control}
+                    name={`tickets[${index}].type`}
+                    render={({ field }) => (
+                      <FormItem className="relative w-full space-y-0">
+                        <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                          Event Ticket Type
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter Type"
+                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                            {...field}
+                            onChange={(e) => {
+                              handleInputChange(index, "type", e.target.value);
+                              field.onChange(e);
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name={`tickets[${index}].price`}
+                    render={({ field }) => (
+                      <FormItem className="relative w-full space-y-0">
+                        <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                          Event Ticket Price
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Enter Price"
+                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                            {...field}
+                            onChange={(e) => {
+                              handleInputChange(
+                                index,
+                                "price",
+                                parseFloat(e.target.value)
+                              );
+                              field.onChange(e);
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name={`tickets[${index}].no`}
+                    render={({ field }) => (
+                      <FormItem className="relative w-full space-y-0">
+                        <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                          Event Number of Tickets
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Enter No. of Tickets"
+                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                            {...field}
+                            onChange={(e) => {
+                              handleInputChange(
+                                index,
+                                "no",
+                                parseInt(e.target.value, 10)
+                              );
+                              field.onChange(e);
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              ))}
+
+              <div className="flex justify-end items-center mt-[12px]">
+                <Button
+                  className="font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold "
+                  onClick={handleAddTicketType}
+                >
+                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                  Add Ticket Type
+                </Button>
+              </div>
+
+              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
                 <FormField
                   control={form.control}
                   name="compticketno"
                   render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Complimentary number of tickets
                       </FormLabel>
                       <FormControl>
@@ -527,84 +1108,6 @@ export default function CreateEvent() {
                         />
                       </FormControl>
                       <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container ">
-                <FormField
-                  control={form.control}
-                  name="eventname"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        cover event image
-                      </FormLabel>
-                      <UploadSimple
-                        className="absolute right-[24px] top-[30%] "
-                        size={20}
-                      />
-
-                      <FormControl>
-                        <div>
-                          <label
-                            htmlFor="upload"
-                            className="pt-9 pb-3 font-bold   border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-between items-center "
-                          >
-                            {/* <span>{field.value?.name || "Upload Image"}</span> */}
-                            <span className="pl-[0.75rem]">
-                              {"Upload Image"}
-                            </span>
-
-                            <input
-                              type="file"
-                              accept="image/png image/jpg image/jpeg image/svg"
-                              className="hidden"
-                              id="upload"
-                              //   onChange={(e) => handleInputChangeForUploadMedia(e)}
-                            />
-                          </label>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="eventname"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        cover event image
-                      </FormLabel>
-                      <UploadSimple
-                        className="absolute right-[24px] top-[30%] "
-                        size={20}
-                      />
-
-                      <FormControl>
-                        <div>
-                          <label
-                            htmlFor="upload"
-                            className="pt-9 pb-3 font-bold   border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-between items-center "
-                          >
-                            {/* <span>{field.value?.name || "Upload Image"}</span> */}
-                            <span className="pl-[0.75rem]">
-                              {"Upload Image"}
-                            </span>
-
-                            <input
-                              type="file"
-                              accept="image/png image/jpg image/jpeg image/svg"
-                              className="hidden"
-                              id="upload"
-                              //   onChange={(e) => handleInputChangeForUploadMedia(e)}
-                            />
-                          </label>
-                        </div>
-                      </FormControl>
                     </FormItem>
                   )}
                 />
@@ -643,77 +1146,6 @@ export default function CreateEvent() {
                   )}
                 />
               </div> */}
-
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                <FormField
-                  control={form.control}
-                  name="galleryMedia"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Gallery media
-                        {galleryFiles.length > 0 && (
-                          <div className="mt-4 pb-4 relative">
-                            <div className="flex flex-wrap gap-[12px] ">
-                              {galleryFiles.map((file, index) => (
-                                <>
-                                  <div
-                                    key={index}
-                                    className="relative w-[80px] h-[80px] bg-gray-200  rounded-[12px]"
-                                  >
-                                    <Image
-                                      src={URL.createObjectURL(file)}
-                                      alt={`Gallery Image ${index + 1}`}
-                                      className="w-full h-full object-cover relative rounded-[12px]"
-                                      width={80}
-                                      height={80}
-                                    />
-
-                                    <button
-                                      type="button"
-                                      onClick={() => removeImage(index)}
-                                      className="trash_button"
-                                    >
-                                      <Image
-                                        src={crossicon}
-                                        alt="remove"
-                                        width={20}
-                                        height={20}
-                                      />
-                                    </button>
-                                  </div>
-                                </>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </FormLabel>
-                      <FormControl>
-                        <div>
-                          <label
-                            htmlFor="galleryUpload"
-                            className={` pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px]  ${
-                              galleryFiles.length > 0 ? "h-[200px] gallery-box" : "pt-9 gallery-top"
-                            }`}
-                          >
-                            <span className="pl-[0.75rem] uploadImageButton">
-                              {"Upload Images"}
-                            </span>
-                            <input
-                              type="file"
-                              multiple="multiple"
-                              accept="image/png, image/jpg, image/jpeg, image/svg"
-                              className="hidden"
-                              id="galleryUpload"
-                              onChange={handleFileChange}
-                            />
-                          </label>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
 
               <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
                 <FormField
@@ -772,7 +1204,7 @@ export default function CreateEvent() {
                   render={({ field }) => (
                     <FormItem className="relative w-full">
                       <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Telegram
+                        Twitter
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -780,7 +1212,7 @@ export default function CreateEvent() {
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
                           onChange={(e) => {
-                            setTelegramuUrl(e.target.value);
+                            setTwitterUrl(e.target.value);
                             field.onChange(e);
                           }}
                         />
@@ -814,12 +1246,61 @@ export default function CreateEvent() {
                   )}
                 />
               </div>
+              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container ">
+                <FormField
+                  control={form.control}
+                  name="tiktokurl"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Tiktok
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter URL"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          {...field}
+                          onChange={(e) => {
+                            settiktokUrl(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="linkedinurl"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Linkedin
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter URL"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
+                          {...field}
+                          onChange={(e) => {
+                            setlinkedinUrl(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <div className="flex justify-end items-center mt-[36px]">
                 <Button
                   type="submit"
-                  className="font-bold py-[12px] px-[68px] "
+                  className="font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px]"
                 >
-                  Submit
+                  Edit Changes
                 </Button>
               </div>
             </form>

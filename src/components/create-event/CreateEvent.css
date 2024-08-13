@@ -124,8 +124,9 @@
     padding: 12px;
   }
   .create-container-head{
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 16px;
   }
   .gallery-box-same{
     padding-right: 15px;
@@ -133,4 +134,7 @@
   .gallery-top{
     padding-top:55px;
   }
+}
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }

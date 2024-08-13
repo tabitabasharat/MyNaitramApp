@@ -125,4 +125,26 @@ export const getAllEventsCount = createAsyncThunk(
   }
 );
 
+export const createevent = createAsyncThunk(
+  "createevent",
+  async (data: any) => {
+    try {
+      console.log("Inside create Event");
+      const res = await api.post(`${API_URL}/event/createEvent`, data);
+      console.log("Inside create Event Res", res);
+
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+        token: res?.data?.token,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
 
