@@ -22,7 +22,7 @@ const GalleryPage = () => {
     return () => clearTimeout(timer); // Clean up the timer
   }, []);
 
-  const handleNavigation = (event) => {
+  const handleNavigation = (event:any) => {
     if (event === "NAITRAM LAUNCH PARTY") {
       window.location.href = "/gallery/naitramlaunch";
     } else if (event === "NAITRAM ROOFTOP EVENT") {
