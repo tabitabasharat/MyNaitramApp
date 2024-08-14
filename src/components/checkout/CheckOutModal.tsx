@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import BuyTicketPopUp from "@/components/checkout/BuyTicketPopUp";
 import WhiteListCode from "@/components/checkout/WhiteListCode";
 import { useAppDispatch,useAppSelector } from "@/lib/hooks";
-const CheckOutModal = ({ event, canbuyTicket }: any) => {
+const CheckOutModal = ({ event }: any) => {
   const dispatch = useAppDispatch();
   const [currentModal, setCurrentModal] = useState("BuyTicket");
   const [ticketPrice, setTicketPrice] = useState<any>();
@@ -22,25 +22,25 @@ const CheckOutModal = ({ event, canbuyTicket }: any) => {
   const handleNext = (nextModal: string) => {
     setCurrentModal(nextModal);
   };
-console.log("user can buy ticket",canbuyTicket)
+
   
 
   return (
     <>
-      {currentModal === "BuyTicket" && canbuyTicket == true && (
+      {currentModal === "BuyTicket" && (
         <BuyTicketModal
           onNext={() => handleNext("CompleteYourProfile")}
           setTicketPrice={setTicketPrice}
           setTicketType={setTicketType}
         />
       )}
-       {canbuyTicket == false &&(
+       {/* {canbuyTicket == false &&(
         <BuyTicketPopUp
           onNext={() => handleNext("CompleteYourProfile")}
           setTicketPrice={setTicketPrice}
           setTicketType={setTicketType}
         />
-      )}
+      )} */}
 
         {/* {currentModal === "BuyTicket" && (
         <WhiteListCode
