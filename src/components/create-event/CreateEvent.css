@@ -134,6 +134,14 @@
   .gallery-top{
     padding-top:55px;
   }
+  .edit-btn{
+    width: 100%;
+    justify-content: center;
+  }
+  .ticket-btn{
+    width: 100%;
+    justify-content: center;
+  }
 }
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);

@@ -330,7 +330,7 @@ export default function CreateEvent() {
           console.log(" cover image", res);
           console.log(" cover image uploaded");
           setCoverImg(res?.data?.data);
-          console.log(res?.data?.data, "this is thecover image url");
+          console.log(res?.data?.data, "this is the cover image url");
           SuccessToast("Cover Event Image Uploaded Successfully");
         } else {
           setLoader(false);
@@ -1076,7 +1076,7 @@ export default function CreateEvent() {
                 </div>
               ))}
 
-              <div className="flex justify-end items-center mt-[12px]">
+              <div className="flex justify-end items-center mt-[12px] ticket-btn">
                 <Button
                   className="font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold "
                   onClick={handleAddTicketType}
@@ -1295,10 +1295,10 @@ export default function CreateEvent() {
                   )}
                 />
               </div>
-              <div className="flex justify-end items-center mt-[36px]">
+              <div className="flex justify-end items-center mt-[36px] edit-btn">
                 <Button
                   type="submit"
-                  className="font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px]"
+                  className="font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                 >
                   Edit Changes
                 </Button>
