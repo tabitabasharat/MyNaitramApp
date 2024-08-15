@@ -11,6 +11,7 @@ import {
   Chats,
   // Deleteaccnt,
 } from "@phosphor-icons/react/dist/ssr";
+import { DeleteIcon } from "lucide-react";
 
 const ProfileSidebar = ({
   className,
@@ -133,7 +134,7 @@ const ProfileSidebar = ({
     {/* <AccountSidebarLink
       setPopupOpen={setPopupOpen}
       title="Delete Account"
-      leftElement={<Deleteaccnt size={20} weight="bold" />}
+      leftElement={<DeleteIcon size={20} weight="bold" />}
       url="/profile/privacy-policy"
     /> */}
 
