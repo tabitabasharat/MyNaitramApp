@@ -20,7 +20,7 @@ import GradientBorder from "../ui/gradient-border";
 import { ScrollArea } from "../ui/scroll-area";
 import { Minus, Plus, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { getEventById } from "@/lib/middleware/event";
+import { getAllEventsCount, getEventById } from "@/lib/middleware/event";
 import { useState, useEffect } from "react";
 import { setContractEditor } from "@/lib/reducer/setBuyTicket";
 // import { setTicketPrice } from "@/lib/reducer/setBuyTicket";
@@ -72,6 +72,9 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
     (state) => state?.getEventById?.specificEvent?.data?.data[0]?.eventTickets
   );
   console.log("tickets data in checkout modal", EventDetail);
+  useEffect(()=>{
+    dispatch(getAllEventsCount())
+  },[])
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[600px] text-white">
       <div>
@@ -83,7 +86,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
         </DialogHeader>
 
         <div>
-          <p className="text-[#BFBFBF] font-extrabold text-[13px] pb-4">
+          <p className="text-[#ffffff] font-extrabold text-[15px] pb-4">
             CHOOSE TICKET TYPE
           </p>
 
@@ -93,8 +96,8 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
               <p className="text-[14px] text-[#BFBFBF] font-[400]">
                 Entry Ticket
               </p>
-              {ticketsType.map((ticket) => {
-                const count = EventsAllDataCount[ticket?.title] || 0; // Get the count for the ticket title
+              {ticketsType?.map((ticket) => {
+                const count =EventsAllDataCount&& EventsAllDataCount[ticket?.title] || 0; // Get the count for the ticket title
                 const isSoldOut = count >= ticket.soldOutCount; // Check if the ticket is sold out
 
                 return selectedTicket === ticket.type ? (
@@ -182,7 +185,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
                 VIP Table Packages
               </p>
               {ticketsType2.map((ticket) => {
-                const count = EventsAllDataCount[ticket?.title] || 0; // Get the count for the ticket title
+                const count = EventsAllDataCount&&  EventsAllDataCount[ticket?.title] || 0; // Get the count for the ticket title
                 const isSoldOut = count >= ticket.soldOutCount; // Check if the ticket is sold out
 
                 return selectedTicket === ticket.type ? (

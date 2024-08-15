@@ -172,26 +172,26 @@ export const ticketsType = [
     type: "entry-first",
     title: "Ladies",
     price: 10,
-    soldOutCount: 110,
+    soldOutCount: 60,
   },
   {
     type: "regular-first",
     title: "Gentlemen",
-    soldOutCount: 60,
-    price: 20,
+    soldOutCount: 110,
+    price: 30,
   },
   {
     type: "premium-first",
     title: "VIP Entry",
     price: 40,
     soldOutCount: 38,
-    included: ["Queue jump", "Free Food"],
+    included: ["Queue Jump", "Food"],
   },
 ];
 export const ticketsType2 = [
   {
     type: "entry-second",
-    title: "About To Take Over",
+    title: "⁠Bronze",
     price: 500,
     soldOutCount: 1,
     included: ["6 guest entry", "1x spirit + 1x Champagne", "Food"],
@@ -199,37 +199,32 @@ export const ticketsType2 = [
   {
     type: "regular-second",
     soldOutCount: 2,
-    title: "Taking over",
+    title: "Silver",
     price: 750,
     included: [
       "8 Guest Entry",
-      "2x Spirit + 1x Champagne",
+      "1x Spirit + 2x Champagne",
       "Queue Jump",
       "Food",
     ],
   },
   {
     type: "premium-second",
-    title: "Took Over",
+    title: "Gold",
     price: 1000,
     soldOutCount: 3,
     included: [
       "10 Guest Entry",
-      "3x spirit + 2x Champagne",
+      "2x spirit + 3x Champagne",
       "Queue Jump",
       "Food",
     ],
   },
   {
-    type: "premium-second",
+    type: "premium-trird",
     title: "Exclusive Guest",
     price: 1000,
     soldOutCount: 0,
-    included: [
-      "10 Guest Entry",
-      "3x spirit + 2x Champagne",
-      "Queue Jump",
-      "Food",
-    ],
+
   },
 ];

@@ -50,7 +50,6 @@ const PaymentsModal = ({
         ticketType: ticketType,
         ticketPrice: ticketPrice,
         fullName: profileInformation?.full_name,
-        idNumber: profileInformation?.id_number,
         email: profileInformation?.email,
         phoneNo: profileInformation?.phone,
         address: profileInformation?.address,
@@ -61,7 +60,7 @@ const PaymentsModal = ({
       
 
       if (data?.data?.url) {
-        window.open(data?.data?.url, "_blank");
+        window.location.href =data?.data?.url
       } else {
         console.error("No URL received");
       }

@@ -221,30 +221,66 @@ const EventsHeroSlide = ({
             className="flex items-center gap-[6px] cursor-pointer mt-[10px]"
             onClick={() => AboutToggle()}
           >
-            <p className="text-[#13FF7A]">About </p>
+            <p className="text-[#13FF7A]">About this event</p>
             <Image src={Arrowdown} alt="arrow-icon" className="" />
           </div>
           {AboutDrop && (
             <div>
               <div>
-                <p className="text-[#E6E6E6] mt-[10px]">Dj LINE UP </p>
+                <p className="text-[#E6E6E6] mt-[30px]">
+                  🚤✨ Join us for The TAKEOVR Boat Party! ✨🚤{" "}
+                </p>
 
-                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[5px]">
-                  Mars: 16:00 - 18:00
+                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[5px]  w-[400px]">
+                  Join us for an exclusive TAKEOVR event on a luxury boat
+                  {/* <br /> */}
+                  at the Royal Docks. Immerse yourself in live DJ music,
+                  {/* <br /> */}
+                  gourmet food, and premium drinks all set against the
+                  {/* <br /> */}
+                  breathtaking views of the city skyline. Dress to impress
+                  {/* <br /> */}
+                  and match the elegant vibe of the day and evening.{" "}
+                  {/* <br /> */}
+                   This unique event offers the perfect atmosphere for
+                  {/* <br /> */}
+                  networking and savouring the best of city life on the
+                  {/* <br /> */}
+                  water. Enjoy a memorable evening where sophistication
+                  {/* <br /> */}
+                  meets celebration, creating an unmatched experience
+                  {/* <br /> */}
+                  that blends luxurious leisure with an authentic feel.
+                </p>
+
+                <p className="mt-[5px] font-extrabold mt-[30px]">
+                  🎧 DJ Lineup:
                 </p>
 
                 <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[10px] ">
-                  Dj Jada-Kai: 18:00 - 19:00
-                </p>
-
-                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[10px] ">
-                  Dj Miami Lee: 19:00 - 21:00
+                  - MarsMp3: 16:00 - 18:00
                 </p>
                 <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[10px]">
-                  Dam shaq: 21:00-23:00
+                  - DJ Jada-Kai: 18:00 - 19:00
                 </p>
-                <p className="mt-[5px] font-extrabold ">Host: 5ive</p>
-
+                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[10px]">
+                  - DJ Miami Lee: 19:00 - 21:00
+                </p>
+                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[10px]">
+                  - Damn Shaq: 21:00 - 23:00
+                </p>
+                <p className="mt-[5px] font-extrabold mt-[30px]">
+                  🎤 Hosted by: 5ive Rings
+                </p>
+                <p className="mt-[5px] font-extrabold ">
+                  🔞 Age Requirements (Physical ID Required):
+                </p>
+                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[10px]">
+                  Gentlemen: 25+ only
+                </p>
+                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[10px]">
+                  Ladies: 21+
+                </p>
               </div>
             </div>
           )}

@@ -88,7 +88,7 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
                 <Button
                   onClick={() => {
                     console.log(token);
-                    BuyTicket();
+                    // BuyTicket();
                   }}
                   className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
                 >
@@ -129,7 +129,7 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
           </div>
         )}
 
-        <CheckOutModal event={event}  canbuyTicket={canBuyTicket}/>
+        <CheckOutModal event={event}  />
       </div>
     </Dialog>
   );
