@@ -68,20 +68,6 @@ const ProfileSidebar = ({
             </p>
           </div>
         </div>
-        {/* <div className="mt-8 flex flex-col gap-1.5">
-          <AccountSidebarLink
-            setPopupOpen={setPopupOpen}
-            title="Your Tickets"
-            leftElement={<Ticket size={20} weight="bold" />}
-            url="/profile/your-tickets"
-          />
-          <AccountSidebarLink
-            setPopupOpen={setPopupOpen}
-            title="Your Rewards"
-            leftElement={<Trophy size={20} weight="bold" />}
-            url="/profile/your-rewards"
-          />
-        </div> */}
         <div className="mt-8">
           <p className="text-muted font-black">SETTINGS</p>
           <div className="mt-2 flex flex-col gap-2">
@@ -131,13 +117,6 @@ const ProfileSidebar = ({
               leftElement={<FileLock size={20} weight="bold" />}
               url="/profile/privacy-policy"
             />
-    {/* <AccountSidebarLink
-      setPopupOpen={setPopupOpen}
-      title="Delete Account"
-      leftElement={<DeleteIcon size={20} weight="bold" />}
-      url="/profile/privacy-policy"
-    /> */}
-
           </div>
         </div>
         <button className="bg-customRed w-full h-full border-none mb-[23.76px] rounded-full py-4 ">
