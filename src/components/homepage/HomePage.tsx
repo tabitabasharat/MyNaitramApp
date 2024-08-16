@@ -53,7 +53,7 @@ const HomePage = () => {
       {/* <Events /> */}
       <About />
       <RewardProgram />
-      {/* <AllNaitramEvents /> */}
+      <AllNaitramEvents />
       <StayInformed />
     </>
   );
