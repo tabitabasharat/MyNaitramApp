@@ -31,6 +31,12 @@ const GalleryPage = () => {
       window.location.href = "/gallery/takeover";
     }
   };
+  
+  const eventBackgrounds: { [key: string]: string } = {
+    "NAITRAM LAUNCH PARTY": "/Images/gallery/bgcard.png",
+    "NAITRAM ROOFTOP EVENT": "/Images/gallery/NAITRAMROOFTOPEVENT.png",
+    "THE TAKEOVER EVENT": "/Images/gallery/TheTakeoverFlyer.png",
+  };
 
   return (
     <section
@@ -63,7 +69,7 @@ const GalleryPage = () => {
             >
               <div
                 className="absolute inset-0 bg-no-repeat bg-center bg-contain transition-transform duration-300 group-hover:scale-110 opacity-70"
-                style={{ backgroundImage: 'url("/Images/gallery/bgcard.png")' }}
+                style={{ backgroundImage: `url(${eventBackgrounds[event]})` }}
               ></div>
               <h2 className="relative text-[18px] sm:text-[20px] lg:text-[24px] font-bold">
                 {event}
