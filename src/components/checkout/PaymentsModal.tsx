@@ -21,7 +21,7 @@ import { API_URL } from "@/lib/client";
 import { useEffect, useState } from "react";
 import ScreenLoader from "../loader/Screenloader";
 import { ErrorToast } from "../reusable-components/Toaster/Toaster";
-
+import { useAppSelector } from "@/lib/hooks";
 const PaymentsModal = ({
   onNext,
   handleNext,
@@ -71,9 +71,23 @@ const PaymentsModal = ({
       console.log("this is the error",error)
     }
   }
-  const ConvertDate = (originalDateStr: any) => {
-    const originalDate = new Date(originalDateStr);
+  
 
+  useEffect(() => {
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setUserId(token);
+  }, []);
+
+  
+  const EventData = useAppSelector(
+    (state) => state?.getEventByEventID?.eventIdEvents?.data
+  );
+  console.log("my data in apayment modal", EventData);
+
+  const ConvertDate = (originalDateStr: string): string => {
+    const originalDate = new Date(originalDateStr);
+  
     // Extract the day, date, month, and year
     const dayOfWeek = originalDate.toLocaleDateString("en-US", {
       weekday: "long",
@@ -81,9 +95,9 @@ const PaymentsModal = ({
     const date = originalDate.getDate();
     const month = originalDate.toLocaleDateString("en-US", { month: "long" });
     const year = originalDate.getFullYear();
-
+  
     // Function to get ordinal suffix
-    const getOrdinalSuffix = (date: any) => {
+    const getOrdinalSuffix = (date: number) => {
       if (date > 3 && date < 21) return "th"; // covers 11th to 19th
       switch (date % 10) {
         case 1:
@@ -96,20 +110,14 @@ const PaymentsModal = ({
           return "th";
       }
     };
-
+  
     const ordinalSuffix = getOrdinalSuffix(date);
-
+  
     // Construct the formatted date string
-    const formattedDate = `${dayOfWeek} ${month} ${date}${ordinalSuffix} , ${year}`;
-
+    const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
+  
     return formattedDate;
   };
-
-  useEffect(() => {
-    const token =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-    setUserId(token);
-  }, []);
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[650px]">
       {loader && <ScreenLoader />}
@@ -143,7 +151,8 @@ const PaymentsModal = ({
             <div className="border border-muted p-3 rounded-lg">
               <div className="flex gap-4">
                 <Image
-                  src={"/takeOver.png"}
+                  src={EventData?.coverEventImage
+                    }
                   width={800}
                   height={800}
                   className="w-[60px] rounded-lg object-cover"
@@ -155,10 +164,10 @@ const PaymentsModal = ({
                 <div className="flex flex-col justify-between">
                   <div>
                     <p className="text-primary text-sm">
-                      {ConvertDate(event?.eventDate)}
+                      {ConvertDate(EventData?.startTime)}
                     </p>
                     <p className="font-bold leading-[1.2] my-1">
-                      {event?.name}
+                      {EventData?.name}
                     </p>
                   </div>
                 </div>

@@ -3,15 +3,18 @@ import { Heart } from '@phosphor-icons/react/dist/ssr';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ScaleReveal } from '../animations/ScaleReveal';
+import fallbackImage from "../../assets/event-video.png";
 
-const MobileEventCard = ({ img, title }: { img: string; title: string }) => {
+const MobileEventCard = ({ img, title,eventId }: { img: string; title: string ; eventId:any}) => {
+  const imageUrl = img?.startsWith("http" || "https") ? img : fallbackImage.src;
+  console.log("image src is", imageUrl);
   return (
     <ScaleReveal>
-      <Link href={'/events/event-detail'} className="w-full">
+      <Link  href={eventId ? `/specific-event/${eventId}` : "/events"} className="w-full">
         <div className="gradient-slate border-2 border-[#1F1F1F] rounded-lg p-4 flex justify-between w-full">
           <div className="flex gap-4">
             <Image
-              src={img}
+              src={imageUrl}
               width={800}
               height={800}
               className="w-[90px] rounded-lg object-cover"

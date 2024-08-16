@@ -22,7 +22,7 @@ const CheckOutModal = ({ event }: any) => {
   const handleNext = (nextModal: string) => {
     setCurrentModal(nextModal);
   };
-
+  
   
 
   return (

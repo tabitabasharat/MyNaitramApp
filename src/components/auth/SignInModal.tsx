@@ -109,7 +109,7 @@ const SignInModal = ({
 
           SuccessToast("login success");
           setSigninModal();
-          router.push(redirectRoute)
+          router.push("/viewallevents")
           if (res?.payload?.data?.profileUpdate) {
             // navigate("/Dashboard");
             console.log("dash");

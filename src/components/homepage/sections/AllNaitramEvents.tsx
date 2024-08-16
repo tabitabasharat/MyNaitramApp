@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import "./viewevents.css"
 
+
 const eventimges = [
   { id: 1, title: "All Events", imges: calender },
   { id: 2, title: "Past Events", imges: calenderX },
@@ -144,7 +145,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
             className="absolute top-1/2 -translate-y-1/2 right-5"
           />
         </div>
-          <AllEventsGrid events={events} />
+          <AllEventsGrid events={events}  eventType={title}/>
           </div>
         </div>
 

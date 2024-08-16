@@ -1,36 +1,43 @@
-import Link from 'next/link';
-import HeartBadge from '../ui/heart-badge';
-import Image from 'next/image';
-import { shimmer, toBase64 } from '@/lib/utils';
-import { ScaleReveal } from '../animations/ScaleReveal';
-import event12 from '../../../public/event12.png';
+import Link from "next/link";
+import HeartBadge from "../ui/heart-badge";
+import Image from "next/image";
+import { shimmer, toBase64 } from "@/lib/utils";
+import { ScaleReveal } from "../animations/ScaleReveal";
+import event12 from "../../../public/event12.png";
+import fallbackImage from "../../assets/event-video.png";
 
 const EventCard = ({
   img,
   title,
   // eventid,
-  height = '345px',
+  eventId,
+  height = "345px",
 }: {
   img: string;
   title: string;
   height?: string;
-  // eventid:any;
+  eventId: any;
 }) => {
-  console.log("image src is",img)
+  const imageUrl = img?.startsWith("http" || "https") ? img : fallbackImage.src;
+  console.log("image src is", imageUrl);
   return (
     <ScaleReveal extraStyle="w-full">
-      <Link href={`/events`} className="w-full">
+      {/* <Link href={`/events`} className="w-full"> */}
+      <Link
+        href={eventId ? `/specific-event/${eventId}` : "/events"}
+        className="w-full"
+      >
         <div
           style={{ height }}
           className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242]"
         >
           <Image
-            src={img}
+            src={imageUrl}
             width={1000}
             height={1000}
             className="w-full h-full rounded-lg object-cover relative mx-auto overflow-hidden"
             placeholder={`data:image/svg+xml;base64,${toBase64(
-              shimmer(1200, 1800),
+              shimmer(1200, 1800)
             )}`}
             alt="event-img"
           />

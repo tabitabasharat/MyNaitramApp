@@ -148,3 +148,68 @@ export const createevent = createAsyncThunk(
   }
 );
 
+
+export const getViewAllEvent = createAsyncThunk(
+  "getViewAllEvent",
+  async () => {
+    try {
+      console.log("inside get Events ");
+      const res = await api.get(`${API_URL}/event/getEventsAll`);
+      console.log("inside get all Events ", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
+
+
+export const getEventByEventId = createAsyncThunk(
+  "getEventByEventId",
+  async (data: any) => {
+    try {
+      console.log("inside get Event By Eventid");
+      const res = await api.get(`${API_URL}/event/getEventById/${data}`);
+      console.log("inside get specific event by eventId", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
+
+
+export const getViewPastEvents = createAsyncThunk(
+  "getViewPastEvents",
+  async () => {
+    try {
+      console.log("inside get Past Events ");
+      const res = await api.get(`${API_URL}/event/getPastEvents`);
+      console.log("inside get Past Events ", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);

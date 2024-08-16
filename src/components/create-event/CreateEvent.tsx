@@ -138,6 +138,7 @@ export default function CreateEvent() {
   const [EventEndDate, setEventEndDate] = useState("");
 
   const [EventStartTime, setEventStartTime] = useState("");
+   console.log("my event date is",EventStartTime)
   const [EventEndTime, setEventEndTime] = useState("");
   const [Eventdescription, setEventdescription] = useState("");
 
@@ -229,6 +230,7 @@ export default function CreateEvent() {
 
           console.log(res?.data?.data, "this is the gallery url");
           SuccessToast("Images Uploaded Successfully");
+          return res?.data?.imageUrls
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message || "Error uploading image");
@@ -356,7 +358,7 @@ export default function CreateEvent() {
     console.log(" Event Creation");
 
     setLoader(true);
-    handleFileChangeapi();
+    const imagesOfGallery=await handleFileChangeapi();
     try {
       const data = {
         userId: userid,
@@ -378,7 +380,7 @@ export default function CreateEvent() {
         twitterUrl: TwitterUrl,
         tiktokUrl: tiktokUrl,
         linkedinUrl: linkedinUrl,
-        eventmedia: eventsFiles,
+        eventmedia: imagesOfGallery,
       };
       dispatch(createevent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {

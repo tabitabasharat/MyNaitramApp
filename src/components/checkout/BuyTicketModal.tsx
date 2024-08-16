@@ -29,24 +29,6 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
   const [selectedTicketPrice, setSelectedTicketPrice] = useState(0);
   const [selectedTicketType, setSelectedTIcketType] = useState<any>();
   const [eventid, setEventid] = useState<any>();
-  const count = useAppSelector((state) => state);
-  const EventsAllDataCount = useAppSelector(
-    (state) => state?.getEventsCount?.allEvents?.data
-  );
-
-  console.log(EventsAllDataCount, "this is eevnt count");
-
-  const [quantity, setQuantity] = useState(1);
-
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
-
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
 
   const dispatch = useAppDispatch();
   function buyTicket() {
@@ -68,13 +50,11 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
     // dispatch(getEventById(value));
   }, []);
 
-  const EventDetail = useAppSelector(
-    (state) => state?.getEventById?.specificEvent?.data?.data[0]?.eventTickets
+  const EventData = useAppSelector(
+    (state) => state?.getEventByEventID?.eventIdEvents?.data?.tickets
   );
-  console.log("tickets data in checkout modal", EventDetail);
-  useEffect(()=>{
-    dispatch(getAllEventsCount())
-  },[])
+  console.log("my data in buy tickets", EventData);
+
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[600px] text-white">
       <div>
@@ -93,182 +73,65 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
           <ScrollArea className="h-[30rem] w-full">
             <div className="flex flex-col gap-3">
               {/* ENTRY TICKET */}
-              <p className="text-[14px] text-[#BFBFBF] font-[400]">
-                Entry Ticket
-              </p>
-              {ticketsType?.map((ticket) => {
-                const count =EventsAllDataCount&& EventsAllDataCount[ticket?.title] || 0; // Get the count for the ticket title
-                const isSoldOut = count >= ticket.soldOutCount; // Check if the ticket is sold out
-
-                return selectedTicket === ticket.type ? (
+              {EventData?.map((ticket:any) =>
+                selectedTicket === ticket?.ticketType ? (
                   <Collapsible
-                    key={ticket.type}
-                    open={selectedTicket === ticket.type}
+                    key={ticket?.ticketType}
+                    open={selectedTicket === ticket?.ticketType}
                     onOpenChange={() => {
-                      if (!isSoldOut) {
-                        setSelectedTicket(ticket.type);
-                        setSelectedTicketPrice(ticket.price);
-                        setSelectedTIcketType(ticket.title);
-                      }
+                      setSelectedTicket(ticket?.ticketType);
+                      setSelectedTicketPrice(ticket?.ticketPrice);
                     }}
                     className="w-full"
                   >
                     <CollapsibleTrigger className="w-full">
                       <GradientBorder>
-                        <div
-                          className={`border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer ${
-                            isSoldOut
-                              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                              : ""
-                          }`}
-                        >
+                        <div className="border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer">
                           <div className="flex justify-between">
-                            <p className="font-bold">{ticket.title}</p>
+                            <p className="font-bold">{ticket?.ticketType}</p>
                             <p className="font-extrabold">
-                              {isSoldOut ? "Sold out" : `£${ticket.price}`}
+                              £{ticket?.ticketPrice}
                             </p>
                           </div>
-                          {ticket.included && (
-                            <CollapsibleContent className="border-t border-t-[#282828] mt-2 text-left">
-                              <div className="flex flex-col items-start mt-2">
-                                <p className="text-[#BFBFBF] font-extrabold text-[12px]">
-                                  INCLUDED
-                                </p>
-                                <div className="mt-3">
-                                  {ticket.included &&
-                                    ticket.included.map((include, index) => (
-                                      <p key={index} className="text-[12px]">
-                                        {include}
-                                      </p>
-                                    ))}
-                                </div>
+                          {/* <CollapsibleContent className="border-t border-t-[#282828] mt-2 text-left">
+                            <div className="flex flex-col items-start mt-2">
+                              <p className="text-[#BFBFBF] font-extrabold text-[12px]">
+                                INCLUDED
+                              </p>
+                              <div className="mt-3">
+                                {ticket.included.map((include) => (
+                                  <p className="text-[12px]">{include}</p>
+                                ))}
                               </div>
-                            </CollapsibleContent>
-                          )}
+                            </div>
+                          </CollapsibleContent> */}
                         </div>
                       </GradientBorder>
                     </CollapsibleTrigger>
                   </Collapsible>
                 ) : (
                   <Collapsible
-                    key={ticket.type}
-                    open={selectedTicket === ticket.type}
+                    key={ticket?.ticketType}
+                    open={selectedTicket === ticket?.ticketType}
                     onOpenChange={() => {
-                      if (!isSoldOut) {
-                        setSelectedTicket(ticket.type);
-                        setSelectedTicketPrice(ticket.price);
-                        setSelectedTIcketType(ticket.title);
-                      }
+                      setSelectedTicket(ticket?.ticketType);
+                      setSelectedTicketPrice(ticket?.ticketPrice);
                     }}
                     className="w-full"
                   >
                     <CollapsibleTrigger className="w-full">
-                      <div
-                        className={`border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer ${
-                          isSoldOut
-                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                            : ""
-                        }`}
-                      >
+                      <div className="border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer">
                         <div className="flex justify-between">
-                          <p className="font-bold">{ticket.title}</p>
+                          <p className="font-bold">{ticket?.ticketType}</p>
                           <p className="font-extrabold">
-                            {isSoldOut ? "Sold out" : `£${ticket.price} `}
+                            £{ticket?.ticketPrice}
                           </p>
                         </div>
                       </div>
                     </CollapsibleTrigger>
                   </Collapsible>
-                );
-              })}
-              <p className="text-[14px] text-[#BFBFBF] font-[400]">
-                VIP Table Packages
-              </p>
-              {ticketsType2.map((ticket) => {
-                const count = EventsAllDataCount&&  EventsAllDataCount[ticket?.title] || 0; // Get the count for the ticket title
-                const isSoldOut = count >= ticket.soldOutCount; // Check if the ticket is sold out
-
-                return selectedTicket === ticket.type ? (
-                  <Collapsible
-                    key={ticket.type}
-                    open={selectedTicket === ticket.type}
-                    onOpenChange={() => {
-                      if (!isSoldOut) {
-                        setSelectedTicket(ticket.type);
-                        setSelectedTicketPrice(ticket.price);
-                        setSelectedTIcketType(ticket.title);
-                      }
-                    }}
-                    className="w-full"
-                  >
-                    <CollapsibleTrigger className="w-full">
-                      <GradientBorder>
-                        <div
-                          className={`border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer ${
-                            isSoldOut
-                              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                              : ""
-                          }`}
-                        >
-                          <div className="flex justify-between">
-                            <p className="font-bold">{ticket.title}</p>
-                            <p className="font-extrabold">
-                              {isSoldOut ? "Sold out" : `£${ticket.price}`}
-                            </p>
-                          </div>
-                          {ticket.included && (
-                            <CollapsibleContent className="border-t border-t-[#282828] mt-2 text-left">
-                              <div className="flex flex-col items-start mt-2">
-                                <p className="text-[#BFBFBF] font-extrabold text-[12px]">
-                                  INCLUDED
-                                </p>
-                                <div className="mt-3">
-                                  {ticket.included &&
-                                    ticket.included.map((include, index) => (
-                                      <p key={index} className="text-[12px]">
-                                        {include}
-                                      </p>
-                                    ))}
-                                </div>
-                              </div>
-                            </CollapsibleContent>
-                          )}
-                        </div>
-                      </GradientBorder>
-                    </CollapsibleTrigger>
-                  </Collapsible>
-                ) : (
-                  <Collapsible
-                    key={ticket.type}
-                    open={selectedTicket === ticket.type}
-                    onOpenChange={() => {
-                      if (!isSoldOut) {
-                        setSelectedTicket(ticket.type);
-                        setSelectedTicketPrice(ticket.price);
-                        setSelectedTIcketType(ticket.title);
-                      }
-                    }}
-                    className="w-full"
-                  >
-                    <CollapsibleTrigger className="w-full">
-                      <div
-                        className={`border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer ${
-                          isSoldOut
-                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                            : ""
-                        }`}
-                      >
-                        <div className="flex justify-between">
-                          <p className="font-bold">{ticket.title}</p>
-                          <p className="font-extrabold">
-                            {isSoldOut ? "Sold out" : `£${ticket.price} `}
-                          </p>
-                        </div>
-                      </div>
-                    </CollapsibleTrigger>
-                  </Collapsible>
-                );
-              })}
+                )
+              )}
             </div>
           </ScrollArea>
         </div>
@@ -284,23 +147,9 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
                     inc fees
                   </span>
                 </p>
-                {/* <div className="flex gap-1">
-                  <SealCheck className="text-white" size={14} weight="fill" />
-                  <div className="text-[#BFBFBF] items-center text-[12px] flex gap-1">
-                    <p className="line-through">£{selectedTicketPrice+(selectedTicketPrice/10)}</p>
-                    <p>10%</p>
-                  </div>
-                </div> */}
+               
               </div>
-              {/* <div className="flex items-center justify-evenly gradient-slate border border-muted text-white rounded-lg  py-2 h-fit w-[120px] px-2">
-                <button onClick={handleDecrement} className="">
-                  <Minus size={16} />
-                </button>
-                <span className="px-4 font-bold">{quantity}</span>
-                <button onClick={handleIncrement} className="">
-                  <Plus size={16} />
-                </button>
-              </div> */}
+             
             </div>
 
             <Button

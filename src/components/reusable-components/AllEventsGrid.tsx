@@ -3,30 +3,74 @@ import { Button } from "../ui/button";
 import EventCard from "./EventCard";
 // import { Pagination } from "swiper/modules";
 import Pagination from "./pagination/Pagination";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { getViewAllEvent } from "@/lib/middleware/event";
+import { getViewPastEvents } from "@/lib/middleware/event";
 
-const AllEventsGrid = ({ events }: any) => {
+const AllEventsGrid = ({ events, eventType }: any) => {
+  const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 8;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+
+  useEffect(() => {
+    dispatch(getViewAllEvent());
+    dispatch(getViewPastEvents());
+
+  }, []);
+
+  const EventsAllData = useAppSelector(
+    (state) => state?.getViewAllEvents?.ViewallEvents?.data
+  );
+
+  console.log("All Events are", EventsAllData);
+
+  const EventsPastData = useAppSelector(
+    (state) => state?.getPastEvents?.ViewPastEvents?.data
+  );
+
+  console.log("All Past Events are", EventsPastData);
+
   return (
     <>
-      <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
-        {events.map((event: any) => (
-          <EventCard key={event.id} img={event.img} title={event.title} />
-        ))}
+      {eventType === "All Events" && (
+        <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+          {EventsAllData?.events.length > 0 &&
+            EventsAllData?.events?.map((event: any) => (
+              <EventCard
+                key={event?.id}
+                img={event?.coverEventImage}
+                title={event?.name}
+                eventId={event?.id}
+              />
+            ))}
 
-        <div
-          className="absolute inset-0 to-transparent z-[3] pointer-events-none"
-        ></div>
-      </div>
+          <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+        </div>
+      )}
+      {eventType === "Past Events" && (
+        <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+          {EventsPastData?.events.length > 0 &&
+            EventsPastData?.events?.map((event: any) => (
+              <EventCard
+                key={event?.id}
+                img={event?.coverEventImage}
+                title={event?.name}
+                eventId={event?.id}
+              />
+            ))}
+
+          <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+        </div>
+      )}
       <div className="container p-0">
         <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
+          currentPage={EventsAllData?.currentPage}
+          totalPages={EventsAllData?.totalPages}
           onPageChange={handlePageChange}
         />
       </div>

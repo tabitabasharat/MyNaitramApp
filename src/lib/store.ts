@@ -6,6 +6,9 @@ import addBuyTicketPriceReducer from "./reducer/setBuyTicket";
 import getTicket from "./reducer/getTicket";
 import sign from "./reducer/sign";
 import getAllEventsCount from "./reducer/getAllEventsCount";
+import getViewAllEvents from "./reducer/getViewAllEvents";
+import getEventByEventID from "./reducer/getEventByEventID";
+import getPastEvents from "./reducer/getPastEvents";
 
 const appReducer = combineReducers({
   profileInfo: getUserInfo,
@@ -13,7 +16,11 @@ const appReducer = combineReducers({
   getEventById: getEventById,
   getTicketStore: getTicket,
   signIn: sign,
-  getEventsCount:getAllEventsCount
+  getEventsCount:getAllEventsCount,
+  getViewAllEvents:getViewAllEvents,
+  getEventByEventID: getEventByEventID,
+  getPastEvents:getPastEvents,
+
 });
 const rootReducer = (state: ReturnType<typeof appReducer> | undefined, action: AnyAction) => {
   if (action.type === 'LOGOUT') {

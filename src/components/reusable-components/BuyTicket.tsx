@@ -9,14 +9,20 @@ import { AuthMode } from "@/types/types";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { whitelistcheck } from "@/lib/middleware/event";
 
-const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
+const BuyTicket = ({
+  eventid,
+  event,
+  setShowTicket,
+  startPrice,
+  endPrice,
+}: any) => {
   const dispatch = useAppDispatch();
   const [token, setToken] = useState<any>();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
   const [Useremail, setUserEmail] = useState<any>();
 
-  const [canBuyTicket,setCanBuyTicket] =  useState<any>();
+  const [canBuyTicket, setCanBuyTicket] = useState<any>();
   const EventDetail = useAppSelector(
     (state: any) => state?.getTicketStore?.specificEvent?.data
   );
@@ -31,8 +37,9 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
     const useremail = localStorage.getItem("email");
     setUserEmail(useremail);
     console.log("user login email", useremail);
-
   }, []);
+
+
 
   async function BuyTicket() {
     // setLoader(true);
@@ -47,9 +54,8 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
           setCanBuyTicket(res?.payload?.data?.canBuy);
         } else {
           // setLoader(false);
-          console.log("message",res?.payload);
+          console.log("message", res?.payload);
           setCanBuyTicket(res?.payload?.data?.canBuy);
-
         }
       });
     } catch (error) {
@@ -57,21 +63,38 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
     }
   }
 
+ 
+
   return (
     <Dialog>
       <div className="w-full lg:w-[665px] bg-[#007A3535] rounded-xl flex flex-col lg:flex-row items-center justify-center lg:items-center lg:justify-between px-6 py-4 gap-4">
         <div>
           <p className="font-bold text-[24px] text-center lg:text-left">
-            £10 - £1000
+            {/* £10 - £1000 */}
+            {startPrice && endPrice
+              ? `£${startPrice} - £${endPrice}`
+              : "£10 - £1000"}
           </p>
           {/* <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left text-[13px] lg:text-[14px]">
             Price may vary due to different ticket types
           </p> */}
-                <p className="mt-[5px] font-extrabold text-[#00D059]">One ticket per person</p>
-
+          <p className="mt-[5px] font-extrabold text-[#00D059]">
+            One ticket per person
+          </p>
         </div>
+        <DialogTrigger asChild>
+                <Button
+                  onClick={() => {
+                    console.log(token);
+                    // BuyTicket();
+                  }}
+                  className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
+                >
+                  Buy Tickets
+                </Button>
+              </DialogTrigger>
 
-        {EventDetail?.data?.data ? (
+        {/* {EventDetail?.data?.data ? (
           <div>
             <Button
               onClick={() => {
@@ -127,9 +150,9 @@ const BuyTicket = ({ eventid, event, setShowTicket }: any) => {
               </Dialog>
             )}
           </div>
-        )}
+        )} */}
 
-        <CheckOutModal event={event}  />
+        <CheckOutModal event={event} />
       </div>
     </Dialog>
   );
