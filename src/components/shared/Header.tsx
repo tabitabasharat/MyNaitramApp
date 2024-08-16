@@ -192,7 +192,7 @@ const Header = () => {
             </>
           )}
 
-          {isLoggedIn && (
+          {/* {isLoggedIn && (
             <div className="mr-2 lg:mr-4 flex items-center gap-4 h-full">
               <Popover open={notifPopupOpen} onOpenChange={setNotifPopupOpen}>
                 <PopoverTrigger asChild>
@@ -233,7 +233,7 @@ const Header = () => {
                 </PopoverContent>
               </Popover>
             </div>
-          )}
+          )} */}
 
           <Button
             variant="secondary"
