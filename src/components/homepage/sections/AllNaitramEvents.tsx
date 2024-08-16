@@ -16,6 +16,7 @@ import caledndergreen from "../../../assets/Calendargreen.svg";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { MagnifyingGlass } from "@phosphor-icons/react";
+import "./viewevents.css"
 
 const eventimges = [
   { id: 1, title: "All Events", imges: calender },
@@ -39,7 +40,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
   // Set the default event to "All Events" when the component mounts
   useState(() => {
     setSelectedEvent(eventimges[0]);
-  }, []);
+  }, );
 
   // Handle click to set the selected event
   const handleClick = (id: number) => {
@@ -67,9 +68,9 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
-      className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
+      className="min-h-screen pt-[76px] bg-cover bg-no-repeat"
     >
-      <section className="min-h-screen pxpx mx-2xl pt-[32px] pb-[40px] md:pt-[56px] md:pb-20">
+      <section className="min-h-screen pxpx mx-2xl pt-[32px] pb-[120px] md:pt-[56px] md:pb-20">
         {/* <div className="grid grid-cols-3 gap-4">
           {(selectedEventId === null ? eventimges : greenimges).map((event) => (
             <div
@@ -96,15 +97,15 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
             </div>
           ))}
         </div> */}
-        <div className="grid grid-cols-3 gap-[4px] md:gap-4">
+        <div className="grid grid-cols-3 gap-[4px] events md:gap-4">
           {currentImages.map((event) => (
             <div
               key={event.id}
               onClick={() => handleClick(event.id)} // Set the selected event on click
-              className={`relative border border-muted flex flex-col flex items-center justify-center md:items-start rounded-[44px] md:rounded-lg w-full md:px-[12px] md:pt-[16px] md:pb-[12px] cursor-pointer  duration-300 ${
+              className={`relative border  flex flex-col flex items-center justify-center md:items-start rounded-[44px] md:rounded-lg w-full md:px-[12px] md:pt-[16px] md:pb-[12px] cursor-pointer  duration-300 ${
                 selectedEvent?.id === event.id
-                  ? "gradient-slate text-[#13FF7A] border hover:border-[#13FF7A] border-[#13FF7A] "
-                  : "gradient-slate"
+                  ? "gradient-slate text-[#13FF7A] border-[1px] border-solid  hover:border-[#13FF7A] border-[#13FF7A] "
+                  : "gradient-slate border-muted" 
               }`}
             >
               <Image
@@ -122,7 +123,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
             </div>
           ))}
         </div>
-        <h2 className="font-bold text-[32px] mb-[24px] lg:text-[48px] mt-[50px] md:mb-[2rem] 2xl:mt-10">
+        <h2 className="font-bold text-[32px] mb-[24px] lg:text-[48px] mt-[40px] md:mb-[2rem] 2xl:mt-10">
           🗓 {title}
         </h2>
 
@@ -134,7 +135,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
           <div className="w-full relative mb-[32px]">
           <Input
             value={searchTerm}
-            className="w-full h-14 px-[16px] py-[18px] text-sm font-normal"
+            className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
             onChange={(event) => setSearchTerm(event.target.value)}
             placeholder="Search Event"
           />
@@ -152,7 +153,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
         <div className="w-full relative mb-[12px]">
           <Input
             value={searchTerm}
-            className="w-full h-14 px-[16px] py-[18px] text-sm font-normal"
+            className="w-full rounded-[8px] h-14 px-[16px] py-[18px] text-sm font-normal"
             onChange={(event) => setSearchTerm(event.target.value)}
             placeholder="Search Event"
           />
