@@ -26,7 +26,8 @@ const BuyTicket = ({
   const EventDetail = useAppSelector(
     (state: any) => state?.getTicketStore?.specificEvent?.data
   );
-  console.log("this is the events detail", EventDetail?.data?.data);
+  console.log("this is the events detail",startPrice,
+    endPrice);
   useEffect(() => {
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -40,30 +41,6 @@ const BuyTicket = ({
   }, []);
 
 
-
-  async function BuyTicket() {
-    // setLoader(true);
-    const useremail = localStorage.getItem("email");
-    try {
-      const data = {
-        email: useremail,
-      };
-      dispatch(whitelistcheck(data)).then((res: any) => {
-        if (res?.payload?.status === 200) {
-          console.log("whitelistres", res?.payload?.data?.canBuy);
-          setCanBuyTicket(res?.payload?.data?.canBuy);
-        } else {
-          // setLoader(false);
-          console.log("message", res?.payload);
-          setCanBuyTicket(res?.payload?.data?.canBuy);
-        }
-      });
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-
- 
 
   return (
     <Dialog>
@@ -83,16 +60,16 @@ const BuyTicket = ({
           </p>
         </div>
         <DialogTrigger asChild>
-                <Button
-                  onClick={() => {
-                    console.log(token);
-                    // BuyTicket();
-                  }}
-                  className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
-                >
-                  Buy Tickets
-                </Button>
-              </DialogTrigger>
+          <Button
+            onClick={() => {
+              console.log(token);
+              // BuyTicket();
+            }}
+            className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
+          >
+            Buy Tickets
+          </Button>
+        </DialogTrigger>
 
         {/* {EventDetail?.data?.data ? (
           <div>

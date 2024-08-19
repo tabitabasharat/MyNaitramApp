@@ -144,7 +144,7 @@ const AccountVerificationModal = ({
           SuccessToast("Account Verified Successfully");
           onVerifyClose();
           setSigninModal()
-          router.push("/events")
+          router.push("/viewallevents")
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);

@@ -30,7 +30,8 @@ import axios from "axios";
 import { API_URL } from "@/lib/client";
 import crossicon from "@/assets/cross-img-icon.svg";
 // import { DatePicker } from "@/components/organisms/DatePicker";
-import DatePicker from "react-datepicker";
+
+import { useRouter } from "next/navigation";
 
 import TimePicker from "react-time-picker";
 
@@ -38,7 +39,7 @@ import "react-time-picker/dist/TimePicker.css";
 // import 'react-clock/dist/Clock.css';
 import "react-datepicker/dist/react-datepicker.css";
 
-import DateTimePicker from "react-datetime-picker";
+
 
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
@@ -158,6 +159,7 @@ export default function CreateEvent() {
   const [tiktokUrl, settiktokUrl] = useState("");
   const [linkedinUrl, setlinkedinUrl] = useState("");
   const [eventsFiles, setEventsFile] = useState<any>([]);
+  const router=useRouter()
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
     { type: "", price: 0, no: 0 },
   ]);
@@ -253,7 +255,8 @@ export default function CreateEvent() {
     );
   };
 
-  const handleAddTicketType = () => {
+  const handleAddTicketType = (e:any) => {
+    e.preventDefault()
     setTicketTypes((prevTickets) => [
       ...prevTickets,
       { type: "", price: 0, no: 0 },
@@ -386,6 +389,8 @@ export default function CreateEvent() {
         if (res?.payload?.status === 200) {
           setLoader(false);
           SuccessToast("Event Created Successfully");
+          router.push("/viewallevents")
+          
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -1302,7 +1307,7 @@ export default function CreateEvent() {
                   type="submit"
                   className="font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                 >
-                  Edit Changes
+                  Create Event
                 </Button>
               </div>
             </form>

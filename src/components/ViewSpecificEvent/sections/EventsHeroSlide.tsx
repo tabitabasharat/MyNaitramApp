@@ -48,36 +48,8 @@ const EventsHeroSlide = ({
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
-  //   // Extract the day, date, month, and year
-  //   const dayOfWeek = originalDate.toLocaleDateString("en-US", {
-  //     weekday: "long",
-  //   });
-  //   const date = originalDate.getDate();
-  //   const month = originalDate.toLocaleDateString("en-US", { month: "long" });
-  //   const year = originalDate.getFullYear();
-
-  //   // Function to get ordinal suffix
-  //   const getOrdinalSuffix = (date: any) => {
-  //     if (date > 3 && date < 21) return "th"; // covers 11th to 19th
-  //     switch (date % 10) {
-  //       case 1:
-  //         return "st";
-  //       case 2:
-  //         return "nd";
-  //       case 3:
-  //         return "rd";
-  //       default:
-  //         return "th";
-  //     }
-  //   };
-
-  //   const ordinalSuffix = getOrdinalSuffix(date);
-
-  //   // Construct the formatted date string
-  //   const formattedDate = `${dayOfWeek} ${month} ${date}${ordinalSuffix} , ${year}`;
-
-  //   return formattedDate;
-  // };
+console.log("this is event price",  ticketStartPrice,
+  ticketEndPrice)
 
   const ConvertDate = (originalDateStr: string): string => {
     const originalDate = new Date(originalDateStr);
@@ -157,9 +129,7 @@ const EventsHeroSlide = ({
   };
   
 
-  const toggleAbout = () => {
-    setisOpenDropdown(!isOpenDropdown);
-  };
+
   return (
     <>
       {" "}
