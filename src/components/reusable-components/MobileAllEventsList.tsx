@@ -4,7 +4,11 @@ import MobileEventCard from "./MobileEventCard";
 import Pagination from "./pagination/Pagination";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { getViewAllEvent } from "@/lib/middleware/event";
+import {
+  getViewAllEvent,
+  getViewPastEvents,
+  getEventById,
+} from "@/lib/middleware/event";
 const MobileAllEventsList = ({ events, eventType }: any) => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,7 +18,11 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
     setCurrentPage(page);
   };
   useEffect(() => {
+    const userid = localStorage.getItem("_id");
+    console.log("user id ", userid);
     dispatch(getViewAllEvent());
+    dispatch(getViewPastEvents());
+    dispatch(getEventById(userid));
   }, []);
 
   const EventsAllData = useAppSelector(
@@ -27,6 +35,12 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
   );
 
   console.log("All Past Events are", EventsPastData);
+
+  const myEvents = useAppSelector(
+    (state) => state?.getEventById?.myEvents?.data
+  );
+
+  console.log("my Events are", myEvents);
 
   const renderEvents = (events: any) => {
     if (events?.length > 0) {
@@ -48,16 +62,31 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
 
       {eventType === "All Events"
         ? renderEvents(EventsAllData?.events)
-        : renderEvents(EventsPastData?.events)}
+        : eventType === "Past Events"
+        ? renderEvents(EventsPastData?.events)
+        : eventType === "Your Events"
+        ? renderEvents(myEvents)
+        : null}
 
       <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
-      <div className="container p-0">
-        <Pagination
-          currentPage={EventsAllData?.currentPage}
-          totalPages={EventsAllData?.totalPages}
-          onPageChange={handlePageChange}
-        />
-      </div>
+      {eventType === "All Events" && (
+        <div className="container p-0">
+          <Pagination
+            currentPage={EventsAllData?.currentPage}
+            totalPages={EventsAllData?.totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      )}
+      {eventType === "Past Events" && (
+        <div className="container p-0">
+          <Pagination
+            currentPage={EventsPastData?.currentPage}
+            totalPages={EventsPastData?.totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      )}
     </div>
   );
 };

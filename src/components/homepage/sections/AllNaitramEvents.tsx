@@ -72,32 +72,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
       className="min-h-screen pt-[76px] bg-cover bg-no-repeat"
     >
       <section className="min-h-screen pxpx mx-2xl pt-[32px] pb-[120px] md:pt-[56px] md:pb-20">
-        {/* <div className="grid grid-cols-3 gap-4">
-          {(selectedEventId === null ? eventimges : greenimges).map((event) => (
-            <div
-              key={event.id}
-              onClick={() => handleClick(event.id)} // Set the selected event ID on click
-              className={`relative border border-muted flex flex-col rounded-lg px-3 py-2.5 cursor-pointer hover:border-[#13FF7A] duration-300 ${
-                selectedEventId === event.id
-                  ? "gradient-slate text-[#13FF7A]"
-                  : "gradient-slate"
-              }`}
-            >
-              <Image
-                src={event.imges} // Use the image source from the event
-                alt={event.title}
-                width={20} // Set appropriate width
-                height={20} // Set appropriate height
-                className="rounded-lg transition-transform duration-300"
-                style={{
-                  filter:
-                    selectedEventId === event.id ? "none" : "grayscale(100%)", // Show color when selected
-                }}
-              />
-              <p className="mb-0 mt-[8px]">{event.title}</p>
-            </div>
-          ))}
-        </div> */}
+      
         <div className="grid grid-cols-3 gap-[4px] events md:gap-4">
           {currentImages.map((event) => (
             <div
@@ -110,14 +85,14 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
               }`}
             >
               <Image
-                src={event.imges} // Use the image source from the event
+                src={event.imges} 
                 alt={event.title}
-                width={20} // Set appropriate width
-                height={20} // Set appropriate height
+                width={20} 
+                height={20} 
                 className="rounded-lg transition-transform duration-300 hidden md:block"
                 style={{
                   filter:
-                    selectedEvent?.id === event.id ? "none" : "grayscale(100%)", // Show color when selected
+                    selectedEvent?.id === event.id ? "none" : "grayscale(100%)", 
                 }}
               />
               <p className="md:m-0 m-[12px] text-sm md:mt-[8px]">{event.title}</p>

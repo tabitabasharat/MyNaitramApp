@@ -45,13 +45,13 @@ export const getEventById = createAsyncThunk(
   "getEventById",
   async (data: any) => {
     try {
-      console.log("inside get Event By id");
+      console.log("inside get Event By user id");
       const res = await api.get(`${API_URL}/event/getEvents/${data}`);
-      console.log("inside get specific event", res);
+      console.log("inside get specific user event", res);
       // localStorage.setItem("token", res?.data?.token);
       return {
         status: res?.status,
-        data: res?.data,
+        data: res?.data?.data,
       };
     } catch (error: any) {
       return {
@@ -204,6 +204,31 @@ export const getViewPastEvents = createAsyncThunk(
       return {
         status: res?.status,
         data: res?.data?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
+
+
+
+
+
+export const getEventCount = createAsyncThunk(
+  "getEventCount",
+  async (data: any) => {
+    try {
+      console.log("inside get Event count By Eventid ");
+      const res = await api.get(`${API_URL}/event/getEvents/${data}`);
+      console.log("inside get Event count By Eventid", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data,
       };
     } catch (error: any) {
       return {

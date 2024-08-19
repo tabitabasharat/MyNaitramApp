@@ -4,7 +4,7 @@ import { getEventById } from "../middleware/event";
 const initialState:any = {
   loading: false,
   error: "",
-  specificEvent: [],
+  myEvents: [],
 };
 const getSpecificEventSlice = createSlice({
   name: "getSpecificEvent",
@@ -16,7 +16,7 @@ const getSpecificEventSlice = createSlice({
     });
     builder.addCase(getEventById.fulfilled, (state, action) => {
       state.loading = false;
-      state.specificEvent = action.payload;
+      state.myEvents = action.payload;
     });
     builder.addCase(getEventById.rejected, (state, action) => {
       state.loading = false;

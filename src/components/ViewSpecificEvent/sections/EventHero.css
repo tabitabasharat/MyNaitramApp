@@ -5,11 +5,63 @@
   gap: 40px;
   flex-wrap: wrap;
 }
-.takeover{
-    height: 100% !important;
+.takeover {
+  height: 100% !important;
 }
 .bg-img {
   background-repeat: no-repeat;
   background-size: cover;
   background-image: url("../../../assets/Hero\ Banner.png");
+}
+.custom-prev-arrow {
+  position: absolute;
+  top: 40%;
+  z-index: 1500;
+  left: 44px;
+}
+.custom-next-arrow {
+  position: absolute;
+  top: 40%;
+  z-index: 1500;
+  right: 44px;
+}
+
+.slider-img {
+  position: relative;
+  z-index: 1200;
+  border-radius: 12px !important;
+}
+
+@media(max-width:992px)
+{
+  .lhs-hero{
+    width: 100%;
+  }
+  .main-div-takeover{
+    width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .rhs-hero {
+    width: 100%;
+  }
+  .slider-main-div {
+    width: auto;
+  }
+  .custom-next-arrow {
+    right: 20px;
+    width: 40px;
+    height: 40px;
+  }
+  .custom-prev-arrow {
+    left: 20px;
+    width: 40px;
+    height: 40px;
+  }
+  .lhs-hero{
+    width: 100%;
+  }
+  .main-div-takeover{
+    width: 100%;
+  }
 }

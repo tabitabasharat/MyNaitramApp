@@ -74,13 +74,13 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
             <div className="flex flex-col gap-3">
               {/* ENTRY TICKET */}
               {EventData?.map((ticket:any) =>
-                selectedTicket === ticket?.type ? (
+                selectedTicket === ticket?.ticketType ? (
                   <Collapsible
-                    key={ticket?.type}
-                    open={selectedTicket === ticket?.type}
+                    key={ticket?.ticketType}
+                    open={selectedTicket === ticket?.ticketType}
                     onOpenChange={() => {
-                      setSelectedTicket(ticket?.type);
-                      setSelectedTicketPrice(ticket?.price);
+                      setSelectedTicket(ticket?.ticketType);
+                      setSelectedTicketPrice(ticket?.ticketPrice);
                     }}
                     className="w-full"
                   >
@@ -88,9 +88,9 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
                       <GradientBorder>
                         <div className="border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer">
                           <div className="flex justify-between">
-                            <p className="font-bold">{ticket?.type}</p>
+                            <p className="font-bold">{ticket?.ticketType}</p>
                             <p className="font-extrabold">
-                              £{ticket?.price}
+                              £{ticket?.ticketPrice}
                             </p>
                           </div>
                           {/* <CollapsibleContent className="border-t border-t-[#282828] mt-2 text-left">
@@ -111,20 +111,20 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
                   </Collapsible>
                 ) : (
                   <Collapsible
-                    key={ticket?.type}
-                    open={selectedTicket === ticket?.type}
+                    key={ticket?.ticketType}
+                    open={selectedTicket === ticket?.ticketType}
                     onOpenChange={() => {
-                      setSelectedTicket(ticket?.type);
-                      setSelectedTicketPrice(ticket?.price);
+                      setSelectedTicket(ticket?.ticketType);
+                      setSelectedTicketPrice(ticket?.ticketPrice);
                     }}
                     className="w-full"
                   >
                     <CollapsibleTrigger className="w-full">
                       <div className="border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer">
                         <div className="flex justify-between">
-                          <p className="font-bold">{ticket?.type}</p>
+                          <p className="font-bold">{ticket?.ticketType}</p>
                           <p className="font-extrabold">
-                            £{ticket?.price}
+                            £{ticket?.ticketPrice}
                           </p>
                         </div>
                       </div>

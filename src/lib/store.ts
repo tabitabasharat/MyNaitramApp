@@ -9,6 +9,7 @@ import getAllEventsCount from "./reducer/getAllEventsCount";
 import getViewAllEvents from "./reducer/getViewAllEvents";
 import getEventByEventID from "./reducer/getEventByEventID";
 import getPastEvents from "./reducer/getPastEvents";
+import getEventCount from "./reducer/getEventCount";
 
 const appReducer = combineReducers({
   profileInfo: getUserInfo,
@@ -20,6 +21,7 @@ const appReducer = combineReducers({
   getViewAllEvents:getViewAllEvents,
   getEventByEventID: getEventByEventID,
   getPastEvents:getPastEvents,
+  getEventCount:getEventCount
 
 });
 const rootReducer = (state: ReturnType<typeof appReducer> | undefined, action: AnyAction) => {
