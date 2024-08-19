@@ -208,7 +208,10 @@ const Header = () => {
               <Popover open={popupOpen} onOpenChange={setPopupOpen}>
                 <PopoverTrigger asChild>
                   <div className="border border-muted gradient-slate rounded-full lg:flex items-center lg:gap-3 lg:py-[0.45rem] lg:pl-[0.45rem] lg:pr-6 cursor-pointer">
+                   
                     <div className="size-[40px] lg:size-[35px] rounded-full overflow-hidden">
+                  <Link href={"/profile/profile-main"} className="display-none">
+
                       <Image
                         src={'/person3.jpg'}
                         width={500}
@@ -219,6 +222,7 @@ const Header = () => {
                         )}`}
                         alt="DP"
                       />
+                      </Link>
                     </div>
                     <p className="font-bold hidden lg:block">Sohali</p>
                   </div>

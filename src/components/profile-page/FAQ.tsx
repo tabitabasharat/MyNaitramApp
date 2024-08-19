@@ -56,7 +56,7 @@ const formSchema = z.object({
   //     }),
 });
 
-const LiveAccntSetting = ({
+const FAQ = ({
   className,
   setPopupOpen,
 }: {
@@ -83,7 +83,7 @@ const LiveAccntSetting = ({
   return (
     <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
       <h2 className="font-bold text-xl md:text-[32px]">
-        Live Activity Settings
+        FAQ
       </h2>
       <div className="flex flex-col lg:flex-col gap-6 md:gap-8 mt-8 lg:mt-10">
         <Link
@@ -205,7 +205,7 @@ const LiveAccntSetting = ({
                   </FormItem>
                 )}
               />
-              <div className="flex justify-start lg:justify-start">
+              <div className="flex justify-start lg:justify-end">
                 <Button type="submit" disabled className="w-full text-sm md:text-base md:w-fit">
                   Update Changes
                 </Button>
@@ -218,4 +218,4 @@ const LiveAccntSetting = ({
   );
 };
 
-export default LiveAccntSetting;
+export default FAQ;

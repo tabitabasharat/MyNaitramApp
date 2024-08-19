@@ -8,7 +8,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="flex pxpx mx-2xl py-[8rem] lg:py-[9rem] gap-10 xl:gap-12">
-      <div className="w-[450px] hidden lg:block">
+      <div className="w-[450px]  ">
         {/* <ProfileSidebar /> */}
         <ProfileSideInfo/>
       </div>
