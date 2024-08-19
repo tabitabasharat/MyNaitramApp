@@ -73,7 +73,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
         <div>
           {/* <Image src={takeover} alt="takeover"   className=" takeover"/> */}
 
-          {isAbout ? (
+          {/* {isAbout ? (
             <Image
               src={EventData?.coverEventImage  }
               alt="takeover"
@@ -81,7 +81,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
               height={100}
               className=" w-full h-full"
             />
-          ) : (
+          ) : ( */}
             <Image
               src={EventData?.coverEventImage }
               alt="takeover"
@@ -89,8 +89,8 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
               height={200}
               className=" w-full lg:w-[400px] h-full"
             />
-            // <Image src={takeover500} alt="takeover"  width={330} height={200} className=" h-full"/>
-          )}
+             {/* <Image src={takeover500} alt="takeover"  width={330} height={200} className=" h-full"/> */}
+          {/* )} */}
         </div>
         <div>
           <EventsHeroSlide
@@ -105,9 +105,9 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
             eventdescription={EventData?.eventDescription}
             // activeIndex={activeIndex}
             setShowTicket={setShowTicket}
-            ticketStartPrice={EventData?.tickets[0]?.ticketPrice}
+            ticketStartPrice={EventData?.tickets[0]?.price}
             ticketEndPrice={
-              EventData?.tickets[EventData?.tickets.length - 1]?.ticketPrice
+              EventData?.tickets[EventData?.tickets.length - 1]?.price
             }
             // handleBulletClick={() => handleBulletClick(event)}
             AboutDrop={isAbout}
