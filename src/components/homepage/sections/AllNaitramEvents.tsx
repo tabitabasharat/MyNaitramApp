@@ -163,7 +163,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
             className="absolute top-1/2 -translate-y-1/2 right-5"
           />
         </div>
-          <MobileAllEventsList events={events} />
+          <MobileAllEventsList events={events}  eventType={title}/>
         </div>
       </section>
     </div>

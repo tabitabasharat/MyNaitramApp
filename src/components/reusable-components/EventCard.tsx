@@ -12,10 +12,12 @@ const EventCard = ({
   // eventid,
   eventId,
   height = "345px",
+  width = "100%",
 }: {
   img: string;
   title: string;
   height?: string;
+  width?: string;
   eventId: any;
 }) => {
   const imageUrl = img?.startsWith("http" || "https") ? img : fallbackImage.src;
@@ -28,7 +30,7 @@ const EventCard = ({
         className="w-full"
       >
         <div
-          style={{ height }}
+          style={{ height, width }}
           className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242]"
         >
           <Image
