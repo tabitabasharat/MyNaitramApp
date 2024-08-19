@@ -24,13 +24,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { CaretRight } from "@phosphor-icons/react/dist/ssr";
+import { CaretRight, Minus } from "@phosphor-icons/react/dist/ssr";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import Accordion from "@mui/material/Accordion";
+import AccordionActions from "@mui/material/AccordionActions";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useState } from "react";
+import minus from "../../assets/ic_baseline-minus.svg";
+import add from "../../assets/material-symbols_add.svg";
+import { MinusIcon } from "lucide-react";
 
 const formSchema = z.object({
   facebook: z.string().min(2, { message: "Full name cannot be empty." }),
@@ -80,139 +89,103 @@ const FAQ = ({
     console.log(values);
   }
   const pathname = usePathname();
+  const [activeDiv, setActiveDiv] = useState(0);
+
+  const handleClick = (index: any) => {
+    setActiveDiv(index);
+  };
+
+  const [active, setActive] = useState(false);
+
+  // Function to toggle the active state
+  const handleClickAccor = () => {
+    setActive(!active);
+  };
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleAccordionChange = (index: any) => {
+    setActiveIndex(activeIndex === index ? null : index); // Toggle the active index
+  };
+
   return (
     <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
-      <h2 className="font-bold text-xl md:text-[32px]">
+      <h2 className="font-bold text-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] ps-[12px]">
         FAQ
       </h2>
-      <div className="flex flex-col lg:flex-col gap-6 md:gap-8 mt-8 lg:mt-10">
-        <Link
-          href="/profile/privacy-policy"
-          onClick={() => {
-            if (setPopupOpen) {
-              setPopupOpen(false);
-            }
-          }}
-          className={cn(
-            "gradient-slate border border-muted w-full flex justify-between rounded-lg items-center  px-4 md:px-3 py-2.5 md:py-5 hover:border-[#13FF7A] duration-300",
-            {
-              "border-[#13FF7A]": pathname.startsWith(
-                "/profile/privacy-policy"
-              ),
-            }
-          )}
-        >
-          <div className="flex gap-2 items-center">
-            <UserGear size={20} weight="bold"/>
-            <p className="text-sm md:text-base font-bold mb-0">
-            Preview my Personal Social Profile
-            </p>
+      <div className="flex gap-[8px]">
+        {["General", "Account", "Login"].map((text, index) => (
+          <div
+            key={index}
+            className={`text-sm font-bold p-[12px] rounded-[44px] border w-[92px] text-center cursor-pointer ${
+              activeDiv === index
+                ? "text-green-500 border-green-500 bg-[#1A1A1A]"
+                : "text-[#E6E6E6] border-[#FFFFFF0F] gradient-slate"
+            }`}
+            onClick={() => handleClick(index)}
+          >
+            {text}
           </div>
-          <CaretRight size={15} weight="bold" />
-        </Link>
-        <div className="w-full">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className=" w-full">
-              <FormField
-                control={form.control}
-                name="facebook"
-                render={({ field }) => (
-                  <FormItem className="relative mb-4 md:mb-6">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
-                      FACEBOOK
-                    </FormLabel>
-                    <FacebookLogo
-                      className="absolute right-3 translate-y-[0.9rem]"
-                      size={20}
-                    />
-                    <FormControl>
-                      <Input
-                        placeholder="Enter Fullname"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="insta"
-                render={({ field }) => (
-                  <FormItem className="relative mb-4 md:mb-6">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
-                      INSTAGRAM
-                    </FormLabel>
-                    <InstagramLogo
-                      className="absolute right-3 translate-y-[0.9rem]"
-                      size={20}
-                    />
-                    <FormControl>
-                      <Input
-                        placeholder="Enter Fullname"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="linkedIn"
-                render={({ field }) => (
-                  <FormItem className="relative mb-4 md:mb-6">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
-                      LINKEDIN
-                    </FormLabel>
-                    <LinkedinLogo
-                      className="absolute right-3 translate-y-[0.9rem]"
-                      size={20}
-                    />
-                    <FormControl>
-                      <Input
-                        placeholder="Enter Fullname"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="telegram"
-                render={({ field }) => (
-                  <FormItem className="relative mb-7 md:mb-8">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
-                      TELEGRAM
-                    </FormLabel>
-                    <TelegramLogo
-                      className="absolute right-3 translate-y-[0.9rem]"
-                      size={20}
-                    />
-                    <FormControl>
-                      <Input
-                        placeholder="youremail@example.com"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex justify-start lg:justify-end">
-                <Button type="submit" disabled className="w-full text-sm md:text-base md:w-fit">
-                  Update Changes
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </div>
+        ))}
+      </div>
+      <div className="flex flex-col lg:flex-col gap-[12px] sm:gap-[20px] mt-[12px] lg:mt-[20px]">
+        {[
+          {
+            title: "What is Naitram?",
+            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          },
+          {
+            title: "How to use Naitram?",
+            content:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
+          },
+          {
+            title: "Is Naitram safe for me?",
+            content:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
+          },
+          {
+            title: "Is Naitram free to use?",
+            content:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
+          },
+          {
+            title: "How to reset account in Naitram?",
+            content:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
+          },
+        ].map((accordion, index) => (
+          <Accordion
+            key={index}
+            expanded={activeIndex === index}
+            onChange={() => handleAccordionChange(index)}
+            className="gradient-slate rounded-[8px] mb-[0px]"
+            style={{
+              border:
+                activeIndex === index
+                  ? "1px solid #13FF7A"
+                  : "1px solid transparent",
+            }}
+          >
+            <AccordionSummary
+              expandIcon={
+                <Image
+                  src={activeIndex === index ? minus : add}
+                  alt={activeIndex === index ? "Minus icon" : "Add icon"}
+                  width={24} // Set the desired width
+                  height={24} // Set the desired height
+                />
+              }
+              aria-controls={`panel${index}-content`}
+              id={`panel${index}-header`}
+              className="text-base font-bold text-[white] rounded-[8px]"
+            >
+              {accordion.title}
+            </AccordionSummary>
+            <AccordionDetails className="text-[#8F8F8F] text-sm font-normal pt-[6px] pb-[16px] ps-[16px] rounded-[8px]">
+              {accordion.content}
+            </AccordionDetails>
+          </Accordion>
+        ))}
       </div>
     </div>
   );

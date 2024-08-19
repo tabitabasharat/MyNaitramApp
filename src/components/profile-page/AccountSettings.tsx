@@ -60,7 +60,7 @@ const AccountSettings = () => {
   }
   return (
     <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
-      <h2 className="font-bold text-[24px] lg:text-[32px]">Account Settings</h2>
+      <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">Account Settings</h2>
       <div className="flex flex-col lg:flex-row gap-8 mt-8  lg:mt-10">
         <div className="flex flex-col mx-auto lg:mx-0 gap-4 w-fit">
           <GradientBorder className="rounded-full p-[3px] w-fit">

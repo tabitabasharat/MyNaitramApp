@@ -82,7 +82,7 @@ const LiveAccntSetting = ({
   const pathname = usePathname();
   return (
     <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
-      <h2 className="font-bold text-xl md:text-[32px]">
+      <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">
         Live Activity Settings
       </h2>
       <div className="flex flex-col lg:flex-col gap-6 md:gap-8 mt-8 lg:mt-10">

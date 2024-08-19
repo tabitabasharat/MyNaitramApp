@@ -62,7 +62,9 @@
 .gradient-slate {
   background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a);
 }
-
+.bg-gradient{
+  background: linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%);
+}
 .gradient-chat {
   background: linear-gradient(
     to top,

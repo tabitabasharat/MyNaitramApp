@@ -15,6 +15,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import ProfileSidebar from "./ProfileSideBar";
 import { IconButton } from "@mui/material";
+import backwardicon from "../../assets/Back - Button.svg";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MailIcon from "@mui/icons-material/Mail";
@@ -29,6 +30,7 @@ import heplcenter from "../../assets/Headset.svg";
 import faq from "../../assets/Question.svg";
 import { url } from "inspector";
 import Link from "next/link";
+import logout from "../../assets/logout.svg"
 
 const drawerWidth = 240;
 
@@ -77,6 +79,7 @@ export default function ProfileSideInfo(props: Props) {
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
+    // background:"red",
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
@@ -84,9 +87,9 @@ export default function ProfileSideInfo(props: Props) {
   
 
   const drawer = (
+    <>
     <div className="ps-[32px] bg-[black]">
-      <Toolbar />
-
+      {/* <Toolbar /> */}
       <List className="bg-[black] text-[white]">
         <Link href={"/profile/profile-main"}>
           <h3 className="text-xl font-bold mb-[24px]">Profile</h3>
@@ -171,8 +174,16 @@ export default function ProfileSideInfo(props: Props) {
             </ListItemButton>
           </ListItem>
         </Link>
+  
       </List>
+
     </div>
+    <div className="">
+      <button className="text-[white] mb-[31px] absolute bottom-[10%] mx-[21px] flex justify-center items-center text-base font-bold border border-[#FF1717] py-[14px] px-[20px] text-center rounded-[110px] w-[205px]">
+     <Image src={logout} className="me-[14px]"/> Log out
+    </button>
+    </div>
+    </>
   );
 
   const container =
@@ -195,6 +206,8 @@ export default function ProfileSideInfo(props: Props) {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          background:"transparent",
+          marginTop:"115px",
         }}
       >
         <Toolbar>
@@ -207,8 +220,10 @@ export default function ProfileSideInfo(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+          <Typography variant="h6" sx={{
+            background:"transparent"
+          }} noWrap component="div">
+          
           </Typography>
         </Toolbar>
       </AppBar>
@@ -231,14 +246,16 @@ export default function ProfileSideInfo(props: Props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
-              background:"red"
+              background:"black",
+              marginTop: "100px",
+              position:"relative"
             },
           }}
         >
-          <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
+          <DrawerHeader className="flex justify-start h-[30px] ps-[32px]">
+            <IconButton className="p-0" onClick={handleDrawerClose}>
               {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
+                <Image src={backwardicon} />
               ) : (
                 <ChevronRightIcon />
               )}
@@ -254,7 +271,7 @@ export default function ProfileSideInfo(props: Props) {
               boxSizing: "border-box",
               width: drawerWidth,
               marginTop: "100px",
-              backgroundColor: "black",
+              backgroundColor: "black",   
             },
           }}
           open
