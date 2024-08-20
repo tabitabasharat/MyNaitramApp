@@ -60,7 +60,9 @@ const DeleteAccnt = () => {
   }
   return (
     <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
-      <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">Delete Account</h2>
+      <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">
+        Delete Account
+      </h2>
       <div className="flex flex-col lg:flex-row gap-8 mt-8 items-center justify-center lg:mt-10">
         <div className="flex flex-col lg:mx-0 gap-4 w-fit">
           <GradientBorder className="rounded-full p-[3px] w-fit">
@@ -81,17 +83,16 @@ const DeleteAccnt = () => {
         <div>
           <h2 className="text-[#BFBFBF] text-sm font-bold">
             Are you sure you want to delete your account?
-            <br/>
-            You will lose all your
-            data by deleting your account.
+            <br className="hidden sm:inline" />
+            You will lose all your data by deleting your account.
           </h2>
-          <div className="flex flex-col">
-          <button className="my-[32px] bg-[#FF1717] text-[white] w-[100%] sm:w-[428px] p-[12px] rounded-[200px] text-base font-bold">
-            Delete Account
-          </button>
-          <button className="bg-[#00A849] text-[black] w-[100%] sm:w-[428px] p-[12px] rounded-[200px] text-base font-bold">
-            Cancel
-          </button>
+          <div className="flex flex-col absolute bottom-[68px] w-[85%] items-center justify-center sm:relative sm:w-auto sm:bottom-auto">
+            <button className="my-[32px] bg-[#FF1717] text-white w-full sm:w-[428px] p-[12px] rounded-[200px] text-base font-bold">
+              Delete Account
+            </button>
+            <button className="bg-[#00A849] text-black w-full sm:w-[428px] p-[12px] rounded-[200px] text-base font-bold">
+              Cancel
+            </button>
           </div>
         </div>
       </div>

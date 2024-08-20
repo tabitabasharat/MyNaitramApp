@@ -19,17 +19,16 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useEffect, useState, useRef } from "react";
-import { getUserByID } from "@/lib/middleware/profile";
-import { updateProfile } from "@/lib/middleware/profile";
+import { useState, useEffect, useRef } from "react";
+import { getUserByID, updateProfile } from "@/lib/middleware/profile";
 import ScreenLoader from "../loader/Screenloader";
 import {
   SuccessToast,
   ErrorToast,
 } from "../reusable-components/Toaster/Toaster";
-import local from "next/font/local";
 import api from "@/lib/apiInterceptor";
 import { API_URL } from "@/lib/client";
+
 const formSchema = z.object({
   full_name: z.string().min(2, { message: "Full name cannot be empty." }),
 
@@ -82,13 +81,6 @@ const AccountSettings = () => {
       password: "",
     },
   });
-
-  // function onSubmit(values: z.infer<typeof formSchema>) {
-  //   // Do something with the form values.
-  //   // ✅ This will be type-safe and validated.
-
-  //   console.log(values);
-  // }
 
   const handleSingleFileChange = async (
     e: React.ChangeEvent<HTMLInputElement>
@@ -145,7 +137,6 @@ const AccountSettings = () => {
         if (res?.payload?.status === 200) {
           setLoader(false);
           console.log("Profile res", res?.payload?.data);
-
           SuccessToast("Profile Updated Successfully");
         } else {
           setLoader(false);
@@ -160,13 +151,13 @@ const AccountSettings = () => {
   useEffect(() => {
     if (myProfile) {
       form.reset({
-        full_name: myProfile?.fullname || "",
-        email: myProfile?.email || "",
-        password: myProfile?.password || "",
+        full_name: myProfile.fullname || "",
+        email: myProfile.email || "",
+        password: myProfile.password || "",
       });
     }
     if (myProfile?.profilePicture) {
-      setImageSrc(myProfile?.profilePicture);
+      setImageSrc(myProfile.profilePicture);
     } else {
       setImageSrc("/person3.jpg");
     }
@@ -195,9 +186,7 @@ const AccountSettings = () => {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/png image/jpg image/jpeg image/svg"
-                // accept="image/*"
-
+                accept="image/png, image/jpg, image/jpeg, image/svg+xml"
                 className="hidden"
                 id="upload"
                 onChange={handleSingleFileChange}
@@ -205,7 +194,7 @@ const AccountSettings = () => {
             </div>
           </GradientBorder>
           <Button
-           onClick={() => fileInputRef.current?.click()} 
+            onClick={() => fileInputRef.current?.click()} // Trigger file input click
             variant="secondary"
             className="md:w-[250px] w-[100%] py-[8px] text-base px-[12px]"
           >
@@ -214,7 +203,10 @@ const AccountSettings = () => {
         </div>
         <div className="w-full">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(profileclick)} className=" w-full">
+            <form
+              onSubmit={form.handleSubmit(profileclick)}
+              className=" w-full"
+            >
               <FormField
                 control={form.control}
                 name="full_name"
@@ -302,7 +294,7 @@ const AccountSettings = () => {
               <div className="flex justify-start lg:justify-end">
                 <Button
                   type="submit"
-               
+                  disabled
                   className="w-full md:mt-[32px] mt-[57px] text-base md:w-fit"
                 >
                   Update Changes

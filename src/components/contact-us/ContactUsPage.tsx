@@ -34,8 +34,7 @@ const ContactUsPage = () => {
     event.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
   return (
-    <section
-     
+    <section    
       style={{
        
         backgroundImage: "url(/contact-ellipse.png)",
