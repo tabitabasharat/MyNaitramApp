@@ -154,13 +154,11 @@ const Helpcenter = ({
                 )}
               >
                 <div className="flex gap-2 items-center">
-                  {/* <UserGear size={20} weight="bold" /> */}
                   <p className="text-sm md:text-base font-bold mb-0">
                   Attachments
                   </p>
                 </div>
                 <Image src={upload} className="sm:w-[28px] sm:h-[28px] w-[16px] h-[16px]"/>
-                {/* <CaretRight size={15} weight="bold" /> */}
               </Link>
 
               <div className="flex justify-start sm:w-[200px] mt-[50px]">

@@ -127,7 +127,7 @@ const FAQ = ({
           </div>
         ))}
       </div>
-      <div className="flex flex-col lg:flex-col gap-[12px] sm:gap-[20px] mt-[12px] lg:mt-[20px]">
+      <div className="flex flex-col lg:flex-col gap-[12px] sm:gap-[20px] mt-[24px] lg:mt-[20px]">
         {[
           {
             title: "What is Naitram?",

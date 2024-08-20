@@ -106,7 +106,7 @@ export default function ProfileSideInfo(props: Props) {
                   key={item.text}
                   disablePadding
                 >
-                  <ListItemButton className="px-0 ps-[6px] flex items-center">
+                  <ListItemButton className="px-0 pt-[10px] pb-[0px] flex items-center">
                     <ListItemIcon className="min-w-0 pr-2">
                       <Image
                         src={item.icon}
@@ -124,8 +124,8 @@ export default function ProfileSideInfo(props: Props) {
         </div>
       </List>
       <Divider />
-      <List className="bg-[black] text-[white]">
-        <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[10px]">
+      <List className="bg-[black] pt-[26px] text-[white]">
+        <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">
           SUPPORT
         </h3>
         <div className="font-bold text-[24px]">
@@ -137,8 +137,8 @@ export default function ProfileSideInfo(props: Props) {
                 sx={{ fontSize: "24px" }}
                 disablePadding
               >
-                <ListItemButton className="px-0 ps-[6px] flex items-center">
-                  <ListItemIcon className="min-w-0 pr-2">
+                <ListItemButton className="px-0 pt-[8px] pb-[0px] flex items-center">
+                  <ListItemIcon className="min-w-0 pe-[6px]">
                     <Image
                       src={item.icon}
                       alt={item.text}
@@ -157,11 +157,11 @@ export default function ProfileSideInfo(props: Props) {
           ))}
         </div>
       </List>
-      <List className="bg-[black] text-[white]">
+      <List className="bg-[black] pt-[34px] text-[white]">
         <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[10px]">ABOUT</h3>
         <Link href={"/profile/Delete-account"}>
           <ListItem disablePadding>
-            <ListItemButton className="px-0 ps-[6px]">
+            <ListItemButton className="px-0 ">
               <ListItemIcon className="min-w-0 pr-2">
                 <Image
                   src={delaccnt}
@@ -170,7 +170,7 @@ export default function ProfileSideInfo(props: Props) {
                   height={24}
                 />
               </ListItemIcon>
-              <ListItemText primary="Delete Account" />
+              <ListItemText primary="Delete Account" className="text-sm" />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -179,8 +179,8 @@ export default function ProfileSideInfo(props: Props) {
 
     </div>
     <div className="">
-      <button className="text-[white] mb-[31px] absolute bottom-[10%] mx-[21px] flex justify-center items-center text-base font-bold border border-[#FF1717] py-[14px] px-[20px] text-center rounded-[110px] w-[205px]">
-     <Image src={logout} className="me-[14px]"/> Log out
+      <button className="text-[white] mb-[31px] absolute bottom-[10%] mx-[21px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[14px] px-[20px] text-center rounded-[110px] w-[112px] md:w-[205px]">
+     <Image src={logout} className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]"/> Log out
     </button>
     </div>
     </>
@@ -250,10 +250,14 @@ export default function ProfileSideInfo(props: Props) {
               marginTop: "100px",
               position:"relative"
             },
+            "& .MuiTypography-root":{
+              fontSize:"14px",
+              fontWeight:"400"
+            }
           }}
         >
-          <DrawerHeader className="flex justify-start h-[30px] ps-[32px]">
-            <IconButton className="p-0" onClick={handleDrawerClose}>
+          <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px]">
+            <IconButton className="p-0 h-[30px] w-[30px]" onClick={handleDrawerClose}>
               {theme.direction === "ltr" ? (
                 <Image src={backwardicon} />
               ) : (
@@ -273,6 +277,10 @@ export default function ProfileSideInfo(props: Props) {
               marginTop: "100px",
               backgroundColor: "black",   
             },
+            "& .MuiTypography-root":{
+              fontSize:"14px",
+              fontWeight:"400"
+            }
           }}
           open
         >

@@ -61,8 +61,8 @@ const Profile = () => {
   return (
     <div className="w-full md:w-[70%] md:px-auto lg:w-full lg:mx-0">
       <h2 className="font-bold text-[24px] ps-[12px] sm:ps-[0px] lg:text-[32px]">Profile</h2>
-      <div className="flex flex-col lg:flex-row gap-[32px] mt-8 justify-center items-center lg:mt-10">
-        <div className="flex flex-col items-center justify-center lg:mx-0 gap-4 w-fit">
+      <div className="flex flex-col lg:flex-row gap-[24px] mt-8 justify-center items-center lg:mt-10">
+        <div className="flex flex-col items-center justify-center lg:mx-0 gap-[32px] w-fit">
           <GradientBorder className="rounded-full p-[3px] w-fit">
             <div className="bg-black rounded-full p-[6px]">
               <Image
@@ -77,12 +77,12 @@ const Profile = () => {
               />
             </div>
           </GradientBorder>
-          <Button variant="secondary" className="text-[#13FF7A] rounded-[200px] p-[12px] bg-[#FFFFFF0F] text-base font-bold w-[250px]">
+          <Button variant="secondary" className="text-[#13FF7A] rounded-[200px] px-[10] py-[25px] md:p-[12px] bg-[#FFFFFF0F] text-base font-bold w-[100%] md:w-[250px]">
           Top User
           </Button>
         </div>
         <div>
-            <h2 className='text-[28px] font-bold text-center sm:text-start leading-[31.36px] mb-[33px]'>
+            <h2 className='text-[28px] font-bold text-center sm:text-start leading-[31.36px] mb-[24px] md:mb-[33px]'>
             Sohail Hussain
             </h2>
             <div className='flex divide-x divide-[#292929] bg-[#0F0F0F] rounded-[6.89px] justify-center py-[13.77px] md:px-[76.89px] px-[82.5px] w-[100%] xl:w-[428px] border border-[#0FFF7752]'>

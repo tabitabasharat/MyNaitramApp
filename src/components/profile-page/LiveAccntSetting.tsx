@@ -186,7 +186,7 @@ const LiveAccntSetting = ({
                 control={form.control}
                 name="telegram"
                 render={({ field }) => (
-                  <FormItem className="relative mb-7 md:mb-8">
+                  <FormItem className="relative mb-[44px] md:mb-8">
                     <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
                       TELEGRAM
                     </FormLabel>
