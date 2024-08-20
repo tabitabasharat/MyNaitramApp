@@ -82,7 +82,7 @@ const LiveAccntSetting = ({
   const pathname = usePathname();
   return (
     <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
-      <h2 className="font-bold text-xl md:text-[32px]">
+      <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">
         Live Activity Settings
       </h2>
       <div className="flex flex-col lg:flex-col gap-6 md:gap-8 mt-8 lg:mt-10">
@@ -186,7 +186,7 @@ const LiveAccntSetting = ({
                 control={form.control}
                 name="telegram"
                 render={({ field }) => (
-                  <FormItem className="relative mb-7 md:mb-8">
+                  <FormItem className="relative mb-[44px] md:mb-8">
                     <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
                       TELEGRAM
                     </FormLabel>
@@ -205,7 +205,7 @@ const LiveAccntSetting = ({
                   </FormItem>
                 )}
               />
-              <div className="flex justify-start lg:justify-end">
+              <div className="flex justify-start lg:justify-start">
                 <Button type="submit" disabled className="w-full text-sm md:text-base md:w-fit">
                   Update Changes
                 </Button>

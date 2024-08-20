@@ -1,13 +1,27 @@
+"use client";
+import { usePathname } from 'next/navigation';
 import Transition from '@/components/animations/Transition';
 import Footer from '@/components/shared/Footer';
 import Header from '@/components/shared/Header';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 export default function Template({ children }: { children: React.ReactNode }) {
+  const profileRoutes = [
+    "/profile/profile-main",
+    "/profile/account-settings",
+    "/profile/LiveAccntSettings",
+    "/profile/help-center",
+    "/profile/FAQ",
+    "/profile/Delete-account",
+  ];
+
+  const pathname = usePathname();
+  const isProfileRoute = profileRoutes.includes(pathname);
+
   return (
     <>
-   
-    <ToastContainer
+      <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -17,14 +31,12 @@ export default function Template({ children }: { children: React.ReactNode }) {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        
-        // theme="light"
       />
-    <Transition>
-      <Header />
-      {children}
-      <Footer />
-    </Transition>
+      <Transition>
+        <Header />
+        {children}
+        {!isProfileRoute && <Footer />}
+      </Transition>
     </>
   );
 }

@@ -192,7 +192,7 @@ const Header = () => {
             </>
           )}
 
-          {/* {isLoggedIn && (
+          {isLoggedIn && (
             <div className="mr-2 lg:mr-4 flex items-center gap-4 h-full">
               <Popover open={notifPopupOpen} onOpenChange={setNotifPopupOpen}>
                 <PopoverTrigger asChild>
@@ -207,8 +207,11 @@ const Header = () => {
 
               <Popover open={popupOpen} onOpenChange={setPopupOpen}>
                 <PopoverTrigger asChild>
-                  <div className="border border-muted gradient-slate rounded-full lg:flex items-center lg:gap-3 lg:py-[0.45rem] lg:pl-[0.45rem] lg:pr-6 cursor-pointer">
+                  {/* <div className="border border-muted gradient-slate rounded-full lg:flex items-center lg:gap-3 lg:py-[0.45rem] lg:pl-[0.45rem] lg:pr-6 cursor-pointer"> */}
+                   
                     <div className="size-[40px] lg:size-[35px] rounded-full overflow-hidden">
+                  <Link href={"/profile/profile-main"} className="display-none">
+
                       <Image
                         src={'/person3.jpg'}
                         width={500}
@@ -219,8 +222,8 @@ const Header = () => {
                         )}`}
                         alt="DP"
                       />
-                    </div>
-                    <p className="font-bold hidden lg:block">Sohali</p>
+                      </Link>
+                    {/* </div> */}
                   </div>
                 </PopoverTrigger>
                 <PopoverContent className="bg-black rounded-2xl text-white border-none shadow-none p-0 -translate-x-4 translate-y-2">
@@ -233,7 +236,7 @@ const Header = () => {
                 </PopoverContent>
               </Popover>
             </div>
-          )} */}
+          )}
 
           <Button
             variant="secondary"

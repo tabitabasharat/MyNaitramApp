@@ -430,7 +430,7 @@ export default function CreateEvent() {
             alt="ufo"
           />
         </div>
-        <div className="gradient-slate w-full pt-[32px] pb-[32px] px-[60px]  create-container-head">
+        <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
           <Form {...form}>
             <form
               className=" w-full"
@@ -446,7 +446,7 @@ export default function CreateEvent() {
                   name="eventname"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
                         Event Name
                       </FormLabel>
                       <FormControl>
