@@ -31,6 +31,8 @@ import { usePathname } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useState,useEffect } from "react";
+import { useAppDispatch,useAppSelector } from "@/lib/hooks";
 
 const formSchema = z.object({
   facebook: z.string().min(2, { message: "Full name cannot be empty." }),
@@ -63,6 +65,15 @@ const LiveAccntSetting = ({
   className?: string;
   setPopupOpen?: any;
 }) => {
+
+  const dispatch = useAppDispatch();
+  const [fbUrl,setFbUrl] = useState("");
+  const [instaUrl,setinstaUrl] = useState("");
+  const [linkedinUrl,setlinkedinUrl] = useState("");
+  const [telegramUrl,settelegramUrl] = useState("");
+
+
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -130,6 +141,10 @@ const LiveAccntSetting = ({
                         placeholder="Enter Fullname"
                         className="pt-11 pb-5 font-bold placeholder:font-normal"
                         {...field}
+                        onChange={(e) => {
+                          setFbUrl(e.target.value);
+                          field.onChange(e);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -153,6 +168,10 @@ const LiveAccntSetting = ({
                         placeholder="Enter Fullname"
                         className="pt-11 pb-5 font-bold placeholder:font-normal"
                         {...field}
+                        onChange={(e) => {
+                          setinstaUrl(e.target.value);
+                          field.onChange(e);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -176,6 +195,10 @@ const LiveAccntSetting = ({
                         placeholder="Enter Fullname"
                         className="pt-11 pb-5 font-bold placeholder:font-normal"
                         {...field}
+                        onChange={(e) => {
+                          setlinkedinUrl(e.target.value);
+                          field.onChange(e);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -199,6 +222,10 @@ const LiveAccntSetting = ({
                         placeholder="youremail@example.com"
                         className="pt-11 pb-5 font-bold placeholder:font-normal"
                         {...field}
+                        onChange={(e) => {
+                          settelegramUrl(e.target.value);
+                          field.onChange(e);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />

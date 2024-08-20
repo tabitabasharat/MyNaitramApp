@@ -1,27 +1,27 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getProfileInfo } from "../middleware/signin";
+import { getUserByID } from "../middleware/profile";
 
 const initialState:any = {
   loading: false,
   error: "",
   userProfile: [],
 };
-const singUpSlice = createSlice({
+const getProfileInfoSlice = createSlice({
   name: "getProfileInfo",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getProfileInfo.pending, (state) => {
+    builder.addCase(getUserByID.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(getProfileInfo.fulfilled, (state, action) => {
+    builder.addCase(getUserByID.fulfilled, (state, action) => {
       state.loading = false;
       state.userProfile = action.payload;
     });
-    builder.addCase(getProfileInfo.rejected, (state, action) => {
+    builder.addCase(getUserByID.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error || "something wrong";
     });
   },
 });
-export default singUpSlice.reducer;
+export default getProfileInfoSlice.reducer;

@@ -40,7 +40,7 @@ const FollowPromoter = () => {
         <div>
           <Link href={"/events/event-detail/promoter-profile"}>
             <p className="font-bold text-[14px]  font-bold flex items-center gap-1 hover:underline capitalize">
-              {myEvents?.data?.data[0]?.user?.fullname}
+              {myEvents?.data?.data[0]?.fullname}
               {/* { myEvents?.data?.data[0]?.user?.fullname} */}
               <Image src={verifiedimg} alt="img" width={10.5} height={10.5} />
               {/* <SealCheck

@@ -1,5 +1,4 @@
 import { configureStore,  combineReducers, AnyAction} from "@reduxjs/toolkit";
-import getUserInfo from "./reducer/getUserInfo";
 import getAllEvents from "./reducer/getAllEvents";
 import getEventById from "./reducer/getEventById";
 import addBuyTicketPriceReducer from "./reducer/setBuyTicket";
@@ -11,9 +10,11 @@ import getEventByEventID from "./reducer/getEventByEventID";
 import getPastEvents from "./reducer/getPastEvents";
 import getEventCount from "./reducer/getEventCount";
 import getUserLiveEvents from "./reducer/getUserLiveEvents";
+import getShowProfile from "./reducer/getShowProfile";
+import getUserDetail from "./reducer/getUserDetail";
+
 
 const appReducer = combineReducers({
-  profileInfo: getUserInfo,
   getAllEvents: getAllEvents,
   getEventById: getEventById,
   getTicketStore: getTicket,
@@ -24,6 +25,9 @@ const appReducer = combineReducers({
   getPastEvents:getPastEvents,
   getEventCount:getEventCount,
   getUserLiveEvents:getUserLiveEvents,
+  getShowProfile:getShowProfile,
+  getUserDetail:getUserDetail
+  
 });
 const rootReducer = (state: ReturnType<typeof appReducer> | undefined, action: AnyAction) => {
   if (action.type === 'LOGOUT') {

@@ -47,59 +47,75 @@ const AllEventsGrid = ({ events, eventType }: any) => {
 
   return (
     <>
-      {eventType === "All Events" && (
-        <>
-          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
-            {EventsAllData?.events?.length > 0 &&
-              EventsAllData?.events?.map((event: any) => (
-                <EventCard
-                  key={event?.id}
-                  img={event?.coverEventImage}
-                  title={event?.name}
-                  eventId={event?.id}
-                />
-              ))}
+      {/* All Events */}
+      {eventType === "All Events" &&
+        (EventsAllData?.events?.length > 0 ? (
+          <>
+            <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+              {EventsAllData?.events?.length > 0 &&
+                EventsAllData?.events?.map((event: any) => (
+                  <EventCard
+                    key={event?.id}
+                    img={event?.coverEventImage}
+                    title={event?.name}
+                    eventId={event?.id}
+                  />
+                ))}
 
+              <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+            </div>
+            <div className="container p-0">
+              <Pagination
+                currentPage={EventsAllData?.currentPage}
+                totalPages={EventsAllData?.totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+            <p>No Event Found</p>
             <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
           </div>
-          <div className="container p-0">
-            <Pagination
-              currentPage={EventsAllData?.currentPage}
-              totalPages={EventsAllData?.totalPages}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        </>
-      )}
-      {eventType === "Past Events" && (
-        <>
-          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
-            {EventsPastData?.events?.length > 0 &&
-              EventsPastData?.events?.map((event: any) => (
-                <EventCard
-                  key={event?.id}
-                  img={event?.coverEventImage}
-                  title={event?.name}
-                  eventId={event?.id}
-                />
-              ))}
+        ))}
 
+      {/* Past Events */}
+      {eventType === "Past Events" &&
+        (EventsPastData?.events?.length > 0 ? (
+          <>
+            <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+              {EventsPastData?.events?.length > 0 &&
+                EventsPastData?.events?.map((event: any) => (
+                  <EventCard
+                    key={event?.id}
+                    img={event?.coverEventImage}
+                    title={event?.name}
+                    eventId={event?.id}
+                  />
+                ))}
+
+              <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+            </div>
+            <div className="container p-0">
+              <Pagination
+                currentPage={EventsPastData?.currentPage}
+                totalPages={EventsPastData?.totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+            <p>No Event Found</p>
             <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
           </div>
-          <div className="container p-0">
-            <Pagination
-              currentPage={EventsPastData?.currentPage}
-              totalPages={EventsPastData?.totalPages}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        </>
-      )}
+        ))}
 
+      {/* Your Events or Live Events */}
       {eventType === "Your Events" &&
-        (myEvents?.length > 0 ? (
+        (myEvents?.events?.length > 0 ? (
           <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
-            {myEvents?.map((event: any) => (
+            {myEvents?.events?.map((event: any) => (
               <EventCard
                 key={event?.id}
                 img={event?.coverEventImage}
@@ -111,7 +127,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
           </div>
         ) : (
           <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
-            <p>No data found</p>
+            <p>No Event Found</p>
             <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
           </div>
         ))}

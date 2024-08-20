@@ -16,8 +16,8 @@ import caledndergreen from "../../../assets/Calendergreen.svg";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { MagnifyingGlass } from "@phosphor-icons/react";
-import "./viewevents.css"
-
+import "./viewevents.css";
+import { useAppSelector } from "@/lib/hooks";
 
 const eventimges = [
   { id: 1, title: "All Events", imges: calender },
@@ -41,7 +41,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
   // Set the default event to "All Events" when the component mounts
   useState(() => {
     setSelectedEvent(eventimges[0]);
-  }, );
+  });
 
   // Handle click to set the selected event
   const handleClick = (id: number) => {
@@ -55,10 +55,31 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
   const currentImages = selectedEvent === null ? eventimges : greenimges;
   const title = selectedEvent ? selectedEvent.title : "All Events";
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const clearInput = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
+
+  const EventsAllData = useAppSelector(
+    (state) => state?.getViewAllEvents?.ViewallEvents?.data
+  );
+
+  console.log("All Events are", EventsAllData);
+
+  const EventsPastData = useAppSelector(
+    (state) => state?.getPastEvents?.ViewPastEvents?.data
+  );
+
+  console.log("All Past Events are", EventsPastData);
+
+  const myEvents = useAppSelector(
+    (state) => state?.getUserLiveEvents?.myLiveEvents?.data
+  );
+
+  console.log("my Live Events are", myEvents);
+  const [searchQueryAll, setSearchQueryAll] = useState("");
+  const [searchQueryPast, setSearchQueryPast] = useState("");
+  const [searchQueryLive, setSearchQueryLive] = useState("");
 
   return (
     // <Link href='/viewallevent'>
@@ -72,7 +93,6 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
       className="min-h-screen pt-[76px] bg-cover bg-no-repeat"
     >
       <section className="min-h-screen pxpx mx-2xl pt-[32px] pb-[120px] md:pt-[56px] md:pb-20">
-      
         <div className="grid grid-cols-3 gap-[4px] events md:gap-4">
           {currentImages.map((event) => (
             <div
@@ -81,21 +101,23 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
               className={`relative border  flex flex-col flex items-center justify-center md:items-start rounded-[44px] md:rounded-lg w-full md:px-[12px] md:pt-[16px] md:pb-[12px] cursor-pointer  duration-300 ${
                 selectedEvent?.id === event.id
                   ? "gradient-slate text-[#13FF7A] border-[1px] border-solid  hover:border-[#13FF7A] border-[#13FF7A] "
-                  : "gradient-slate border-muted" 
+                  : "gradient-slate border-muted"
               }`}
             >
               <Image
-                src={event.imges} 
+                src={event.imges}
                 alt={event.title}
-                width={20} 
-                height={20} 
+                width={20}
+                height={20}
                 className="rounded-lg transition-transform duration-300 hidden md:block"
                 style={{
                   filter:
-                    selectedEvent?.id === event.id ? "none" : "grayscale(100%)", 
+                    selectedEvent?.id === event.id ? "none" : "grayscale(100%)",
                 }}
               />
-              <p className="md:m-0 m-[12px] text-sm md:mt-[8px]">{event.title}</p>
+              <p className="md:m-0 m-[12px] text-sm md:mt-[8px]">
+                {event.title}
+              </p>
             </div>
           ))}
         </div>
@@ -103,42 +125,44 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
           🗓 {title}
         </h2>
 
-        <div className="hidden md:flex justify-between gap-10">
+        {/* Search web */}
 
+        <div className="hidden md:flex justify-start gap-10 w-full">
           <FilterSideBar />
           {/* All Naitram Events */}
-          <div>
-          <div className="w-full relative mb-[32px]">
-          <Input
-            value={searchTerm}
-            className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
-            onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Search Event"
-          />
-          <MagnifyingGlass
-            size={20}
-            className="absolute top-1/2 -translate-y-1/2 right-5"
-          />
-        </div>
-          <AllEventsGrid events={events}  eventType={title}/>
+          <div className="w-full">
+            <div className="w-full relative mb-[32px]">
+              <Input
+                value={searchTerm}
+                className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
+                onChange={(event) => setSearchTerm(event.target.value)}
+                placeholder="Search Event"
+              />
+              <MagnifyingGlass
+                size={20}
+                className="absolute top-1/2 -translate-y-1/2 right-5"
+              />
+            </div>
+
+            <AllEventsGrid events={events} eventType={title} />
           </div>
         </div>
 
         {/* MOBILE */}
-        <div className="md:hidden justify-between gap-10">
-        <div className="w-full relative mb-[12px]">
-          <Input
-            value={searchTerm}
-            className="w-full rounded-[8px] h-14 px-[16px] py-[18px] text-sm font-normal"
-            onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Search Event"
-          />
-          <MagnifyingGlass
-            size={20}
-            className="absolute top-1/2 -translate-y-1/2 right-5"
-          />
-        </div>
-          <MobileAllEventsList events={events}  eventType={title}/>
+        <div className="md:hidden justify-between gap-10 w-full">
+          <div className="w-full relative mb-[12px]">
+            <Input
+              value={searchTerm}
+              className="w-full rounded-[8px] h-14 px-[16px] py-[18px] text-sm font-normal"
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder="Search Event"
+            />
+            <MagnifyingGlass
+              size={20}
+              className="absolute top-1/2 -translate-y-1/2 right-5"
+            />
+          </div>
+          <MobileAllEventsList events={events} eventType={title} />
         </div>
       </section>
     </div>

@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   getViewAllEvent,
   getViewPastEvents,
-  getEventById,
+  getLiveEventById
 } from "@/lib/middleware/event";
 const MobileAllEventsList = ({ events, eventType }: any) => {
   const dispatch = useAppDispatch();
@@ -22,7 +22,8 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
     console.log("user id ", userid);
     dispatch(getViewAllEvent());
     dispatch(getViewPastEvents());
-    dispatch(getEventById(userid));
+    dispatch(getLiveEventById(userid));
+
   }, []);
 
   const EventsAllData = useAppSelector(
@@ -36,11 +37,14 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
 
   console.log("All Past Events are", EventsPastData);
 
+
+
+
   const myEvents = useAppSelector(
-    (state) => state?.getEventById?.myEvents?.data
+    (state) => state?.getUserLiveEvents?.myLiveEvents?.data
   );
 
-  console.log("my Events are", myEvents);
+  console.log("my Live Events are", myEvents);
 
   const renderEvents = (events: any) => {
     if (events?.length > 0) {
@@ -53,7 +57,7 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
         />
       ));
     } else {
-      return <p>No events available</p>;
+      return <p>No Events are Available</p>;
     }
   };
   return (
@@ -65,7 +69,7 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
         : eventType === "Past Events"
         ? renderEvents(EventsPastData?.events)
         : eventType === "Your Events"
-        ? renderEvents(myEvents)
+        ? renderEvents(myEvents?.events)
         : null}
 
       <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
