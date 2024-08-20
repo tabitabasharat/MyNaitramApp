@@ -21,7 +21,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
-import AccountSettings from "./AccountSettings";
 // import Profile from "./Prolife";
 import delaccnt from "../../../public/Deleteaccnt.svg";
 import accnt from "../../assets/User Gear.svg";
@@ -53,7 +52,7 @@ export default function ProfileSideInfo(props: Props) {
     setMobileOpen(false);
   };
 
-  const handleDrawerTransitionEnd = (props:Props) => {
+  const handleDrawerTransitionEnd = (props: Props) => {
     setIsClosing(false);
   };
 
@@ -69,7 +68,11 @@ export default function ProfileSideInfo(props: Props) {
 
   const menuItems = [
     { text: "Account Settings", icon: accnt, url: "/profile/account-settings" },
-    { text: "Live Activity Settings", icon: chats, url: "/profile/LiveAccntSettings" },
+    {
+      text: "Live Activity Settings",
+      icon: chats,
+      url: "/profile/LiveAccntSettings",
+    },
   ];
 
   const helpItems = [
@@ -77,36 +80,38 @@ export default function ProfileSideInfo(props: Props) {
     { text: "FAQs", icon: faq, url: "/profile/FAQ" },
   ];
 
-  const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
+  const DrawerHeader = styled("div")(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   }));
-
 
   const drawer = (
     <>
       <div className="ps-[32px] bg-[black]">
         {/* <Toolbar /> */}
         <List className="bg-[black] text-[white]">
-          <Link href={"/profile/profile-main"}>
+          <Link href="/profile/profile-main">
             <h3 className="text-xl font-bold mb-[24px]">Profile</h3>
           </Link>
           <div>
             <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">
               SETTINGS
             </h3>
+
             <div className="text-xl font-bold">
-              {menuItems.map((item, index) => (
-                <Link href={item.url}>
+              {menuItems.map((item) => (
+                <Link href={item.url} key={item.text}>
                   <ListItem
-                    className="text-xl font-bold"
-                    key={item.text}
+                    className={`text-xl font-bold ${
+                      activeItem === item.text ? "gradient-border rounded-lg" : ""
+                    }`}
                     disablePadding
+                    onClick={() => handleItemClick(item.text)}
                   >
-                    <ListItemButton className="px-0 pt-[10px] pb-[0px] flex items-center">
+                    <ListItemButton className="p-[10px] flex items-center">
                       <ListItemIcon className="min-w-0 pr-2">
                         <Image
                           src={item.icon}
@@ -123,21 +128,26 @@ export default function ProfileSideInfo(props: Props) {
             </div>
           </div>
         </List>
+
         <Divider />
+
         <List className="bg-[black] pt-[26px] text-[white]">
           <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">
             SUPPORT
           </h3>
           <div className="font-bold text-[24px]">
-            {helpItems.map((item, index) => (
-              <Link href={item.url}>
+            {helpItems.map((item) => (
+              <Link href={item.url} key={item.text}>
                 <ListItem
-                  key={item.text}
-                  className="font-bold text-[24px]"
-                  sx={{ fontSize: "24px" }}
+                  className={`font-bold text-[24px] ${
+                    activeItem === item.text
+                      ? "border-[#13FF7A] border-[1px] rounded-[8px]"
+                      : ""
+                  }`}
                   disablePadding
+                  onClick={() => handleItemClick(item.text)}
                 >
-                  <ListItemButton className="px-0 pt-[8px] pb-[0px] flex items-center">
+                  <ListItemButton className="pt-[10px] flex items-center">
                     <ListItemIcon className="min-w-0 pe-[6px]">
                       <Image
                         src={item.icon}
@@ -148,7 +158,6 @@ export default function ProfileSideInfo(props: Props) {
                     </ListItemIcon>
                     <ListItemText
                       primary={item.text}
-                      sx={{ fontSize: "24px", fontWeight: 800 }}
                       className="font-bold text-[24px]"
                     />
                   </ListItemButton>
@@ -157,20 +166,22 @@ export default function ProfileSideInfo(props: Props) {
             ))}
           </div>
         </List>
+
         <List className="bg-[black] pt-[34px] text-[white]">
           <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[10px]">
             ABOUT
           </h3>
-          {menuItems.map((item) => (
-          <Link href={"/profile/Delete-account"}>
+          <Link href="/profile/Delete-account">
             <ListItem
               className={`text-xl font-bold ${
-                activeItem === item.text ? "border-[#13FF7A] border-[1px] rounded-[8px]" : ""
+                activeItem === "Delete Account"
+                  ? "border-[#13FF7A] border-[1px] rounded-[8px]"
+                  : ""
               }`}
               disablePadding
-              onClick={() => handleItemClick(item.text)}
+              onClick={() => handleItemClick("Delete Account")}
             >
-              <ListItemButton className="px-0 ">
+              <ListItemButton className="p-[10px]">
                 <ListItemIcon className="min-w-0 pr-2">
                   <Image
                     src={delaccnt}
@@ -183,7 +194,6 @@ export default function ProfileSideInfo(props: Props) {
               </ListItemButton>
             </ListItem>
           </Link>
-          ))}
         </List>
       </div>
       <div className="">
@@ -220,6 +230,7 @@ export default function ProfileSideInfo(props: Props) {
           ml: { sm: `${drawerWidth}px` },
           background: "transparent",
           marginTop: "115px",
+          boxShadow: "none",
         }}
       >
         <Toolbar>
@@ -228,7 +239,7 @@ export default function ProfileSideInfo(props: Props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{ mr: 2, display: { sm: "none" }, boxShadow: "none" }}
           >
             <MenuIcon />
           </IconButton>
@@ -262,7 +273,7 @@ export default function ProfileSideInfo(props: Props) {
               boxSizing: "border-box",
               width: drawerWidth,
               background: "black",
-              marginTop: "100px",
+              marginTop: "80px",
               position: "relative",
             },
             "& .MuiTypography-root": {
@@ -311,9 +322,12 @@ export default function ProfileSideInfo(props: Props) {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+         
+
+          
         }}
       >
-        <Toolbar />
+        {/* <Toolbar /> */}
         {/* <Profile /> */}
       </Box>
     </Box>

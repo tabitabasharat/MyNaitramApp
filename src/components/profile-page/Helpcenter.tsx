@@ -161,11 +161,11 @@ const Helpcenter = ({
                 <Image src={upload} className="sm:w-[28px] sm:h-[28px] w-[16px] h-[16px]"/>
               </Link>
 
-              <div className="flex justify-start sm:w-[200px] mt-[50px]">
+              <div className="flex justify-start absolute bottom-[32px] w-[85%] sm:relative sm:w-[200px] mt-[50px]">
                 <Button
                   type="submit"
                   disabled
-                  className="w-full p-[12px] sm:w-[200px] text-sm md:text-base "
+                  className="w-full p-[12px]  sm:w-[200px] text-sm md:text-base "
                 >
                   Submit
                 </Button>

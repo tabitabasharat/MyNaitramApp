@@ -5,6 +5,7 @@ import Image from "next/image";
 import GradientBorder from "../ui/gradient-border";
 import { shimmer, toBase64 } from "@/lib/utils";
 import { Button } from "../ui/button";
+import { useState } from "react";
 import {
   TelegramLogo,
   LinkedinLogo,
@@ -25,12 +26,16 @@ import {
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { CaretRight } from "@phosphor-icons/react/dist/ssr";
-
+import Switch, { SwitchProps } from "@mui/material/Switch";
+import Stack from "@mui/material/Stack";
+import { styled } from "@mui/material/styles";
+import { Typography } from "@mui/material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import bgblur from "../../assets/Blur Green.png"
 
 const formSchema = z.object({
   facebook: z.string().min(2, { message: "Full name cannot be empty." }),
@@ -73,6 +78,56 @@ const LiveAccntSetting = ({
     },
   });
 
+  const AntSwitch = styled(Switch)(({ theme }) => ({
+    width: 28,
+    height: 16,
+    padding: 0,
+    display: "flex",
+    "&:active": {
+      "& .MuiSwitch-thumb": {
+        width: 15,
+      },
+      "& .MuiSwitch-switchBase.Mui-checked": {
+        transform: "translateX(9px)",
+      },
+    },
+    "& .MuiSwitch-switchBase": {
+      padding: 2,
+      "&.Mui-checked": {
+        transform: "translateX(12px)",
+        color: "#000",
+        "& + .MuiSwitch-track": {
+          opacity: 1,
+          backgroundColor:
+            theme.palette.mode === "dark" ? "#13FF7A" : "#13FF7A",
+        },
+      },
+    },
+    "& .MuiSwitch-thumb": {
+      boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
+      width: 12,
+      height: 12,
+      borderRadius: 6,
+      transition: theme.transitions.create(["width"], {
+        duration: 200,
+      }),
+    },
+    "& .MuiSwitch-track": {
+      borderRadius: 16 / 2,
+      opacity: 1,
+      backgroundColor:
+        theme.palette.mode === "dark"
+          ? "rgba(255,255,255,.35)"
+          : "rgba(0,0,0,.25)",
+      boxSizing: "border-box",
+    },
+  }));
+  const [checked, setChecked] = useState(true);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
@@ -81,7 +136,10 @@ const LiveAccntSetting = ({
   }
   const pathname = usePathname();
   return (
-    <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
+    <>
+    {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
+
+    <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0 ] relative">
       <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">
         Live Activity Settings
       </h2>
@@ -103,14 +161,30 @@ const LiveAccntSetting = ({
           )}
         >
           <div className="flex gap-2 items-center">
-            <UserGear size={20} weight="bold"/>
+            <UserGear size={20} weight="bold" />
             <p className="text-sm md:text-base font-bold mb-0">
-            Preview my Personal Social Profile
+              Preview my Personal Social Profile
             </p>
           </div>
           <CaretRight size={15} weight="bold" />
         </Link>
+        {/* <div className="flex items-center border border-muted gradient-slate rounded-lg py-[20px] px-[10px] justify-between"> */}
+
         <div className="w-full">
+        <div
+          className={`flex items-center gradient-slate rounded-lg py-[16px] mb-[16px] sm:mb-[32px] px-[12px] sm:py-[20px] sm:px-[10px] justify-between transition-colors duration-300 ${
+            checked ? "border border-[#13FF7A]" : " border border-muted"
+          }`}
+        >
+          <p className="mb-0 text-center text-base font-bold">Show Name on Live Chat</p>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <AntSwitch
+              checked={checked}
+              onChange={handleChange}
+              inputProps={{ "aria-label": "ant design" }}
+            />
+          </Stack>
+        </div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className=" w-full">
               <FormField
@@ -206,7 +280,11 @@ const LiveAccntSetting = ({
                 )}
               />
               <div className="flex justify-start lg:justify-start">
-                <Button type="submit" disabled className="w-full text-sm md:text-base md:w-fit">
+                <Button
+                  type="submit"
+                  disabled
+                  className="w-full text-sm md:text-base md:w-fit"
+                >
                   Update Changes
                 </Button>
               </div>
@@ -215,6 +293,7 @@ const LiveAccntSetting = ({
         </div>
       </div>
     </div>
+    </>
   );
 };
 

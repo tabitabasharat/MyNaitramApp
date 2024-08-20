@@ -54,7 +54,31 @@
     #ff8a08
   );
 }
+.gradient-border {
+  border: 1px solid;
+  border-image-source: linear-gradient(135deg, #13FF7A 0.2%, #002B12 50.2%, #13FF7A 100.2%);
+  border-image-slice: 1;
+  border-radius: 8px;
+}
+/* .gradient-border {
+  position: relative;
+  padding: 0.5rem 1rem;
+  border-radius: 8px    ;
+  overflow: hidden;
+  background-color: transparent;
+}
 
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, rgb(216, 29, 4), rgb(233, 118, 65));
+  z-index: -1;
+  border-radius: 0.5rem;
+} */
 .border-avatar {
   background: linear-gradient(145deg, #13ff7a, #002b12, #002b12, #13ff7a);
 }
