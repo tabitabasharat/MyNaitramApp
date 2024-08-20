@@ -238,3 +238,24 @@ export const getEventCount = createAsyncThunk(
     }
   }
 );
+
+export const getLiveEventById = createAsyncThunk(
+  "getLiveEventById",
+  async (data: any) => {
+    try {
+      console.log("inside get Live Event By user id");
+      const res = await api.get(`${API_URL}/event/getLiveEvents/${data}`);
+      console.log("inside get specific user Live event", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);

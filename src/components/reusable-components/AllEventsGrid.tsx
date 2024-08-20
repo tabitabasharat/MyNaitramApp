@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getViewAllEvent } from "@/lib/middleware/event";
 import { getViewPastEvents } from "@/lib/middleware/event";
-import { getEventById } from "@/lib/middleware/event";
+import { getEventById, getLiveEventById } from "@/lib/middleware/event";
 
 const AllEventsGrid = ({ events, eventType }: any) => {
   const dispatch = useAppDispatch();
@@ -23,7 +23,8 @@ const AllEventsGrid = ({ events, eventType }: any) => {
     console.log("user id ", userid);
     dispatch(getViewAllEvent());
     dispatch(getViewPastEvents());
-    dispatch(getEventById(userid));
+    // dispatch(getEventById(userid));
+    dispatch(getLiveEventById(userid));
   }, []);
 
   const EventsAllData = useAppSelector(
@@ -39,18 +40,16 @@ const AllEventsGrid = ({ events, eventType }: any) => {
   console.log("All Past Events are", EventsPastData);
 
   const myEvents = useAppSelector(
-    (state) => state?.getEventById?.myEvents?.data
+    (state) => state?.getUserLiveEvents?.myLiveEvents?.data
   );
 
-  console.log("my Events are", myEvents);
-
+  console.log("my Live Events are", myEvents);
 
   return (
     <>
       {eventType === "All Events" && (
         <>
           <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
-      
             {EventsAllData?.events?.length > 0 &&
               EventsAllData?.events?.map((event: any) => (
                 <EventCard
@@ -97,10 +96,10 @@ const AllEventsGrid = ({ events, eventType }: any) => {
         </>
       )}
 
-      {eventType === "Your Events" && (
-        <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
-          {myEvents?.length > 0 &&
-            myEvents?.map((event: any) => (
+      {eventType === "Your Events" &&
+        (myEvents?.length > 0 ? (
+          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+            {myEvents?.map((event: any) => (
               <EventCard
                 key={event?.id}
                 img={event?.coverEventImage}
@@ -108,10 +107,14 @@ const AllEventsGrid = ({ events, eventType }: any) => {
                 eventId={event?.id}
               />
             ))}
-
-          <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
-        </div>
-      )}
+            <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+          </div>
+        ) : (
+          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+            <p>No data found</p>
+            <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+          </div>
+        ))}
     </>
   );
 };
