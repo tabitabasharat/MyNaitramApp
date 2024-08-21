@@ -4,87 +4,84 @@ import {
   SealCheck,
   TiktokLogo,
   XLogo,
-} from '@phosphor-icons/react/dist/ssr';
-import GoldGradientBorder from '../ui/gold-gradient-border';
-import { shimmer, toBase64 } from '@/lib/utils';
-import Image from 'next/image';
-import Link from 'next/link';
-import JoinEventCard from '@/components/reusable-components/JoinEventCard';
+} from "@phosphor-icons/react/dist/ssr";
+import GoldGradientBorder from "../ui/gold-gradient-border";
+import { shimmer, toBase64 } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import JoinEventCard from "@/components/reusable-components/JoinEventCard";
 
 const ProfileDetails = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-between mt-16">
-      <div className="flex flex-col md:flex-row gap-8 md:gap-12 justify-center items-center md:justify-start md:items-start">
+    <div className="flex flex-col md:flex-row w-full items-center justify-between">
+      <div className="flex flex-col w-[100%] md:flex-row gap-[24] md:gap-[32px] justify-center items-center md:justify-start md:items-start">
         <GoldGradientBorder className="w-fit rounded-full p-[3px] h-fit">
           <div className="bg-black rounded-full p-[7px]">
             <Image
               src="/person1.png"
-              width={500}
-              height={500}
-              className="h-[120px] w-[120px] lg:h-[150px] lg:w-[150px] object-cover object-top rounded-full"
+              width={136}
+              height={136}
+              className="h-[128px] w-[128px] sm:h-[136px] sm:w-[136px] object-cover object-top rounded-full"
               placeholder={`data:image/svg+xml;base64,${toBase64(
-                shimmer(1200, 1800),
+                shimmer(1200, 1800)
               )}`}
               alt=""
             />
           </div>
         </GoldGradientBorder>
-        <div className="w-full md:w-fit">
-          <p className="font-bold flex justify-center md:justify-start items-center gap-1 text-[24px]">
-            Evelyn Lynn{' '}
+        <div className="w-full md:w-fit ">
+          <p className="font-extrabold mt-[12px] flex justify-center md:justify-start items-center gap-1 text-[24px]">
+            Evelyn Lynn{" "}
             <SealCheck
-              className="text-[#FFC109] -translate-y-1"
-              size={18}
+              className="text-[#FFC109] w-[16px] h-[16px] sm::w-[20px] sm:h-[20px] -translate-y-1"
+              // size={20}
               weight="fill"
             />
           </p>
-          <p className="text-primary font-bold text-[17px] text-center md:text-left">
+          <p className="text-primary font-extrabold text-sm md:pt-[6px] md:pb-[4px] sm:text-base text-center md:text-left">
             @evelynn_
           </p>
-          <p className="mt-1 text-center md:text-left hidden md:block">
-            <span>32 Attended</span> <span className="opacity-50"> | </span>{' '}
-            <span className="text-muted">251 Events</span>
+          <p className="mt-1 font-bold text-center md:text-left hidden md:block">
+            <span className="text-[24px] sm:text-base">32 <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]"> Attended</span></span> <span className="opacity-50 "> | </span>{" "}
+            <span className="text-[24px] sm:text-base">251 <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]"> Events </span></span>
           </p>
 
-          <div className="md:hidden border border-[#0FFF7730] rounded-lg gradient-slate flex justify-evenly items-center w-full p-3 mt-5">
-            <div className="flexc flex-col items-center justify-center font-bold text-center">
+          <div className="md:hidden border border-[#0FFF7730] rounded-lg gradient-slate flex justify-evenly items-center w-full  mt-5">
+            <div className="flexc flex-col items-center justify-center py-[16px] font-bold text-center">
               <p className="text-[18px]">32</p>
               <p className="text-[12px] opacity-50">ATTENDED</p>
             </div>
             <div className="w-px h-8 bg-white/20"></div>
-            <div className="flexc flex-col items-center justify-center font-bold text-center">
+            <div className="flexc flex-col items-center py-[16px] justify-center font-bold text-center">
               <p className="text-[18px]">251</p>
               <p className="text-[12px] opacity-50">EVENTS</p>
             </div>
           </div>
-
-          <div className="flex justify-center md:justify-start gap-3 h-full mt-6">
-            <Link href={''}>
-              <div className="border border-white w-fit h-fit p-3 rounded-full hover:bg-white hover:text-black duration-300">
-                <InstagramLogo size={20} weight="fill" />
-              </div>
-            </Link>
-            <Link href={''}>
-              <div className="border border-white w-fit h-fit p-3 rounded-full hover:bg-white hover:text-black duration-300">
-                <XLogo size={20} weight="fill" />
-              </div>
-            </Link>
-            <Link href={''}>
-              <div className="border border-white w-fit h-fit p-3 rounded-full hover:bg-white hover:text-black duration-300">
-                <FacebookLogo size={20} weight="fill" />
-              </div>
-            </Link>
-            <Link href={''}>
-              <div className="border border-white w-fit h-fit p-3 rounded-full hover:bg-white hover:text-black duration-300">
-                <TiktokLogo size={20} weight="fill" />
-              </div>
-            </Link>
-          </div>
         </div>
+  
       </div>
-      <div className="w-full md:w-fit mt-6 md:mt-0">
-        <JoinEventCard img="/event2.png" title="NAITRAM Launch Party 2024" />
-      </div>
+      <div className="flex justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
+          <Link href={""}>
+            <div className="border border-white w-fit h-fit sm:p-3 p-[10px] flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+              <InstagramLogo  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]" weight="fill" />
+            </div>
+          </Link>
+          <Link href={""}>
+            <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+              <XLogo  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]" weight="fill" />
+            </div>
+          </Link>
+          <Link href={""}>
+            <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+              <FacebookLogo  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]" weight="fill" />
+            </div>
+          </Link>
+          <Link href={""}>
+            <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+              <TiktokLogo className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]" weight="fill" />
+            </div>
+          </Link>
+        </div>
     </div>
   );
 };

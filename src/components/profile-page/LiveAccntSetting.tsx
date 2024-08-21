@@ -145,7 +145,7 @@ const LiveAccntSetting = ({
       </h2>
       <div className="flex flex-col lg:flex-col gap-6 md:gap-8 mt-8 lg:mt-10">
         <Link
-          href="/profile/privacy-policy"
+          href="/social-profile"
           onClick={() => {
             if (setPopupOpen) {
               setPopupOpen(false);
@@ -155,7 +155,7 @@ const LiveAccntSetting = ({
             "gradient-slate border border-muted w-full flex justify-between rounded-lg items-center  px-4 md:px-3 py-2.5 md:py-5 hover:border-[#13FF7A] duration-300",
             {
               "border-[#13FF7A]": pathname.startsWith(
-                "/profile/privacy-policy"
+                "/social-profile"
               ),
             }
           )}
