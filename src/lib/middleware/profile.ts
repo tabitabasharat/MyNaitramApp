@@ -187,3 +187,24 @@ export const createHelpCenter = createAsyncThunk(
     }
   }
 );
+
+export const getUserSocialProfile = createAsyncThunk(
+  "getUserProfile",
+  async (data: any) => {
+    try {
+      console.log("inside get user profile");
+      const res = await api.get(`${API_URL}/auth/getUserProfile/${data}`);
+      console.log("inside get user profile", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);

@@ -13,6 +13,7 @@ import getUserLiveEvents from "./reducer/getUserLiveEvents";
 import getShowProfile from "./reducer/getShowProfile";
 import getUserDetail from "./reducer/getUserDetail";
 import getProfileLiveActivity from "./reducer/getProfileLiveActivity";
+import getUserSocialProfile from "./reducer/getUserSocialProfile";
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -27,7 +28,8 @@ const appReducer = combineReducers({
   getUserLiveEvents:getUserLiveEvents,
   getShowProfile:getShowProfile,
   getUserDetail:getUserDetail,
-  getProfileLiveActivity:getProfileLiveActivity
+  getProfileLiveActivity:getProfileLiveActivity,
+  getUserSocialProfile:getUserSocialProfile
   
 });
 const rootReducer = (state: ReturnType<typeof appReducer> | undefined, action: AnyAction) => {

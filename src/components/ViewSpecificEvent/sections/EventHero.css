@@ -16,19 +16,19 @@
 .custom-prev-arrow {
   position: absolute;
   top: 40%;
-  z-index: 1500;
+  z-index: 20;
   left: 44px;
 }
 .custom-next-arrow {
   position: absolute;
   top: 40%;
-  z-index: 1500;
+  z-index: 20;
   right: 44px;
 }
 
 .slider-img {
   position: relative;
-  z-index: 1200;
+  z-index: 10;
   border-radius: 12px !important;
 }
 

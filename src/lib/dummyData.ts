@@ -158,13 +158,13 @@ export const photorolls = [
 ];
 
 export const posts = [
-  { id: 1, title: "Star on Flame", img: "/post1.png" },
-  { id: 2, title: "Crystalize Astronouts", img: "/post2.png" },
-  { id: 3, title: "3D Illustration", img: "/post3.png" },
-  { id: 4, title: "Abstract holi Powder", img: "/post4.png" },
-  { id: 5, title: "3D Illustration", img: "/post5.png" },
-  { id: 6, title: "Mecca Cube", img: "/post6.png" },
-  { id: 7, title: "Crystalize Astronouts", img: "/post7.png" },
+  { id: 1, title: "Star on Flame", img: "/star.new.svg" },
+  { id: 2, title: "Crystalize Astronouts", img: "/social-img-2.svg" },
+  { id: 3, title: "3D Illustration", img: "/social-img-3.svg" },
+  { id: 4, title: "Abstract holi Powder", img: "/social-img-4.svg" },
+  { id: 5, title: "3D Illustration", img: "/social-img-5.svg" },
+  { id: 6, title: "Mecca Cube", img: "/social-img-6.svg" },
+  { id: 7, title: "Crystalize Astronouts", img: "/social-image-7.svg" },
 ];
 
 export const ticketsType = [

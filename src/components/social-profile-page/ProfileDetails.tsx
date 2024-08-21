@@ -10,8 +10,23 @@ import { shimmer, toBase64 } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import JoinEventCard from "@/components/reusable-components/JoinEventCard";
-
+import { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { getUserSocialProfile } from "@/lib/middleware/profile";
 const ProfileDetails = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const userid = localStorage.getItem("_id");
+    console.log("user id ", userid);
+    dispatch(getUserSocialProfile(userid));
+  }, []);
+
+  const myProfile = useAppSelector(
+    (state) => state?.getUserSocialProfile?.myProfile?.data
+  );
+
+  console.log("my Social Profile info is", myProfile);
   return (
     <div className="flex flex-col md:flex-row w-full items-center justify-between">
       <div className="flex flex-col w-[100%] md:flex-row gap-[24] md:gap-[32px] justify-center items-center md:justify-start md:items-start">
@@ -31,7 +46,7 @@ const ProfileDetails = () => {
         </GoldGradientBorder>
         <div className="w-full md:w-fit ">
           <p className="font-extrabold mt-[12px] flex justify-center md:justify-start items-center gap-1 text-[24px]">
-            Evelyn Lynn{" "}
+            {myProfile?.fullname}{" "}
             <SealCheck
               className="text-[#FFC109] w-[16px] h-[16px] sm::w-[20px] sm:h-[20px] -translate-y-1"
               // size={20}
@@ -39,11 +54,25 @@ const ProfileDetails = () => {
             />
           </p>
           <p className="text-primary font-extrabold text-sm md:pt-[6px] md:pb-[4px] sm:text-base text-center md:text-left">
-            @evelynn_
+            {myProfile?.email}
           </p>
           <p className="mt-1 font-bold text-center md:text-left hidden md:block">
-            <span className="text-[24px] sm:text-base">32 <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]"> Attended</span></span> <span className="opacity-50 "> | </span>{" "}
-            <span className="text-[24px] sm:text-base">251 <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]"> Events </span></span>
+            <span className="text-[24px] sm:text-base">
+              {" "}
+              {myProfile?.totalAttendees}{" "}
+              <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
+                {" "}
+                Attended
+              </span>
+            </span>{" "}
+            <span className="opacity-50 "> | </span>{" "}
+            <span className="text-[24px] sm:text-base">
+              {myProfile?.totalEvents}{" "}
+              <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
+                {" "}
+                Events{" "}
+              </span>
+            </span>
           </p>
 
           <div className="md:hidden border border-[#0FFF7730] rounded-lg gradient-slate flex justify-evenly items-center w-full  mt-5">
@@ -58,30 +87,41 @@ const ProfileDetails = () => {
             </div>
           </div>
         </div>
-  
       </div>
       <div className="flex justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
-          <Link href={""}>
-            <div className="border border-white w-fit h-fit sm:p-3 p-[10px] flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-              <InstagramLogo  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]" weight="fill" />
-            </div>
-          </Link>
-          <Link href={""}>
-            <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-              <XLogo  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]" weight="fill" />
-            </div>
-          </Link>
-          <Link href={""}>
-            <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-              <FacebookLogo  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]" weight="fill" />
-            </div>
-          </Link>
-          <Link href={""}>
-            <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-              <TiktokLogo className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]" weight="fill" />
-            </div>
-          </Link>
-        </div>
+        <Link href={""}>
+          <div className="border border-white w-fit h-fit sm:p-3 p-[10px] flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+            <InstagramLogo
+              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+              weight="fill"
+            />
+          </div>
+        </Link>
+        <Link href={""}>
+          <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+            <XLogo
+              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+              weight="fill"
+            />
+          </div>
+        </Link>
+        <Link href={""}>
+          <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+            <FacebookLogo
+              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+              weight="fill"
+            />
+          </div>
+        </Link>
+        <Link href={""}>
+          <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+            <TiktokLogo
+              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+              weight="fill"
+            />
+          </div>
+        </Link>
+      </div>
     </div>
   );
 };

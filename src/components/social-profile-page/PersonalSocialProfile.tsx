@@ -6,9 +6,28 @@ import ProfileDetails from "./ProfileDetails";
 import PostTabs from "./PostTabs";
 import { useRouter } from "next/navigation";
 import { truncateString } from "@/lib/utils";
+import { useState,useEffect } from "react";
+import { useAppDispatch,useAppSelector } from "@/lib/hooks";
+import { getUserSocialProfile } from "@/lib/middleware/profile";
 
 const PersonalSocialProfile = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  
+  useEffect(() => {
+    const userid = localStorage.getItem("_id");
+    console.log("user id ", userid);
+    dispatch(getUserSocialProfile(userid));
+  }, []);
+
+
+  
+  const myProfile = useAppSelector(
+    (state) => state?.getUserSocialProfile?.myProfile?.data
+  );
+
+  console.log("my Social Profile info is", myProfile);
   return (
     <div className="min-h-screen relative flex flex-col items-center overflow-hidden">
       <Image
