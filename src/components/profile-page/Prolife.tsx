@@ -76,33 +76,38 @@ const Profile = () => {
         Profile
       </h2>
       <div className="flex flex-col lg:flex-row gap-[24px] md:gap-[32px] mt-[34px] justify-center items-center md:mt-[36px]">
-        <div className="flex flex-col items-center justify-center lg:mx-0 md:gap-[16px] gap-[32px] w-fit">
-          <GradientBorder className="rounded-full p-[3px] w-fit">
-            <div className="bg-black rounded-full p-[6px]">
-              <Image
-                src={
-                  myProfile?.profilePicture
-                    ? myProfile?.profilePicture
-                    : "/person3.jpg "
-                }
-                width={216}
-                height={216}
-                className=" w-[156px] h-[156px] sm:w-[216px] sm:h-[216px] object-cover object-top rounded-full"
-                placeholder={`data:image/svg+xml;base64,${toBase64(
-                  shimmer(1200, 1800)
-                )}`}
-                alt="DP"
-              />
-            </div>
-          </GradientBorder>
-          {myProfile?.isTopUser === true && (
-            <Button
-              variant="secondary"
-              className="text-[#13FF7A] rounded-[200px] px-[10] py-[25px] md:p-[12px] bg-[#FFFFFF0F] text-base font-bold w-[100%] md:w-[250px]"
-            >
-              Top User
-            </Button>
-          )}
+        <div>
+          <div className="flex flex-col items-center justify-center lg:mx-0 md:gap-[16px] gap-[32px] w-full">
+            {" "}
+            <GradientBorder className="rounded-full p-[3px] w-fit">
+              <div className="bg-black rounded-full p-[6px]">
+                <Image
+                  src={
+                    myProfile?.profilePicture
+                      ? myProfile?.profilePicture
+                      : "/person3.jpg "
+                  }
+                  width={216}
+                  height={216}
+                  className=" w-[156px] h-[156px] sm:w-[216px] sm:h-[216px] object-cover object-top rounded-full"
+                  placeholder={`data:image/svg+xml;base64,${toBase64(
+                    shimmer(1200, 1800)
+                  )}`}
+                  alt="DP"
+                />
+              </div>
+            </GradientBorder>
+          </div>
+          <div className="flex flex-col items-center justify-center lg:mx-0 md:gap-[16px] gap-[32px] w-fit">
+            {myProfile?.isTopUser === true && (
+              <Button
+                variant="secondary"
+                className="text-[#13FF7A] rounded-[200px] px-[10] py-[25px] md:p-[12px] bg-[#FFFFFF0F] text-base font-bold w-[100%] md:w-[250px]"
+              >
+                Top User
+              </Button>
+            )}
+          </div>
         </div>
         <div className="w-full">
           <h2 className="text-[28px] font-extrabold text-center sm:text-start leading-[31.36px] mb-[24px] md:mb-[33px]">

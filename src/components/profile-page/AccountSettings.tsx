@@ -170,19 +170,19 @@ const AccountSettings = () => {
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
-      <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">
+      <h2 className="font-extrabold text-[20px] lg:text-[32px] ps-[12px]">
         Account Settings
       </h2>
-      <div className="flex flex-col lg:flex-row gap-8 mt-8  lg:mt-10">
-        <div className="flex flex-col mx-auto lg:mx-0 gap-4 items-center  w-fit">
+      <div className="flex flex-col lg:flex-row gap-8 mt-[34px]  lg:mt-[32px]">
+        <div className="flex flex-col mx-auto lg:mx-0 gap-[16px] items-center  w-fit">
           <GradientBorder className="rounded-full p-[3px] w-fit">
             <div className="bg-black rounded-full p-[6px] flex items-center justify-center">
               <label htmlFor="upload">
                 <Image
                   src={imageSrc}
-                  width={500}
-                  height={500}
-                  className="size-[216px] w-[140px] h-[140px] sm:w-[200px] sm:h-[200px] object-cover object-top rounded-full"
+                  width={216}
+                  height={216}
+                  className="size-[216px] w-[156px] h-[156px] sm:w-[216px] sm:h-[216px] object-cover object-top rounded-full"
                   placeholder={`data:image/svg+xml;base64,${toBase64(
                     shimmer(1200, 1800)
                   )}`}
@@ -202,7 +202,7 @@ const AccountSettings = () => {
           <Button
             onClick={() => fileInputRef.current?.click()} // Trigger file input click
             variant="secondary"
-            className="md:w-[250px] w-[100%] py-[8px] text-base px-[12px]"
+            className="w-[100%] py-[8px] px-[12px] md:py-[12px] md:px-[25px] font-erxtrabold text-base "
           >
             Change Photo Profile
           </Button>
@@ -218,7 +218,7 @@ const AccountSettings = () => {
                 name="full_name"
                 render={({ field }) => (
                   <FormItem className="relative mb-6">
-                    <FormLabel className="text-[12px] text-[#8F8F8F] absolute left-3 top-3">
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                       FULL NAME
                     </FormLabel>
                     <User
@@ -228,7 +228,7 @@ const AccountSettings = () => {
                     <FormControl>
                       <Input
                         placeholder="Enter Fullname"
-                        className="pt-11 pb-5 font-bold text-base placeholder:font-normal"
+                        className="pt-11 pb-5 font-bold text-base placeholder:font-extrabold"
                         {...field}
                         onChange={(e) => {
                           setName(e.target.value);
@@ -245,7 +245,7 @@ const AccountSettings = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem className="relative mb-6">
-                    <FormLabel className="text-[12px] text-[#8F8F8F] absolute left-3 top-3">
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                       EMAIL
                     </FormLabel>
                     <Envelope
@@ -256,7 +256,7 @@ const AccountSettings = () => {
                       <Input
                         readOnly
                         placeholder="youremail@example.com"
-                        className="pt-11 pb-5 text-base font-bold placeholder:font-normal"
+                        className="pt-11 pb-5 text-base placeholder:font-extrabold"
                         {...field}
                       />
                     </FormControl>
@@ -269,7 +269,7 @@ const AccountSettings = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem className="relative mb-2">
-                    <FormLabel className="text-[12px] text-[#8F8F8F] absolute left-3 top-3 z-10">
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3 z-10">
                       PASSWORD
                     </FormLabel>
                     <Lock
@@ -279,7 +279,7 @@ const AccountSettings = () => {
                     <FormControl>
                       <PasswordInput
                         placeholder="Input password"
-                        className="pt-11 pb-5 base font-bold placeholder:font-normal"
+                        className="pt-11 pb-5 text-base placeholder:font-extrabold"
                         {...field}
                         onChange={(e) => {
                           setPassword(e.target.value);
@@ -291,13 +291,13 @@ const AccountSettings = () => {
                   </FormItem>
                 )}
               />
-              <p className="opacity-70 text-sm pt-2 text-[12px] font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
+              <p className="opacity-70 text-sm pt-2 text-[12px] font-extrabold hover:opacity-100 underline translate-y-[-0.4rem]">
                 Want to change your password?
               </p>
               <div className="flex justify-start lg:justify-end">
                 <Button
                   type="submit"
-                  className="w-full md:mt-[32px] mt-[57px] text-base md:w-fit"
+                  className="w-full md:mt-[32px] mt-[57px] px-[30.5px] py-[12px] font-extrabold text-base md:w-fit"
                 >
                   Update Changes
                 </Button>

@@ -71,10 +71,10 @@ const DeleteAccnt = () => {
   }
   return (
     <div className="w-full md:w-[70%] md:mx-auto flex flex-col justify-start lg:w-full lg:mx-0">
-      <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">
+      <h2 className="font-extrabold text-[20px] lg:text-[32px] ps-[12px]">
         Delete Account
       </h2>
-      <div className="flex flex-col justify-start lg:flex-row gap-8 mt-8 items-center lg:mt-10">
+      <div className="flex flex-col justify-start lg:flex-row lg:gap-[62px] gap-[32px] mt-[56px] items-center lg:mt-[32px]">
         <div className="flex flex-col lg:mx-0 gap-4 w-fit">
           <GradientBorder className="rounded-full p-[3px] w-fit">
             <div className="bg-black rounded-full p-[6px]">
@@ -84,8 +84,8 @@ const DeleteAccnt = () => {
                     ? myProfile?.profilePicture
                     : "/person3.jpg "
                 }
-                width={500}
-                height={500}
+                width={216}
+                height={216}
                 className="size-[216px] w-[156px] h-[156px] sm:w-[216px] sm:h-[216px] object-cover object-top rounded-full"
                 placeholder={`data:image/svg+xml;base64,${toBase64(
                   shimmer(1200, 1800)
@@ -96,19 +96,19 @@ const DeleteAccnt = () => {
           </GradientBorder>
         </div>
         <div>
-          <h2 className="text-[#BFBFBF] text-sm font-bold">
+          <h2 className="text-[#BFBFBF] text-sm font-extrabold">
             Are you sure you want to delete your account?
             <br className="hidden sm:inline" />
             You will lose all your data by deleting your account.
           </h2>
           <div className="flex flex-col absolute bottom-[68px] w-[85%] items-center justify-center sm:relative sm:w-auto sm:bottom-auto">
             <button
-              className="my-[32px] bg-[#FF1717] text-white w-full sm:w-[428px] p-[12px] rounded-[200px] text-base font-bold"
+              className="my-[32px] bg-[#FF1717] text-white w-full sm:w-[428px] p-[12px] rounded-[200px] lg:text-[base] text-sm font-extrabold"
               onClick={() => deleteUser()}
             >
               Delete Account
             </button>
-            <button className="bg-[#00A849] text-black w-full sm:w-[428px] p-[12px] rounded-[200px] text-base font-bold"
+            <button className="bg-[#00A849] text-black w-full sm:w-[428px] p-[12px] rounded-[200px] lg:text-[base] text-sm font-extrabold"
             onClick={() => router.back()}>
               Cancel
             </button>
