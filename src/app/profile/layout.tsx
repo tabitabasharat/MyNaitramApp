@@ -7,24 +7,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex mx-2xl py-[8rem] px-[34px] lg:py-[9rem] xl:gap-12">
-      <div className="w-[0px] sm:w-[150px] lg:w-[450px]">
+    <div className="flex main-box mx-2xl py-[8rem] px-[34px] lg:py-[9rem] xl:gap-12">
+      <div className="w-full">
         <ProfileSideInfo />
-      </div>
-
-      <div
-        style={{
-          backgroundImage: "url(/Blur-Green.png)",
-          backgroundPosition: " right",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          // position:"absolute",
-          // right:"0px",
-          height:"100%"
-          
-        }}
-        className="w-full bg-cover bg-no-repeat"
-      >
         {children}
       </div>
     </div>

@@ -2,7 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-
+.main-box{
+  width: 100% !important;
+  padding:0px 100px 0px 300px !important;
+}
+@media (max-width:425px) {
+  .main-box{
+    width: 100% !important;
+    padding:0px 24px 0px 24px !important;
+  }
+}
 .pxpx {
   @apply px-[1.5rem] lg:px-[4rem];
 }

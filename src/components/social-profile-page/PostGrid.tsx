@@ -3,7 +3,7 @@ import PostCard from './PostCard';
 
 const PostGrid = () => {
   return (
-    <div className="grid grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-3 lg:grid-cols-4 gap-[12px]">
       {posts.map((post) => (
         <PostCard key={post.id} img={post.img} title={post.title} />
       ))}

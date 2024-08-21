@@ -49,7 +49,6 @@ const Profile = () => {
   console.log("my Profile is", myProfile);
   const userLoading = useAppSelector((state) => state?.getShowProfile);
 
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -71,15 +70,13 @@ const Profile = () => {
     : "/person3.jpg";
   console.log("image src is", imageUrl);
   return (
-    
     <div className="w-full md:w-[70%] md:px-auto lg:w-full lg:mx-0">
       {userLoading?.loading && <ScreenLoader />}
-
-      <h2 className="font-bold text-[24px] ps-[12px] sm:ps-[0px] lg:text-[32px]">
+      <h2 className="font-extrabold text-[20px] ps-[12px] sm:ps-[0px] lg:text-[32px]">
         Profile
       </h2>
-      <div className="flex flex-col lg:flex-row gap-[24px] mt-8 justify-start items-center lg:mt-10">
-        <div className="flex flex-col items-center justify-center lg:mx-0 gap-[32px] w-fit">
+      <div className="flex flex-col lg:flex-row gap-[24px] md:gap-[32px] mt-[34px] justify-center items-center md:mt-[36px]">
+        <div className="flex flex-col items-center justify-center lg:mx-0 md:gap-[16px] gap-[32px] w-fit">
           <GradientBorder className="rounded-full p-[3px] w-fit">
             <div className="bg-black rounded-full p-[6px]">
               <Image
@@ -88,9 +85,9 @@ const Profile = () => {
                     ? myProfile?.profilePicture
                     : "/person3.jpg "
                 }
-                width={200}
-                height={200}
-                className="size-[216px] w-[140px] h-[140px] sm:w-[200px] sm:h-[200px] object-cover object-top rounded-full"
+                width={216}
+                height={216}
+                className=" w-[156px] h-[156px] sm:w-[216px] sm:h-[216px] object-cover object-top rounded-full"
                 placeholder={`data:image/svg+xml;base64,${toBase64(
                   shimmer(1200, 1800)
                 )}`}
@@ -107,24 +104,26 @@ const Profile = () => {
             </Button>
           )}
         </div>
-        <div>
-          <h2 className="text-[28px] font-bold text-center sm:text-start leading-[31.36px] mb-[24px] md:mb-[33px] capitalize">
+        <div className="w-full">
+          <h2 className="text-[28px] font-extrabold text-center sm:text-start leading-[31.36px] mb-[24px] md:mb-[33px]">
             {myProfile?.fullname}
           </h2>
-          <div className="flex divide-x divide-[#292929] bg-[#0F0F0F] rounded-[6.89px] justify-center py-[13.77px] md:px-[76.89px] px-[82.5px] w-[100%] xl:w-[428px] border border-[#0FFF7752]">
-            <div className="flex flex-col items-center pe-[10px] sm:pe-[73px]">
-              <h2 className="font-normal text-[20px] mb-0">
+
+          <div className="flex divide-x divide-[#292929] bg-[#0F0F0F] rounded-[6.89px] justify-center py-[13.77px] w-[100%] xl:w-[428px] border border-[#0FFF7752]">
+            <div className="flex flex-col items-center justify-center w-full">
+              <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
                 {myProfile?.attendees !== null ? myProfile?.attendees : "0"}
               </h2>
-              <p className="text-[#A6A6A6] text-[8px] font-normal mb-0">
+              <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
                 ATTENDEES
               </p>
             </div>
-            {/* <p className='h-[100px] border border:solid divide-x #292929'></p> */}
-            <div className="flex flex-col items-center ps-[10px] sm:ps-[73px]">
-              <h2 className="font-normal text-[20px] mb-0">324</h2>
-              <p className="text-[#A6A6A6] text-[8px] font-normal mb-0">
-                Following
+            <div className="flex flex-col items-center justify-center w-full">
+              <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
+                324
+              </h2>
+              <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
+                FOLLOWING
               </p>
             </div>
           </div>

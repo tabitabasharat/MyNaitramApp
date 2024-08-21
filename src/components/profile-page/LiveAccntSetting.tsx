@@ -89,11 +89,10 @@ const LiveAccntSetting = ({
     dispatch(showLiveActivity(id));
   }, []);
 
-  
   useEffect(() => {
     if (myliveActivity && myliveActivity.length > 0) {
-      const currentValues = form.getValues(); 
-  
+      const currentValues = form.getValues();
+
       form.reset({
         facebook: myliveActivity[0]?.fbUrl || currentValues.facebook,
         insta: myliveActivity[0]?.instaUrl || currentValues.insta,
@@ -189,7 +188,6 @@ const LiveAccntSetting = ({
     }
   }
 
- 
   return (
     <>
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
@@ -200,18 +198,11 @@ const LiveAccntSetting = ({
         </h2>
         <div className="flex flex-col lg:flex-col gap-6 md:gap-8 mt-8 lg:mt-10">
           <Link
-            href="/profile/privacy-policy"
-            onClick={() => {
-              if (setPopupOpen) {
-                setPopupOpen(false);
-              }
-            }}
+            href="/social-profile"
             className={cn(
               "gradient-slate border border-muted w-full flex justify-between rounded-lg items-center  px-4 md:px-3 py-2.5 md:py-5 hover:border-[#13FF7A] duration-300",
               {
-                "border-[#13FF7A]": pathname.startsWith(
-                  "/profile/privacy-policy"
-                ),
+                "border-[#13FF7A]": pathname.startsWith("/social-profile"),
               }
             )}
           >
