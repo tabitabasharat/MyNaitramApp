@@ -27,11 +27,16 @@ const FollowPromoter = () => {
   );
 
   console.log("my Events count", myEvents);
+
+  const imageUrl = myEvents?.data?.data[0]?.profilePicture?.startsWith("http" || "https")
+  ? myEvents?.data?.data[0]?.profilePicture
+  : promoter;
+console.log("image src is", imageUrl);
   return (
     <div className="mt-[32px] bg-white/10 rounded-xl p-[16px]">
       <div className="flex gap-4">
         <Image
-          src={promoter}
+          src={imageUrl}
           width={40}
           height={40}
           className="rounded-xl border-2 border-[#D9D9D9] shadow-2xl"

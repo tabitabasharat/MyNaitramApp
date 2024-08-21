@@ -6,18 +6,11 @@ import { shimmer, toBase64 } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { showProfile } from "@/lib/middleware/profile";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
+import ScreenLoader from "../loader/Screenloader";
 const formSchema = z.object({
   full_name: z.string().min(2, { message: "Full name cannot be empty." }),
 
@@ -54,6 +47,8 @@ const Profile = () => {
   );
 
   console.log("my Profile is", myProfile);
+  const userLoading = useAppSelector((state) => state?.getShowProfile);
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -71,12 +66,15 @@ const Profile = () => {
     console.log(values);
   }
 
-  const imageUrl = myProfile?.profilePicture.startsWith("http" || "https")
+  const imageUrl = myProfile?.profilePicture?.startsWith("http" || "https")
     ? myProfile?.profilePicture
     : "/person3.jpg";
   console.log("image src is", imageUrl);
   return (
+    
     <div className="w-full md:w-[70%] md:px-auto lg:w-full lg:mx-0">
+      {userLoading?.loading && <ScreenLoader />}
+
       <h2 className="font-bold text-[24px] ps-[12px] sm:ps-[0px] lg:text-[32px]">
         Profile
       </h2>

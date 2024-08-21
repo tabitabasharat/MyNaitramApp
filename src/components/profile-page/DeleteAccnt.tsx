@@ -3,60 +3,71 @@
 import Image from "next/image";
 import GradientBorder from "../ui/gradient-border";
 import { shimmer, toBase64 } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { Envelope, Lock, User } from "@phosphor-icons/react/dist/ssr";
-import { Input } from "@/components/ui/input";
-import { PasswordInput } from "@/components/ui/password-input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
-const formSchema = z.object({
-  full_name: z.string().min(2, { message: "Full name cannot be empty." }),
-
-  email: z
-    .string()
-    .min(1, { message: "Email cannot be empty." })
-    .email({ message: "Invalid email address." }),
-
-  password: z
-    .string()
-    .min(8, { message: "Password must contain at least 8 characters." })
-    .regex(/[a-z]/, {
-      message: "Password must contain at least one lowercase letter.",
-    })
-    .regex(/[A-Z]/, {
-      message: "Password must contain at least one uppercase letter.",
-    })
-    .regex(/[0-9]/, { message: "Password must contain at least one number." })
-    .regex(/[^a-zA-Z0-9]/, {
-      message: "Password must contain at least one special character.",
-    }),
-});
+import { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import ScreenLoader from "../loader/Screenloader";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "../reusable-components/Toaster/Toaster";
+import { deleteAccount, showProfile } from "@/lib/middleware/profile";
+import { useRouter } from "next/navigation";
 
 const DeleteAccnt = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      full_name: "Sohail Hussain",
-      email: "sohailhussain@gmail.com",
-      password: "Sohail435%*$",
-    },
-  });
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [loader, setLoader] = useState(false);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  useEffect(() => {
+    const userid = localStorage.getItem("_id");
+    console.log("user id ", userid);
+    dispatch(showProfile(userid));
+  }, []);
+  const myProfile = useAppSelector(
+    (state) => state?.getShowProfile?.myProfile?.data
+  );
 
-    console.log(values);
+  const imageUrl = myProfile?.profilePicture?.startsWith("http" || "https")
+    ? myProfile?.profilePicture
+    : "/person3.jpg";
+  console.log("image src is", imageUrl);
+
+
+
+  async function deleteUser() {
+    setLoader(true);
+    const userID = localStorage.getItem("_id");
+    console.log("my user id", userID);
+
+    try {
+      dispatch(deleteAccount(userID)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+
+          SuccessToast("Account Deleted Successfully");
+          localStorage.clear();
+          router.push("/");
+        } else {
+          setLoader(false);
+          console.log(res?.payload?.message);
+
+          ErrorToast(
+            res?.payload?.message || "An error occurred during deletion."
+          );
+        }
+      });
+    } catch (error: any) {
+      console.error("Error:", error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        "An unexpected error occurred.";
+      ErrorToast(errorMessage);
+    }
   }
   return (
     <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
@@ -68,7 +79,11 @@ const DeleteAccnt = () => {
           <GradientBorder className="rounded-full p-[3px] w-fit">
             <div className="bg-black rounded-full p-[6px]">
               <Image
-                src={"/person3.jpg"}
+                src={
+                  myProfile?.profilePicture
+                    ? myProfile?.profilePicture
+                    : "/person3.jpg "
+                }
                 width={500}
                 height={500}
                 className="size-[216px] w-[156px] h-[156px] sm:w-[216px] sm:h-[216px] object-cover object-top rounded-full"
@@ -87,10 +102,14 @@ const DeleteAccnt = () => {
             You will lose all your data by deleting your account.
           </h2>
           <div className="flex flex-col absolute bottom-[68px] w-[85%] items-center justify-center sm:relative sm:w-auto sm:bottom-auto">
-            <button className="my-[32px] bg-[#FF1717] text-white w-full sm:w-[428px] p-[12px] rounded-[200px] text-base font-bold">
+            <button
+              className="my-[32px] bg-[#FF1717] text-white w-full sm:w-[428px] p-[12px] rounded-[200px] text-base font-bold"
+              onClick={() => deleteUser()}
+            >
               Delete Account
             </button>
-            <button className="bg-[#00A849] text-black w-full sm:w-[428px] p-[12px] rounded-[200px] text-base font-bold">
+            <button className="bg-[#00A849] text-black w-full sm:w-[428px] p-[12px] rounded-[200px] text-base font-bold"
+            onClick={() => router.back()}>
               Cancel
             </button>
           </div>

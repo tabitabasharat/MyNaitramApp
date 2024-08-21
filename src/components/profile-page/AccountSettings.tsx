@@ -56,22 +56,17 @@ const AccountSettings = () => {
   const dispatch = useAppDispatch();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [loader, setLoader] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [Name, setName] = useState("");
   const [Password, setPassword] = useState("");
   const [imageSrc, setImageSrc] = useState("");
-
-  useEffect(() => {
-    const userid = localStorage.getItem("_id");
-    console.log("user id ", userid);
-    dispatch(getUserByID(userid));
-  }, []);
 
   const myProfile = useAppSelector(
     (state) => state?.getUserDetail?.userProfile?.data
   );
 
   console.log("my Profile info is", myProfile);
+
+  const userLoading = useAppSelector((state) => state?.getUserDetail);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -126,8 +121,8 @@ const AccountSettings = () => {
     const userID = localStorage.getItem("_id");
     try {
       const data = {
-        password: Password,
-        fullName: name,
+        password: Password || myProfile?.password || "",
+        fullName: Name || myProfile?.fullname || "",
         userId: userID,
 
         isActive: false,
@@ -138,6 +133,7 @@ const AccountSettings = () => {
           setLoader(false);
           console.log("Profile res", res?.payload?.data);
           SuccessToast("Profile Updated Successfully");
+          dispatch(getUserByID(userID));
         } else {
           setLoader(false);
           console.log(res?.payload?.message);
@@ -148,12 +144,19 @@ const AccountSettings = () => {
       console.error("Error:", error);
     }
   }
+
+  useEffect(() => {
+    const userid = localStorage.getItem("_id");
+    console.log("user id ", userid);
+    dispatch(getUserByID(userid));
+  }, []);
+
   useEffect(() => {
     if (myProfile) {
       form.reset({
-        full_name: myProfile.fullname || "",
-        email: myProfile.email || "",
-        password: myProfile.password || "",
+        full_name: myProfile?.fullname || form.getValues("full_name"),
+        email: myProfile?.email || form.getValues("email"),
+        password: myProfile?.password || form.getValues("password"),
       });
     }
     if (myProfile?.profilePicture) {
@@ -161,16 +164,19 @@ const AccountSettings = () => {
     } else {
       setImageSrc("/person3.jpg");
     }
-  }, [myProfile, form]);
+  }, [myProfile]);
   return (
     <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
+      {loader && <ScreenLoader />}
+      {userLoading?.loading && <ScreenLoader />}
+
       <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">
         Account Settings
       </h2>
       <div className="flex flex-col lg:flex-row gap-8 mt-8  lg:mt-10">
-        <div className="flex flex-col mx-auto lg:mx-0 gap-4 items-center justify-center w-fit">
+        <div className="flex flex-col mx-auto lg:mx-0 gap-4 items-center  w-fit">
           <GradientBorder className="rounded-full p-[3px] w-fit">
-            <div className="bg-black rounded-full p-[6px]">
+            <div className="bg-black rounded-full p-[6px] flex items-center justify-center">
               <label htmlFor="upload">
                 <Image
                   src={imageSrc}
@@ -248,13 +254,10 @@ const AccountSettings = () => {
                     />
                     <FormControl>
                       <Input
+                        readOnly
                         placeholder="youremail@example.com"
                         className="pt-11 pb-5 text-base font-bold placeholder:font-normal"
                         {...field}
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                          field.onChange(e);
-                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -288,13 +291,12 @@ const AccountSettings = () => {
                   </FormItem>
                 )}
               />
-              <button className="opacity-70 text-sm pt-2 text-[12px] font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
+              <p className="opacity-70 text-sm pt-2 text-[12px] font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
                 Want to change your password?
-              </button>
+              </p>
               <div className="flex justify-start lg:justify-end">
                 <Button
                   type="submit"
-                  disabled
                   className="w-full md:mt-[32px] mt-[57px] text-base md:w-fit"
                 >
                   Update Changes

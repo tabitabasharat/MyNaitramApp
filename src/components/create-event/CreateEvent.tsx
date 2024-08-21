@@ -39,8 +39,6 @@ import "react-time-picker/dist/TimePicker.css";
 // import 'react-clock/dist/Clock.css';
 import "react-datepicker/dist/react-datepicker.css";
 
-
-
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
@@ -51,7 +49,7 @@ import { createevent } from "@/lib/middleware/event";
 import api from "@/lib/apiInterceptor";
 
 type TicketType = {
-  type: string;
+  type: any;
   price: any;
   no: any;
 };
@@ -108,6 +106,8 @@ const formSchema = z.object({
     .string()
     .url({ message: "Invalid Telegram URL." })
     .min(1, { message: "Telegram URL cannot be empty." }),
+  eventmainimg: z.string().min(1, { message: "Image URL cannot be empty." }),
+  eventcoverimg: z.string().min(1, { message: "Image URL cannot be empty." }),
   tickets: z
     .array(
       z.object({
@@ -139,7 +139,7 @@ export default function CreateEvent() {
   const [EventEndDate, setEventEndDate] = useState("");
 
   const [EventStartTime, setEventStartTime] = useState("");
-   console.log("my event date is",EventStartTime)
+  console.log("my event date is", EventStartTime);
   const [EventEndTime, setEventEndTime] = useState("");
   const [Eventdescription, setEventdescription] = useState("");
 
@@ -159,7 +159,7 @@ export default function CreateEvent() {
   const [tiktokUrl, settiktokUrl] = useState("");
   const [linkedinUrl, setlinkedinUrl] = useState("");
   const [eventsFiles, setEventsFile] = useState<any>([]);
-  const router=useRouter()
+  const router = useRouter();
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
     { type: "", price: 0, no: 0 },
   ]);
@@ -182,8 +182,8 @@ export default function CreateEvent() {
 
       eventstarttime: "",
       eventendtime: "",
-      // eventmainimg: "",
-      // eventcoverimg: "",
+      eventmainimg: "",
+      eventcoverimg: "",
       eventdescription: "",
 
       compticketno: "",
@@ -232,7 +232,7 @@ export default function CreateEvent() {
 
           console.log(res?.data?.data, "this is the gallery url");
           SuccessToast("Images Uploaded Successfully");
-          return res?.data?.imageUrls
+          return res?.data?.imageUrls;
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message || "Error uploading image");
@@ -255,8 +255,8 @@ export default function CreateEvent() {
     );
   };
 
-  const handleAddTicketType = (e:any) => {
-    e.preventDefault()
+  const handleAddTicketType = (e: any) => {
+    e.preventDefault();
     setTicketTypes((prevTickets) => [
       ...prevTickets,
       { type: "", price: 0, no: 0 },
@@ -361,7 +361,7 @@ export default function CreateEvent() {
     console.log(" Event Creation");
 
     setLoader(true);
-    const imagesOfGallery=await handleFileChangeapi();
+    const imagesOfGallery = await handleFileChangeapi();
     try {
       const data = {
         userId: userid,
@@ -389,8 +389,7 @@ export default function CreateEvent() {
         if (res?.payload?.status === 200) {
           setLoader(false);
           SuccessToast("Event Created Successfully");
-          router.push("/viewallevents")
-          
+          router.push("/viewallevents");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -1001,7 +1000,7 @@ export default function CreateEvent() {
                 >
                   <FormField
                     control={form.control}
-                    name={`tickets[${index}].type`}
+                    name={`tickets.${index}.type`}
                     render={({ field }) => (
                       <FormItem className="relative w-full space-y-0">
                         <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
@@ -1025,7 +1024,7 @@ export default function CreateEvent() {
 
                   <FormField
                     control={form.control}
-                    name={`tickets[${index}].price`}
+                    name={`tickets.${index}.price`}
                     render={({ field }) => (
                       <FormItem className="relative w-full space-y-0">
                         <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
@@ -1054,7 +1053,7 @@ export default function CreateEvent() {
 
                   <FormField
                     control={form.control}
-                    name={`tickets[${index}].no`}
+                    name={`tickets.${index}.no`}
                     render={({ field }) => (
                       <FormItem className="relative w-full space-y-0">
                         <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">

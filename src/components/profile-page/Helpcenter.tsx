@@ -1,20 +1,11 @@
 // components/LiveAccntSetting.js
 "use client";
-import { useState } from "react";
 import Image from "next/image";
 import GradientBorder from "../ui/gradient-border";
 import { shimmer, toBase64 } from "@/lib/utils";
 import { Button } from "../ui/button";
-import {
-  TelegramLogo,
-  LinkedinLogo,
-  InstagramLogo,
-  FacebookLogo,
-  Chats,
-  UserGear,
-} from "@phosphor-icons/react";
+
 import { Input } from "@/components/ui/input";
-import AccountSidebarLink from "@/components/reusable-components/AccountSidebarLink";
 import {
   Form,
   FormControl,
@@ -24,25 +15,27 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { CaretRight } from "@phosphor-icons/react/dist/ssr";
-import upload from "../../assets/material-symbols_upload.svg"
+import upload from "../../assets/material-symbols_upload.svg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Textarea } from "../ui/textarea";
-
-
+import { useState, useEffect, useRef } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import ScreenLoader from "../loader/Screenloader";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "../reusable-components/Toaster/Toaster";
+import { createHelpCenter } from "@/lib/middleware/profile";
+import { API_URL } from "@/lib/client";
+import api from "@/lib/apiInterceptor";
 
 const formSchema = z.object({
-  facebook: z.string().min(2, { message: "Full name cannot be empty." }),
-  linkedIn: z.string().min(2, { message: "Full name cannot be empty." }),
-  insta: z.string().min(2, { message: "Full name cannot be empty." }),
-  telegram: z
-    .string()
-    .min(1, { message: "Email cannot be empty." })
-    .email({ message: "Invalid email address." }),
+  subject: z.string().min(1, { message: "Subject cannot be empty." }),
+  description: z.string().min(1, { message: "Description be empty." }),
 });
 
 const Helpcenter = ({
@@ -52,13 +45,18 @@ const Helpcenter = ({
   className?: string;
   setPopupOpen?: any;
 }) => {
+  const dispatch = useAppDispatch();
+  const [loader, setLoader] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [Subject, setSubject] = useState("");
+  const [Description, setDescription] = useState("");
+  const [imgSrc, setImageSrc] = useState<any>("");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      facebook: "Enter Subject",
-      insta: "Vorem ipsum dolor sit amet consectetur",
-      linkedIn: "sohailhussain",
-      telegram: "sohailhussain@gmail.com",
+      subject: "",
+      description: "",
     },
   });
 
@@ -71,9 +69,77 @@ const Helpcenter = ({
   const pathname = usePathname();
   const [activeDiv, setActiveDiv] = useState(0);
 
-  const handleClick = (index:any) => {
+  const handleClick = (index: any) => {
     setActiveDiv(index);
   };
+
+  const handleSingleFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    console.log("Selected r img is:", file);
+
+    if (file) {
+      setLoader(true);
+
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        const filename = file?.name;
+        console.log("file name", filename);
+        const res: any = await api.post(
+          `${API_URL}/upload/uploadimage`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (res.status === 200) {
+          setLoader(false);
+
+          console.log("File uploaded", res);
+          setImageSrc(res?.data?.data);
+          console.log(res?.data?.data, "this is the file url");
+          SuccessToast("File Uploaded Successfully");
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message || "Error uploading image");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  async function createCenter(values: z.infer<typeof formSchema>) {
+    console.log("my val", values);
+    setLoader(true);
+    const userID = localStorage.getItem("_id");
+    try {
+      const data = {
+        userId: userID,
+        subject: Subject,
+        description: Description,
+        Attachments: imgSrc,
+      };
+      dispatch(createHelpCenter(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          console.log("Profile res", res?.payload?.data);
+          SuccessToast("Profile Updated Successfully");
+        } else {
+          setLoader(false);
+          console.log(res?.payload?.message);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
   return (
     <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
@@ -81,27 +147,30 @@ const Helpcenter = ({
         Help Center
       </h2>
       <div className="flex gap-[8px]">
-      {['General', 'Account', 'Login'].map((text, index) => (
-        <div
-          key={index}
-          className={`text-sm font-bold p-[12px] rounded-[44px] border w-[92px] text-center cursor-pointer ${
-            activeDiv === index
-              ? 'text-green-500 border-green-500 bg-[#1A1A1A]'
-              : 'text-[#E6E6E6] border-[#FFFFFF0F] gradient-slate'
-          }`}
-          onClick={() => handleClick(index)}
-        >
-          {text}
-        </div>
-      ))}
-    </div>
+        {["General", "Account", "Login"].map((text, index) => (
+          <div
+            key={index}
+            className={`text-sm font-bold p-[12px] rounded-[44px] border w-[92px] text-center cursor-pointer ${
+              activeDiv === index
+                ? "text-green-500 border-green-500 bg-[#1A1A1A]"
+                : "text-[#E6E6E6] border-[#FFFFFF0F] gradient-slate"
+            }`}
+            onClick={() => handleClick(index)}
+          >
+            {text}
+          </div>
+        ))}
+      </div>
       <div className="flex flex-col lg:flex-col gap-6 md:gap-8 mt-[22px] lg:mt-10">
         <div className="w-full">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className=" w-full">
+            <form
+              onSubmit={form.handleSubmit(createCenter)}
+              className=" w-full"
+            >
               <FormField
                 control={form.control}
-                name="facebook"
+                name="subject"
                 render={({ field }) => (
                   <FormItem className="relative mb-[12px] md:mb-[20px]">
                     <FormLabel className="text-[12px] text-[#8F8F8F] font-bold absolute left-3 top-3">
@@ -112,6 +181,10 @@ const Helpcenter = ({
                         placeholder="Enter Subject"
                         className="pt-11 pb-5 text-[#D9D9D9] text-base placeholder:font-normal"
                         {...field}
+                        onChange={(e) => {
+                          setSubject(e.target.value);
+                          field.onChange(e);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -120,7 +193,7 @@ const Helpcenter = ({
               />
               <FormField
                 control={form.control}
-                name="insta"
+                name="description"
                 render={({ field }) => (
                   <FormItem className="relative mb-[12px] md:mb-[20px]">
                     <FormLabel className="text-[12px] text-[#8F8F8F] font-bold absolute left-3 top-3">
@@ -131,40 +204,47 @@ const Helpcenter = ({
                         placeholder="Vorem ipsum dolor sit amet consectetur"
                         className="pt-[36px] pb-5 h-[136px] text-[#D9D9D9] text-base placeholder:font-normal"
                         {...field}
+                        onChange={(e) => {
+                          setDescription(e.target.value);
+                          field.onChange(e);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Link
-                href="/profile/privacy-policy"
-                onClick={() => {
-                  if (setPopupOpen) {
-                    setPopupOpen(false);
-                  }
-                }}
+              <div
                 className={cn(
-                  "gradient-slate border border-muted w-full flex justify-between rounded-lg items-center  px-4 md:px-3 py-2.5 md:py-5 hover:border-[#13FF7A] duration-300",
-                  {
-                    "border-[#13FF7A]": pathname.startsWith(
-                      "/profile/privacy-policy"
-                    ),
-                  }
+                  "gradient-slate border border-muted cursor-pointer w-full flex justify-between rounded-lg items-center  px-4 md:px-3 py-2.5 md:py-5 hover:border-[#13FF7A] duration-300"
                 )}
               >
-                <div className="flex gap-2 items-center">
-                  <p className="text-sm md:text-base font-bold mb-0">
-                  Attachments
+                <label
+                  htmlFor="upload"
+                  className="flex gap-2 items-center justify-between w-full cursor-pointer"
+                >
+                  <p className="text-sm md:text-base font-bold mb-0 ">
+                    Attachments
                   </p>
-                </div>
-                <Image src={upload} className="sm:w-[28px] sm:h-[28px] w-[16px] h-[16px]"/>
-              </Link>
+                  <Image
+                    src={upload}
+                    alt="upload"
+                    className="sm:w-[28px] sm:h-[28px] w-[16px] h-[16px]"
+                  />
+                </label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  // accept="image/png, image/jpg, image/jpeg, image/svg+xml"
+                  className="hidden"
+                  id="upload"
+                  onChange={handleSingleFileChange}
+                />
+              </div>
 
               <div className="flex justify-start absolute bottom-[32px] w-[85%] sm:relative sm:w-[200px] mt-[50px]">
                 <Button
                   type="submit"
-                  disabled
                   className="w-full p-[12px]  sm:w-[200px] text-sm md:text-base "
                 >
                   Submit

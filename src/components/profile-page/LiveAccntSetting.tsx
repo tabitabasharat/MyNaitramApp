@@ -87,19 +87,21 @@ const LiveAccntSetting = ({
     const id = localStorage.getItem("_id");
     console.log("user id ", id);
     dispatch(showLiveActivity(id));
-
-    dispatch(updateLiveActivity(id));
   }, []);
+
+  
   useEffect(() => {
-    if (myliveActivity) {
+    if (myliveActivity && myliveActivity.length > 0) {
+      const currentValues = form.getValues(); 
+  
       form.reset({
-        facebook: myliveActivity[0]?.fbUrl || "",
-        insta: myliveActivity[0]?.instaUrl || "",
-        linkedIn: myliveActivity[0]?.linkedinUrl || "",
-        telegram: myliveActivity[0]?.telegramUrl || "",
+        facebook: myliveActivity[0]?.fbUrl || currentValues.facebook,
+        insta: myliveActivity[0]?.instaUrl || currentValues.insta,
+        linkedIn: myliveActivity[0]?.linkedinUrl || currentValues.linkedIn,
+        telegram: myliveActivity[0]?.telegramUrl || currentValues.telegram,
       });
     }
-  }, [myliveActivity, form]);
+  }, [myliveActivity]);
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
@@ -164,17 +166,18 @@ const LiveAccntSetting = ({
     const userID = localStorage.getItem("_id");
     try {
       const data = {
-        fbUrl: fbUrl,
-        instaUrl: instaUrl,
-        linkedinUrl: linkedinUrl,
-        telegramUrl: telegramUrl,
+        fbUrl: fbUrl || myliveActivity[0]?.fbUrl || "",
+        instaUrl: instaUrl || myliveActivity[0]?.instaUrl || "",
+        linkedinUrl: linkedinUrl || myliveActivity[0]?.linkedinUrl || "",
+        telegramUrl: telegramUrl || myliveActivity[0]?.telegramUrl || "",
         isActive: checked,
+        userID: userID,
       };
       dispatch(updateLiveActivity(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          console.log("Profile res", res?.payload?.data);
-          SuccessToast("Profile Updated Successfully");
+          console.log("Live Activity res", res?.payload?.data);
+          SuccessToast("Live Activity Updated Successfully");
         } else {
           setLoader(false);
           console.log(res?.payload?.message);
@@ -186,10 +189,11 @@ const LiveAccntSetting = ({
     }
   }
 
+ 
   return (
     <>
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
-
+      {loader && <ScreenLoader />}
       <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0 ] relative">
         <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">
           Live Activity Settings
