@@ -107,10 +107,10 @@ const PromoterProfile = () => {
             Our Upcoming Events
           </p>
           <div className="flex flex-col gap-3 mt-4">
-            <MobileEventCard img={events[2].img} title={events[2].title} />
-            <MobileEventCard img={events[3].img} title={events[3].title} />
-            <MobileEventCard img={events[4].img} title={events[4].title} />
-            <MobileEventCard img={events[5].img} title={events[5].title} />
+            <MobileEventCard img={events[2].img} title={events[2].title} eventId={events[2].id}/>
+            <MobileEventCard img={events[3].img} title={events[3].title} eventId={events[3].id}/>
+            <MobileEventCard img={events[4].img} title={events[4].title} eventId={events[4].id} />
+            <MobileEventCard img={events[5].img} title={events[5].title} eventId={events[5].id} />
           </div>
         </div>
       </div>

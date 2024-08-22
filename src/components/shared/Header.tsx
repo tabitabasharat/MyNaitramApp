@@ -69,6 +69,7 @@ const Header = () => {
     { title: "About", url: "/about" },
     { title: "Gallery", url: "/gallery" },
     { title: "Contact Us", url: "/contactus" },
+    { title: "Download App", url: "/download-app" },
 
     // { title: 'Search', url: '/search' },
   ];
@@ -136,6 +137,13 @@ const Header = () => {
           ))}
         </nav>
         <div className="flex items-center">
+        <Button
+            variant="secondary"
+            className="hidden lg:block lg:mr-[12px]"
+            onClick={() => router.push("/create-event")}
+          >
+            Create Event
+          </Button>
           {token ? (
             <div>
               <Button
@@ -192,8 +200,11 @@ const Header = () => {
             </>
           )}
 
+        
+
+        
           {isLoggedIn && (
-            <div className="mr-2 lg:mr-4 flex items-center gap-4 h-full">
+            <div className="mr-1 lg:ms-[12px] lg:mr-[12px] flex items-center gap-4 h-full">
               <Popover open={notifPopupOpen} onOpenChange={setNotifPopupOpen}>
                 <PopoverTrigger asChild>
                   <Bell size={25} className="cursot-pointer" />
@@ -237,14 +248,6 @@ const Header = () => {
               </Popover>
             </div>
           )}
-
-          <Button
-            variant="secondary"
-            className="hidden lg:block ms-4"
-            onClick={() => router.push("/download-app")}
-          >
-            Get the App
-          </Button>
           <button
             type="button"
             onClick={toggleMenu}

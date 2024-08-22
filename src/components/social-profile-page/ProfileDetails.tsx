@@ -4,6 +4,9 @@ import {
   SealCheck,
   TiktokLogo,
   XLogo,
+  TwitterLogo,
+  LinkedinLogo,
+  TelegramLogo
 } from "@phosphor-icons/react/dist/ssr";
 import GoldGradientBorder from "../ui/gold-gradient-border";
 import { shimmer, toBase64 } from "@/lib/utils";
@@ -27,6 +30,7 @@ const ProfileDetails = () => {
   );
 
   console.log("my Social Profile info is", myProfile);
+
   return (
     <div className="flex flex-col md:flex-row w-full items-center justify-between">
       <div className="flex flex-col w-[100%] md:flex-row gap-[24] md:gap-[32px] justify-center items-center md:justify-start md:items-start">
@@ -89,7 +93,7 @@ const ProfileDetails = () => {
         </div>
       </div>
       <div className="flex justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
-        <Link href={""}>
+        <Link href={myProfile?.liveActivity?.instaUrl || "#"} passHref target="_blank">
           <div className="border border-white w-fit h-fit sm:p-3 p-[10px] flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
             <InstagramLogo
               className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
@@ -97,15 +101,15 @@ const ProfileDetails = () => {
             />
           </div>
         </Link>
-        <Link href={""}>
+        <Link  href={myProfile?.liveActivity?.telegramUrl || "#" } target="_blank">
           <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-            <XLogo
+            <TelegramLogo
               className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
               weight="fill"
             />
           </div>
         </Link>
-        <Link href={""}>
+        <Link  href={myProfile?.liveActivity?.fbUrl || "#"} target="_blank">
           <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
             <FacebookLogo
               className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
@@ -113,9 +117,9 @@ const ProfileDetails = () => {
             />
           </div>
         </Link>
-        <Link href={""}>
+        <Link href={myProfile?.liveActivity?.linkedinUrl || "#"} target="_blank">
           <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-            <TiktokLogo
+            <LinkedinLogo
               className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
               weight="fill"
             />

@@ -4,7 +4,6 @@ import AllNaitramEvents from "../homepage/sections/AllNaitramEvents";
 import CategoryList from "./sections/CategoryList";
 import SpecificEventHero from "./sections/SpecificEventHero";
 import MobileAppQRCode from "./sections/MobileAppQRCode";
-import PopularEvents from "./sections/PopularEvents";
 
 const SpecificEventPage = () => {
   const [showTicket, setShowTicket] = useState<any>(false);
@@ -18,7 +17,6 @@ const SpecificEventPage = () => {
   return (
     <>
       <SpecificEventHero setShowTicket={setShowTicket} />
-      {/* <PopularEvents /> */}
       {/* {showTicket && (
         <div ref={qrCodeRef}>
           <MobileAppQRCode />

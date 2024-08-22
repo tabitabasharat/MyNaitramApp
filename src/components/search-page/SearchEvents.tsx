@@ -60,7 +60,7 @@ const SearchEvents = () => {
           ) : filteredEvents.length > 0 ? (
             <div className="relative grid md:grid-cols-2 lg:grid-cols-3 xl:lg:grid-cols-4 gap-[1rem]">
               {filteredEvents.map((event) => (
-                <EventCard key={event.id} img={event.img} title={event.title} />
+                <EventCard key={event.id} img={event.img} title={event.title}  eventId={event.id}/>
               ))}
             </div>
           ) : (

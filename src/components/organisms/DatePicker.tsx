@@ -20,7 +20,7 @@ const FormSchema = z.object({
   }),
 });
 
-export function DatePicker({datelabel}) {
+export function DatePicker() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -36,11 +36,11 @@ export function DatePicker({datelabel}) {
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
-                    <p className={datelabel ? "decoration-none" : "underline"}>
+                    <p className="underline">
                       {field.value ? (
                         format(field.value, 'PPP')
                       ) : (
-                        <span>{datelabel? datelabel : "Choose Date"}</span>
+                        <span>Choose Date</span>
                       )}
                     </p>
                   </FormControl>

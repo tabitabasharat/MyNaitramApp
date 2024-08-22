@@ -6,6 +6,7 @@ import { shimmer, toBase64 } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Envelope, Lock, User } from "@phosphor-icons/react/dist/ssr";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 import { PasswordInput } from "@/components/ui/password-input";
 import {
   Form,
@@ -292,7 +293,9 @@ const AccountSettings = () => {
                 )}
               />
               <p className="opacity-70 text-sm pt-2 text-[12px] font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
-                Want to change your password?
+                <Link href="/auth/resetpasspage">
+                  Want to change your password?
+                </Link>
               </p>
               <div className="flex justify-start lg:justify-end">
                 <Button

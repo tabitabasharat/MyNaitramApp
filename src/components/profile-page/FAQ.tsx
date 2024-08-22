@@ -177,11 +177,29 @@ const FAQ = ({
               }
               aria-controls={`panel${index}-content`}
               id={`panel${index}-header`}
-              className="text-base font-bold text-[white] rounded-[8px]"
+              className="text-base font-bold text-[white] rounded-[8px] "
+              sx={{
+                "& .MuiAccordionSummary-content.Mui-expanded": {
+                  margin: "0px",
+                  minHeight: 0,
+                  padding: "12px 0px 6px 0px",
+                },
+                "&.Mui-expanded": {
+                  minHeight: "0",
+                },
+                "& .MuiAccordionSummary-content": {
+                  margin: "0px",
+                  padding: "20px 0px",
+                },
+                "&.MuiButtonBase-root.MuiAccordionSummary-root": {
+                  minHeight: "0",
+                  // padding:"20px 12px",
+                },
+              }}
             >
               {accordion.title}
             </AccordionSummary>
-            <AccordionDetails className="text-[#8F8F8F] text-sm font-normal pt-[6px] pb-[16px] ps-[16px] rounded-[8px]">
+            <AccordionDetails className="text-[#8F8F8F] text-sm font-normal pt-0 pb-[16px]  rounded-[8px]">
               {accordion.content}
             </AccordionDetails>
           </Accordion>

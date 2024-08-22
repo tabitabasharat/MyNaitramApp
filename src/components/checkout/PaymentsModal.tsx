@@ -118,6 +118,8 @@ const PaymentsModal = ({
   
     return formattedDate;
   };
+
+  
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[650px]">
       {loader && <ScreenLoader />}

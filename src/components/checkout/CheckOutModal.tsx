@@ -17,7 +17,7 @@ const CheckOutModal = ({ event }: any) => {
 
   const [profileInformation, setProfileInformation] = useState<any>();
 
-  console.log("this is ticketPrice", ticketPrice, profileInformation, event);
+  console.log("this is ticketPrice", ticketPrice, profileInformation, event, ticketType);
 
   const handleNext = (nextModal: string) => {
     setCurrentModal(nextModal);

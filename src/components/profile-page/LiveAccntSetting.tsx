@@ -1,6 +1,6 @@
 // components/LiveAccntSetting.js
 "use client";
-
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import GradientBorder from "../ui/gradient-border";
 import { shimmer, toBase64 } from "@/lib/utils";
@@ -60,6 +60,7 @@ const LiveAccntSetting = ({
   className?: string;
   setPopupOpen?: any;
 }) => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const [fbUrl, setFbUrl] = useState("");
@@ -200,13 +201,13 @@ const LiveAccntSetting = ({
           <Link
             href="/social-profile"
             className={cn(
-              "gradient-slate border border-muted w-full flex justify-between rounded-lg items-center  px-4 md:px-3 py-2.5 md:py-5 hover:border-[#13FF7A] duration-300",
+              "gradient-slate border border-muted w-full flex justify-between rounded-lg items-center  px-4 md:px-3 py-2.5 md:py-5 hover:border-[#13FF7A] duration-300 cursor-pointer relative",
               {
                 "border-[#13FF7A]": pathname.startsWith("/social-profile"),
               }
             )}
           >
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center ">
               <UserGear size={20} weight="bold" />
               <p className="text-sm md:text-base font-bold mb-0">
                 Preview my Personal Social Profile

@@ -47,11 +47,23 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "../loader/Screenloader";
 import { createevent } from "@/lib/middleware/event";
 import api from "@/lib/apiInterceptor";
+import DenseMenu from "./Dropdown";
+import arrowdown from "../../assets/arrow-down-drop.svg";
+import img1 from "../../assets/Handbag (1).svg";
+import img2 from "../../assets/Cake.svg";
+import img3 from "../../assets/Crown.svg";
+import img4 from "../../assets/Shield Star.svg";
+import tick from "../../assets/fi-rr-check.svg";
 
+type TicketTypeOption = {
+  id: number;
+  label: string;
+};
 type TicketType = {
   type: any;
   price: any;
   no: any;
+  options: TicketTypeOption[];
 };
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
@@ -106,8 +118,8 @@ const formSchema = z.object({
     .string()
     .url({ message: "Invalid Telegram URL." })
     .min(1, { message: "Telegram URL cannot be empty." }),
-  eventmainimg: z.string().min(1, { message: "Image URL cannot be empty." }),
-  eventcoverimg: z.string().min(1, { message: "Image URL cannot be empty." }),
+  eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+  eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   tickets: z
     .array(
       z.object({
@@ -124,12 +136,18 @@ const formSchema = z.object({
       message: "At least one ticket is required.",
     }),
 });
-
+type Option = {
+  id: number;
+  label: string;
+  image: string;
+};
 export default function CreateEvent() {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const fileInputRef = useRef(null);
   const fileInputRef2 = useRef(null);
+  const [Dropdown, setDropdown] = useState(true);
+  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
 
   const [userid, setUserid] = useState("");
   const [Eventname, setEventname] = useState("");
@@ -161,16 +179,29 @@ export default function CreateEvent() {
   const [eventsFiles, setEventsFile] = useState<any>([]);
   const router = useRouter();
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
-    { type: "", price: 0, no: 0 },
+    { type: "", price: 0, no: 0, options: [] },
   ]);
-
+  const options: Option[] = [
+    { id: 1, label: "Merchandise Stalls", image: img1 },
+    { id: 2, label: "Food and Beverages", image: img2 },
+    { id: 3, label: "VIP Lounge", image: img3 },
+    { id: 4, label: "Security and First Aid", image: img4 },
+  ];
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
 
-  async function verificationCode(values: z.infer<typeof formSchema>) {
-    console.log("clicked");
-    console.log("my code is", values);
-  }
-
+  const handleDropdown = () => {
+    setDropdown(!Dropdown);
+  };
+  const handleOptionToggle = (option: Option) => {
+    setSelectedOptions((prev) => {
+      const isSelected = prev.some((o) => o.id === option.id);
+      if (isSelected) {
+        return prev.filter((o) => o.id !== option.id);
+      } else {
+        return [...prev, option];
+      }
+    });
+  };
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -246,7 +277,7 @@ export default function CreateEvent() {
   const handleInputChange = (
     index: number,
     field: keyof TicketType,
-    value: string | number
+    value: string | number | TicketTypeOption[]
   ) => {
     setTicketTypes((prevTickets) =>
       prevTickets.map((ticket, i) =>
@@ -255,11 +286,18 @@ export default function CreateEvent() {
     );
   };
 
+  // const handleAddTicketType = (e: any) => {
+  //   e.preventDefault();
+  //   setTicketTypes((prevTickets) => [
+  //     ...prevTickets,
+  //     { type: "", price: 0, no: 0 },
+  //   ]);
+  // };
   const handleAddTicketType = (e: any) => {
     e.preventDefault();
     setTicketTypes((prevTickets) => [
       ...prevTickets,
-      { type: "", price: 0, no: 0 },
+      { type: "", price: 0, no: 0, options: [] },
     ]);
   };
 
@@ -293,6 +331,7 @@ export default function CreateEvent() {
 
           console.log("Main cover image", res);
           console.log("Main cover image uploaded");
+          form.setValue("eventmainimg", res?.data?.data);
           setMainImg(res?.data?.data);
           console.log(res?.data?.data, "this is the Main cover image url");
           SuccessToast("Main Cover Image Uploaded Successfully");
@@ -334,6 +373,8 @@ export default function CreateEvent() {
 
           console.log(" cover image", res);
           console.log(" cover image uploaded");
+          form.setValue("eventcoverimg", res?.data?.data);
+
           setCoverImg(res?.data?.data);
           console.log(res?.data?.data, "this is the cover image url");
           SuccessToast("Cover Event Image Uploaded Successfully");
@@ -356,6 +397,22 @@ export default function CreateEvent() {
     console.log("user ID logged in is", userID);
   }, []);
 
+  const combinedArray = [
+    ...ticketTypes.map((ticket) => ({ ...ticket, source: "ticketTypes" })),
+    ...selectedOptions.map((option) => ({
+      id: option.id,
+      label: option.label,
+      source: "selectedOptions",
+    })), // Only id and label for options
+  ];
+
+  const enrichedTicketTypes = ticketTypes.map((ticket) => ({
+    ...ticket,
+    options: selectedOptions.map((option) => ({
+      id: option.id,
+      label: option.label,
+    })),
+  }));
   async function EventCreation(values: z.infer<typeof formSchema>) {
     console.log("my values", values);
     console.log(" Event Creation");
@@ -375,7 +432,8 @@ export default function CreateEvent() {
         endTime: EventEndTime,
         mainEventImage: MainImg,
         coverEventImage: CoverImg,
-        tickets: ticketTypes,
+
+        tickets: enrichedTicketTypes,
         totalComplemantaryTickets: CompTicketNo,
         fbUrl: FBUrl,
         instaUrl: InstaUrl,
@@ -887,112 +945,6 @@ export default function CreateEvent() {
                 </FormItem>
               </div>
 
-              {/* <FormField
-                control={form.control}
-                name="eventname"
-                render={({ field }) => (
-                  <FormItem className="relative w-full ">
-                    <FormLabel className="text-sm text-gray-500 absolute left-3 top-3 uppercase">
-                      Event Description
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter Event Description"
-                        className="pt-11 pb-[204px] font-bold placeholder:font-normal"
-                        {...field}
-                        onChange={(e) => {
-                          setEventname(e.target.value);
-                          field.onChange(e);
-                        }}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              /> */}
-
-              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                <FormField
-                  control={form.control}
-                  name="tickettype"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Event Ticke type
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter Type"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                          {...field}
-                          onChange={(e) => {
-                            setTicketType(e.target.value);
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="ticketpp"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
-                        Event Ticket Price
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Enter Price"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                          {...field}
-                          onChange={(e) => {
-                            setTicketType(e.target.value);
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="ticketno"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Event number of tickets
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Enter No. of Tickets"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                          {...field}
-                          onChange={(e) => {
-                            setTicketNo(e.target.value);
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="flex justify-end items-center mt-[12px] ">
-                <Button className="font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold ">
-                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                  Add Ticket Type
-                </Button>
-              </div> */}
-
               {ticketTypes.map((ticket, index) => (
                 <div
                   className="flex items-start gap-[24px] w-full mt-[24px] common-container"
@@ -1082,6 +1034,112 @@ export default function CreateEvent() {
                 </div>
               ))}
 
+              {/* <div className="pb-[20px] mt-[12px] w-full rounded-md border border-[#292929] gradient-slate px-3 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 ">
+                <div
+                  className="flex items-center justify-between pt-[16px]"
+                  onClick={handleDropdown}
+                >
+                  <p className="text-sm text-gray-500 uppercase ">
+                    WHATS INCLUDED
+                  </p>
+                  <Image
+                    src={arrowdown}
+                    width={11}
+                    height={11}
+                    alt="arrow-down"
+                  />
+                </div>
+                {Dropdown && (
+                  <div>
+                    <div className="flex items-center justify-between  pt-[8px] ">
+                      <div className="flex items-center gap-[10px]  pt-[8px]">
+                        <Image src={img1} width={16} height={16} alt="img" />
+                        <p className="text-[14px] text-gray-500 ">
+                          Merchandise Stalls
+                        </p>
+                      </div>
+
+                      <Image src={tick} width={10} height={10} alt="img" />
+                    </div>
+                    <div className="flex items-center justify-between   pt-[8px]">
+                      <div className="flex items-center gap-[10px]  pt-[8px]">
+                        <Image src={img2} width={16} height={16} alt="img" />
+                        <p className="text-[14px] text-gray-500  ">
+                          Food and Beverages
+                        </p>
+                      </div>
+                      <Image src={tick} width={10} height={10} alt="img" />
+                    </div>
+                    <div className="flex items-center justify-between   pt-[8px]">
+                      <div className="flex items-center gap-[10px]  pt-[8px]">
+                        <Image src={img3} width={16} height={16} alt="img" />
+                        <p className="text-[14px] text-gray-500  ">
+                          VIP Lounge
+                        </p>
+                      </div>
+                      <Image src={tick} width={10} height={10} alt="img" />
+                    </div>
+                    <div className="flex items-center justify-between   pt-[8px]">
+                      <div className="flex items-center gap-[10px]  pt-[8px]">
+                        <Image src={img4} width={16} height={16} alt="img" />
+                        <p className="text-[14px] text-gray-500  ">
+                          Security and First Aid
+                        </p>
+                      </div>
+                      <Image src={tick} width={10} height={10} alt="img" />
+                    </div>
+                  </div>
+                )}
+              </div> */}
+
+              <div className="pb-[8px] mt-[12px] w-full rounded-md border border-[#292929] gradient-slate  pt-[16px] px-[12px]  text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                <div
+                  className="flex items-center justify-between "
+                  onClick={handleDropdown}
+                >
+                  <p className="text-sm text-gray-500 uppercase">
+                    WHATS INCLUDED
+                  </p>
+                  <Image
+                    src={Dropdown ? arrowdown : arrowdown}
+                    width={11}
+                    height={11}
+                    alt="arrow"
+                  />
+                </div>
+                {Dropdown && (
+                  <div>
+                    {options?.map((option) => (
+                      <div
+                        key={option?.id}
+                        className="flex items-center justify-between pt-[8px] cursor-pointer"
+                        onClick={() => handleOptionToggle(option)}
+                      >
+                        <div className="flex items-center gap-[10px]  ">
+                          <Image
+                            src={option.image}
+                            width={16}
+                            height={16}
+                            alt="img"
+                          />
+                          <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                            {option.label}
+                          </p>
+                        </div>
+                        {selectedOptions.some((o) => o.id === option.id) && (
+                          <Image src={tick} width={10} height={10} alt="tick" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {/* To use the selected options elsewhere */}
+                {/* <div>
+                  Selected Options:{" "}
+                  {selectedOptions.map((o) => o.label).join(", ")}
+                </div> */}
+              </div>
+
               <div className="flex justify-end items-center mt-[12px] ticket-btn">
                 <Button
                   className="font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold "
@@ -1092,7 +1150,7 @@ export default function CreateEvent() {
                 </Button>
               </div>
 
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
                   control={form.control}
                   name="compticketno"
@@ -1153,7 +1211,7 @@ export default function CreateEvent() {
                 />
               </div> */}
 
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
                   control={form.control}
                   name="fburl"
@@ -1203,7 +1261,7 @@ export default function CreateEvent() {
                 />
               </div>
 
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container ">
+              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
                 <FormField
                   control={form.control}
                   name="telegramurl"
@@ -1252,7 +1310,7 @@ export default function CreateEvent() {
                   )}
                 />
               </div>
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container ">
+              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
                 <FormField
                   control={form.control}
                   name="tiktokurl"

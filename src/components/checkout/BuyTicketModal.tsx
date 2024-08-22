@@ -74,13 +74,13 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
             <div className="flex flex-col gap-3">
               {/* ENTRY TICKET */}
               {EventData?.map((ticket:any) =>
-                selectedTicket === ticket?.ticketType ? (
+                selectedTicket === ticket?.type ? (
                   <Collapsible
-                    key={ticket?.ticketType}
-                    open={selectedTicket === ticket?.ticketType}
+                    key={ticket?.type}
+                    open={selectedTicket === ticket?.type}
                     onOpenChange={() => {
-                      setSelectedTicket(ticket?.ticketType);
-                      setSelectedTicketPrice(ticket?.ticketPrice);
+                      setSelectedTicket(ticket?.type);
+                      setSelectedTicketPrice(ticket?.price);
                     }}
                     className="w-full"
                   >
@@ -88,43 +88,32 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType }: any) => {
                       <GradientBorder>
                         <div className="border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer">
                           <div className="flex justify-between">
-                            <p className="font-bold">{ticket?.ticketType}</p>
+                            <p className="font-bold">{ticket?.type}</p>
                             <p className="font-extrabold">
-                              £{ticket?.ticketPrice}
+                              £{ticket?.price}
                             </p>
                           </div>
-                          {/* <CollapsibleContent className="border-t border-t-[#282828] mt-2 text-left">
-                            <div className="flex flex-col items-start mt-2">
-                              <p className="text-[#BFBFBF] font-extrabold text-[12px]">
-                                INCLUDED
-                              </p>
-                              <div className="mt-3">
-                                {ticket.included.map((include) => (
-                                  <p className="text-[12px]">{include}</p>
-                                ))}
-                              </div>
-                            </div>
-                          </CollapsibleContent> */}
+                         
                         </div>
                       </GradientBorder>
                     </CollapsibleTrigger>
                   </Collapsible>
                 ) : (
                   <Collapsible
-                    key={ticket?.ticketType}
-                    open={selectedTicket === ticket?.ticketType}
+                    key={ticket?.type}
+                    open={selectedTicket === ticket?.type}
                     onOpenChange={() => {
-                      setSelectedTicket(ticket?.ticketType);
-                      setSelectedTicketPrice(ticket?.ticketPrice);
+                      setSelectedTicket(ticket?.type);
+                      setSelectedTicketPrice(ticket?.price);
                     }}
                     className="w-full"
                   >
                     <CollapsibleTrigger className="w-full">
                       <div className="border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer">
                         <div className="flex justify-between">
-                          <p className="font-bold">{ticket?.ticketType}</p>
+                          <p className="font-bold">{ticket?.type}</p>
                           <p className="font-extrabold">
-                            £{ticket?.ticketPrice}
+                            £{ticket?.price}
                           </p>
                         </div>
                       </div>

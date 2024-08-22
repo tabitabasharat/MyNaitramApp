@@ -32,6 +32,7 @@ const Menu = ({
   setMenuIsOpen: Dispatch<SetStateAction<boolean>>;
   toggleMenu: () => void;
 }) => {
+ 
   const links = [
     {
       name: "Home",
@@ -43,16 +44,20 @@ const Menu = ({
     },
     {
       name: "About",
-      href: "/",
+      href: "/about",
     },
     {
       name: "Gallery",
-      href: "/",
+      href: "/gallery",
     },
     {
-      name: "Search",
-      href: "/search",
+      name: "Contact Us",
+      href: "/contactus",
     },
+    {
+      name: "Download App",
+      href: "/download-app",
+    }
   ];
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [token, setToken] = useState<any>();
@@ -119,7 +124,15 @@ const Menu = ({
                 ></div>
               </motion.div>
             ))}
+             <Button
+                    variant="secondary"
+                    className=" lg:mr-[12px]"
+                    onClick={() => router.push("/create-event")}
+                  >
+                    Create Event
+                  </Button>
           </div>
+
           {token || count?.signIn?.data?.id ? (
             <Dialog>
               <DialogTrigger asChild>
@@ -137,6 +150,8 @@ const Menu = ({
                 >
                   <Button className="px-[3rem]">Logout</Button>
                 </motion.div>
+               
+                
               </DialogTrigger>
               {authMode === "SIGNIN" && (
                 <SignInModal

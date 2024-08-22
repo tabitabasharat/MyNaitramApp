@@ -30,6 +30,8 @@ const DeleteAccnt = () => {
   const myProfile = useAppSelector(
     (state) => state?.getShowProfile?.myProfile?.data
   );
+  const userLoading = useAppSelector((state) => state?.getShowProfile);
+
 
   const imageUrl = myProfile?.profilePicture?.startsWith("http" || "https")
     ? myProfile?.profilePicture
@@ -71,6 +73,9 @@ const DeleteAccnt = () => {
   }
   return (
     <div className="w-full md:w-[70%] md:mx-auto flex flex-col justify-start lg:w-full lg:mx-0">
+    {loader && <ScreenLoader/>}
+    {userLoading.loading && <ScreenLoader/>}
+
       <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">
         Delete Account
       </h2>

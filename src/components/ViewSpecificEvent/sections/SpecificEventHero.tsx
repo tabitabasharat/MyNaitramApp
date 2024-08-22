@@ -53,35 +53,7 @@ const CustomNextArrow = (props: any) => (
   </div>
 );
 
-const settings = {
-  dots: false,
-  infinite: true,
-  speed: 700,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  prevArrow: <CustomPrevArrow />,
-  nextArrow: <CustomNextArrow />,
-  // responsive: [
-  //   {
-  //     breakpoint: 1181,
-  //     settings: {
-  //       slidesToShow: 1,
-  //     },
-  //   },
-  //   {
-  //     breakpoint: 767,
-  //     settings: {
-  //       slidesToShow: 1,
-  //     },
-  //   },
-  //   {
-  //     breakpoint: 500,
-  //     settings: {
-  //       slidesToShow: 1,
-  //     },
-  //   },
-  // ],
-};
+
 const SpecificEventHero = ({ setShowTicket }: any) => {
   const [eventID, setEventId] = useState("");
 
@@ -97,16 +69,42 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<any>(null);
 
-
   const dispatch = useAppDispatch();
   const [isAbout, setisAbout] = useState(false);
   const EventData = useAppSelector(
     (state) => state?.getEventByEventID?.eventIdEvents?.data
   );
   console.log("my data", EventData);
-
- 
-
+  const settings:any = {
+    dots: false,
+    infinite: EventData?.eventmedia?.length > 1,
+    speed: 700,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    prevArrow: EventData?.eventmedia?.length > 1 ? <CustomPrevArrow /> : null,
+    nextArrow: EventData?.eventmedia?.length > 1 ? <CustomNextArrow />  : null,
+    arrows:EventData?.eventmedia?.length>1 ? true : false
+    // responsive: [
+    //   {
+    //     breakpoint: 1181,
+    //     settings: {
+    //       slidesToShow: 1,
+    //     },
+    //   },
+    //   {
+    //     breakpoint: 767,
+    //     settings: {
+    //       slidesToShow: 1,
+    //     },
+    //   },
+    //   {
+    //     breakpoint: 500,
+    //     settings: {
+    //       slidesToShow: 1,
+    //     },
+    //   },
+    // ],
+  };
   return (
     <section className="bg-img">
       <div className="main-div-takeover ">
@@ -156,22 +154,26 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
             AboutToggle={() => setisAbout(!isAbout)}
           />
 
+         
           {/* Gallery Media Slider */}
-          <div className="w-[665px] h-[296px] mt-[48px] slider-main-div">
-            <Slider {...settings}>
-              {EventData?.eventmedia?.map((item: any, index: any) => (
-                <div className="w-full">
-                  <Image
-                    src={item}
-                    width={330}
-                    height={200}
-                    className="w-full h-[296px]  slider-img"
-                    alt={`Slide ${index + 1}`}
-                  />
-                </div>
-              ))}
-            </Slider>
-          </div>
+          {EventData?.eventmedia?.length > 0 && Array.isArray(EventData?.eventmedia) && (
+            <div className="w-[665px] h-[296px] mt-[48px] slider-main-div">
+              <Slider {...settings}>
+                {EventData?.eventmedia?.length > 0 &&
+                  EventData?.eventmedia?.map((item: any, index: any) => (
+                    <div key={index} className="w-full">
+                      <Image
+                        src={item}
+                        width={330}
+                        height={200}
+                        className="w-full h-[296px] slider-img"
+                        alt={`Slide ${index + 1}`}
+                      />
+                    </div>
+                  ))}
+              </Slider>
+            </div>
+          )}
 
           {/* LIVE ACTIVITY */}
           <GradientBorder className="mt-[48px] w-full">

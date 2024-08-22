@@ -12,6 +12,7 @@ import {
   // Deleteaccnt,
 } from "@phosphor-icons/react/dist/ssr";
 import { DeleteIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const ProfileSidebar = ({
   className,
@@ -20,6 +21,7 @@ const ProfileSidebar = ({
   className?: string;
   setPopupOpen?: any;
 }) => {
+  const router =useRouter();
   return (
     <div
       className={cn(
@@ -119,6 +121,7 @@ const ProfileSidebar = ({
             />
           </div>
         </div>
+       
         <button className="bg-customRed w-full h-full border-none mb-[23.76px] rounded-full py-4 ">
           logout
         </button>
