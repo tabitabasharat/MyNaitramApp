@@ -143,14 +143,14 @@ const Helpcenter = ({
 
   return (
     <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
-      <h2 className="font-bold text-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] md:text-[16px] ps-[12px]">
+      <h2 className="font-extrabold text-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] md:text-[16px] ps-[12px]">
         Help Center
       </h2>
       <div className="flex gap-[8px]">
         {["General", "Account", "Login"].map((text, index) => (
           <div
             key={index}
-            className={`text-sm font-bold p-[12px] rounded-[44px] border w-[92px] text-center cursor-pointer ${
+            className={`text-sm font-extrabold md:px-[19.5px] py-[12px] rounded-[44px] border w-[92px] text-center cursor-pointer ${
               activeDiv === index
                 ? "text-green-500 border-green-500 bg-[#1A1A1A]"
                 : "text-[#E6E6E6] border-[#FFFFFF0F] gradient-slate"
@@ -161,7 +161,7 @@ const Helpcenter = ({
           </div>
         ))}
       </div>
-      <div className="flex flex-col lg:flex-col gap-6 md:gap-8 mt-[22px] lg:mt-10">
+      <div className="flex flex-col lg:flex-col gap-6 md:gap-8 mt-[12px] lg:mt-[30]">
         <div className="w-full">
           <Form {...form}>
             <form
@@ -173,7 +173,7 @@ const Helpcenter = ({
                 name="subject"
                 render={({ field }) => (
                   <FormItem className="relative mb-[12px] md:mb-[20px]">
-                    <FormLabel className="text-[12px] text-[#8F8F8F] font-bold absolute left-3 top-3">
+                    <FormLabel className="text-[12px] text-[#8F8F8F] font-extrabold md:font-bold absolute left-3 top-3">
                       SUBJECT
                     </FormLabel>
                     <FormControl>
@@ -216,20 +216,20 @@ const Helpcenter = ({
               />
               <div
                 className={cn(
-                  "gradient-slate border border-muted cursor-pointer w-full flex justify-between rounded-lg items-center  px-4 md:px-3 py-2.5 md:py-5 hover:border-[#13FF7A] duration-300"
+                  "gradient-slate border border-muted cursor-pointer w-full flex justify-between rounded-lg items-center  px-[12px] md:px-3 py-[16px] md:py-5 hover:border-[#13FF7A] duration-300"
                 )}
               >
                 <label
                   htmlFor="upload"
                   className="flex gap-2 items-center justify-between w-full cursor-pointer"
                 >
-                  <p className="text-sm md:text-base font-bold mb-0 ">
+                  <p className="text-base font-extrabold mb-0 ">
                     Attachments
                   </p>
                   <Image
                     src={upload}
                     alt="upload"
-                    className="sm:w-[28px] sm:h-[28px] w-[16px] h-[16px]"
+                    className="md:w-[28px] md:h-[28px] w-[16px] h-[16px]"
                   />
                 </label>
                 <input
@@ -245,7 +245,7 @@ const Helpcenter = ({
               <div className="flex justify-start absolute bottom-[32px] w-[85%] sm:relative sm:w-[200px] mt-[50px]">
                 <Button
                   type="submit"
-                  className="w-full p-[12px]  sm:w-[200px] text-sm md:text-base "
+                  className="w-full p-[12px] font-extrabold px-[68px] py-[12px] text-sm md:text-base "
                 >
                   Submit
                 </Button>

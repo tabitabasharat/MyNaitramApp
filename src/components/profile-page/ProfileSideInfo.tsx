@@ -1,7 +1,21 @@
 "use client";
 import * as React from "react";
 import Image from "next/image";
-import { AppBar, Box, CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -14,7 +28,7 @@ import delaccnt from "../../../public/Deleteaccnt.svg";
 import logout from "../../assets/logout.svg";
 import Link from "next/link";
 
-const drawerWidth = 240;
+const drawerWidth = 247;
 
 interface Props {
   window?: () => Window;
@@ -47,7 +61,11 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
 
   const menuItems = [
     { text: "Account Settings", icon: accnt, url: "/profile/account-settings" },
-    { text: "Live Activity Settings", icon: chats, url: "/profile/LiveAccntSettings" },
+    {
+      text: "Live Activity Settings",
+      icon: chats,
+      url: "/profile/LiveAccntSettings",
+    },
   ];
 
   const helpItems = [
@@ -65,13 +83,15 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
 
   const drawer = (
     <>
-      <div className="ps-[32px] bg-[black]">
-        <List className="bg-[black] text-[white]">
+      <div className="ps-[33px] bg-[black]">
+        <List className="bg-[black] p-[0px] text-[white]">
           <Link href="/profile/profile-main">
-            <h3 className="text-xl font-bold mb-[24px]">Profile</h3>
+            <h3 className="text-[20px] font-extrabold mb-[24px]">Profile</h3>
           </Link>
           <div>
-            <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">SETTINGS</h3>
+            <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[8px]">
+              SETTINGS
+            </h3>
             <div className="text-xl font-bold">
               {menuItems.map((item) => (
                 <Link href={item.url} key={item.text}>
@@ -86,7 +106,12 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                   >
                     <ListItemButton className="p-[10px] flex items-center">
                       <ListItemIcon className="min-w-0 pr-2">
-                        <Image src={item.icon} alt={item.text} width={24} height={24} />
+                        <Image
+                          src={item.icon}
+                          alt={item.text}
+                          width={16}
+                          height={16}
+                        />
                       </ListItemIcon>
                       <ListItemText primary={item.text} />
                     </ListItemButton>
@@ -97,54 +122,82 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
           </div>
         </List>
         <Divider />
-        <List className="bg-[black] pt-[26px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">SUPPORT</h3>
-          <div className="font-bold text-[24px]">
-            {helpItems.map((item) => (
-              <Link href={item.url} key={item.text}>
-                <ListItem
-                  className={`font-bold text-[24px] ${activeItem === item.text ? "border-[#13FF7A] border-[1px] rounded-[8px]" : ""}`}
-                  disablePadding
-                  onClick={() => handleItemClick(item.text)}
-                >
-                  <ListItemButton className="pt-[10px] flex items-center">
-                    <ListItemIcon className="min-w-0 pe-[6px]">
-                      <Image src={item.icon} alt={item.text} width={24} height={24} />
-                    </ListItemIcon>
-                    <ListItemText primary={item.text} className="font-bold text-[24px]" />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-            ))}
-          </div>
+        <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
+          <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">
+            SUPPORT
+          </h3>
+          <div className="text-xl font-bold">
+              {helpItems.map((item) => (
+                <Link href={item.url} key={item.text}>
+                  <ListItem
+                    className={`text-xl font-bold ${
+                      activeItem === item.text
+                        ? "gradient-border rounded-lg"
+                        : ""
+                    }`}
+                    disablePadding
+                    onClick={() => handleItemClick(item.text)}
+                  >
+                    <ListItemButton className="p-[10px] flex items-center">
+                      <ListItemIcon className="min-w-0 pr-2">
+                        <Image
+                          src={item.icon}
+                          alt={item.text}
+                          width={16}
+                          height={16}
+                        />
+                      </ListItemIcon>
+                      <ListItemText primary={item.text} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              ))}
+            </div>
         </List>
-        <List className="bg-[black] pt-[34px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[10px]">ABOUT</h3>
+        <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
+          <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">
+            ABOUT
+          </h3>
           <Link href="/profile/Delete-account">
             <ListItem
-              className={`text-xl font-bold ${activeItem === "Delete Account" ? "border-[#13FF7A] border-[1px] rounded-[8px]" : ""}`}
+              className={`text-xl font-bold ${
+                activeItem === "Delete Account"
+                  ? "border-[#13FF7A] border-[1px] rounded-[8px]"
+                  : ""
+              }`}
               disablePadding
               onClick={() => handleItemClick("Delete Account")}
             >
               <ListItemButton className="p-[10px]">
                 <ListItemIcon className="min-w-0 pr-2">
-                  <Image src={delaccnt} alt="Delete Account" width={24} height={24} />
+                  <Image
+                    src={delaccnt}
+                    alt="Delete Account"
+                    width={16}
+                    height={16}
+                  />
                 </ListItemIcon>
-                <ListItemText primary="Delete Account" className="text-sm" />
+                <ListItemText primary="Delete Account" />
               </ListItemButton>
             </ListItem>
           </Link>
         </List>
       </div>
       <div className="">
-        <button className="text-[white] mb-[31px] absolute bottom-[10%] mx-[21px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[14px] px-[20px] text-center rounded-[110px] w-[112px] md:w-[205px]">
-          <Image src={logout} className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]" alt="img" /> Log out
+        <button className="text-[white] mb-[32px] md:mx-[21px] absolute bottom-[10%] mx-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]">
+          <Image
+            src={logout}
+            className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]"
+            alt="img"
+          />{" "}
+          Log out
         </button>
       </div>
     </>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
   const theme = useTheme();
 
   return (
@@ -170,7 +223,12 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" sx={{ background: "transparent" }} noWrap component="div"></Typography>
+          <Typography
+            variant="h6"
+            sx={{ background: "transparent" }}
+            noWrap
+            component="div"
+          ></Typography>
         </Toolbar>
       </AppBar>
       <Box
@@ -201,8 +259,15 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
           }}
         >
           <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px]">
-            <IconButton className="p-0 h-[30px] w-[30px]" onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? <Image src={backwardicon} alt="icon" /> : <ChevronRightIcon />}
+            <IconButton
+              className="p-0 h-[30px] w-[30px]"
+              onClick={handleDrawerClose}
+            >
+              {theme.direction === "ltr" ? (
+                <Image src={backwardicon} alt="icon" />
+              ) : (
+                <ChevronRightIcon />
+              )}
             </IconButton>
           </DrawerHeader>
           {drawer}

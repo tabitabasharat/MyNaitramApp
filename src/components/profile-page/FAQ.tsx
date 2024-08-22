@@ -1,6 +1,4 @@
-// components/LiveAccntSetting.js
 "use client";
-
 import Image from "next/image";
 import GradientBorder from "../ui/gradient-border";
 import { shimmer, toBase64 } from "@/lib/utils";
@@ -25,7 +23,6 @@ import {
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { CaretRight, Minus } from "@phosphor-icons/react/dist/ssr";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { z } from "zod";
@@ -40,7 +37,6 @@ import { useState } from "react";
 import minus from "../../assets/ic_baseline-minus.svg";
 import add from "../../assets/material-symbols_add.svg";
 import { MinusIcon } from "lucide-react";
-
 const formSchema = z.object({
   facebook: z.string().min(2, { message: "Full name cannot be empty." }),
   linkedIn: z.string().min(2, { message: "Full name cannot be empty." }),
@@ -49,7 +45,6 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Email cannot be empty." })
     .email({ message: "Invalid email address." }),
-
   //   password: z
   //     .string()
   //     .min(8, { message: "Password must contain at least 8 characters." })
@@ -64,7 +59,6 @@ const formSchema = z.object({
   //       message: "Password must contain at least one special character.",
   //     }),
 });
-
 const FAQ = ({
   className,
   setPopupOpen,
@@ -81,32 +75,25 @@ const FAQ = ({
       telegram: "sohailhussain@gmail.com",
     },
   });
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-
+    // :white_check_mark: This will be type-safe and validated.
     console.log(values);
   }
   const pathname = usePathname();
   const [activeDiv, setActiveDiv] = useState(0);
-
   const handleClick = (index: any) => {
     setActiveDiv(index);
   };
-
   const [active, setActive] = useState(false);
-
   // Function to toggle the active state
   const handleClickAccor = () => {
     setActive(!active);
   };
   const [activeIndex, setActiveIndex] = useState(0);
-
   const handleAccordionChange = (index: any) => {
     setActiveIndex(activeIndex === index ? null : index); // Toggle the active index
   };
-
   return (
     <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
       <h2 className="font-bold text-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] ps-[12px]">
@@ -165,6 +152,11 @@ const FAQ = ({
                   ? "1px solid #13FF7A"
                   : "1px solid transparent",
             }}
+            sx={{
+              "&.Mui-expanded": {
+                marginBottom:"0px",
+              },
+            }}
           >
             <AccordionSummary
               expandIcon={
@@ -177,11 +169,31 @@ const FAQ = ({
               }
               aria-controls={`panel${index}-content`}
               id={`panel${index}-header`}
-              className="text-base font-bold text-[white] rounded-[8px]"
+              className="text-base font-bold text-[white] rounded-[8px] "
+              sx={{
+                "& .MuiAccordionSummary-content.Mui-expanded": {
+                  margin: "0px",
+                  minHeight: 0,
+                  padding: "16px 0px 6px 0px",
+                },
+                "&.Mui-expanded": {
+                  minHeight: "0",
+                  marginBottom:"0px"
+                },
+                "& .MuiAccordionSummary-content": {
+                  margin: "0px",
+                  padding: "20px 0px",
+                },
+                "&.MuiButtonBase-root.MuiAccordionSummary-root": {
+                  minHeight: "0",
+                  // padding:"20px 12px",
+                },
+
+              }}
             >
               {accordion.title}
             </AccordionSummary>
-            <AccordionDetails className="text-[#8F8F8F] text-sm font-normal pt-[6px] pb-[16px] ps-[16px] rounded-[8px]">
+            <AccordionDetails className="text-[#8F8F8F] text-sm font-normal pt-0 pb-[16px]  rounded-[8px]">
               {accordion.content}
             </AccordionDetails>
           </Accordion>
@@ -190,5 +202,4 @@ const FAQ = ({
     </div>
   );
 };
-
 export default FAQ;

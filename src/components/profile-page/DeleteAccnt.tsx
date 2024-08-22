@@ -103,7 +103,7 @@ const DeleteAccnt = () => {
           </h2>
           <div className="flex flex-col absolute bottom-[68px] w-[85%] items-center justify-center sm:relative sm:w-auto sm:bottom-auto">
             <button
-              className="my-[32px] bg-[#FF1717] text-white w-full sm:w-[428px] p-[12px] rounded-[200px] lg:text-[base] text-sm font-extrabold"
+              className="lg:my-[32px] my-[24px] bg-[#FF1717] text-white w-full sm:w-[428px] p-[12px] rounded-[200px] lg:text-[base] text-sm font-extrabold"
               onClick={() => deleteUser()}
             >
               Delete Account
