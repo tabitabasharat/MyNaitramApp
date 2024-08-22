@@ -194,10 +194,10 @@ const LiveAccntSetting = ({
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
       {loader && <ScreenLoader />}
       <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0 ] relative">
-        <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">
+        <h2 className="font-extrabold text-[20px] lg:text-[32px] ps-[12px]">
           Live Activity Settings
         </h2>
-        <div className="flex flex-col lg:flex-col gap-6 md:gap-8 mt-8 lg:mt-10">
+        <div className="flex flex-col lg:flex-col gap-6 md:gap-8 mt-[50px] lg:mt-[32px]">
           <Link
             href="/social-profile"
             className={cn(
@@ -209,21 +209,21 @@ const LiveAccntSetting = ({
           >
             <div className="flex gap-2 items-center ">
               <UserGear size={20} weight="bold" />
-              <p className="text-sm md:text-base font-bold mb-0">
+              <p className="text-sm md:text-base font-extrabold mb-0">
                 Preview my Personal Social Profile
               </p>
             </div>
-            <CaretRight size={15} weight="bold" />
+            <CaretRight size={16} weight="bold" />
           </Link>
           {/* <div className="flex items-center border border-muted gradient-slate rounded-lg py-[20px] px-[10px] justify-between"> */}
 
           <div className="w-full">
             <div
-              className={`flex items-center gradient-slate rounded-lg py-[16px] mb-[16px] sm:mb-[32px] px-[12px] sm:py-[20px] sm:px-[10px] justify-between transition-colors duration-300 ${
+              className={`flex items-center gradient-slate rounded-lg py-[16px] mb-[16px] sm:mb-[32px] px-[12px] sm:py-[27px] sm:px-[12px] justify-between transition-colors duration-300 ${
                 checked ? "border border-[#13FF7A]" : " border border-muted"
               }`}
             >
-              <p className="mb-0 text-center text-base font-bold">
+              <p className="mb-0 text-center text-base font-extrabold">
                 Show Name on Live Chat
               </p>
               <Stack direction="row" spacing={1} alignItems="center">
@@ -244,17 +244,17 @@ const LiveAccntSetting = ({
                   name="facebook"
                   render={({ field }) => (
                     <FormItem className="relative mb-4 md:mb-6">
-                      <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         FACEBOOK
                       </FormLabel>
                       <FacebookLogo
                         className="absolute right-3 translate-y-[0.9rem]"
-                        size={20}
+                        size={28}
                       />
                       <FormControl>
                         <Input
                           placeholder="Enter Fullname"
-                          className="pt-11 pb-5 font-bold placeholder:font-normal"
+                          className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
                           onChange={(e) => {
                             setFbUrl(e.target.value);
@@ -271,17 +271,17 @@ const LiveAccntSetting = ({
                   name="insta"
                   render={({ field }) => (
                     <FormItem className="relative mb-4 md:mb-6">
-                      <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         INSTAGRAM
                       </FormLabel>
                       <InstagramLogo
                         className="absolute right-3 translate-y-[0.9rem]"
-                        size={20}
+                        size={28}
                       />
                       <FormControl>
                         <Input
                           placeholder="Enter Fullname"
-                          className="pt-11 pb-5 font-bold placeholder:font-normal"
+                          className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
                           onChange={(e) => {
                             setinstaUrl(e.target.value);
@@ -298,17 +298,17 @@ const LiveAccntSetting = ({
                   name="linkedIn"
                   render={({ field }) => (
                     <FormItem className="relative mb-4 md:mb-6">
-                      <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         LINKEDIN
                       </FormLabel>
                       <LinkedinLogo
                         className="absolute right-3 translate-y-[0.9rem]"
-                        size={20}
+                        size={28}
                       />
                       <FormControl>
                         <Input
                           placeholder="Enter Fullname"
-                          className="pt-11 pb-5 font-bold placeholder:font-normal"
+                          className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
                           onChange={(e) => {
                             setlinkedinUrl(e.target.value);
@@ -325,17 +325,17 @@ const LiveAccntSetting = ({
                   name="telegram"
                   render={({ field }) => (
                     <FormItem className="relative mb-[44px] md:mb-8">
-                      <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         TELEGRAM
                       </FormLabel>
                       <TelegramLogo
                         className="absolute right-3 translate-y-[0.9rem]"
-                        size={20}
+                        size={28}
                       />
                       <FormControl>
                         <Input
                           placeholder="youremail@example.com"
-                          className="pt-11 pb-5 font-bold placeholder:font-normal"
+                          className="pt-11 pb-5 text-base  placeholder:font-extrabold"
                           {...field}
                           onChange={(e) => {
                             settelegramUrl(e.target.value);
@@ -350,7 +350,7 @@ const LiveAccntSetting = ({
                 <div className="flex justify-start lg:justify-start">
                   <Button
                     type="submit"
-                    className="w-full text-sm md:text-base md:w-fit"
+                    className="w-full font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base md:w-fit"
                   >
                     Update Changes
                   </Button>
