@@ -70,126 +70,78 @@ const Profile = () => {
     : "/person3.jpg";
   console.log("image src is", imageUrl);
   return (
-    // <div className="w-full md:w-[70%] md:px-auto lg:w-full lg:mx-0">
-    //   {userLoading?.loading && <ScreenLoader />}
-    //   <h2 className="font-extrabold text-[20px] ps-[12px] sm:ps-[0px] lg:text-[32px]">
-    //     Profile
-    //   </h2>
-    //   <div className="flex flex-col lg:flex-row gap-[24px] md:gap-[32px] mt-[34px] justify-center items-center md:mt-[36px]">
-    //     <div className="flex flex-col items-center justify-center lg:mx-0 md:gap-[16px] gap-[32px] w-fit">
-    //       <GradientBorder className="rounded-full p-[3px] w-fit">
-    //         <div className="bg-black rounded-full p-[6px]">
-    //           <Image
-    //             src={
-    //               myProfile?.profilePicture
-    //                 ? myProfile?.profilePicture
-    //                 : "/person3.jpg "
-    //             }
-    //             width={216}
-    //             height={216}
-    //             className=" w-[156px] h-[156px] sm:w-[216px] sm:h-[216px] object-cover object-top rounded-full"
-    //             placeholder={`data:image/svg+xml;base64,${toBase64(
-    //               shimmer(1200, 1800)
-    //             )}`}
-    //             alt="DP"
-    //           />
-    //         </div>
-    //       </GradientBorder>
-    //       {myProfile?.isTopUser === true && (
-    //         <Button
-    //           variant="secondary"
-    //           className="text-[#13FF7A] rounded-[200px] px-[10] py-[25px] md:p-[12px] bg-[#FFFFFF0F] text-base font-bold w-[100%] md:w-[250px]"
-    //         >
-    //           Top User
-    //         </Button>
-    //       )}
-    //     </div>
-    //     <div className="w-full">
-    //       <h2 className="text-[28px] font-extrabold text-center sm:text-start leading-[31.36px] mb-[24px] md:mb-[33px]">
-    //         {myProfile?.fullname}
-    //       </h2>
-
-    //       <div className="flex divide-x divide-[#292929] bg-[#0F0F0F] rounded-[6.89px] justify-center py-[13.77px] w-[100%] xl:w-[428px] border border-[#0FFF7752]">
-    //         <div className="flex flex-col items-center justify-center w-full">
-    //           <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-    //             {myProfile?.attendees !== null ? myProfile?.attendees : "0"}
-    //           </h2>
-    //           <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-    //             ATTENDEES
-    //           </p>
-    //         </div>
-    //         <div className="flex flex-col items-center justify-center w-full">
-    //           <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-    //             324
-    //           </h2>
-    //           <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-    //             FOLLOWING
-    //           </p>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
-    <div className="w-full  md:px-auto lg:w-full lg:mx-0">
+    <div className="w-full ps-[0px] xl:ps-[172px] md:px-auto lg:w-full lg:mx-0">
       {userLoading?.loading && <ScreenLoader />}
       <div>
-        <div className="flex flex-col lg:flex-row gap-[37px] md:gap-[37px] mt-[120px] justify-center items-center md:mt-[120px]">
+        <div className="flex mt-[45px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start md:mt-[92px]">
           <div className="flex flex-col justify-center lg:mx-0 md:gap-[36px] gap-[36px] w-fit">
-            <h2 className="font-extrabold text-[20px] ps-[12px] sm:ps-[0px] lg:text-[32px]">
+            <h2 className="font-extrabold text-[20px] md:ms-[0px] ms-[24px] lg:text-[32px]">
               Profile
             </h2>
-            <GradientBorder className="rounded-full p-[3px] w-fit">
-              <div className="bg-black rounded-full p-[6px]">
-                <Image
-                  src={
-                    myProfile?.profilePicture
-                      ? myProfile?.profilePicture
-                      : "/person3.jpg"
-                  }
-                  width={216}
-                  height={216}
-                  className=" w-[156px] h-[156px] sm:w-[216px] sm:h-[216px] object-cover object-top rounded-full"
-                  placeholder={`data:image/svg+xml;base64,${toBase64(
-                    shimmer(1200, 1800)
-                  )}`}
-                  alt="DP"
-                />
-              </div>
-            </GradientBorder>
-            {myProfile?.isTopUser === true && (
-              <Button
-                variant="secondary"
-                className="text-[#13FF7A] rounded-[200px] px-[10] py-[25px] md:p-[12px] bg-[#FFFFFF0F] text-base font-bold w-[100%] md:w-[250px]"
-              >
-                Top User
-              </Button>
-            )}
           </div>
           <div className="lg:w-auto xl:w-auto w-full">
-            <h2 className="text-[28px] font-extrabold text-center lg:text-start xl:text-start  leading-[31.36px] mb-[24px] md:mb-[33px]">
-              {myProfile?.fullname}
-            </h2>
+            <div className="flex flex-col lg:flex-row md-flex-row gap-[32px]" >
+              <div className="flex justify-center w-full items-center">
+                <GradientBorder className="rounded-full p-[3px] w-fit">
+                  <div className="bg-black rounded-full p-[6px]">
+                    <Image
+                      src={
+                        myProfile?.profilePicture
+                          ? myProfile?.profilePicture
+                          : "/person3.jpg"
+                      }
+                      width={216}
+                      height={216}
+                      className=" w-[156px] h-[156px] sm:w-[216px] sm:h-[216px] object-cover object-top rounded-full"
+                      placeholder={`data:image/svg+xml;base64,${toBase64(
+                        shimmer(1200, 1800)
+                      )}`}
+                      alt="DP"
+                    />
+                  </div>
+                </GradientBorder>
+                {myProfile?.isTopUser === true && (
+                  <Button
+                    variant="secondary"
+                    className="text-[#13FF7A] rounded-[200px] px-[10] py-[25px] md:p-[12px] bg-[#FFFFFF0F] text-base font-bold w-[100%] md:w-[250px]"
+                  >
+                    Top User
+                  </Button>
+                )}
+              </div>
+              <div>
+                <h2 className="text-[28px] font-extrabold text-center lg:text-start xl:text-start  leading-[31.36px] mb-[24px] md:mb-[33px]">
+                  {myProfile?.fullname}
+                </h2>
 
-            
-              <div style={{background:"linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"}} className="flex bg-[#0F0F0F] rounded-[6.89px] gap-[20px] justify-evenly py-[13.77px] w-[100%] lg:w-[428px] xl:w-[428px] border-[0.86px] border-transparent">
-                <div className="flex flex-col items-center justify-center ">
-                  <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-                    {myProfile?.attendees !== null ? myProfile?.attendees : "0"}
-                  </h2>
-                  <p className="text-[#A6A6A6] md:text-[12px] text-[12px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                    ATTENDEES
-                  </p>
+                <div
+                  style={{
+                    background:
+                      "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                  }}
+                  className="flex bg-[#0F0F0F] rounded-[6.89px] gap-[20px] justify-evenly py-[13.77px] w-[100%] lg:w-[428px] xl:w-[428px] border-[0.86px] border-transparent"
+                >
+                  <div className="flex flex-col items-center justify-center ">
+                    <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
+                      {myProfile?.attendees !== null
+                        ? myProfile?.attendees
+                        : "0"}
+                    </h2>
+                    <p className="text-[#A6A6A6] md:text-[12px] text-[12px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
+                      ATTENDEES
+                    </p>
+                  </div>
+                  <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
+                  <div className="flex flex-col items-center justify-center ">
+                    <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
+                      324
+                    </h2>
+                    <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
+                      FOLLOWING
+                    </p>
+                  </div>
                 </div>
-                <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
-                <div className="flex flex-col items-center justify-center ">
-                  <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-                    324
-                  </h2>
-                  <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                    FOLLOWING
-                  </p>
-                </div>
-           
+              </div>
             </div>
           </div>
         </div>

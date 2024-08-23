@@ -193,11 +193,11 @@ const LiveAccntSetting = ({
     <>
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
       {loader && <ScreenLoader />}
-      <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0 ] relative">
-        <h2 className="font-extrabold text-[20px] lg:text-[32px] ps-[12px]">
+      <div className="w-full md:w-[70%] md:ps-[0px] lg:pe-[20px] mt-[48px] lg:ps-[90px] xl:ps-[172px] md:mx-auto lg:w-full md:mt-[92px] lg:mx-[0] relative">
+        <h2 className="font-bold text-[20px] ms-[24px] md:ms-[0px] lg:text-[32px]">
           Live Activity Settings
         </h2>
-        <div className="flex flex-col lg:flex-col gap-6 md:gap-8 mt-[50px] lg:mt-[32px]">
+        <div className="flex w-full md:w-full lg:w-[600px] flex-col lg:flex-col gap-6 md:gap-8 mt-[50px] lg:mt-[32px]">
           <Link
             href="/social-profile"
             className={cn(
@@ -215,13 +215,19 @@ const LiveAccntSetting = ({
             </div>
             <CaretRight size={16} weight="bold" />
           </Link>
-          {/* <div className="flex items-center border border-muted gradient-slate rounded-lg py-[20px] px-[10px] justify-between"> */}
-
-          <div className="w-full">
+          <div className="w-full md:w-full lg:w-[600px]">
             <div
-              className={`flex items-center gradient-slate rounded-lg py-[16px] mb-[16px] sm:mb-[32px] px-[12px] sm:py-[27px] sm:px-[12px] justify-between transition-colors duration-300 ${
-                checked ? "border border-[#13FF7A]" : " border border-muted"
-              }`}
+              className={`flex items-center rounded-lg py-[16px] mb-[16px] sm:mb-[32px] px-[12px] sm:py-[27px] sm:px-[12px] justify-between transition-colors duration-300`}
+              style={{
+                background: checked
+                  ? "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"
+                  : "linear-gradient(#0F0F0F, #1A1A1A) padding-box",
+                border: checked ? "2px solid transparent" : "2px solid #BFBFBF",
+                borderImage: checked
+                  ? "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%)"
+                  : "none",
+                borderImageSlice: checked ? 1 : undefined,
+              }}
             >
               <p className="mb-0 text-center text-base font-extrabold">
                 Show Name on Live Chat

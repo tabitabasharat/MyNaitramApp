@@ -167,11 +167,11 @@ const AccountSettings = () => {
     }
   }, [myProfile]);
   return (
-    <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
+    <div className="w-full md:w-[70%] ps-[0px] xl:ps-[182px] md:mx-auto lg:w-full mt-[48px] md:mt-[92px] lg:mx-0">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
-      <h2 className="font-extrabold text-[20px] lg:text-[32px] ps-[12px]">
+      <h2 className="font-bold ms-[24px] md:ms-[0px] text-[20px] lg:text-[32px]">
         Account Settings
       </h2>
       <div className="flex flex-col lg:flex-row gap-8 mt-[34px]  lg:mt-[32px]">
@@ -208,7 +208,7 @@ const AccountSettings = () => {
             Change Photo Profile
           </Button>
         </div>
-        <div className="w-full">
+        <div className="w-full lg:w-[428px]">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(profileclick)}
@@ -279,6 +279,7 @@ const AccountSettings = () => {
                     />
                     <FormControl>
                       <PasswordInput
+                        readOnly
                         placeholder="Input password"
                         className="pt-11 pb-5 text-base placeholder:font-extrabold"
                         {...field}
@@ -300,7 +301,7 @@ const AccountSettings = () => {
               <div className="flex justify-start lg:justify-end">
                 <Button
                   type="submit"
-                  className="w-full md:mt-[32px] mt-[57px] px-[30.5px] py-[12px] font-extrabold text-base md:w-fit"
+                  className="w-full md:mt-[32px] mt-[57px] px-[30.5px] py-[12px] mb-[77px] md:mb-[0px] font-extrabold text-base md:w-fit"
                 >
                   Update Changes
                 </Button>
