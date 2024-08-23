@@ -73,8 +73,8 @@ const Profile = () => {
     <div className="w-full ps-[0px] xl:ps-[172px] md:px-auto lg:w-full lg:mx-0">
       {userLoading?.loading && <ScreenLoader />}
       <div>
-        <div className="flex mt-[45px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start md:mt-[92px]">
-          <div className="flex flex-col justify-center lg:mx-0 md:gap-[36px] gap-[36px] w-fit">
+        <div className="flex mt-[45px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start md:mt-[150px]">
+          <div className="flex flex-col justify-center lg:mx-0 md:gap-[32px] gap-[32px] w-fit">
             <h2 className="font-extrabold text-[20px] md:ms-[0px] ms-[24px] lg:text-[32px]">
               Profile
             </h2>
@@ -119,7 +119,7 @@ const Profile = () => {
                     background:
                       "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
                   }}
-                  className="flex bg-[#0F0F0F] rounded-[6.89px] gap-[20px] justify-evenly py-[13.77px] w-[100%] lg:w-[428px] xl:w-[428px] border-[0.86px] border-transparent"
+                  className="flex bg-[#0F0F0F] rounded-[6.89px] gap-[20px] justify-evenly  py-[16px] lg:py-[13.77px] w-[100%] lg:w-[428px] xl:w-[428px] border-[0.86px] border-transparent"
                 >
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
@@ -127,7 +127,7 @@ const Profile = () => {
                         ? myProfile?.attendees
                         : "0"}
                     </h2>
-                    <p className="text-[#A6A6A6] md:text-[12px] text-[12px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
+                    <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
                       ATTENDEES
                     </p>
                   </div>
