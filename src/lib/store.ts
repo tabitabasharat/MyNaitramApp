@@ -1,4 +1,4 @@
-import { configureStore,  combineReducers, AnyAction} from "@reduxjs/toolkit";
+import { configureStore, combineReducers, AnyAction } from "@reduxjs/toolkit";
 import getAllEvents from "./reducer/getAllEvents";
 import getEventById from "./reducer/getEventById";
 import addBuyTicketPriceReducer from "./reducer/setBuyTicket";
@@ -14,26 +14,30 @@ import getShowProfile from "./reducer/getShowProfile";
 import getUserDetail from "./reducer/getUserDetail";
 import getProfileLiveActivity from "./reducer/getProfileLiveActivity";
 import getUserSocialProfile from "./reducer/getUserSocialProfile";
+import getTicketsByUId from "./reducer/getTicketsByUId";
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
   getEventById: getEventById,
   getTicketStore: getTicket,
   signIn: sign,
-  getEventsCount:getAllEventsCount,
-  getViewAllEvents:getViewAllEvents,
+  getEventsCount: getAllEventsCount,
+  getViewAllEvents: getViewAllEvents,
   getEventByEventID: getEventByEventID,
-  getPastEvents:getPastEvents,
-  getEventCount:getEventCount,
-  getUserLiveEvents:getUserLiveEvents,
-  getShowProfile:getShowProfile,
-  getUserDetail:getUserDetail,
-  getProfileLiveActivity:getProfileLiveActivity,
-  getUserSocialProfile:getUserSocialProfile
-  
+  getPastEvents: getPastEvents,
+  getEventCount: getEventCount,
+  getUserLiveEvents: getUserLiveEvents,
+  getShowProfile: getShowProfile,
+  getUserDetail: getUserDetail,
+  getProfileLiveActivity: getProfileLiveActivity,
+  getUserSocialProfile: getUserSocialProfile,
+  getTicketsByUId: getTicketsByUId,
 });
-const rootReducer = (state: ReturnType<typeof appReducer> | undefined, action: AnyAction) => {
-  if (action.type === 'LOGOUT') {
+const rootReducer = (
+  state: ReturnType<typeof appReducer> | undefined,
+  action: AnyAction
+) => {
+  if (action.type === "LOGOUT") {
     state = undefined;
   }
   return appReducer(state, action);
@@ -56,7 +60,6 @@ export const makeStore = () => {
 //     },
 //   });
 // };
-
 
 // Infer the type of makeStore
 export type AppStore = ReturnType<typeof makeStore>;

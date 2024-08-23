@@ -55,6 +55,7 @@ import img3 from "../../assets/Crown.svg";
 import img4 from "../../assets/Shield Star.svg";
 import tick from "../../assets/fi-rr-check.svg";
 
+import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
 type TicketTypeOption = {
   id: number;
   label: string;
@@ -141,7 +142,7 @@ type Option = {
   label: string;
   image: string;
 };
-export default function CreateEvent() {
+ function CreateEvent() {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const fileInputRef = useRef(null);
@@ -1374,3 +1375,4 @@ export default function CreateEvent() {
     </section>
   );
 }
+export default Protectedroute(CreateEvent);
