@@ -167,7 +167,7 @@ const AccountSettings = () => {
     }
   }, [myProfile]);
   return (
-    <div className="w-full md:w-[70%] ps-[0px] xl:ps-[182px] md:mx-auto lg:w-full mt-[48px] md:mt-[92px] lg:mx-0">
+    <div className="w-full md:w-[70%] ps-[0px] xl:ps-[182px] md:mx-auto lg:w-full mt-[48px] md:mt-[150px] lg:mx-0">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
@@ -203,7 +203,7 @@ const AccountSettings = () => {
           <Button
             onClick={() => fileInputRef.current?.click()} // Trigger file input click
             variant="secondary"
-            className="w-[100%] py-[8px] px-[12px] md:py-[12px] md:px-[25px] font-erxtrabold text-base "
+            className="w-[100%] py-[8px] px-[12px] md:py-[12px] md:px-[21px] font-extrabold text-base  text-[#030303] "
           >
             Change Photo Profile
           </Button>
@@ -218,18 +218,18 @@ const AccountSettings = () => {
                 control={form.control}
                 name="full_name"
                 render={({ field }) => (
-                  <FormItem className="relative mb-6">
+                  <FormItem className="relative mb-6 space-y-0">
                     <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                       FULL NAME
                     </FormLabel>
                     <User
-                      className="absolute right-3 translate-y-[0.9rem]"
+                      className="absolute right-3  top-[35%]"
                       size={20}
                     />
                     <FormControl>
                       <Input
                         placeholder="Enter Fullname"
-                        className="pt-11 pb-5 font-bold text-base placeholder:font-extrabold"
+                        className="pt-11 pb-5 font-bold text-base placeholder:font-extrabold "
                         {...field}
                         onChange={(e) => {
                           setName(e.target.value);
@@ -245,12 +245,12 @@ const AccountSettings = () => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="relative mb-6">
+                  <FormItem className="relative mb-6 space-y-0">
                     <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                       EMAIL
                     </FormLabel>
                     <Envelope
-                      className="absolute right-3 translate-y-[0.9rem]"
+                      className="absolute right-3  top-[35%]"
                       size={20}
                     />
                     <FormControl>
@@ -269,12 +269,12 @@ const AccountSettings = () => {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem className="relative mb-2">
+                  <FormItem className="relative space-y-0 mb-2">
                     <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3 z-10">
                       PASSWORD
                     </FormLabel>
                     <Lock
-                      className="absolute right-3 translate-y-[0.9rem] z-10"
+                      className="absolute right-3   top-[35%] z-10"
                       size={20}
                     />
                     <FormControl>
@@ -298,10 +298,10 @@ const AccountSettings = () => {
                   Want to change your password?
                 </Link>
               </p>
-              <div className="flex justify-start lg:justify-end">
+              <div className="flex justify-start lg:justify-end md:mt-[32px] mt-[57px]">
                 <Button
                   type="submit"
-                  className="w-full md:mt-[32px] mt-[57px] px-[30.5px] py-[12px] mb-[77px] md:mb-[0px] font-extrabold text-base md:w-fit"
+                  className="w-full  px-[30.5px] py-[12px] mb-[77px] md:mb-[0px] font-extrabold text-base md:w-fit"
                 >
                   Update Changes
                 </Button>
