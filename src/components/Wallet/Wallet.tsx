@@ -22,6 +22,9 @@ const Wallet = () => {
     const userid = localStorage.getItem("_id");
     dispatch(getTicketsByID(userid));
   }, []);
+  const myevents = useAppSelector(
+    (state) => state?.getTicketsByUId?.myTickets?.data
+  );
   return (
     <div className="min-h-screen flex items-start justify-center pt-[132px] px-[24px]">
       <div className="flex flex-col w-full max-w-[1200px] justify-center items-start">
@@ -89,7 +92,8 @@ const Wallet = () => {
             className="absolute top-1/2 -translate-y-1/2 right-5"
           />
         </div>
-        <EventCards />
+        <EventCards 
+        />
       </div>
     </div>
   );
