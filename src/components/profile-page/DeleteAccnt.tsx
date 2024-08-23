@@ -1,6 +1,5 @@
 "use client";
 
-import DeleteAccountPopup from "./DeleteAccountPopup";
 import Image from "next/image";
 import GradientBorder from "../ui/gradient-border";
 import { shimmer, toBase64 } from "@/lib/utils";
@@ -17,7 +16,7 @@ import {
 } from "../reusable-components/Toaster/Toaster";
 import { deleteAccount, showProfile } from "@/lib/middleware/profile";
 import { useRouter } from "next/navigation";
-import SignInModal from "../auth/SignInModal";
+import DeleteAccountPopup from "./DeleteAccountPopup";
 
 const DeleteAccnt = () => {
   const dispatch = useAppDispatch();
@@ -73,11 +72,11 @@ const DeleteAccnt = () => {
   }
   return (
     <>
-      <div className="w-full md:w-[70%] md:mx-auto flex flex-col justify-start lg:w-full lg:mx-0">
+      <div className="w-full lg:ps-[119px] mt-[45px] md:w-[70%] md:mx-auto flex flex-col justify-start lg:w-full lg:mt-[92px] lg:mx-0">
         {loader && <ScreenLoader />}
-        {/* {userLoading.loading && <ScreenLoader />} */}
+        {userLoading.loading && <ScreenLoader />}
 
-        <h2 className="font-bold text-[24px] lg:text-[32px] ps-[12px]">
+        <h2 className="font-bold text-[24px] ms-[24px] md:ms-[0px] lg:text-[32px]">
           Delete Account
         </h2>
         <div className="flex flex-col justify-start lg:flex-row lg:gap-[62px] gap-[32px] mt-[56px] items-center lg:mt-[32px]">
@@ -107,15 +106,16 @@ const DeleteAccnt = () => {
               <br className="hidden sm:inline" />
               You will lose all your data by deleting your account.
             </h2>
-            <div className="flex flex-col absolute bottom-[68px] w-[85%] items-center justify-center sm:relative sm:w-auto sm:bottom-auto">
+            <div className="flex flex-col absolute bottom-[-394px] mb-[68px] w-full lg:w-full items-center justify-center sm:relative sm:w-auto sm:bottom-auto">
               <button
-                className="lg:my-[32px] my-[24px] bg-[#FF1717] text-white w-full sm:w-[428px] p-[12px] rounded-[200px] lg:text-[base] text-sm font-extrabold"
+                className="lg:my-[32px] my-[24px] bg-[#FF1717] text-white w-full lg:w-full xl:w-[428px] p-[12px] rounded-[200px] lg:text-[base] text-sm font-extrabold"
+                // onClick={() => deleteUser()}
                 onClick={() => setDeleteModalOpen(true)}
               >
                 Delete Account
               </button>
               <button
-                className="bg-[#00A849] text-black w-full sm:w-[428px] p-[12px] rounded-[200px] lg:text-[base] text-sm font-extrabold"
+                className="bg-[#00A849] text-black w-full xl:w-[428px] lg:w-full p-[12px] rounded-[200px] lg:text-[base] text-sm font-extrabold"
                 onClick={() => router.back()}
               >
                 Cancel
@@ -124,6 +124,7 @@ const DeleteAccnt = () => {
           </div>
         </div>
       </div>
+
       {isDeleteModalOpen && (
         <DeleteAccountPopup
           onClose={() => setDeleteModalOpen(false)}
