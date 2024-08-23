@@ -193,7 +193,7 @@ const LiveAccntSetting = ({
     <>
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
       {loader && <ScreenLoader />}
-      <div className="w-full md:w-[70%] md:ps-[0px] lg:pe-[20px] mt-[48px] lg:ps-[90px] xl:ps-[172px] md:mx-auto lg:w-full md:mt-[92px] lg:mx-[0] relative">
+      <div className="w-full md:w-[70%] md:ps-[0px] lg:pe-[20px] mt-[48px] lg:ps-[90px] xl:ps-[172px] md:mx-auto lg:w-full  lg:mx-[0] relative">
         <h2 className="font-bold text-[20px] ms-[24px] md:ms-[0px] lg:text-[32px]">
           Live Activity Settings
         </h2>
@@ -249,12 +249,12 @@ const LiveAccntSetting = ({
                   control={form.control}
                   name="facebook"
                   render={({ field }) => (
-                    <FormItem className="relative mb-4 md:mb-6">
+                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         FACEBOOK
                       </FormLabel>
                       <FacebookLogo
-                        className="absolute right-3 translate-y-[0.9rem]"
+                        className="absolute right-3 top-[30%]"
                         size={28}
                       />
                       <FormControl>
@@ -276,12 +276,12 @@ const LiveAccntSetting = ({
                   control={form.control}
                   name="insta"
                   render={({ field }) => (
-                    <FormItem className="relative mb-4 md:mb-6">
+                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         INSTAGRAM
                       </FormLabel>
                       <InstagramLogo
-                        className="absolute right-3 translate-y-[0.9rem]"
+                        className="absolute right-3 top-[30%]"
                         size={28}
                       />
                       <FormControl>
@@ -303,12 +303,12 @@ const LiveAccntSetting = ({
                   control={form.control}
                   name="linkedIn"
                   render={({ field }) => (
-                    <FormItem className="relative mb-4 md:mb-6">
+                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         LINKEDIN
                       </FormLabel>
                       <LinkedinLogo
-                        className="absolute right-3 translate-y-[0.9rem]"
+                        className="absolute right-3 top-[30%]"
                         size={28}
                       />
                       <FormControl>
@@ -330,12 +330,12 @@ const LiveAccntSetting = ({
                   control={form.control}
                   name="telegram"
                   render={({ field }) => (
-                    <FormItem className="relative mb-[44px] md:mb-8">
+                    <FormItem className="relative mb-[44px] md:mb-8 space-y-0">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         TELEGRAM
                       </FormLabel>
                       <TelegramLogo
-                        className="absolute right-3 translate-y-[0.9rem]"
+                        className="absolute right-3 top-[30%]"
                         size={28}
                       />
                       <FormControl>

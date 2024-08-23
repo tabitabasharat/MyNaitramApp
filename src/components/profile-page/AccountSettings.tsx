@@ -167,7 +167,7 @@ const AccountSettings = () => {
     }
   }, [myProfile]);
   return (
-    <div className="w-full md:w-[70%] ps-[0px] xl:ps-[182px] md:mx-auto lg:w-full mt-[48px] md:mt-[150px] lg:mx-0">
+    <div className="w-full md:w-[70%] ps-[0px] xl:ps-[182px] md:mx-auto lg:w-full mt-[48px] md:mt-[150px] lg:mx-0 relative h-[90vh]">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
@@ -203,7 +203,7 @@ const AccountSettings = () => {
           <Button
             onClick={() => fileInputRef.current?.click()} // Trigger file input click
             variant="secondary"
-            className="w-[100%] py-[8px] px-[12px] md:py-[12px] md:px-[21px] font-extrabold text-base  text-[#030303] "
+            className="w-[100%] py-[8px] px-[12px] md:py-[12px] md:px-[21px] font-bold text-base  text-[#030303] "
           >
             Change Photo Profile
           </Button>
@@ -298,14 +298,23 @@ const AccountSettings = () => {
                   Want to change your password?
                 </Link>
               </p>
-              <div className="flex justify-start lg:justify-end md:mt-[32px] mt-[57px]">
+              {/* <div className="flex justify-start lg:justify-end md:mt-[32px] mt-[57px]">
                 <Button
                   type="submit"
                   className="w-full  px-[30.5px] py-[12px] mb-[77px] md:mb-[0px] font-extrabold text-base md:w-fit"
                 >
                   Update Changes
                 </Button>
-              </div>
+              </div> */}
+
+              <div className="flex justify-start lg:justify-end  absolute bottom-[0px] mb-[32px] md:mt-[32px]  sm:relative mt-[57px] w-full">
+                <Button
+                  type="submit"
+               className="w-full  px-[30.5px] py-[12px]  md:mb-[0px] font-extrabold text-base md:w-fit"
+                >
+                  Update Changes
+                </Button>
+                </div>
             </form>
           </Form>
         </div>
