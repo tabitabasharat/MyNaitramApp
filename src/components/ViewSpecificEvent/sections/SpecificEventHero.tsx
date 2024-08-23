@@ -18,7 +18,7 @@ import takeover from "../../../assets/Images.png";
 import takeoverfull from "@/assets/takeover-txt-img.svg";
 import takeover1000 from "@/assets/takeover-1000px.svg";
 import takeover500 from "@/assets/takeover-500.svg";
-import { getEventByEventId } from "@/lib/middleware/event";
+import { getEventByEventId, getEventCount } from "@/lib/middleware/event";
 import fallbackImage from "../../../assets/event-video.png";
 
 import Link from "next/link";
@@ -53,18 +53,8 @@ const CustomNextArrow = (props: any) => (
   </div>
 );
 
-
 const SpecificEventHero = ({ setShowTicket }: any) => {
   const [eventID, setEventId] = useState("");
-
-  useEffect(() => {
-    const currentUrl = window.location.href;
-    const parts = currentUrl.split("/");
-    const value = parts[parts.length - 1];
-    setEventId(value);
-    console.log("my event id is", value);
-    dispatch(getEventByEventId(value));
-  }, []);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<any>(null);
@@ -75,62 +65,44 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
     (state) => state?.getEventByEventID?.eventIdEvents?.data
   );
   console.log("my data", EventData);
-  const settings:any = {
+  const settings: any = {
     dots: false,
     infinite: EventData?.eventmedia?.length > 1,
     speed: 700,
     slidesToShow: 1,
     slidesToScroll: 1,
     prevArrow: EventData?.eventmedia?.length > 1 ? <CustomPrevArrow /> : null,
-    nextArrow: EventData?.eventmedia?.length > 1 ? <CustomNextArrow />  : null,
-    arrows:EventData?.eventmedia?.length>1 ? true : false
-    // responsive: [
-    //   {
-    //     breakpoint: 1181,
-    //     settings: {
-    //       slidesToShow: 1,
-    //     },
-    //   },
-    //   {
-    //     breakpoint: 767,
-    //     settings: {
-    //       slidesToShow: 1,
-    //     },
-    //   },
-    //   {
-    //     breakpoint: 500,
-    //     settings: {
-    //       slidesToShow: 1,
-    //     },
-    //   },
-    // ],
+    nextArrow: EventData?.eventmedia?.length > 1 ? <CustomNextArrow /> : null,
+    arrows: EventData?.eventmedia?.length > 1 ? true : false,
   };
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setEventId(value);
+    console.log("my event id is", value);
+    dispatch(getEventByEventId(value));
+  }, []);
+
+  useEffect(() => {
+    dispatch(getEventCount(EventData?.userId));
+  }, [EventData?.userId]);
+
   return (
     <section className="bg-img">
       <div className="main-div-takeover ">
         <div className="lhs-hero">
-          {/* <Image src={takeover} alt="takeover"   className=" takeover"/> */}
-
-          {/* {isAbout ? (
-            <Image
-              src={EventData?.coverEventImage  }
-              alt="takeover"
-              width={548}
-              height={100}
-              className=" w-full h-full"
-            />
-          ) : ( */}
           <Image
             src={EventData?.coverEventImage}
             alt="takeover"
             width={330}
             height={200}
-            className=" w-full"
+            // className=" w-full"
           />
           {/* <Image src={takeover500} alt="takeover"  width={330} height={200} className=" h-full"/> */}
           {/* )} */}
 
-          <FollowPromoter />
+          {EventData?.userId && <FollowPromoter userId={EventData?.userId} />}
         </div>
         <div className="rhs-hero">
           <EventsHeroSlide
@@ -154,26 +126,26 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
             AboutToggle={() => setisAbout(!isAbout)}
           />
 
-         
           {/* Gallery Media Slider */}
-          {EventData?.eventmedia?.length > 0 && Array.isArray(EventData?.eventmedia) && (
-            <div className="w-[665px] h-[296px] mt-[48px] slider-main-div">
-              <Slider {...settings}>
-                {EventData?.eventmedia?.length > 0 &&
-                  EventData?.eventmedia?.map((item: any, index: any) => (
-                    <div key={index} className="w-full">
-                      <Image
-                        src={item}
-                        width={330}
-                        height={200}
-                        className="w-full h-[296px] slider-img"
-                        alt={`Slide ${index + 1}`}
-                      />
-                    </div>
-                  ))}
-              </Slider>
-            </div>
-          )}
+          {EventData?.eventmedia?.length > 0 &&
+            Array.isArray(EventData?.eventmedia) && (
+              <div className="w-[665px] h-[296px] mt-[48px] slider-main-div">
+                <Slider {...settings}>
+                  {EventData?.eventmedia?.length > 0 &&
+                    EventData?.eventmedia?.map((item: any, index: any) => (
+                      <div key={index} className="w-full">
+                        <Image
+                          src={item}
+                          width={330}
+                          height={200}
+                          className="w-full h-[296px] slider-img"
+                          alt={`Slide ${index + 1}`}
+                        />
+                      </div>
+                    ))}
+                </Slider>
+              </div>
+            )}
 
           {/* LIVE ACTIVITY */}
           <GradientBorder className="mt-[48px] w-full">

@@ -65,7 +65,7 @@ const Header = () => {
 
   const links = [
     { title: "Home", url: "/" },
-    { title: "Events", url: "/events" },
+    { title: "Events", url: "/viewallevents" },
     { title: "About", url: "/about" },
     { title: "Gallery", url: "/gallery" },
     { title: "Contact Us", url: "/contactus" },
