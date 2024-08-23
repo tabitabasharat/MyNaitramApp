@@ -130,18 +130,13 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                     disablePadding
                     onClick={() => handleItemClick(item.text)}
                   >
+                    {/* <div style={{background:" linear-gradient(#fff, #fff) padding-box,linear-gradient(90deg, #0B6719 0%, #2AD72D 100%) border-box;",padding:"1px 2px"}}> */}
                     <ListItemButton
-                      style={{
-                        background:
-                          activeItem === item.text
-                            ? "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"
-                            : "linear-gradient(#0F0F0F, #1A1A1A) padding-box",
-                      }}
-                      className={`flex items-center p-[10px] ${
-                        activeItem === item.text
-                          ? "rounded-[8px] border-[1px] border-transparent"
-                          : ""
-                      }`}
+                    // style={{background:"black"}}
+                     
+                    className={`text-xl font-bold ${
+                      activeItem === item.text ? "gradient-border rounded-lg" : ""
+                    }`}
                     >
                       <ListItemIcon className="min-w-0 pr-2">
                         <Image
@@ -153,6 +148,8 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                       </ListItemIcon>
                       <ListItemText primary={item.text} />
                     </ListItemButton>
+
+                    {/* </div> */}
                   </ListItem>
                 </Link>
               ))}
@@ -194,10 +191,13 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
           <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">ABOUT</h3>
           <Link href="/profile/Delete-account">
             <ListItem
+              // className={`text-xl font-bold ${
+              //   activeItem === "Delete Account"
+              //     ? "border-[#13FF7A] border-[1px] rounded-[8px]"
+              //     : ""
+              // }`}
               className={`text-xl font-bold ${
-                activeItem === "Delete Account"
-                  ? "border-[#13FF7A] border-[1px] rounded-[8px]"
-                  : ""
+                activeItem === "Delete Account" ? "gradient-border rounded-lg" : ""
               }`}
               disablePadding
               onClick={() => handleItemClick("Delete Account")}
