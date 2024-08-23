@@ -7,6 +7,7 @@ import HeartBadge from "../ui/heart-badge";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { getTicketsByID } from "@/lib/middleware/wallet";
 
 // Mock Data (replace with actual data)
 const events = [
@@ -17,7 +18,6 @@ const events = [
   { id: 5, imageUrl: "/event7.png", title: "After Party for Ladies Night" },
   { id: 6, imageUrl: "/event8.png", title: "THE VAB with DJ CULOUGH" },
 ];
-
 
 const EventCard: React.FC<{
   eventId: number;
@@ -55,14 +55,26 @@ const EventCard: React.FC<{
 );
 
 const EventGrid: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const userid = localStorage.getItem("_id");
+    dispatch(getTicketsByID(userid));
+  }, []);
+  const myEvents = useAppSelector(
+    (state) => state?.getTicketsByUId?.myTickets?.data
+  );
+
+  console.log("my events are ", myEvents);
   return (
     <div className="grid grid-cols-1 w-full pb-[28px]  md:pb-[132px] md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px]">
-      {events.map((event) => (
+      {myEvents?.length > 0 && myEvents?.map((item:any) => (
         <EventCard
-          key={event.id}
-          eventId={event.id}
-          imageUrl={event.imageUrl}
-          title={event.title}
+          key={item?.event?.id}
+          eventId={item?.event?.id}
+          imageUrl={item?.event?.coverEventImage
+          }
+          title={item?.event?.name}
         />
       ))}
     </div>
