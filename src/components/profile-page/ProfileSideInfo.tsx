@@ -27,6 +27,8 @@ import faq from "../../assets/Question.svg";
 import delaccnt from "../../../public/Deleteaccnt.svg";
 import logout from "../../assets/logout.svg";
 import Link from "next/link";
+import { useAppDispatch } from "@/lib/hooks";
+import { useRouter } from "next/navigation";
 
 const drawerWidth = 247;
 
@@ -88,8 +90,18 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
   }));
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
+  const Logout = () => {
+    localStorage.clear();
+  
+    dispatch({ type: "LOGOUT" });
+    router.push("/");
+  };
+  
   const drawer = (
+
     <>
       <div className="ps-[32px] pe-[24px] bg-[black]">
         <List className="bg-[black] p-[0px] text-[white]">
@@ -206,11 +218,13 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
         </List>
       </div>
       <div className="">
-        <button className="text-[white] mb-[32px] md:mx-[21px] absolute bottom-[10%] mx-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]">
+        <button className="text-[white] mb-[32px] md:mx-[21px] absolute bottom-[10%] mx-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
+        onClick={Logout}>
           <Image
             src={logout}
             className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]"
             alt="img"
+          
           />{" "}
           Log out
         </button>
@@ -222,6 +236,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
     window !== undefined ? () => window().document.body : undefined;
   const theme = useTheme();
 
+  
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />

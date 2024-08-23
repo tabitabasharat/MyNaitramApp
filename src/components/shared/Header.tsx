@@ -79,14 +79,18 @@ const Header = () => {
     setToken(id);
   }, [token, count]);
 
-
-  
   const logout = () => {
     localStorage.clear();
     setToken("");
-    dispatch({ type: 'LOGOUT' });
-    router.push("/")
+    dispatch({ type: "LOGOUT" });
+    router.push("/");
   };
+  const myProfile = useAppSelector(
+    (state) => state?.getShowProfile?.myProfile?.data
+  );
+
+  console.log("my Profile is", myProfile);
+
   return (
     <>
       <AnimatePresence mode="wait">
@@ -138,74 +142,45 @@ const Header = () => {
           ))}
         </nav>
         <div className="flex items-center">
-        <Button
-            variant="secondary"
-            className="hidden lg:block lg:mr-[12px]"
-            onClick={() => router.push("/create-event")}
-          >
-            Create Event
-          </Button>
-          {token ? (
-            <div>
-              <Button
-                onClick={() => {
-                  logout();
-                }}
-                variant="secondary"
-                className="hidden lg:block"
-              >
-                Log out
-              </Button>
-            </div>
-          ) : count?.signIn?.data?.id ? (
-            <div>
-              <Button
-                onClick={() => {
-                  logout();
-                }}
-                variant="secondary"
-                className="hidden lg:block"
-              >
-                Log out
-              </Button>
-            </div>
-          ) : (
-            <>
-              {isLoggedIn && (
-                <Dialog
-                  open={isLoginDialogOpen}
-                  onOpenChange={setIsLoginDialogOpen}
-                >
-                  <DialogTrigger asChild>
-                    <Button variant="secondary" className="hidden lg:block">
-                      Sign In
-                    </Button>
-                  </DialogTrigger>
-                  {authMode === "SIGNIN" && isLoginDialogOpen && (
-                    <SignInModal
-                      redirectRoute={`/viewallevents`}
-                      setAuthMode={setAuthMode}
-                      setSigninModal={() => setIsLoginDialogOpen(false)}
-                    />
-                  )}
-                  {authMode === "SIGNUP" && (
-                    <SignUpModal
-                      setAuthMode={setAuthMode}
-                      setSigninModal={() => setIsLoginDialogOpen(false)}
-                    />
-                  )}
-                </Dialog>
-              )}
-
-             
-            </>
+          {token && (
+            <Button
+              className="hidden lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
+              onClick={() => router.push("/create-event")}
+            >
+              Create Event
+            </Button>
           )}
 
-        
+          <>
+            {!token && (
+              <Dialog
+                open={isLoginDialogOpen}
+                onOpenChange={setIsLoginDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <Button variant="secondary" className="hidden lg:block">
+                    Sign In
+                  </Button>
+                </DialogTrigger>
+                {authMode === "SIGNIN" && isLoginDialogOpen && (
+                  <SignInModal
+                    redirectRoute={`/viewallevents`}
+                    setAuthMode={setAuthMode}
+                    setSigninModal={() => setIsLoginDialogOpen(false)}
+                  />
+                )}
+                {authMode === "SIGNUP" && (
+                  <SignUpModal
+                    setAuthMode={setAuthMode}
+                    setSigninModal={() => setIsLoginDialogOpen(false)}
+                  />
+                )}
+              </Dialog>
+            )}
+          </>
 
-        
-          {isLoggedIn && (
-            <div className="mr-1 lg:ms-[12px] lg:mr-[12px] flex items-center gap-4 h-full">
+          {isLoggedIn && token && (
+            <div className="mr-[12px] md:ms-0 md:mr-0 lg:ms-0 lg:mr-0 flex items-center gap-4 h-full">
               <Popover open={notifPopupOpen} onOpenChange={setNotifPopupOpen}>
                 <PopoverTrigger asChild>
                   <Bell size={25} className="cursot-pointer" />
@@ -219,22 +194,27 @@ const Header = () => {
 
               <Popover open={popupOpen} onOpenChange={setPopupOpen}>
                 <PopoverTrigger asChild>
-                  {/* <div className="border border-muted gradient-slate rounded-full lg:flex items-center lg:gap-3 lg:py-[0.45rem] lg:pl-[0.45rem] lg:pr-6 cursor-pointer"> */}
-                   
-                    <div className="size-[40px] lg:size-[35px] rounded-full overflow-hidden">
-                  <Link href={"/profile/profile-main"} className="display-none">
-
+                  <div className="border  p-[6px] border-muted gradient-slate rounded-full lg:flex items-center   cursor-pointer">
+                    {/* <div className="size-[44px] lg:size-[44px] gradient-slate p-[6px] rounded-full overflow-hidden  shadow-inner shadow-md border border-gray-700 rounded-full border-gradient bg-gradient-to-t from-transparent to-transparent"> */}
+                    <Link
+                      href={"/profile/profile-main"}
+                      className="display-none"
+                    >
                       <Image
-                        src={'/person3.jpg'}
-                        width={500}
-                        height={500}
-                        className="object-cover object-top"
+                        src={
+                          myProfile?.profilePicture
+                            ? myProfile?.profilePicture
+                            : "/person3.jpg"
+                        }
+                        width={32}
+                        height={32}
+                        className="object-cover object-center rounded-full h-[32px]"
                         placeholder={`data:image/svg+xml;base64,${toBase64(
-                          shimmer(1200, 1800),
+                          shimmer(1200, 1800)
                         )}`}
                         alt="DP"
                       />
-                      </Link>
+                    </Link>
                     {/* </div> */}
                   </div>
                 </PopoverTrigger>
