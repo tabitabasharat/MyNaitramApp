@@ -142,11 +142,11 @@ const Helpcenter = ({
   }
 
   return (
-    <div className="w-full lg:w-[604px] lg:ps-[170px]  mt-[45px] ps-[0px] md:mx-auto lg:w-full md:mt-[92px] lg:mx-0">
+    <div className="w-full lg:w-[604px] lg:ps-[170px]  mt-[45px] ps-[0px] md:mx-auto  md:mt-[92px] lg:mx-0 relative h-[90vh] ">
       <h2 className="font-bold text-[24px] md:ms-[0px] ms-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] md:text-[16px]">
         Help Center
       </h2>
-      <div className="flex gap-[8px]">
+      <div className="flex gap-[8px] hidden">
         {["General", "Account", "Login"].map((text, index) => (
           <div
             key={index}
@@ -181,7 +181,7 @@ const Helpcenter = ({
                 control={form.control}
                 name="subject"
                 render={({ field }) => (
-                  <FormItem className="relative mb-[12px] md:mb-[20px]">
+                  <FormItem className="relative mb-[12px] md:mb-[20px] space-y-0">
                     <FormLabel className="text-[12px] text-[#8F8F8F] font-extrabold md:font-bold absolute left-3 top-3">
                       SUBJECT
                     </FormLabel>
@@ -204,14 +204,14 @@ const Helpcenter = ({
                 control={form.control}
                 name="description"
                 render={({ field }) => (
-                  <FormItem className="relative mb-[12px] md:mb-[20px]">
+                  <FormItem className="relative mb-[12px] md:mb-[20px] space-y-0">
                     <FormLabel className="text-[12px] text-[#8F8F8F] font-bold absolute left-3 top-3">
                       DESCRIPTION
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Vorem ipsum dolor sit amet consectetur"
-                        className="pt-[36px] pb-5 h-[136px] text-[#D9D9D9] text-base placeholder:font-normal"
+                        className="pt-[36px] pb-5 h-[136px] text-[#D9D9D9] text-base placeholder:font-normal resize-none"
                         {...field}
                         onChange={(e) => {
                           setDescription(e.target.value);
@@ -251,7 +251,7 @@ const Helpcenter = ({
                 />
               </div>
 
-              <div className="flex justify-start sm:bottom-[0px] absolute bottom-[-321px] mb-[32px] w-full sm:relative sm:w-[200px] mt-[50px]">
+              <div className="flex justify-start sm:bottom-[0px] absolute bottom-[0px] mb-[32px] w-full sm:relative sm:w-[200px] mt-[50px]">
                 <Button
                   type="submit"
                   className="w-full p-[12px] font-extrabold px-[68px] py-[12px] text-sm md:text-base "

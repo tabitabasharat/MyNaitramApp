@@ -72,7 +72,7 @@ const DeleteAccnt = () => {
   }
   return (
     <>
-      <div className="w-full lg:ps-[119px] mt-[45px] md:w-[70%] md:mx-auto flex flex-col justify-start lg:w-full lg:mt-[92px] lg:mx-0">
+      <div className="w-full lg:ps-[119px] mt-[45px] md:w-[70%] md:mx-auto flex flex-col justify-start lg:w-full lg:mt-[150px] lg:mx-0">
         {loader && <ScreenLoader />}
         {userLoading.loading && <ScreenLoader />}
 
