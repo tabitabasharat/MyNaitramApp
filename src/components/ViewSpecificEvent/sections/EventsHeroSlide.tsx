@@ -24,7 +24,7 @@ import {
   DeviceMobile,
 } from "@phosphor-icons/react/dist/ssr";
 import Clocktime from "@/assets/clock.svg";
-import Calendar from "@/assets/calendar.svg";
+import Calendar from "@/assets/Calendar.svg";
 import Location from "@/assets/location.svg";
 
 const EventsHeroSlide = ({
