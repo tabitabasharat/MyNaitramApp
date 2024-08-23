@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Walletbalancetable from "./Wallet-balance-table/Walletbalancetable";
 import ticket from "../../assets/Ticket.svg";
@@ -9,12 +9,19 @@ import cardsgreen from "../../assets/Cards (1).svg";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import EventCards from "../eventCards/EventCards";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { getTicketsByID } from "@/lib/middleware/wallet";
 
 type SelectedOption = "tickets" | "collectibles" | null;
 
 const Wallet = () => {
   const [selected, setSelected] = useState<SelectedOption>(null);
+  const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    const userid = localStorage.getItem("_id");
+    dispatch(getTicketsByID(userid));
+  }, []);
   return (
     <div className="min-h-screen flex items-start justify-center pt-[132px] px-[24px]">
       <div className="flex flex-col w-full max-w-[1200px] justify-center items-start">

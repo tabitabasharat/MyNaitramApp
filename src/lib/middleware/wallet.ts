@@ -5,8 +5,8 @@ import { API_URL } from "../client";
 
 
 
-export const getTicketsById = createAsyncThunk(
-  "getTicketsById",
+export const getTicketsByID = createAsyncThunk(
+  "getTicketsByID",
   async (data: any) => {
     try {
       console.log("inside get Tickets By user id");

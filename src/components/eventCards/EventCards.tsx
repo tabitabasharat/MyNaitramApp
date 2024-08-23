@@ -4,6 +4,9 @@ import Image from "next/image";
 import { ScaleReveal } from "../animations/ScaleReveal";
 import { shimmer, toBase64 } from "@/lib/utils";
 import HeartBadge from "../ui/heart-badge";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 // Mock Data (replace with actual data)
 const events = [
@@ -14,6 +17,7 @@ const events = [
   { id: 5, imageUrl: "/event7.png", title: "After Party for Ladies Night" },
   { id: 6, imageUrl: "/event8.png", title: "THE VAB with DJ CULOUGH" },
 ];
+
 
 const EventCard: React.FC<{
   eventId: number;

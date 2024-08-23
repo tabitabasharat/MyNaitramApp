@@ -142,7 +142,7 @@ type Option = {
   label: string;
   image: string;
 };
- function CreateEvent() {
+function CreateEvent() {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const fileInputRef = useRef(null);
@@ -154,12 +154,18 @@ type Option = {
   const [Eventname, setEventname] = useState("");
   const [EventCategory, setEventCategory] = useState("");
   const [EventLocation, setEventLocation] = useState("");
-  const [EventStartDate, setEventStartDate] = useState("");
-  const [EventEndDate, setEventEndDate] = useState("");
+  const [TicketStartDate, setTicketStartDate] = useState("");
+  const [TicketEndDate, setTicketEndDate] = useState("");
 
   const [EventStartTime, setEventStartTime] = useState("");
-  console.log("my event date is", EventStartTime);
   const [EventEndTime, setEventEndTime] = useState("");
+
+  console.log("my event start date is", EventStartTime);
+  console.log("my ticket start date is", TicketStartDate);
+
+  console.log("my event enddate is", EventEndTime);
+  console.log("my ticket endd date is", TicketEndDate);
+
   const [Eventdescription, setEventdescription] = useState("");
 
   const [CompTicketNo, setCompTicketNo] = useState("");
@@ -294,6 +300,7 @@ type Option = {
   //     { type: "", price: 0, no: 0 },
   //   ]);
   // };
+
   const handleAddTicketType = (e: any) => {
     e.preventDefault();
     setTicketTypes((prevTickets) => [
@@ -427,8 +434,8 @@ type Option = {
         category: EventCategory,
         eventDescription: Eventdescription,
         location: EventLocation,
-        ticketStartDate: EventStartDate,
-        ticketEndDate: EventEndDate,
+        ticketStartDate: TicketStartDate,
+        ticketEndDate: TicketEndDate,
         startTime: EventStartTime,
         endTime: EventEndTime,
         mainEventImage: MainImg,
@@ -460,6 +467,40 @@ type Option = {
     }
   }
   console.log("Form errors:", form.formState.errors);
+
+  function extractDate(dateTime: string): string {
+    // Create a new Date object from the input string
+    const date = new Date(dateTime);
+
+    // Format the date to 'YYYY-MM-DD'
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
+  function addTimeToDate(
+    inputDate: string,
+    hoursToAdd: number,
+    minutesToAdd: number
+  ): string {
+    // Parse the input date
+    const date = new Date(inputDate);
+
+    // Add the specified hours and minutes
+    date.setHours(date.getHours() + hoursToAdd);
+    date.setMinutes(date.getMinutes() + minutesToAdd);
+
+    // Format the date in YYYY-MM-DDTHH:mm format
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
   return (
     <section
       style={{
@@ -618,9 +659,11 @@ type Option = {
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
                           onChange={(e) => {
-                            setEventStartDate(e.target.value);
+                            setTicketStartDate(e.target.value);
                             field.onChange(e);
                           }}
+
+                          // max={extractDate(EventStartTime)}
                         />
                         {/* <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
                           <DatePicker datelabel={"Enter Event Date"}/>
@@ -664,9 +707,11 @@ type Option = {
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
                           onChange={(e) => {
-                            setEventEndDate(e.target.value);
+                            setTicketEndDate(e.target.value);
                             field.onChange(e);
                           }}
+                          min={TicketStartDate}
+                          // max={extractDate(EventStartTime)}
                         />
                         {/* <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
                           <DatePicker datelabel={"Enter Event Date"}/>
@@ -733,6 +778,7 @@ type Option = {
                             setEventStartTime(e.target.value);
                             field.onChange(e);
                           }}
+                          min={addTimeToDate(TicketEndDate, 0, 0)}
                         />
                       </FormControl>
 
@@ -760,6 +806,7 @@ type Option = {
                             setEventEndTime(e.target.value);
                             field.onChange(e);
                           }}
+                          min={EventStartTime}
                         />
                         {/* <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
                           <TimePicker

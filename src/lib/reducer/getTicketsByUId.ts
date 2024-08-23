@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getTicketsById } from "../middleware/wallet";
+import { getTicketsByID } from "../middleware/wallet";
 
 const initialState: any = {
   loading: false,
@@ -11,14 +11,14 @@ const getTicketsByIDSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getTicketsById.pending, (state) => {
+    builder.addCase(getTicketsByID.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(getTicketsById.fulfilled, (state, action) => {
+    builder.addCase(getTicketsByID.fulfilled, (state, action) => {
       state.loading = false;
       state.myTickets = action.payload;
     });
-    builder.addCase(getTicketsById.rejected, (state, action) => {
+    builder.addCase(getTicketsByID.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error || "something wrong";
     });
