@@ -28,42 +28,34 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useEffect, useState } from 'react';
 
 const formSchema = z.object({
   full_name: z.string().min(2, {
     message: 'Full name cannot be empty.',
   }),
-  id_number: z.number().min(1, {
-    message: 'ID Number cannot be empty.',
-  }),
-  email: z
-    .string()
-    .min(1, { message: 'Email cannot be empty.' })
-    .email({ message: 'Invalid email address.' }),
   phone: z.number().min(1, {
     message: 'Phone Number cannot be empty.',
-  }),
-  address: z.string().min(1, {
-    message: 'Address cannot be empty.',
-  }),
+  })
 });
 
 const CompleteYourProfileModal = ({
   onNext,
   handleNext,
+  setProfileInformation
 }: {
   onNext: () => void;
   handleNext: any;
+  setProfileInformation:any
 }) => {
+
+  const [email,setEmail]=useState<any>("")
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       full_name: '',
-      id_number: undefined,
-      email: '',
       phone: undefined,
-      address: '',
     },
   });
 
@@ -71,9 +63,15 @@ const CompleteYourProfileModal = ({
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    setProfileInformation(values)
     onNext();
     console.log(values);
   }
+  useEffect(()=>{
+    const email =
+      typeof window !== "undefined" ? localStorage.getItem("email") : null;
+      setEmail(email)
+  },[])
   return (
     <DialogContent className="sm:max-w-[550px]  lg:max-w-[650px]">
       <DialogHeader>
@@ -117,7 +115,7 @@ const CompleteYourProfileModal = ({
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="id_number"
             render={({ field }) => (
@@ -142,13 +140,10 @@ const CompleteYourProfileModal = ({
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <div className="flex flex-col md:flex-row gap-4 w-full">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
+           
                 <FormItem className="relative w-full">
                   <FormLabel className="text-[11px] text-[#8F8F8F] absolute left-3 top-5">
                     EMAIL
@@ -159,16 +154,17 @@ const CompleteYourProfileModal = ({
                   />
                   <FormControl>
                     <Input
-                      placeholder="youremail@example.com"
+                    disabled
+                      placeholder={email}
                       className="pt-10 pb-5 font-bold placeholder:font-normal"
-                      {...field}
+                    
                     />
                   </FormControl>
 
                   <FormMessage />
                 </FormItem>
-              )}
-            />{' '}
+              
+          
             <FormField
               control={form.control}
               name="phone"
@@ -196,30 +192,7 @@ const CompleteYourProfileModal = ({
               )}
             />
           </div>
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <FormItem className="relative w-full">
-                <FormLabel className="text-[11px] text-[#8F8F8F] absolute left-3 top-3">
-                  ADDRESS
-                </FormLabel>
-                <MapPin
-                  className="absolute right-3 translate-y-[0.9rem]"
-                  size={20}
-                />
-                <FormControl>
-                  <Input
-                    placeholder="Input your address"
-                    className="pt-10 pb-5 font-bold placeholder:font-normal"
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        
 
           <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
             <Button type="submit" className="w-fit px-8">

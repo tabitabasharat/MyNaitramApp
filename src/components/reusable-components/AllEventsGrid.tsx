@@ -1,30 +1,137 @@
-import { FadeReveal } from '../animations/FadeReveal';
-import { Button } from '../ui/button';
-import EventCard from './EventCard';
+import { FadeReveal } from "../animations/FadeReveal";
+import { Button } from "../ui/button";
+import EventCard from "./EventCard";
+// import { Pagination } from "swiper/modules";
+import Pagination from "./pagination/Pagination";
+import { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { getViewAllEvent } from "@/lib/middleware/event";
+import { getViewPastEvents } from "@/lib/middleware/event";
+import { getEventById, getLiveEventById } from "@/lib/middleware/event";
 
-const AllEventsGrid = ({ events }: any) => {
+const AllEventsGrid = ({ events, eventType }: any) => {
+  const dispatch = useAppDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = 8;
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  useEffect(() => {
+    const userid = localStorage.getItem("_id");
+    console.log("user id ", userid);
+    dispatch(getViewAllEvent());
+    dispatch(getViewPastEvents());
+    // dispatch(getEventById(userid));
+    dispatch(getLiveEventById(userid));
+  }, []);
+
+  const EventsAllData = useAppSelector(
+    (state) => state?.getViewAllEvents?.ViewallEvents?.data
+  );
+
+  console.log("All Events are", EventsAllData);
+
+  const EventsPastData = useAppSelector(
+    (state) => state?.getPastEvents?.ViewPastEvents?.data
+  );
+
+  console.log("All Past Events are", EventsPastData);
+
+  const myEvents = useAppSelector(
+    (state) => state?.getUserLiveEvents?.myLiveEvents?.data
+  );
+
+  console.log("my Live Events are", myEvents);
+
   return (
-    <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
-      {events.map((event: any) => (
-        <EventCard key={event.id} img={event.img} title={event.title} />
-      ))}
+    <>
+      {/* All Events */}
+      {eventType === "All Events" &&
+        (EventsAllData?.events?.length > 0 ? (
+          <>
+            <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+              {EventsAllData?.events?.length > 0 &&
+                EventsAllData?.events?.map((event: any) => (
+                  <EventCard
+                    key={event?.id}
+                    img={event?.coverEventImage}
+                    title={event?.name}
+                    eventId={event?.id}
+                  />
+                ))}
 
-      <div
-        style={{
-          background:
-            'linear-gradient(to top, black, transparent 33%, transparent 66%, transparent)',
-        }}
-        className="absolute inset-0 to-transparent z-[3] pointer-events-none"
-      ></div>
-      <FadeReveal extraStyle="z-[4]">
-        <Button
-          variant="secondary"
-          className="w-fit absolute bottom-[5%] left-1/2 -translate-x-1/2"
-        >
-          View More Events
-        </Button>
-      </FadeReveal>
-    </div>
+              <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+            </div>
+            <div className="container p-0">
+              <Pagination
+                currentPage={EventsAllData?.currentPage}
+                totalPages={EventsAllData?.totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+            <p>No Event Found</p>
+            <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+          </div>
+        ))}
+
+      {/* Past Events */}
+      {eventType === "Past Events" &&
+        (EventsPastData?.events?.length > 0 ? (
+          <>
+            <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+              {EventsPastData?.events?.length > 0 &&
+                EventsPastData?.events?.map((event: any) => (
+                  <EventCard
+                    key={event?.id}
+                    img={event?.coverEventImage}
+                    title={event?.name}
+                    eventId={event?.id}
+                  />
+                ))}
+
+              <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+            </div>
+            <div className="container p-0">
+              <Pagination
+                currentPage={EventsPastData?.currentPage}
+                totalPages={EventsPastData?.totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+            <p>No Event Found</p>
+            <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+          </div>
+        ))}
+
+      {/* Your Events or Live Events */}
+      {eventType === "Your Events" &&
+        (myEvents?.events?.length > 0 ? (
+          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+            {myEvents?.events?.map((event: any) => (
+              <EventCard
+                key={event?.id}
+                img={event?.coverEventImage}
+                title={event?.name}
+                eventId={event?.id}
+              />
+            ))}
+            <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+          </div>
+        ) : (
+          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+            <p>No Event Found</p>
+            <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+          </div>
+        ))}
+    </>
   );
 };
 

@@ -16,7 +16,7 @@ import { Input } from '../ui/input';
 
 const FilterSideBar = () => {
   return (
-    <div className="w-[280px]">
+    <div>
       <div className="flex md:flex-col lg:flex-row justify-between gap-1 lg:gap-0">
         <div className="flex gap-[0.5rem]">
           <Funnel size={22} weight="bold" className="text-primary" />

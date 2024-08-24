@@ -22,6 +22,12 @@ const config = {
       boxShadow: {
         custom: '0px 5px 30px rgba(255, 255, 255, 0.2)',
       },
+      borderRadius: {
+        'custom': '100px',
+      },
+      colors: {
+        customRed: '#FF1717',
+      },
       fontFamily: {
         sans: ['var(--font-base)', ...fontFamily.sans],
       },

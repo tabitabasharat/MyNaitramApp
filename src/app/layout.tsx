@@ -1,10 +1,12 @@
-import './globals.css';
+import "./globals.css";
 
-import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import StoreProvider from "./StoreProvider";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export const metadata: Metadata = {
-  title: 'NAITRAM - Your Ticket. Your Event. Your Experience.',
+  title: "NAITRAM - Your Ticket. Your Event. Your Experience.",
   description:
     'Discover a new way to engage with events through Naitram, enhance your experience from start to finish. Whether you"re attending a conference festival, or corporate gathering.',
 };
@@ -12,25 +14,25 @@ export const metadata: Metadata = {
 const baseFont = localFont({
   src: [
     {
-      path: '../../public/fonts/NexaLight.otf',
-      weight: '300',
+      path: "../../public/fonts/NexaLight.otf",
+      weight: "300",
     },
     {
-      path: '../../public/fonts/NexaRegular.otf',
-      weight: '400',
+      path: "../../public/fonts/NexaRegular.otf",
+      weight: "400",
     },
     {
-      path: '../../public/fonts/NexaBold.otf',
-      weight: '700',
+      path: "../../public/fonts/NexaBold.otf",
+      weight: "700",
     },
     {
-      path: '../../public/fonts/NexaExtraBold.ttf',
-      weight: '800',
+      path: "../../public/fonts/NexaExtraBold.ttf",
+      weight: "800",
     },
   ],
-  fallback: ['Helvetica', 'ui-sans-serif'],
-  variable: '--font-base',
-  display: 'swap',
+  fallback: ["Helvetica", "ui-sans-serif"],
+  variable: "--font-base",
+  display: "swap",
 });
 
 export default function RootLayout({
@@ -38,13 +40,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const clientId =
+    "423487913735-4r2snu681msvd6nl8lt4leu29fmjuo82.apps.googleusercontent.com";
+
   return (
-    <html lang="en">
-      <body
-        className={`${baseFont.variable} font-sans bg-black text-white overflow-x-clip`}
-      >
-        {children}
-      </body>
-    </html>
+    <>
+      <GoogleOAuthProvider clientId={clientId}>
+        <StoreProvider>
+          <html lang="en">
+           
+            <body
+              className={`${baseFont.variable} font-sans bg-black text-white overflow-x-clip`}
+            >
+              {children}
+            </body>
+          </html>
+        </StoreProvider>
+      </GoogleOAuthProvider>
+    </>
   );
 }

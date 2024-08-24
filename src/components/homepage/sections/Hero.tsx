@@ -6,8 +6,10 @@ import thumb from '@/assets/thumbs.png';
 import star from '@/assets/star.png';
 import { FadeReveal } from '@/components/animations/FadeReveal';
 import { Reveal } from '@/components/animations/Reveal';
+import { useRouter } from 'next/navigation';
 
 const Hero = () => {
+  const router=useRouter()
   return (
     <section
       style={{
@@ -35,8 +37,8 @@ const Hero = () => {
           </div>
           <Reveal y={100} width="100%">
             <div className="flex flex-col md:flex-row gap-[0.8rem] w-full md:w-fit md:mx-auto lg:mx-0">
-              <Button variant="secondary">Learn More</Button>
-              <Button className="flex items-center gap-[0.5rem]">
+              <Button onClick={()=>{router.push("/about")}} variant="secondary">Learn More</Button>
+              <Button onClick={()=>{router.push("/download-app")}} className="flex items-center gap-[0.5rem]">
                 <DownloadSimple size={20} weight="bold" />
                 Download App
               </Button>

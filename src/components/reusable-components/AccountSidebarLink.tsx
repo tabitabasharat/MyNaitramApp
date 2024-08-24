@@ -17,7 +17,7 @@ const AccountSidebarLink = ({ leftElement, title, url, setPopupOpen }: any) => {
         }
       }}
       className={cn(
-        'gradient-slate border border-muted w-full flex justify-between rounded-lg items-center px-4 py-3 hover:border-[#13FF7A] duration-300',
+        'gradient-slate border border-muted w-full flex justify-between rounded-lg items-center px-3 py-2.5 hover:border-[#13FF7A] duration-300',
         { 'border-[#13FF7A]': pathname.startsWith(url) },
       )}
     >

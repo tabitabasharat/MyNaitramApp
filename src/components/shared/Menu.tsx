@@ -1,22 +1,24 @@
-import Link from 'next/link';
-import Hamburger from 'hamburger-react';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import Link from "next/link";
+import Hamburger from "hamburger-react";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import {
   LinkedinLogo,
   InstagramLogo,
   FacebookLogo,
-} from '@phosphor-icons/react/dist/ssr';
-import logo from '@/assets/logo.svg';
-import { slide } from '@/components/animations/variants';
-import { Dispatch, SetStateAction } from 'react';
-import { Button } from '../ui/button';
-import Image from 'next/image';
-import SignInModal from '@/components/auth/SignInModal';
-import SignUpModal from '@/components/auth/SignUpModal';
-import { AuthMode } from '@/types/types';
-
+} from "@phosphor-icons/react/dist/ssr";
+import logo from "@/assets/logo.svg";
+import { slide } from "@/components/animations/variants";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Button } from "../ui/button";
+import Image from "next/image";
+import SignInModal from "@/components/auth/SignInModal";
+import SignUpModal from "@/components/auth/SignUpModal";
+import { AuthMode } from "@/types/types";
+import naitramLogo from "@/assets/naitram-logo-white.svg";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useRouter } from "next/navigation";
 const Menu = ({
   authMode,
   setAuthMode,
@@ -30,42 +32,65 @@ const Menu = ({
   setMenuIsOpen: Dispatch<SetStateAction<boolean>>;
   toggleMenu: () => void;
 }) => {
+ 
   const links = [
     {
-      name: 'Home',
-      href: '/',
+      name: "Home",
+      href: "/",
     },
     {
-      name: 'Events',
-      href: '/events',
+      name: "Events",
+      href: "/events",
     },
     {
-      name: 'About',
-      href: '/',
+      name: "About",
+      href: "/about",
     },
     {
-      name: 'Gallery',
-      href: '/',
+      name: "Gallery",
+      href: "/gallery",
     },
     {
-      name: 'Search',
-      href: '/search',
+      name: "Contact Us",
+      href: "/contactus",
     },
+    {
+      name: "Download App",
+      href: "/download-app",
+    }
   ];
+  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+  const [token, setToken] = useState<any>();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const count = useAppSelector((state) => state?.signIn);
+
+  const logout = () => {
+    localStorage.clear();
+    setToken("");
+    dispatch({ type: "LOGOUT" });
+    router.push("/");
+  };
+
+  useEffect(() => {
+    const id =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setToken(id);
+  }, [token, count]);
 
   return (
     <>
       <motion.div
         className="fixed right-0 h-full w-full md:w-[450px] gradient-slate border-l border-l-[#282828] z-[80] px-[2.5rem] lg:hidden"
-        initial={{ x: '120%' }}
-        animate={{ x: menuIsOpen ? 0 : '120%' }}
+        initial={{ x: "120%" }}
+        animate={{ x: menuIsOpen ? 0 : "120%" }}
         transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
       >
         <div className="overflow-y-scroll overflow-x-clip h-full scrollbar-hidden">
           <div className="mt-[1.6rem] flex justify-between items-center w-full">
             <Link href="/" className="">
-              <div className="w-[100px]">
-                <Image src={logo} width={800} height={800} alt="Naitram-Logo" />
+              <div className="">
+                <Image src={naitramLogo} alt="Naitram-Logo" />
               </div>
             </Link>
             <button
@@ -92,33 +117,88 @@ const Menu = ({
                 }}
               >
                 <Link key={i} href={link.href}>
-                  {link.name}{' '}
+                  {link.name}{" "}
                 </Link>
                 <div
                   className={`absolute h-[1px] bottom-[0.15rem] scale-x-0 w-full group-hover:scale-x-100 bg-white duration-300 origin-left`}
                 ></div>
               </motion.div>
             ))}
+             <Button
+                    variant="secondary"
+                    className=" lg:mr-[12px]"
+                    onClick={() => router.push("/create-event")}
+                  >
+                    Create Event
+                  </Button>
           </div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <motion.div
-                onClick={() => {
-                  setMenuIsOpen(false);
-                }}
-                custom={links.length + 1}
-                variants={slide}
-                animate="enter"
-                exit="exit"
-                initial="initial"
-                className="h-fit w-fit mt-[1.5rem] lg:mt-[2rem] z-[1]"
-              >
-                <Button className="px-[3rem]">Sign Up</Button>
-              </motion.div>
-            </DialogTrigger>
-            {authMode === 'SIGNIN' && <SignInModal setAuthMode={setAuthMode} />}
-            {authMode === 'SIGNUP' && <SignUpModal setAuthMode={setAuthMode} />}
-          </Dialog>
+
+          {token || count?.signIn?.data?.id ? (
+            <Dialog>
+              <DialogTrigger asChild>
+                <motion.div
+                  onClick={() => {
+                    logout();
+                    setMenuIsOpen(false);
+                  }}
+                  custom={links.length + 1}
+                  variants={slide}
+                  animate="enter"
+                  exit="exit"
+                  initial="initial"
+                  className="h-fit w-fit mt-[1.5rem] lg:mt-[2rem] z-[1]"
+                >
+                  <Button className="px-[3rem]">Logout</Button>
+                </motion.div>
+               
+                
+              </DialogTrigger>
+              {authMode === "SIGNIN" && (
+                <SignInModal
+                  redirectRoute="/events"
+                  setAuthMode={setAuthMode}
+                  setSigninModal={() => setIsLoginDialogOpen(false)}
+                />
+              )}
+              {authMode === "SIGNUP" && (
+                <SignUpModal
+                  setAuthMode={setAuthMode}
+                  setSigninModal={() => setIsLoginDialogOpen(false)}
+                />
+              )}
+            </Dialog>
+          ) : (
+            <Dialog>
+              <DialogTrigger asChild>
+                <motion.div
+                  onClick={() => {
+                    setMenuIsOpen(false);
+                  }}
+                  custom={links.length + 1}
+                  variants={slide}
+                  animate="enter"
+                  exit="exit"
+                  initial="initial"
+                  className="h-fit w-fit mt-[1.5rem] lg:mt-[2rem] z-[1]"
+                >
+                  <Button className="px-[3rem]">Sign In</Button>
+                </motion.div>
+              </DialogTrigger>
+              {authMode === "SIGNIN" && (
+                <SignInModal
+                  redirectRoute="/events"
+                  setAuthMode={setAuthMode}
+                  setSigninModal={() => setIsLoginDialogOpen(false)}
+                />
+              )}
+              {authMode === "SIGNUP" && (
+                <SignUpModal
+                  setAuthMode={setAuthMode}
+                  setSigninModal={() => setIsLoginDialogOpen(false)}
+                />
+              )}
+            </Dialog>
+          )}
           <motion.div
             custom={links.length + 2}
             variants={slide}
@@ -128,21 +208,21 @@ const Menu = ({
             className="mt-[2.6rem] text-white flex items-center gap-[1.3rem] pb-[2rem]"
           >
             <div className="flex gap-[0.5rem] mt-[0.8rem]">
-              <Link href={''}>
+              <Link href={""}>
                 <LinkedinLogo
                   size={30}
                   weight="fill"
                   className="hover:opacity-60 duration-300"
                 />
               </Link>
-              <Link href={''}>
+              <Link href={""}>
                 <InstagramLogo
                   size={30}
                   weight="fill"
                   className="hover:opacity-60 duration-300"
                 />
               </Link>
-              <Link href={''}>
+              <Link href={""}>
                 <FacebookLogo
                   size={30}
                   weight="fill"

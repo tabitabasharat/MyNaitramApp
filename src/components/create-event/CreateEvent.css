@@ -1,0 +1,148 @@
+.create-inner {
+  padding-top: 180px;
+}
+.create-container-head {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.create-container {
+  background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
+
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.common-input {
+  /* width: 794.34px; */
+  /* height: 63px; */
+  background-color: transparent !important;
+  background: none !important;
+  font-size: 16px;
+  line-height: 21px;
+  border-radius: 10px;
+  padding: 20px 10px;
+  font-weight: bold;
+  color: #ffffff;
+}
+.common-input::placeholder {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.create-txtarea-input {
+  /* width: 794.34px; */
+  height: 260px;
+  background-color: transparent !important;
+  background: none !important;
+  /* border-color: #009540; */
+  font-weight: bold;
+  color: #ffffff !important;
+  /* padding: 15px; */
+  /* padding-bottom: 204px; */
+  border-radius: 10px;
+  resize: none !important;
+}
+
+.create-txtarea-input::placeholder {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.createEvent__container__top__image {
+  width: 12px;
+  height: 12px;
+  margin-left: 2px;
+}
+.uploadImageButton {
+  border: 1px solid #00d059;
+
+  /* width: Fixed (200px)px;
+    height: Fixed (52px)px; */
+
+  padding: 12px 41.5px;
+
+  border-radius: 200px;
+}
+
+.trash_button {
+  background: none;
+  border: none;
+  padding: 0px;
+  position: absolute;
+  right: -10px;
+  top: -11px;
+}
+
+.custom-datepicker {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  cursor: pointer;
+  background-color: transparent;
+}
+.react-datepicker__input-container input:focus {
+  box-shadow: none !important;
+  border: none !important;
+  outline: 0 !important;
+}
+.react-datepicker__input-container input::placeholder {
+  color: #ffffff !important;
+}
+
+.react-datetime-picker__inputGroup__input:invalid {
+  background: transparent !important;
+}
+.react-datetime-picker__inputGroup {
+  color: #ffffff !important;
+}
+
+.react-datetime-picker__wrapper {
+  border: none !important;
+}
+
+.react-datetime-picker__inputGroup__amPm option {
+  color: black !important;
+}
+
+
+@media(max-width:768px)
+{
+   .common-container{
+    flex-wrap: wrap;
+   }
+   .create-inner {
+    padding-top: 120px;
+  }
+  .gallery-box{
+    height: 320px;
+  }
+  .uploadImageButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+  }
+  .create-container-head{
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 16px;
+  }
+  .gallery-box-same{
+    padding-right: 15px;
+  }
+  .gallery-top{
+    padding-top:55px;
+  }
+  .edit-btn{
+    width: 100%;
+    justify-content: center;
+  }
+  .ticket-btn{
+    width: 100%;
+    justify-content: center;
+  }
+}
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
