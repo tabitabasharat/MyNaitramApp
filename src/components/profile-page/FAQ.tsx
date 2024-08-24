@@ -95,23 +95,35 @@ const FAQ = ({
     setActiveIndex(activeIndex === index ? null : index); // Toggle the active index
   };
   return (
-    <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
-      <h2 className="font-bold text-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] ps-[12px]">
+    <div className="w-full mt-[45px] lg:w-[600px] lg:ps-[172px] md:mx-auto md:mt-[92px] lg:mx-0">
+      <h2 className="font-bold text-[24px] ms-[24px] md:ms-[0px] lg:text-[32px] mb-[24px] sm:mb-[53px]">
         FAQ
       </h2>
-      <div className="flex gap-[8px]">
+      <div
+
+        className="flex  gap-[8px] "
+      >
         {["General", "Account", "Login"].map((text, index) => (
-          <div
-            key={index}
-            className={`text-sm font-bold p-[12px] rounded-[44px] border w-[92px] text-center cursor-pointer ${
-              activeDiv === index
-                ? "text-green-500 border-green-500 bg-[#1A1A1A]"
-                : "text-[#E6E6E6] border-[#FFFFFF0F] gradient-slate"
-            }`}
-            onClick={() => handleClick(index)}
-          >
-            {text}
-          </div>
+        <div
+        key={index}
+        style={{
+          background: activeDiv === index
+            ? "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"
+            : "linear-gradient(#0F0F0F, #1A1A1A) padding-box",
+          borderImage: activeDiv === index
+            ? "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%)"
+            : "none",
+          borderImageSlice: activeDiv === index ? 1 : undefined,
+        }}
+        className={`text-sm font-bold p-[12px] rounded-[44px] border w-[92px] text-center cursor-pointer ${
+          activeDiv === index
+            ? "text-green-500 border-[0.86px] rounded-[44px] bg-[#1A1A1A]"
+            : "text-[#E6E6E6] border-[#FFFFFF0F] gradient-slate"
+        }`}
+        onClick={() => handleClick(index)}
+      >
+        {text}
+      </div>
         ))}
       </div>
       <div className="flex flex-col lg:flex-col gap-[12px] sm:gap-[20px] mt-[24px] lg:mt-[20px]">
@@ -145,16 +157,19 @@ const FAQ = ({
             key={index}
             expanded={activeIndex === index}
             onChange={() => handleAccordionChange(index)}
-            className="gradient-slate rounded-[8px] mb-[0px]"
+            className="gradient-slate border-[0.86px] border-transparent rounded-[8px] mb-[0px]"
             style={{
-              border:
-                activeIndex === index
-                  ? "1px solid #13FF7A"
-                  : "1px solid transparent",
+              background: activeIndex === index
+                ? "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"
+                : "linear-gradient(#0F0F0F, #1A1A1A) padding-box",
+              borderImage: activeIndex === index
+                ? "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%)"
+                : "none",
+              borderImageSlice: activeIndex === index ? 1 : undefined,
             }}
             sx={{
               "&.Mui-expanded": {
-                marginBottom:"0px",
+                marginBottom: "0px",
               },
             }}
           >
@@ -178,7 +193,7 @@ const FAQ = ({
                 },
                 "&.Mui-expanded": {
                   minHeight: "0",
-                  marginBottom:"0px"
+                  marginBottom: "0px",
                 },
                 "& .MuiAccordionSummary-content": {
                   margin: "0px",

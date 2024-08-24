@@ -114,7 +114,8 @@ const Header = () => {
           ></motion.div>
         )}
       </AnimatePresence>
-      <header
+      <header 
+        // style={{ position: }}
         className={cn(
           "fixed w-full pxpx py-[1.5rem] flex items-center justify-between z-50 duration-300",
           { "bg-black/50 backdrop-blur-lg webkit-header-blur": fixedBg }

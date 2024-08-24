@@ -167,11 +167,11 @@ const AccountSettings = () => {
     }
   }, [myProfile]);
   return (
-    <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
+    <div className="w-full md:w-[70%] ps-[0px] xl:ps-[182px] md:mx-auto lg:w-full mt-[48px] md:mt-[150px] lg:mx-0 relative h-[90vh]">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
-      <h2 className="font-extrabold text-[20px] lg:text-[32px] ps-[12px]">
+      <h2 className="font-bold ms-[24px] md:ms-[0px] text-[20px] lg:text-[32px]">
         Account Settings
       </h2>
       <div className="flex flex-col lg:flex-row gap-8 mt-[34px]  lg:mt-[32px]">
@@ -203,12 +203,12 @@ const AccountSettings = () => {
           <Button
             onClick={() => fileInputRef.current?.click()} // Trigger file input click
             variant="secondary"
-            className="w-[100%] py-[8px] px-[12px] md:py-[12px] md:px-[25px] font-erxtrabold text-base "
+            className="w-[100%] py-[8px] px-[12px] md:py-[12px] md:px-[21px] font-bold text-base  text-[#030303] "
           >
             Change Photo Profile
           </Button>
         </div>
-        <div className="w-full">
+        <div className="w-full lg:w-[428px]">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(profileclick)}
@@ -218,18 +218,18 @@ const AccountSettings = () => {
                 control={form.control}
                 name="full_name"
                 render={({ field }) => (
-                  <FormItem className="relative mb-6">
+                  <FormItem className="relative mb-6 space-y-0">
                     <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                       FULL NAME
                     </FormLabel>
                     <User
-                      className="absolute right-3 translate-y-[0.9rem]"
+                      className="absolute right-3  top-[35%]"
                       size={20}
                     />
                     <FormControl>
                       <Input
                         placeholder="Enter Fullname"
-                        className="pt-11 pb-5 font-bold text-base placeholder:font-extrabold"
+                        className="pt-11 pb-5 font-bold text-base placeholder:font-extrabold "
                         {...field}
                         onChange={(e) => {
                           setName(e.target.value);
@@ -245,12 +245,12 @@ const AccountSettings = () => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="relative mb-6">
+                  <FormItem className="relative mb-6 space-y-0">
                     <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                       EMAIL
                     </FormLabel>
                     <Envelope
-                      className="absolute right-3 translate-y-[0.9rem]"
+                      className="absolute right-3  top-[35%]"
                       size={20}
                     />
                     <FormControl>
@@ -269,16 +269,17 @@ const AccountSettings = () => {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem className="relative mb-2">
+                  <FormItem className="relative space-y-0 mb-2">
                     <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3 z-10">
                       PASSWORD
                     </FormLabel>
                     <Lock
-                      className="absolute right-3 translate-y-[0.9rem] z-10"
+                      className="absolute right-3   top-[35%] z-10"
                       size={20}
                     />
                     <FormControl>
                       <PasswordInput
+                        readOnly
                         placeholder="Input password"
                         className="pt-11 pb-5 text-base placeholder:font-extrabold"
                         {...field}
@@ -297,14 +298,23 @@ const AccountSettings = () => {
                   Want to change your password?
                 </Link>
               </p>
-              <div className="flex justify-start lg:justify-end">
+              {/* <div className="flex justify-start lg:justify-end md:mt-[32px] mt-[57px]">
                 <Button
                   type="submit"
-                  className="w-full md:mt-[32px] mt-[57px] px-[30.5px] py-[12px] font-extrabold text-base md:w-fit"
+                  className="w-full  px-[30.5px] py-[12px] mb-[77px] md:mb-[0px] font-extrabold text-base md:w-fit"
                 >
                   Update Changes
                 </Button>
-              </div>
+              </div> */}
+
+              <div className="flex justify-start lg:justify-end  absolute bottom-[0px] mb-[32px] md:mt-[32px]  sm:relative mt-[57px] w-full">
+                <Button
+                  type="submit"
+               className="w-full  px-[30.5px] py-[12px]  md:mb-[0px] font-extrabold text-base md:w-fit"
+                >
+                  Update Changes
+                </Button>
+                </div>
             </form>
           </Form>
         </div>

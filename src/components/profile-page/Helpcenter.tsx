@@ -142,17 +142,26 @@ const Helpcenter = ({
   }
 
   return (
-    <div className="w-full md:w-[70%] md:mx-auto lg:w-full lg:mx-0">
-      <h2 className="font-extrabold text-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] md:text-[16px] ps-[12px]">
+    <div className="w-full lg:w-[604px] lg:ps-[170px]  mt-[45px] ps-[0px] md:mx-auto  md:mt-[92px] lg:mx-0 relative h-[90vh] ">
+      <h2 className="font-bold text-[24px] md:ms-[0px] ms-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] md:text-[16px]">
         Help Center
       </h2>
-      <div className="flex gap-[8px]">
+      <div className="flex gap-[8px] hidden">
         {["General", "Account", "Login"].map((text, index) => (
           <div
             key={index}
-            className={`text-sm font-extrabold md:px-[19.5px] py-[12px] rounded-[44px] border w-[92px] text-center cursor-pointer ${
+            style={{
+              background: activeDiv === index
+                ? "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"
+                : "linear-gradient(#0F0F0F, #1A1A1A) padding-box",
+              borderImage: activeDiv === index
+                ? "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%)"
+                : "none",
+              borderImageSlice: activeDiv === index ? 1 : undefined,
+            }}
+            className={`text-sm font-bold p-[12px] rounded-[44px] border w-[92px] text-center cursor-pointer ${
               activeDiv === index
-                ? "text-green-500 border-green-500 bg-[#1A1A1A]"
+                ? "text-green-500 border-[0.86px] rounded-[44px] bg-[#1A1A1A]"
                 : "text-[#E6E6E6] border-[#FFFFFF0F] gradient-slate"
             }`}
             onClick={() => handleClick(index)}
@@ -172,7 +181,7 @@ const Helpcenter = ({
                 control={form.control}
                 name="subject"
                 render={({ field }) => (
-                  <FormItem className="relative mb-[12px] md:mb-[20px]">
+                  <FormItem className="relative mb-[12px] md:mb-[20px] space-y-0">
                     <FormLabel className="text-[12px] text-[#8F8F8F] font-extrabold md:font-bold absolute left-3 top-3">
                       SUBJECT
                     </FormLabel>
@@ -195,14 +204,14 @@ const Helpcenter = ({
                 control={form.control}
                 name="description"
                 render={({ field }) => (
-                  <FormItem className="relative mb-[12px] md:mb-[20px]">
+                  <FormItem className="relative mb-[12px] md:mb-[20px] space-y-0">
                     <FormLabel className="text-[12px] text-[#8F8F8F] font-bold absolute left-3 top-3">
                       DESCRIPTION
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Vorem ipsum dolor sit amet consectetur"
-                        className="pt-[36px] pb-5 h-[136px] text-[#D9D9D9] text-base placeholder:font-normal"
+                        className="pt-[36px] pb-5 h-[136px] text-[#D9D9D9] text-base placeholder:font-normal resize-none"
                         {...field}
                         onChange={(e) => {
                           setDescription(e.target.value);
@@ -242,7 +251,7 @@ const Helpcenter = ({
                 />
               </div>
 
-              <div className="flex justify-start absolute bottom-[32px] w-[85%] sm:relative sm:w-[200px] mt-[50px]">
+              <div className="flex justify-start sm:bottom-[0px] absolute bottom-[0px] mb-[32px] w-full sm:relative sm:w-[200px] mt-[50px]">
                 <Button
                   type="submit"
                   className="w-full p-[12px] font-extrabold px-[68px] py-[12px] text-sm md:text-base "
