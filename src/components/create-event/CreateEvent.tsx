@@ -188,6 +188,8 @@ function CreateEvent() {
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
     { type: "", price: 0, no: 0, options: [] },
   ]);
+
+  
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
     { id: 2, label: "Food and Beverages", image: img2 },
@@ -199,15 +201,29 @@ function CreateEvent() {
   const handleDropdown = () => {
     setDropdown(!Dropdown);
   };
-  const handleOptionToggle = (option: Option) => {
-    setSelectedOptions((prev) => {
-      const isSelected = prev.some((o) => o.id === option.id);
-      if (isSelected) {
-        return prev.filter((o) => o.id !== option.id);
-      } else {
-        return [...prev, option];
-      }
-    });
+  // const handleOptionToggle = (option: Option) => {
+  //   setSelectedOptions((prev) => {
+  //     const isSelected = prev.some((o) => o.id === option.id);
+  //     if (isSelected) {
+  //       return prev.filter((o) => o.id !== option.id);
+  //     } else {
+  //       return [...prev, option];
+  //     }
+  //   });
+  // };
+  const handleOptionToggle = (index: number, option: TicketTypeOption) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket, i) =>
+        i === index
+          ? {
+              ...ticket,
+              options: ticket.options.some((o) => o.id === option.id)
+                ? ticket.options.filter((o) => o.id !== option.id) // Remove the option if it's already selected
+                : [...ticket.options, option], // Add the option if it's not selected
+            }
+          : ticket
+      )
+    );
   };
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -293,11 +309,12 @@ function CreateEvent() {
     );
   };
 
+
   // const handleAddTicketType = (e: any) => {
   //   e.preventDefault();
   //   setTicketTypes((prevTickets) => [
   //     ...prevTickets,
-  //     { type: "", price: 0, no: 0 },
+  //     { type: "", price: 0, no: 0, options: [] },
   //   ]);
   // };
 
@@ -305,7 +322,7 @@ function CreateEvent() {
     e.preventDefault();
     setTicketTypes((prevTickets) => [
       ...prevTickets,
-      { type: "", price: 0, no: 0, options: [] },
+      { type: "", price: 0, no: 0, options: [] }, // Include 'options' initialized as an empty array
     ]);
   };
 
@@ -1082,63 +1099,7 @@ function CreateEvent() {
                 </div>
               ))}
 
-              {/* <div className="pb-[20px] mt-[12px] w-full rounded-md border border-[#292929] gradient-slate px-3 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 ">
-                <div
-                  className="flex items-center justify-between pt-[16px]"
-                  onClick={handleDropdown}
-                >
-                  <p className="text-sm text-gray-500 uppercase ">
-                    WHATS INCLUDED
-                  </p>
-                  <Image
-                    src={arrowdown}
-                    width={11}
-                    height={11}
-                    alt="arrow-down"
-                  />
-                </div>
-                {Dropdown && (
-                  <div>
-                    <div className="flex items-center justify-between  pt-[8px] ">
-                      <div className="flex items-center gap-[10px]  pt-[8px]">
-                        <Image src={img1} width={16} height={16} alt="img" />
-                        <p className="text-[14px] text-gray-500 ">
-                          Merchandise Stalls
-                        </p>
-                      </div>
-
-                      <Image src={tick} width={10} height={10} alt="img" />
-                    </div>
-                    <div className="flex items-center justify-between   pt-[8px]">
-                      <div className="flex items-center gap-[10px]  pt-[8px]">
-                        <Image src={img2} width={16} height={16} alt="img" />
-                        <p className="text-[14px] text-gray-500  ">
-                          Food and Beverages
-                        </p>
-                      </div>
-                      <Image src={tick} width={10} height={10} alt="img" />
-                    </div>
-                    <div className="flex items-center justify-between   pt-[8px]">
-                      <div className="flex items-center gap-[10px]  pt-[8px]">
-                        <Image src={img3} width={16} height={16} alt="img" />
-                        <p className="text-[14px] text-gray-500  ">
-                          VIP Lounge
-                        </p>
-                      </div>
-                      <Image src={tick} width={10} height={10} alt="img" />
-                    </div>
-                    <div className="flex items-center justify-between   pt-[8px]">
-                      <div className="flex items-center gap-[10px]  pt-[8px]">
-                        <Image src={img4} width={16} height={16} alt="img" />
-                        <p className="text-[14px] text-gray-500  ">
-                          Security and First Aid
-                        </p>
-                      </div>
-                      <Image src={tick} width={10} height={10} alt="img" />
-                    </div>
-                  </div>
-                )}
-              </div> */}
+             
 
               <div className="pb-[8px] mt-[12px] w-full rounded-md border border-[#292929] gradient-slate  pt-[16px] px-[12px]  text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                 <div
