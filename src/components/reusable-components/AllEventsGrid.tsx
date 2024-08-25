@@ -60,7 +60,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
       {eventType === "All Events" &&
         (EventsAllData?.events?.length > 0 ? (
           <>
-            <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+            <div className="relative grid md:grid-cols-1 lg:grid-cols-3 gap-[1rem]">
               {EventsAllData?.events?.length > 0 &&
                 EventsAllData?.events?.map((event: any) => (
                   <EventCard

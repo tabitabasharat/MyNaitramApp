@@ -115,7 +115,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
                     selectedEvent?.id === event.id ? "none" : "grayscale(100%)",
                 }}
               />
-              <p className="md:m-0 m-[12px] text-sm md:mt-[8px]">
+              <p className="md:m-0 my-[12px] text-sm md:mt-[8px]">
                 {event.title}
               </p>
             </div>
@@ -127,8 +127,11 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
 
         {/* Search web */}
 
-        <div className="hidden md:flex justify-start gap-10 w-full">
+        <div className="md:flex justify-start gap-10 w-full">
+          
           <FilterSideBar />
+
+        
           {/* All Naitram Events */}
           <div className="w-full">
             <div className="w-full relative mb-[32px]">
@@ -149,7 +152,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
         </div>
 
         {/* MOBILE */}
-        <div className="md:hidden justify-between gap-10 w-full">
+        {/* <div className="md:hidden justify-between gap-10 w-full">
           <div className="w-full relative mb-[12px]">
             <Input
               value={searchTerm}
@@ -163,7 +166,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
             />
           </div>
           <MobileAllEventsList events={events} eventType={title} />
-        </div>
+        </div> */}
       </section>
     </div>
     // </Link>

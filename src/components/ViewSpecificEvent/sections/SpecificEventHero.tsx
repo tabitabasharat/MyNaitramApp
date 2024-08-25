@@ -40,7 +40,7 @@ import {
   Ticket,
   DeviceMobile,
 } from "@phosphor-icons/react/dist/ssr";
-
+import ScreenLoader from "@/components/loader/Screenloader";
 const CustomPrevArrow = (props: any) => (
   <div className="custom-arrow custom-prev-arrow" onClick={props.onClick}>
     <Image src={leftarrow} width={60} height={60} alt="right arrow" />
@@ -55,6 +55,7 @@ const CustomNextArrow = (props: any) => (
 
 const SpecificEventHero = ({ setShowTicket }: any) => {
   const [eventID, setEventId] = useState("");
+  const [loader,setLoader] = useState(false);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<any>(null);
@@ -64,6 +65,9 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
   const EventData = useAppSelector(
     (state) => state?.getEventByEventID?.eventIdEvents?.data
   );
+  const userLoading = useAppSelector((state) => state?.getEventByEventID);
+
+
   console.log("my data", EventData);
   const settings: any = {
     dots: false,
@@ -89,7 +93,10 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
   }, [EventData?.userId]);
 
   return (
+    
     <section className="bg-img">
+    {userLoading?.loading && <ScreenLoader />}
+
       <div className="main-div-takeover ">
         <div className="lhs-hero">
           <Image
@@ -127,7 +134,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
           />
 
           {/* Gallery Media Slider */}
-          {EventData?.eventmedia?.length > 0 &&
+          {/* {EventData?.eventmedia?.length > 0 &&
             Array.isArray(EventData?.eventmedia) && (
               <div className="w-[665px] h-[296px] mt-[48px] slider-main-div">
                 <Slider {...settings}>
@@ -143,6 +150,39 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
                         />
                       </div>
                     ))}
+                </Slider>
+              </div>
+            )} */}
+
+          {EventData?.eventmedia?.length > 0 &&
+            Array.isArray(EventData?.eventmedia) && (
+              <div className="w-[665px] h-[296px] mt-[48px] slider-main-div">
+                <Slider {...settings}>
+                  {EventData?.eventmedia?.map((item: any, index: any) => (
+                    <div key={index} className="w-full">
+                      {item.endsWith(".mp4") ||
+                      item.endsWith(".avi") ||
+                      item.endsWith(".mov") ||
+                      item.endsWith(".mkv") ? (
+                        <video
+                          src={item}
+                          width={330}
+                          height={200}
+                          className="w-full h-[296px] slider-img object-fill "
+                          controls
+                          // alt={`Slide ${index + 1}`}
+                        />
+                      ) : (
+                        <Image
+                          src={item}
+                          width={330}
+                          height={200}
+                          className="w-full h-[296px] slider-img "
+                          alt={`Slide ${index + 1}`}
+                        />
+                      )}
+                    </div>
+                  ))}
                 </Slider>
               </div>
             )}
