@@ -920,6 +920,7 @@ function CreateEvent() {
                         <div className="flex flex-wrap gap-[12px]">
                           {galleryFiles?.map((file, index) => {
                             const isVideo = file.type.startsWith("video/");
+                            const isImage = file.type.startsWith("image/");
                             return (
                               <div
                                 key={index}
@@ -927,14 +928,15 @@ function CreateEvent() {
                               >
                                 {isVideo ? (
                                   <video
-                                    src={window.URL.createObjectURL(file)}
-                                    // alt={`Gallery Video ${index + 1}`}
-                                    className="w-full h-full object-cover relative rounded-[12px]"
-                                    width={80}
-                                    height={80}
-                                    controls
-                                  />
-                                ) : (
+                                  src={window.URL.createObjectURL(file)}
+                                  className="w-full h-full object-cover relative rounded-[12px]"
+                                  width={80}
+                                  height={80}
+                                  controls
+                                >
+                                  Your browser does not support the video tag.
+                                </video>
+                                ) : isImage ? (
                                   <Image
                                     src={window.URL.createObjectURL(file)}
                                     alt={`Gallery Image ${index + 1}`}
@@ -942,8 +944,11 @@ function CreateEvent() {
                                     width={80}
                                     height={80}
                                   />
+                                ) : (
+                                  <p className="w-full h-full flex items-center justify-center text-red-500">
+                                  Unsupported media type
+                                  </p>
                                 )}
-
                                 <button
                                   type="button"
                                   onClick={() => removeImage(index)}
