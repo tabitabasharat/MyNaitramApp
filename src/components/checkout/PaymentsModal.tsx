@@ -29,19 +29,25 @@ const PaymentsModal = ({
   profileInformation,
   ticketType,
   event,
+  ticketIndex
 }: {
   onNext: () => void;
   handleNext: any;
   ticketPrice: any;
   profileInformation: any;
   event: any;
-  ticketType:any
+  ticketType:any;
+  ticketIndex:any
+
 }) => {
   console.log("this is payemtn modal", ticketPrice, profileInformation, event);
 
   const [loader, setLoader] = useState(false);
   const [userIds, setUserId] = useState<any>();
+  const [eventid, setEventid] = useState<any>();
+  const [email,setEmail]=useState<any>()
   async function OnclickSubmit() {
+    console.log(userIds,eventid,profileInformation,ticketType,ticketIndex)
     try{
       setLoader(true);
   
@@ -50,10 +56,11 @@ const PaymentsModal = ({
         ticketType: ticketType,
         ticketPrice: ticketPrice,
         fullName: profileInformation?.full_name,
-        email: profileInformation?.email,
-        phoneNo: profileInformation?.phone,
-        address: profileInformation?.address,
-        eventId: event?.id,
+        email: email,
+        phoneNo:profileInformation?.phone,
+        eventId: eventid,
+        ismobile:false,
+        isindex:ticketIndex
       });
      
       setLoader(false);
@@ -76,8 +83,11 @@ const PaymentsModal = ({
   useEffect(() => {
     const token =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+      const email=localStorage.getItem("email")
+      setEmail(email)
     setUserId(token);
   }, []);
+
 
   
   const EventData = useAppSelector(
@@ -118,6 +128,16 @@ const PaymentsModal = ({
   
     return formattedDate;
   };
+
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setEventid(value);
+    console.log("my event id is", value);
+    // dispatch(getEventById(value));
+  }, []);
 
   
   return (

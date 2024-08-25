@@ -14,13 +14,11 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getEventCount } from "@/lib/middleware/event";
 
-const FollowPromoter = () => {
+const FollowPromoter = ({userId}:any) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
-    console.log("my user id", userid);
-    dispatch(getEventCount(userid));
-  }, []);
+    dispatch(getEventCount(userId));
+  }, [userId]);
 
   const myEvents = useAppSelector(
     (state) => state?.getEventCount?.myEventsCount

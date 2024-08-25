@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   getViewAllEvent,
   getViewPastEvents,
-  getLiveEventById
+  getLiveEventById,
 } from "@/lib/middleware/event";
 const MobileAllEventsList = ({ events, eventType }: any) => {
   const dispatch = useAppDispatch();
@@ -15,15 +15,21 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
   const totalPages = 8;
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    const data = {
+      page: page,
+    };
+
+    dispatch(getViewAllEvent(data));
   };
   useEffect(() => {
     const userid = localStorage.getItem("_id");
     console.log("user id ", userid);
-    dispatch(getViewAllEvent());
+    const data = {
+      page: 1,
+    };
+    dispatch(getViewAllEvent(data));
     dispatch(getViewPastEvents());
     dispatch(getLiveEventById(userid));
-
   }, []);
 
   const EventsAllData = useAppSelector(
@@ -36,9 +42,6 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
   );
 
   console.log("All Past Events are", EventsPastData);
-
-
-
 
   const myEvents = useAppSelector(
     (state) => state?.getUserLiveEvents?.myLiveEvents?.data

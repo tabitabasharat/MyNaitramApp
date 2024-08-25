@@ -151,10 +151,11 @@ export const createevent = createAsyncThunk(
 
 export const getViewAllEvent = createAsyncThunk(
   "getViewAllEvent",
-  async () => {
+  async (data:any) => {
+    console.log("this is page data",data)
     try {
       console.log("inside get Events ");
-      const res = await api.get(`${API_URL}/event/getEventsAll`);
+      const res = await api.get(`${API_URL}/event/getEventsAll?page=${data?.page?data?.page:1}`);
       console.log("inside get all Events ", res);
       // localStorage.setItem("token", res?.data?.token);
       return {

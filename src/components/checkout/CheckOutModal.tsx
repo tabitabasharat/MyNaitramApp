@@ -14,6 +14,7 @@ const CheckOutModal = ({ event }: any) => {
   const [currentModal, setCurrentModal] = useState("BuyTicket");
   const [ticketPrice, setTicketPrice] = useState<any>();
   const [ticketType, setTicketType] = useState<any>();
+  const [ticketIndex,setTicketIndex]=useState<any>()
 
   const [profileInformation, setProfileInformation] = useState<any>();
 
@@ -22,6 +23,7 @@ const CheckOutModal = ({ event }: any) => {
   const handleNext = (nextModal: string) => {
     setCurrentModal(nextModal);
   };
+  console.log("this is ticket index",ticketIndex)
   
   
 
@@ -32,6 +34,7 @@ const CheckOutModal = ({ event }: any) => {
           onNext={() => handleNext("CompleteYourProfile")}
           setTicketPrice={setTicketPrice}
           setTicketType={setTicketType}
+          setTicketIndex={setTicketIndex}
         />
       )}
        {/* {canbuyTicket == false &&(
@@ -63,6 +66,7 @@ const CheckOutModal = ({ event }: any) => {
           event={event}
           ticketType={ticketType}
           handleNext={handleNext}
+          ticketIndex={ticketIndex}
           onNext={() => handleNext("TicketPurchaseSuccess")}
         />
       )}

@@ -17,13 +17,7 @@ const SpecificEventPage = () => {
   return (
     <>
       <SpecificEventHero setShowTicket={setShowTicket} />
-      {/* {showTicket && (
-        <div ref={qrCodeRef}>
-          <MobileAppQRCode />
-        </div>
-      )} */}
-      {/* <CategoryList />
-      <AllNaitramEvents />   */}
+
       
     </>
   );

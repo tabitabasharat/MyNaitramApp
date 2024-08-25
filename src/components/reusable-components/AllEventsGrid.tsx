@@ -12,20 +12,29 @@ import { getEventById, getLiveEventById } from "@/lib/middleware/event";
 const AllEventsGrid = ({ events, eventType }: any) => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 8;
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+ 
 
   useEffect(() => {
     const userid = localStorage.getItem("_id");
     console.log("user id ", userid);
-    dispatch(getViewAllEvent());
+    const data={
+      page:1
+    }
+
+    dispatch(getViewAllEvent(data));
     dispatch(getViewPastEvents());
     // dispatch(getEventById(userid));
     dispatch(getLiveEventById(userid));
   }, []);
+  const handlePageChange = (page: number) => {
+    const data={
+      page:page
+    }
+
+    dispatch(getViewAllEvent(data))
+  };
+
 
   const EventsAllData = useAppSelector(
     (state) => state?.getViewAllEvents?.ViewallEvents?.data
