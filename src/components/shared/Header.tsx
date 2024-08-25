@@ -65,7 +65,7 @@ const Header = () => {
 
   const links = [
     { title: "Home", url: "/" },
-    { title: "Events", url: "/events" },
+    { title: "Events", url: "/viewallevents" },
     { title: "About", url: "/about" },
     { title: "Gallery", url: "/gallery" },
     { title: "Contact Us", url: "/contactus" },
@@ -114,7 +114,8 @@ const Header = () => {
           ></motion.div>
         )}
       </AnimatePresence>
-      <header
+      <header 
+        // style={{ position: }}
         className={cn(
           "fixed w-full pxpx py-[1.5rem] flex items-center justify-between z-50 duration-300",
           { "bg-black/50 backdrop-blur-lg webkit-header-blur": fixedBg }
