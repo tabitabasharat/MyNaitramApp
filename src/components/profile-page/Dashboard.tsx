@@ -5,9 +5,6 @@ import {
   XAxis,
   Tooltip,
   ResponsiveContainer,
-  defs,
-  linearGradient,
-  stop,
 } from 'recharts';
 
 const data = [
