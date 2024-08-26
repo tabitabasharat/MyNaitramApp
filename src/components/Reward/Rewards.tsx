@@ -51,15 +51,15 @@ function Rewards() {
 
   return (
     <section
-    //   style={{
-    //     backgroundImage:
-    //       "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
-    //     backgroundPosition: "center",
-    //     backgroundImage: "url(/blur-green.png)",
-    //     backgroundPosition: "right",
-    //     backgroundRepeat: "no-repeat",
-    //     backgroundSize: "cover",
-    //   }}
+      //   style={{
+      //     backgroundImage:
+      //       "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
+      //     backgroundPosition: "center",
+      //     backgroundImage: "url(/blur-green.png)",
+      //     backgroundPosition: "right",
+      //     backgroundRepeat: "no-repeat",
+      //     backgroundSize: "cover",
+      //   }}
       className="min-h-screen py-[8rem] bg-cover bg-no-repeat flex items-start justify-center px-[24px] lg:px-0 bg-reward"
     >
       <div className="flex items-start justify-center flex-col ">
@@ -94,7 +94,13 @@ function Rewards() {
           <ScrollArea className="w-full whitespace-nowrap ">
             <div className="flex gap-4 mt-[8px] ">
               {rewardposts.map((post) => (
-                <Thumbnail key={post.id} img={post.img} />
+                <div
+                  key={post.id}
+                  className="flex items-start flex-col gap-[8px]"
+                >
+                  <Thumbnail key={post.id} img={post.img} />
+                  <p className="text-[12px]">{post.title}</p>
+                </div>
               ))}
             </div>
             <ScrollBar orientation="horizontal" />
