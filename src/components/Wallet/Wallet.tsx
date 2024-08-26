@@ -12,7 +12,7 @@ import EventCards from "../eventCards/EventCards";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getTicketsByID } from "@/lib/middleware/wallet";
 
-type SelectedOption = "tickets" | "collectibles" | null;
+type SelectedOption = "tickets" | "collectables" | null;
 
 const Wallet = () => {
   const [selected, setSelected] = useState<SelectedOption>(null);
@@ -60,13 +60,13 @@ const Wallet = () => {
           </div>
           <div
             className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex md:items-start flex-col justify-center items-center w-full pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
-              selected === "collectibles"
+              selected === "collectables"
                 ? "border border-[#00A849] text-[#00A849]"
                 : ""
             }`}
-            onClick={() => setSelected("collectibles")}
+            onClick={() => setSelected("collectables")}
           >
-            {selected === "collectibles" ? (
+            {selected === "collectables" ? (
               <Image
                 src={cards}
                 className="pb-[8px] hidden md:block"
