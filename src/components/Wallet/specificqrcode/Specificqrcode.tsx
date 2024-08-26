@@ -3,14 +3,14 @@ import React from "react";
 import Image from "next/image";
 import Backbtn from "@/assets/Wallet/Back - Button.svg";
 import { Badge } from "@/components/ui/badge";
-import rhsimg from "@/assets/Wallet/Tickets.svg";
-import location from "../../assets/Location.svg";
-import candendar from "../../assets/calendar1.svg"
-import time from "../../assets/clock1.svg"
-import stall from "../../assets/stall1.svg"
-import food from "../../assets/dob1.svg"
-import vip from "../../assets/crown1.svg"
-import security from "../../assets/security.svg"
+import rhsimg from "@/assets/qr.svg";
+import location from "@/assets/Location.svg";
+import candendar from "@/assets/calendar1.svg"
+import time from "@/assets/clock1.svg"
+import stall from "@/assets/stall1.svg"
+import food from "@/assets/dob1.svg"
+import vip from "@/assets/crown1.svg"
+import security from "@/assets/security.svg"
 
 interface Location {
   id: number;
@@ -46,7 +46,7 @@ const locations: Location[] = [
   { id: 3, image: time, address: "5 PM - 12 AM" },
 ];
 
-export default function SpecificEventTickets() {
+export default function Specificqrcode() {
   return (
     <section
       style={{
@@ -56,9 +56,9 @@ export default function SpecificEventTickets() {
       }}
       className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
     >
-      <div className="max-w-screen-lg px-[24px] lg:gap-[0px]   mx-auto text-center lg:text-left">
+      <div className="max-w-screen-lg px-[24px] lg:gap-[0px]  mx-auto text-center lg:text-left">
         {/* Container for back button and title */}
-        <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-8">
+        <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-[52px] lg:mb-[34px]">
           <Image
             src={Backbtn}
             alt="back"
@@ -126,7 +126,7 @@ export default function SpecificEventTickets() {
             </div>
           </div>
           <div>
-            <Image src={rhsimg} alt="rhs" width={300} height={520}/>
+            <Image src={rhsimg} alt="rhs" className="pt-[0px] lg:pt-[87px]" />
           </div>
         </div>
       </div>
