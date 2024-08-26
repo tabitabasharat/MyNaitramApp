@@ -1,9 +1,14 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import backwardimg from "@/assets/Back - Button.svg";
 import leftimg  from "@/assets/Wallet/Left-reward-item.svg"
 import "../Reward.css"
+import { useRouter } from "next/navigation";
+
 export default function Rewarditem() {
+    const router = useRouter();
   return (
     <section
      
@@ -13,8 +18,9 @@ export default function Rewarditem() {
         <div className="flex items-center mb-[20px] lg:mb-[32px] gap-[12px] lg:gap-[16px]">
           <Image
             src={backwardimg}
-            className="lg:w-[44px] lg:h-[44px]  w-[28px] h-[28px]"
+            className="lg:w-[44px] lg:h-[44px]  w-[28px] h-[28px] cursor-pointer"
             alt="img"
+            onClick={() => router.back()}
           />
           <h2 className="text-[24px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">
             My Items

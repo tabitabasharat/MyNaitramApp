@@ -1,7 +1,9 @@
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const ClaimRewardCard = ({ heading, desc, icon }: any) => {
+  const router = useRouter();
   return (
     <div className="gradient-slate border border-muted flex gap-4 justify-between rounded-lg p-4 w-full">
       <div className="flex flex-col gap-[8px]">
@@ -12,7 +14,7 @@ const ClaimRewardCard = ({ heading, desc, icon }: any) => {
           <p className="text-[15px] font-extrabold">{desc}</p>
         </div>
 
-        <Button size="sm" variant="secondary" className="py-[6px] w-fit text-[#030303] text-[14px]">
+        <Button size="sm" variant="secondary" className="py-[6px] w-fit text-[#030303] text-[14px]" onClick={()=>{router.push("/reward/claimable-reward")}}>
           Claim
         </Button>
       </div>
