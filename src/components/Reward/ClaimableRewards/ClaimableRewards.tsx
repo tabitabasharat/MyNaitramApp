@@ -9,7 +9,9 @@ import { Button } from "../../ui/button";
 import claimbtn from "@/assets/Wallet/claim-btn.svg";
 import ClaimRewardPopUp from "../ClaimRewardPopUp";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 export default function ClaimableRewards() {
+    const router = useRouter();
   const [isClaimOpen, setisClaimOpen] = useState(false);
 
   return (
@@ -19,7 +21,8 @@ export default function ClaimableRewards() {
           <Image
             src={Backbtn}
             alt="back"
-            className="lg:w-[44px] lg:h-[44px]  w-[28px] h-[28px]"
+            className="lg:w-[44px] lg:h-[44px]  w-[28px] h-[28px] cursor-pointer"
+            onClick={() => router.back()}
           />
           <p className="text-[24px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">
             Claimable Rewards

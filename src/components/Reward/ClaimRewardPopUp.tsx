@@ -28,6 +28,7 @@ import { deleteAccount } from "@/lib/middleware/profile";
 import { useRouter } from "next/navigation";
 import { close } from "fs";
 
+
 const ClaimRewardPopUp = ({ onClose, open }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -105,7 +106,7 @@ const ClaimRewardPopUp = ({ onClose, open }: any) => {
                 <Button
                   className=" py-[12px] px-[25px] text-[14px] font-extrabold leading-[19.6px]
                  text-center  w-full text-[#030303] "
-                 onClick={onClose}
+                 onClick={()=>{router.push("/reward/reward-item")}}
                 >
                   View My Collectible
                 </Button>
