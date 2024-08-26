@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import EventCards from "../eventCards/EventCards";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getTicketsByID } from "@/lib/middleware/wallet";
+import { Link } from "lucide-react";
 
 type SelectedOption = "tickets" | "collectables" | null;
 
@@ -34,6 +35,7 @@ const Wallet = () => {
         <Walletbalancetable />
         <div className="flex pt-[32px] w-full pb-[28px] md:pb-[32px] gap-[12px]">
           <div className="flex w-full gap-[12px]">
+            {/* <Link href="/wallet/specific-ticket"> */}
             <div
               className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex md:items-start flex-col justify-center items-center w-full pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
                 selected === "tickets"
@@ -57,6 +59,7 @@ const Wallet = () => {
               )}
               <p>Tickets</p>
             </div>
+            {/* </Link> */}
           </div>
           <div
             className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex md:items-start flex-col justify-center items-center w-full pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
@@ -79,7 +82,7 @@ const Wallet = () => {
                 alt="Default Collectibles"
               />
             )}
-            <p>Collectibles</p>
+            <p>Collectables</p>
           </div>
         </div>
         <div className="w-full relative mb-[16px] md:mb-[32px]">
