@@ -125,7 +125,8 @@ export default function Specificqrcode() {
               </div>
             </div>
           </div>
-          <div>
+          <div 
+          >
             <Image src={rhsimg} alt="rhs" className="pt-[0px] lg:pt-[87px]" />
           </div>
         </div>

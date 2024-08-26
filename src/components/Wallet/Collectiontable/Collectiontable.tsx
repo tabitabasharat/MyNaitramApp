@@ -25,7 +25,7 @@ const Collectiontable = () => {
           </div>
           <div className="flex gap-[24px] flex-col lg:gap-[32px]">
             <h3 className="lg:text-[48px] font-extrabold text-[32px]">Naitram TOP EARNER</h3>
-            <p className="font-normal text-[12px] lg:text-[16px]">
+            <p className="font-normal text-[13px] lg:text-[16px]">
               Consequat bibendum mattis nam tincidunt amet nunc neque nunc blandit. Senectus tempor lectus accumsan gravida neque. Pellentesque scelerisque consectetur nisl ut hac id enim. Consequat bibendum mattis nam tincidunt amet nunc neque nunc blandit. Senectus tempor lectus accumsan gravida neque. Pellentesque scelerisque consectetur nisl ut hac id enim.
             </p>
           </div>

@@ -5,23 +5,26 @@ import Backbtn from "@/assets/Wallet/Back - Button.svg";
 import { Badge } from "@/components/ui/badge";
 import rhsimg from "@/assets/Wallet/Tickets.svg";
 import location from "../../assets/Location.svg";
-import candendar from "../../assets/calendar1.svg"
-import time from "../../assets/clock1.svg"
-import stall from "../../assets/stall1.svg"
-import food from "../../assets/dob1.svg"
-import vip from "../../assets/crown1.svg"
-import security from "../../assets/security.svg"
+import candendar from "../../assets/calendar1.svg";
+import time from "../../assets/clock1.svg";
+import stall from "../../assets/stall1.svg";
+import food from "../../assets/dob1.svg";
+import vip from "../../assets/crown1.svg";
+import security from "../../assets/security.svg";
+import info from "../../assets/Info.svg";
+import qrcode from "../../assets/QR Code.svg"
+import blockchain from "../../assets/blockchain-icon 1.svg"
+import Link from "next/link";
 
 interface Location {
   id: number;
   address: string;
-  image:any
-
+  image: any;
 }
 interface Ticket {
   id: number;
   address: string;
-  image:any
+  image: any;
 }
 
 const Ticket: Ticket[] = [
@@ -101,17 +104,18 @@ export default function SpecificEventTickets() {
                       // className=" "
                       alt="Location Icon"
                     />
-                    <p className="font-bold text-start text-[16px]">{location.address}</p>
+                    <p className="font-bold text-start text-[16px]">
+                      {location.address}
+                    </p>
                   </div>
                 ))}
               </div>
               <div className="flex flex-col justify-center">
-                <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">Included in this ticket type</h3>
+                <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
+                  Included in this ticket type
+                </h3>
                 {Ticket.map((Ticket) => (
-                  <div
-                    key={Ticket.id}
-                    className="flex items-center mb-[12px]"
-                  >
+                  <div key={Ticket.id} className="flex items-center mb-[12px]">
                     <Image
                       src={Ticket.image}
                       width={30}
@@ -119,14 +123,41 @@ export default function SpecificEventTickets() {
                       alt="Location Icon"
                       className=" me-[8px]"
                     />
-                    <p className="font-bold text-start text-[16px]">{Ticket.address}</p>
+                    <p className="font-bold text-start text-[16px]">
+                      {Ticket.address}
+                    </p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-          <div>
-            <Image src={rhsimg} alt="rhs" width={300} height={520}/>
+          <div className="bg-ticket-img sm:w-[408px] md:w-[408px] lg:w-[408px] w-full rounded-[12px] pt-[12px] px-[20px] pb-[2px]">
+            <div className="flex justify-end">
+              <Image src={info} alt="img" />
+            </div>
+            <div className="flex flex-col justify-center items-center">
+              <Image src={qrcode} alt="img"/>
+              <Link href="/wallet/specific-ticket">
+              <button className="font-extrabold text-sm rounded-[100px] mb-[24px] mt-[16px] p-[10px] bg-[#00D059] text-black">Enlarge Code</button>
+              </Link>
+            </div>
+            <div>
+              <h2 className="font-normal text-sm pb-[4px]">Event Name</h2>
+              <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059]">NAITRAM Launch Party 2024</h3>
+            </div>
+            <div className="pt-[24px]">
+              <h2 className="font-normal text-sm pb-[4px]">Event Name</h2>
+              <h3 className="font-extrabold text-base pb-[24px] border-b border-dashed border-[#00D059]">NAITRAM Launch Party 2024</h3>
+            </div>
+            <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
+              <div>
+              <h2 className="font-normal text-sm">Transaction ID</h2>
+              <h3 className="font-bold text-base ">NAITRAM Launch Party 2024</h3>
+              </div>
+              <div>
+                <Image src={blockchain} alt="img"/>
+              </div>
+            </div>
           </div>
         </div>
       </div>
