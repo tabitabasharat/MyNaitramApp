@@ -1,0 +1,31 @@
+.bg-reward {
+  background-image: url("/blur-green.png");
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.claimable-container {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+@media (max-width: 992px) {
+  .claim-container {
+    width: 100%;
+    flex-direction: column;
+  }
+  .bg-reward {
+    background: transparent;
+  }
+  .claimable-container {
+    width: 100%;
+    flex-direction: column;
+  }
+  .textbr br {
+    display: none;
+  }
+  .img-contain {
+    width: 100%;
+  }
+}

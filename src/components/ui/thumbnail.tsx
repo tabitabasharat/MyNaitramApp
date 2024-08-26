@@ -8,7 +8,7 @@ const Thumbnail = ({ img, size }: any) => {
       src={img}
       width={500}
       height={500}
-      className={cn('size-[120px] object-cover object-top rounded-lg', size)}
+      className={cn('size-[90px] object-cover object-top rounded-lg', size)}
       placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(1200, 1800))}`}
       alt=""
     />
