@@ -166,6 +166,19 @@ export const posts = [
   { id: 6, title: "Mecca Cube", img: "/social-img-6.svg" },
   { id: 7, title: "Crystalize Astronouts", img: "/social-image-7.svg" },
 ];
+export const rewardposts = [
+  { id: 1, title: "Star on Flame", img: "/star.new.svg" },
+  { id: 2, title: "Crystalize As...", img: "/social-img-2.svg" },
+  { id: 3, title: "3D Illustration", img: "/social-img-3.svg" },
+  { id: 4, title: "Abstract holi...", img: "/social-img-4.svg" },
+  { id: 5, title: "Abstract holi...", img: "/social-img-4.svg" },
+  { id: 6, title: "Abstract holi...", img: "/social-img-4.svg" },
+
+
+
+
+  
+];
 
 export const ticketsType = [
   {
