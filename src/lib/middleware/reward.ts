@@ -32,15 +32,15 @@ export const getHistoryByID = createAsyncThunk(
   
 export const getClaimStatus = createAsyncThunk(
   "getClaimStatus",
-  async (data: any) => {
+  async () => {
     try {
       console.log("inside get getClaimStatus");
       const res = await api.get(`${API_URL}/reward/getClaimStatus`);
-      console.log("iinside get getClaimStatus", res);
+      console.log("inside get getClaimStatus", res);
       // localStorage.setItem("token", res?.data?.token);
       return {
         status: res?.status,
-        data: res?.data?.data,
+        data: res?.data,
       };
     } catch (error: any) {
       return {
@@ -56,7 +56,7 @@ export const claimReward = createAsyncThunk("claimReward", async (data:any) => {
   try {
     console.log("inside claim reward");
    
-    const res = await api.post(`${API_URL}/reward/claimReward`, data);
+    const res = await api.post(`${API_URL}/reward/claimYourRewards`, data);
     console.log("inside claim reward", res);
 
     // localStorage.setItem("token", res?.data?.token);

@@ -2,7 +2,7 @@
 // export const API_URL = "https://naitrambackend.techsolutions.london"
 
 // export const API_URL = "https://backend.naitram.live"
-// export const API_URL = "http://192.168.18.10:3001"
+// export const API_URL = "http://192.168.18.26:3001"
 
 
 export const API_URL = "http://ec2-35-153-184-112.compute-1.amazonaws.com:3001"
