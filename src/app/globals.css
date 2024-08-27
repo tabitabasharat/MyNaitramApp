@@ -32,6 +32,12 @@
 .text-primary {
   @apply text-[#00D059];
 }
+.bg-ticket-img{
+  background-image: url('../assets/Next\ Event.png');
+  background-repeat: no-repeat;
+/* width: 100%; */
+background-size: cover
+}
 
 .text-dark {
   @apply text-[#030303];
