@@ -11,6 +11,7 @@ import stall from "@/assets/stall1.svg"
 import food from "@/assets/dob1.svg"
 import vip from "@/assets/crown1.svg"
 import security from "@/assets/security.svg"
+import { useRouter } from "next/navigation";
 
 interface Location {
   id: number;
@@ -47,24 +48,19 @@ const locations: Location[] = [
 ];
 
 export default function Specificqrcode() {
+  const router = useRouter();
   return (
-    <section
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
-        backgroundPosition: "center",
-      }}
-      className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
-    >
-      <div className="max-w-screen-lg px-[24px] lg:gap-[0px]  mx-auto text-center lg:text-left">
+    <section className="min-h-screen py-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
+      <div className="max-w-screen-lg lg:gap-[0px]  mx-auto text-center lg:text-left">
         {/* Container for back button and title */}
         <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-[52px] lg:mb-[34px]">
           <Image
             src={Backbtn}
             alt="back"
+            onClick={() => router.back()}
             className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]"
           />
-          <p className="text-[20px] lg:text-[24px] font-bold">
+          <p className="text-[20px] text-start lg:text-[24px] font-bold">
             NAITRAM Launch Party 2024
           </p>
         </div>

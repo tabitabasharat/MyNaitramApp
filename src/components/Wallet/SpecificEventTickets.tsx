@@ -15,6 +15,7 @@ import info from "../../assets/Info.svg";
 import qrcode from "../../assets/QR Code.svg"
 import blockchain from "../../assets/blockchain-icon 1.svg"
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Location {
   id: number;
@@ -50,24 +51,20 @@ const locations: Location[] = [
 ];
 
 export default function SpecificEventTickets() {
+  const router = useRouter();
   return (
-    <section
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
-        backgroundPosition: "center",
-      }}
-      className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
-    >
-      <div className="max-w-screen-lg px-[24px] lg:gap-[0px]   mx-auto text-center lg:text-left">
+    <section className="min-h-screen py-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
+
+      <div className="max-w-screen-lg lg:gap-[0px]   mx-auto text-center lg:text-left">
         {/* Container for back button and title */}
         <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-8">
           <Image
             src={Backbtn}
             alt="back"
             className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]"
+            onClick={() => router.back()}
           />
-          <p className="text-[20px] lg:text-[24px] font-bold">
+          <p className="text-[20px] lg:text-[24px] text-start font-bold">
             NAITRAM Launch Party 2024
           </p>
         </div>
@@ -137,7 +134,7 @@ export default function SpecificEventTickets() {
             </div>
             <div className="flex flex-col justify-center items-center">
               <Image src={qrcode} alt="img"/>
-              <Link href="/wallet/specific-ticket">
+              <Link href="/wallet/specific-qr-code">
               <button className="font-extrabold text-sm rounded-[100px] mb-[24px] mt-[16px] p-[10px] bg-[#00D059] text-black">Enlarge Code</button>
               </Link>
             </div>
