@@ -25,7 +25,8 @@ const Wallet = () => {
  
 
   return (
-    <div className="min-h-screen flex items-start justify-center pt-[132px] px-[24px]">
+    <section className="min-h-screen pt-[7rem] lg:pt-[8rem] pb-[8rem] bg-cover bg-no-repeat md:px-[100px]   bg-reward  ">
+    <div className="min-h-screen flex items-start justify-center px-[24px]">
       <div className="flex flex-col w-full max-w-[1200px] justify-center items-start">
         <h3 className="pb-[16px] md:pb-[20px] md:text-[32px] font-extrabold text-[20px]">
           Wallet
@@ -98,6 +99,7 @@ const Wallet = () => {
         <EventCards eventType={selected}/>
       </div>
     </div>
+    </section>
   );
 };
 

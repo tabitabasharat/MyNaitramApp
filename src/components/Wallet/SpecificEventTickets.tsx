@@ -19,6 +19,7 @@ import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "../loader/Screenloader";
 import { getTicketByQR } from "@/lib/middleware/wallet";
+import { useRouter } from "next/navigation";
 interface Location {
   id: number;
   address: any;
@@ -43,6 +44,7 @@ const Ticket: Ticket[] = [
 
 export default function SpecificEventTickets() {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const [eventID, setEventId] = useState("");
   const [loader, setLoader] = useState(false);
   useEffect(() => {
@@ -157,21 +159,16 @@ export default function SpecificEventTickets() {
     },
   ];
   return (
-    <section
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
-        backgroundPosition: "center",
-      }}
-      className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
-    >
-      <div className="max-w-screen-lg px-[24px] lg:gap-[0px]   mx-auto text-center lg:text-left">
+    <section className="min-h-screen py-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
+
+      <div className="max-w-screen-lg lg:gap-[0px]   mx-auto text-center lg:text-left">
         {/* Container for back button and title */}
         <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-8">
           <Image
             src={Backbtn}
             alt="back"
             className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]"
+            onClick={() => router.back()}
           />
           <p className="text-[20px] lg:text-[24px] font-bold">
             {TicketData?.event?.name}

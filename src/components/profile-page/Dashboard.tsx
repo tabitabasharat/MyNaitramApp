@@ -1,11 +1,10 @@
-import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRight } from "@phosphor-icons/react";
 import {
   BarChart,
   Bar,
   XAxis,
   Tooltip,
   ResponsiveContainer,
- 
   LabelList,
 } from "recharts";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -33,6 +32,23 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
+const CustomBar = ({ fill, x, y, width, height }: any) => {
+  return (
+    <g>
+      <rect x={x} y={y} width={width} height={height} fill={fill} />
+      <line
+        x1={x}
+        y1={y}
+        x2={x + width}
+        y2={y}
+        stroke="#00D059" // Top border color
+        strokeWidth={2} // Top border thickness
+      />
+    </g>
+  );
+};
+
+
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -47,10 +63,11 @@ const Dashboard = () => {
   return (
     <div
       style={{
-        width: "100%",
+        // width: "100%",
         height: "100%",
-        padding: "24px",
+        // padding: "24px",
       }}
+      className=" lg:p-[24px] p-[16px]"
     >
       <div className="flex justify-between">
         <div
@@ -67,18 +84,28 @@ const Dashboard = () => {
         </div>
       </div>
       <ResponsiveContainer
-        width="120%"
+        width="115%"
         height="85%"
-        className="scale-[0.83] -translate-x-[47px] lg:-translate-x-[50px] xl:-translate-x-[70px] translate-y-[1rem]"
+        className="scale-[0.83] ms-[16px] sm:ms-[0px] md:ms-[0px] lg:ms-[0px] flex-items-center justify-center lg:w-[120%] -translate-x-[47px] lg:-translate-x-[50px] xl:-translate-x-[70px] translate-y-[1rem]"
       >
-        <BarChart data={data} margin={{ top: 20, bottom: 5 }}>
-          <defs className="border-t-2 border-[#00D059]">
+        <BarChart
+          className="lg:w-[120%] max-width-adjustment-in-graph w-[135%]"
+          data={data}
+          margin={{ top: 20, bottom: 5 }}
+        >
+          <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="rgba(0, 208, 89, 0.32)" />
               <stop offset="100%" stopColor="rgba(0, 208, 89, 0)" />
             </linearGradient>
           </defs>
-          <XAxis dataKey="name" axisLine={false} tick={{ fill: "#BFBFBF" }} tickLine={false} />
+          <XAxis
+            dataKey="name"
+            axisLine={false}
+            // tick={<CustomXAxisTick />}
+            tick={{ fill: "#BFBFBF", fontSize: "11px", fontWeight: "900" }}
+            tickLine={false}
+          />
           <Tooltip
             cursor={{ fill: "transparent" }}
             content={<CustomTooltip />}
@@ -86,22 +113,16 @@ const Dashboard = () => {
           <Bar
             dataKey="value"
             fill="url(#colorUv)"
-            // stroke="#00D059"
-            width="100%"
-            height="2px"
-            stroke="#00D059"
-            // fill="#00D059"
+            shape={<CustomBar />}
           >
-            <rect
-              stroke="none"
-              // fill={fill}
+            <LabelList
+              dataKey="value"
+              fontSize="11px"
+              fontWeight="700"
+              fill="#0FFF77"
+              position="insideBottom"
+              formatter={(value:any) => `$${value}`}
             />
-            <line
-              stroke={"#2967c1"}
-              strokeWidth={2}
-              strokeDasharray={"10 5"}
-            />
-            <LabelList dataKey="value" position="insideBottom"   formatter={(value:any) => `$${value}`}/>
           </Bar>
         </BarChart>
       </ResponsiveContainer>

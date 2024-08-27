@@ -53,9 +53,9 @@ function Rewards() {
   ];
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(getClaimStatus());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getClaimStatus());
+  // }, []);
   return (
     <section
       //   style={{

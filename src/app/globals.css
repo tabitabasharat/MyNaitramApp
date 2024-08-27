@@ -15,6 +15,25 @@
     justify-content: center;
   }
 }
+.max-width-adjustment-in-graph{
+  width: 120% !important;
+  /* max-width: 425px; */
+    }
+    @media (max-width: 430px) {
+  
+      .max-width-adjustment-in-graph{
+    width: 130% !important;
+    max-width: 425px;
+      }
+    }
+
+@media (max-width: 425px) {
+  
+  .max-width-adjustment-in-graph{
+width: 130% !important;
+max-width: 425px;
+  }
+}
 @media (max-width: 992px) {
   .main-box {
     width: 100% !important;
@@ -32,11 +51,11 @@
 .text-primary {
   @apply text-[#00D059];
 }
-.bg-ticket-img{
-  background-image: url('../assets/Next\ Event.png');
+.bg-ticket-img {
+  background-image: url("../assets/Next\ Event.png");
   background-repeat: no-repeat;
-/* width: 100%; */
-background-size: cover
+  /* width: 100%; */
+  background-size: cover;
 }
 
 .text-dark {
@@ -77,6 +96,37 @@ background-size: cover
     #6b4400,
     #ff8a08
   );
+}
+.bg-reward {
+  background-image: url("/blur-green.png");
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.claimable-container {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+@media (max-width: 992px) {
+  .claim-container {
+    width: 100%;
+    flex-direction: column;
+  }
+  .bg-reward {
+    background: transparent;
+  }
+  .claimable-container {
+    width: 100%;
+    flex-direction: column;
+  }
+  .textbr br {
+    display: none;
+  }
+  .img-contain {
+    width: 100%;
+  }
 }
 /* .gradient-border {
   border: 1px solid;
