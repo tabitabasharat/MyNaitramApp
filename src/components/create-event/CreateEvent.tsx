@@ -53,7 +53,7 @@ import img2 from "../../assets/Cake.svg";
 import img3 from "../../assets/Crown.svg";
 import img4 from "../../assets/Shield Star.svg";
 import tick from "../../assets/fi-rr-check.svg";
-
+import { updateEvent } from "@/lib/middleware/event";
 import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
 type TicketTypeOption = {
   id: number;
@@ -514,7 +514,7 @@ function CreateEvent() {
               {" "}
               Create <span className="text-primary">Event</span>
             </h1>
-            <Image src={Editicon} alt="Edit-icon" />
+            {/* <Image src={Editicon} alt="Edit-icon" /> */}
           </div>
 
           <Image

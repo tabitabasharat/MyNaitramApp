@@ -5,12 +5,12 @@ import {
   XAxis,
   Tooltip,
   ResponsiveContainer,
-  defs,
-  linearGradient,
-  stop,
+ 
   LabelList,
 } from "recharts";
-
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useState, useEffect } from "react";
+import { getBalanceByID } from "@/lib/middleware/wallet";
 const data = [
   { name: "MON", value: 25 },
   { name: "TUE", value: 96 },
@@ -34,6 +34,16 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 const Dashboard = () => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const userid = localStorage.getItem("_id");
+    dispatch(getBalanceByID(userid));
+  }, []);
+
+  const mybalance = useAppSelector(
+    (state) => state?.getBalanceByID?.myBalance?.data
+  );
+  console.log("my current balance ",mybalance)
   return (
     <div
       style={{
@@ -48,8 +58,9 @@ const Dashboard = () => {
           style={{ fontSize: "30px", fontWeight: "bold" }}
         >
           <span className="text-[24px] text-[white] font-bold">$</span>
-          {data.reduce((acc, item) => acc + item.value, 0).toFixed(2)}{" "}
-          <span className="text-[16px] font-extrabold text-[#D9D9D9]">MRT</span>
+          {/* {data.reduce((acc, item) => acc + item.value, 0).toFixed(2)}{" "} */}
+          {mybalance?.currentBalance}
+          <span className="text-[16px] font-extrabold text-[#D9D9D9]"> MRT </span>
         </div>
         <div className="text-primary flex gap-[4px] font-bold text-[12px]">
           <ArrowUpRight size={14} weight="bold" /> 2.54%
@@ -67,7 +78,7 @@ const Dashboard = () => {
               <stop offset="100%" stopColor="rgba(0, 208, 89, 0)" />
             </linearGradient>
           </defs>
-          <XAxis dataKey="name" axisLine={false} tick={{ fill: "#BFBFBF" }} />
+          <XAxis dataKey="name" axisLine={false} tick={{ fill: "#BFBFBF" }} tickLine={false} />
           <Tooltip
             cursor={{ fill: "transparent" }}
             content={<CustomTooltip />}
@@ -90,7 +101,7 @@ const Dashboard = () => {
               strokeWidth={2}
               strokeDasharray={"10 5"}
             />
-            <LabelList dataKey="value" position="top" />
+            <LabelList dataKey="value" position="insideBottom"   formatter={(value:any) => `$${value}`}/>
           </Bar>
         </BarChart>
       </ResponsiveContainer>

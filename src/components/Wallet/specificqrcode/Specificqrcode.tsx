@@ -11,16 +11,19 @@ import stall from "@/assets/stall1.svg"
 import food from "@/assets/dob1.svg"
 import vip from "@/assets/crown1.svg"
 import security from "@/assets/security.svg"
-
+import { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import ScreenLoader from "@/components/loader/Screenloader";
+import { getTicketByQR } from "@/lib/middleware/wallet";
 interface Location {
   id: number;
-  address: string;
+  address: any;
   image:any
 
 }
 interface Ticket {
   id: number;
-  address: string;
+  address: any;
   image:any
 }
 
@@ -47,6 +50,120 @@ const locations: Location[] = [
 ];
 
 export default function Specificqrcode() {
+  const dispatch = useAppDispatch();
+  const [eventID, setEventId] = useState("");
+  const [loader, setLoader] = useState(false);
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setEventId(value);
+    console.log("my event id is", value);
+    dispatch(getTicketByQR(value));
+  }, []);
+
+  const TicketData = useAppSelector(
+    (state) => state?.getTicketByQR?.myQRTickets?.data
+  );
+  console.log("MY ticket data enlarge qr is", TicketData);
+  const ConvertDate = (originalDateStr: string): string => {
+    const originalDate = new Date(originalDateStr);
+
+    // Extract the day, date, month, and year
+    const dayOfWeek = originalDate.toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+    const date = originalDate.getDate();
+    const month = originalDate.toLocaleDateString("en-US", { month: "long" });
+    const year = originalDate.getFullYear();
+
+    // Function to get ordinal suffix
+    const getOrdinalSuffix = (date: number) => {
+      if (date > 3 && date < 21) return "th"; // covers 11th to 19th
+      switch (date % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+
+    const ordinalSuffix = getOrdinalSuffix(date);
+
+    // Construct the formatted date string
+    const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
+
+    return formattedDate;
+  };
+
+  const ConvertTime = (timeStr: string): string => {
+    // Ensure input is a string
+    if (typeof timeStr !== "string") {
+      console.error("Input must be a string");
+      return "";
+    }
+
+    // Extract the time part if the input includes a date and time
+    const timeOnly = timeStr.split("T")[1]?.split("Z")[0];
+
+    if (!timeOnly) {
+      console.error("Input must include a valid time");
+      return "";
+    }
+
+    const parts = timeOnly.split(":");
+
+    // Check if timeOnly is in HH:MM or HH:MM:SS format
+    if (parts.length < 2) {
+      console.error("Input time must be in HH:MM or HH:MM:SS format");
+      return "";
+    }
+
+    const [hours, minutes] = parts.map(Number);
+
+    // Ensure the hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      console.error("Invalid time format");
+      return "";
+    }
+
+    // Determine AM or PM
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert hours from 24-hour to 12-hour format
+    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+
+    // Combine hours and period
+    const formattedTime = `${formattedHours}:${
+      minutes < 10 ? "0" + minutes : minutes
+    } ${period}`;
+
+    return formattedTime;
+  };
+  const locations: Location[] = [
+    {
+      id: 1,
+      image: location,
+
+      address: TicketData?.event?.location,
+    },
+    {
+      id: 2,
+      image: candendar,
+      address: ConvertDate(TicketData?.event?.startTime),
+    },
+    {
+      id: 3,
+      image: time,
+      address: `${ConvertTime(TicketData?.event?.startTime)} - ${ConvertTime(
+        TicketData?.event?.endTime
+      )}`,
+    },
+  ];
   return (
     <section
       style={{
@@ -65,11 +182,11 @@ export default function Specificqrcode() {
             className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]"
           />
           <p className="text-[20px] lg:text-[24px] font-bold">
-            NAITRAM Launch Party 2024
+          {TicketData?.event?.name}
           </p>
         </div>
         {/* Main content container */}
-        <div className="flex flex-col-reverse gap-[62px] lg:items-start items-center lg:flex-row">
+        <div className="flex flex-col-reverse justify-between gap-[62px] lg:items-start items-center lg:flex-row">
           <div className="flex flex-col">
             <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
               <div className="flex w-full gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0">
@@ -86,7 +203,7 @@ export default function Specificqrcode() {
             </div>
             <div>
               <h2 className="font-extrabold text-start pb-[12px] lg:pb-[24px] text-[32px] lg:text-[48px]">
-                PIZDEZ Women’s Day Party 2024
+              {TicketData?.event?.name}
               </h2>
               <div className="flex flex-col justify-center">
                 {locations.map((location) => (

@@ -260,3 +260,47 @@ export const getLiveEventById = createAsyncThunk(
     }
   }
 );
+
+
+
+export const updateEvent = createAsyncThunk(
+  "updateEvent",
+  async (data: any) => {
+    try {
+      console.log("inside update Event");
+      const res = await api.put(`${API_URL}/event/updateEvent`,{
+        
+        name:data?.name,
+        category: data?.category,
+        eventDescription: data?.eventDescription,
+        location: data?.location,
+        ticketStartDate: data?.ticketStartDate,
+        ticketEndDate: data?.ticketEndDate,
+        startTime: data?. startTime,
+        endTime: data?.endTime,
+        mainEventImage: data?.mainEventImage,
+        coverEventImage: data?.coverEventImage,
+        tickets: data?.tickets,
+        totalComplemantaryTickets: data?. totalComplemantaryTickets,
+        fbUrl: data?.fbUrl,
+        instaUrl: data?.instaUrl,
+        youtubeUrl: data?.youtubeUrl,
+        twitterUrl: data?.twitterUrl,
+        tiktokUrl:  data?.tiktokUrl,
+        linkedinUrl: data?.linkedinUrl,
+        eventmedia: data?.eventmedia,
+      });
+      console.log("inside update Event", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);

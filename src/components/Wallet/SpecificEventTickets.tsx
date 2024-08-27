@@ -12,13 +12,16 @@ import food from "../../assets/dob1.svg";
 import vip from "../../assets/crown1.svg";
 import security from "../../assets/security.svg";
 import info from "../../assets/Info.svg";
-import qrcode from "../../assets/QR Code.svg"
-import blockchain from "../../assets/blockchain-icon 1.svg"
+import qrcode from "../../assets/QR Code.svg";
+import blockchain from "../../assets/blockchain-icon 1.svg";
 import Link from "next/link";
-
+import { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import ScreenLoader from "../loader/Screenloader";
+import { getTicketByQR } from "@/lib/middleware/wallet";
 interface Location {
   id: number;
-  address: string;
+  address: any;
   image: any;
 }
 interface Ticket {
@@ -38,18 +41,121 @@ const Ticket: Ticket[] = [
   { id: 4, image: security, address: "Security and First Aid" },
 ];
 
-const locations: Location[] = [
-  {
-    id: 1,
-    image: location,
-
-    address: "DOMA PUB Main floor, Light Street, London",
-  },
-  { id: 2, image: candendar, address: "Saturday, 5th March 2024" },
-  { id: 3, image: time, address: "5 PM - 12 AM" },
-];
-
 export default function SpecificEventTickets() {
+  const dispatch = useAppDispatch();
+  const [eventID, setEventId] = useState("");
+  const [loader, setLoader] = useState(false);
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setEventId(value);
+    console.log("my event id is", value);
+    dispatch(getTicketByQR(value));
+  }, []);
+
+  const TicketData = useAppSelector(
+    (state) => state?.getTicketByQR?.myQRTickets?.data
+  );
+  console.log("MY ticket data is", TicketData);
+  const ConvertDate = (originalDateStr: string): string => {
+    const originalDate = new Date(originalDateStr);
+
+    // Extract the day, date, month, and year
+    const dayOfWeek = originalDate.toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+    const date = originalDate.getDate();
+    const month = originalDate.toLocaleDateString("en-US", { month: "long" });
+    const year = originalDate.getFullYear();
+
+    // Function to get ordinal suffix
+    const getOrdinalSuffix = (date: number) => {
+      if (date > 3 && date < 21) return "th"; // covers 11th to 19th
+      switch (date % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+
+    const ordinalSuffix = getOrdinalSuffix(date);
+
+    // Construct the formatted date string
+    const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
+
+    return formattedDate;
+  };
+
+  const ConvertTime = (timeStr: string): string => {
+    // Ensure input is a string
+    if (typeof timeStr !== "string") {
+      console.error("Input must be a string");
+      return "";
+    }
+
+    // Extract the time part if the input includes a date and time
+    const timeOnly = timeStr.split("T")[1]?.split("Z")[0];
+
+    if (!timeOnly) {
+      console.error("Input must include a valid time");
+      return "";
+    }
+
+    const parts = timeOnly.split(":");
+
+    // Check if timeOnly is in HH:MM or HH:MM:SS format
+    if (parts.length < 2) {
+      console.error("Input time must be in HH:MM or HH:MM:SS format");
+      return "";
+    }
+
+    const [hours, minutes] = parts.map(Number);
+
+    // Ensure the hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      console.error("Invalid time format");
+      return "";
+    }
+
+    // Determine AM or PM
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert hours from 24-hour to 12-hour format
+    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+
+    // Combine hours and period
+    const formattedTime = `${formattedHours}:${
+      minutes < 10 ? "0" + minutes : minutes
+    } ${period}`;
+
+    return formattedTime;
+  };
+  const locations: Location[] = [
+    {
+      id: 1,
+      image: location,
+
+      address: TicketData?.event?.location,
+    },
+    {
+      id: 2,
+      image: candendar,
+      address: ConvertDate(TicketData?.event?.startTime),
+    },
+    {
+      id: 3,
+      image: time,
+      address: `${ConvertTime(TicketData?.event?.startTime)} - ${ConvertTime(
+        TicketData?.event?.endTime
+      )}`,
+    },
+  ];
   return (
     <section
       style={{
@@ -68,11 +174,11 @@ export default function SpecificEventTickets() {
             className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]"
           />
           <p className="text-[20px] lg:text-[24px] font-bold">
-            NAITRAM Launch Party 2024
+            {TicketData?.event?.name}
           </p>
         </div>
         {/* Main content container */}
-        <div className="flex flex-col-reverse gap-[62px] lg:items-start items-center lg:flex-row">
+        <div className="flex flex-col-reverse gap-[62px] justify-between lg:items-start items-center lg:flex-row">
           <div className="flex flex-col">
             <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
               <div className="flex w-full gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0">
@@ -89,7 +195,7 @@ export default function SpecificEventTickets() {
             </div>
             <div>
               <h2 className="font-extrabold text-start pb-[12px] lg:pb-[24px] text-[32px] lg:text-[48px]">
-                PIZDEZ Women’s Day Party 2024
+                {TicketData?.event?.name}
               </h2>
               <div className="flex flex-col justify-center">
                 {locations.map((location) => (
@@ -136,26 +242,36 @@ export default function SpecificEventTickets() {
               <Image src={info} alt="img" />
             </div>
             <div className="flex flex-col justify-center items-center">
-              <Image src={qrcode} alt="img"/>
-              <Link href="/wallet/specific-ticket">
-              <button className="font-extrabold text-sm rounded-[100px] mb-[24px] mt-[16px] p-[10px] bg-[#00D059] text-black">Enlarge Code</button>
+              <Image src={qrcode} alt="img" />
+              <Link href={`/wallet/specific-qr-code/${eventID}`}>
+                <button className="font-extrabold text-sm rounded-[100px] mb-[24px] mt-[16px] px-[16px] py-[10px] bg-[#00D059] text-black">
+                  Enlarge Code
+                </button>
               </Link>
             </div>
             <div>
               <h2 className="font-normal text-sm pb-[4px]">Event Name</h2>
-              <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059]">NAITRAM Launch Party 2024</h3>
+              <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059]">
+                {TicketData?.event?.name}
+              </h3>
             </div>
             <div className="pt-[24px]">
-              <h2 className="font-normal text-sm pb-[4px]">Event Name</h2>
-              <h3 className="font-extrabold text-base pb-[24px] border-b border-dashed border-[#00D059]">NAITRAM Launch Party 2024</h3>
+              <h2 className="font-normal text-sm pb-[4px]">Ticket Type</h2>
+              <h3 className="font-extrabold text-base pb-[24px] border-b border-dashed border-[#00D059]">
+                
+              {TicketData?.event?.ticketType}
+
+              </h3>
             </div>
             <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
               <div>
-              <h2 className="font-normal text-sm">Transaction ID</h2>
-              <h3 className="font-bold text-base ">NAITRAM Launch Party 2024</h3>
+                <h2 className="font-normal text-sm">Transaction ID</h2>
+                <h3 className="font-bold text-base ">
+                Simple_1708531039717
+                </h3>
               </div>
               <div>
-                <Image src={blockchain} alt="img"/>
+                <Image src={blockchain} alt="img" />
               </div>
             </div>
           </div>

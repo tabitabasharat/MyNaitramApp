@@ -9,31 +9,18 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getTicketsByID } from "@/lib/middleware/wallet";
 
-// Mock Data (replace with actual data)
-const events = [
-  { id: 1, imageUrl: "/event2.png", title: "Amet est massa volutpat faucibus" },
-  { id: 2, imageUrl: "/event3.png", title: "Fashion Friday by Bushmills 2024" },
-  { id: 3, imageUrl: "/event4.png", title: "PIZDEZ Womens Day Party 2024" },
-  { id: 4, imageUrl: "/event5.png", title: "Deep Week with Hate Tuesday" },
-  { id: 5, imageUrl: "/event7.png", title: "After Party for Ladies Night" },
-  { id: 6, imageUrl: "/event8.png", title: "THE VAB with DJ CULOUGH" },
-];
-
 const EventCard: React.FC<{
   eventId: number;
   imageUrl: string;
   title: string;
   height?: string;
   width?: string;
-}> = ({ eventId, imageUrl, title, height = "auto", width = "auto" }) => (
+}> = ({ eventId, imageUrl, title, height = "345px", width = "100%" }) => (
   <ScaleReveal extraStyle="w-full">
-    <Link
-      href={eventId ? `/specific-event/${eventId}` : "/events"}
-      className="w-full"
-    >
+    <Link href={`/wallet/specific-ticket/${eventId}`} className="w-full">
       <div
         style={{ height, width }}
-        className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242]"
+        className="relative overflow-hidden rounded-lg w-full h-full border border-[#424242]"
       >
         <Image
           src={imageUrl}
@@ -54,7 +41,9 @@ const EventCard: React.FC<{
   </ScaleReveal>
 );
 
-const EventGrid: React.FC = () => {
+const EventGrid: React.FC<{ eventType: "tickets" | "collectables" | null }> = ({
+  eventType,
+}) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -68,15 +57,19 @@ const EventGrid: React.FC = () => {
   console.log("my events are ", myEvents);
   return (
     <div className="grid grid-cols-1 w-full pb-[28px]  md:pb-[132px] md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px]">
-      {myEvents?.length > 0 && myEvents?.map((item:any) => (
-        <EventCard
-          key={item?.event?.id}
-          eventId={item?.event?.id}
-          imageUrl={item?.event?.coverEventImage
-          }
-          title={item?.event?.name}
-        />
-      ))}
+      {eventType === "tickets" &&
+        myEvents?.length > 0 ? (
+        myEvents?.map((item: any) => (
+          <EventCard
+            key={item?.event?.id}
+            eventId={item?.event?.id}
+            imageUrl={item?.event?.coverEventImage}
+            title={item?.event?.name}
+          />
+        ))
+      ):(
+        <p>no data</p>
+      )}
     </div>
   );
 };

@@ -128,9 +128,7 @@ console.log("this is event price",  ticketStartPrice,
     return formattedTime;
   };
   
-  // Test the function
-  console.log(ConvertTime("2024-09-15T10:00:00Z")); // Output: "10:00 AM"
-  console.log(ConvertTime("2024-09-15T17:00:00Z")); // Output: "5:00 PM"
+ 
   
   
 

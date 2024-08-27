@@ -8,6 +8,9 @@ import ClaimRewardCard from "../reusable-components/ClaimRewardCard";
 import { Calendar, FlyingSaucer, Planet } from "@phosphor-icons/react/dist/ssr";
 import Calendarnew from "@/assets/Wallet/Calendar-31.svg";
 import "./Reward.css";
+import { useAppDispatch,useAppSelector } from "@/lib/hooks";
+import { useState,useEffect } from "react";
+import { getClaimStatus } from "@/lib/middleware/reward";
 
 function Rewards() {
   const claimableRewards = [
@@ -48,7 +51,11 @@ function Rewards() {
       icon: Calendarnew,
     },
   ];
+  const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    dispatch(getClaimStatus());
+  }, []);
   return (
     <section
       //   style={{

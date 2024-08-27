@@ -15,7 +15,9 @@ import getUserDetail from "./reducer/getUserDetail";
 import getProfileLiveActivity from "./reducer/getProfileLiveActivity";
 import getUserSocialProfile from "./reducer/getUserSocialProfile";
 import getTicketsByUId from "./reducer/getTicketsByUId";
-
+import getTicketByQR from "./reducer/getTicketByQR";
+import getBalanceByID from "./reducer/getBalanceByID";
+import getClaimStatus from "./reducer/getClaimStatus";
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
   getEventById: getEventById,
@@ -32,6 +34,9 @@ const appReducer = combineReducers({
   getProfileLiveActivity: getProfileLiveActivity,
   getUserSocialProfile: getUserSocialProfile,
   getTicketsByUId: getTicketsByUId,
+  getTicketByQR:getTicketByQR,
+  getBalanceByID:getBalanceByID,
+  getClaimStatus:getClaimStatus
 });
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,
