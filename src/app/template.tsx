@@ -18,7 +18,6 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/organizer-event/event-dashboard",
     "/organizer-event/profile",
     "profile-perview",
-    "/management",
   ];
 
   const pathname = usePathname();

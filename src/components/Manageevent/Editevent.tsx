@@ -45,6 +45,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
+import { getEventByEventId } from "@/lib/middleware/event";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "../loader/Screenloader";
@@ -202,7 +203,22 @@ function Editevent() {
     { id: 4, label: "Security and First Aid", image: img4 },
   ];
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const [eventID, setEventId] = useState("");
 
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setEventId(value);
+    console.log("my event id is", value);
+    dispatch(getEventByEventId(value));
+  }, []);
+  const EventData = useAppSelector(
+    (state) => state?.getEventByEventID?.eventIdEvents?.data
+  );
+
+  console.log("my event data ", EventData)
+  const userLoading = useAppSelector((state) => state?.getEventByEventID);
   const handleDropdown = (index: number) => {
     setTicketTypes((prevTickets) =>
       prevTickets.map((ticket, i) =>
@@ -431,7 +447,7 @@ function Editevent() {
     try {
       const data = {
         userId: userid,
-        name: Eventname,
+        name: Eventname || EventData?.name || "",
         category: EventCategory,
         eventDescription: Eventdescription,
         location: EventLocation,
@@ -469,6 +485,15 @@ function Editevent() {
   }
   console.log("Form errors:", form.formState.errors);
 
+  useEffect(() => {
+    if (EventData) {
+      form.reset({
+        eventname: EventData?.name || form.getValues("eventname"),
+        
+      });
+    }
+    
+  }, [EventData]);
   function extractDate(dateTime: string): string {
     // Create a new Date object from the input string
     const date = new Date(dateTime);

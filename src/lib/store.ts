@@ -22,6 +22,7 @@ import getRewardCollectibles from "./reducer/getRewardCollectibles";
 import getRewardCollectibleID from "./reducer/getRewardCollectibleID";
 import getGraphById from "./reducer/getGraphById";
 import getWalletCollectByUID from "./reducer/getWalletCollectByUID";
+import getEventsByUID from "./reducer/getEventsByUID";
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -45,7 +46,8 @@ const appReducer = combineReducers({
   getRewardCollectibles:getRewardCollectibles,
   getRewardCollectibleID:getRewardCollectibleID,
   getGraphById:getGraphById,
-  getWalletCollectByUID: getWalletCollectByUID
+  getWalletCollectByUID: getWalletCollectByUID,
+  getEventsByUID: getEventsByUID,
 });
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,

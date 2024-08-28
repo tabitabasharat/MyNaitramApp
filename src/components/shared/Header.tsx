@@ -145,7 +145,7 @@ const Header = () => {
           {token && (
             <Button
               className="hidden lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
-              onClick={() => router.push("/create-event")}
+              onClick={() => router.push("/organizer-event/event-dashboard")}
             >
               Create Event
             </Button>
