@@ -70,31 +70,31 @@ export default function ClaimableRewards() {
   }
   
   return (
-    <section className="min-h-screen py-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
+    <section className="min-h-screen pt-[8rem] lg:pt-[136px] pb-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
       <div className="mx-auto max-w-screen-lg ">
-        <div className="flex items-center gap-[16px] ">
+        <div className="flex items-center lg:gap-[16px] gap-[12px]">
           <Image
             src={Backbtn}
             alt="back"
             className="lg:w-[44px] lg:h-[44px]  w-[28px] h-[28px] cursor-pointer"
             onClick={() => router.back()}
           />
-          <p className="text-[24px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">
+          <p className="lg:text-[24px] text-[20px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">
             Claimable Rewards
           </p>
         </div>
-        <div className="mt-[32px]   claimable-container   ">
+        <div className="lg:mt-[32px] mt-[52px]  claimable-container   ">
           <div className="flex items-center justify-center">
             <Image
               src={imageUrl}
               alt="img"
-              className="size-[392px]"
+              className="lg:size-[392px] size-[345px] "
               width={392}
               height={392}
             />
           </div>
           <div>
-            <Badge className="lg:text-[12px]">Featured</Badge>
+            <Badge className="lg:text-[12px] font-extrabold py-[8px] px-[12px] bg-[#292929]">Featured</Badge>
             <p className="font-extrabold  text-[32px] lg:text-[48px] -tracking-[0.04em] lg:-tracking-[0.02em] -tracking-[0.04em] pt-[12px]">
               {myData?.name}
             </p>
