@@ -92,7 +92,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
 
   const drawer = (
     <>
-      <div className="ps-[32px] pe-[24px] bg-[black]">
+      <div className="ps-[24px] pe-[24px] bg-[black]">
         <List className="bg-[black] p-[0px] text-[white]">
           <Link href="/organizer-event/event-dashboard">
             <h3 className="text-[20px] font-bold pt-[0px] lg:pt-[32px]  mb-[24px]">
