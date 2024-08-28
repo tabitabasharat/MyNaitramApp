@@ -16,7 +16,8 @@ import ticket from "../../assets/Wallet/white-trophy.svg";
 import ticketgreen from "../../assets/Wallet/rewarrd-trophy.svg";
 import cards from "../../assets/Cards.svg";
 import cardsgreen from "../../assets/Cards (1).svg";
-type SelectedOption = "rewards" | "collectables" | null;
+import EventCards from "@/components/eventCards/EventCards";
+type SelectedOption = "rewards" | "rewardcollectables" | null;
 
 function Rewards() {
   const [selected, setSelected] = useState<SelectedOption>("rewards");
@@ -159,13 +160,13 @@ function Rewards() {
 
             <div
               className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
-                selected === "collectables"
+                selected === "rewardcollectables"
                   ? "border border-[#00A849] text-[#00A849]"
                   : ""
               }`}
-              onClick={() => setSelected("collectables")}
+              onClick={() => setSelected("rewardcollectables")}
             >
-              {selected === "collectables" ? (
+              {selected === "rewardcollectables" ? (
                 <Image
                   src={cards}
                   className="pb-[8px] hidden md:block"
@@ -178,7 +179,7 @@ function Rewards() {
                   alt="Default Collectibles"
                 />
               )}
-              <p>Collectables</p>
+              <p>Collectibles</p>
             </div>
           </div>
           {selected === "rewards" ? (
@@ -207,7 +208,9 @@ function Rewards() {
               return null;
             })
           ) : (
-            <p>no data found</p>
+            <div>
+              <EventCards eventType={selected}  />
+            </div>
           )}
         </div>
       </div>

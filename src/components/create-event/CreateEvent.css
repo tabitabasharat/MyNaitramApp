@@ -110,6 +110,7 @@
 {
    .common-container{
     flex-wrap: wrap;
+    flex-direction: column;
    }
    .create-inner {
     padding-top: 120px;

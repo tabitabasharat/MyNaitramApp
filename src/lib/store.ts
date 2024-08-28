@@ -18,6 +18,11 @@ import getTicketsByUId from "./reducer/getTicketsByUId";
 import getTicketByQR from "./reducer/getTicketByQR";
 import getBalanceByID from "./reducer/getBalanceByID";
 import getClaimStatus from "./reducer/getClaimStatus";
+import getRewardCollectibles from "./reducer/getRewardCollectibles";
+import getRewardCollectibleID from "./reducer/getRewardCollectibleID";
+import getGraphById from "./reducer/getGraphById";
+import getWalletCollectByUID from "./reducer/getWalletCollectByUID";
+
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
   getEventById: getEventById,
@@ -36,7 +41,11 @@ const appReducer = combineReducers({
   getTicketsByUId: getTicketsByUId,
   getTicketByQR:getTicketByQR,
   getBalanceByID:getBalanceByID,
-  getClaimStatus:getClaimStatus
+  getClaimStatus:getClaimStatus,
+  getRewardCollectibles:getRewardCollectibles,
+  getRewardCollectibleID:getRewardCollectibleID,
+  getGraphById:getGraphById,
+  getWalletCollectByUID: getWalletCollectByUID
 });
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,

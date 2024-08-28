@@ -21,6 +21,7 @@
   display: flex;
   align-items: center;
   gap: 40px;
+  /* justify-content: space-between; */
 }
 
 
@@ -43,6 +44,8 @@
   .claimable-container {
     width: 100%;
     flex-direction: column;
+    align-items: normal;
+
   }
   .textbr br {
     display: none;

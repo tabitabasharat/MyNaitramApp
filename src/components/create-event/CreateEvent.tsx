@@ -1147,7 +1147,7 @@ function CreateEvent() {
                   className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
                   key={index}
                 >
-                  <div className="flex items-center gap-[24px]">
+                  <div className="flex items-center gap-[24px] common-container">
                     {/* Event Ticket Type Field */}
                     <FormField
                       control={form.control}

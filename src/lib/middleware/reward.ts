@@ -72,3 +72,69 @@ export const claimReward = createAsyncThunk("claimReward", async (data:any) => {
     };
   }
 });
+
+export const getRewardCollectibles = createAsyncThunk(
+  "getRewardCollectibles",
+  async () => {
+    try {
+      console.log("inside get getCollectibles");
+      const res = await api.get(`${API_URL}/reward/getCollectibles`);
+      console.log("inside get reward getCollectibles", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
+
+
+export const getRewardCollectibleByID = createAsyncThunk(
+  "getRewardCollectibleByID ",
+  async (data: any) => {
+    try {
+      console.log("inside getCollectibleByID");
+      const res = await api.get(`${API_URL}/reward/getCollectibleById/${data}`);
+      console.log("inside ggetCollectibleByID", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
+
+
+
+export const claimRewardCollectible = createAsyncThunk("claimRewardCollectible", async (data:any) => {
+  try {
+    console.log("inside claim reward collectible");
+   
+    const res = await api.post(`${API_URL}/reward/claimCollectible`, data);
+    console.log("inside claim reward collectible", res);
+
+    // localStorage.setItem("token", res?.data?.token);
+    return {
+      status: res?.status,
+      data: res?.data?.data,
+      token: res?.data?.token,
+    };
+  } catch (error:any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
+  }
+});

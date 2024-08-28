@@ -68,3 +68,47 @@ export const getBalanceByID = createAsyncThunk(
     }
   }
 );
+
+
+export const getgraphByID = createAsyncThunk(
+  "getgraphByID ",
+  async (data: any) => {
+    try {
+      console.log("inside get graph history");
+      const res = await api.get(`${API_URL}/reward/getHistoryRecord/${data}`);
+      console.log("inside get graph history", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
+
+
+export const getWalletCollectByUserID = createAsyncThunk(
+  "getWalletCollectByUserID",
+  async (data: any) => {
+    try {
+      console.log("inside get Wallet Collect UserID");
+      const res = await api.get(`${API_URL}/reward/getUserCollectibles/${data}`);
+      console.log("inside get Wallet Collect UserID", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);

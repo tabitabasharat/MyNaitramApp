@@ -9,16 +9,7 @@ import {
 } from "recharts";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useState, useEffect } from "react";
-import { getBalanceByID } from "@/lib/middleware/wallet";
-const data = [
-  { name: "MON", value: 25 },
-  { name: "TUE", value: 96 },
-  { name: "WED", value: 80 },
-  { name: "THU", value: 120 },
-  { name: "FRI", value: 100 },
-  { name: "SAT", value: 50 },
-  { name: "SUN", value: 0 },
-];
+import { getBalanceByID, getgraphByID } from "@/lib/middleware/wallet";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -48,18 +39,29 @@ const CustomBar = ({ fill, x, y, width, height }: any) => {
   );
 };
 
-
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     const userid = localStorage.getItem("_id");
     dispatch(getBalanceByID(userid));
+    dispatch(getgraphByID(userid));
   }, []);
 
   const mybalance = useAppSelector(
     (state) => state?.getBalanceByID?.myBalance?.data
   );
-  console.log("my current balance ",mybalance)
+  console.log("my current balance ", mybalance);
+
+  const myGraphHistory = useAppSelector(
+    (state) => state?.getGraphById?.myGraphHistory?.data
+  );
+  console.log("my graph history ", myGraphHistory);
+  
+  const chartData =
+    myGraphHistory?.remainingDaysAmounts?.map((item: any) => ({
+      name: item?.day.slice(0, 3).toUpperCase(), // Abbreviate day names
+      value: item?.amount,
+    })) || [];
   return (
     <div
       style={{
@@ -76,11 +78,14 @@ const Dashboard = () => {
         >
           <span className="text-[24px] text-[white] font-bold">$</span>
           {/* {data.reduce((acc, item) => acc + item.value, 0).toFixed(2)}{" "} */}
-          {mybalance?.currentBalance}
-          <span className="text-[16px] font-extrabold text-[#D9D9D9]"> MRT </span>
+          {mybalance?.currentBalance ? mybalance?.currentBalance : 0 }
+          <span className="text-[16px] font-extrabold text-[#D9D9D9]">
+            {" "}
+            MRT{" "}
+          </span>
         </div>
         <div className="text-primary flex gap-[4px] font-bold text-[12px]">
-          <ArrowUpRight size={14} weight="bold" /> 2.54%
+          <ArrowUpRight size={14} weight="bold" />{myGraphHistory?.percentageChange}%
         </div>
       </div>
       <ResponsiveContainer
@@ -90,7 +95,7 @@ const Dashboard = () => {
       >
         <BarChart
           className="lg:w-[120%] max-width-adjustment-in-graph w-[135%]"
-          data={data}
+          data={chartData}
           margin={{ top: 20, bottom: 5 }}
         >
           <defs>
@@ -110,18 +115,14 @@ const Dashboard = () => {
             cursor={{ fill: "transparent" }}
             content={<CustomTooltip />}
           />
-          <Bar
-            dataKey="value"
-            fill="url(#colorUv)"
-            shape={<CustomBar />}
-          >
+          <Bar dataKey="value" fill="url(#colorUv)" shape={<CustomBar />}>
             <LabelList
               dataKey="value"
               fontSize="11px"
               fontWeight="700"
               fill="#0FFF77"
               position="insideBottom"
-              formatter={(value:any) => `$${value}`}
+              formatter={(value: any) => `$${value}`}
             />
           </Bar>
         </BarChart>
