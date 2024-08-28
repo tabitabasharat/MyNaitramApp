@@ -134,11 +134,11 @@ function Rewards() {
           <div className="flex pt-[32px] w-full pb-[28px] md:pb-[32px] gap-[12px]">
             <div className="flex gap-[12px] w-full">
               <div
-                className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
-                  selected === "rewards"
-                    ? "border border-[#00A849] text-[#00A849]"
-                    : ""
-                }`}
+               className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
+                selected === "rewards"
+                  ? "gradient-border text-[#00A849]"
+                  : ""
+              }`}
                 onClick={() => setSelected("rewards")}
               >
                 {selected === "rewards" ? (
@@ -161,7 +161,7 @@ function Rewards() {
             <div
               className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
                 selected === "rewardcollectables"
-                  ? "border border-[#00A849] text-[#00A849]"
+                  ? "gradient-border text-[#00A849]"
                   : ""
               }`}
               onClick={() => setSelected("rewardcollectables")}
