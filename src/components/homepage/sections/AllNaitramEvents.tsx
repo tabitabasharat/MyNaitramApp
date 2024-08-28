@@ -82,7 +82,6 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
   const [searchQueryLive, setSearchQueryLive] = useState("");
 
   return (
-    // <Link href='/viewallevent'>
     <div
       style={{
         backgroundImage:
@@ -97,7 +96,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
           {currentImages.map((event) => (
             <div
               key={event.id}
-              onClick={() => handleClick(event.id)} // Set the selected event on click
+              onClick={() => handleClick(event.id)}
               className={`relative border  flex flex-col flex items-center justify-center md:items-start rounded-[44px] md:rounded-lg w-full md:px-[12px] md:pt-[16px] md:pb-[12px] cursor-pointer  duration-300 ${
                 selectedEvent?.id === event.id
                   ? "gradient-slate text-[#13FF7A] border-[1px] border-solid  hover:border-[#13FF7A] border-[#13FF7A] "
@@ -150,26 +149,8 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
             <AllEventsGrid events={events} eventType={title} />
           </div>
         </div>
-
-        {/* MOBILE */}
-        {/* <div className="md:hidden justify-between gap-10 w-full">
-          <div className="w-full relative mb-[12px]">
-            <Input
-              value={searchTerm}
-              className="w-full rounded-[8px] h-14 px-[16px] py-[18px] text-sm font-normal"
-              onChange={(event) => setSearchTerm(event.target.value)}
-              placeholder="Search Event"
-            />
-            <MagnifyingGlass
-              size={20}
-              className="absolute top-1/2 -translate-y-1/2 right-5"
-            />
-          </div>
-          <MobileAllEventsList events={events} eventType={title} />
-        </div> */}
       </section>
     </div>
-    // </Link>
   );
 };
 

@@ -16,6 +16,8 @@ import JoinEventCard from "@/components/reusable-components/JoinEventCard";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getUserSocialProfile } from "@/lib/middleware/profile";
+
+
 const ProfileDetails = () => {
   const dispatch = useAppDispatch();
 

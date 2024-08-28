@@ -14,7 +14,10 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/profile/help-center",
     "/profile/FAQ",
     "/profile/Delete-account",
-    "/social-profile"
+    "/social-profile",
+    "/organizer-event/event-dashboard",
+    "/organizer-event/profile",
+    "profile-perview",
   ];
 
   const pathname = usePathname();

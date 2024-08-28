@@ -38,7 +38,7 @@ const Wallet = () => {
               <div
                 className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
                   selected === "tickets"
-                    ? "border border-[#00A849] text-[#00A849]"
+                    ? "gradient-border text-[#00A849]"
                     : ""
                 }`}
                 onClick={() => setSelected("tickets")}
@@ -64,7 +64,7 @@ const Wallet = () => {
             <div
               className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
                 selected === "collectables"
-                  ? "border border-[#00A849] text-[#00A849]"
+                  ? "gradient-border text-[#00A849]"
                   : ""
               }`}
               onClick={() => setSelected("collectables")}
