@@ -71,10 +71,10 @@ const Organizer = () => {
     : "/person3.jpg";
   console.log("image src is", imageUrl);
   return (
-    <div className="w-full ps-[0px] xl:ps-[172px] md:px-auto lg:w-full lg:mx-0">
+    <div className="w-full ps-[0px] xl:ps-[147.5px] md:px-auto lg:w-full lg:mx-0">
       {userLoading?.loading && <ScreenLoader />}
       <div >
-        <div className="flex mt-[45px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start md:mt-[150px]">
+        <div className="flex mt-[45px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start md:mt-[90px]">
           <div className="flex flex-col justify-center lg:mx-0 md:gap-[32px] gap-[32px] w-fit">
             <h2 className="font-extrabold text-[20px] md:ms-[0px] ms-[24px] lg:text-[32px]">
               Events Dashboard
@@ -101,14 +101,14 @@ const Organizer = () => {
                     />
                   </div>
                 </GradientBorder>
-                {myProfile?.isTopUser === true && (
+                {/* {myProfile?.isTopUser === true && (
                   <Button
                     variant="secondary"
                     className="text-[#13FF7A] rounded-[200px] px-[10] py-[25px] md:p-[12px] bg-[#FFFFFF0F] text-base font-bold w-[100%] md:w-[250px]"
                   >
                     Top User
                   </Button>
-                )}
+                )} */}
               </div>
               <div className="flex flex-col lg:items-start items-center justify-center ">
                 <h2 className="text-[28px] font-extrabold text-center lg:text-start xl:text-start  leading-[31.36px] mb-[0px] lg:mb-[9px] ">
@@ -122,7 +122,7 @@ const Organizer = () => {
                     background:
                       "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
                   }}
-                  className="flex bg-[#0F0F0F] rounded-[6.89px] gap-[20px] justify-evenly  py-[16px] px-[0px] lg:px-[19.37px] lg:py-[13.77px] w-[100%] lg:w-[428px] xl:w-[428px] border-[0.86px] border-transparent"
+                  className="flex bg-[#0F0F0F] rounded-[6.89px] gap-[0px] sm:gap-[20px] md:gap-[20px] lg:gap-[20px] justify-evenly  py-[16px] px-[0px] lg:px-[19.37px] lg:py-[13.77px] w-[100%] lg:w-[428px] xl:w-[428px] border-[0.86px] border-transparent"
                 >
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">

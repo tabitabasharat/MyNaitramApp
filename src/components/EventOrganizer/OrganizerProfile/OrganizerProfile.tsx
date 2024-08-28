@@ -8,6 +8,7 @@ import { Envelope, Lock, User } from "@phosphor-icons/react/dist/ssr";
 import { Input } from "@/components/ui/input";
 import { showLiveActivity, updateLiveActivity } from "@/lib/middleware/profile";
 import Link from "next/link";
+import { Textarea } from "@/components/ui/textarea";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import { PasswordInput } from "@/components/ui/password-input";
 import { z } from "zod";
@@ -32,6 +33,9 @@ import {
   FacebookLogo,
   Chats,
   UserGear,
+  TiktokLogo,
+  YoutubeLogo,
+  TwitterLogo,
 } from "@phosphor-icons/react";
 import {
   Form,
@@ -72,6 +76,7 @@ const formSchema = z.object({
   linkedIn: z.string().min(2, { message: "linkedIn Url cannot be empty." }),
   insta: z.string().min(2, { message: "Instagram Url cannot be empty." }),
   telegram: z.string().min(1, { message: "Telegram Url cannot be empty." }),
+  BIO: z.string().min(1, { message: "Description be empty." }),
 });
 
 const OrganizerProfile = () => {
@@ -103,6 +108,7 @@ const OrganizerProfile = () => {
       insta: "",
       linkedIn: "",
       telegram: "",
+      BIO: "",
     },
   });
   const myliveActivity = useAppSelector(
@@ -303,14 +309,14 @@ const OrganizerProfile = () => {
   }
 
   return (
-    <div className="w-full md:w-[70%] ps-[0px] xl:ps-[182px] md:mx-auto lg:w-full mt-[48px] md:mt-[150px] lg:mx-0 relative h-[90vh]">
+    <div className="w-full md:w-[70%] ps-[0px] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
       <h2 className="font-bold ms-[24px] md:ms-[0px] text-[20px] lg:text-[32px]">
         Organizer Profile
       </h2>
-      <div className="flex flex-col lg:flex-row gap-8 mt-[34px]  lg:mt-[32px]">
+      <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[60px] mt-[34px]  lg:mt-[32px]">
         <div className="flex flex-col mx-auto lg:mx-0 gap-[16px] items-center  w-fit">
           <GradientBorder className="rounded-full p-[3px] w-fit">
             <div className="bg-black rounded-full p-[6px] flex items-center justify-center">
@@ -337,135 +343,56 @@ const OrganizerProfile = () => {
             </div>
           </GradientBorder>
           <Button
-            onClick={() => fileInputRef.current?.click()} // Trigger file input click
+            onClick={() => fileInputRef.current?.click()} 
             variant="secondary"
             className="w-[100%] py-[8px] px-[12px] md:py-[12px] md:px-[21px] font-bold text-base  text-[#030303] "
           >
             Change Photo Profile
           </Button>
         </div>
-        {/* <div className="w-full lg:w-[428px]">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(profileclick)}
-              className=" w-full"
-            >
-              <FormField
-                control={form.control}
-                name="full_name"
-                render={({ field }) => (
-                  <FormItem className="relative mb-6 space-y-0">
-                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                      FULL NAME
-                    </FormLabel>
-                    <User className="absolute right-3  top-[35%]" size={20} />
-                    <FormControl>
-                      <Input
-                        placeholder="Enter Fullname"
-                        className="pt-11 pb-5 font-bold text-base placeholder:font-extrabold "
-                        {...field}
-                        onChange={(e) => {
-                          setName(e.target.value);
-                          field.onChange(e);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="relative mb-6 space-y-0">
-                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                      EMAIL
-                    </FormLabel>
-                    <Envelope
-                      className="absolute right-3  top-[35%]"
-                      size={20}
-                    />
-                    <FormControl>
-                      <Input
-                        readOnly
-                        placeholder="youremail@example.com"
-                        className="pt-11 pb-5 text-base placeholder:font-extrabold"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem className="relative space-y-0 mb-2">
-                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3 z-10">
-                      PASSWORD
-                    </FormLabel>
-                    <Lock
-                      className="absolute right-3   top-[35%] z-10"
-                      size={20}
-                    />
-                    <FormControl>
-                      <PasswordInput
-                        readOnly
-                        placeholder="Input password"
-                        className="pt-11 pb-5 text-base placeholder:font-extrabold"
-                        {...field}
-                        onChange={(e) => {
-                          setPassword(e.target.value);
-                          field.onChange(e);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <p className="opacity-70 text-sm pt-2 text-[12px] font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
-                <Link href="/auth/resetpasspage">
-                  Want to change your password?
-                </Link>
-              </p>
-              <div className="flex justify-start lg:justify-end  absolute bottom-[0px] mb-[32px] md:mt-[32px]  sm:relative mt-[57px] w-full">
-                <Button
-                  type="submit"
-                  className="w-full  px-[30.5px] py-[12px]  md:mb-[0px] font-extrabold text-base md:w-fit"
-                >
-                  Update Changes
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </div> */}
-        <div className="flex w-full md:w-full lg:w-[600px] flex-col lg:flex-col gap-6 md:gap-8 mt-[50px] lg:mt-[32px]">
+        <div className="flex w-full  md:w-full lg:w-[428px] flex-col lg:flex-col gap-6 md:gap-8 mt-[0px] lg:mt-[32px]">
           <Link
-            href="/social-profile"
+            href="/profile-perview"
             className={cn(
-              "gradient-slate border border-muted w-full flex justify-between rounded-lg items-center  px-4 md:px-3 py-2.5 md:py-5 hover:border-[#13FF7A] duration-300 cursor-pointer relative",
+              "gradient-slate gradient-border w-full flex justify-between rounded-lg items-center  px-4 md:px-3 py-2.5 md:py-5 hover:border-[#13FF7A] duration-300 cursor-pointer relative",
               {
-                "border-[#13FF7A]": pathname.startsWith("/social-profile"),
+                "": pathname.startsWith("/social-profile"),
               }
             )}
           >
-            <div className="flex gap-2 items-center ">
+            <div className="flex gap-2  items-center ">
               <UserGear size={20} weight="bold" />
-              <p className="text-sm md:text-base font-extrabold mb-0">
+              <p className="text-sm  md:text-base font-extrabold mb-0">
                 Preview my Personal Social Profile
               </p>
             </div>
             <CaretRight size={16} weight="bold" />
           </Link>
-          <div className="w-full md:w-full lg:w-[600px]">
+          <div className="w-full md:w-full lg:w-[428px]">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(updateActivity)}
                 className=" w-full"
               >
+                <FormField
+                  control={form.control}
+                  name="BIO"
+                  render={({ field }) => (
+                    <FormItem className="relative mb-[24px] md:mb-[20px] space-y-0">
+                      <FormLabel className="text-[12px] text-[#8F8F8F] font-bold absolute left-3 top-3">
+                        BIO
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Enter Bio"
+                          className="pt-[36px] pb-5 h-[136px] text-[#D9D9D9] text-base placeholder:font-normal resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="facebook"
@@ -551,17 +478,17 @@ const OrganizerProfile = () => {
                   control={form.control}
                   name="telegram"
                   render={({ field }) => (
-                    <FormItem className="relative mb-[44px] md:mb-8 space-y-0">
+                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                        TELEGRAM
+                        TIKTOK
                       </FormLabel>
-                      <TelegramLogo
+                      <TiktokLogo
                         className="absolute right-3 top-[30%]"
                         size={28}
                       />
                       <FormControl>
                         <Input
-                          placeholder="youremail@example.com"
+                          placeholder="username12"
                           className="pt-11 pb-5 text-base  placeholder:font-extrabold"
                           {...field}
                           onChange={(e) => {
@@ -574,7 +501,61 @@ const OrganizerProfile = () => {
                     </FormItem>
                   )}
                 />
-                <div className="flex justify-start lg:justify-start">
+                <FormField
+                  control={form.control}
+                  name="telegram"
+                  render={({ field }) => (
+                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                        YOUTBE
+                      </FormLabel>
+                      <YoutubeLogo
+                        className="absolute right-3 top-[30%]"
+                        size={28}
+                      />
+                      <FormControl>
+                        <Input
+                          placeholder="username12"
+                          className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                          {...field}
+                          onChange={(e) => {
+                            settelegramUrl(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="telegram"
+                  render={({ field }) => (
+                    <FormItem className="relative mb-[48px] md:mb-6 space-y-0">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                        TWITTER
+                      </FormLabel>
+                      <TwitterLogo
+                        className="absolute right-3 top-[30%]"
+                        size={28}
+                      />
+                      <FormControl>
+                        <Input
+                          placeholder="username12"
+                          className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                          {...field}
+                          onChange={(e) => {
+                            settelegramUrl(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex justify-start mb-[49px] lg:justify-end">
                   <Button
                     type="submit"
                     className="w-full font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base md:w-fit"

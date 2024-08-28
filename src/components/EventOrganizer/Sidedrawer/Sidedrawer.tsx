@@ -47,7 +47,6 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState<string | null>(null);
-  // const isActive = activeItem === item.text;
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -68,18 +67,9 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
     setActiveItem(itemText);
   };
 
-  // const menuItems = [
-  //   { text: "Account Settings", icon: accnt, url: "/organizer-event/event-dashboard" },
-  //   {
-  //     text: "Live Activity Settings",
-  //     icon: chats,
-  //     url: "/organizer-event/event-dashboard",
-  //   },
-  // ];
-
   const event = [
     { text: "Create Event", icon: chats, url: "/create-event" },
-    { text: "Manage Event", icon: accnt, url: "/organizer-event/event-dashboard" },
+    { text: "Manage Event", icon: accnt, url: "/management" },
     { text: "Create Scanner Login", icon: scanner, url: "/organizer-event/event-dashboard" },
   ];
 
@@ -105,28 +95,28 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
       <div className="ps-[32px] pe-[24px] bg-[black]">
         <List className="bg-[black] p-[0px] text-[white]">
           <Link href="/organizer-event/event-dashboard">
-            <h3 className="text-[20px] font-extrabold pt-[0px] lg:pt-[32px]  mb-[24px]">
+            <h3 className="text-[20px] font-bold pt-[0px] lg:pt-[32px]  mb-[24px]">
               Organizer
             </h3>
           </Link>
           <div>
-            <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-              <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">
+            <List className="bg-[black] py-[0px] text-[white]">
+              <h3 className="text-[#FFFFFF99] text-sm font-extrabold mt-[2px] mb-[10px]">
                 {" "}
                 PROFILE
               </h3>
               <Link href="/organizer-event/profile">
                 <ListItem
                   className={`text-xl font-bold ${
-                    activeItem === "Delete Account"
+                    activeItem === "Edit Organizer Profile"
                       ? "gradient-border rounded-lg"
                       : ""
                   }`}
                   disablePadding
-                  onClick={() => handleItemClick("Delete Account")}
+                  onClick={() => handleItemClick("Edit Organizer Profile")}
                 >
                   <ListItemButton className="p-[10px]">
-                    <ListItemIcon className="min-w-0 pr-2">
+                    <ListItemIcon className="min-w-0 pr-[6px]">
                       <Image
                         src={accnt}
                         alt="Delete Account"
@@ -143,7 +133,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
         </List>
         <Divider />
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">
+          <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">
             EVENTS
           </h3>
           <div className="text-xl font-bold">
@@ -157,7 +147,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
                   onClick={() => handleItemClick(item.text)}
                 >
                   <ListItemButton className="p-[10px] flex items-center">
-                    <ListItemIcon className="min-w-0 pr-2">
+                    <ListItemIcon className="min-w-0 pr-[6px]">
                       <Image
                         src={item.icon}
                         alt={item.text}
@@ -173,7 +163,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           </div>
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">
+          <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">
             ANALYTICS/BILLING
           </h3>
           <Link href="/organizer-event/event-dashboard">
@@ -187,7 +177,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
               onClick={() => handleItemClick("Delete Account")}
             >
               <ListItemButton className="p-[10px]">
-                <ListItemIcon className="min-w-0 pr-2">
+                <ListItemIcon className="min-w-0 pr-[6px]">
                   <Image
                     src={faq}
                     alt="Delete Account"
@@ -201,7 +191,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           </Link>
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">HELP</h3>
+          <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">HELP</h3>
           <Link href="/organizer-event/event-dashboard">
             <ListItem
               className={`text-xl font-bold ${
@@ -213,7 +203,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
               onClick={() => handleItemClick("Delete Account")}
             >
               <ListItemButton className="p-[10px]">
-                <ListItemIcon className="min-w-0 pr-2">
+                <ListItemIcon className="min-w-0 pr-[6px]">
                   <Image
                     src={heplcenter}
                     alt="Delete Account"
