@@ -269,7 +269,8 @@ export const updateEvent = createAsyncThunk(
     try {
       console.log("inside update Event");
       const res = await api.put(`${API_URL}/event/updateEvent`,{
-        
+        userId:data?.userId,
+        eventId:data?.eventId,
         name:data?.name,
         category: data?.category,
         eventDescription: data?.eventDescription,

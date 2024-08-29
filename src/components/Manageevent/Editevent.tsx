@@ -99,7 +99,7 @@ const formSchema = z.object({
     .min(1, { message: "Event description cannot be empty." }),
 
   compticketno: z
-    .string()
+    .number()
     .min(1, { message: "Complimentary ticket number cannot be empty." }),
   fburl: z
     .string()
@@ -127,16 +127,39 @@ const formSchema = z.object({
     .min(1, { message: "Telegram URL cannot be empty." }),
   eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+  // tickets: z
+  //   .array(
+  //     z.object({
+  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //       price: z
+  //         .string()
+  //         .min(1, { message: "Ticket price must be greater than 0." }),
+  //       no: z
+  //         .string()
+  //         .min(1, { message: "Number of tickets must be greater than 0." }),
+  //     })
+  //   )
+  //   .refine((tickets) => tickets.length > 0, {
+  //     message: "At least one ticket is required.",
+  //   }),
   tickets: z
     .array(
       z.object({
         type: z.string().min(1, { message: "Ticket type cannot be empty." }),
         price: z
-          .string()
+          .number()
           .min(1, { message: "Ticket price must be greater than 0." }),
         no: z
-          .string()
+          .number()
           .min(1, { message: "Number of tickets must be greater than 0." }),
+        options: z
+          .array(
+            z.object({
+              id: z.number(),
+              label: z.string(),
+            })
+          )
+          .optional(),
       })
     )
     .refine((tickets) => tickets.length > 0, {
@@ -148,6 +171,8 @@ type Option = {
   label: string;
   image: string;
 };
+type GalleryFile = File | { type: any; url: any };
+
 function Editevent() {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
@@ -203,6 +228,9 @@ function Editevent() {
     { id: 4, label: "Security and First Aid", image: img4 },
   ];
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+
+  // const [galleryFiles, setGalleryFiles] = useState<GalleryFile[]>([]);
+  // const [galleryFiles, setGalleryFiles] = useState<{ file: File; url: string }[]>([]);
   const [eventID, setEventId] = useState("");
 
   useEffect(() => {
@@ -217,7 +245,15 @@ function Editevent() {
     (state) => state?.getEventByEventID?.eventIdEvents?.data
   );
 
-  console.log("my event data ", EventData)
+  console.log("my event data ", EventData);
+
+
+
+
+  const imageUrl = EventData?.coverEventImage.startsWith("http" || "https")
+    ? EventData?.coverEventImage
+    : bgframe;
+  console.log("image src is", imageUrl);
   const userLoading = useAppSelector((state) => state?.getEventByEventID);
   const handleDropdown = (index: number) => {
     setTicketTypes((prevTickets) =>
@@ -256,7 +292,6 @@ function Editevent() {
       eventcoverimg: "",
       eventdescription: "",
 
-      compticketno: "",
       fburl: "",
       instaurl: "",
       youtubeurl: "",
@@ -274,6 +309,29 @@ function Editevent() {
       console.log("Gallery files:", [...galleryFiles, ...filesArray]);
     }
   };
+
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     const filesArray = Array.from(event.target.files).map((file) => ({
+  //       file, // Keep the original file object
+  //       url: URL.createObjectURL(file), // Create an object URL for the file
+  //       type: file.type.startsWith("video") ? "video" : "image", // Determine type based on file type
+  //     }));
+
+  //     setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]);
+  //   }
+  // };
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     const filesArray = Array.from(event.target.files);
+  //     const newFiles = filesArray.map(file => ({
+  //       file,
+  //       url: URL.createObjectURL(file),
+  //     }));
+  //     setGalleryFiles(prevFiles => [...prevFiles, ...newFiles]); // Update state with all selected files
+  //   }
+  // };
+
   const handleFileChangeapi = async () => {
     if (galleryFiles) {
       setLoader(true);
@@ -285,7 +343,7 @@ function Editevent() {
 
         const formData = new FormData();
 
-        filesArray.forEach((file) => formData.append("files", file));
+        filesArray.forEach((file: any) => formData.append("files", file));
 
         //  console.log("my res before", formData)
         const res: any = await api.post(
@@ -312,6 +370,39 @@ function Editevent() {
       }
     }
   };
+  // const handleFileChangeapi = async () => {
+  //   if (galleryFiles && galleryFiles.length > 0) {
+  //     setLoader(true);
+
+  //     try {
+  //       const formData = new FormData();
+
+  //       // Filter to include only files that are instances of File
+  //       galleryFiles
+  //         .filter((file) => file instanceof File)
+  //         .forEach((file) => formData.append("files", file));
+
+  //       // Upload files to the server
+  //       const res: any = await api.post(
+  //         `${API_URL}/upload/uploadMultiple`,
+  //         formData
+  //       );
+
+  //       if (res?.status === 200) {
+  //         setLoader(false);
+  //         setEventsFile(res?.data?.imageUrls);
+  //         SuccessToast("Images Uploaded Successfully");
+  //         return res?.data?.imageUrls;
+  //       } else {
+  //         setLoader(false);
+  //         ErrorToast(res?.payload?.message || "Error uploading image");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //       setLoader(false);
+  //     }
+  //   }
+  // };
 
   const handleInputChange = (
     index: number,
@@ -423,6 +514,27 @@ function Editevent() {
     setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
+  // const removeImage = (index: number) => {
+  //   setGalleryFiles((prevFiles) => {
+  //     // Get the URL of the file being removed
+  //     const fileToRemove = prevFiles[index];
+  //     if (fileToRemove && fileToRemove?.url) {
+  //       // Revoke the object URL to avoid memory leaks
+  //       URL.revokeObjectURL(fileToRemove?.url);
+  //     }
+
+  //     // Return a new array excluding the removed file
+  //     return prevFiles.filter((_, i) => i !== index);
+  //   });
+  // };
+
+  // const removeImage = (index: number) => {
+  //   setGalleryFiles(prevFiles => {
+  //     const updatedFiles = prevFiles.filter((_, i) => i !== index);
+  //     return updatedFiles;
+  //   });
+  // };
+
   useEffect(() => {
     const userID: any = localStorage.getItem("_id");
     setUserid(userID);
@@ -430,48 +542,69 @@ function Editevent() {
   }, []);
 
   const filteredTicketTypes = ticketTypes.map((ticket) => ({
-    type: ticket.type,
-    price: ticket.price,
-    no: ticket.no,
-    options: ticket.options.map((option) => ({
-      id: option.id,
-      label: option.label,
+    type: ticket?.type,
+    price: ticket?.price,
+    no: ticket?.no,
+    options: ticket?.options?.map((option) => ({
+      id: option?.id,
+      label: option?.label,
     })),
   }));
   async function EventCreation(values: z.infer<typeof formSchema>) {
     console.log("my values", values);
     console.log(" Event Creation");
 
+
     setLoader(true);
+    
+    // const EventMediaAlready = EventData?.eventmedia;
+    const EventMediaAlready = [...(EventData?.eventmedia || [])];
     const imagesOfGallery = await handleFileChangeapi();
+    console.log("images of gallery", imagesOfGallery, EventMediaAlready);
+  
+    // Use concat to add new images to the copied array
+    const updatedEventMedia = EventMediaAlready.concat(imagesOfGallery);
+  
+    console.log("images updated", updatedEventMedia);
+    // const imagesOfGallery = await handleFileChangeapi();
+    // console.log("imge o gallery",imagesOfGallery,EventMediaAlready)
+    // for (let i of imagesOfGallery ){
+    //   EventMediaAlready.push(i)
+    //   console.log(i)
+
+    // }
+
+    // console.log("image os updaed",EventMediaAlready)
     try {
       const data = {
         userId: userid,
+        eventId: eventID,
         name: Eventname || EventData?.name || "",
-        category: EventCategory,
-        eventDescription: Eventdescription,
-        location: EventLocation,
-        ticketStartDate: TicketStartDate,
-        ticketEndDate: TicketEndDate,
-        startTime: EventStartTime,
-        endTime: EventEndTime,
-        mainEventImage: MainImg,
-        coverEventImage: CoverImg,
+        category: EventCategory || EventData?.category || "",
+        eventDescription: Eventdescription || EventData?.eventDescription || "",
+        location: EventLocation || EventData?.location || "",
+        ticketStartDate: TicketStartDate || EventData?.ticketStartDate || "",
+        ticketEndDate: TicketEndDate || EventData?.ticketEndDate || "",
+        startTime: EventStartTime || EventData?.startTime || "",
+        endTime: EventEndTime || EventData?.endTime || "",
+        mainEventImage: MainImg || EventData?.mainEventImage || "",
+        coverEventImage: CoverImg || EventData?.coverEventImage || "",
 
-        tickets: filteredTicketTypes,
-        totalComplemantaryTickets: CompTicketNo,
-        fbUrl: FBUrl,
-        instaUrl: InstaUrl,
-        youtubeUrl: YoutubeUrl,
-        twitterUrl: TwitterUrl,
-        tiktokUrl: tiktokUrl,
-        linkedinUrl: linkedinUrl,
-        eventmedia: imagesOfGallery,
+        tickets: filteredTicketTypes || EventData?.tickets || "",
+        totalComplemantaryTickets:
+          CompTicketNo || EventData?.totalComplemantaryTickets || "",
+        fbUrl: FBUrl || EventData?.fbUrl || "",
+        instaUrl: InstaUrl || EventData?.instaUrl || "",
+        youtubeUrl: YoutubeUrl || EventData?.youtubeUrl || "",
+        twitterUrl: TwitterUrl || EventData?.twitterUrl || "",
+        tiktokUrl: tiktokUrl || EventData?.tiktokUrl || "",
+        linkedinUrl: linkedinUrl || EventData?.linkedinUrl || "",
+        eventmedia: updatedEventMedia || EventData?.eventmedia || "",
       };
-      dispatch(createevent(data)).then((res: any) => {
+      dispatch(updateEvent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          SuccessToast("Event Created Successfully");
+          SuccessToast("Event Updated Created Successfully");
           router.push("/viewallevents");
         } else {
           setLoader(false);
@@ -487,13 +620,99 @@ function Editevent() {
 
   useEffect(() => {
     if (EventData) {
+      if (EventData?.mainEventImage) {
+        const imageName =
+          EventData?.mainEventImage.split("/").pop() || "Upload Image";
+        setMainImgName(imageName);
+      }
+
+      // if (EventData?.eventmedia) {
+      //   const files = EventData?.eventmedia.map((url: any) => ({
+      //     type:
+      //       url?.endsWith(".mp4") ||
+      //       url?.endsWith(".avi") ||
+      //       url?.endsWith(".mov") ||
+      //       url?.endsWith(".mkv")
+      //         ? "video"
+      //         : "image",
+      //     url,
+      //   }));
+      //   setGalleryFiles(files);
+      // }
+      if (EventData?.eventmedia) {
+        const files = EventData?.eventmedia
+          .map((media: any) => {
+            if (typeof media === "string") {
+              // Handling URLs
+              return {
+                type:
+                  media.endsWith(".mp4") ||
+                  media.endsWith(".avi") ||
+                  media.endsWith(".mov") ||
+                  media.endsWith(".mkv")
+                    ? "video"
+                    : "image",
+                url: media,
+              };
+            } else if (media instanceof File) {
+              // Handling File objects
+              return {
+                type: media.type.startsWith("video") ? "video" : "image",
+                url: URL.createObjectURL(media),
+              };
+            }
+            return null;
+          })
+          .filter(Boolean); // Filter out any null values in case of unexpected data
+
+        setGalleryFiles(files);
+      }
+
+      const ticketsWithCheckedOptions = EventData?.tickets?.map(
+        (ticket: any) => ({
+          ...ticket,
+          options: ticket?.options?.map((option: any) => ({
+            ...option,
+            checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
+          })),
+        })
+      );
+
+      setTicketTypes(ticketsWithCheckedOptions);
+      const mainimgName = EventData?.mainEventImage.split("/").pop();
+
       form.reset({
         eventname: EventData?.name || form.getValues("eventname"),
-        
+        eventcategory: EventData?.category || form.getValues("eventcategory"),
+        eventdescription:
+          EventData?.eventDescription || form.getValues("eventdescription"),
+        eventlocation: EventData?.location || form.getValues("eventlocation"),
+        eventstartdate:
+          EventData?.ticketStartDate || form.getValues("eventstartdate"),
+        eventenddate:
+          EventData?.ticketEndDate || form.getValues("eventenddate"),
+
+        eventstarttime:
+          EventData?.startTime || form.getValues("eventstarttime"),
+        eventendtime: EventData?.endTime || form.getValues("eventendtime"),
+        eventmainimg: mainimgName || form.getValues("eventmainimg"),
+        eventcoverimg:
+          EventData?.coverEventImage || form.getValues("eventcoverimg"),
+
+        compticketno:
+          EventData?.totalComplemantaryTickets ||
+          form.getValues("compticketno"),
+        fburl: EventData?.fbUrl || form.getValues("fburl"),
+        instaurl: EventData?.instaUrl || form.getValues("instaurl"),
+        youtubeurl: EventData?.youtubeUrl || form.getValues("youtubeurl"),
+        telegramurl: EventData?.twitterUrl || form.getValues("telegramurl"),
+        tiktokurl: EventData?.tiktokUrl || form.getValues("tiktokurl"),
+        linkedinurl: EventData?.linkedinUrl || form.getValues("linkedinurl"),
+        tickets: ticketsWithCheckedOptions || form.getValues("tickets"),
       });
     }
-    
   }, [EventData]);
+
   function extractDate(dateTime: string): string {
     // Create a new Date object from the input string
     const date = new Date(dateTime);
@@ -527,6 +746,7 @@ function Editevent() {
 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
+
   return (
     <section
       style={{
@@ -539,8 +759,14 @@ function Editevent() {
       {loader && <ScreenLoader />}
       <div className="pxpx mx-2xl  w-full pt-[120px] lg:pt-[132px]  ">
         <Backward />
-        <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
-          <Image src={bgframe} alt="bg-frame" className="w-full " />
+        {/* <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
+          <Image
+            src={imageUrl}
+            alt="bg-frame"
+            className="w-full h-[281px]  object-cover"
+            width={100}
+            height={281}
+          />
           <label
             htmlFor="upload"
             className="flex gap-2 items-center justify-between w-full cursor-pointer"
@@ -553,6 +779,36 @@ function Editevent() {
                 </p>
               </div>
             </div>
+          </label>
+        </div> */}
+        <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
+          <Image
+            src={CoverImg || imageUrl}
+            alt="bg-frame"
+            className="w-full h-[281px] object-cover"
+            width={100}
+            height={281}
+          />
+          <label
+            htmlFor="uploadcover"
+            className="flex gap-2 items-center justify-between w-full cursor-pointer"
+          >
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="flex justify-center items-center rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
+                <Image src={greenpencile} alt="pencil" />
+                <p className="text-[#00D059] text-sm font-extrabold">
+                  Edit Image
+                </p>
+              </div>
+            </div>
+            <input
+              ref={fileInputRef2}
+              type="file"
+              accept="image/png, image/jpg, image/jpeg, image/svg"
+              id="uploadcover"
+              className="hidden"
+              onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
+            />
           </label>
         </div>
         <div className="px-[24px] py-[16px] relative create-container ">
@@ -642,7 +898,7 @@ function Editevent() {
                       <FormControl>
                         <Textarea
                           {...field}
-                          value={Eventdescription}
+                          // value={Eventdescription}
                           className="pt-11 create-txtarea-input "
                           onChange={(e) => {
                             setEventdescription(e.target.value);
@@ -841,7 +1097,7 @@ function Editevent() {
                   )}
                 />
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="eventcoverimg"
                   render={({ field }) => (
@@ -862,6 +1118,7 @@ function Editevent() {
                           >
                             <span className="pl-[0.75rem]">
                               {CoverImgName || "Upload Image"}
+                              
                             </span>
                             <input
                               ref={fileInputRef2}
@@ -877,8 +1134,253 @@ function Editevent() {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
               </div>
+
+              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+                <FormItem className="relative w-full space-y-0">
+                  <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                    Gallery media
+                    {galleryFiles?.length > 0 && (
+                      <div className="mt-4 pb-4 relative">
+                        <div className="flex flex-wrap gap-[12px]">
+                          {galleryFiles?.map((file, index) => {
+                            const isVideo = file?.type?.startsWith("video/");
+                            const isImage = file?.type?.startsWith("image/");
+                            return (
+                              <div
+                                key={index}
+                                className="relative w-[80px] h-[80px] bg-gray-200 rounded-[12px]"
+                              >
+                                {isVideo ? (
+                                  <video
+                                    src={window.URL.createObjectURL(file)}
+                                    className="w-full h-full object-cover relative rounded-[12px]"
+                                    width={80}
+                                    height={80}
+                                    controls
+                                  >
+                                    Your browser does not support the video tag.
+                                  </video>
+                                ) : isImage ? (
+                                  <Image
+                                    src={window.URL.createObjectURL(file)}
+                                    alt={`Gallery Image ${index + 1}`}
+                                    className="w-full h-full object-cover relative rounded-[12px]"
+                                    width={80}
+                                    height={80}
+                                  />
+                                ) : (
+                                  <p className="w-full h-full flex items-center justify-center text-red-500">
+                                    Unsupported media type
+                                  </p>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => removeImage(index)}
+                                  className="trash_button"
+                                >
+                                  <Image
+                                    src={crossicon}
+                                    alt="remove"
+                                    width={20}
+                                    height={20}
+                                  />
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </FormLabel>
+                  <FormControl>
+                    <div>
+                      <label
+                        htmlFor="galleryUpload"
+                        className={`pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px] ${
+                          galleryFiles.length > 0
+                            ? "h-[200px] gallery-box"
+                            : "pt-9 gallery-top"
+                        }`}
+                      >
+                        <span className="pl-[0.75rem] uploadImageButton">
+                          {"Upload Images"}
+                        </span>
+                        <input
+                          type="file"
+                          multiple
+                          accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
+                          className="hidden"
+                          id="galleryUpload"
+                          onChange={handleFileChange}
+                        />
+                      </label>
+                    </div>
+                  </FormControl>
+                </FormItem>
+              </div> */}
+
+              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+                <FormItem className="relative w-full space-y-0">
+                  <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                    Gallery media
+                    {galleryFiles.length > 0 && (
+                      <div className="mt-4 pb-4 relative">
+                        <div className="flex flex-wrap gap-[12px]">
+                          {galleryFiles.map((file: any, index) => (
+                            <div
+                              key={index}
+                              className="relative w-[80px] h-[80px] bg-gray-200 rounded-[12px]"
+                            >
+                              {file?.type === "video" ? (
+                                <video
+                                  src={
+                                    typeof file.url === "string"
+                                      ? file.url
+                                      : URL.createObjectURL(file)
+                                  }
+                                  className="w-full h-full object-cover relative rounded-[12px]"
+                                  width={80}
+                                  height={80}
+                                  controls
+                                >
+                                  Your browser does not support the video tag.
+                                </video>
+                              ) : (
+                                <img
+                                  src={
+                                    typeof file.url === "string"
+                                      ? file.url
+                                      : URL.createObjectURL(file)
+                                  }
+                                  alt={`Gallery Image ${index + 1}`}
+                                  className="w-full h-full object-cover relative rounded-[12px]"
+                                  width={80}
+                                  height={80}
+                                />
+                              )}
+                              <button
+                                type="button"
+                                onClick={() => removeImage(index)}
+                                className="trash_button"
+                              >
+                                <Image
+                                  src={crossicon}
+                                  alt="remove"
+                                  width={20}
+                                  height={20}
+                                />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </FormLabel>
+                  <FormControl>
+                    <div>
+                      <label
+                        htmlFor="galleryUpload"
+                        className={`pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px] ${
+                          galleryFiles.length > 0
+                            ? "h-[200px] gallery-box"
+                            : "pt-9 gallery-top"
+                        }`}
+                      >
+                        <span className="pl-[0.75rem] uploadImageButton">
+                          Upload Images
+                        </span>
+                        <input
+                          type="file"
+                          multiple
+                          accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
+                          className="hidden"
+                          id="galleryUpload"
+                          onChange={handleFileChange}
+                        />
+                      </label>
+                    </div>
+                  </FormControl>
+                </FormItem>
+              </div>
+
+              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+      <FormItem className="relative w-full space-y-0">
+        <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+          Gallery media
+          {galleryFiles.length > 0 && (
+            <div className="mt-4 pb-4 relative">
+              <div className="flex flex-wrap gap-[12px]">
+                {galleryFiles.map((fileObj, index) => (
+                  <div
+                    key={index}
+                    className="relative w-[80px] h-[80px] bg-gray-200 rounded-[12px]"
+                  >
+                    {fileObj?.file?.type.startsWith('video') ? (
+                      <video
+                        src={fileObj.url}
+                        className="w-full h-full object-cover relative rounded-[12px]"
+                        width={80}
+                        height={80}
+                        controls
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    ) : (
+                      <Image
+                        src={fileObj.url}
+                        alt={`Gallery Image ${index + 1}`}
+                        className="w-full h-full object-cover relative rounded-[12px]"
+                        width={80}
+                        height={80}
+                      />
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="trash_button"
+                    >
+                      <Image
+                        src={crossicon}
+                        alt="remove"
+                        width={20}
+                        height={20}
+                      />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </FormLabel>
+        <FormControl>
+          <div>
+            <label
+              htmlFor="galleryUpload"
+              className={`pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px] ${
+                galleryFiles.length > 0
+                  ? "h-[200px] gallery-box"
+                  : "pt-9 gallery-top"
+              }`}
+            >
+              <span className="pl-[0.75rem] uploadImageButton">
+                {"Upload Images"}
+              </span>
+              <input
+                type="file"
+                multiple
+                accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
+                className="hidden"
+                id="galleryUpload"
+                onChange={handleFileChange}
+              />
+            </label>
+          </div>
+        </FormControl>
+      </FormItem>
+    </div> */}
+
               {ticketTypes.map((ticket, index) => (
                 <div
                   className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
@@ -976,7 +1478,69 @@ function Editevent() {
                   </div>
 
                   {/* What's Included Section */}
-                  <div className="pb-[8px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                  <FormField
+                    control={form.control}
+                    name={`tickets.${index}.options`}
+                    render={({ field }) => (
+                      <FormItem className="pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                        <div
+                          className="flex items-center justify-between"
+                          onClick={() => handleDropdown(index)}
+                        >
+                          <p className="text-sm text-gray-500 uppercase">
+                            WHATS INCLUDED
+                          </p>
+                          <Image
+                            src={ticket?.dropdown ? arrowdown : arrowdown}
+                            width={11}
+                            height={11}
+                            alt="arrow"
+                          />
+                        </div>
+                        {ticket?.dropdown && (
+                          <div>
+                            {options?.map((option) => (
+                              <div
+                                key={option.id}
+                                className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                onClick={() =>
+                                  handleOptionToggle(index, option)
+                                }
+                              >
+                                <div className="flex items-center gap-[10px]">
+                                  <Image
+                                    src={option?.image}
+                                    width={16}
+                                    height={16}
+                                    alt="img"
+                                  />
+                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p>
+                                </div>
+                                {ticket?.options?.some(
+                                  (o) => o?.id === option?.id
+                                ) && (
+                                  <Image
+                                    src={tick}
+                                    width={10}
+                                    height={10}
+                                    alt="tick"
+                                  />
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              ))}
+
+              {/* What's Included Section */}
+              {/* <div className="pb-[8px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                     <div
                       className="flex items-center justify-between"
                       onClick={() => handleDropdown(index)}
@@ -1024,9 +1588,7 @@ function Editevent() {
                         ))}
                       </div>
                     )}
-                  </div>
-                </div>
-              ))}
+                  </div> */}
 
               {/* Add Ticket Type Button */}
               <div className="flex justify-end items-center mt-[12px] ticket-btn">
@@ -1217,11 +1779,26 @@ function Editevent() {
               <div className="flex justify-end items-center mt-[36px] edit-btn">
                 <Button
                   type="submit"
-                  className="font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
+                  className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                 >
-                  Create Event
+                  Submit
                 </Button>
               </div>
+              {/* <div className="flex items-center justify-end gap-[20px]">
+                <div className="flex justify-end items-center mt-[36px] edit-btn">
+                  <button className="flex h-[52px] py-[12px] px-[68px] edit-btn justify-center items-center rounded-[44px] gap-[6px] gradient-bg gradient-border-edit ">
+                    Preview
+                  </button>
+                </div>
+                <div className="flex justify-end items-center mt-[36px] edit-btn">
+                  <Button
+                    type="submit"
+                    className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
+                  >
+                    Submit
+                  </Button>
+                </div>
+              </div> */}
             </form>
           </Form>
         </div>
