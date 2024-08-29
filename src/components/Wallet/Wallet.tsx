@@ -15,26 +15,27 @@ import { getTicketsByID } from "@/lib/middleware/wallet";
 type SelectedOption = "tickets" | "collectables" | null;
 
 const Wallet = () => {
-  const [selected, setSelected] = useState<SelectedOption>('tickets');
+  const [selected, setSelected] = useState<SelectedOption>("tickets");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const userid = localStorage.getItem("_id");
     dispatch(getTicketsByID(userid));
   }, []);
- 
 
   return (
     <section className="min-h-screen pt-[7rem] lg:pt-[8rem] pb-[8rem] bg-cover bg-no-repeat md:px-[100px]   bg-reward  ">
-    <div className="min-h-screen flex items-start justify-center px-[24px]">
-      <div className="flex flex-col w-full max-w-[1200px] justify-center items-start">
-        <h3 className="pb-[16px] md:pb-[20px] md:text-[32px] font-extrabold text-[20px]">
-          Wallet
-        </h3>
-        <Walletbalancetable />
-        <div className="flex pt-[32px] w-full pb-[28px] md:pb-[32px] gap-[12px]">
-          <div className="flex gap-[12px] w-full">
-            
+      <div className="min-h-screen flex items-start justify-center px-[24px]">
+        <div className="flex flex-col w-full max-w-[1200px] justify-center items-start">
+          <h3 className="pb-[16px] md:pb-[20px] md:text-[32px] font-extrabold text-[20px]">
+            Wallet
+          </h3>
+          <h2 className=" text-base font-bold mb-[4px] md:mb-[8px]">
+            Your Balance
+          </h2>
+          <Walletbalancetable />
+          <div className="flex pt-[32px] w-full pb-[28px] md:pb-[32px] gap-[12px]">
+            <div className="flex gap-[12px] w-full">
               <div
                 className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
                   selected === "tickets"
@@ -58,9 +59,8 @@ const Wallet = () => {
                 )}
                 <p>Tickets</p>
               </div>
-         
-          </div>
-         
+            </div>
+
             <div
               className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
                 selected === "collectables"
@@ -84,21 +84,20 @@ const Wallet = () => {
               )}
               <p>Collectables</p>
             </div>
-     
+          </div>
+          <div className="w-full relative mb-[16px] md:mb-[32px]">
+            <Input
+              className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-[12px] md:text-sm font-normal"
+              placeholder="Search Event"
+            />
+            <MagnifyingGlass
+              size={20}
+              className="absolute top-1/2 -translate-y-1/2 right-5"
+            />
+          </div>
+          <EventCards eventType={selected} />
         </div>
-        <div className="w-full relative mb-[16px] md:mb-[32px]">
-          <Input
-            className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-[12px] md:text-sm font-normal"
-            placeholder="Search Event"
-          />
-          <MagnifyingGlass
-            size={20}
-            className="absolute top-1/2 -translate-y-1/2 right-5"
-          />
-        </div>
-        <EventCards eventType={selected}/>
       </div>
-    </div>
     </section>
   );
 };
