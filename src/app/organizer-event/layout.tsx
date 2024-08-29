@@ -3,6 +3,7 @@ import ProfileSidebar from "@/components/profile-page/ProfileSideBar";
 import ProfileSideInfo from "@/components/profile-page/ProfileSideInfo";
 import Image from "next/image";
 import useMedia from "@/hooks/useMedia";
+import { useRouter } from "next/navigation";
 import Drawer from "@/components/EventOrganizer/Sidedrawer/Sidedrawer";
 
 export default function RootLayout({
@@ -11,48 +12,92 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const isMobile = useMedia("(max-width: 768px)", false);
+  const router = useRouter();
+  const isLunchEventRoute = router.pathname === "/organizer-event/lunch-event";
   return (
+    <div
+    style={
+      isMobile
+        ? { position: "relative" }
+        : { position: "relative", overflow: "hidden" }
+    }
+    className={`flex main-box mx-2xl ${!isLunchEventRoute && 'lunch-event-stlying'} lg:min-h-[100vh]`}
+  >
     <div
       style={
         isMobile
           ? { position: "relative" }
-          : { position: "relative", overflow: "hidden" }
+          : { position: "relative", zIndex: "9" }
       }
-      className="flex main-box mx-2xl py-[8rem] px-[34px] lg:py-[9rem] xl:gap-12 lg:min-h-[100vh]"
+      className="w-full"
     >
+      <Drawer />
+      {children}
+    </div>
+    {!isMobile && (
       <div
-        style={
-          isMobile
-            ? { position: "relative" }
-            : { position: "relative", zIndex: "9" }
-        }
-        className="w-full"
+        style={{
+          position: "absolute",
+          right: "0%",
+          bottom: "0%",
+          zIndex: "-1",
+        }}
       >
-        <Drawer />
-        {children}
-      </div>
-      {!isMobile && (
         <div
           style={{
-            position: "absolute",
-            right: "0%",
-            bottom: "0%",
-            zIndex: "-1",
+            width: "860px",
+            height: "875px",
+            background:
+              "radial-gradient(circle at center, rgba(15, 255, 119, 0.32), rgba(0, 0, 0, 0))",
+            filter: "blur(100px)",
+            transform: "translate(125px, 125px)",
           }}
-        >
-          <div
-            style={{
-              width: "860px",
-              height: "875px",
-              background:
-                "radial-gradient(circle at center, rgba(15, 255, 119, 0.32), rgba(0, 0, 0, 0))",
-              filter: "blur(100px)",
-              transform: "translate(125px, 125px)",
-            }}
-            className="rounded-full"
-          />
-        </div>
-      )}
-    </div>
+          className="rounded-full"
+        />
+      </div>
+    )}
+  </div>
+    // <div
+    //   style={
+    //     isMobile
+    //       ? { position: "relative" }
+    //       : { position: "relative", overflow: "hidden" }
+    //   }
+    //   className="flex main-box mx-2xl py-[8rem] px-[34px] lg:py-[9rem] xl:gap-12 lg:min-h-[100vh]"
+    // >
+    //   <div
+    //     style={
+    //       isMobile
+    //         ? { position: "relative" }
+    //         : { position: "relative", zIndex: "9" }
+    //     }
+    //     className="w-full"
+    //   >
+    //     <Drawer />
+    //     {children}
+    //   </div>
+    //   {!isMobile && (
+    //     <div
+    //       style={{
+    //         position: "absolute",
+    //         right: "0%",
+    //         bottom: "0%",
+    //         zIndex: "-1",
+    //       }}
+    //     >
+    //       <div
+    //         style={{
+    //           width: "860px",
+    //           height: "875px",
+    //           background:
+    //             "radial-gradient(circle at center, rgba(15, 255, 119, 0.32), rgba(0, 0, 0, 0))",
+    //           filter: "blur(100px)",
+    //           transform: "translate(125px, 125px)",
+    //         }}
+    //         className="rounded-full"
+    //       />
+    //     </div>
+    //   )}
+    // </div>
   );
 }

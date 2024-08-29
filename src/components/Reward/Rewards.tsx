@@ -84,35 +84,13 @@ function Rewards() {
       className="min-h-screen py-[8rem] bg-cover bg-no-repeat  px-[24px] lg:px-0 bg-reward bg-reward-outer"
     >
       <div className="bg-reward-outer2 ">
-        <p className="font-extrabold text-[32px] -tracking-[0.02em]">
+        <p className="font-extrabold lg:text-[32px] text-[20px] -tracking-[0.02em]">
           Your Rewards
         </p>
-
-        {/* <div className="pt-[32px]">
-        <p className="text-[#E6E6E6] text-[16px] font-bold">My Items</p>
-        <ScrollArea className="w-full whitespace-nowrap ">
-          <div className="flex gap-4 mt-[8px] ">
-            {rewardposts.map((post) => (
-              <div
-                key={post.id}
-                className="flex items-start flex-col gap-[8px]"
-              >
-                <Thumbnail img={post.img} />
-                <p className="text-[12px]">{post.title}</p>
-
-                <div className="w-[108px]"> 
-            <p className="overflow-hidden text-ellipsis whitespace-nowrap">{post.title}</p>
-          </div>
-              </div>
-            ))}
-          </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-      </div> */}
-        <div className="pt-[32px]">
+        <div className="lg:pt-[32px] pt-[52px]">
           <p className="text-[#E6E6E6] text-[16px] font-bold">My Items</p>
           <ScrollArea className="w-full overflow-auto ">
-            <div className="flex gap-4 mt-6 whitespace-nowrap min-w-[800px]">
+            <div className="flex gap-[8px] lg:mt-[8px] mt-[16px] whitespace-nowrap min-w-[800px]">
               {rewardposts.map((post: any) => (
                 <div
                   key={post.id}
@@ -127,16 +105,16 @@ function Rewards() {
           </ScrollArea>
         </div>
         <div className="h-full pt-[32px] w-full ">
-          <p className="mb-[8px] text-[#E6E6E6] text-[16px] font-bold">
+          <p className="lg:mb-[8px] mb-[16px] text-[#E6E6E6] text-[16px] font-bold">
             Claimable Rewards
           </p>
 
-          <div className="flex pt-[32px] w-full pb-[28px] md:pb-[32px] gap-[12px]">
+          <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[12px]">
             <div className="flex gap-[12px] w-full">
               <div
                className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
                 selected === "rewards"
-                  ? "gradient-border text-[#00A849]"
+                  ? "gradient-border-rounded text-[#00A849]"
                   : ""
               }`}
                 onClick={() => setSelected("rewards")}
@@ -154,14 +132,14 @@ function Rewards() {
                     alt="Default Ticket"
                   />
                 )}
-                <p>Tickets</p>
+                <p>Rewards</p>
               </div>
             </div>
 
             <div
               className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
                 selected === "rewardcollectables"
-                  ? "gradient-border text-[#00A849]"
+                  ? "gradient-border-rounded text-[#00A849]"
                   : ""
               }`}
               onClick={() => setSelected("rewardcollectables")}

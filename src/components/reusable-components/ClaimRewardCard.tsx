@@ -52,7 +52,7 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID }: any) => {
         <Button
           size="sm"
           variant="secondary"
-          className="py-[6px] w-fit text-[#030303] text-[14px]"
+          className="py-[6px] font-extrabold w-fit text-[#030303] text-[14px]"
           // onClick={() => {
           //   router.push("/reward/claimable-reward");
           // }}

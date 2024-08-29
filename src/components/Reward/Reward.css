@@ -45,7 +45,7 @@
     width: 100%;
     flex-direction: column;
     align-items: normal;
-
+    gap: 32px !important;
   }
   .textbr br {
     display: none;
