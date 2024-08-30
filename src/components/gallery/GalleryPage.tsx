@@ -24,11 +24,11 @@ const GalleryPage = () => {
 
   const handleNavigation = (event:any) => {
     if (event === "NAITRAM LAUNCH PARTY") {
-      window.location.href = "/gallery/naitramlaunch";
+      typeof window !== "undefined" ? window.location.href = "/gallery/naitramlaunch" :null;
     } else if (event === "NAITRAM ROOFTOP EVENT") {
-      window.location.href = "/gallery/rooftop";
+      typeof window !== "undefined" ? window.location.href = "/gallery/rooftop":null;
     } else if (event === "THE TAKEOVER EVENT") {
-      window.location.href = "/gallery/takeover";
+      typeof window !== "undefined" ?  window.location.href = "/gallery/takeover":null;
     }
   };
   

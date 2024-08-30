@@ -67,7 +67,7 @@ const PaymentsModal = ({
       
 
       if (data?.data?.url) {
-        window.location.href =data?.data?.url
+        typeof window !== "undefined"?  window.location.href =data?.data?.url :null
       } else {
         console.error("No URL received");
       }
@@ -131,7 +131,7 @@ const PaymentsModal = ({
 
 
   useEffect(() => {
-    const currentUrl = window.location.href;
+    const currentUrl:any =  typeof window !== "undefined" ? window.location.href:null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventid(value);

@@ -27,7 +27,8 @@ export default function ClaimableRewards() {
   const dispatch = useAppDispatch();
   const [isClaimOpen, setisClaimOpen] = useState(false);
   useEffect(() => {
-    const currentUrl = window.location.href;
+    const currentUrl:any =
+      typeof window !== "undefined" ? window.location.href : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setCollectID(value);
@@ -47,7 +48,8 @@ export default function ClaimableRewards() {
 
   async function ClaimCollectible() {
     console.log("Collectible Claimed");
-    const userID = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("my id is", userID);
     try {
       const data = {
@@ -68,7 +70,7 @@ export default function ClaimableRewards() {
       ErrorToast(error);
     }
   }
-  
+
   return (
     <section className="min-h-screen pt-[8rem] lg:pt-[136px] pb-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
       <div className="mx-auto max-w-screen-lg ">
@@ -94,7 +96,9 @@ export default function ClaimableRewards() {
             />
           </div>
           <div>
-            <Badge className="lg:text-[12px] font-extrabold py-[8px] px-[12px] bg-[#292929]">Featured</Badge>
+            <Badge className="lg:text-[12px] font-extrabold py-[8px] px-[12px] bg-[#292929]">
+              Featured
+            </Badge>
             <p className="font-extrabold  text-[32px] lg:text-[48px] -tracking-[0.04em] lg:-tracking-[0.02em] -tracking-[0.04em] pt-[12px]">
               {myData?.name}
             </p>

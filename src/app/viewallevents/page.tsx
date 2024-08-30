@@ -1,8 +1,8 @@
-import dynamic from 'next/dynamic'
-const AllNaitramEvents = dynamic(() => import('../../components/homepage/sections/AllNaitramEvents'),{
-  ssr:false
-})
 
+import AllNaitramEvents from '../../components/homepage/sections/AllNaitramEvents'
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 
 

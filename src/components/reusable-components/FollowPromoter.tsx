@@ -74,10 +74,10 @@ const FollowPromoter = ({ userId }: any) => {
         </Button>
         <div className="flex gap-3 h-full">
           <div className="border border-white w-fit p-2 rounded-full">
-            <InstagramLogo onClick={()=>{window.open(myEvents?.data?.data[0]?.instaUrl,"_blank")}} size={25} weight="fill" />
+            <InstagramLogo onClick={()=>{typeof window !== "undefined" ?window.open(myEvents?.data?.data[0]?.instaUrl,"_blank"):null}} size={25} weight="fill" />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <TwitterLogo  onClick={()=>{window.open(myEvents?.data?.data[0]?.twitterUrl,"_blank")}} size={25} weight="fill" />
+            <TwitterLogo  onClick={()=>{typeof window !== "undefined"?window.open(myEvents?.data?.data[0]?.twitterUrl,"_blank"):null}} size={25} weight="fill" />
           </div>
         </div>
       </div>

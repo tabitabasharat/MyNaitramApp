@@ -6,7 +6,7 @@ import Card from "./vision/card/Card";
 import { Reveal } from "@/components/animations/Reveal";
 import VideoPlayer from "./VedioPlayer/VedioPlayer";
 
-export default function page ()  {
+export default function AboutPage ()  {
   return (
     <>
       <section

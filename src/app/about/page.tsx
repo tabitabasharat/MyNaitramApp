@@ -1,13 +1,7 @@
-"use client"
-// import AboutPage from '@/components/about/AboutPage';
-import dynamic from 'next/dynamic';
-const AboutPage = dynamic(()=>import("@/components/about/AboutPage"),{
-  ssr:false
-})
+import AboutPage from '@/components/about/AboutPage';
 
-export default function page ()  {
+const page = () => {
   return <AboutPage />;
 };
 
-
-
+export default page;

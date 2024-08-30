@@ -912,7 +912,7 @@ function OganizerCreateEvent() {
                               >
                                 {isVideo ? (
                                   <video
-                                    src={window.URL.createObjectURL(file)}
+                                    src={  window.URL.createObjectURL(file)}
                                     className="w-full h-full object-cover relative rounded-[12px]"
                                     width={80}
                                     height={80}

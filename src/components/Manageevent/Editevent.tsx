@@ -234,7 +234,7 @@ function Editevent() {
   const [eventID, setEventId] = useState("");
 
   useEffect(() => {
-    const currentUrl = window.location.href;
+    const currentUrl:any =  typeof window !== "undefined" ? window.location.href:null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventId(value);

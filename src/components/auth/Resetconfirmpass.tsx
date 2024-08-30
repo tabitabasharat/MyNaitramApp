@@ -72,8 +72,8 @@ const Resetconfirmpass = () => {
 
 
   useEffect(() => {
-    const currentUrl = window.location.href;
-    const parts = currentUrl.split("/");
+    const currentUrl:any = typeof window !== "undefined" ? window.location.href:null;
+    const parts = currentUrl?.split("/");
     const value = parts[parts.length - 1];
     setPasscode(value);
     console.log("myy", value);

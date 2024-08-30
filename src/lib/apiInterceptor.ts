@@ -28,7 +28,7 @@ if (typeof window !== "undefined") {
         error.response &&
         (error.response.status === 401 || error.response.status === 403)
       ) {
-        window.location.href = "/login";
+        typeof window !== "undefined" ? window.location.href = "/login":null;
       }
 
       return Promise.reject(error);

@@ -2,7 +2,8 @@
 import Resetconfirmpass from "@/components/auth/Resetconfirmpass";
 import React from "react";
 
-export default function page ()  {
+const page = () => {
     return <Resetconfirmpass/>
   };
   
+  export default page;
