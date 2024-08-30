@@ -190,7 +190,7 @@ export default function Specificqrcode() {
           </p>
         </div>
         {/* Main content container */}
-        <div className="flex flex-col-reverse justify-between gap-[62px] lg:items-start items-center lg:flex-row">
+        <div className="flex flex-col-reverse justify-between items-center gap-[62px]  lg:flex-row">
           <div className="flex flex-col">
             <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
               <div className="flex w-full gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0">
@@ -250,10 +250,10 @@ export default function Specificqrcode() {
               </div>
             </div>
           </div>
-          <div 
-          >
-            <Image src={rhsimg} alt="rhs" className="pt-[0px] lg:pt-[87px]" />
-          </div>
+          {/* <div style={{background:"#00A849",borderRadius:"12px"}}  */}
+          {/* > */}
+            <Image style={{borderRadius:"12px"}} width={320} height={320} src={TicketData?.qrCode} alt="rhs" className="pt-[0px]" />
+          {/* </div> */}
         </div>
       </div>
     </section>

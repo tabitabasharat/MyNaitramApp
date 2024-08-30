@@ -42,7 +42,7 @@ const Ticket: Ticket[] = [
   { id: 4, image: security, address: "Security and First Aid" },
 ];
 
-const imageMap:any = {
+const imageMap: any = {
   "Merchandise Stalls": stall,
   "Food and Beverages": food,
   "VIP Lounge": vip,
@@ -230,7 +230,7 @@ export default function SpecificEventTickets() {
                       className="flex items-center mb-[12px]"
                     >
                       <Image
-                       src={imageMap[Ticket?.label]}
+                        src={imageMap[Ticket?.label]}
                         width={30}
                         height={30}
                         alt="Location Icon"
@@ -250,7 +250,14 @@ export default function SpecificEventTickets() {
               <Image src={info} alt="img" />
             </div>
             <div className="flex flex-col justify-center items-center">
-              <Image src={qrcode} alt="img" />
+              <div>
+                <Image style={{borderRadius:"12px"}}
+                  width={144}
+                  height={144}
+                  src={TicketData?.qrCode}
+                  alt="img"
+                />
+              </div>
               <Link href={`/wallet/specific-qr-code/${eventID}`}>
                 <button className="font-extrabold text-sm rounded-[100px] mb-[24px] mt-[16px] px-[16px] py-[10px] bg-[#00D059] text-black">
                   Enlarge Code
