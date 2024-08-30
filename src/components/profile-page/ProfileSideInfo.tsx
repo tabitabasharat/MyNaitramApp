@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
 import Image from "next/image";
+import { useEffect } from "react";
 import {
   AppBar,
   Box,
@@ -15,6 +16,7 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -45,6 +47,12 @@ interface GradientListItemProps {
   activeItem: string | null;
 }
 const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
+  const isSmallScreen = useMediaQuery("(max-width:992px)");
+  useEffect(() => {
+    if (isSmallScreen) {
+      setMobileOpen(false);
+    }
+  }, [isSmallScreen]);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState<string | null>(null);
@@ -95,13 +103,12 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
 
   const Logout = () => {
     localStorage.clear();
-  
+
     dispatch({ type: "LOGOUT" });
     router.push("/");
   };
-  
-  const drawer = (
 
+  const drawer = (
     <>
       <div className="ps-[32px] pe-[24px] bg-[black]">
         <List className="bg-[black] p-[0px] text-[white]">
@@ -118,8 +125,10 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               {menuItems.map((item) => (
                 <Link href={item.url} key={item.text}>
                   <ListItem
-                     className={`text-xl font-bold ${
-                      activeItem === item.text ? "gradient-border rounded-lg" : ""
+                    className={`text-xl font-bold ${
+                      activeItem === item.text
+                        ? "gradient-border rounded-lg"
+                        : ""
                     }`}
                     // style={{
                     //   background:
@@ -136,10 +145,11 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                     {/* <div style={{background:" linear-gradient(#fff, #fff) padding-box,linear-gradient(90deg, #0B6719 0%, #2AD72D 100%) border-box;",padding:"1px 2px"}}> */}
                     <ListItemButton
                     // style={{background:"black"}}
-                     
-                 
                     >
-                      <ListItemIcon style={{minWidth:"0pc"}} className="pr-2">
+                      <ListItemIcon
+                        style={{ minWidth: "0pc" }}
+                        className="pr-2"
+                      >
                         <Image
                           src={item.icon}
                           alt={item.text}
@@ -173,7 +183,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                   onClick={() => handleItemClick(item.text)}
                 >
                   <ListItemButton className="p-[10px] flex items-center">
-                    <ListItemIcon  style={{minWidth:"0pc"}} className=" pr-2">
+                    <ListItemIcon style={{ minWidth: "0pc" }} className=" pr-2">
                       <Image
                         src={item.icon}
                         alt={item.text}
@@ -198,13 +208,18 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               //     : ""
               // }`}
               className={`text-xl font-bold ${
-                activeItem === "Delete Account" ? "gradient-border rounded-lg" : ""
+                activeItem === "Delete Account"
+                  ? "gradient-border rounded-lg"
+                  : ""
               }`}
               disablePadding
               onClick={() => handleItemClick("Delete Account")}
             >
               <ListItemButton className="p-[10px]">
-                <ListItemIcon  style={{minWidth:"0px"}} className="min-w-0 pr-2">
+                <ListItemIcon
+                  style={{ minWidth: "0px" }}
+                  className="min-w-0 pr-2"
+                >
                   <Image
                     src={delaccnt}
                     alt="Delete Account"
@@ -219,13 +234,14 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
         </List>
       </div>
       <div className="">
-        <button className="text-[white] mb-[32px] md:mx-[21px] absolute bottom-[10%] mx-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
-        onClick={Logout}>
+        <button
+          className="text-[white] mb-[32px] md:mx-[21px] absolute bottom-[10%] mx-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
+          onClick={Logout}
+        >
           <Image
             src={logout}
             className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]"
             alt="img"
-          
           />{" "}
           Log out
         </button>
@@ -237,15 +253,14 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
     window !== undefined ? () => window().document.body : undefined;
   const theme = useTheme();
 
-  
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          // width: { sm: `calc(100% - ${drawerWidth}px)` },
+          // ml: { sm: `${drawerWidth}px` },
           background: "transparent",
           marginTop: "80px",
           boxShadow: "none",
@@ -257,7 +272,12 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" }, boxShadow: "none" }}
+            // sx={{ mr: 2, display: { sm: "none" }, boxShadow: "none" }}
+            sx={{
+              mr: 2,
+              display: { sm: "block", md: "block", lg: "none" },
+              boxShadow: "none",
+            }}
           >
             <MenuIcon />
           </IconButton>
@@ -274,61 +294,64 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onTransitionEnd={handleDrawerTransitionEnd}
-          onClose={handleDrawerClose}
-          ModalProps={{ keepMounted: true }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-              background: "black",
-              marginTop: "87px",
-              position: "relative",
-            },
-            "& .MuiTypography-root": {
-              fontSize: "14px",
-              fontWeight: "400",
-            },
-          }}
-        >
-          <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px]">
-            <IconButton
-              className="p-0 h-[30px] w-[30px]"
-              onClick={handleDrawerClose}
-            >
-              {theme.direction === "ltr" ? (
-                <Image src={backwardicon} alt="icon" />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </DrawerHeader>
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-              marginTop: "87px",
-              backgroundColor: "black",
-            },
-            "& .MuiTypography-root": {
-              fontSize: "14px",
-              fontWeight: "400",
-            },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
+        {isSmallScreen ? (
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onTransitionEnd={handleDrawerTransitionEnd}
+            onClose={handleDrawerClose}
+            ModalProps={{ keepMounted: true }}
+            sx={{
+              // display: { xs: "block", sm: "none" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+                background: "black",
+                marginTop: "87px",
+                position: "relative",
+              },
+              "& .MuiTypography-root": {
+                fontSize: "14px",
+                fontWeight: "400",
+              },
+            }}
+          >
+            <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px]">
+              <IconButton
+                className="p-0 h-[30px] w-[30px]"
+                onClick={handleDrawerClose}
+              >
+                {theme.direction === "ltr" ? (
+                  <Image src={backwardicon} alt="icon" />
+                ) : (
+                  <ChevronRightIcon />
+                )}
+              </IconButton>
+            </DrawerHeader>
+            {drawer}
+          </Drawer>
+        ) : (
+          <Drawer
+            variant="permanent"
+            sx={{
+              // display: { xs: "none", sm: "block" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+                marginTop: "87px",
+                backgroundColor: "black",
+              },
+              "& .MuiTypography-root": {
+                fontSize: "14px",
+                fontWeight: "400",
+              },
+            }}
+            open
+          >
+            {drawer}
+          </Drawer>
+        )}
       </Box>
       <Box
         component="main"
