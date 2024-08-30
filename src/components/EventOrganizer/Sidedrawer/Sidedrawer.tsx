@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { useState,useEffect } from "react";
 import Image from "next/image";
 import {
   AppBar,
@@ -15,6 +16,7 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -224,6 +226,15 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
     window !== undefined ? () => window().document.body : undefined;
   const theme = useTheme();
 
+  // Use media query hook
+  const isSmallScreen = useMediaQuery("(max-width:992px)");
+
+ useEffect(() => {
+    if (isSmallScreen) {
+      setMobileOpen(false);
+    }
+  }, [isSmallScreen]);
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -268,7 +279,9 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           onClose={handleDrawerClose}
           ModalProps={{ keepMounted: true }}
           sx={{
-            display: { xs: "block", sm: "none" },
+            // display: { xs: "block", sm: "none" },
+            display: { xs: "none", sm: "none" },
+
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
@@ -299,7 +312,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: "none", sm: "block" },
+            display: { xs: "none", sm: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,

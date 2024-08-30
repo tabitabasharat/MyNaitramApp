@@ -110,7 +110,7 @@ const Header = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={() => setMenuIsOpen(false)}
-            className="fixed bg-black z-[70] w-full h-full cursor-pointer lg:hidden"
+            className="fixed bg-black z-[70] w-full h-full cursor-pointer menu-show"
           ></motion.div>
         )}
       </AnimatePresence>
@@ -126,7 +126,7 @@ const Header = () => {
             <Image src={naitramlogo} alt="Naitram-Logo" />
           </div>
         </Link>
-        <nav className="hidden lg:flex gap-[3rem]">
+        <nav className="nav-inside ">
           {links.map((link, i) => (
             <div key={i} className="relative group">
               <Link
@@ -232,7 +232,7 @@ const Header = () => {
           <button
             type="button"
             onClick={toggleMenu}
-            className="flex translate-x-[0rem] items-center gap-[0.1rem] lg:hidden"
+            className="flex translate-x-[0rem] items-center gap-[0.1rem] menu-show "
           >
             <div className="text-black bg-white rounded-full size-10 grid place-items-center">
               <div className="translate-x-[-0.3rem] translate-y-[-0.2rem]">

@@ -84,13 +84,26 @@ const LiveAccntSetting = ({
     },
   });
 
+
+
   useEffect(() => {
     const id = localStorage.getItem("_id");
     console.log("user id ", id);
     dispatch(showLiveActivity(id));
   }, []);
 
+  useEffect(() => {
+    if (myliveActivity && myliveActivity.length > 0) {
+      const currentValues = form.getValues();
 
+      form.reset({
+        facebook: myliveActivity[0]?.fbUrl || currentValues.facebook,
+        insta: myliveActivity[0]?.instaUrl || currentValues.insta,
+        linkedIn: myliveActivity[0]?.linkedinUrl || currentValues.linkedIn,
+        telegram: myliveActivity[0]?.telegramUrl || currentValues.telegram,
+      });
+    }
+  }, [myliveActivity]);
   
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
