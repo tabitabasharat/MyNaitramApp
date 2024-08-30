@@ -45,7 +45,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
-import bgframe2 from "@/assets/uploadframe2.svg"
+import bgframe2 from "@/assets/uploadframe2.svg";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "@/components/loader/Screenloader";
 import { createevent } from "@/lib/middleware/event";
@@ -513,8 +513,50 @@ function OganizerCreateEvent() {
       <div className="pxpx mx-2xl  w-full   ">
         <Backward />
         <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
-        <Image src={bgframe} alt="bg-frame" className="w-full hidden md:block" />
-        <Image src={bgframe2} alt="bg-img" className="w-full md:hidden" />
+          <Image
+            src={CoverImg || bgframe}
+            alt="bg-frame"
+            className="w-full hidden md:block w-full h-[281px] object-cover"
+            width={100}
+            height={281}
+          />
+          <Image
+            src={CoverImg || bgframe2}
+            alt="bg-img"
+            className="w-full md:hidden w-full h-[281px] object-cover"
+            width={100}
+            height={281}
+          />
+          <label
+            htmlFor="uploadcover"
+            className="flex gap-2 items-center justify-between w-full cursor-pointer"
+          >
+            <div className="absolute top-1/2 h-[92%] sm:h-[auto] md:h-[auto] lg:h-[auto] left-1/2 transform flex flex-col w-full justify-between  sm:jutify-center md:jutify-center lg:jutify-center items-center -translate-x-1/2 -translate-y-1/2">
+              <div>
+                <p className="text-[30px] flex-wrap mt-[60px] flex text-center lg:mb-[10px] font-extrabold">
+                  Upload Cover Artwork
+                </p>
+              </div>
+              <div className="flex justify-center mb-[68px] items center  rounded-[44px]  gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
+                <Image src={cam} alt="pencil" />
+                <p className="text-[#00D059] text-sm font-extrabold">
+                  Upload Image
+                </p>
+              </div>
+            </div>
+            <input
+              ref={fileInputRef2}
+              type="file"
+              accept="image/png, image/jpg, image/jpeg, image/svg"
+              id="uploadcover"
+              className="hidden"
+              onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
+            />
+          </label>
+        </div>
+        {/* <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
+        <Image src={CoverImg || bgframe} alt="bg-frame" className="w-full hidden md:block" />
+        <Image src={CoverImg || bgframe2} alt="bg-img" className="w-full md:hidden" />
           <label
             htmlFor="upload"
             className="flex gap-2 items-center justify-between w-full cursor-pointer"
@@ -533,7 +575,7 @@ function OganizerCreateEvent() {
               </div>
             </div>
           </label>
-        </div>
+        </div> */}
         <div className="px-[24px] py-[16px] relative create-container ">
           <div className="flex justify-between">
             <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
@@ -820,122 +862,7 @@ function OganizerCreateEvent() {
                     </FormItem>
                   )}
                 />
-
-                <FormField
-                  control={form.control}
-                  name="eventcoverimg"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        cover event image
-                      </FormLabel>
-                      <UploadSimple
-                        className="absolute right-[24px] top-[30%] "
-                        size={20}
-                      />
-
-                      <FormControl>
-                        <div>
-                          <label
-                            htmlFor="upload2"
-                            className="pt-9 pb-3 font-bold   border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-between items-center "
-                          >
-                            {/* <span>{field.value?.name || "Upload Image"}</span> */}
-                            <span className="pl-[0.75rem]">
-                              {CoverImgName || "Upload Image"}
-                            </span>
-                            {/* {CoverImgName  &&  CoverImg ? (
-                              <span className="pl-[0.75rem]">
-                                {CoverImgName}
-                              </span>
-                            ) : (
-                              <span>Upload Image</span>
-                            )} */}
-
-                            <input
-                              ref={fileInputRef2}
-                              type="file"
-                              accept="image/png image/jpg image/jpeg image/svg"
-                              className="hidden"
-                              id="upload2"
-                              onChange={handleCoverSingleFileChange}
-                            />
-                          </label>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
-
-              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                <FormItem className="relative w-full space-y-0">
-                  <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                    Gallery media
-                    {galleryFiles?.length > 0 && (
-                      <div className="mt-4 pb-4 relative">
-                        <div className="flex flex-wrap gap-[12px] ">
-                          {galleryFiles?.map((file, index) => (
-                            <>
-                              <div
-                                key={index}
-                                className="relative w-[80px] h-[80px] bg-gray-200  rounded-[12px]"
-                              >
-                                <Image
-                                  src={window.URL.createObjectURL(file)}
-                                  alt={`Gallery Image ${index + 1}`}
-                                  className="w-full h-full object-cover relative rounded-[12px]"
-                                  width={80}
-                                  height={80}
-                                />
-
-                                <button
-                                  type="button"
-                                  onClick={() => removeImage(index)}
-                                  className="trash_button"
-                                >
-                                  <Image
-                                    src={crossicon}
-                                    alt="remove"
-                                    width={20}
-                                    height={20}
-                                  />
-                                </button>
-                              </div>
-                            </>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </FormLabel>
-                  <FormControl>
-                    <div>
-                      <label
-                        htmlFor="galleryUpload"
-                        className={` pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px]  ${
-                          galleryFiles.length > 0
-                            ? "h-[200px] gallery-box"
-                            : "pt-9 gallery-top"
-                        }`}
-                      >
-                        <span className="pl-[0.75rem] uploadImageButton">
-                          {"Upload Images"}
-                        </span>
-                        <input
-                          type="file"
-                          multiple
-                          // accept="image/png, image/jpg, image/jpeg, image/svg"
-                           accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
-                          className="hidden"
-                          id="galleryUpload"
-                          onChange={handleFileChange}
-                        />
-                      </label>
-                    </div>
-                  </FormControl>
-                </FormItem>
-              </div> */}
 
               <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
                 <FormItem className="relative w-full space-y-0">
