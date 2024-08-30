@@ -134,7 +134,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
                   onClick={() => handleItemClick("Edit Organizer Profile")}
                 >
                   <ListItemButton className="p-[10px]">
-                    <ListItemIcon className="min-w-0 pr-[6px]">
+                    <ListItemIcon style={{minWidth:"0px"}} className=" pr-[6px]">
                       <Image
                         src={accnt}
                         alt="Delete Account"
@@ -165,7 +165,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
                   onClick={() => handleItemClick(item.text)}
                 >
                   <ListItemButton className="p-[10px] flex items-center">
-                    <ListItemIcon className="min-w-0 pr-[6px]">
+                    <ListItemIcon style={{minWidth:"0px"}} className="pr-[6px]">
                       <Image
                         src={item.icon}
                         alt={item.text}
@@ -195,7 +195,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
               onClick={() => handleItemClick("Delete Account")}
             >
               <ListItemButton className="p-[10px]">
-                <ListItemIcon className="min-w-0 pr-[6px]">
+                <ListItemIcon style={{minWidth:"0px"}} className=" pr-[6px]">
                   <Image
                     src={faq}
                     alt="Delete Account"
@@ -223,7 +223,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
               onClick={() => handleItemClick("Delete Account")}
             >
               <ListItemButton className="p-[10px]">
-                <ListItemIcon className="min-w-0 pr-[6px]">
+                <ListItemIcon style={{minWidth:"0px"}} className="pr-[6px]">
                   <Image
                     src={heplcenter}
                     alt="Delete Account"
