@@ -31,7 +31,7 @@ const FollowPromoter = ({userId}:any) => {
   : promoter;
 console.log("image src is", imageUrl);
   return (
-    <div className="mt-[32px] bg-white/10 rounded-xl p-[16px]">
+    <div className="mt-[32px] bg-white/10 rounded-xl p-[16px] w-full">
       <div className="flex gap-4">
         <Image
           src={imageUrl}
