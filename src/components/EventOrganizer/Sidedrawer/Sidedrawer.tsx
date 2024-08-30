@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   AppBar,
@@ -26,12 +26,10 @@ import accnt from "@/assets/User Gear.svg";
 import chats from "@/assets/Chats.svg";
 import heplcenter from "@/assets/Headset.svg";
 import faq from "@/assets/Question.svg";
-import scanner from "@/assets/Scan.svg" 
+import scanner from "@/assets/Scan.svg";
 import Link from "next/link";
 import { useAppDispatch } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
-
-const drawerWidth = 247;
 
 interface Props {
   window?: () => Window;
@@ -46,6 +44,20 @@ interface GradientListItemProps {
   activeItem: string | null;
 }
 const Sidedrawer: React.FC<Props> = ({ window, children }) => {
+  
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+  const theme = useTheme();
+
+  // Use media query hook
+  const isSmallScreen = useMediaQuery("(max-width:992px)");
+  const drawerWidth = 247;
+  useEffect(() => {
+    if (isSmallScreen) {
+
+      setMobileOpen(false);
+    }
+  }, [isSmallScreen]);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState<string | null>(null);
@@ -72,7 +84,11 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
   const event = [
     { text: "Create Event", icon: chats, url: "/organizer-create-event" },
     { text: "Manage Event", icon: accnt, url: "/management" },
-    { text: "Create Scanner Login", icon: scanner, url: "/organizer-event/event-dashboard" },
+    {
+      text: "Create Scanner Login",
+      icon: scanner,
+      url: "/organizer-event/event-dashboard",
+    },
   ];
 
   const DrawerHeader = styled("div")(({ theme }) => ({
@@ -193,7 +209,9 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           </Link>
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">HELP</h3>
+          <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">
+            HELP
+          </h3>
           <Link href="/organizer-event/event-dashboard">
             <ListItem
               className={`text-xl font-bold ${
@@ -222,27 +240,16 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
     </>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-  const theme = useTheme();
-
-  // Use media query hook
-  const isSmallScreen = useMediaQuery("(max-width:992px)");
-
- useEffect(() => {
-    if (isSmallScreen) {
-      setMobileOpen(false);
-    }
-  }, [isSmallScreen]);
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          // width: { sm: `calc(100% - ${drawerWidth}px)` },
+          // ml: { sm: `${drawerWidth}px` },
+         
+          // ml: { xs: 0, sm: `${drawerWidth}px`, md: 0 },
           background: "transparent",
           marginTop: "80px",
           boxShadow: "none",
@@ -254,7 +261,11 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" }, boxShadow: "none" }}
+            sx={{
+              mr: 2,
+              display: { sm: "block", md: "block", lg: "none" },
+              boxShadow: "none",
+            }}
           >
             <MenuIcon />
           </IconButton>
@@ -271,63 +282,66 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onTransitionEnd={handleDrawerTransitionEnd}
-          onClose={handleDrawerClose}
-          ModalProps={{ keepMounted: true }}
-          sx={{
-            // display: { xs: "block", sm: "none" },
-            display: { xs: "none", sm: "none" },
+        {isSmallScreen ? (
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onTransitionEnd={handleDrawerTransitionEnd}
+            onClose={handleDrawerClose}
+            ModalProps={{ keepMounted: true }}
+            sx={{
+              // display: { xs: "block", sm: "block" },
+              // display: { xs: "none", sm: "none" },
 
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-              background: "black",
-              marginTop: "87px",
-              position: "relative",
-            },
-            "& .MuiTypography-root": {
-              fontSize: "14px",
-              fontWeight: "400",
-            },
-          }}
-        >
-          <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px]">
-            <IconButton
-              className="p-0 h-[30px] w-[30px]"
-              onClick={handleDrawerClose}
-            >
-              {theme.direction === "ltr" ? (
-                <Image src={backwardicon} alt="icon" />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </DrawerHeader>
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-              marginTop: "87px",
-              backgroundColor: "black",
-            },
-            "& .MuiTypography-root": {
-              fontSize: "14px",
-              fontWeight: "400",
-            },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+                background: "black",
+                marginTop: "87px",
+                position: "relative",
+              },
+              "& .MuiTypography-root": {
+                fontSize: "14px",
+                fontWeight: "400",
+              },
+            }}
+          >
+            <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px]">
+              <IconButton
+                className="p-0 h-[30px] w-[30px]"
+                onClick={handleDrawerClose}
+              >
+                {theme.direction === "ltr" ? (
+                  <Image src={backwardicon} alt="icon" />
+                ) : (
+                  <ChevronRightIcon />
+                )}
+              </IconButton>
+            </DrawerHeader>
+            {drawer}
+          </Drawer>
+        ) : (
+          <Drawer
+            variant="permanent"
+            sx={{
+              // display: { xs: "none", sm: "none", lg: "block" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+                marginTop: "87px",
+                backgroundColor: "black",
+              },
+              "& .MuiTypography-root": {
+                fontSize: "14px",
+                fontWeight: "400",
+              },
+            }}
+            open
+          >
+            {drawer}
+          </Drawer>
+        )}
       </Box>
       <Box
         component="main"
