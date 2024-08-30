@@ -20,8 +20,11 @@ const EventCard = ({
   width?: string;
   eventId: any;
 }) => {
-  // const imageUrl = img?.startsWith("http" || "https") ? img : event12;
-  const imageUrl = img?.startsWith("http") || img?.startsWith("https") ? img : event12;
+  const imageUrl = img
+    ? img.startsWith("http") || img.startsWith("https")
+      ? img
+      : img
+    : event12;
   console.log("image src is", imageUrl);
   return (
     <ScaleReveal extraStyle="w-full">
