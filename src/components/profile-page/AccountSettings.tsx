@@ -119,7 +119,7 @@ const AccountSettings = () => {
   };
   async function profileclick(values: z.infer<typeof formSchema>) {
     setLoader(true);
-    const userID = localStorage.getItem("_id");
+    const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     try {
       const data = {
         password: Password || myProfile?.password || "",
@@ -147,7 +147,7 @@ const AccountSettings = () => {
   }
 
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
+    const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     dispatch(getUserByID(userid));
   }, []);

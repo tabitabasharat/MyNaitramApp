@@ -1,6 +1,10 @@
-import LunchEvent from "@/components/LunchEvent/LunchEvent"
 
-const page =()=>{
+import dynamic from 'next/dynamic';
+const LunchEvent = dynamic(()=>import("@/components/LunchEvent/LunchEvent"),{
+  ssr:false
+})
+
+
+export default function page ()  {
     return <LunchEvent/>
 }
-export default page

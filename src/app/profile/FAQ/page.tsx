@@ -1,7 +1,10 @@
-import FAQ from "@/components/profile-page/FAQ"
 
-const page =()=>{
+import dynamic from 'next/dynamic';
+const FAQ = dynamic(()=>import("@/components/profile-page/FAQ"),{
+  ssr:false
+})
+
+
+export default function page ()  {
     return <FAQ/>
 }
-
-export default page

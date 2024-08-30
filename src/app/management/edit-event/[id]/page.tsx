@@ -1,6 +1,9 @@
-import Editevent from "@/components/Manageevent/Editevent"
 
-const page =()=>{
+import dynamic from 'next/dynamic';
+const Editevent = dynamic(()=>import("@/components/Manageevent/Editevent"),{
+  ssr:false
+})
+
+export default function page ()  {
     return <Editevent/>
 }
-export default page

@@ -1,4 +1,4 @@
-const page=()=>{
+"use client"
+export default function page ()  {
     return null; 
 }
-export default page

@@ -1,8 +1,13 @@
 // import LiveAccntSetting from "@/components/profile-page/LiveAccntSetting";
 // import ProfileSideInfo from "@/components/profile-page/ProfileSideInfo";
-import Profile from "@/components/profile-page/Prolife";
-const page = () => {
+
+
+import dynamic from 'next/dynamic';
+const Profile = dynamic(()=>import("@/components/profile-page/Prolife"),{
+  ssr:false
+})
+
+export default function page ()  {
     return <Profile/>;
   };
   
-  export default page;

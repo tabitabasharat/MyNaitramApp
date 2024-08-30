@@ -117,7 +117,7 @@ const Helpcenter = ({
   async function createCenter(values: z.infer<typeof formSchema>) {
     console.log("my val", values);
     setLoader(true);
-    const userID = localStorage.getItem("_id");
+    const userID = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     try {
       const data = {
         userId: userID,

@@ -6,7 +6,7 @@ const api = axios.create();
 if (typeof window !== "undefined") {
   api.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem("token");
+      const token = typeof window !== "undefined" ?  localStorage.getItem("token") : null;
 
       if (token) {
         config.headers.Authorization = `${token}`;

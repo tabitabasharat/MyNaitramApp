@@ -1,7 +1,9 @@
-import Collectiontable from "@/components/Wallet/Collectiontable/Collectiontable"
-import SpecificEventTickets from "@/components/Wallet/SpecificEventTickets"
+"use client"
+import dynamic from 'next/dynamic'
+const Collectiontable = dynamic(() => import('@/components/Wallet/Collectiontable/Collectiontable'),{
+  ssr:false
+})
 
-const page = () =>{
+export default function page ()  {
     return <Collectiontable/>
 }
-export default page

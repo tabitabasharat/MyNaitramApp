@@ -17,7 +17,7 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID }: any) => {
 
   async function ClaimReward() {
     console.log("REWARD CLAIMED");
-    const userID = localStorage.getItem("_id");
+    const userID = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("my id is", userID);
     try {
       const data = {

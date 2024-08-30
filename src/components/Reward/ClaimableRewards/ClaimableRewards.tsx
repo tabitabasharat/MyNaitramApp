@@ -47,7 +47,7 @@ export default function ClaimableRewards() {
 
   async function ClaimCollectible() {
     console.log("Collectible Claimed");
-    const userID = localStorage.getItem("_id");
+    const userID = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("my id is", userID);
     try {
       const data = {

@@ -1,7 +1,11 @@
-import ClaimableRewards from "@/components/Reward/ClaimableRewards/ClaimableRewards";
 
-const page = () => {
+import dynamic from 'next/dynamic';
+const ClaimableRewards = dynamic(()=>import("@/components/Reward/ClaimableRewards/ClaimableRewards"),{
+  ssr:false
+})
+
+export default function page ()  {
   return <ClaimableRewards />;
 };
 
-export default page;
+

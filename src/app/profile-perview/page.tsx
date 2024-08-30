@@ -1,7 +1,11 @@
-import PersonalSocialProfile from "@/components/ProfilePreview/PersonalProfilePreview";
+
 import ProfilePreview from "@/components/ProfilePreview/ProfilePreview"
 
-const page=()=>{
+import dynamic from 'next/dynamic';
+const PersonalSocialProfile = dynamic(()=>import("@/components/ProfilePreview/PersonalProfilePreview"),{
+  ssr:false
+})
+
+export default function page ()  {
     return <PersonalSocialProfile/>
 }
-export default page;

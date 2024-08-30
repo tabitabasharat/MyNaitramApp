@@ -6,7 +6,7 @@ import Card from "./vision/card/Card";
 import { Reveal } from "@/components/animations/Reveal";
 import VideoPlayer from "./VedioPlayer/VedioPlayer";
 
-const page = () => {
+export default function page ()  {
   return (
     <>
       <section
@@ -118,4 +118,4 @@ const page = () => {
   );
 };
 
-export default page;
+

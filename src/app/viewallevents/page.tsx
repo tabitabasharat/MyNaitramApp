@@ -1,8 +1,13 @@
-import AllNaitramEvents from "@/components/homepage/sections/AllNaitramEvents";
+import dynamic from 'next/dynamic'
+const AllNaitramEvents = dynamic(() => import('../../components/homepage/sections/AllNaitramEvents'),{
+  ssr:false
+})
 
-const page = () => {
+
+
+
+export default function page ()  {
     
     return <AllNaitramEvents/>;
   };
   
-  export default page;

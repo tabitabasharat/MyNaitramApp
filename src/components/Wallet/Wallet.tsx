@@ -14,13 +14,16 @@ import { getTicketsByID } from "@/lib/middleware/wallet";
 
 type SelectedOption = "tickets" | "collectables" | null;
 
-const Wallet = () => {
+export default function Wallet  ()  {
   const [selected, setSelected] = useState<SelectedOption>("tickets");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
-    dispatch(getTicketsByID(userid));
+    if (typeof window !== "undefined") {
+
+      const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+      dispatch(getTicketsByID(userid));
+    }
   }, []);
 
   return (
@@ -102,4 +105,4 @@ const Wallet = () => {
   );
 };
 
-export default Wallet;
+

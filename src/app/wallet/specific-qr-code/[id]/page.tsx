@@ -1,6 +1,9 @@
-import Specificqrcode from "@/components/Wallet/specificqrcode/Specificqrcode"
+"use client"
+import dynamic from 'next/dynamic'
+const Specificqrcode = dynamic(() => import('@/components/Wallet/specificqrcode/Specificqrcode'),{
+  ssr:false
+})
 
-const page = () => {
+export default function page ()  {
     return <Specificqrcode/>
 }
-export default page;

@@ -42,7 +42,7 @@ const CustomBar = ({ fill, x, y, width, height }: any) => {
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
+    const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     dispatch(getBalanceByID(userid));
     dispatch(getgraphByID(userid));
   }, []);

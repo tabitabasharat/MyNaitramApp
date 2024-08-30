@@ -47,7 +47,7 @@ const ClaimRewardPopUp = ({ onClose, open }: any) => {
 
   async function deleteUser() {
     setLoader(true);
-    const userID = localStorage.getItem("_id");
+    const userID = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("my user id", userID);
 
     try {

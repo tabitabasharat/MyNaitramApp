@@ -87,7 +87,7 @@ const LiveAccntSetting = ({
 
 
   useEffect(() => {
-    const id = localStorage.getItem("_id");
+    const id = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("user id ", id);
     dispatch(showLiveActivity(id));
   }, []);
@@ -167,7 +167,7 @@ const LiveAccntSetting = ({
 
   async function updateActivity(values: z.infer<typeof formSchema>) {
     setLoader(true);
-    const userID = localStorage.getItem("_id");
+    const userID = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     try {
       const data = {
         fbUrl: fbUrl || myliveActivity[0]?.fbUrl || "",

@@ -34,7 +34,7 @@ const BuyTicket = ({
   }, [isLoginDialogOpen]);
 
   useEffect(() => {
-    const useremail = localStorage.getItem("email");
+    const useremail = typeof window !== "undefined" ?  localStorage.getItem("email") : null;
     setUserEmail(useremail);
     console.log("user login email", useremail);
   }, []);

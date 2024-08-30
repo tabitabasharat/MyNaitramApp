@@ -1,7 +1,10 @@
-import DeleteAccnt from "@/components/profile-page/DeleteAccnt"
 
-const page =()=>{
+import dynamic from 'next/dynamic'
+const DeleteAccnt = dynamic(() => import('../../../components/profile-page/DeleteAccnt'))
+
+
+
+export default function page ()  {
     return <DeleteAccnt/>
 }
 
-export default page

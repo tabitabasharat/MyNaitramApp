@@ -37,7 +37,7 @@ function Manageevent({
   // console.log("All Events are", EventsAllData);
 
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
+    const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     const data = {
       page: 1,

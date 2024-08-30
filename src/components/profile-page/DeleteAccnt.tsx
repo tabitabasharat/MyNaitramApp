@@ -25,7 +25,7 @@ const DeleteAccnt = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
+    const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     dispatch(showProfile(userid));
   }, []);
@@ -41,7 +41,7 @@ const DeleteAccnt = () => {
 
   async function deleteUser() {
     setLoader(true);
-    const userID = localStorage.getItem("_id");
+    const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("my user id", userID);
 
     try {

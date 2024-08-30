@@ -1,7 +1,13 @@
-import AboutPage from '@/components/about/AboutPage';
+"use client"
+// import AboutPage from '@/components/about/AboutPage';
+import dynamic from 'next/dynamic';
+const AboutPage = dynamic(()=>import("@/components/about/AboutPage"),{
+  ssr:false
+})
 
-const page = () => {
+export default function page ()  {
   return <AboutPage />;
 };
 
-export default page;
+
+

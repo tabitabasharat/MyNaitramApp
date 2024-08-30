@@ -1,9 +1,9 @@
-
+"use client"
 import ResetPassPage from "@/components/auth/ResetPassPage";
 import React from "react";
 
-const page = () => {
+export default function page ()  {
     return <ResetPassPage/>
   };
   
-  export default page;
+

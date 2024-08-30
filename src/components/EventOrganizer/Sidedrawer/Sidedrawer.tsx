@@ -46,7 +46,8 @@ interface GradientListItemProps {
 const Sidedrawer: React.FC<Props> = ({ window, children }) => {
   
   const container =
-    window !== undefined ? () => window().document.body : undefined;
+  typeof window !== "undefined" ? window().document.body : null;
+
   const theme = useTheme();
 
   // Use media query hook

@@ -1,6 +1,10 @@
-import LunchModal from "@/components/LunchEvent/LunchModal"
+"use client"
 
-const page =()=>{
+import dynamic from 'next/dynamic';
+const LunchModal = dynamic(()=>import("@/components/LunchEvent/LunchModal"),{
+  ssr:false
+})
+
+export default function page ()  {
     return <LunchModal/>
 }
-export default page

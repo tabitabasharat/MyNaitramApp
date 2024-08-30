@@ -9,7 +9,7 @@ import { text } from "stream/consumers";
 // import Year2022 from '../components/Year2022';
 // import Year2023 from '../components/Year2023';
 
-const Journy = () => {
+export default function Journy ()  {
   const [currentYear, setCurrentYear] = useState("2019");
 
   const renderComponent = () => {
@@ -122,4 +122,4 @@ const Journy = () => {
   );
 };
 
-export default Journy;
+

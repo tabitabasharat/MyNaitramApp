@@ -70,7 +70,7 @@ const EventGrid: React.FC<{
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
+    const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     dispatch(getTicketsByID(userid));
     dispatch(getWalletCollectByUserID(userid));
     dispatch(getRewardCollectibles());

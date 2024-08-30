@@ -153,7 +153,7 @@ function OganizerCreateEvent() {
   const [dropdown, setDropdown] = useState(true);
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
 
-  const [userid, setUserid] = useState("");
+  const [userid, setUserid] = useState<any>("");
   const [Eventname, setEventname] = useState("");
   const [EventCategory, setEventCategory] = useState("");
   const [EventLocation, setEventLocation] = useState("");
@@ -426,7 +426,7 @@ function OganizerCreateEvent() {
   };
 
   useEffect(() => {
-    const userID: any = localStorage.getItem("_id");
+    const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);

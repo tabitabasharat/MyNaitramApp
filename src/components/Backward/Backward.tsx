@@ -13,9 +13,12 @@ const Backward = () => {
 
   
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
-    console.log("user id ", userid);
-    dispatch(getUserSocialProfile(userid));
+    if (typeof window !== "undefined") {
+
+      const userid = localStorage.getItem("_id");
+      console.log("user id ", userid);
+      dispatch(getUserSocialProfile(userid));
+    }
   }, []);
 
 

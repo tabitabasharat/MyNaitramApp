@@ -1,7 +1,11 @@
-import YourRewards from '@/components/profile-page/YourRewards';
+"use client"
+import dynamic from 'next/dynamic'
+const YourRewards = dynamic(() => import('../../../components/profile-page/YourRewards'))
+// import YourRewards from '@/components/profile-page/YourRewards';
 
-const page = () => {
+
+export default function page ()  {
   return <YourRewards />;
 };
 
-export default page;
+

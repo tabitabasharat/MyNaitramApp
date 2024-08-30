@@ -1,6 +1,9 @@
-import Organizer from "@/components/EventOrganizer/Organizer/Organizer"
+"use client"
+// import Organizer from "@/components/EventOrganizer/Organizer/Organizer"
 
-const page=()=>{
+import dynamic from 'next/dynamic'
+const Organizer = dynamic(() => import('../../../components/EventOrganizer/Organizer/Organizer'))
+
+export default function page ()  {
     return < Organizer/>
 }
-export default page

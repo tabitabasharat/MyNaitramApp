@@ -37,7 +37,7 @@ const formSchema = z.object({
 const Profile = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
+    const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     dispatch(showProfile(userid));
   }, []);

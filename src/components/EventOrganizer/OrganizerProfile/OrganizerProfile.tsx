@@ -98,7 +98,7 @@ const OrganizerProfile = () => {
   const userLoading = useAppSelector((state) => state?.getOrgByID);
 
   useEffect(() => {
-    const id = localStorage.getItem("_id");
+    const id =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("user id ", id);
     dispatch(getOrganizerByID(id));
   }, []);
@@ -171,7 +171,7 @@ const OrganizerProfile = () => {
   async function updateActivity(values: z.infer<typeof formSchema>) {
     console.log("my values", values)
     setLoader(true);
-    const userID = localStorage.getItem("_id");
+    const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     try {
       const data = {
         fbUrl: fbUrl || myActivity?.fbUrl || "",

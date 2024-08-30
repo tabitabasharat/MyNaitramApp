@@ -12,7 +12,7 @@ export function smoothScrollToSection(
 ) {
   if (window.location.pathname === '/') {
     event.preventDefault();
-    const targetElement = document.getElementById(sectionId.toLowerCase());
+    const targetElement =  typeof window !== "undefined" ? document.getElementById(sectionId.toLowerCase()):null;
     if (targetElement) {
       const elementPosition =
         targetElement.getBoundingClientRect().top + window.pageYOffset;
