@@ -26,8 +26,7 @@ const BuyTicket = ({
   const EventDetail = useAppSelector(
     (state: any) => state?.getTicketStore?.specificEvent?.data
   );
-  console.log("this is the events detail",startPrice,
-    endPrice);
+  console.log("this is the events detail", startPrice, endPrice);
   useEffect(() => {
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -39,8 +38,6 @@ const BuyTicket = ({
     setUserEmail(useremail);
     console.log("user login email", useremail);
   }, []);
-
-
 
   return (
     <Dialog>
@@ -59,7 +56,7 @@ const BuyTicket = ({
             One ticket per person
           </p>
         </div>
-        <DialogTrigger asChild>
+        {/* <DialogTrigger asChild>
           <Button
             onClick={() => {
               console.log(token);
@@ -69,9 +66,9 @@ const BuyTicket = ({
           >
             Buy Tickets
           </Button>
-        </DialogTrigger>
+        </DialogTrigger> */}
 
-        {/* {EventDetail?.data?.data ? (
+        {EventDetail?.data?.data ? (
           <div>
             <Button
               onClick={() => {
@@ -127,7 +124,7 @@ const BuyTicket = ({
               </Dialog>
             )}
           </div>
-        )} */}
+        )}
 
         <CheckOutModal event={event} />
       </div>

@@ -23,9 +23,10 @@ import {
   Ticket,
   DeviceMobile,
 } from "@phosphor-icons/react/dist/ssr";
-import Clocktime from "@/assets/clock.svg";
-import Calendar from "@/assets/Calendar.svg";
-import Location from "@/assets/location.svg";
+import Clocktime from "@/assets/Wallet/specific-icon-clock.svg";
+import Calendar from "@/assets/Wallet/specific-icon-calender.svg";
+import Location from "@/assets/Wallet/specific-icon-location.svg";
+
 
 const EventsHeroSlide = ({
   title,
@@ -172,28 +173,28 @@ console.log("this is event price",  ticketStartPrice,
             </Link>
           </div>
 
-          <h2 className="text-[32px] lg:w-full lg:text-[48px] xl:text-[48px] font-extrabold leading-[1.2] my-3 -tracking-[0.02em] ">
+          <h2 className="text-[32px] lg:w-full lg:text-[48px] xl:text-[48px] font-extrabold leading-[1.2] mt-[12px] mb-[24px] -tracking-[0.02em] ">
             {title}
           </h2>
           <div className="">
-            <p className="text-[#E6E6E6] font-extrabold mt-[10px]">
+            {/* <p className="text-[#E6E6E6] font-extrabold mt-[10px]">
               {eventCategory ? eventCategory : " TAKEOVR Boat Party"}
-            </p>
-            <div className="flex items-center gap-[4px] mt-[5px]">
+            </p> */}
+            <div className="flex items-center gap-[8px] ">
               <Image src={Location} alt="location" />
-              <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px]">
+              <p className=" text-[16px] font-bold leading-[24px]">
                 {location}
               </p>
             </div>
-            <div className="flex items-center gap-[4px] mt-[10px] ">
-              <Image src={Calendar} alt="location" height={12} width={12} />
-              <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px]">
+            <div className="flex items-center gap-[8px] mt-[12px] ">
+              <Image src={Calendar} alt="calendar"  />
+              <p className=" text-[16px] font-bold leading-[24px]">
                 {ConvertDate(eventDate)}
               </p>
             </div>
-            <div className="flex items-center gap-[4px] mt-[10px]">
-              <Image src={Clocktime} alt="location" />
-              <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px]">
+            <div className="flex items-center gap-[8px] mt-[12px]">
+              <Image src={Clocktime} alt="time" />
+              <p className=" text-[16px] font-bold leading-[24px]">
                 {ConvertTime(startTime)} - {ConvertTime(endTime)}{" "}
                 
               </p>
