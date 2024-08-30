@@ -6,31 +6,28 @@ import Image from "next/image";
 // import PostTabs from "./PostTabs";
 import { useRouter } from "next/navigation";
 import { truncateString } from "@/lib/utils";
-import { useState,useEffect } from "react";
-import { useAppDispatch,useAppSelector } from "@/lib/hooks";
+import { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getUserSocialProfile } from "@/lib/middleware/profile";
 import ProfilePreview from "./ProfilePreview";
 import PostCard from "../social-profile-page/PostCard";
 import Grid from "./Grid";
-
+import { getOrganizerSocialProfile } from "@/lib/middleware/organizer";
 const PersonalSocialProfile = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  
   useEffect(() => {
     const userid = localStorage.getItem("_id");
     console.log("user id ", userid);
-    dispatch(getUserSocialProfile(userid));
+    dispatch(getOrganizerSocialProfile(userid));
   }, []);
 
-
-  
   const myProfile = useAppSelector(
-    (state) => state?.getUserSocialProfile?.myProfile?.data
+    (state) => state?.getOrgSocialProfile?.mySocialData?.data
   );
 
-  console.log("my Social Profile info is", myProfile);
+  console.log("my Social Profile infooo is", myProfile);
   return (
     <div className="min-h-screen relative flex flex-col items-center overflow-hidden">
       <Image

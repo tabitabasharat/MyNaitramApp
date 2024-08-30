@@ -71,7 +71,7 @@ const Organizer = () => {
     : "/person3.jpg";
   console.log("image src is", imageUrl);
   return (
-    <div className="w-full ps-[0px] xl:ps-[147.5px] md:px-auto lg:w-full lg:mx-0">
+    <div className="w-full ps-[0px] xl:ps-[147.5px] md:px-auto lg:w-full lg:mx-0 md:h-[90vh] lg:h-fit">
       {userLoading?.loading && <ScreenLoader />}
       <div >
         <div className="flex mt-[44px] md:mt-[49px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start lg:mt-[90px]">
