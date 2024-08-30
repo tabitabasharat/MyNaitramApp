@@ -118,6 +118,9 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               {menuItems.map((item) => (
                 <Link href={item.url} key={item.text}>
                   <ListItem
+                     className={`text-xl font-bold ${
+                      activeItem === item.text ? "gradient-border rounded-lg" : ""
+                    }`}
                     // style={{
                     //   background:
                     //     "linear-gradient(#0F0F0F, #1A1A1A)   padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
@@ -134,11 +137,9 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                     <ListItemButton
                     // style={{background:"black"}}
                      
-                    className={`text-xl font-bold ${
-                      activeItem === item.text ? "gradient-border rounded-lg" : ""
-                    }`}
+                 
                     >
-                      <ListItemIcon className="min-w-0 pr-2">
+                      <ListItemIcon style={{minWidth:"0pc"}} className="pr-2">
                         <Image
                           src={item.icon}
                           alt={item.text}
@@ -172,7 +173,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                   onClick={() => handleItemClick(item.text)}
                 >
                   <ListItemButton className="p-[10px] flex items-center">
-                    <ListItemIcon className="min-w-0 pr-2">
+                    <ListItemIcon  style={{minWidth:"0pc"}} className=" pr-2">
                       <Image
                         src={item.icon}
                         alt={item.text}
@@ -203,7 +204,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               onClick={() => handleItemClick("Delete Account")}
             >
               <ListItemButton className="p-[10px]">
-                <ListItemIcon className="min-w-0 pr-2">
+                <ListItemIcon  style={{minWidth:"0px"}} className="min-w-0 pr-2">
                   <Image
                     src={delaccnt}
                     alt="Delete Account"

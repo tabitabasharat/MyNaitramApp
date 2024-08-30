@@ -46,6 +46,8 @@ const EventsHeroSlide = ({
   ticketStartPrice,
   ticketEndPrice,
   eventdescription,
+  instaUrl,
+  tiktokUrl
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
