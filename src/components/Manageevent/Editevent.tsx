@@ -147,11 +147,11 @@ const formSchema = z.object({
       z.object({
         type: z.string().min(1, { message: "Ticket type cannot be empty." }),
         price: z
-          .number()
-          .min(1, { message: "Ticket price must be greater than 0." }),
+          .any(),
+          // .min(1, { message: "Ticket price must be greater than 0." }),
         no: z
-          .number()
-          .min(1, { message: "Number of tickets must be greater than 0." }),
+          .any(),
+          // .min(1, { message: "Number of tickets must be greater than 0." }),
         options: z
           .array(
             z.object({
