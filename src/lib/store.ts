@@ -23,6 +23,8 @@ import getRewardCollectibleID from "./reducer/getRewardCollectibleID";
 import getGraphById from "./reducer/getGraphById";
 import getWalletCollectByUID from "./reducer/getWalletCollectByUID";
 import getEventsByUID from "./reducer/getEventsByUID";
+import getOrgByID from "./reducer/getOrgByID";
+import getOrgSocialProfile from "./reducer/getOrgSocialProfile";
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -40,14 +42,16 @@ const appReducer = combineReducers({
   getProfileLiveActivity: getProfileLiveActivity,
   getUserSocialProfile: getUserSocialProfile,
   getTicketsByUId: getTicketsByUId,
-  getTicketByQR:getTicketByQR,
-  getBalanceByID:getBalanceByID,
-  getClaimStatus:getClaimStatus,
-  getRewardCollectibles:getRewardCollectibles,
-  getRewardCollectibleID:getRewardCollectibleID,
-  getGraphById:getGraphById,
+  getTicketByQR: getTicketByQR,
+  getBalanceByID: getBalanceByID,
+  getClaimStatus: getClaimStatus,
+  getRewardCollectibles: getRewardCollectibles,
+  getRewardCollectibleID: getRewardCollectibleID,
+  getGraphById: getGraphById,
   getWalletCollectByUID: getWalletCollectByUID,
   getEventsByUID: getEventsByUID,
+  getOrgByID: getOrgByID,
+  getOrgSocialProfile: getOrgSocialProfile,
 });
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,
