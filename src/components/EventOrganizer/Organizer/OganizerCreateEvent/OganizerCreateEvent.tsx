@@ -161,6 +161,7 @@ function OganizerCreateEvent() {
   const [TicketEndDate, setTicketEndDate] = useState("");
 
   const [EventStartTime, setEventStartTime] = useState("");
+
   const [EventEndTime, setEventEndTime] = useState("");
 
   console.log("my event start date is", EventStartTime);
@@ -200,6 +201,25 @@ function OganizerCreateEvent() {
     { id: 4, label: "Security and First Aid", image: img4 },
   ];
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+
+  function convertToUTC(localDateTime: string): string {
+    // Create a Date object from the local date-time string
+    const localDate = new Date(localDateTime);
+
+    // Extract UTC time components
+    const utcYear = localDate.getUTCFullYear();
+    const utcMonth = localDate.getUTCMonth() + 1; // Months are 0-indexed
+    const utcDate = localDate.getUTCDate();
+    const utcHours = localDate.getUTCHours();
+    const utcMinutes = localDate.getUTCMinutes();
+    const utcSeconds = localDate.getUTCSeconds();
+
+    return `${utcYear}-${String(utcMonth).padStart(2, "0")}-${String(
+      utcDate
+    ).padStart(2, "0")}T${String(utcHours).padStart(2, "0")}:${String(
+      utcMinutes
+    ).padStart(2, "0")}:${String(utcSeconds).padStart(2, "0")}Z`;
+  }
 
   const handleDropdown = (index: number) => {
     setTicketTypes((prevTickets) =>
@@ -426,6 +446,11 @@ function OganizerCreateEvent() {
 
     setLoader(true);
     const imagesOfGallery = await handleFileChangeapi();
+    const utcEventStartTime = convertToUTC(EventStartTime);
+    const utcEventEndTime = convertToUTC(EventEndTime);
+    console.log("Converted UTC time:", utcEventStartTime);
+    console.log("Converted UTC time:", utcEventEndTime);
+
     try {
       const data = {
         userId: userid,
@@ -547,7 +572,7 @@ function OganizerCreateEvent() {
             <input
               ref={fileInputRef2}
               type="file"
-              accept="image/png, image/jpg, image/jpeg, image/svg"
+              accept="image/*" 
               id="uploadcover"
               className="hidden"
               onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
@@ -781,6 +806,11 @@ function OganizerCreateEvent() {
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
                           onChange={(e) => {
+                            // const utcTime = convertToUTC(e.target.value);
+
+                            // // // Update state and form field with UTC time
+                            // setEventStartTime(utcTime);
+                            // field.onChange(utcTime);
                             setEventStartTime(e.target.value);
                             field.onChange(e);
                           }}
@@ -850,7 +880,8 @@ function OganizerCreateEvent() {
                             <input
                               ref={fileInputRef}
                               type="file"
-                              accept="image/png image/jpg image/jpeg image/svg"
+                            
+                              accept="image/*" 
                               className="hidden"
                               id="upload"
                               onChange={handleSingleFileChange}
