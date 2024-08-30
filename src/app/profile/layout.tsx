@@ -15,7 +15,7 @@ export default function RootLayout({
       style={
         isMobile
           ? { position: "relative" }
-          : { position: "relative", overflow: "hidden",}
+          : { position: "relative", overflow: "hidden", height:"100vh"}
       }
       className="flex main-box mx-2xl py-[8rem] px-[34px] lg:py-[9rem] xl:gap-12 lg:min-h-[100vh]"
     >
