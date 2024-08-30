@@ -102,6 +102,7 @@ const LiveAccntSetting = ({
         linkedIn: myliveActivity[0]?.linkedinUrl || currentValues.linkedIn,
         telegram: myliveActivity[0]?.telegramUrl || currentValues.telegram,
       });
+      setChecked(myliveActivity[0]?.isActive);
     }
   }, [myliveActivity]);
   
