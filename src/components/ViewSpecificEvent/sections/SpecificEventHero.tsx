@@ -102,8 +102,8 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
           <Image
             src={EventData?.coverEventImage}
             alt="takeover"
-            width={330}
-            height={200}
+            width={392}
+            height={392}
             // className=" w-full"
           />
           {/* <Image src={takeover500} alt="takeover"  width={330} height={200} className=" h-full"/> */}
@@ -124,7 +124,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
             eventdescription={EventData?.eventDescription}
             // activeIndex={activeIndex}
             setShowTicket={setShowTicket}
-            ticketStartPrice={EventData?.tickets[0]?.price}
+            ticketStartPrice={EventData?.tickets?.length==1?"0":EventData?.tickets[0]?.price}
             ticketEndPrice={
               EventData?.tickets[EventData?.tickets.length - 1]?.price
             }
