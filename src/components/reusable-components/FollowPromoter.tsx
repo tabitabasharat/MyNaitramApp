@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getEventCount } from "@/lib/middleware/event";
 
-const FollowPromoter = ({userId}:any) => {
+const FollowPromoter = ({ userId }: any) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getEventCount(userId));
@@ -26,10 +26,12 @@ const FollowPromoter = ({userId}:any) => {
 
   console.log("my Events count", myEvents);
 
-  const imageUrl = myEvents?.data?.data[0]?.profilePicture?.startsWith("http" || "https")
-  ? myEvents?.data?.data[0]?.profilePicture
-  : promoter;
-console.log("image src is", imageUrl);
+  const imageUrl = myEvents?.data?.data[0]?.profilePicture?.startsWith(
+    "http" || "https"
+  )
+    ? myEvents?.data?.data[0]?.profilePicture
+    : promoter;
+  console.log("image src is", imageUrl);
   return (
     <div className="mt-[32px] bg-white/10 rounded-xl p-[16px] w-full">
       <div className="flex gap-4">
@@ -66,16 +68,16 @@ console.log("image src is", imageUrl);
         </div>
       </div>
       <hr className="border-white/10 my-[16px]" />
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-3 items-center justify-center wrapping-flex">
         <Button variant="secondary" className="text-[14px] font-bold py-[10px]">
           Follow Promoter
         </Button>
         <div className="flex gap-3 h-full">
           <div className="border border-white w-fit p-2 rounded-full">
-            <InstagramLogo size={25} weight="fill" />
+            <InstagramLogo onClick={()=>{window.open(myEvents?.data?.data[0]?.instaUrl,"_blank")}} size={25} weight="fill" />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <TwitterLogo size={25} weight="fill" />
+            <TwitterLogo  onClick={()=>{window.open(myEvents?.data?.data[0]?.twitterUrl,"_blank")}} size={25} weight="fill" />
           </div>
         </div>
       </div>

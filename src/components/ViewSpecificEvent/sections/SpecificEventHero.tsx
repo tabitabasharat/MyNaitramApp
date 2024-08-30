@@ -62,7 +62,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<any>(null);
 
-  const dispatch = useAppDispatch();
+  const dispatch:any = useAppDispatch();
   const [isAbout, setisAbout] = useState(false);
   const EventData = useAppSelector(
     (state) => state?.getEventByEventID?.eventIdEvents?.data
@@ -104,7 +104,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
           </button>
           <p>
             <span className="text-[#BFBFBF]">Event</span> /{" "}
-            <span>PIZDEZ Women's Day Party 2024</span>
+            <span>{EventData?.name}</span>
           </p>
         </div>
 
@@ -113,7 +113,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
             <Image
               src={EventData?.coverEventImage}
               alt="takeover"
-              width={330}
+              width={392}
               height={200}
              className="img-center"
             />
@@ -124,6 +124,8 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
           </div>
           <div className="rhs-hero">
             <EventsHeroSlide
+            instaUrl={EventData?.instaUrl}
+            tiktokUrl={EventData?.tiktokUrl}
               event={EventData?.id}
               title={EventData?.name}
               eventCategory={EventData?.category}
@@ -135,7 +137,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
               eventdescription={EventData?.eventDescription}
               // activeIndex={activeIndex}
               setShowTicket={setShowTicket}
-              ticketStartPrice={EventData?.tickets[0]?.price}
+              ticketStartPrice={EventData?.tickets?.length===1?"0":EventData?.tickets[0]?.price}
               ticketEndPrice={
                 EventData?.tickets[EventData?.tickets.length - 1]?.price
               }

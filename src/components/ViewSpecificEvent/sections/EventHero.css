@@ -7,6 +7,12 @@
   gap: 40px;
   /* flex-wrap: wrap; */
 }
+@media (max-width:992px) {
+  .main-div-takeover{
+    justify-content: center;
+  }
+  
+}
 .takeover {
   height: 100% !important;
 }
@@ -41,6 +47,14 @@
   }  
 }
 
+.img-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 392px;
+  height: 392px;
+}
+
 @media(max-width:992px)
 {
 
@@ -52,6 +66,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 392px;
+    height: 392px;
   }
 }
 @media (max-width: 768px) {
