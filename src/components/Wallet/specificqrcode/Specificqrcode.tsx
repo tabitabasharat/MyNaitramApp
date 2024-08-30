@@ -40,6 +40,13 @@ const Ticket: Ticket[] = [
   { id: 4, image: security, address: "Security and First Aid" },
 ];
 
+const imageMap:any = {
+  "Merchandise Stalls": stall,
+  "Food and Beverages": food,
+  "VIP Lounge": vip,
+  "Security and First Aid": security,
+};
+
 const locations: Location[] = [
   {
     id: 1,
@@ -221,21 +228,25 @@ export default function Specificqrcode() {
               </div>
               <div className="flex flex-col justify-center">
                 <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">Included in this ticket type</h3>
-                {Ticket.map((Ticket) => (
-                  <div
-                    key={Ticket.id}
-                    className="flex items-center mb-[12px]"
-                  >
-                    <Image
-                      src={Ticket.image}
-                      width={30}
-                      height={30}
-                      alt="Location Icon"
-                      className=" me-[8px]"
-                    />
-                    <p className="font-bold text-start text-[16px]">{Ticket.address}</p>
-                  </div>
-                ))}
+                {TicketData?.event?.tickets[TicketData?.isIndex]?.options.map(
+                  (Ticket: any) => (
+                    <div
+                      key={Ticket.id}
+                      className="flex items-center mb-[12px]"
+                    >
+                      <Image
+                       src={imageMap[Ticket?.label]}
+                        width={30}
+                        height={30}
+                        alt="Location Icon"
+                        className=" me-[8px]"
+                      />
+                      <p className="font-bold text-start text-[16px]">
+                        {Ticket?.label}
+                      </p>
+                    </div>
+                  )
+                )}
               </div>
             </div>
           </div>

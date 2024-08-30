@@ -359,7 +359,7 @@ function Editevent() {
           setEventsFile(res?.data?.imageUrls);
 
           console.log(res?.data?.data, "this is the gallery url");
-          SuccessToast("Images Uploaded Successfully");
+          // SuccessToast("Images Uploaded Successfully");
           return res?.data?.imageUrls;
         } else {
           setLoader(false);

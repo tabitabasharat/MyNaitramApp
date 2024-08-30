@@ -109,10 +109,12 @@ const EventGrid: React.FC<{
               myEvents?.map((item: any) => (
                 <EventCard
                   key={item?.event?.id}
-                  eventId={item?.event?.id}
+                  eventId={item?.ticketId}
                   imageUrl={item?.event?.coverEventImage}
                   title={item?.event?.name}
                   eventType={eventType}
+                  
+                  
                 />
               ))
             ) : (

@@ -42,6 +42,13 @@ const Ticket: Ticket[] = [
   { id: 4, image: security, address: "Security and First Aid" },
 ];
 
+const imageMap:any = {
+  "Merchandise Stalls": stall,
+  "Food and Beverages": food,
+  "VIP Lounge": vip,
+  "Security and First Aid": security,
+};
+
 export default function SpecificEventTickets() {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -160,7 +167,6 @@ export default function SpecificEventTickets() {
   ];
   return (
     <section className="min-h-screen py-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
-
       <div className="max-w-screen-lg lg:gap-[0px]   mx-auto text-center lg:text-left">
         {/* Container for back button and title */}
         <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-8">
@@ -217,20 +223,25 @@ export default function SpecificEventTickets() {
                 <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
                   Included in this ticket type
                 </h3>
-                {Ticket.map((Ticket) => (
-                  <div key={Ticket.id} className="flex items-center mb-[12px]">
-                    <Image
-                      src={Ticket.image}
-                      width={30}
-                      height={30}
-                      alt="Location Icon"
-                      className=" me-[8px]"
-                    />
-                    <p className="font-bold text-start text-[16px]">
-                      {Ticket.address}
-                    </p>
-                  </div>
-                ))}
+                {TicketData?.event?.tickets[TicketData?.isIndex]?.options.map(
+                  (Ticket: any) => (
+                    <div
+                      key={Ticket.id}
+                      className="flex items-center mb-[12px]"
+                    >
+                      <Image
+                       src={imageMap[Ticket?.label]}
+                        width={30}
+                        height={30}
+                        alt="Location Icon"
+                        className=" me-[8px]"
+                      />
+                      <p className="font-bold text-start text-[16px]">
+                        {Ticket?.label}
+                      </p>
+                    </div>
+                  )
+                )}
               </div>
             </div>
           </div>
@@ -255,17 +266,13 @@ export default function SpecificEventTickets() {
             <div className="pt-[24px]">
               <h2 className="font-normal text-sm pb-[4px]">Ticket Type</h2>
               <h3 className="font-extrabold text-base pb-[24px] border-b border-dashed border-[#00D059]">
-                
-              {TicketData?.event?.ticketType}
-
+                {TicketData?.event?.ticketType}
               </h3>
             </div>
             <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
               <div>
                 <h2 className="font-normal text-sm">Transaction ID</h2>
-                <h3 className="font-bold text-base ">
-                Simple_1708531039717
-                </h3>
+                <h3 className="font-bold text-base ">Simple_1708531039717</h3>
               </div>
               <div>
                 <Image src={blockchain} alt="img" />
