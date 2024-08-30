@@ -309,14 +309,14 @@ const OrganizerProfile = () => {
   }
 
   return (
-    <div className="w-full md:w-[70%] ps-[0px] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
+    <div className="w-full lg:w-[70%] ps-[0px] xl:ps-[172px] md:mx-auto lg:w-full  mt-[50px] md:mt-[51px] lg:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
-      <h2 className="font-bold ms-[24px] md:ms-[0px] text-[20px] lg:text-[32px]">
+      <h2 className="font-bold ms-[52px] lg:ms-[0px] text-[20px] lg:text-[32px]">
         Organizer Profile
       </h2>
-      <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[60px] mt-[34px]  lg:mt-[32px]">
+      <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[60px] mt-[34px]  lg:mt-[32px] px-[24px]">
         <div className="flex flex-col mx-auto lg:mx-0 gap-[16px] items-center  w-fit">
           <GradientBorder className="rounded-full p-[3px] w-fit">
             <div className="bg-black rounded-full p-[6px] flex items-center justify-center">

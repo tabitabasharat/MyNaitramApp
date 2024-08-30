@@ -95,8 +95,8 @@ const FAQ = ({
     setActiveIndex(activeIndex === index ? null : index); // Toggle the active index
   };
   return (
-    <div className="w-full mt-[45px] lg:w-[600px] lg:ps-[172px] md:mx-auto md:mt-[92px] lg:mx-0">
-      <h2 className="font-bold text-[24px] ms-[24px] md:ms-[0px] lg:text-[32px] mb-[24px] sm:mb-[53px]">
+    <div className="w-full mt-[45px] lg:w-[600px] lg:ps-[172px] md:mx-auto lg:mt-[92px] lg:mx-0">
+      <h2 className="font-bold text-[24px] ms-[24px] lg:ms-[0px] lg:text-[32px] mb-[24px] sm:mb-[53px]">
         FAQ
       </h2>
       <div

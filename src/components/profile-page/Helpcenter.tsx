@@ -142,8 +142,8 @@ const Helpcenter = ({
   }
 
   return (
-    <div className="w-full lg:w-[604px] lg:ps-[170px]  mt-[45px] ps-[0px] md:mx-auto  md:mt-[92px] lg:mx-0 relative h-[90vh] ">
-      <h2 className="font-bold text-[24px] md:ms-[0px] ms-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] md:text-[16px]">
+    <div className="w-full lg:w-[604px] lg:ps-[170px]  mt-[45px] ps-[0px] md:mx-auto  lg:mt-[92px] lg:mx-0 relative h-[90vh] ">
+      <h2 className="font-bold text-[24px] lg:ms-[0px] ms-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] lg:text-[16px]">
         Help Center
       </h2>
       <div className="flex gap-[8px] hidden">

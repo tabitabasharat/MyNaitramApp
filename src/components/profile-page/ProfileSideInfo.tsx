@@ -94,6 +94,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
   const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
+    // minHeight:isSmallScreen ? "56px" : "64px",
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
@@ -264,9 +265,18 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
           background: "transparent",
           marginTop: "80px",
           boxShadow: "none",
+          "& .MuiToolbar-root": {
+              minHeight: isSmallScreen ? "56px" : "64px",
+            },
         }}
       >
-        <Toolbar>
+        <Toolbar
+          sx={{
+            "& .MuiToolbar-root": {
+              minHeight: isSmallScreen ? "56px" : "64px",
+            },
+          }}
+        >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -277,6 +287,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               mr: 2,
               display: { sm: "block", md: "block", lg: "none" },
               boxShadow: "none",
+             
             }}
           >
             <MenuIcon />

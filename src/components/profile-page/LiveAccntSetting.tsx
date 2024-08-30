@@ -197,8 +197,8 @@ const LiveAccntSetting = ({
     <>
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
       {loader && <ScreenLoader />}
-      <div className="w-full md:w-[70%] md:ps-[0px] lg:pe-[20px] mt-[48px] lg:ps-[90px] xl:ps-[172px] md:mx-auto lg:w-full  lg:mx-[0] relative">
-        <h2 className="font-bold text-[20px] ms-[24px] md:ms-[0px] lg:text-[32px]">
+      <div className="w-full lg:w-[70%] md:ps-[0px] lg:pe-[20px] mt-[48px] lg:ps-[90px] xl:ps-[172px] md:mx-auto lg:w-full  lg:mx-[0] relative">
+        <h2 className="font-bold text-[20px] ms-[24px] lg:ms-[0px] lg:text-[32px]">
           Live Activity Settings
         </h2>
         <div className="flex w-full md:w-full lg:w-[600px] flex-col lg:flex-col gap-6 md:gap-8 mt-[50px] lg:mt-[32px]">
