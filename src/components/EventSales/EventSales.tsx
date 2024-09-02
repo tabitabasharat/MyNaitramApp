@@ -17,6 +17,8 @@ import filter from "@/assets/Favorite - Button.svg";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { showProfile } from "@/lib/middleware/profile";
+import WalletChooseModal from "../Walletchoose/WalletChooseModal";
+import { useState } from "react";
 
 function createData(
   name: number,
@@ -53,7 +55,11 @@ function EventSales() {
   const myProfile = useAppSelector(
     (state) => state?.getShowProfile?.myProfile?.data
   );
-
+  const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
+  const WalletModalhandler = () => {
+    setisCreateModalOpen(true);
+    console.log("clicked")
+  };
   console.log("my Profile is", myProfile);
   const userLoading = useAppSelector((state) => state?.getShowProfile);
   return (
@@ -66,14 +72,23 @@ function EventSales() {
           <Image
             src={larki}
             alt="img"
-            className=" size-[100%] md:size-[392px]"
+            className=" md:size-[100%] size-[100%] md:h-[100%] md:w-[392px]"
           />
         </div>
         <div className="">
-          <div className="bg-[#00A849] py-[8px] px-[12px] w-[124px] lg:w-[135px] rounded-[100px]">
+          <div
+            className="bg-[#00A849] py-[8px] px-[12px] w-[124px] lg:w-[135px] rounded-[100px]"
+            onClick={WalletModalhandler}
+          >
             <p className="text-[#030303] text-[11px] lg:font-extrabold font-[900] lg:text-[12px]">
               FEATURED EVENT
             </p>
+            {isCreateModalOpen && (
+              <WalletChooseModal
+                onClose={() => setisCreateModalOpen(false)}
+                open={() => setisCreateModalOpen(true)}
+              />
+            )}
           </div>
           <p className="font-extrabold text-[32px] lg:text-[48px] mb-[12px] lg:mb-[24px] mt-[12px]">
             NAITRAM Launch Party 2024
@@ -112,15 +127,33 @@ function EventSales() {
         </div>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm">
+            <TableHead className="bg-[#FFFFFF0F]">
+              <TableRow className=" gap-[20px] bg-[#FFFFFF0F]">
+                <TableCell
+                  align="center"
+                  className="w-[40px] lg:w-[70px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                >
                   #
                 </TableCell>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm" align="left">Ticket Type</TableCell>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm" align="left">Users</TableCell>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm" align="left">Attendees</TableCell>
-              </TableRow>
+                <TableCell
+                  className="w-[123.33px] lg:w-[500px] px-[16px] lg:px-[20px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Ticket Type
+                </TableCell>
+                <TableCell
+                  className="w-[60px] lg:w-[413px] px-[16px] lg:px-[20px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Users
+                </TableCell>
+                <TableCell
+                  className="w-[90px] lg:w-[233px] px-[16px] lg:px-[20px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Attendees
+                </TableCell>
+              </TableRow>{" "}
             </TableHead>
             <TableBody>
               {rows.map((row) => (
@@ -128,12 +161,31 @@ function EventSales() {
                   key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell
+                    component="th"
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    scope="row"
+                  >
                     {row.name}
                   </TableCell>
-                  <TableCell align="left">{row.calories}</TableCell>
-                  <TableCell align="left">{row.fat}</TableCell>
-                  <TableCell align="left">{row.carbs}</TableCell>
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-bold lg:text-sm"
+                    align="left"
+                  >
+                    {row.calories}
+                  </TableCell>
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.fat}
+                  </TableCell>
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.carbs}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -194,13 +246,33 @@ function EventSales() {
         </div>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm">#</TableCell>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm" align="left">Ticket Type</TableCell>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm" align="left">Users</TableCell>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm" align="left">Attendees</TableCell>
-              </TableRow>
+            <TableHead className="bg-[#FFFFFF0F]">
+              <TableRow className="bg-[#FFFFFF0F]">
+                <TableCell
+                  align="center"
+                  className="w-[40px] lg:w-[70px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                >
+                  #
+                </TableCell>
+                <TableCell
+                  className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[500px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Ticket Type
+                </TableCell>
+                <TableCell
+                  className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[413px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Users
+                </TableCell>
+                <TableCell
+                  className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[233px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Attendees
+                </TableCell>
+              </TableRow>{" "}
             </TableHead>
             <TableBody>
               {rows.map((row) => (
@@ -208,12 +280,31 @@ function EventSales() {
                   key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    component="th"
+                    scope="row"
+                  >
                     {row.name}
                   </TableCell>
-                  <TableCell align="left">{row.calories}</TableCell>
-                  <TableCell align="left">{row.fat}</TableCell>
-                  <TableCell align="left">{row.carbs}</TableCell>
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-bold lg:text-sm"
+                    align="left"
+                  >
+                    {row.calories}
+                  </TableCell>
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.fat}
+                  </TableCell>
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.carbs}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -236,13 +327,33 @@ function EventSales() {
         </div>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm">#</TableCell>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm" align="left">Ticket Type</TableCell>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm" align="left">Sold</TableCell>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm" align="left">Percentage</TableCell>
-              </TableRow>
+            <TableHead className="bg-[#FFFFFF0F]">
+              <TableRow className=" gap-[20px] bg-[#FFFFFF0F]">
+                <TableCell
+                  align="center"
+                  className="w-[40px] lg:w-[70px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                >
+                  #
+                </TableCell>
+                <TableCell
+                  className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[500px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Ticket Type
+                </TableCell>
+                <TableCell
+                  className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[413px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Sold
+                </TableCell>
+                <TableCell
+                  className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[233px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Percentage
+                </TableCell>
+              </TableRow>{" "}
             </TableHead>
             <TableBody>
               {rowsticket.map((row) => (
@@ -250,12 +361,32 @@ function EventSales() {
                   key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    component="th"
+                    scope="row"
+                    align="center"
+                  >
                     {row.name}
                   </TableCell>
-                  <TableCell align="left">{row.calories}</TableCell>
-                  <TableCell align="left">{row.fat}</TableCell>
-                  <TableCell align="left">{row.carbs}%</TableCell>
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.calories}
+                  </TableCell>
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.fat}
+                  </TableCell>
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.carbs}%
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -277,14 +408,113 @@ function EventSales() {
             <Image src={filter} alt="img" />
           </div>
         </div>
-        <TableContainer component={Paper}>
+        {/* <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead  className="bg-[#FFFFFF0F]">
-              <TableRow className="bg-[#FFFFFF0F]">
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm ">#</TableCell>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm " align="left">Ticket Type</TableCell>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm " align="left">Sold</TableCell>
-                <TableCell className=" text-[#A6A6A6] font-mormal text-[10px] lg:text-sm " align="left">Percentage</TableCell>
+            <TableHead className="bg-[#FFFFFF0F]">
+              <TableRow className=" gap-[20px] bg-[#FFFFFF0F]">
+                <TableCell
+                  align="center"
+                  className="w-[40px] px-[16.5px] lg:px-[20px] py-[12px] lg:w-[70px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                >
+                  #
+                </TableCell>
+                <TableCell
+                  className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[500px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Ticket Type
+                </TableCell>
+                <TableCell
+                  className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[413px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Sold
+                </TableCell>
+                <TableCell
+                  className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[233px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Percentage
+                </TableCell>
+              </TableRow>{" "}
+            </TableHead>
+            <TableBody>
+              {rowsticket.map((row) => (
+                <TableRow
+                  key={row.name}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    component="th"
+                    scope="row"
+                    align="center"
+                  >
+                    {row.name}
+                  </TableCell>
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.calories}
+                  </TableCell>
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.fat}
+                  </TableCell>
+                  <TableCell
+                    className="bg-gradient text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.carbs}%
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer> */}
+        <TableContainer component={Paper}>
+          <Table
+            className="no-border-table"
+            sx={{ minWidth: 650 ,background:"#FFFFFF0F"}}
+            aria-label="simple table"
+          >
+            <TableHead className="bg-[#FFFFFF0F]">
+              <TableRow className="spacer-row gap-[16px] bg-[#FFFFFF0F]">
+                <TableCell
+                  align="center"
+                  className="w-[40px] px-[16.5px] lg:px-[20px] py-[12px] lg:w-[70px] text-[#A6A6A6] font-normal text-[10px] lg:text-sm "
+                >
+                  #
+                </TableCell>
+                <TableCell
+                  className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[500px] text-[#A6A6A6] font-normal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Ticket Type
+                </TableCell>
+                <TableCell
+                  className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[413px] text-[#A6A6A6] font-normal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Sold
+                </TableCell>
+                <TableCell
+                  className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[233px] text-[#A6A6A6] font-normal text-[10px] lg:text-sm "
+                  align="left"
+                >
+                  Percentage
+                </TableCell>
+              </TableRow>
+              {/* Spacer Row */}
+              <TableRow>
+                <TableCell
+                  colSpan={4}
+                  className="border-0"
+                  // style={{ height: "16px", border: "none" }}
+                />
               </TableRow>
             </TableHead>
             <TableBody>
@@ -293,12 +523,32 @@ function EventSales() {
                   key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell
+                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    component="th"
+                    scope="row"
+                    align="center"
+                  >
                     {row.name}
                   </TableCell>
-                  <TableCell align="left">{row.calories}</TableCell>
-                  <TableCell align="left">{row.fat}</TableCell>
-                  <TableCell align="left">{row.carbs}%</TableCell>
+                  <TableCell
+                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.calories}
+                  </TableCell>
+                  <TableCell
+                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.fat}
+                  </TableCell>
+                  <TableCell
+                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    {row.carbs}%
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
