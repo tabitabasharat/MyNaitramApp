@@ -1,4 +1,6 @@
 "use client";
+import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
+import SpecificEventPage from "../../PreviewEvent/SpecificEventPage";
 import React from "react";
 import "@/components/create-event/CreateEvent.css";
 import Image from "next/image";
@@ -58,6 +60,7 @@ import img4 from "@/assets/Shield Star.svg";
 import tick from "@/assets/fi-rr-check.svg";
 import { updateEvent } from "@/lib/middleware/event";
 import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
+
 type TicketTypeOption = {
   id: number;
   label: string;
@@ -124,6 +127,7 @@ const formSchema = z.object({
     .min(1, { message: "Telegram URL cannot be empty." }),
   eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+
   tickets: z
     .array(
       z.object({
@@ -145,7 +149,17 @@ type Option = {
   label: string;
   image: string;
 };
+interface EventData {
+  // Add all other fields from your form schema
+  eventmedia?: any[]; // Adjust the type based on what imagesOfGallery returns
+}
 function OganizerCreateEvent() {
+  const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
+  const [isPreviewModalOpen, setisPreviewModalOpen] = useState(false);
+  const [actionType, setActionType] = useState("");
+  // const [eventAllData, setEventAllData] = useState<EventData>({});
+  const [eventAllData, setEventAllData] = useState<EventData | null>(null);
+  console.log("my event data btn", eventAllData);
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const fileInputRef = useRef(null);
@@ -256,6 +270,7 @@ function OganizerCreateEvent() {
       eventendtime: "",
       eventmainimg: "",
       eventcoverimg: "",
+
       eventdescription: "",
 
       compticketno: "",
@@ -426,7 +441,8 @@ function OganizerCreateEvent() {
   };
 
   useEffect(() => {
-    const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);
@@ -440,56 +456,7 @@ function OganizerCreateEvent() {
       label: option.label,
     })),
   }));
-  async function EventCreation(values: z.infer<typeof formSchema>) {
-    console.log("my values", values);
-    console.log(" Event Creation");
 
-    setLoader(true);
-    const imagesOfGallery = await handleFileChangeapi();
-    const utcEventStartTime = convertToUTC(EventStartTime);
-    const utcEventEndTime = convertToUTC(EventEndTime);
-    console.log("Converted UTC time:", utcEventStartTime);
-    console.log("Converted UTC time:", utcEventEndTime);
-
-    try {
-      const data = {
-        userId: userid,
-        name: Eventname,
-        category: EventCategory,
-        eventDescription: Eventdescription,
-        location: EventLocation,
-        ticketStartDate: TicketStartDate,
-        ticketEndDate: TicketEndDate,
-        startTime: EventStartTime,
-        endTime: EventEndTime,
-        mainEventImage: MainImg,
-        coverEventImage: CoverImg,
-
-        tickets: filteredTicketTypes,
-        totalComplemantaryTickets: CompTicketNo,
-        fbUrl: FBUrl,
-        instaUrl: InstaUrl,
-        youtubeUrl: YoutubeUrl,
-        twitterUrl: TwitterUrl,
-        tiktokUrl: tiktokUrl,
-        linkedinUrl: linkedinUrl,
-        eventmedia: imagesOfGallery,
-      };
-      dispatch(createevent(data)).then((res: any) => {
-        if (res?.payload?.status === 200) {
-          setLoader(false);
-          SuccessToast("Event Created Successfully");
-          router.push("/viewallevents");
-        } else {
-          setLoader(false);
-          ErrorToast(res?.payload?.message);
-        }
-      });
-    } catch (error) {
-      console.error("Error:", error);
-      ErrorToast(error);
-    }
-  }
   console.log("Form errors:", form.formState.errors);
 
   function extractDate(dateTime: string): string {
@@ -525,6 +492,108 @@ function OganizerCreateEvent() {
 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
+  async function EventCreation(values: z.infer<typeof formSchema>) {
+    console.log(" Event Creation");
+
+    // setLoader(true);
+    setisWalletModalOpen(true);
+    const imagesOfGallery = await handleFileChangeapi();
+    const utcEventStartTime = convertToUTC(EventStartTime);
+    const utcEventEndTime = convertToUTC(EventEndTime);
+    console.log("Converted UTC time:", utcEventStartTime);
+    console.log("Converted UTC time:", utcEventEndTime);
+    console.log("my values", values);
+
+    const updatedValues = {
+      ...values,
+      eventmedia: imagesOfGallery,
+      ticketsdata: filteredTicketTypes,
+      utcEventStartTime: utcEventStartTime,
+      utcEventEndTime: utcEventEndTime,
+    };
+
+    console.log("Updated values with images:", updatedValues);
+    setEventAllData(updatedValues);
+    // try {
+    //   const data = {
+    //     userId: userid,
+    //     name: Eventname,
+    //     category: EventCategory,
+    //     eventDescription: Eventdescription,
+    //     location: EventLocation,
+    //     ticketStartDate: TicketStartDate,
+    //     ticketEndDate: TicketEndDate,
+    //     startTime: EventStartTime,
+    //     endTime: EventEndTime,
+    //     mainEventImage: MainImg,
+    //     coverEventImage: CoverImg,
+
+    //     tickets: filteredTicketTypes,
+    //     totalComplemantaryTickets: CompTicketNo,
+    //     fbUrl: FBUrl,
+    //     instaUrl: InstaUrl,
+    //     youtubeUrl: YoutubeUrl,
+    //     twitterUrl: TwitterUrl,
+    //     tiktokUrl: tiktokUrl,
+    //     linkedinUrl: linkedinUrl,
+    //     eventmedia: imagesOfGallery,
+    //   };
+    //   dispatch(createevent(data)).then((res: any) => {
+    //     if (res?.payload?.status === 200) {
+    //       setLoader(false);
+    //       SuccessToast("Event Created Successfully");
+    //       router.push("/viewallevents");
+    //     } else {
+    //       setLoader(false);
+    //       ErrorToast(res?.payload?.message);
+    //     }
+    //   });
+    // } catch (error) {
+    //   console.error("Error:", error);
+    //   ErrorToast(error);
+    // }
+  }
+  async function handlePreviewClick(values: z.infer<typeof formSchema>) {
+    console.log(" Event Creation");
+
+    // setLoader(true);
+    // setisWalletModalOpen(false);
+    const imagesOfGallery = await handleFileChangeapi();
+    const utcEventStartTime = convertToUTC(EventStartTime);
+    const utcEventEndTime = convertToUTC(EventEndTime);
+    console.log("Converted UTC time:", utcEventStartTime);
+    console.log("Converted UTC time:", utcEventEndTime);
+    console.log("my values", values);
+
+    const updatedValues = {
+      ...values,
+      eventmedia: imagesOfGallery,
+      ticketsdata: filteredTicketTypes,
+      utcEventStartTime: utcEventStartTime,
+      utcEventEndTime: utcEventEndTime,
+    };
+
+    console.log("Updated values with images:", updatedValues);
+    setEventAllData(updatedValues);
+    if (eventAllData !== null) {
+      console.log("my eventt all", eventAllData);
+
+      const encodedEventData = encodeURIComponent(JSON.stringify(eventAllData));
+
+      router.push(`/preview-event?eventData=${encodedEventData}`);
+    } else {
+      console.log("Event data is not available");
+    }
+  }
+  const handleFormSubmit = (event: any) => {
+    event.preventDefault();
+    if (actionType === "preview") {
+      form.handleSubmit(handlePreviewClick)(event);
+    } else if (actionType === "create") {
+      form.handleSubmit(EventCreation)(event);
+    }
+  };
+
   return (
     <section
       style={{
@@ -572,7 +641,7 @@ function OganizerCreateEvent() {
             <input
               ref={fileInputRef2}
               type="file"
-              accept="image/*" 
+              accept="image/*"
               id="uploadcover"
               className="hidden"
               onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
@@ -622,10 +691,12 @@ function OganizerCreateEvent() {
           <Form {...form}>
             <form
               className=" w-full"
-              onSubmit={(event) => {
-                console.log("Form submit triggered");
-                form.handleSubmit(EventCreation)(event);
-              }}
+              onSubmit={(event) => handleFormSubmit(event)}
+              // onSubmit={(event) => {
+              //   console.log("Form submit triggered");
+              //   form.handleSubmit(EventCreation)(event);
+
+              // }}
             >
               <div className="flex items-start gap-[24px] w-full common-container">
                 <FormField
@@ -880,8 +951,7 @@ function OganizerCreateEvent() {
                             <input
                               ref={fileInputRef}
                               type="file"
-                            
-                              accept="image/*" 
+                              accept="image/*"
                               className="hidden"
                               id="upload"
                               onChange={handleSingleFileChange}
@@ -912,7 +982,7 @@ function OganizerCreateEvent() {
                               >
                                 {isVideo ? (
                                   <video
-                                    src={  window.URL.createObjectURL(file)}
+                                    src={window.URL.createObjectURL(file)}
                                     className="w-full h-full object-cover relative rounded-[12px]"
                                     width={80}
                                     height={80}
@@ -1461,17 +1531,36 @@ function OganizerCreateEvent() {
                   )}
                 />
               </div>
-              <div className="flex justify-end items-center mt-[36px] edit-btn">
-                <Button
-                  type="submit"
-                  className="font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
-                >
-                  Create Event
-                </Button>
+              <div className="flex items-center justify-end gap-[20px]">
+                <div className="flex justify-end items-center mt-[36px] edit-btn">
+                  <button
+                    className="flex h-[52px] py-[12px] px-[68px] edit-btn justify-center items-center rounded-[44px] gap-[6px] gradient-bg gradient-border-edit "
+                    // onClick={handlePreviewClick}
+                    onClick={() => setActionType("preview")}
+                  >
+                    Preview
+                  </button>
+                </div>
+                <div className="flex justify-end items-center mt-[36px] edit-btn">
+                  <Button
+                    type="submit"
+                    className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
+                    onClick={() => setActionType("create")}
+                  >
+                    Submit
+                  </Button>
+                </div>
               </div>
             </form>
           </Form>
         </div>
+        {isWalletModalOpen && (
+          <WalletChooseModal
+            onClose={() => setisWalletModalOpen(false)}
+            open={() => setisWalletModalOpen(true)}
+            eventData={eventAllData}
+          />
+        )}
       </div>
     </section>
   );

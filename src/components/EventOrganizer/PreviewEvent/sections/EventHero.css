@@ -1,0 +1,97 @@
+.main-above {
+  padding: 144px 24px !important;
+}
+.main-div-takeover {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  /* flex-wrap: wrap; */
+}
+@media (max-width:992px) {
+  .main-div-takeover{
+    justify-content: center;
+  }
+  
+}
+.takeover {
+  height: 100% !important;
+}
+.bg-img {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../../../../assets/Hero\ Banner.png");
+}
+.custom-prev-arrow {
+  position: absolute;
+  top: 40%;
+  z-index: 20;
+  left: 44px;
+}
+.custom-next-arrow {
+  position: absolute;
+  top: 40%;
+  z-index: 20;
+  right: 44px;
+}
+
+.slider-img {
+  position: relative;
+  z-index: 10;
+  border-radius: 12px !important;
+}
+
+
+@media (max-width:400px) {
+  .lhs-hero{
+    width: 100%;
+  }  
+}
+
+.img-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 392px;
+  height: 392px;
+}
+
+@media(max-width:992px)
+{
+
+  .main-div-takeover{
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .img-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 392px;
+    height: 392px;
+  }
+}
+@media (max-width: 768px) {
+  .main-above {
+    padding: 128px 24px !important;
+  }
+  .rhs-hero {
+    width: 100%;
+  }
+  .slider-main-div {
+    width: auto;
+  }
+  .custom-next-arrow {
+    right: 20px;
+    width: 40px;
+    height: 40px;
+  }
+  .custom-prev-arrow {
+    left: 20px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .main-div-takeover{
+    width: 100%;
+  }
+}

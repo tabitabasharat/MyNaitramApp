@@ -54,7 +54,7 @@ const LunchModal = ({ onClose, open }: any) => {
             background:
               "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
           }}
-          className="sm:max-w-md w-[345px] text-white px-[24px] py-[32px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent "
+          className="sm:max-w-md w-[464px] text-white px-[24px] py-[32px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent "
         >
           <div>
             {/* <DialogHeader >
@@ -64,8 +64,14 @@ const LunchModal = ({ onClose, open }: any) => {
             <div className="flex items-center flex-col">
               <Image src={Iconpop} alt="icon" />
               <p className="mt-[16px] font-extrabold text-base leading-[24px] whitelist-txt text-center">
-                Please update your Organiser Profile <br/> to create an event.
+                Please update your Organiser Profile <br /> to create an event.
               </p>
+              <Button
+                className="mt-[32px] text-[14px] font-extrabold w-full "
+                onClick={() => router.push("/organizer-event/profile")}
+              >
+                Let’s go 🎉
+              </Button>
             </div>
           </div>
         </DialogContent>

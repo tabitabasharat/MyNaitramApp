@@ -66,6 +66,12 @@ const EventSubmmitModal = ({ onClose, open }: any) => {
               <p className="mt-[16px] font-extrabold text-base leading-[24px] whitelist-txt text-center">
               Event Submitted
               </p>
+              <Button
+                className="mt-[32px] text-[14px] font-extrabold w-full "
+                onClick={() => router.push("/viewallevents")}
+              >
+                Let’s go 🎉
+              </Button>
             </div>
           </div>
         </DialogContent>

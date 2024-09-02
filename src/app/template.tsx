@@ -19,7 +19,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/organizer-event/profile",
     "profile-perview",
     "/management",
-    "/organizer-event/lunch-event",
+    "/organizer-event/launch-event",
     "/eventsales"
   ];
 

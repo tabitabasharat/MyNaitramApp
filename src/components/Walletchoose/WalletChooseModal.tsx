@@ -37,6 +37,12 @@ import { TelegramLogo } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import tick from "@/assets/fi-rr-check.svg";
 import EventSubmmitModal from "../EventSubmmitModal/EventSubmmitModal";
+import { createevent } from "@/lib/middleware/event";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "../reusable-components/Toaster/Toaster";
+import ScreenLoader from "../loader/Screenloader";
 type Option = {
   id: number;
   label: string;
@@ -54,17 +60,19 @@ const options: Option[] = [
 const formSchema = z.object({
   walletAddress: z
     .string()
-    .min(1, { message: "Telegram Url cannot be empty." }),
+    .min(1, { message: "Wallet Address cannot be empty." }),
 });
 
 type LunchModalProps = {
   onClose: () => void; // Function to close the dialog
-  open: ()=> void; // Boolean to control the dialog's visibility
+  open: () => void; // Boolean to control the dialog's visibility
 };
 
-const LunchModal: React.FC<LunchModalProps> = ({ onClose, open }: any) => {
+const LunchModal = ({ onClose, open, eventData }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [loader, setLoader] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -72,11 +80,14 @@ const LunchModal: React.FC<LunchModalProps> = ({ onClose, open }: any) => {
     },
   });
   const userLoading = useAppSelector((state) => state?.getShowProfile);
-  const [walletaddress , setwalletaddress] = useState ()
+  const [walletaddress, setwalletaddress] = useState("");
   const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
   const [Dropdown, setDropdown] = useState(true);
   const [validationError, setValidationError] = useState("");
+  const [userid, setUserid] = useState<any>("");
+
+  console.log("my all event data", eventData);
   const handleOptionToggle = (option: Option) => {
     if (selectedOptions.some((o) => o.id === option.id)) {
       setSelectedOptions([]);
@@ -95,9 +106,65 @@ const LunchModal: React.FC<LunchModalProps> = ({ onClose, open }: any) => {
     setisCreateModalOpen(true);
     console.log("clicked");
   };
+  useEffect(() => {
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setUserid(userID);
+    console.log("user ID logged in is", userID);
+  }, []);
+
+  async function EventCreation(values: z.infer<typeof formSchema>) {
+    console.log(" Event Creation");
+
+    setLoader(true);
+
+    console.log("my values", values);
+
+    try {
+      const data = {
+        userId: userid,
+        chain: selectedOptions,
+        wallet: walletaddress,
+        name: eventData?.eventname,
+        category: eventData?.eventcategory,
+        eventDescription: eventData?.eventdescription,
+        location: eventData?.eventLocation,
+        ticketStartDate: eventData?.eventstartdate,
+        ticketEndDate: eventData?.eventendtdate,
+        startTime: eventData?.utcEventStartTime,
+        endTime: eventData?.utcEventEndTime,
+        mainEventImage: eventData?.eventmainimg,
+        coverEventImage: eventData?.eventcoverimg,
+        tickets: eventData?.ticketsdata,
+        totalComplemantaryTickets: eventData?.compticketno,
+        fbUrl: eventData?.fburl,
+        instaUrl: eventData?.instaurl,
+        youtubeUrl: eventData?.youtubeurl,
+        twitterUrl: eventData?.TwitterUrl,
+        tiktokUrl: eventData?.tiktokurl,
+        linkedinUrl: eventData?.linkedinurl,
+        eventmedia: eventData?.eventmedia,
+      };
+      dispatch(createevent(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          SuccessToast("Event Created Successfully");
+          setisCreateModalOpen(true);
+          // router.push("/viewallevents");
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      ErrorToast(error);
+    }
+  }
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
+      {loader && <ScreenLoader />}
       <DialogPortal>
         <DialogOverlay />
         <DialogContent
@@ -137,7 +204,11 @@ const LunchModal: React.FC<LunchModalProps> = ({ onClose, open }: any) => {
               <Form {...form}>
                 <form
                   className="w-full my-[12px] mt-[5px]"
-                  onSubmit={handleSubmit}
+                  // onSubmit={()=> EventCreation()}
+                  onSubmit={(event) => {
+                    console.log("Form submit triggered");
+                    form.handleSubmit(EventCreation)(event);
+                  }}
                 >
                   <FormField
                     control={form.control}
@@ -160,6 +231,7 @@ const LunchModal: React.FC<LunchModalProps> = ({ onClose, open }: any) => {
                             onChange={(e) => {
                               field.onChange(e);
                               setValidationError("");
+                              setwalletaddress(e.target.value);
                             }}
                           />
                         </FormControl>
@@ -200,6 +272,11 @@ const LunchModal: React.FC<LunchModalProps> = ({ onClose, open }: any) => {
                             )}
                           </div>
                         ))}
+                        {/* To use the selected options elsewhere  */}
+                        {/* <div>
+                          Selected Options:{" "}
+                          {selectedOptions.map((o) => o.label).join(", ")}
+                        </div> */}
                       </div>
                     )}
                     {validationError && (
@@ -212,20 +289,20 @@ const LunchModal: React.FC<LunchModalProps> = ({ onClose, open }: any) => {
                   <DialogFooter className="w-full border-t border-muted">
                     <div className="w-full p-[24px]">
                       <Button
-                        type="button" // Change to "button" to prevent form submission
+                        type="submit" // Change to "button" to prevent form submission
                         className="w-full"
                         disabled={
                           !selectedOptions.length ||
                           !form.watch("walletAddress")
                         }
-                        onClick={() => {
-                          if (
-                            selectedOptions.length &&
-                            form.watch("walletAddress")
-                          ) {
-                            WalletModalhandler(); // Show the popup
-                          }
-                        }}
+                        // onClick={() => {
+                        //   if (
+                        //     selectedOptions.length &&
+                        //     form.watch("walletAddress")
+                        //   ) {
+                        //     WalletModalhandler(); // Show the popup
+                        //   }
+                        // }}
                       >
                         Submit
                       </Button>

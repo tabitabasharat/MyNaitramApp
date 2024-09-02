@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState,useEffect } from "react";
 import { useAppDispatch,useAppSelector } from "@/lib/hooks";
 import { getUserSocialProfile } from "@/lib/middleware/profile";
+import backbtnimg from "@/assets/Wallet/back-btn-create.svg"
 
 const Backward = () => {
   const router = useRouter();
