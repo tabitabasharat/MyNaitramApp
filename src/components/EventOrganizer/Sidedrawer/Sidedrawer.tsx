@@ -70,7 +70,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
   const event = [
     { text: "Create Event", icon: chats, url: "/organizer-create-event" },
     { text: "Manage Event", icon: accnt, url: "/management" },
-    { text: "Create Scanner Login", icon: scanner, url: "/organizer-event/event-dashboard" },
+    { text: "Create Scanner Login", icon: scanner, url: "/organizer-event/sacnner-login" },
   ];
 
   const DrawerHeader = styled("div")(({ theme }) => ({

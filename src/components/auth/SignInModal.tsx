@@ -205,26 +205,6 @@ const SignInModal = ({
             />
             <Separator className="scale-x-[1.09] bg-[#292929] " />
           </DialogHeader>
-       
-          {/* <Button
-            variant="secondary"
-            className="w-full flex items-center gap-1 mt-5"
-            onClick={()=>logingoogle()}
-          >
-            <GoogleLogo size={22} weight="fill" /> Sign in with Google
-          </Button> */}
-          {/* <Button variant="secondary" className="w-full items-center gap-1 mt-3">
-          <Image src={metamask} width={22} height={22} alt="ufo" />
-          Sign in with M
-          etamask
-        </Button> */}
-         
-          {/* <div className="flex items-center justify-between gap-4 mt-5 mb-5">
-            <Separator className="bg-[#292929] w-[45%]" />
-            <p className="font-bold">OR</p>
-            <Separator className="bg-[#292929] w-[45%]" />
-          </div> */}
-
           <Form {...form} >
             <form onSubmit={form.handleSubmit(login)} className="space-y-4 mt-[24px]">
               <FormField

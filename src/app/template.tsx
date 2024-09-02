@@ -20,7 +20,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "profile-perview",
     "/management",
     "/organizer-event/lunch-event",
-    "/eventsales"
+    "/eventsales",
+    "/organizer-event/sacnner-login",
+    "/organizer-event/add-scanner"
   ];
 
   const pathname = usePathname();
