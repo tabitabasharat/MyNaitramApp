@@ -115,7 +115,8 @@ const Organizer = () => {
                   {myProfile?.fullname}
                 </h2>
                 <p className="md:mb-[24px] pt-[24px] pb-[20px] lg:py-[0px] font-bold text-[#FFFFFF80] text-sm lg:font-normal">
-                  akemiwrld@gmail.com
+                  {/* akemiwrld@gmail.com */}
+                  {myProfile?.email}
                 </p>
                 <div
                   style={{
@@ -131,7 +132,7 @@ const Organizer = () => {
                         : "0"}
                     </h2>
                     <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      ATTENDEES
+                    Events
                     </p>
                   </div>
                   <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
@@ -153,7 +154,7 @@ const Organizer = () => {
                         : "0"}
                     </h2>
                     <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      ATTENDEES
+                     Followers
                     </p>
                   </div>
                   <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
@@ -162,7 +163,7 @@ const Organizer = () => {
                       324
                     </h2>
                     <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      FOLLOWING
+                      Sales
                     </p>
                   </div>
                 </div>

@@ -70,6 +70,11 @@ function Rewards() {
     (state) => state?.getClaimStatus?.myClaim?.data
   );
   console.log("my claim status data", ClaimStatusdata);
+  
+  const myRewardCollectibles = useAppSelector(
+    (state) => state?.getRewardCollectibles?.myCollectibles?.data?.collectibles
+  );
+  console.log("my Rewards Collectibles are ", myRewardCollectibles);
   return (
     <section
       //   style={{
@@ -91,13 +96,13 @@ function Rewards() {
           <p className="text-[#E6E6E6] text-[16px] font-bold">My Items</p>
           <ScrollArea className="w-full overflow-auto ">
             <div className="flex gap-[8px] lg:mt-[8px] mt-[16px] whitespace-nowrap min-w-[800px]">
-              {rewardposts.map((post: any) => (
+              {myRewardCollectibles.map((post: any) => (
                 <div
                   key={post.id}
                   className="flex items-start flex-col gap-[8px]"
                 >
-                  <Thumbnail img={post.img} />
-                  <p className="text-[12px]">{post.title}</p>
+                  <Thumbnail img={post.image} />
+                  <p className="text-[12px]">{post.name}</p>
                 </div>
               ))}
             </div>
