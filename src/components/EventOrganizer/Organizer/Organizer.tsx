@@ -71,7 +71,7 @@ const Organizer = () => {
     : "/person3.jpg";
   console.log("image src is", imageUrl);
   return (
-    <div className="w-full ps-[0px] xl:ps-[147.5px] md:px-auto lg:w-full lg:mx-0">
+    <div className="w-full px-[24px] xl:ps-[147.5px] md:px-auto lg:w-full lg:mx-0">
       {userLoading?.loading && <ScreenLoader />}
       <div >
         <div className="flex mt-[45px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start md:mt-[90px]">
@@ -122,7 +122,7 @@ const Organizer = () => {
                     background:
                       "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
                   }}
-                  className="flex bg-[#0F0F0F] rounded-[6.89px] gap-[0px] sm:gap-[20px] md:gap-[20px] lg:gap-[20px] justify-evenly  py-[16px] px-[0px] lg:px-[19.37px] lg:py-[13.77px] w-[100%] lg:w-[428px] xl:w-[428px] border-[0.86px] border-transparent"
+                  className="flex bg-[#0F0F0F] rounded-[6.89px] flex-wrap gap-[0px] sm:gap-[20px] md:gap-[20px] lg:gap-[20px] justify-evenly  py-[16px] px-[0px] lg:px-[19.37px] lg:py-[13.77px] w-[100%] lg:w-[428px] xl:w-[428px] border-[0.86px] border-transparent"
                 >
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">

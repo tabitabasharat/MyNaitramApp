@@ -38,40 +38,32 @@ import Link from "next/link";
 type Option = {
   id: number;
   label: string;
+  subtitles: [string, string, string];
 };
 const options: Option[] = [
-  { id: 1, label: "Admin" },
-  { id: 2, label: "Generic" },
+  {
+    id: 1,
+    label: "Admin",
+    subtitles: [
+      "Can see history of all users scanned after the event",
+      "Lorem Ispum",
+      "Lorem Ispum",
+    ],
+  },
+  {
+    id: 2,
+    label: "Generic",
+    subtitles: ["Lorem Ispum", "Lorem Ispum", "Lorem Ispum"],
+  },
 ];
 
 const formSchema = z.object({
-  full_name: z.string().min(2, { message: "Full name cannot be empty." }),
+  name: z.string().min(2, { message: "Full name cannot be empty." }),
 
   email: z
     .string()
     .min(1, { message: "Email cannot be empty." })
     .email({ message: "Invalid email address." }),
-
-  password: z
-    .string()
-    .min(8, { message: "Password must contain at least 8 characters." })
-    .regex(/[a-z]/, {
-      message: "Password must contain at least one lowercase letter.",
-    })
-    .regex(/[A-Z]/, {
-      message: "Password must contain at least one uppercase letter.",
-    })
-    .regex(/[0-9]/, { message: "Password must contain at least one number." })
-    .regex(/[^a-zA-Z0-9]/, {
-      message: "Password must contain at least one special character.",
-    }),
-  facebook: z
-    .string()
-    .min(2, { message: "Facebook Url name cannot be empty." }),
-  linkedIn: z.string().min(2, { message: "linkedIn Url cannot be empty." }),
-  insta: z.string().min(2, { message: "Instagram Url cannot be empty." }),
-  telegram: z.string().min(1, { message: "Telegram Url cannot be empty." }),
-  BIO: z.string().min(1, { message: "Description be empty." }),
 });
 
 const AddScanner = () => {
@@ -99,14 +91,8 @@ const AddScanner = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      full_name: "",
+      name: "",
       email: "",
-      password: "",
-      facebook: "",
-      insta: "",
-      linkedIn: "",
-      telegram: "",
-      BIO: "",
     },
   });
   const myliveActivity = useAppSelector(
@@ -159,12 +145,9 @@ const AddScanner = () => {
     const userID = localStorage.getItem("_id");
     try {
       const data = {
-        password: Password || myProfile?.password || "",
-        fullName: Name || myProfile?.fullname || "",
+        // Email: Email || myProfile?.email || "",
+        Name: Name || myProfile?.name || "",
         userId: userID,
-
-        isActive: false,
-        profilePicture: imageSrc,
       };
       dispatch(updateProfile(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
@@ -198,18 +181,6 @@ const AddScanner = () => {
     }
   };
 
-  useEffect(() => {
-    if (myliveActivity && myliveActivity.length > 0) {
-      const currentValues = form.getValues();
-
-      form.reset({
-        facebook: myliveActivity[0]?.fbUrl || currentValues.facebook,
-        insta: myliveActivity[0]?.instaUrl || currentValues.insta,
-        linkedIn: myliveActivity[0]?.linkedinUrl || currentValues.linkedIn,
-        telegram: myliveActivity[0]?.telegramUrl || currentValues.telegram,
-      });
-    }
-  }, [myliveActivity]);
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
@@ -263,9 +234,8 @@ const AddScanner = () => {
   useEffect(() => {
     if (myProfile) {
       form.reset({
-        full_name: myProfile?.fullname || form.getValues("full_name"),
+        name: myProfile?.fullname || form.getValues("name"),
         email: myProfile?.email || form.getValues("email"),
-        password: myProfile?.password || form.getValues("password"),
       });
     }
     if (myProfile?.profilePicture) {
@@ -304,16 +274,15 @@ const AddScanner = () => {
   }
 
   return (
-    <div className="w-full md:w-[70%] ps-[0px] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
+    <div className="w-full md:w-[70%] px-[24px] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
-      <h2 className="font-bold ms-[24px] md:ms-[0px] text-[20px] lg:text-[32px]">
+      <h2 className="font-bold ms-[24px] md:ms-[0px] font-bold lg:font-extrabold text-[20px] lg:text-[24px]">
         Add Scanner
       </h2>
-      <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[60px] mt-[32px]">
-        <div className="flex w-full  md:w-full lg:w-[428px] flex-col lg:flex-col gap-6 md:gap-8 mt-[0px] lg:mt-[32px]">
-          <div className="w-full md:w-full lg:w-[428px]">
+      <div className="flex flex-col lg:flex-row mt-[32px]">
+          <div className="w-full md:w-full relative h-[85vh] lg:h-[auto] lg:w-[428px]">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(updateActivity)}
@@ -321,7 +290,7 @@ const AddScanner = () => {
               >
                 <FormField
                   control={form.control}
-                  name="facebook"
+                  name="name"
                   render={({ field }) => (
                     <FormItem className="relative mb-[12px] lg:mb-4 space-y-0">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
@@ -348,12 +317,12 @@ const AddScanner = () => {
                     </FormItem>
                   )}
                 />
-                 <FormField
+                <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem className="relative mb-[20px] space-y-0">
-                      <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
+                      <FormLabel className="text-[12px] text-[#8F8F8F] absolute left-3 top-3">
                         EMAIL
                       </FormLabel>
                       <Envelope
@@ -363,7 +332,7 @@ const AddScanner = () => {
                       <FormControl>
                         <Input
                           placeholder="youremail@example.com"
-                          className="pt-11 pb-5 font-bold placeholder:font-normal"
+                          className="pt-11 pb-5 text-base text-[white] placeholder:font-extrabold"
                         />
                       </FormControl>
                       <FormMessage />
@@ -386,23 +355,36 @@ const AddScanner = () => {
                           className="flex items-center justify-between pt-[2px] cursor-pointer"
                           onClick={() => handleOptionToggle(option)}
                         >
-                          <div className="flex items-center gap-[10px]">
-                            <p className="text-[14px] text-[#FFFFFF] font-normal items-center">
-                              {option.label}
-                            </p>
+                          <div className="flex w-full flex-col">
+                            <div className="flex jutify-between w-full">
+                              <p className="text-[14px] w-full text-start text-[#FFFFFF] font-normal items-center">
+                                {option.label}
+                              </p>
+                              {selectedOptions.some(
+                                (o) => o.id === option.id
+                              ) && (
+                                <Image
+                                  src={tick}
+                                  width={10}
+                                  height={10}
+                                  alt="tick"
+                                />
+                              )}
+                            </div>
+                            {option.subtitles.map((subtitles, index) => (
+                              <p
+                                key={index}
+                                className="ps-[2px] font-normal text-sm"
+                              >
+                                . {subtitles}
+                              </p>
+                            ))}
                           </div>
-                          {selectedOptions.some((o) => o.id === option.id) && (
-                            <Image
-                              src={tick}
-                              width={10}
-                              height={10}
-                              alt="tick"
-                            />
-                          )}
                         </div>
                       ))}
                     </div>
                   )}
+
                   {validationError && (
                     <p className="text-red-500 text-sm mt-2">
                       {validationError}
@@ -410,7 +392,7 @@ const AddScanner = () => {
                   )}
                 </div>
                 <Link href="/organizer-event/scanner-credentials">
-                  <div className="flex justify-start mb-[49px] lg:justify-end">
+                  <div className="flex justify-start w-full md:relative absolute bottom-[0px] mb-[49px] lg:justify-end">
                     <Button
                       type="submit"
                       className="w-full lg:font-bold font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base"
@@ -421,7 +403,6 @@ const AddScanner = () => {
                 </Link>
               </form>
             </Form>
-          </div>
         </div>
       </div>
     </div>

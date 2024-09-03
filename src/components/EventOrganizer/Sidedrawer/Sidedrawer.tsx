@@ -24,10 +24,18 @@ import accnt from "@/assets/User Gear.svg";
 import chats from "@/assets/Chats.svg";
 import heplcenter from "@/assets/Headset.svg";
 import faq from "@/assets/Question.svg";
-import scanner from "@/assets/Scan.svg" 
+import scanner from "@/assets/Scan.svg";
 import Link from "next/link";
 import { useAppDispatch } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"], // Specify the subsets you need
+  weight: ["400", "700"], // Specify the weights you need
+  variable: "--font-poppins",
+  display: "swap",
+});
 
 const drawerWidth = 247;
 
@@ -70,7 +78,11 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
   const event = [
     { text: "Create Event", icon: chats, url: "/organizer-create-event" },
     { text: "Manage Event", icon: accnt, url: "/management" },
-    { text: "Create Scanner Login", icon: scanner, url: "/organizer-event/sacnner-login" },
+    {
+      text: "Create Scanner Login",
+      icon: scanner,
+      url: "/organizer-event/sacnner-login",
+    },
   ];
 
   const DrawerHeader = styled("div")(({ theme }) => ({
@@ -166,15 +178,13 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">
             ANALYTICS/BILLING
           </h3>
-          <Link href="/organizer-event/event-dashboard">
+          <Link href="/eventsales">
             <ListItem
               className={`text-xl font-bold ${
-                activeItem === "Delete Account"
-                  ? "gradient-border rounded-lg"
-                  : ""
+                activeItem === "Event Analytics" ? "gradient-border rounded-lg" : ""
               }`}
               disablePadding
-              onClick={() => handleItemClick("Delete Account")}
+              onClick={() => handleItemClick("Event Analytics")}
             >
               <ListItemButton className="p-[10px]">
                 <ListItemIcon className="min-w-0 pr-[6px]">
@@ -191,16 +201,16 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           </Link>
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">HELP</h3>
-          <Link href="/organizer-event/event-dashboard">
+          <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">
+            HELP
+          </h3>
+          <Link href="/organizer-event/helpcenter">
             <ListItem
               className={`text-xl font-bold ${
-                activeItem === "Delete Account"
-                  ? "gradient-border rounded-lg"
-                  : ""
+                activeItem === "Help center" ? "gradient-border rounded-lg" : ""
               }`}
               disablePadding
-              onClick={() => handleItemClick("Delete Account")}
+              onClick={() => handleItemClick("Help center")}
             >
               <ListItemButton className="p-[10px]">
                 <ListItemIcon className="min-w-0 pr-[6px]">
@@ -211,7 +221,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
                     height={16}
                   />
                 </ListItemIcon>
-                <ListItemText primary="Help Center" />
+                <ListItemText primary="Help center" />
               </ListItemButton>
             </ListItem>
           </Link>
@@ -298,6 +308,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
         </Drawer>
         <Drawer
           variant="permanent"
+          // className="Poppins"
           sx={{
             display: { xs: "none", sm: "block" },
             "& .MuiDrawer-paper": {
@@ -309,6 +320,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
             "& .MuiTypography-root": {
               fontSize: "14px",
               fontWeight: "400",
+              fontFamily: poppins.style.fontFamily,
             },
           }}
           open

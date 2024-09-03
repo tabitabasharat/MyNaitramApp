@@ -29,8 +29,16 @@ import logout from "../../assets/logout.svg";
 import Link from "next/link";
 import { useAppDispatch } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
+import { Poppins } from "next/font/google";
 
-const drawerWidth = 247;
+const poppins = Poppins({
+  subsets: ["latin"], // Specify the subsets you need
+  weight: ["400", "700"], // Specify the weights you need
+  variable: "--font-poppins",
+  display: "swap",
+});
+
+const drawerWidth = 248;
 
 interface Props {
   window?: () => Window;
@@ -95,15 +103,14 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
 
   const Logout = () => {
     localStorage.clear();
-  
+
     dispatch({ type: "LOGOUT" });
     router.push("/");
   };
-  
-  const drawer = (
 
+  const drawer = (
     <>
-      <div className="ps-[32px] pe-[24px] bg-[black]">
+      <div className="ps-[32px] bg-[black]">
         <List className="bg-[black] p-[0px] text-[white]">
           <Link href="/profile/profile-main">
             <h3 className="text-[20px] font-extrabold pt-[0px] lg:pt-[32px]  mb-[24px]">
@@ -132,11 +139,13 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                   >
                     {/* <div style={{background:" linear-gradient(#fff, #fff) padding-box,linear-gradient(90deg, #0B6719 0%, #2AD72D 100%) border-box;",padding:"1px 2px"}}> */}
                     <ListItemButton
-                    // style={{background:"black"}}
-                     
-                    className={`text-xl font-bold ${
-                      activeItem === item.text ? "gradient-border rounded-lg" : ""
-                    }`}
+                      // style={{background:"black"}}
+
+                      className={`text-xl font-bold ${
+                        activeItem === item.text
+                          ? "gradient-border rounded-lg"
+                          : ""
+                      }`}
                     >
                       <ListItemIcon className="min-w-0 pr-2">
                         <Image
@@ -197,7 +206,9 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               //     : ""
               // }`}
               className={`text-xl font-bold ${
-                activeItem === "Delete Account" ? "gradient-border rounded-lg" : ""
+                activeItem === "Delete Account"
+                  ? "gradient-border rounded-lg"
+                  : ""
               }`}
               disablePadding
               onClick={() => handleItemClick("Delete Account")}
@@ -218,13 +229,14 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
         </List>
       </div>
       <div className="">
-        <button className="text-[white] mb-[32px] md:mx-[21px] absolute bottom-[10%] mx-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
-        onClick={Logout}>
+        <button
+          className="text-[white] mb-[32px] md:mx-[21px] absolute bottom-[10%] mx-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
+          onClick={Logout}
+        >
           <Image
             src={logout}
             className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]"
             alt="img"
-          
           />{" "}
           Log out
         </button>
@@ -236,7 +248,6 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
     window !== undefined ? () => window().document.body : undefined;
   const theme = useTheme();
 
-  
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -322,6 +333,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
             "& .MuiTypography-root": {
               fontSize: "14px",
               fontWeight: "400",
+              fontFamily: poppins.style.fontFamily,
             },
           }}
           open

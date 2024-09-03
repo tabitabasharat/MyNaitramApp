@@ -1,6 +1,12 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap'); */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: var(--font-base), var(--font-poppins), sans-serif;
+}
 
 .main-box {
   width: 100% !important;
