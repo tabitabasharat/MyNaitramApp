@@ -13,6 +13,7 @@ const EventCard = ({
   img,
   title,
   eventId,
+  
   height = "345px",
   width = "100%",
 }: {
@@ -42,7 +43,7 @@ const EventCard = ({
         userId: userID,
       };
       dispatch(LikeEvent(data)).then((res: any) => {
-        if (res?.payload?.status === 201) {
+        if (res?.payload?.status === 200) {
           setLoader(false);
           SuccessToast("Event Liked Successfully");
         } else {

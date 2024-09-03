@@ -60,7 +60,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
 
   // Use media query hook
   const isSmallScreen = useMediaQuery("(max-width:992px)");
-  const drawerWidth = 247;
+  const drawerWidth = 260;
   useEffect(() => {
     if (isSmallScreen) {
 
@@ -91,7 +91,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
   };
 
   const event = [
-    { text: "Create Event", icon: chats, url: "/organizer-create-event" },
+    { text: "Create Event", icon: chats, url: "/organizer-event/launch-event" },
     { text: "Manage Event", icon: accnt, url: "/management" },
     {
       text: "Create Scanner Login",

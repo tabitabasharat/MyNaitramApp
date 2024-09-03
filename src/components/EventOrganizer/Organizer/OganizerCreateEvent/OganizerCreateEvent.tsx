@@ -160,7 +160,6 @@ function OganizerCreateEvent() {
   const [actionType, setActionType] = useState("");
   // const [eventAllData, setEventAllData] = useState<EventData>({});
   const [eventAllData, setEventAllData] = useState<EventData | null>(null);
-  console.log("my event data btn", eventAllData);
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const fileInputRef = useRef(null);
@@ -178,12 +177,6 @@ function OganizerCreateEvent() {
   const [EventStartTime, setEventStartTime] = useState("");
 
   const [EventEndTime, setEventEndTime] = useState("");
-
-  console.log("my event start date is", EventStartTime);
-  console.log("my ticket start date is", TicketStartDate);
-
-  console.log("my event enddate is", EventEndTime);
-  console.log("my ticket endd date is", TicketEndDate);
 
   const [Eventdescription, setEventdescription] = useState("");
 
@@ -289,7 +282,6 @@ function OganizerCreateEvent() {
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);
       setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]); // Update state with all selected files
-      console.log("Gallery files:", [...galleryFiles, ...filesArray]);
     }
   };
   const handleFileChangeapi = async () => {
@@ -299,13 +291,10 @@ function OganizerCreateEvent() {
       try {
         const filesArray = Array.from(galleryFiles);
 
-        console.log("Gallery files:", filesArray);
-
         const formData = new FormData();
 
         filesArray.forEach((file) => formData.append("files", file));
 
-        //  console.log("my res before", formData)
         const res: any = await api.post(
           `${API_URL}/upload/uploadMultiple`,
           formData
@@ -314,11 +303,8 @@ function OganizerCreateEvent() {
         if (res?.status === 200) {
           setLoader(false);
 
-          console.log("gallery res", res);
-          console.log("gallery image uploasssded");
           setEventsFile(res?.data?.imageUrls);
 
-          console.log(res?.data?.data, "this is the gallery url");
           SuccessToast("Images Uploaded Successfully");
           return res?.data?.imageUrls;
         } else {
@@ -355,9 +341,7 @@ function OganizerCreateEvent() {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
-    console.log("Selected Main cover img is:", file);
     const filename = file?.name;
-    console.log("file name", filename);
     setMainImgName(filename);
 
     if (file) {
@@ -379,11 +363,8 @@ function OganizerCreateEvent() {
         if (res.status === 200) {
           setLoader(false);
 
-          console.log("Main cover image", res);
-          console.log("Main cover image uploaded");
           form.setValue("eventmainimg", res?.data?.data);
           setMainImg(res?.data?.data);
-          console.log(res?.data?.data, "this is the Main cover image url");
           SuccessToast("Main Cover Image Uploaded Successfully");
         } else {
           setLoader(false);
@@ -398,9 +379,7 @@ function OganizerCreateEvent() {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
-    console.log("Selected  cover img is:", file);
     const filename = file?.name;
-    console.log("file name", filename);
     setCoverImgName(filename);
     if (file) {
       setLoader(true);
@@ -421,12 +400,9 @@ function OganizerCreateEvent() {
         if (res.status === 200) {
           setLoader(false);
 
-          console.log(" cover image", res);
-          console.log(" cover image uploaded");
           form.setValue("eventcoverimg", res?.data?.data);
 
           setCoverImg(res?.data?.data);
-          console.log(res?.data?.data, "this is the cover image url");
           SuccessToast("Cover Event Image Uploaded Successfully");
         } else {
           setLoader(false);
@@ -445,7 +421,6 @@ function OganizerCreateEvent() {
     const userID =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
-    console.log("user ID logged in is", userID);
   }, []);
 
   const filteredTicketTypes = ticketTypes.map((ticket) => ({
@@ -457,8 +432,6 @@ function OganizerCreateEvent() {
       label: option.label,
     })),
   }));
-
-  console.log("Form errors:", form.formState.errors);
 
   function extractDate(dateTime: string): string {
     // Create a new Date object from the input string
@@ -494,16 +467,13 @@ function OganizerCreateEvent() {
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
   async function EventCreation(values: z.infer<typeof formSchema>) {
-    console.log(" Event Creation");
-
     // setLoader(true);
-    setisWalletModalOpen(true);
+   
     const imagesOfGallery = await handleFileChangeapi();
+
+    setisWalletModalOpen(true);
     const utcEventStartTime = convertToUTC(EventStartTime);
     const utcEventEndTime = convertToUTC(EventEndTime);
-    console.log("Converted UTC time:", utcEventStartTime);
-    console.log("Converted UTC time:", utcEventEndTime);
-    console.log("my values", values);
 
     const updatedValues = {
       ...values,
@@ -513,21 +483,14 @@ function OganizerCreateEvent() {
       utcEventEndTime: utcEventEndTime,
     };
 
-    console.log("Updated values with images:", updatedValues);
     setEventAllData(updatedValues);
- 
   }
   async function handlePreviewClick(values: z.infer<typeof formSchema>) {
-    console.log(" Event Creation");
-
     // setLoader(true);
     // setisWalletModalOpen(false);
     const imagesOfGallery = await handleFileChangeapi();
     const utcEventStartTime = convertToUTC(EventStartTime);
     const utcEventEndTime = convertToUTC(EventEndTime);
-    console.log("Converted UTC time:", utcEventStartTime);
-    console.log("Converted UTC time:", utcEventEndTime);
-    console.log("my values", values);
 
     const updatedValues = {
       ...values,
@@ -537,30 +500,24 @@ function OganizerCreateEvent() {
       utcEventEndTime: utcEventEndTime,
     };
 
-    console.log("Updated values with images:", updatedValues);
     setEventAllData(updatedValues);
-    if (eventAllData !== null) {
-      console.log("my eventt all", eventAllData);
-
-      const encodedEventData = encodeURIComponent(JSON.stringify(eventAllData));
+    if (updatedValues !== null) {
+      const encodedEventData = encodeURIComponent(JSON.stringify(updatedValues));
 
       router.push(`/preview-event?eventData=${encodedEventData}`);
     } else {
-      console.log("Event data is not available");
     }
   }
 
- 
 
-  const handleFormSubmit = (event: any) => {
+  const handleFormSubmit = (event: any, actionTypes: any) => {
     event.preventDefault();
-   
-    if (actionType === "preview") {
+
+    if (actionTypes === "preview") {
       form.handleSubmit(handlePreviewClick)(event);
-    } else if (actionType === "create") {
+    } else if (actionTypes === "create") {
       form.handleSubmit(EventCreation)(event);
     }
-   
   };
 
   return (
@@ -660,7 +617,7 @@ function OganizerCreateEvent() {
           <Form {...form}>
             <form
               className=" w-full"
-              onSubmit={(event) => handleFormSubmit(event)}
+              // onSubmit={(event) => handleFormSubmit(event)}
               // onSubmit={(event) => {
               //   console.log("Form submit triggered");
               //   form.handleSubmit(EventCreation)(event);
@@ -1505,7 +1462,9 @@ function OganizerCreateEvent() {
                   <button
                     className="flex h-[52px] py-[12px] px-[68px] edit-btn justify-center items-center rounded-[44px] gap-[6px] gradient-bg gradient-border-edit "
                     // onClick={handlePreviewClick}
-                    onClick={() => setActionType("preview")}
+                    // onClick={() => setActionType("preview")}
+
+                    onClick={(event) => handleFormSubmit(event, "preview")}
                   >
                     Preview
                   </button>
@@ -1514,7 +1473,8 @@ function OganizerCreateEvent() {
                   <Button
                     type="submit"
                     className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
-                    onClick={() => setActionType("create")}
+                    // onClick={() => setActionType("create")}
+                    onClick={(event) => handleFormSubmit(event, "create")}
                   >
                     Submit
                   </Button>

@@ -41,6 +41,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import ScreenLoader from "../loader/Screenloader";
 import { useRouter } from "next/navigation";
+import AccountVerificationModal from "./AccountVerificationModal";
 
 const formSchema = z.object({
   email: z
@@ -66,17 +67,18 @@ const formSchema = z.object({
 const SignInModal = ({
   setAuthMode,
   setSigninModal,
-  redirectRoute
+  redirectRoute,
 }: {
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
   setSigninModal: () => void;
-  redirectRoute:any
+  redirectRoute: any;
 }) => {
   const dispatch = useAppDispatch();
-  const router=useRouter()
+  const router = useRouter();
   const [loader, setLoader] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isVerificationModalOpen, setVerificationModalOpen] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -93,12 +95,13 @@ const SignInModal = ({
         password: password,
       };
       dispatch(signin(data)).then((res: any) => {
+        console.log("inside the login", res);
         if (res?.payload?.status === 200) {
           setLoader(false);
           console.log("login res", res?.payload?.data);
           localStorage.setItem("_id", res?.payload?.data?.id);
           localStorage.setItem("token", res?.payload?.token);
-         
+
           localStorage.setItem("name", res?.payload?.data?.fullname);
           localStorage.setItem("email", res?.payload?.data?.email);
 
@@ -109,7 +112,7 @@ const SignInModal = ({
 
           SuccessToast("login success");
           setSigninModal();
-          router.push("/viewallevents")
+          router.push("/viewallevents");
           if (res?.payload?.data?.profileUpdate) {
             // navigate("/Dashboard");
             console.log("dash");
@@ -117,6 +120,8 @@ const SignInModal = ({
             // navigate("/Profile");
             console.log("profile");
           }
+        } else if (res?.payload?.status === 201) {
+          setVerificationModalOpen(true);
         } else {
           setLoader(false);
           console.log(res?.payload?.message);
@@ -157,12 +162,11 @@ const SignInModal = ({
               "profileupdate",
               res?.payload?.data?.profileUpdate
             );
-           
+
             localStorage.setItem("name", res?.payload?.data?.fullname);
 
-         
             setSigninModal();
-            router.push(redirectRoute)
+            router.push(redirectRoute);
             if (res?.payload?.data?.profileUpdate) {
               // navigate("/Dashboard");
               console.log("dashboard");
@@ -171,6 +175,7 @@ const SignInModal = ({
               console.log("profile");
             }
           } else {
+            console.log("this is the response of signin", res);
             setLoader(false);
             ErrorToast(res?.payload?.message);
           }
@@ -182,20 +187,16 @@ const SignInModal = ({
     },
   });
 
-
-
-
   return (
     <>
-  
       <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0 ">
-        {loader && <ScreenLoader/>}
+        {loader && <ScreenLoader />}
         <ScrollArea className="max-h-[90vh]">
           <DialogHeader className="relative overflow-hidden pt-4 ">
             <DialogTitle className="font-bold text-2xl mb-[18px]">
               Sign <span className="text-primary">In</span>
             </DialogTitle>
-           
+
             <Image
               src={ufo}
               width={100}
@@ -205,8 +206,11 @@ const SignInModal = ({
             />
             <Separator className="scale-x-[1.09] bg-[#292929] " />
           </DialogHeader>
-          <Form {...form} >
-            <form onSubmit={form.handleSubmit(login)} className="space-y-4 mt-[24px]">
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(login)}
+              className="space-y-4 mt-[24px]"
+            >
               <FormField
                 control={form.control}
                 name="email"
@@ -285,6 +289,15 @@ const SignInModal = ({
           </Form>
         </ScrollArea>
       </DialogContent>
+
+      {isVerificationModalOpen && (
+        <AccountVerificationModal
+          setAuthMode={setAuthMode}
+          useremail={email}
+          onVerifyClose={() => setVerificationModalOpen(false)}
+          setSigninModal={setSigninModal}
+        />
+      )}
     </>
   );
 };

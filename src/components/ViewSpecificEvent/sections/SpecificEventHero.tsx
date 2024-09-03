@@ -161,6 +161,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
                 // handleBulletClick={() => handleBulletClick(event)}
                 AboutDrop={isAbout}
                 AboutToggle={() => setisAbout(!isAbout)}
+                userId={EventData?.userId}
               />
 
               {/* Gallery Media Slider */}

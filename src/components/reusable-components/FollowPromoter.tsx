@@ -31,11 +31,11 @@ const FollowPromoter = ({ userId }: any) => {
   )
     ? myEvents?.data?.data[0]?.profilePicture
     : promoter;
-  console.log("image src is", imageUrl);
+
   return (
     <div className="mt-[32px] bg-white/10 rounded-xl p-[16px] w-full">
       <div className="flex gap-4">
-        <Image
+        <Image style={{width:"40px",height:"40px"}}
           src={imageUrl}
           width={40}
           height={40}

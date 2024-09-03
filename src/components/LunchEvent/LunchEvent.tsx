@@ -32,7 +32,6 @@ function LunchEvent() {
         if (res?.payload?.status === 200) {
           setLoader(false);
           console.log("Profile res", res?.payload);
-          SuccessToast("Profile Already Exist");
           if (res?.payload?.data?.status == true) {
             console.log("status is", res?.payload?.data?.status);
             router.push("/organizer-create-event");
@@ -42,7 +41,6 @@ function LunchEvent() {
         } else {
           setLoader(false);
           console.log(res?.payload?.message);
-          ErrorToast(res?.payload?.message);
           setisCreateModalOpen(true);
         }
       });

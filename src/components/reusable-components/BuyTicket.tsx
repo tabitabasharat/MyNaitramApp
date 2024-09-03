@@ -15,12 +15,14 @@ const BuyTicket = ({
   setShowTicket,
   startPrice,
   endPrice,
+  userId
 }: any) => {
   const dispatch = useAppDispatch();
   const [token, setToken] = useState<any>();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
   const [Useremail, setUserEmail] = useState<any>();
+  const [userIds,setUserIds]=useState<any>("")
 
   const [canBuyTicket, setCanBuyTicket] = useState<any>();
   const EventDetail = useAppSelector(
@@ -32,6 +34,14 @@ const BuyTicket = ({
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
     setToken(token);
   }, [isLoginDialogOpen]);
+
+  useEffect(() => {
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+      setUserIds(token);
+  }, [isLoginDialogOpen]);
+
+
 
   useEffect(() => {
     const useremail = typeof window !== "undefined" ?  localStorage.getItem("email") : null;
@@ -82,6 +92,7 @@ const BuyTicket = ({
           <div className="w-full lg:w-auto">
             {token ? (
               <DialogTrigger asChild>
+              
                 <Button
                   onClick={() => {
                     console.log(token);
@@ -91,6 +102,7 @@ const BuyTicket = ({
                 >
                   Buy Tickets
                 </Button>
+                
               </DialogTrigger>
             ) : (
               // {isLoggedIn && (
@@ -105,6 +117,7 @@ const BuyTicket = ({
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-auto"
                   >
+                    
                     {EventDetail?.data?.data ? "View Ticket" : "Buy Ticket"}
                   </Button>
                 </DialogTrigger>
