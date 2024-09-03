@@ -89,7 +89,7 @@ const SignUpModal = ({
   setAuthMode: Dispatch<SetStateAction<AuthMode>>;
 }) => {
   const dispatch = useAppDispatch();
-  const router=useRouter()
+  const router = useRouter();
 
   const [isVerificationModalOpen, setVerificationModalOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -126,9 +126,11 @@ const SignUpModal = ({
           SuccessToast("Verification Code Sended");
           // navigate(`/SignUp-Verify/${email}`);
           setVerificationModalOpen(true);
-        } else {
+        } else if (res?.payload?.status === 201) {
           setLoader(false);
-          ErrorToast(res?.payload?.message);
+          setVerificationModalOpen(true);
+        } else {
+          ErrorToast(res?.payload?.message || "Something went wrong");
         }
       });
     } catch (error) {
@@ -165,7 +167,7 @@ const SignUpModal = ({
 
             // navigate(`/OrgnizationDetails/${datas?.data?.email}`);
             setSigninModal();
-            router.push("/events")
+            router.push("/events");
             if (res?.payload?.data?.profileUpdate) {
               // navigate("/Dashboard");
               console.log("dashboard");
@@ -220,7 +222,10 @@ const SignUpModal = ({
           </div> */}
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-[24px]">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4 mt-[24px]"
+            >
               <FormField
                 control={form.control}
                 name="full_name"

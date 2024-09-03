@@ -16,11 +16,11 @@
 .takeover {
   height: 100% !important;
 }
-.bg-img {
+/* .bg-img {
   background-repeat: no-repeat;
   background-size: cover;
   background-image: url("../../../assets/Hero\ Banner.png");
-}
+} */
 .custom-prev-arrow {
   position: absolute;
   top: 40%;

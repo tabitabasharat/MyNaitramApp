@@ -121,3 +121,27 @@ export const OrgProfileCheck = createAsyncThunk(
     }
   }
 );
+
+
+export const getOrganizerDetail = createAsyncThunk(
+  "getOrganizerDetail",
+  async (data: any) => {
+    try {
+      console.log("inside get org details by id");
+      const res = await api.get(
+        `${API_URL}/event/getUserorganizationEventss/${data}`
+      );
+      console.log("inside get org details by id", res);
+
+      return {
+        status: res?.status,
+        data: res?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);

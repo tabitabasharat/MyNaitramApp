@@ -13,14 +13,13 @@ const AllEventsGrid = ({ events, eventType }: any) => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
 
- 
-
   useEffect(() => {
-    const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
-    const data={
-      page:1
-    }
+    const data = {
+      page: 1,
+    };
 
     dispatch(getViewAllEvent(data));
     dispatch(getViewPastEvents());
@@ -28,13 +27,12 @@ const AllEventsGrid = ({ events, eventType }: any) => {
     dispatch(getLiveEventById(userid));
   }, []);
   const handlePageChange = (page: number) => {
-    const data={
-      page:page
-    }
+    const data = {
+      page: page,
+    };
 
-    dispatch(getViewAllEvent(data))
+    dispatch(getViewAllEvent(data));
   };
-
 
   const EventsAllData = useAppSelector(
     (state) => state?.getViewAllEvents?.ViewallEvents?.data
@@ -58,11 +56,11 @@ const AllEventsGrid = ({ events, eventType }: any) => {
     <>
       {/* All Events */}
       {eventType === "All Events" &&
-        (EventsAllData?.events?.length > 0 ? (
+        (events && events.length > 0 ? (
           <>
             <div className="relative grid md:grid-cols-1 lg:grid-cols-3 gap-[1rem]">
-              {EventsAllData?.events?.length > 0 &&
-                EventsAllData?.events?.map((event: any) => (
+              {events?.length > 0 &&
+                events?.map((event: any) => (
                   <EventCard
                     key={event?.id}
                     img={event?.coverEventImage}
@@ -90,11 +88,11 @@ const AllEventsGrid = ({ events, eventType }: any) => {
 
       {/* Past Events */}
       {eventType === "Past Events" &&
-        (EventsPastData?.events?.length > 0 ? (
+        (events && events?.length > 0 ? (
           <>
             <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
-              {EventsPastData?.events?.length > 0 &&
-                EventsPastData?.events?.map((event: any) => (
+              {events?.length > 0 &&
+                events?.map((event: any) => (
                   <EventCard
                     key={event?.id}
                     img={event?.coverEventImage}
@@ -122,9 +120,9 @@ const AllEventsGrid = ({ events, eventType }: any) => {
 
       {/* Your Events or Live Events */}
       {eventType === "Your Events" &&
-        (myEvents?.events?.length > 0 ? (
+        (events?.length > 0 ? (
           <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
-            {myEvents?.events?.map((event: any) => (
+            {events?.map((event: any) => (
               <EventCard
                 key={event?.id}
                 img={event?.coverEventImage}

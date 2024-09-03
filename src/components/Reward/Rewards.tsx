@@ -96,7 +96,7 @@ function Rewards() {
           <p className="text-[#E6E6E6] text-[16px] font-bold">My Items</p>
           <ScrollArea className="w-full overflow-auto ">
             <div className="flex gap-[8px] lg:mt-[8px] mt-[16px] whitespace-nowrap min-w-[800px]">
-              {myRewardCollectibles.map((post: any) => (
+              {myRewardCollectibles?.map((post: any) => (
                 <div
                   key={post.id}
                   className="flex items-start flex-col gap-[8px]"

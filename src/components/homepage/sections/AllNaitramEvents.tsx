@@ -80,7 +80,34 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
   const [searchQueryAll, setSearchQueryAll] = useState("");
   const [searchQueryPast, setSearchQueryPast] = useState("");
   const [searchQueryLive, setSearchQueryLive] = useState("");
+  const filteredAllEvents = EventsAllData?.events?.filter((item:any) =>
+    item?.name
+      .toLowerCase()
+      .includes(searchQueryAll.toLowerCase())
+  );
+  const filteredPastEvents = EventsPastData?.events?.filter((item:any) =>
+    item?.name
+      .toLowerCase()
+      .includes(searchQueryPast.toLowerCase())
+  );
+  const filteredLiveEvents = myEvents?.events?.filter((item:any) =>
+    item?.name
+      .toLowerCase()
+      .includes(searchQueryLive.toLowerCase())
+  );
 
+  const getFilteredEvents = () => {
+    switch (title) {
+      case "All Events":
+        return filteredAllEvents;
+      case "Past Events":
+        return filteredPastEvents;
+      case "Your Events":
+        return filteredLiveEvents;
+      default:
+        return [];
+    }
+  };
   return (
     <div
       style={{
@@ -130,9 +157,45 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
           
           <FilterSideBar />
 
-        
+             {/* Search inputs for different event types */}
+             <div className="w-full lg:mt-0 mt-[24px]">
+            <div className="w-full relative mb-[32px]">
+              {title === "All Events" && (
+                <Input
+                  value={searchQueryAll}
+                  className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
+                  onChange={(event) => setSearchQueryAll(event.target.value)}
+                  placeholder="Search All Events"
+                />
+              )}
+              {title === "Past Events" && (
+                <Input
+                  value={searchQueryPast}
+                  className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
+                  onChange={(event) => setSearchQueryPast(event.target.value)}
+                  placeholder="Search Past Events"
+                />
+              )}
+              {title === "Your Events" && (
+                <Input
+                  value={searchQueryLive}
+                  className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
+                  onChange={(event) => setSearchQueryLive(event.target.value)}
+                  placeholder="Search Your Events"
+                />
+              )}
+              <MagnifyingGlass
+                size={20}
+                className="absolute top-1/2 -translate-y-1/2 right-5"
+              />
+            </div>
+            <AllEventsGrid
+            events={getFilteredEvents()}
+              // events={events}
+              eventType={title}
+            />
           {/* All Naitram Events */}
-          <div className="w-full">
+          {/* <div className="w-full">
             <div className="w-full relative mb-[32px]">
               <Input
                 value={searchTerm}
@@ -147,7 +210,8 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
             </div>
 
             <AllEventsGrid events={events} eventType={title} />
-          </div>
+          </div> */}
+        </div>
         </div>
       </section>
     </div>

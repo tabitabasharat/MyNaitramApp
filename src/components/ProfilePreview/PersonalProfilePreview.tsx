@@ -29,7 +29,7 @@ const PersonalSocialProfile = () => {
 
   console.log("my Social Profile infooo is", myProfile);
   return (
-    <div className="min-h-screen relative flex flex-col items-center overflow-hidden lg:pxpx ">
+    <div className="min-h-screen relative flex flex-col items-center overflow-hidden pxpx ">
       <Image
         style={{ filter: "blur(40px)" }}
         width={1000}

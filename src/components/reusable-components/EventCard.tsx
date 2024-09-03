@@ -4,12 +4,14 @@ import Image from "next/image";
 import { shimmer, toBase64 } from "@/lib/utils";
 import { ScaleReveal } from "../animations/ScaleReveal";
 import event12 from "../../../public/event12.png";
-import fallbackImage from "../../assets/event-video.png";
+import { SuccessToast, ErrorToast } from "./Toaster/Toaster";
+import { useAppDispatch } from "@/lib/hooks";
+import { useState } from "react";
+import { LikeEvent, disLikeEvent } from "@/lib/middleware/event";
 
 const EventCard = ({
   img,
   title,
-  // eventid,
   eventId,
   height = "345px",
   width = "100%",
@@ -25,17 +27,81 @@ const EventCard = ({
       ? img
       : img
     : event12;
-  console.log("image src is", imageUrl);
+  const dispatch = useAppDispatch();
+  const [loader, setLoader] = useState(false);
+  const [liked, setLiked] = useState(false);
+
+  async function handleLikeEvent() {
+    setLoader(true);
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+
+    try {
+      const data = {
+        eventId: eventId,
+        userId: userID,
+      };
+      dispatch(LikeEvent(data)).then((res: any) => {
+        if (res?.payload?.status === 201) {
+          setLoader(false);
+          SuccessToast("Event Liked Successfully");
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      setLoader(false);
+      console.error("Error:", error);
+    }
+  }
+
+  async function handleDisLikeEvent() {
+    setLoader(true);
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+
+    try {
+      const data = {
+        eventId: eventId,
+        userId: userID,
+      };
+      dispatch(disLikeEvent(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          SuccessToast("Event Disliked Successfully");
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      setLoader(false);
+      console.error("Error:", error);
+      ErrorToast(error);
+    }
+  }
+  const handleHeartClick = (event: React.MouseEvent) => {
+    console.log("liked va", liked);
+    event.stopPropagation();
+    if (!liked) {
+      setLiked(true);
+      handleLikeEvent();
+    } else {
+      setLiked(false);
+      handleDisLikeEvent();
+    }
+  };
+
   return (
     <ScaleReveal extraStyle="w-full">
-      {/* <Link href={`/events`} className="w-full"> */}
       <Link
         href={eventId ? `/specific-event/${eventId}` : "/events"}
         className="w-full"
       >
         <div
           style={{ height, width }}
-          className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242]"
+          className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242] "
         >
           <Image
             src={imageUrl}
@@ -47,11 +113,16 @@ const EventCard = ({
             )}`}
             alt="event-img"
           />
+
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
 
           <div className="absolute flex justify-between gap-[2rem] h-full items-end z-[2] p-4 top-0 w-full">
             <p className="font-bold text-white text-xl">{title}</p>
-            <HeartBadge />
+            <Link href="#" >
+              <div onClick={handleHeartClick} className="cursor-pointer">
+                <HeartBadge />
+              </div>
+            </Link>
           </div>
         </div>
       </Link>

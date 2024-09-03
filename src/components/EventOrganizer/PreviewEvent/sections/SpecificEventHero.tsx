@@ -84,7 +84,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData }: any) => {
   // }, [EventData?.userId]);
 
   return (
-    <section className="bg-img">
+    <section className="bg-imgg">
       {isWalletModalOpen && (
         <WalletChooseModal
           onClose={() => setisWalletModalOpen(false)}
@@ -92,14 +92,22 @@ const SpecificEventHero = ({ setShowTicket, eventAllData }: any) => {
           eventData={eventAllData}
         />
       )}
-      <div className="main-above  mx-auto max-w-screen-lg lg:max-w-[1100px]">
-        <div className="flex items-center justify-between mb-[24px]">
+      <Image
+        style={{ filter: "blur(30px)" }}
+        width={1000}
+        height={1000}
+        src={eventAllData?.eventcoverimg}
+        className="w-full h-screen absolute object-cover object-center z-0 opacity-30"
+        alt=""
+      />
+      <div className="mx-2xl">
+        <div className="main-abovee pxpx pt-[8rem] lg:pt-[9rem] pb-[6rem] z-[2] flex flex-col xl:flex-row gap-[32px] lg:gap-12 w-full md:w-[70%] md:mx-auto xl:w-full relative   ">
+          {/* <div className="flex items-center justify-between mb-[24px]">
           <div
             className="flex items-center gap-[16px]  "
             onClick={() => router.back()}
           >
             <button onClick={() => router.back()} type="button">
-              {/* <ArrowLeft size={22} /> */}
               <Image src={backbtn} width={44} height={44} alt="back btn"  className="lg:w-[44px] lg:h-[44px] w-[40px] h-[40px]"/>
             </button>
             <p className="text-[24px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">
@@ -112,135 +120,153 @@ const SpecificEventHero = ({ setShowTicket, eventAllData }: any) => {
           >
             Submit
           </Button>
-        </div>
+        </div> */}
+          <div className="">
+            <div
+              className="flex items-center gap-[16px]  mb-[24px] "
+              onClick={() => router.back()}
+            >
+              <button onClick={() => router.back()} type="button">
+                <Image
+                  src={backbtn}
+                  width={44}
+                  height={44}
+                  alt="back btn"
+                  className="lg:w-[44px] lg:h-[44px] w-[40px] h-[40px]"
+                />
+              </button>
+              <p className="text-[24px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">
+                Back
+              </p>
+            </div>
 
-        <div className="main-div-takeover   ">
-          <div className="lhs-hero">
-            <Image
-              src={eventAllData?.eventcoverimg}
-              alt="takeover"
-              width={392}
-              height={392}
-              className="img-center  w-full xl:w-[392px]"
-            />
-            {/* <Image src={takeover500} alt="takeover"  width={330} height={200} className=" h-full"/> */}
-            {/* )} */}
-
-            {/* {EventData?.userId && <FollowPromoter userId={EventData?.userId} />} */}
+            <div className="lhs-hero flex items-center justify-center flex-col relative ">
+              <Image
+                src={eventAllData?.eventcoverimg}
+                alt="takeover"
+                width={392}
+                height={200}
+                className="img-center rounded-lg relative"
+              />
+            </div>
           </div>
-          <div className="rhs-hero">
-            <EventsHeroSlide
-              instaUrl={eventAllData?.instaurl}
-              tiktokUrl={eventAllData?.tiktokurl}
-              event={eventAllData?.eventname}
-              title={eventAllData?.eventname}
-              eventCategory={eventAllData?.eventcategory}
-              eventDate={eventAllData?.eventstarttime}
-              endTime={eventAllData?.eventendtime}
-              startTime={eventAllData?.eventstarttime}
-              img={eventAllData?.eventcoverimg}
-              location={eventAllData?.eventlocation}
-              eventdescription={eventAllData?.eventdescription}
-              // activeIndex={activeIndex}
-              setShowTicket={setShowTicket}
-              ticketStartPrice={
-                eventAllData?.tickets?.length === 1
-                  ? "0"
-                  : eventAllData?.tickets[0]?.price
-              }
-              ticketEndPrice={
-                eventAllData?.tickets[eventAllData?.tickets.length - 1]?.price
-              }
-              // handleBulletClick={() => handleBulletClick(event)}
-              AboutDrop={isAbout}
-              AboutToggle={() => setisAbout(!isAbout)}
-              ticketsdata={eventAllData?.ticketsdata}
-            />
 
-            {eventAllData?.eventmedia?.length > 0 &&
-              Array.isArray(eventAllData?.eventmedia) && (
-                <div className="w-[665px] h-[296px] mt-[48px] slider-main-div">
-                  <Slider {...settings}>
-                    {eventAllData?.eventmedia?.map((item: any, index: any) => (
-                      <div key={index} className="w-full">
-                        {item.endsWith(".mp4") ||
-                        item.endsWith(".avi") ||
-                        item.endsWith(".mov") ||
-                        item.endsWith(".mkv") ? (
-                          <video
-                            src={item}
-                            width={330}
-                            height={200}
-                            className="w-full h-[296px] slider-img object-fill "
-                            controls
-                            // alt={`Slide ${index + 1}`}
-                          />
-                        ) : (
-                          <Image
-                            src={item}
-                            width={330}
-                            height={200}
-                            className="w-full h-[296px] slider-img "
-                            alt={`Slide ${index + 1}`}
-                          />
-                        )}
-                      </div>
-                    ))}
-                  </Slider>
-                </div>
-              )}
+          <div className="main-div-takeoverr lg:mt-[24px] mt-[0px] ">
+            <div className="rhs-hero lg:mt-12  mt-0">
+              <EventsHeroSlide
+                instaUrl={eventAllData?.instaurl}
+                tiktokUrl={eventAllData?.tiktokurl}
+                event={eventAllData?.eventname}
+                title={eventAllData?.eventname}
+                eventCategory={eventAllData?.eventcategory}
+                eventDate={eventAllData?.eventstarttime}
+                endTime={eventAllData?.eventendtime}
+                startTime={eventAllData?.eventstarttime}
+                img={eventAllData?.eventcoverimg}
+                location={eventAllData?.eventlocation}
+                eventdescription={eventAllData?.eventdescription}
+                // activeIndex={activeIndex}
+                setShowTicket={setShowTicket}
+                ticketStartPrice={
+                  eventAllData?.tickets?.length === 1
+                    ? "0"
+                    : eventAllData?.tickets[0]?.price
+                }
+                ticketEndPrice={
+                  eventAllData?.tickets[eventAllData?.tickets.length - 1]?.price
+                }
+                // handleBulletClick={() => handleBulletClick(event)}
+                AboutDrop={isAbout}
+                AboutToggle={() => setisAbout(!isAbout)}
+                ticketsdata={eventAllData?.ticketsdata}
+              />
 
-            {/* LIVE ACTIVITY */}
-            <GradientBorder className="mt-[48px] w-full">
-              <div
-                style={{
-                  backgroundImage: "url(/live-activity-bg.png)",
-                  backgroundPosition: "center",
-                }}
-                className="bg-cover bg-no-repeat w-full h-full rounded-lg relative overflow-hidden py-10"
-              >
-                <div className="w-full flex flex-col justify-center items-center">
-                  <div className="flex -space-x-3">
-                    <Image
-                      src={Avatar1}
-                      width={60}
-                      height={60}
-                      alt="avatar"
-                      className="rounded-full border border-[#034C22] z-[1]"
-                    />
-                    <Image
-                      src={Avatar2}
-                      width={60}
-                      height={60}
-                      alt="avatar"
-                      className="rounded-full border border-[#034C22] z-[2]"
-                    />
-                    <Image
-                      src={Avatar3}
-                      width={60}
-                      height={60}
-                      alt="avatar"
-                      className="rounded-full border border-[#034C22] z-[3]"
-                    />
+              {eventAllData?.eventmedia?.length > 0 &&
+                Array.isArray(eventAllData?.eventmedia) && (
+                  <div className="w-[665px] h-[296px] mt-[48px] slider-main-div">
+                    <Slider {...settings}>
+                      {eventAllData?.eventmedia?.map(
+                        (item: any, index: any) => (
+                          <div key={index} className="w-full">
+                            {item.endsWith(".mp4") ||
+                            item.endsWith(".avi") ||
+                            item.endsWith(".mov") ||
+                            item.endsWith(".mkv") ? (
+                              <video
+                                src={item}
+                                width={330}
+                                height={200}
+                                className="w-full h-[296px] slider-img object-fill "
+                                controls
+                                // alt={`Slide ${index + 1}`}
+                              />
+                            ) : (
+                              <Image
+                                src={item}
+                                width={330}
+                                height={200}
+                                className="w-full h-[296px] slider-img "
+                                alt={`Slide ${index + 1}`}
+                              />
+                            )}
+                          </div>
+                        )
+                      )}
+                    </Slider>
                   </div>
-                  <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
-                    Evelyn and 348 others going
-                  </h3>
-                  <p className="text-[#BFBFBF] text-[12px] pt-[4px]">
-                    Tap to see the live activities
-                  </p>
-                  <Link href={"/events/event-detail/live-activity"}>
-                    <Button className="flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full mt-[12px] w-fit ps-[0] pe-[16px] py-[10px]">
-                      <Lock size={20} weight="fill" className="ms-[10px]" />
-                      Live Activity
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </GradientBorder>
+                )}
 
-            {/* DOWNLOAD NAITRAM */}
-            {/* <div className="relative gradient-slate border border-[#262626] mt-12 rounded-xl lg:p-8 p-[16px] w-full">
+              {/* LIVE ACTIVITY */}
+              <GradientBorder className="mt-[48px] w-full">
+                <div
+                  style={{
+                    backgroundImage: "url(/live-activity-bg.png)",
+                    backgroundPosition: "center",
+                  }}
+                  className="bg-cover bg-no-repeat w-full h-full rounded-lg relative overflow-hidden py-10"
+                >
+                  <div className="w-full flex flex-col justify-center items-center">
+                    <div className="flex -space-x-3">
+                      <Image
+                        src={Avatar1}
+                        width={60}
+                        height={60}
+                        alt="avatar"
+                        className="rounded-full border border-[#034C22] z-[1]"
+                      />
+                      <Image
+                        src={Avatar2}
+                        width={60}
+                        height={60}
+                        alt="avatar"
+                        className="rounded-full border border-[#034C22] z-[2]"
+                      />
+                      <Image
+                        src={Avatar3}
+                        width={60}
+                        height={60}
+                        alt="avatar"
+                        className="rounded-full border border-[#034C22] z-[3]"
+                      />
+                    </div>
+                    <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
+                      Evelyn and 348 others going
+                    </h3>
+                    <p className="text-[#BFBFBF] text-[12px] pt-[4px]">
+                      Tap to see the live activities
+                    </p>
+                    <Link href={"/events/event-detail/live-activity"}>
+                      <Button className="flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full mt-[12px] w-fit ps-[0] pe-[16px] py-[10px]">
+                        <Lock size={20} weight="fill" className="ms-[10px]" />
+                        Live Activity
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </GradientBorder>
+
+              {/* DOWNLOAD NAITRAM */}
+              {/* <div className="relative gradient-slate border border-[#262626] mt-12 rounded-xl lg:p-8 p-[16px] w-full">
               <h2 className="text-[20px] font-bold">Download NAITRAM App</h2>
               <div className="flex flex-col gap-2 mt-4">
                 <div className="flex gap-3">
@@ -285,6 +311,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData }: any) => {
                 alt="gift"
               />
             </div> */}
+            </div>
           </div>
         </div>
       </div>

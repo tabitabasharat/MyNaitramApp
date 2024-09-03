@@ -23,7 +23,7 @@ export const getProfileInfo = createAsyncThunk(
   }
 );
 
-export const getAllEvents = createAsyncThunk("getAllEvents", async () => {
+export const getAllEvents = createAsyncThunk("getAllEvents", async (data: any) => {
   try {
     console.log("inside get All Events");
     const res = await api.get(`${API_URL}/event/getEventsAll`);
@@ -156,6 +156,9 @@ export const getViewAllEvent = createAsyncThunk(
     try {
       console.log("inside get Events ");
       const res = await api.get(`${API_URL}/event/getEventsAll?page=${data?.page?data?.page:1}`);
+      // const res = await api.get(`${API_URL}/event/getEventsAll?page=${data?.page?data?.page:1}&category=${data?.category}&nextprem=${value}`);
+
+     
       console.log("inside get all Events ", res);
       // localStorage.setItem("token", res?.data?.token);
       return {
@@ -296,6 +299,52 @@ export const updateEvent = createAsyncThunk(
       return {
         status: res?.status,
         data: res?.data?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
+
+export const LikeEvent = createAsyncThunk(
+  "LikeEvent",
+  async (data: any) => {
+    try {
+      console.log("Inside like event");
+      const res = await api.post(`${API_URL}/event/likeEvent`, data);
+      console.log("Inside like event", res);
+
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+        token: res?.data?.token,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
+
+export const disLikeEvent = createAsyncThunk(
+  "disLikeEvent",
+  async (data: any) => {
+    try {
+      console.log("Inside dislike event");
+      const res = await api.post(`${API_URL}/event/dislikeEvent`, data);
+      console.log("Inside dislike event", res);
+
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+        token: res?.data?.token,
       };
     } catch (error: any) {
       return {

@@ -82,26 +82,20 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
   const userLoading = useAppSelector((state) => state?.getShowProfile);
   const [walletaddress, setwalletaddress] = useState("");
   const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [Dropdown, setDropdown] = useState(true);
   const [validationError, setValidationError] = useState("");
   const [userid, setUserid] = useState<any>("");
 
   console.log("my all event data", eventData);
   const handleOptionToggle = (option: Option) => {
-    if (selectedOptions.some((o) => o.id === option.id)) {
-      setSelectedOptions([]);
+    if (selectedOption?.id === option.id) {
+      setSelectedOption(null);
     } else {
-      setSelectedOptions([option]);
+      setSelectedOption(option); // Select the new option
     }
   };
-  const handleSubmit = () => {
-    if (selectedOptions.length === 0) {
-      setValidationError("Please select at least one option.");
-      return;
-    }
-    setValidationError("");
-  };
+
   const WalletModalhandler = () => {
     setisCreateModalOpen(true);
     console.log("clicked");
@@ -119,16 +113,15 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
     setLoader(true);
 
     console.log("my values", values);
-
     try {
       const data = {
         userId: userid,
-        chain: selectedOptions,
+        chain: selectedOption?.label || "",
         wallet: walletaddress,
         name: eventData?.eventname,
         category: eventData?.eventcategory,
         eventDescription: eventData?.eventdescription,
-        location: eventData?.eventLocation,
+        location: eventData?.eventlocation,
         ticketStartDate: eventData?.eventstartdate,
         ticketEndDate: eventData?.eventendtdate,
         startTime: eventData?.utcEventStartTime,
@@ -249,7 +242,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
                     <Separator className="scale--[1.12] bg-[#292929]" />
                     {Dropdown && (
                       <div className="pt-[14px]">
-                        {options.map((option) => (
+                        {/* {options.map((option) => (
                           <div
                             key={option.id}
                             className="flex items-center justify-between pt-[2px] cursor-pointer"
@@ -263,6 +256,28 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
                             {selectedOptions.some(
                               (o) => o.id === option.id
                             ) && (
+                              <Image
+                                src={tick}
+                                width={10}
+                                height={10}
+                                alt="tick"
+                              />
+                            )}
+                          </div>
+                        ))} */}
+
+                        {options.map((option) => (
+                          <div
+                            key={option.id}
+                            className="flex items-center justify-between pt-[2px] cursor-pointer"
+                            onClick={() => handleOptionToggle(option)}
+                          >
+                            <div className="flex items-center gap-[10px]">
+                              <p className="text-[14px] text-[#FFFFFF] font-normal items-center">
+                                {option.label}
+                              </p>
+                            </div>
+                            {selectedOption?.id === option.id && (
                               <Image
                                 src={tick}
                                 width={10}
@@ -292,8 +307,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
                         type="submit" // Change to "button" to prevent form submission
                         className="w-full"
                         disabled={
-                          !selectedOptions.length ||
-                          !form.watch("walletAddress")
+                          !selectedOption || !form.watch("walletAddress")
                         }
                         // onClick={() => {
                         //   if (

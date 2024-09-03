@@ -154,6 +154,7 @@ interface EventData {
   eventmedia?: any[]; // Adjust the type based on what imagesOfGallery returns
 }
 function OganizerCreateEvent() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [isPreviewModalOpen, setisPreviewModalOpen] = useState(false);
   const [actionType, setActionType] = useState("");
@@ -514,44 +515,7 @@ function OganizerCreateEvent() {
 
     console.log("Updated values with images:", updatedValues);
     setEventAllData(updatedValues);
-    // try {
-    //   const data = {
-    //     userId: userid,
-    //     name: Eventname,
-    //     category: EventCategory,
-    //     eventDescription: Eventdescription,
-    //     location: EventLocation,
-    //     ticketStartDate: TicketStartDate,
-    //     ticketEndDate: TicketEndDate,
-    //     startTime: EventStartTime,
-    //     endTime: EventEndTime,
-    //     mainEventImage: MainImg,
-    //     coverEventImage: CoverImg,
-
-    //     tickets: filteredTicketTypes,
-    //     totalComplemantaryTickets: CompTicketNo,
-    //     fbUrl: FBUrl,
-    //     instaUrl: InstaUrl,
-    //     youtubeUrl: YoutubeUrl,
-    //     twitterUrl: TwitterUrl,
-    //     tiktokUrl: tiktokUrl,
-    //     linkedinUrl: linkedinUrl,
-    //     eventmedia: imagesOfGallery,
-    //   };
-    //   dispatch(createevent(data)).then((res: any) => {
-    //     if (res?.payload?.status === 200) {
-    //       setLoader(false);
-    //       SuccessToast("Event Created Successfully");
-    //       router.push("/viewallevents");
-    //     } else {
-    //       setLoader(false);
-    //       ErrorToast(res?.payload?.message);
-    //     }
-    //   });
-    // } catch (error) {
-    //   console.error("Error:", error);
-    //   ErrorToast(error);
-    // }
+ 
   }
   async function handlePreviewClick(values: z.infer<typeof formSchema>) {
     console.log(" Event Creation");
@@ -585,13 +549,18 @@ function OganizerCreateEvent() {
       console.log("Event data is not available");
     }
   }
+
+ 
+
   const handleFormSubmit = (event: any) => {
     event.preventDefault();
+   
     if (actionType === "preview") {
       form.handleSubmit(handlePreviewClick)(event);
     } else if (actionType === "create") {
       form.handleSubmit(EventCreation)(event);
     }
+   
   };
 
   return (

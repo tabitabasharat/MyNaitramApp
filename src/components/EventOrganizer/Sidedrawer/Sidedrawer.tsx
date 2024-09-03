@@ -85,11 +85,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
   const event = [
     { text: "Create Event", icon: chats, url: "/organizer-create-event" },
     { text: "Manage Event", icon: accnt, url: "/management" },
-    {
-      text: "Create Scanner Login",
-      icon: scanner,
-      url: "/organizer-event/event-dashboard",
-    },
+    { text: "Create Scanner Login", icon: scanner, url: "/organizer-event/sacnner-login" },
   ];
 
   const DrawerHeader = styled("div")(({ theme }) => ({
@@ -291,6 +287,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
             onTransitionEnd={handleDrawerTransitionEnd}
             onClose={handleDrawerClose}
             ModalProps={{ keepMounted: true }}
+           
             sx={{
               // display: { xs: "block", sm: "block" },
               // display: { xs: "none", sm: "none" },
@@ -301,10 +298,12 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
                 background: "black",
                 marginTop: "87px",
                 position: "relative",
+
               },
               "& .MuiTypography-root": {
                 fontSize: "14px",
                 fontWeight: "400",
+                fontFamily:"font-poppins"
               },
             }}
           >
@@ -320,11 +319,13 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
                 )}
               </IconButton>
             </DrawerHeader>
+            
             {drawer}
           </Drawer>
         ) : (
           <Drawer
             variant="permanent"
+           
             sx={{
               // display: { xs: "none", sm: "none", lg: "block" },
               "& .MuiDrawer-paper": {

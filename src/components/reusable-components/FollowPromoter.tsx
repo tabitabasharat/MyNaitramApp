@@ -68,7 +68,7 @@ const FollowPromoter = ({ userId }: any) => {
         </div>
       </div>
       <hr className="border-white/10 my-[16px]" />
-      <div className="flex gap-3 items-center justify-center wrapping-flex">
+      <div className="flex gap-3 items-center justify-start wrapping-flex">
         <Button variant="secondary" className="text-[14px] font-bold py-[10px]">
           Follow Promoter
         </Button>

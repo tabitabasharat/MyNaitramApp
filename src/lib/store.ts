@@ -25,6 +25,7 @@ import getWalletCollectByUID from "./reducer/getWalletCollectByUID";
 import getEventsByUID from "./reducer/getEventsByUID";
 import getOrgByID from "./reducer/getOrgByID";
 import getOrgSocialProfile from "./reducer/getOrgSocialProfile";
+import getOrgDetail from "./reducer/getOrgDetail";
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -52,6 +53,7 @@ const appReducer = combineReducers({
   getEventsByUID: getEventsByUID,
   getOrgByID: getOrgByID,
   getOrgSocialProfile: getOrgSocialProfile,
+  getOrgDetail: getOrgDetail,
 });
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,
