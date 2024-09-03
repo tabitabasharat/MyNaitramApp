@@ -10,7 +10,7 @@ import Calendarnew from "@/assets/Wallet/Calendar-31.svg";
 import "./Reward.css";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useState, useEffect } from "react";
-import { getClaimStatus } from "@/lib/middleware/reward";
+import { getClaimStatus, getRewardCollectibles } from "@/lib/middleware/reward";
 import Image from "next/image";
 import ticket from "../../assets/Wallet/white-trophy.svg";
 import ticketgreen from "../../assets/Wallet/rewarrd-trophy.svg";
@@ -64,6 +64,7 @@ function Rewards() {
 
   useEffect(() => {
     dispatch(getClaimStatus());
+    dispatch(getRewardCollectibles())
   }, []);
 
   const ClaimStatusdata = useAppSelector(
