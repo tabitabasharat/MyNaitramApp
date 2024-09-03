@@ -23,7 +23,7 @@ export const getProfileInfo = createAsyncThunk(
   }
 );
 
-export const getAllEvents = createAsyncThunk("getAllEvents", async (data: any) => {
+export const getAllEvents = createAsyncThunk("getAllEvents", async () => {
   try {
     console.log("inside get All Events");
     const res = await api.get(`${API_URL}/event/getEventsAll`);
