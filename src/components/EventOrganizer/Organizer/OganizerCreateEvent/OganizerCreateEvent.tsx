@@ -570,10 +570,10 @@ function OganizerCreateEvent() {
           "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
         backgroundPosition: "center",
       }}
-      className="min-h-screen  bg-cover bg-no-repeat  pb-[80px] create-inner"
+      className="min-h-screen  bg-cover bg-no-repeat  pb-[80px] pt-[120px] lg:pt-[120px]"
     >
       {loader && <ScreenLoader />}
-      <div className="pxpx mx-2xl  w-full   ">
+      <div className="pxpx mx-2xl w-full   ">
         <Backward />
         <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
           <Image
@@ -594,7 +594,7 @@ function OganizerCreateEvent() {
             htmlFor="uploadcover"
             className="flex gap-2 items-center justify-between w-full cursor-pointer"
           >
-            <div className="absolute top-1/2 h-[92%] sm:h-[auto] md:h-[auto] lg:h-[auto] left-1/2 transform flex flex-col w-full justify-between  sm:jutify-center md:jutify-center lg:jutify-center items-center -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute px-[10px] top-1/2 h-[92%] sm:h-[auto] md:h-[auto] lg:h-[auto] left-1/2 transform flex flex-col w-full justify-between  sm:jutify-center md:jutify-center lg:jutify-center items-center -translate-x-1/2 -translate-y-1/2">
               <div>
                 <p className="text-[30px] flex-wrap mt-[60px] flex text-center lg:mb-[10px] font-extrabold">
                   Upload Cover Artwork

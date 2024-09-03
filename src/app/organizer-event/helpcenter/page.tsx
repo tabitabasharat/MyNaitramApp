@@ -1,6 +1,6 @@
-import Helpcenter from "@/components/profile-page/Helpcenter"
+import OrganizerHelpcenter from "@/components/EventOrganizer/OrganizerHelpcenter/OrganizerHelpcenter"
 
 const page = () =>{
-    return <Helpcenter/>
+    return <OrganizerHelpcenter/>
 }
 export default page

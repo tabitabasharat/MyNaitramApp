@@ -24,6 +24,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/organizer-event/sacnner-login",
     "/organizer-event/add-scanner",
     "/organizer-event/scanner-credentials",
+    "/organizer-event/helpcenter"
   ];
 
   const pathname = usePathname();

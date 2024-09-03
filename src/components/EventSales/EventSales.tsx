@@ -67,7 +67,7 @@ function EventSales() {
   console.log("my Profile is", myProfile);
   const userLoading = useAppSelector((state) => state?.getShowProfile);
   return (
-    <div className="pt-[48px] px-[24px] lg:px-[216px] md:pt-[90px] mx-auto">
+    <div className="pt-[120px] px-[24px] lg:px-[216px] md:pt-[132px] mx-auto">
       <div className="mb-[12px] lg:mb-[24px]">
         <Backward />
       </div>
@@ -181,13 +181,11 @@ function EventSales() {
                     borderTop: "1px solid #292929",
                   }}
                   align="center"
-                  // width={"10%"}
                 >
                   #
                 </TableCell>
                 <TableCell
                   className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[500px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
-                  // width={"10%"}
                   align="left"
                   sx={{
                     color: "#A6A6A6",
@@ -199,7 +197,6 @@ function EventSales() {
                 </TableCell>
                 <TableCell
                   className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[413px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
-                  // width={"9%"}
                   align="left"
                   sx={{
                     color: "#A6A6A6",
@@ -211,7 +208,6 @@ function EventSales() {
                 </TableCell>
                 <TableCell
                   className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[233px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
-                  // width={"9%"}
                   align="left"
                   sx={{
                     color: "#A6A6A6",
@@ -221,7 +217,6 @@ function EventSales() {
                 >
                   Attendees
                 </TableCell>
-                {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody className="border-0">
@@ -240,6 +235,7 @@ function EventSales() {
                       borderBottom: "none",
                       borderLeft: "none",
                       padding: "20px",
+                      color:"white",
                     }}
                     align="center"
                     component="th"
@@ -253,6 +249,7 @@ function EventSales() {
                     sx={{
                       borderBottom: "none",
                       padding: "20px",
+                      color:"white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                     align="left"
@@ -263,6 +260,7 @@ function EventSales() {
                     sx={{
                       borderBottom: "none",
                       padding: "20px",
+                      color:"white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                     align="left"
@@ -417,6 +415,7 @@ function EventSales() {
                     "&:last-child td, &:last-child th": { border: 0 },
                     borderBottom: "none",
                     padding: "20px",
+                    color:"white",
                   }}
                   className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                 >
@@ -425,6 +424,7 @@ function EventSales() {
                       borderBottom: "none",
                       borderLeft: "none",
                       padding: "20px",
+                      color:"white",
                     }}
                     align="center"
                     component="th"
@@ -438,6 +438,7 @@ function EventSales() {
                     sx={{
                       borderBottom: "none",
                       padding: "20px",
+                      color:"white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                     align="left"
@@ -448,6 +449,7 @@ function EventSales() {
                     sx={{
                       borderBottom: "none",
                       padding: "20px",
+                      color:"white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                     align="left"
@@ -564,6 +566,7 @@ function EventSales() {
                     "&:last-child td, &:last-child th": { border: 0 },
                     borderBottom: "none",
                     padding: "20px",
+                    color:"white",
                   }}
                   className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                 >
@@ -571,6 +574,7 @@ function EventSales() {
                     sx={{
                       borderBottom: "none",
                       borderLeft: "none",
+                      color:"white",
                       padding: "20px",
                     }}
                     align="center"
@@ -585,6 +589,7 @@ function EventSales() {
                     sx={{
                       borderBottom: "none",
                       padding: "20px",
+                      color:"white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                     align="left"
@@ -595,6 +600,7 @@ function EventSales() {
                     sx={{
                       borderBottom: "none",
                       padding: "20px",
+                      color:"white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                     align="left"
@@ -719,6 +725,7 @@ function EventSales() {
                       borderBottom: "none",
                       borderLeft: "none",
                       padding: "20px",
+                      color:"white",
                     }}
                     align="center"
                     component="th"
@@ -731,6 +738,7 @@ function EventSales() {
                     sx={{
                       borderBottom: "none",
                       padding: "20px",
+                      color:"white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                     align="left"
@@ -741,6 +749,7 @@ function EventSales() {
                     sx={{
                       borderBottom: "none",
                       padding: "20px",
+                      color:"white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                     align="left"
