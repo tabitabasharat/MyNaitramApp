@@ -205,7 +205,7 @@ const OrganizerProfile = () => {
   }
 
   return (
-    <div className="w-full lg:w-[70%] ps-[0px] xl:ps-[172px] md:mx-auto lg:w-full  mt-[50px] md:mt-[51px] lg:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
+    <div className="w-full md:w-[70%] px-[24px] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 

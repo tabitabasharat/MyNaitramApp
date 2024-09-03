@@ -47,7 +47,7 @@ import { CaretRight } from "@phosphor-icons/react/dist/ssr";
 import Stack from "@mui/material/Stack";
 
 const formSchema = z.object({
-  full_name: z.string().min(2, { message: "Full name cannot be empty." }),
+  name: z.string().min(2, { message: "Full name cannot be empty." }),
 
   email: z
     .string()
@@ -67,13 +67,6 @@ const formSchema = z.object({
     .regex(/[^a-zA-Z0-9]/, {
       message: "Password must contain at least one special character.",
     }),
-  facebook: z
-    .string()
-    .min(2, { message: "Facebook Url name cannot be empty." }),
-  linkedIn: z.string().min(2, { message: "linkedIn Url cannot be empty." }),
-  insta: z.string().min(2, { message: "Instagram Url cannot be empty." }),
-  telegram: z.string().min(1, { message: "Telegram Url cannot be empty." }),
-  BIO: z.string().min(1, { message: "Description be empty." }),
 });
 
 const ScannerCredentials = () => {
@@ -98,14 +91,9 @@ const ScannerCredentials = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      full_name: "",
+      name: "",
       email: "",
       password: "",
-      facebook: "",
-      insta: "",
-      linkedIn: "",
-      telegram: "",
-      BIO: "",
     },
   });
   const myliveActivity = useAppSelector(
@@ -188,20 +176,6 @@ const ScannerCredentials = () => {
     console.log("user id ", userid);
     dispatch(getUserByID(userid));
   }, []);
-
-  useEffect(() => {
-    if (myliveActivity && myliveActivity.length > 0) {
-      const currentValues = form.getValues();
-
-      form.reset({
-        facebook: myliveActivity[0]?.fbUrl || currentValues.facebook,
-        insta: myliveActivity[0]?.instaUrl || currentValues.insta,
-        linkedIn: myliveActivity[0]?.linkedinUrl || currentValues.linkedIn,
-        telegram: myliveActivity[0]?.telegramUrl || currentValues.telegram,
-      });
-    }
-  }, [myliveActivity]);
-
   const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
     height: 16,
@@ -254,7 +228,7 @@ const ScannerCredentials = () => {
   useEffect(() => {
     if (myProfile) {
       form.reset({
-        full_name: myProfile?.fullname || form.getValues("full_name"),
+        name: myProfile?.fullname || form.getValues("name"),
         email: myProfile?.email || form.getValues("email"),
         password: myProfile?.password || form.getValues("password"),
       });
@@ -295,16 +269,15 @@ const ScannerCredentials = () => {
   }
 
   return (
-    <div className="w-full md:w-[70%] ps-[0px] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
+    <div className="w-full md:w-[70%] px-[24px] xl:ps-[172px] md:mx-auto lg:w-full mt-[50px] md:mt-[90px] lg:mx-0 lg:h-[auto]">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
-      <h2 className="font-bold ms-[24px] md:ms-[0px] text-[20px] lg:text-[32px]">
+      <h2 className="font-bold ms-[24px] md:ms-[0px]  text-[15px] lg:font-extrabold lg:text-[24px]">
         Scanner Credentials
       </h2>
       <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[60px] mt-[34px]  lg:mt-[32px]">
-        <div className="flex w-full  md:w-full lg:w-[428px] flex-col lg:flex-col gap-6 md:gap-8 mt-[0px] lg:mt-[32px]">
-          <div className="w-full md:w-full lg:w-[428px]">
+          <div className="w-full md:w-full lg:w-[428px] relative h-[79vh]">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(updateActivity)}
@@ -312,9 +285,9 @@ const ScannerCredentials = () => {
               >
                 <FormField
                   control={form.control}
-                  name="facebook"
+                  name="name"
                   render={({ field }) => (
-                    <FormItem className="relative mb-[12px] lg:mb-4 space-y-0">
+                    <FormItem className="relative mb-4 space-y-0">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         NAME
                       </FormLabel>
@@ -327,7 +300,7 @@ const ScannerCredentials = () => {
                       <FormControl>
                         <Input
                           placeholder="Enter Name"
-                          className="pt-11 pb-5 text-base placeholder:font-extrabold"
+                          className="pt-11 pb-5 text-base text-[white] placeholder:font-extrabold"
                           {...field}
                           onChange={(e) => {
                             setFbUrl(e.target.value);
@@ -344,7 +317,7 @@ const ScannerCredentials = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem className="relative mb-[20px] space-y-0">
-                      <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
+                      <FormLabel className="text-[12px] text-[#8F8F8F] absolute left-3 top-3">
                         EMAIL
                       </FormLabel>
                       <Envelope
@@ -354,7 +327,7 @@ const ScannerCredentials = () => {
                       <FormControl>
                         <Input
                           placeholder="youremail@example.com"
-                          className="pt-11 pb-5 font-bold placeholder:font-normal"
+                          className="pt-11 pb-5 text-base text-[white] placeholder:font-extrabold"
                         />
                       </FormControl>
                       <FormMessage />
@@ -367,14 +340,14 @@ const ScannerCredentials = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem className="relative mb-[20px] space-y-0">
-                      <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
+                      <FormLabel className="text-[12px] text-[#8F8F8F] absolute left-3 top-3 z-10">
                         PASSWORD
                       </FormLabel>
-                      <Lock className="absolute right-3 top-[30%]" size={20} />
+                      <Lock className="absolute right-3 top-[30%] z-[10]" size={20} />
                       <FormControl>
                         <PasswordInput
                           placeholder="Input password"
-                          className="pt-11 pb-5 font-bold placeholder:font-normal"
+                          className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
                           onChange={(e) => {
                             setPassword(e.target.value);
@@ -386,7 +359,7 @@ const ScannerCredentials = () => {
                     </FormItem>
                   )}
                 />
-                <div className="flex justify-start mt-[32px] lg:justify-end">
+                <div className="flex justify-start w-full md:relative absolute bottom-[0px] mt-[32px] lg:justify-end">
                   <Button
                     type="submit"
                     className="w-full font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base"
@@ -397,7 +370,6 @@ const ScannerCredentials = () => {
               </form>
             </Form>
           </div>
-        </div>
       </div>
     </div>
   );
