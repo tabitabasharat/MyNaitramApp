@@ -54,6 +54,20 @@
   width: 392px;
   height: 392px;
 }
+@media(max-width:1414px){
+  .img-center{
+    height: 275px !important;
+  }
+}
+@media (max-width:1021px) {
+  .img-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 392px !important;
+    height: 392px !important;
+  }
+}
 
 @media(max-width:992px)
 {
@@ -66,8 +80,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 392px;
-    height: 392px;
+    width: 392px !important;
+    height: 392px !important;
   }
 }
 @media (max-width: 768px) {
