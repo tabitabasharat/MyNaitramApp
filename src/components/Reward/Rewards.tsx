@@ -17,49 +17,14 @@ import ticketgreen from "../../assets/Wallet/rewarrd-trophy.svg";
 import cards from "../../assets/Cards.svg";
 import cardsgreen from "../../assets/Cards (1).svg";
 import EventCards from "@/components/eventCards/EventCards";
+import ScreenLoader from "../loader/Screenloader";
+
 type SelectedOption = "rewards" | "rewardcollectables" | null;
 
 function Rewards() {
   const [selected, setSelected] = useState<SelectedOption>("rewards");
 
-  const claimableRewards = [
-    {
-      heading: "Daily Login Bonus",
-      desc: "Earn 5 MRT for Logging In Today!",
-      icon: Calendarnew,
-    },
-    {
-      heading: "Daily Login Bonus",
 
-      desc: "Earn 5 MRT for Logging In Today!",
-      icon: Calendarnew,
-    },
-    {
-      heading: "Daily Login Bonus",
-
-      desc: "Earn 5 MRT for Logging In Today!",
-      icon: Calendarnew,
-    },
-    {
-      heading: "Daily Login Bonus",
-
-      desc: "Earn 5 MRT for Logging In Today!",
-      icon: Calendarnew,
-    },
-    {
-      heading: "Daily Login Bonus",
-
-      desc: "Earn 5 MRT for Logging In Today!",
-      icon: Calendarnew,
-    },
-    {
-      heading: "Daily Login Bonus",
-
-      desc: "Earn 5 MRT for Logging In Today!",
-
-      icon: Calendarnew,
-    },
-  ];
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -76,6 +41,11 @@ function Rewards() {
     (state) => state?.getRewardCollectibles?.myCollectibles?.data?.collectibles
   );
   console.log("my Rewards Collectibles are ", myRewardCollectibles);
+  
+  const userLoading = useAppSelector((state) => state?.getRewardCollectibles);
+  const claimstatusLoading = useAppSelector((state) => state?.getClaimStatus);
+
+
   return (
     <section
       //   style={{
@@ -89,6 +59,9 @@ function Rewards() {
       //   }}
       className="min-h-screen py-[8rem] bg-cover bg-no-repeat  px-[24px] lg:px-0 bg-reward bg-reward-outer"
     >
+            {claimstatusLoading?.loading && <ScreenLoader/>}
+            {userLoading?.loading && <ScreenLoader/>}
+
       <div className="bg-reward-outer2 ">
         <p className="font-extrabold lg:text-[32px] text-[20px] -tracking-[0.02em]">
           Your Rewards

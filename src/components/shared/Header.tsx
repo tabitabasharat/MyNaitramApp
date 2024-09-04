@@ -28,6 +28,7 @@ import NotificationPopUp from "../notifications/NotificationPopUp";
 
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { showProfile } from "@/lib/middleware/profile";
 
 const Header = () => {
   const router = useRouter();
@@ -77,7 +78,14 @@ const Header = () => {
     const id =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setToken(id);
+  
   }, [token, count]);
+  useEffect(() => {
+    const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    console.log("user id ", userid);
+    dispatch(showProfile(userid));
+  }, []);
+
 
   const logout = () => {
     localStorage.clear();
