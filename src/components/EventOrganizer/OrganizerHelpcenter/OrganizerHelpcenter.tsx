@@ -1,9 +1,9 @@
 // components/LiveAccntSetting.js
 "use client";
 import Image from "next/image";
-import GradientBorder from "../ui/gradient-border";
+import GradientBorder from "@/components/ui/gradient-border";
 import { shimmer, toBase64 } from "@/lib/utils";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 import { Input } from "@/components/ui/input";
 import {
@@ -15,16 +15,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import upload from "@/assets/material-symbols_upload.svg";
+import upload from "@/assets/material-symbols_upload.svg"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Textarea } from "../ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import { useState, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import ScreenLoader from "../loader/Screenloader";
+import ScreenLoader from "@/components/loader/Screenloader";
 import {
   SuccessToast,
   ErrorToast,
@@ -38,7 +38,7 @@ const formSchema = z.object({
   description: z.string().min(1, { message: "Description be empty." }),
 });
 
-const Helpcenter = ({
+const OrganizerHelpcenter = ({
   className,
   setPopupOpen,
 }: {
@@ -61,8 +61,7 @@ const Helpcenter = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+
 
     console.log(values);
   }
@@ -143,7 +142,7 @@ const Helpcenter = ({
   }
 
   return (
-    <div className="w-full lg:w-[604px] lg:ps-[170px]  mt-[45px] md:mx-auto  lg:mt-[92px] lg:mx-0 relative lg:h-[auto] h-[90vh] ">
+    <div className="w-full lg:w-[604px] px-[24px] lg:ps-[170px]  mt-[45px] md:mx-auto  lg:mt-[92px] lg:mx-0 relative lg:h-[auto] h-[90vh] ">
       <h2 className="font-bold ms-[24px] lg:ms-[0px] text-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] lg:text-[16px]">
         Help Center
       </h2>
@@ -250,7 +249,7 @@ const Helpcenter = ({
                   onChange={handleSingleFileChange}
                 />
               </div>
-              <div className="flex justify-start md:relative absolute bottom-[0px] mb-[32px] w-[100%] sm:w-[200px] mt-[50px]">
+              <div className="flex justify-start md:relative absolute bottom-[0px] mb-[32px] w-[90%] sm:w-[200px] mt-[50px]">
                 <Button
                   type="submit"
                   className="w-full p-[12px] font-extrabold py-[12px] text-sm md:text-base "
@@ -266,4 +265,4 @@ const Helpcenter = ({
   );
 };
 
-export default Helpcenter;
+export default OrganizerHelpcenter;
