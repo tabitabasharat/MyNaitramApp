@@ -15,14 +15,15 @@ const BuyTicket = ({
   setShowTicket,
   startPrice,
   endPrice,
-  userId
+  userId,
+  eventType,
 }: any) => {
   const dispatch = useAppDispatch();
   const [token, setToken] = useState<any>();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
   const [Useremail, setUserEmail] = useState<any>();
-  const [userIds,setUserIds]=useState<any>("")
+  const [userIds, setUserIds] = useState<any>("");
 
   const [canBuyTicket, setCanBuyTicket] = useState<any>();
   const EventDetail = useAppSelector(
@@ -38,13 +39,12 @@ const BuyTicket = ({
   useEffect(() => {
     const token =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-      setUserIds(token);
+    setUserIds(token);
   }, [isLoginDialogOpen]);
 
-
-
   useEffect(() => {
-    const useremail = typeof window !== "undefined" ?  localStorage.getItem("email") : null;
+    const useremail =
+      typeof window !== "undefined" ? localStorage.getItem("email") : null;
     setUserEmail(useremail);
     console.log("user login email", useremail);
   }, []);
@@ -92,17 +92,28 @@ const BuyTicket = ({
           <div className="w-full lg:w-auto">
             {token ? (
               <DialogTrigger asChild>
-              
-                <Button
-                  onClick={() => {
-                    console.log(token);
-                    // BuyTicket();
-                  }}
-                  className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
-                >
-                  Buy Tickets
-                </Button>
-                
+                {eventType === "Past Events" ? (
+                  <Button
+                    disabled
+                    onClick={() => {
+                      console.log(token);
+                      // BuyTicket();
+                    }}
+                    className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
+                  >
+                    Sold Out
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => {
+                      console.log(token);
+                      // BuyTicket();
+                    }}
+                    className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
+                  >
+                    Buy Tickets
+                  </Button>
+                )}
               </DialogTrigger>
             ) : (
               // {isLoggedIn && (
@@ -117,8 +128,12 @@ const BuyTicket = ({
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-auto"
                   >
-                    
-                    {EventDetail?.data?.data ? "View Ticket" : "Buy Ticket"}
+                    {/* {EventDetail?.data?.data    ?  "View Ticket" : "Buy Ticket"} */}
+                    {eventType === "Past Events"
+                      ? "Sold"
+                      : EventDetail?.data?.data
+                      ? "View Ticket"
+                      : "Buy Ticket"}
                   </Button>
                 </DialogTrigger>
                 {authMode === "SIGNIN" && isLoginDialogOpen && (
