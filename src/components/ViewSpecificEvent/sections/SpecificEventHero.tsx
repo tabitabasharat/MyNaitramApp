@@ -51,7 +51,7 @@ const CustomNextArrow = (props: any) => (
   </div>
 );
 
-const SpecificEventHero = ({ setShowTicket }: any) => {
+const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
   const router = useRouter();
   const [eventID, setEventId] = useState("");
   const [loader, setLoader] = useState(false);
@@ -162,6 +162,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
                 AboutDrop={isAbout}
                 AboutToggle={() => setisAbout(!isAbout)}
                 userId={EventData?.userId}
+                eventType={eventType}
               />
 
               {/* Gallery Media Slider */}

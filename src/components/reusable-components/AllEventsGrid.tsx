@@ -66,6 +66,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
                     img={event?.coverEventImage}
                     title={event?.name}
                     eventId={event?.id}
+                    eventType={eventType}
                   />
                 ))}
 
@@ -98,6 +99,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
                     img={event?.coverEventImage}
                     title={event?.name}
                     eventId={event?.id}
+                    eventType={eventType}
                   />
                 ))}
 
@@ -128,6 +130,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
                 img={event?.coverEventImage}
                 title={event?.name}
                 eventId={event?.id}
+                eventType={eventType}
               />
             ))}
             <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>

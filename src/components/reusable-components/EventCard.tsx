@@ -13,7 +13,7 @@ const EventCard = ({
   img,
   title,
   eventId,
-  
+  eventType,
   height = "345px",
   width = "100%",
 }: {
@@ -22,6 +22,7 @@ const EventCard = ({
   height?: string;
   width?: string;
   eventId: any;
+  eventType:any
 }) => {
   const imageUrl = img
     ? img.startsWith("http") || img.startsWith("https")
@@ -93,11 +94,15 @@ const EventCard = ({
       handleDisLikeEvent();
     }
   };
+  // const Eventtype = encodeURIComponent(JSON.stringify(eventType));
+  const Eventtype = encodeURIComponent(eventType);
+  console.log("event card eventTYO",Eventtype)
 
   return (
     <ScaleReveal extraStyle="w-full">
       <Link
-        href={eventId ? `/specific-event/${eventId}` : "/events"}
+        href={eventId ? `/specific-event/${eventId}?EventType=${Eventtype}` : "/viewallevents"}
+        
         className="w-full"
       >
         <div
