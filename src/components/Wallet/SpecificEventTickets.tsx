@@ -11,7 +11,7 @@ import stall from "../../assets/stall1.svg";
 import food from "../../assets/dob1.svg";
 import vip from "../../assets/crown1.svg";
 import security from "../../assets/security.svg";
-import info from "../../assets/Info.svg";
+// import info from "../../assets/Info.svg";
 import qrcode from "../../assets/QR Code.svg";
 import blockchain from "../../assets/blockchain-icon 1.svg";
 import Link from "next/link";
@@ -245,10 +245,10 @@ export default function SpecificEventTickets() {
               </div>
             </div>
           </div>
-          <div className="bg-ticket-img sm:w-[408px] md:w-[408px] lg:w-[408px] w-full rounded-[12px] pt-[12px] px-[20px] pb-[2px]">
-            <div className="flex justify-end">
+          <div className="bg-ticket-img sm:w-[408px] md:w-[408px] lg:w-[408px] w-full rounded-[12px] pt-[32px] px-[20px] pb-[2px]">
+            {/* <div className="flex justify-end">
               <Image src={info} alt="img" />
-            </div>
+            </div> */}
             <div className="flex flex-col justify-center items-center">
               <div>
                 <Image style={{borderRadius:"12px"}}

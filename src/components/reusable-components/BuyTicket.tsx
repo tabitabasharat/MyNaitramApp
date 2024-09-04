@@ -41,7 +41,7 @@ const BuyTicket = ({
 
   return (
     <Dialog>
-      <div className="w-full lg:w-[665px] bg-[#007A3535] rounded-xl flex flex-col lg:flex-row items-center justify-center lg:items-center lg:justify-between px-6 py-4 gap-4">
+      <div className="w-full md:w-[576px] bg-[#007A3535] rounded-xl flex flex-col lg:flex-row items-center justify-center lg:items-center lg:justify-between px-6 py-4 gap-4">
         <div>
           <p className="font-bold text-[24px] text-center lg:text-left">
             {/* £10 - £1000 */}
@@ -56,18 +56,6 @@ const BuyTicket = ({
             One ticket per person
           </p>
         </div>
-        {/* <DialogTrigger asChild>
-          <Button
-            onClick={() => {
-              console.log(token);
-              // BuyTicket();
-            }}
-            className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
-          >
-            Buy Tickets
-          </Button>
-        </DialogTrigger> */}
-
         {EventDetail?.data?.data ? (
           <div>
             <Button

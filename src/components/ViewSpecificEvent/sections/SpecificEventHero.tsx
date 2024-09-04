@@ -102,8 +102,8 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
         className="w-full h-screen absolute object-cover object-center z-0 opacity-30"
         alt=""
       />
-      <div className="mx-2xl">
-        <div className="main-abovee pxpx pt-[8rem] lg:pt-[9rem] pb-[6rem] z-[2] flex flex-col xl:flex-row gap-[32px] lg:gap-12 w-full md:w-[70%] md:mx-auto xl:w-full relative   ">
+      <div className="">
+        <div className="main-abovee pxpx xl:px-[216px] pt-[8rem] xl:justify-normal lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] flex flex-col lg:flex-row gap-[32px] lg:gap-12 w-full md:w-[70%] md:mx-auto xl:w-full relative   ">
           <div className="">
             <div className="flex items-center gap-4 mb-6">
               <button onClick={() => router.back()} type="button">
@@ -135,7 +135,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
           </div>
 
           <div className="main-div-takeoverr ">
-            <div className="rhs-hero lg:mt-12 mt-0">
+            <div className="rhs-hero lg:mt-12 md:w-[576px] mt-0">
               <EventsHeroSlide
                 instaUrl={EventData?.instaUrl}
                 tiktokUrl={EventData?.tiktokUrl}
@@ -186,7 +186,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
 
               {EventData?.eventmedia?.length > 0 &&
                 Array.isArray(EventData?.eventmedia) && (
-                  <div className="w-[665px] h-[296px] mt-[48px] slider-main-div">
+                  <div className="w-[665px] md:w-[576px] h-[296px] mt-[48px] slider-main-div">
                     <Slider {...settings}>
                       {EventData?.eventmedia?.map((item: any, index: any) => (
                         <div key={index} className="w-full">
@@ -198,7 +198,7 @@ const SpecificEventHero = ({ setShowTicket }: any) => {
                               src={item}
                               width={330}
                               height={200}
-                              className="w-full h-[296px] slider-img object-fill "
+                              className="w-full h-[296px] slider-img object-contain "
                               controls
                               // alt={`Slide ${index + 1}`}
                             />

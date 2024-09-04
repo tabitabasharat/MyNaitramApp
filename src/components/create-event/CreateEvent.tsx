@@ -117,7 +117,7 @@ const formSchema = z.object({
     .min(1, { message: "Linkedin URL cannot be empty." }),
   telegramurl: z
     .string()
-    .url({ message: "Invalid Telegram URL." })
+    .url({ message: "Invalid Twitter URL." })
     .min(1, { message: "Telegram URL cannot be empty." }),
   eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
@@ -514,7 +514,6 @@ function CreateEvent() {
               {" "}
               Create <span className="text-primary">Event</span>
             </h1>
-            {/* <Image src={Editicon} alt="Edit-icon" /> */}
           </div>
 
           <Image
@@ -814,18 +813,9 @@ function CreateEvent() {
                             htmlFor="upload2"
                             className="pt-9 pb-3 font-bold   border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-between items-center "
                           >
-                            {/* <span>{field.value?.name || "Upload Image"}</span> */}
                             <span className="pl-[0.75rem]">
                               {CoverImgName || "Upload Image"}
                             </span>
-                            {/* {CoverImgName  &&  CoverImg ? (
-                              <span className="pl-[0.75rem]">
-                                {CoverImgName}
-                              </span>
-                            ) : (
-                              <span>Upload Image</span>
-                            )} */}
-
                             <input
                               ref={fileInputRef2}
                               type="file"
@@ -842,75 +832,6 @@ function CreateEvent() {
                   )}
                 />
               </div>
-
-              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                <FormItem className="relative w-full space-y-0">
-                  <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                    Gallery media
-                    {galleryFiles?.length > 0 && (
-                      <div className="mt-4 pb-4 relative">
-                        <div className="flex flex-wrap gap-[12px] ">
-                          {galleryFiles?.map((file, index) => (
-                            <>
-                              <div
-                                key={index}
-                                className="relative w-[80px] h-[80px] bg-gray-200  rounded-[12px]"
-                              >
-                                <Image
-                                  src={window.URL.createObjectURL(file)}
-                                  alt={`Gallery Image ${index + 1}`}
-                                  className="w-full h-full object-cover relative rounded-[12px]"
-                                  width={80}
-                                  height={80}
-                                />
-
-                                <button
-                                  type="button"
-                                  onClick={() => removeImage(index)}
-                                  className="trash_button"
-                                >
-                                  <Image
-                                    src={crossicon}
-                                    alt="remove"
-                                    width={20}
-                                    height={20}
-                                  />
-                                </button>
-                              </div>
-                            </>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </FormLabel>
-                  <FormControl>
-                    <div>
-                      <label
-                        htmlFor="galleryUpload"
-                        className={` pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px]  ${
-                          galleryFiles.length > 0
-                            ? "h-[200px] gallery-box"
-                            : "pt-9 gallery-top"
-                        }`}
-                      >
-                        <span className="pl-[0.75rem] uploadImageButton">
-                          {"Upload Images"}
-                        </span>
-                        <input
-                          type="file"
-                          multiple
-                          // accept="image/png, image/jpg, image/jpeg, image/svg"
-                           accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
-                          className="hidden"
-                          id="galleryUpload"
-                          onChange={handleFileChange}
-                        />
-                      </label>
-                    </div>
-                  </FormControl>
-                </FormItem>
-              </div> */}
-
               <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
                 <FormItem className="relative w-full space-y-0">
                   <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
@@ -994,154 +915,6 @@ function CreateEvent() {
                   </FormControl>
                 </FormItem>
               </div>
-
-              {/* {ticketTypes.map((ticket, index) => (
-                <div
-                  className="flex items-start gap-[24px] w-full mt-[24px] common-container"
-                  key={index}
-                >
-                  <FormField
-                    control={form.control}
-                    name={`tickets.${index}.type`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                          Event Ticket Type
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter Type"
-                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                            {...field}
-                            onChange={(e) => {
-                              handleInputChange(index, "type", e.target.value);
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name={`tickets.${index}.price`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                          Event Ticket Price
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Enter Price"
-                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                            {...field}
-                            onChange={(e) => {
-                              handleInputChange(
-                                index,
-                                "price",
-                                parseFloat(e.target.value)
-                              );
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name={`tickets.${index}.no`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                          Event Number of Tickets
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Enter No. of Tickets"
-                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                            {...field}
-                            onChange={(e) => {
-                              handleInputChange(
-                                index,
-                                "no",
-                                parseInt(e.target.value, 10)
-                              );
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              ))} */}
-
-              {/* <div className="pb-[8px] mt-[12px] w-full rounded-md border border-[#292929] gradient-slate  pt-[16px] px-[12px]  text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                <div
-                  className="flex items-center justify-between "
-                  onClick={handleDropdown}
-                >
-                  <p className="text-sm text-gray-500 uppercase">
-                    WHATS INCLUDED
-                  </p>
-                  <Image
-                    src={Dropdown ? arrowdown : arrowdown}
-                    width={11}
-                    height={11}
-                    alt="arrow"
-                  />
-                </div>
-                {Dropdown && (
-                  <div>
-                    {options?.map((option) => (
-                      <div
-                        key={option?.id}
-                        className="flex items-center justify-between pt-[8px] cursor-pointer"
-                        onClick={() => handleOptionToggle(option)}
-                      >
-                        <div className="flex items-center gap-[10px]  ">
-                          <Image
-                            src={option.image}
-                            width={16}
-                            height={16}
-                            alt="img"
-                          />
-                          <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                            {option.label}
-                          </p>
-                        </div>
-                        {selectedOptions.some((o) => o.id === option.id) && (
-                          <Image src={tick} width={10} height={10} alt="tick" />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-                To use the selected options elsewhere 
-                 <div>
-                  Selected Options:{" "}
-                  {selectedOptions.map((o) => o.label).join(", ")}
-                </div>
-              </div> */}
-
-              {/* <div className="flex justify-end items-center mt-[12px] ticket-btn">
-                <Button
-                  className="font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold "
-                  onClick={handleAddTicketType}
-                >
-                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                  Add Ticket Type
-                </Button>
-              </div> */}
-
               {ticketTypes.map((ticket, index) => (
                 <div
                   className="flex flex-col gap-[12px] w-full mt-[24px] common-container"

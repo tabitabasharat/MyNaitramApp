@@ -29,7 +29,7 @@ const PersonalSocialProfile = () => {
 
   console.log("my Social Profile infooo is", myProfile);
   return (
-    <div className="min-h-screen relative flex flex-col items-center overflow-hidden pxpx ">
+    <div className="min-h-screen relative flex flex-col items-center lg:px-[100px] xl:px-[216px] overflow-hidden pxpx ">
       <Image
         style={{ filter: "blur(40px)" }}
         width={1000}
@@ -43,7 +43,7 @@ const PersonalSocialProfile = () => {
           <button onClick={() => router.back()}>
             <ArrowLeft size={20} />
           </button>
-          <p className="text-sm sm:text-base font-bold">Organizer Profile</p>
+          <p className="text-sm sm:text-base font-bold">Back</p>
         </div>
 
         <ProfilePreview />
