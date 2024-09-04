@@ -141,7 +141,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
       dispatch(createevent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          SuccessToast("Event Created Successfully");
+       
           setisCreateModalOpen(true);
           // router.push("/viewallevents");
         } else {

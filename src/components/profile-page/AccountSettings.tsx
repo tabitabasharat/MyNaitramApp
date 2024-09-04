@@ -122,7 +122,6 @@ const AccountSettings = () => {
     const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     try {
       const data = {
-        password: Password || myProfile?.password || "",
         fullName: Name || myProfile?.fullname || "",
         userId: userID,
 
@@ -265,7 +264,7 @@ const AccountSettings = () => {
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
@@ -292,7 +291,7 @@ const AccountSettings = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
               <p className="opacity-70 text-sm pt-2 text-[12px] font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
                 <Link href="/auth/resetpasspage">
                   Want to change your password?

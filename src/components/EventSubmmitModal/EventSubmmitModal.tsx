@@ -68,7 +68,7 @@ const EventSubmmitModal = ({ onClose, open }: any) => {
               </p>
               <Button
                 className="mt-[32px] text-[14px] font-extrabold w-full "
-                onClick={() => router.push("/viewallevents")}
+                onClick={() => router.push("/management")}
               >
                 Let’s go 🎉
               </Button>

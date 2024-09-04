@@ -99,8 +99,11 @@ const formSchema = z.object({
     .min(1, { message: "Event description cannot be empty." }),
 
   compticketno: z
-    .string()
-    .min(1, { message: "Complimentary ticket number cannot be empty." }),
+    .any()
+    .refine((val) => val !== undefined && val !== null, {
+      message: "Complimentary ticket cannot be empty.",
+    }),
+
   fburl: z
     .string()
     .url({ message: "Invalid Facebook URL." })
@@ -119,39 +122,22 @@ const formSchema = z.object({
     .min(1, { message: "TikTok URL cannot be empty." }),
   linkedinurl: z
     .string()
-    .url({ message: "Invalid Linkedin URL." })
-    .min(1, { message: "Linkedin URL cannot be empty." }),
+    .url({ message: "Invalid LinkedIn URL." })
+    .min(1, { message: "LinkedIn URL cannot be empty." }),
   telegramurl: z
     .string()
-    .url({ message: "Invalid Twitter URL." })
+    .url({ message: "Invalid Telegram URL." })
     .min(1, { message: "Telegram URL cannot be empty." }),
+
   eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
-  // tickets: z
-  //   .array(
-  //     z.object({
-  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //       price: z
-  //         .string()
-  //         .min(1, { message: "Ticket price must be greater than 0." }),
-  //       no: z
-  //         .string()
-  //         .min(1, { message: "Number of tickets must be greater than 0." }),
-  //     })
-  //   )
-  //   .refine((tickets) => tickets.length > 0, {
-  //     message: "At least one ticket is required.",
-  //   }),
+
   tickets: z
     .array(
       z.object({
         type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-        price: z
-          .any(),
-          // .min(1, { message: "Ticket price must be greater than 0." }),
-        no: z
-          .any(),
-          // .min(1, { message: "Number of tickets must be greater than 0." }),
+        price: z.any(),
+        no: z.any(),
         options: z
           .array(
             z.object({
@@ -166,6 +152,7 @@ const formSchema = z.object({
       message: "At least one ticket is required.",
     }),
 });
+
 type Option = {
   id: number;
   label: string;
@@ -604,8 +591,8 @@ function Editevent() {
       dispatch(updateEvent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          SuccessToast("Event Updated Created Successfully");
-          router.push("/viewallevents");
+          SuccessToast("Event Updated Successfully");
+          router.push("/management");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);

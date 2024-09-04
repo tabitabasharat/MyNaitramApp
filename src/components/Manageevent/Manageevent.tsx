@@ -112,13 +112,13 @@ function Manageevent({
 
             <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
           </div>
-          <div className="container p-0">
+          {/* <div className="container p-0">
             <Pagination
               currentPage={EventsData?.pagination?.currentPage}
               totalPages={EventsData?.pagination?.totalPages}
               onPageChange={handlePageChange}
             />
-          </div>
+          </div> */}
         </>
       ) : (
         <div className="relative grid md:grid-cols-3 lg:grid-cols-4 gap-[1rem]">

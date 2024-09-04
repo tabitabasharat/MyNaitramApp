@@ -143,11 +143,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                     onClick={() => handleItemClick(item.text)}
                   >
                     <ListItemButton
-                      className={`text-xl font-bold p-[10px] ${
-                        activeItem === item.text
-                          ? "gradient-border rounded-lg"
-                          : ""
-                      }`}
+                      
                     >
                       <ListItemIcon
                         style={{ minWidth: "0pc" }}

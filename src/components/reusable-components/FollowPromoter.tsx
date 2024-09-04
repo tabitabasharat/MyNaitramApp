@@ -10,12 +10,13 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getEventCount } from "@/lib/middleware/event";
 
 const FollowPromoter = ({ userId }: any) => {
   const dispatch = useAppDispatch();
+  const [userToken, setUserToken] = useState<any>();
   useEffect(() => {
     dispatch(getEventCount(userId));
   }, [userId]);
@@ -32,10 +33,19 @@ const FollowPromoter = ({ userId }: any) => {
     ? myEvents?.data?.data[0]?.profilePicture
     : promoter;
 
+    
+
+  useEffect(() => {
+    const token =
+    typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setUserToken(token)
+  }, []);
+
   return (
     <div className="mt-[32px] bg-white/10 rounded-xl p-[16px] w-full">
       <div className="flex gap-4">
-        <Image style={{width:"40px",height:"40px"}}
+        <Image
+          style={{ width: "40px", height: "40px" }}
           src={imageUrl}
           width={40}
           height={40}
@@ -69,15 +79,34 @@ const FollowPromoter = ({ userId }: any) => {
       </div>
       <hr className="border-white/10 my-[16px]" />
       <div className="flex gap-3 items-center justify-start wrapping-flex">
+        {
+          userToken !=myEvents?.data?.data[0]?.id && 
         <Button variant="secondary" className="text-[14px] font-bold py-[10px]">
           Follow Promoter
         </Button>
+        }
         <div className="flex gap-3 h-full">
           <div className="border border-white w-fit p-2 rounded-full">
-            <InstagramLogo onClick={()=>{typeof window !== "undefined" ?window.open(myEvents?.data?.data[0]?.instaUrl,"_blank"):null}} size={25} weight="fill" />
+            <InstagramLogo
+              onClick={() => {
+                typeof window !== "undefined"
+                  ? window.open(myEvents?.data?.data[0]?.instaUrl, "_blank")
+                  : null;
+              }}
+              size={25}
+              weight="fill"
+            />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <TwitterLogo  onClick={()=>{typeof window !== "undefined"?window.open(myEvents?.data?.data[0]?.twitterUrl,"_blank"):null}} size={25} weight="fill" />
+            <TwitterLogo
+              onClick={() => {
+                typeof window !== "undefined"
+                  ? window.open(myEvents?.data?.data[0]?.twitterUrl, "_blank")
+                  : null;
+              }}
+              size={25}
+              weight="fill"
+            />
           </div>
         </div>
       </div>

@@ -163,6 +163,7 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
                 AboutToggle={() => setisAbout(!isAbout)}
                 userId={EventData?.userId}
                 eventType={eventType}
+               
               />
 
               {/* Gallery Media Slider */}
@@ -199,7 +200,7 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
                             <video
                               src={item}
                               width={330}
-                              height={200}
+                              height={300}
                               className="w-full h-[296px] slider-img object-contain "
                               controls
                               // alt={`Slide ${index + 1}`}
@@ -208,7 +209,7 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
                             <Image
                               src={item}
                               width={330}
-                              height={200}
+                              height={300}
                               className="w-full h-[296px] slider-img "
                               alt={`Slide ${index + 1}`}
                             />

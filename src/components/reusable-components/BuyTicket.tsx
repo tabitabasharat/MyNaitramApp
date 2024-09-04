@@ -56,7 +56,7 @@ const BuyTicket = ({
           <p className="font-bold text-[24px] text-center lg:text-left">
             {/* £10 - £1000 */}
             {startPrice && endPrice
-              ? `£${startPrice} - £${endPrice}`
+              ? `£${startPrice>endPrice?endPrice:startPrice} - £${startPrice<endPrice?endPrice:startPrice}`
               : "£10 - £1000"}
           </p>
           {/* <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left text-[13px] lg:text-[14px]">
@@ -89,7 +89,7 @@ const BuyTicket = ({
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
                   >
-                    Sold Out
+                    Event Ended
                   </Button>
                 ) : (
                   <Button
@@ -111,6 +111,7 @@ const BuyTicket = ({
               >
                 <DialogTrigger asChild>
                   <Button
+                  disabled={ eventType === "Past Events" && true}
                     onClick={() => {
                       console.log(token);
                     }}

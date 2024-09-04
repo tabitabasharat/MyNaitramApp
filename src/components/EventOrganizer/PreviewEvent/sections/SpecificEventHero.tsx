@@ -128,7 +128,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
             Submit
           </Button>
         </div>
-        <div className="main-abovee lg:justify-start md:justify-center pxpx  pb-[6rem] z-[2] flex flex-col xl:flex-row gap-[32px] lg:gap-12 w-full md:w-[70%] md:mx-auto xl:w-full relative   ">
+        <div className="main-abovee  md:justify-center pxpx  pb-[6rem] z-[2] flex flex-col xl:flex-row gap-[32px] lg:gap-12 w-full md:w-[70%] md:mx-auto xl:w-full relative   ">
           {/* <div className="flex items-center justify-between mb-[24px]">
           <div
             className="flex items-center gap-[16px]  "

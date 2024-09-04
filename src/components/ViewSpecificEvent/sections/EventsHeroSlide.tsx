@@ -27,7 +27,6 @@ import Clocktime from "@/assets/Wallet/specific-icon-clock.svg";
 import Calendar from "@/assets/Wallet/specific-icon-calender.svg";
 import Location from "@/assets/Wallet/specific-icon-location.svg";
 
-
 const EventsHeroSlide = ({
   title,
   date,
@@ -49,16 +48,15 @@ const EventsHeroSlide = ({
   instaUrl,
   tiktokUrl,
   eventType,
-  userId
+  userId,
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
-console.log("this is event price",  ticketStartPrice,
-  ticketEndPrice)
+  console.log("this is event price", ticketStartPrice, ticketEndPrice);
 
   const ConvertDate = (originalDateStr: string): string => {
     const originalDate = new Date(originalDateStr);
-  
+
     // Extract the day, date, month, and year
     const dayOfWeek = originalDate.toLocaleDateString("en-US", {
       weekday: "long",
@@ -66,7 +64,7 @@ console.log("this is event price",  ticketStartPrice,
     const date = originalDate.getDate();
     const month = originalDate.toLocaleDateString("en-US", { month: "long" });
     const year = originalDate.getFullYear();
-  
+
     // Function to get ordinal suffix
     const getOrdinalSuffix = (date: number) => {
       if (date > 3 && date < 21) return "th"; // covers 11th to 19th
@@ -81,67 +79,63 @@ console.log("this is event price",  ticketStartPrice,
           return "th";
       }
     };
-  
+
     const ordinalSuffix = getOrdinalSuffix(date);
-  
+
     // Construct the formatted date string
     const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
-  
+
     return formattedDate;
   };
-  
+
   const ConvertTime = (timeStr: string): string => {
     // Ensure input is a string
     if (typeof timeStr !== "string") {
       console.error("Input must be a string");
       return "";
     }
-  
+
     // Extract the time part if the input includes a date and time
     const timeOnly = timeStr.split("T")[1]?.split("Z")[0];
-  
+
     if (!timeOnly) {
       console.error("Input must include a valid time");
       return "";
     }
-  
+
     const parts = timeOnly.split(":");
-  
+
     // Check if timeOnly is in HH:MM or HH:MM:SS format
     if (parts.length < 2) {
       console.error("Input time must be in HH:MM or HH:MM:SS format");
       return "";
     }
-  
+
     const [hours, minutes] = parts.map(Number);
-  
+
     // Ensure the hours and minutes are valid numbers
     if (isNaN(hours) || isNaN(minutes)) {
       console.error("Invalid time format");
       return "";
     }
-  
+
     // Determine AM or PM
     const period = hours >= 12 ? "PM" : "AM";
-  
+
     // Convert hours from 24-hour to 12-hour format
     const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
-  
+
     // Combine hours and period
-    const formattedTime = `${formattedHours}:${minutes < 10 ? '0' + minutes : minutes} ${period}`;
-  
+    const formattedTime = `${formattedHours}:${
+      minutes < 10 ? "0" + minutes : minutes
+    } ${period}`;
+
     return formattedTime;
   };
-  
- 
-  
-  
-
 
   return (
     <>
       {" "}
-      
       <div>
         <div>
           <div className="hidden flex gap-1 mb-3">
@@ -155,7 +149,6 @@ console.log("this is event price",  ticketStartPrice,
               ></div>
             ))}
           </div>
-          
 
           <div className="flex gap-[0.35rem]">
             <Badge className="lg:text-[12px]">Party</Badge>
@@ -163,16 +156,10 @@ console.log("this is event price",  ticketStartPrice,
             <Badge className="lg:text-[12px]">TAKEOVR</Badge>
           </div>
           <div className="flex gap-[0.35rem] mt-3">
-            <Link
-              target="_blank"
-              href="https://www.instagram.com/takeovr_uk?igsh=ZzVyMmRvcDhob3po"
-            >
+            <Link target="_blank" href={`${instaUrl}`}>
               <InstagramLogo size={30} weight="fill" />
             </Link>
-            <Link
-              target="_blank"
-              href="https://www.tiktok.com/@takeovr_uk?_t=8ocugSj8bKa&_r=1"
-            >
+            <Link target="_blank" href={`${tiktokUrl}`}>
               <TiktokLogo size={30} weight="fill" />
             </Link>
           </div>
@@ -191,7 +178,7 @@ console.log("this is event price",  ticketStartPrice,
               </p>
             </div>
             <div className="flex items-center gap-[8px] mt-[12px] ">
-              <Image src={Calendar} alt="calendar"  />
+              <Image src={Calendar} alt="calendar" />
               <p className=" text-[16px] font-bold leading-[24px]">
                 {ConvertDate(eventDate)}
               </p>
@@ -200,7 +187,6 @@ console.log("this is event price",  ticketStartPrice,
               <Image src={Clocktime} alt="time" />
               <p className=" text-[16px] font-bold leading-[24px]">
                 {ConvertTime(startTime)} - {ConvertTime(endTime)}{" "}
-                
               </p>
             </div>
           </div>
@@ -222,9 +208,9 @@ console.log("this is event price",  ticketStartPrice,
           )}
 
           {/* <p className="text-muted mt-4">Location: {location}</p> */}
-        
+
           <BuyTicket
-          eventType={eventType}
+            eventType={eventType}
             event={event}
             setShowTicket={setShowTicket}
             startPrice={ticketStartPrice}
