@@ -48,7 +48,7 @@ const CustomNextArrow = (props: any) => (
   </div>
 );
 
-const SpecificEventHero = ({ setShowTicket, eventAllData }: any) => {
+const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
   console.log("inside event new", eventAllData);
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
 
@@ -82,7 +82,9 @@ const SpecificEventHero = ({ setShowTicket, eventAllData }: any) => {
   // useEffect(() => {
   //   dispatch(getEventCount(EventData?.userId));
   // }, [EventData?.userId]);
-
+  const handleBackEvent = () => {
+    router.push(`/OrganizerEventCreate/?eventData=${backData}`);
+  };
   return (
     <section className="bg-imgg">
       {isWalletModalOpen && (
@@ -101,7 +103,32 @@ const SpecificEventHero = ({ setShowTicket, eventAllData }: any) => {
         alt=""
       />
       <div className="mx-2xl">
-        <div className="main-abovee pxpx pt-[8rem] lg:pt-[9rem] pb-[6rem] z-[2] flex flex-col xl:flex-row gap-[32px] lg:gap-12 w-full md:w-[70%] md:mx-auto xl:w-full relative   ">
+        <div className="flex items-center justify-between mb-[24px] z-[3]  pxpx pt-[8rem] lg:pt-[9rem]   w-full md:w-[70%] md:mx-auto  xl:w-full   relative  ">
+          <div className="flex items-center gap-[16px]">
+            <button onClick={() => handleBackEvent()} type="button">
+              <Image
+                src={backbtn}
+                width={44}
+                height={44}
+                alt="back btn"
+                className="lg:w-[44px] lg:h-[44px] w-[40px] h-[40px]"
+              />
+            </button>
+            <p className="text-[24px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">
+              Back
+            </p>
+          </div>
+
+          <Button
+            type="submit"
+            className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
+            onClick={() => setisWalletModalOpen(true)}
+            // onClick={(event) => handleFormSubmit(event, "create")}
+          >
+            Submit
+          </Button>
+        </div>
+        <div className="main-abovee lg:justify-start md:justify-center pxpx  pb-[6rem] z-[2] flex flex-col xl:flex-row gap-[32px] lg:gap-12 w-full md:w-[70%] md:mx-auto xl:w-full relative   ">
           {/* <div className="flex items-center justify-between mb-[24px]">
           <div
             className="flex items-center gap-[16px]  "
@@ -122,32 +149,6 @@ const SpecificEventHero = ({ setShowTicket, eventAllData }: any) => {
           </Button>
         </div> */}
           <div className="">
-            <div className="flex items-center   mb-[24px] justify-between ">
-              <div className="flex items-center gap-[16px]">
-                <button onClick={() => router.back()} type="button">
-                  <Image
-                    src={backbtn}
-                    width={44}
-                    height={44}
-                    alt="back btn"
-                    className="lg:w-[44px] lg:h-[44px] w-[40px] h-[40px]"
-                  />
-                </button>
-                <p className="text-[24px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">
-                  Back
-                </p>
-              </div>
-
-              <Button
-                type="submit"
-                className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
-                onClick={() => setisWalletModalOpen(true)}
-                // onClick={(event) => handleFormSubmit(event, "create")}
-              >
-                Submit
-              </Button>
-            </div>
-
             <div className="lhs-hero flex items-center justify-center flex-col relative ">
               <Image
                 src={eventAllData?.eventcoverimg}
@@ -159,8 +160,8 @@ const SpecificEventHero = ({ setShowTicket, eventAllData }: any) => {
             </div>
           </div>
 
-          <div className="main-div-takeoverr lg:mt-[24px] mt-[0px] ">
-            <div className="rhs-hero lg:mt-12  mt-0">
+          <div className="main-div-takeoverr lg:mt-[0px] mt-[0px] ">
+            <div className="rhs-hero lg:mt-0  mt-0">
               <EventsHeroSlide
                 instaUrl={eventAllData?.instaurl}
                 tiktokUrl={eventAllData?.tiktokurl}

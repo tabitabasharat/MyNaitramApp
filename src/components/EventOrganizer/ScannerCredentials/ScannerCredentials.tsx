@@ -22,18 +22,9 @@ import {
 import api from "@/lib/apiInterceptor";
 import { styled } from "@mui/material/styles";
 import { API_URL } from "@/lib/client";
-import { usePathname } from "next/navigation";
-import {
-  TelegramLogo,
-  LinkedinLogo,
-  InstagramLogo,
-  FacebookLogo,
-  Chats,
-  UserGear,
-  TiktokLogo,
-  YoutubeLogo,
-  TwitterLogo,
-} from "@phosphor-icons/react";
+import { useSearchParams } from "next/navigation";
+import { ScannerEmail } from "@/lib/middleware/scanner";
+
 import {
   Form,
   FormControl,
@@ -57,319 +48,176 @@ const formSchema = z.object({
   password: z
     .string()
     .min(8, { message: "Password must contain at least 8 characters." })
-    .regex(/[a-z]/, {
-      message: "Password must contain at least one lowercase letter.",
-    })
-    .regex(/[A-Z]/, {
-      message: "Password must contain at least one uppercase letter.",
-    })
-    .regex(/[0-9]/, { message: "Password must contain at least one number." })
-    .regex(/[^a-zA-Z0-9]/, {
-      message: "Password must contain at least one special character.",
-    }),
+    
 });
+interface ScannerData {
+  name: string;
+  email: string;
+  password: string;
+  id:any;
+}
 
 const ScannerCredentials = () => {
   const dispatch = useAppDispatch();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [loader, setLoader] = useState(false);
-  const [Name, setName] = useState("");
-  const [Password, setPassword] = useState("");
-  const [imageSrc, setImageSrc] = useState("");
-  const [fbUrl, setFbUrl] = useState("");
-  const [instaUrl, setinstaUrl] = useState("");
-  const [linkedinUrl, setlinkedinUrl] = useState("");
-  const [telegramUrl, settelegramUrl] = useState("");
-  const myProfile = useAppSelector(
-    (state) => state?.getUserDetail?.userProfile?.data
+  const searchParams = useSearchParams();
+  const [scannerData, setScannerData] = useState<ScannerData | undefined>(
+    undefined
   );
+  const [loader, setLoader] = useState(false);
 
-  console.log("my Profile info is", myProfile);
-  const [checked, setChecked] = useState(true);
-  const userLoading = useAppSelector((state) => state?.getUserDetail);
+  useEffect(() => {
+    const scannerDataParam = searchParams.get("ScannerData");
+    if (scannerDataParam) {
+      try {
+        const decodedData = decodeURIComponent(scannerDataParam);
+        const parsedData = JSON.parse(decodedData);
+        setScannerData(parsedData);
+
+        console.log("Parsed Event Data:", parsedData);
+      } catch (error) {
+        console.error("Failed to decode and parse event data", error);
+      }
+    }
+  }, [searchParams]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      name: scannerData?.name,
+      email: scannerData?.email,
+      password:scannerData?.password,
     },
   });
-  const myliveActivity = useAppSelector(
-    (state) => state?.getProfileLiveActivity?.LiveActivity?.data
-  );
-
-  console.log("my live info is", myliveActivity);
-  const handleSingleFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = e.target.files?.[0];
-    console.log("Selected r img is:", file);
-
-    if (file) {
-      setLoader(true);
-
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-        const res: any = await api.post(
-          `${API_URL}/upload/uploadimage`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-
-        if (res.status === 200) {
-          setLoader(false);
-
-          console.log("Profile image", res);
-          console.log("Profile image uploaded");
-          setImageSrc(res?.data?.data);
-          console.log(res?.data?.data, "this is the Profile");
-          SuccessToast("Profile Image Updated Successfully");
-        } else {
-          setLoader(false);
-          ErrorToast(res?.payload?.message || "Error uploading image");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
-
-  async function profileclick(values: z.infer<typeof formSchema>) {
-    setLoader(true);
-    const userID = localStorage.getItem("_id");
-    try {
-      const data = {
-        password: Password || myProfile?.password || "",
-        fullName: Name || myProfile?.fullname || "",
-        userId: userID,
-
-        isActive: false,
-        profilePicture: imageSrc,
-      };
-      dispatch(updateProfile(data)).then((res: any) => {
-        if (res?.payload?.status === 200) {
-          setLoader(false);
-          console.log("Profile res", res?.payload?.data);
-          SuccessToast("Profile Updated Successfully");
-          dispatch(getUserByID(userID));
-        } else {
-          setLoader(false);
-          console.log(res?.payload?.message);
-          ErrorToast(res?.payload?.message);
-        }
-      });
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-  const pathname = usePathname();
-
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
-    console.log("user id ", userid);
-    dispatch(getUserByID(userid));
-  }, []);
-  const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 28,
-    height: 16,
-    padding: 0,
-    display: "flex",
-    "&:active": {
-      "& .MuiSwitch-thumb": {
-        width: 15,
-      },
-      "& .MuiSwitch-switchBase.Mui-checked": {
-        transform: "translateX(9px)",
-      },
-    },
-    "& .MuiSwitch-switchBase": {
-      padding: 2,
-      "&.Mui-checked": {
-        transform: "translateX(12px)",
-        color: "#000",
-        "& + .MuiSwitch-track": {
-          opacity: 1,
-          backgroundColor:
-            theme.palette.mode === "dark" ? "#13FF7A" : "#13FF7A",
-        },
-      },
-    },
-    "& .MuiSwitch-thumb": {
-      boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
-      width: 12,
-      height: 12,
-      borderRadius: 6,
-      transition: theme.transitions.create(["width"], {
-        duration: 200,
-      }),
-    },
-    "& .MuiSwitch-track": {
-      borderRadius: 16 / 2,
-      opacity: 1,
-      backgroundColor:
-        theme.palette.mode === "dark"
-          ? "rgba(255,255,255,.35)"
-          : "rgba(0,0,0,.25)",
-      boxSizing: "border-box",
-    },
-  }));
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-  };
-
-  useEffect(() => {
-    if (myProfile) {
+    if (scannerData) {
       form.reset({
-        name: myProfile?.fullname || form.getValues("name"),
-        email: myProfile?.email || form.getValues("email"),
-        password: myProfile?.password || form.getValues("password"),
+        name: scannerData?.name,
+        email: scannerData?.email,
+        password: scannerData?.password,
       });
     }
-    if (myProfile?.profilePicture) {
-      setImageSrc(myProfile.profilePicture);
-    } else {
-      setImageSrc("/person3.jpg");
-    }
-  }, [myProfile]);
+  }, [scannerData, form]);
+  async function EmailSent() {
 
-  async function updateActivity(values: z.infer<typeof formSchema>) {
     setLoader(true);
-    const userID = localStorage.getItem("_id");
+    
     try {
-      const data = {
-        fbUrl: fbUrl || myliveActivity[0]?.fbUrl || "",
-        instaUrl: instaUrl || myliveActivity[0]?.instaUrl || "",
-        linkedinUrl: linkedinUrl || myliveActivity[0]?.linkedinUrl || "",
-        telegramUrl: telegramUrl || myliveActivity[0]?.telegramUrl || "",
-        isActive: checked,
-        userID: userID,
-      };
-      dispatch(updateLiveActivity(data)).then((res: any) => {
+     
+      dispatch(ScannerEmail(scannerData?.id)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          console.log("Live Activity res", res?.payload?.data);
-          SuccessToast("Live Activity Updated Successfully");
+          SuccessToast("Email Sent Successfully");
+         
         } else {
           setLoader(false);
-          console.log(res?.payload?.message);
           ErrorToast(res?.payload?.message);
         }
       });
     } catch (error) {
       console.error("Error:", error);
+      ErrorToast(error);
     }
   }
-
   return (
     <div className="w-full md:w-[70%] px-[24px] xl:ps-[172px] md:mx-auto lg:w-full mt-[50px] md:mt-[90px] lg:mx-0 lg:h-[auto]">
       {loader && <ScreenLoader />}
-      {userLoading?.loading && <ScreenLoader />}
 
       <h2 className="font-bold ms-[24px] md:ms-[0px]  text-[15px] lg:font-extrabold lg:text-[24px]">
         Scanner Credentials
       </h2>
       <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[60px] mt-[34px]  lg:mt-[32px]">
-          <div className="w-full md:w-full lg:w-[428px] relative h-[79vh]">
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(updateActivity)}
-                className=" w-full"
-              >
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem className="relative mb-4 space-y-0">
-                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                        NAME
-                      </FormLabel>
-                      <Image
-                        src={profile}
-                        sizes="28px"
-                        alt="img"
-                        className="absolute right-3 top-[30%]"
+        <div className="w-full md:w-full lg:w-[428px] relative h-[79vh]">
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(EmailSent)}
+              className=" w-full"
+            >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="relative mb-4 space-y-0">
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                      NAME
+                    </FormLabel>
+                    <Image
+                      src={profile}
+                      sizes="28px"
+                      alt="img"
+                      className="absolute right-3 top-[30%]"
+                    />
+                    <FormControl>
+                      <Input
+                        readOnly
+                        placeholder="Enter Name"
+                        className="pt-11 pb-5 text-base text-[white] placeholder:font-extrabold"
+                        value={scannerData?.name }
                       />
-                      <FormControl>
-                        <Input
-                          placeholder="Enter Name"
-                          className="pt-11 pb-5 text-base text-[white] placeholder:font-extrabold"
-                          {...field}
-                          onChange={(e) => {
-                            setFbUrl(e.target.value);
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className="relative mb-[20px] space-y-0">
-                      <FormLabel className="text-[12px] text-[#8F8F8F] absolute left-3 top-3">
-                        EMAIL
-                      </FormLabel>
-                      <Envelope
-                        className="absolute right-3 top-[30%]"
-                        size={20}
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="relative mb-[20px] space-y-0">
+                    <FormLabel className="text-[12px] text-[#8F8F8F] absolute left-3 top-3">
+                      EMAIL
+                    </FormLabel>
+                    <Envelope
+                      className="absolute right-3 top-[30%]"
+                      size={20}
+                    />
+                    <FormControl>
+                      <Input
+                        readOnly
+                        value={scannerData?.email}
+                        placeholder="youremail@example.com"
+                        className="pt-11 pb-5 text-base text-[white] placeholder:font-extrabold"
                       />
-                      <FormControl>
-                        <Input
-                          placeholder="youremail@example.com"
-                          className="pt-11 pb-5 text-base text-[white] placeholder:font-extrabold"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem className="relative mb-[20px] space-y-0">
-                      <FormLabel className="text-[12px] text-[#8F8F8F] absolute left-3 top-3 z-10">
-                        PASSWORD
-                      </FormLabel>
-                      <Lock className="absolute right-3 top-[30%] z-[10]" size={20} />
-                      <FormControl>
-                        <PasswordInput
-                          placeholder="Input password"
-                          className="pt-11 pb-5 text-base placeholder:font-extrabold"
-                          {...field}
-                          onChange={(e) => {
-                            setPassword(e.target.value);
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div className="flex justify-start w-full md:relative absolute bottom-[0px] mt-[32px] lg:justify-end">
-                  <Button
-                    type="submit"
-                    className="w-full font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base"
-                  >
-                    Email me
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          </div>
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="relative mb-[20px] space-y-0">
+                    <FormLabel className="text-[12px] text-[#8F8F8F] absolute left-3 top-3 z-10">
+                      PASSWORD
+                    </FormLabel>
+                    <Lock
+                      className="absolute right-3 top-[30%] z-[10]"
+                      size={20}
+                    />
+                    <FormControl>
+                      <PasswordInput
+                        readOnly
+                        placeholder="Input password"
+                        className="pt-11 pb-5 text-base placeholder:font-extrabold"
+                        value={scannerData?.password}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex justify-start w-full md:relative absolute bottom-[0px] mt-[32px] lg:justify-end">
+                <Button
+                  type="submit"
+                  className="w-full font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base"
+                >
+                  Email me
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </div>
       </div>
     </div>
   );

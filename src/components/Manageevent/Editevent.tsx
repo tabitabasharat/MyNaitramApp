@@ -99,7 +99,7 @@ const formSchema = z.object({
     .min(1, { message: "Event description cannot be empty." }),
 
   compticketno: z
-    .number()
+    .string()
     .min(1, { message: "Complimentary ticket number cannot be empty." }),
   fburl: z
     .string()
