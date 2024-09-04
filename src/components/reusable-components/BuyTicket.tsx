@@ -85,7 +85,7 @@ const BuyTicket = ({
                     disabled
                     onClick={() => {
                       console.log(token);
-                      // BuyTicket();
+                     
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
                   >
