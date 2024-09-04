@@ -25,7 +25,7 @@ const EventCard: React.FC<{
   imageUrl,
   title,
   eventType,
-  height = "345px",
+  height = "288px",
   width = "100%",
 }) => (
   <ScaleReveal extraStyle="w-full">
@@ -42,8 +42,8 @@ const EventCard: React.FC<{
       className="w-full"
     >
       <div
-        style={{ height, width }}
-        className="relative overflow-hidden rounded-lg w-full h-full border border-[#424242]"
+        // style={{ height, width }}
+        className="relative overflow-hidden rounded-lg w-full lg:w-[288px] lg:h-[288px] h-full  border border-[#424242]"
       >
         <Image
           src={imageUrl}

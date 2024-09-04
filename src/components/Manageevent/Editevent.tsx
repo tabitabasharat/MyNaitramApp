@@ -123,7 +123,7 @@ const formSchema = z.object({
     .min(1, { message: "Linkedin URL cannot be empty." }),
   telegramurl: z
     .string()
-    .url({ message: "Invalid Telegram URL." })
+    .url({ message: "Invalid Twitter URL." })
     .min(1, { message: "Telegram URL cannot be empty." }),
   eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),

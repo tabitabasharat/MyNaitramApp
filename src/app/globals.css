@@ -161,7 +161,7 @@ body {
 }
 
 .bg-lunchevent-img {
-  background-image: url("../assets/Launch\ your\ event.svg");
+  background-image: url("../assets/Image.svg");
   background-size: cover;
   background-repeat: no-repeat;
   padding: 0px;
@@ -395,7 +395,12 @@ input[type="number"] {
     position: relative;
     border-radius: 44px !important; /* This controls the rounding of the corners */
   }
-
+  .bg-lunchevent-img {
+    background-image: url("../assets/Image.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 24px;
+  }
   .gradient-border-rounded::before {
     content: "";
     position: absolute;

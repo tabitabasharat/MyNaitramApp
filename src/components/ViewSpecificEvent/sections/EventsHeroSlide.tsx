@@ -208,13 +208,13 @@ console.log("this is event price",  ticketStartPrice,
             className="flex items-center gap-[6px] cursor-pointer mt-[10px] mb-[12px]"
             onClick={() => AboutToggle()}
           >
-            <p className="text-[#13FF7A]">About this event</p>
+            <p className="text-[#13FF7A] ">About this event</p>
             <Image src={Arrowdown} alt="arrow-icon" className="" />
           </div>
           {AboutDrop && (
             <div>
               <div>
-                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[5px]  w-[400px] mb-[12px]">
+                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[5px]  w-[100%] mb-[12px]">
                   {eventdescription}
                 </p>
               </div>
