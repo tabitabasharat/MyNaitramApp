@@ -18,6 +18,8 @@ import cards from "../../assets/Cards.svg";
 import cardsgreen from "../../assets/Cards (1).svg";
 import EventCards from "@/components/eventCards/EventCards";
 import ScreenLoader from "../loader/Screenloader";
+import { useSearchParams } from "next/navigation";
+
 
 type SelectedOption = "rewards" | "rewardcollectables" | null;
 
@@ -26,11 +28,19 @@ function Rewards() {
 
 
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     dispatch(getClaimStatus());
     dispatch(getRewardCollectibles())
   }, []);
+
+  useEffect(() => {
+    const selectedOption = searchParams.get("option");
+    if (selectedOption) {
+      setSelected(selectedOption as SelectedOption);
+    }
+  }, [searchParams]);
 
   const ClaimStatusdata = useAppSelector(
     (state) => state?.getClaimStatus?.myClaim?.data

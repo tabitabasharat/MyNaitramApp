@@ -82,7 +82,7 @@ export default function ClaimableRewards() {
             onClick={() => router.back()}
           />
           <p className="lg:text-[24px] text-[20px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">
-            Claimable Rewards
+            Claimable Collectible
           </p>
         </div>
         <div className="lg:mt-[32px] mt-[52px]  claimable-container   ">
@@ -111,8 +111,8 @@ export default function ClaimableRewards() {
             <div className="flex items-start gap-[12px] mt-[48px]">
               <Button
                 className="px-[78px] py-16px h-[52px] text-[14px] font-extrabold "
-                // onClick={() => setisClaimOpen(true)}
-                onClick={() => ClaimCollectible()}
+                onClick={() => setisClaimOpen(true)}
+                // onClick={() => ClaimCollectible()}
               >
                 Claim Collectible
               </Button>
@@ -125,6 +125,7 @@ export default function ClaimableRewards() {
         <ClaimRewardPopUp
           onClose={() => setisClaimOpen(false)}
           open={() => setisClaimOpen(true)}
+          collectibleID={collectID}
         />
       )}
     </section>

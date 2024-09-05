@@ -27,53 +27,40 @@ import {
 import { deleteAccount } from "@/lib/middleware/profile";
 import { useRouter } from "next/navigation";
 import { close } from "fs";
+import { claimRewardCollectible } from "@/lib/middleware/reward";
 
 
-const ClaimRewardPopUp = ({ onClose, open }: any) => {
+const ClaimRewardPopUp = ({ onClose, open,collectibleID }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [loader, setLoader] = useState(false);
-  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  const myProfile = useAppSelector(
-    (state) => state?.getShowProfile?.myProfile?.data
-  );
-  const userLoading = useAppSelector((state) => state?.getShowProfile);
 
-  const imageUrl = myProfile?.profilePicture?.startsWith("http" || "https")
-    ? myProfile?.profilePicture
-    : "/person3.jpg";
-  console.log("image src is", imageUrl);
 
-  async function deleteUser() {
-    setLoader(true);
-    const userID = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
-    console.log("my user id", userID);
-
+  async function ClaimCollectible() {
+    console.log("Collectible Claimed");
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    console.log("my id is", userID);
     try {
-      dispatch(deleteAccount(userID)).then((res: any) => {
-        if (res?.payload?.status === 200) {
+      const data = {
+        collectibleId: collectibleID,
+        userId: userID,
+      };
+      dispatch(claimRewardCollectible(data)).then((res: any) => {
+        if (res?.payload?.status === 201) {
           setLoader(false);
-
-          SuccessToast("Account Deleted Successfully");
-          localStorage.clear();
-          router.push("/");
+          SuccessToast("Collectible Claimed Successfully");
+          const value= "rewardcollectables"
+          router.push(`/reward?option=${value}`)
         } else {
           setLoader(false);
-          console.log(res?.payload?.message);
-
-          ErrorToast(
-            res?.payload?.message || "An error occurred during deletion."
-          );
+          ErrorToast(res?.payload?.message);
         }
       });
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error:", error);
-      const errorMessage =
-        error?.response?.data?.message ||
-        error?.message ||
-        "An unexpected error occurred.";
-      ErrorToast(errorMessage);
+      ErrorToast(error);
     }
   }
 
@@ -106,7 +93,9 @@ const ClaimRewardPopUp = ({ onClose, open }: any) => {
                 <Button
                   className=" py-[12px] px-[25px] text-[14px] font-extrabold leading-[19.6px]
                  text-center  w-full text-[#030303] "
-                 onClick={()=>{router.push("/reward/reward-item")}}
+                //  onClick={()=>{router.push("/reward/reward-item")}}
+                onClick={() => ClaimCollectible()}
+
                 >
                   View My Collectible
                 </Button>
