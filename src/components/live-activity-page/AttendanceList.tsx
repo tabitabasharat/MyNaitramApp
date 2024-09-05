@@ -36,7 +36,7 @@ const AttendanceList = () => {
         </div>
 
         {/* LARGE SCREEN VIEW */}
-        <div className="hidden md:flex flex-wrap gap-4 justify-center items-center mt-6">
+        <div className="hidden md:flex flex-wrap justify-normal items-center mt-[16px]">
           {attendees.map((attendee) => (
             <Link
               href={
@@ -44,7 +44,7 @@ const AttendanceList = () => {
               }
             >
               <Avatar
-                size="size-[65px] lg:size-[85px]"
+                size="size-[64px]"
                 key={attendee.id}
                 img={attendee.img}
               />
@@ -54,7 +54,7 @@ const AttendanceList = () => {
 
         {/* SMALL SCREEN VIEW */}
 
-        <div className="block md:hidden mt-6">
+        <div className="block scrollbar-hide gap-[8px] overflow-y-auto md:hidden mt-[16px]">
           <Swiper
             slidesPerView={4}
             spaceBetween={5}
@@ -73,7 +73,7 @@ const AttendanceList = () => {
                   }
                 >
                   <Avatar
-                    size="size-[65px] lg:size-[85px]"
+                    size="size-[64px]"
                     img={attendee.img}
                   />
                 </Link>

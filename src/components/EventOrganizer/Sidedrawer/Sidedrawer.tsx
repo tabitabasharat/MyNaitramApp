@@ -91,7 +91,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
   };
 
   const event = [
-    { text: "Create Event", icon: chats, url: "/organizer-event/launch-event" },
+    { text: "Host Event", icon: chats, url: "/organizer-event/launch-event" },
     { text: "Manage Event", icon: accnt, url: "/management" },
     {
       text: "Create Scanner Login",
@@ -123,7 +123,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
         <List className="bg-[black] p-[0px] text-[white]">
           <Link href="/organizer-event/event-dashboard">
             <h3 className="text-[20px] font-bold pt-[0px] lg:pt-[32px]  mb-[24px]">
-              Organizer
+              Organiser
             </h3>
           </Link>
           <div>
@@ -135,12 +135,12 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
               <Link href="/organizer-event/profile">
                 <ListItem
                   className={`text-xl font-bold ${
-                    activeItem === "Edit Organizer Profile"
+                    activeItem === "Edit Organiser Profile"
                       ? "gradient-border rounded-lg"
                       : ""
                   }`}
                   disablePadding
-                  onClick={() => handleItemClick("Edit Organizer Profile")}
+                  onClick={() => handleItemClick("Edit Organiser Profile")}
                 >
                   <ListItemButton className="p-[10px]">
                     <ListItemIcon style={{minWidth:"0px"}} className=" pr-[6px]">
@@ -151,7 +151,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
                         height={16}
                       />
                     </ListItemIcon>
-                    <ListItemText primary="Edit Organizer Profile" />
+                    <ListItemText primary="Edit Organiser Profile" />
                   </ListItemButton>
                 </ListItem>
               </Link>

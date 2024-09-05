@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { Separator } from '../ui/separator';
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
+import Thumbnillive from '../ui/Thumbnillive';
 
 const PhotoRoll = () => {
   return (
@@ -28,15 +29,15 @@ const PhotoRoll = () => {
         </div>
 
         {/* LARGE SCREEN VIEW */}
-        <div className="hidden md:flex flex-wrap gap-4 justifybetween justify-center items-center mt-6">
-          {photorolls.map((photoroll) => (
-            <Thumbnail key={photoroll.id} img={photoroll.img} />
-          ))}
-        </div>
+        <div className="flex hidden md:flex flex-wrap  space-e-[16px] justify-between items-center mt-[16px]">
+  {photorolls.map((photoroll) => (
+    <Thumbnillive key={photoroll.id} img={photoroll.img} />
+  ))}
+</div>
 
         {/* SMALL SCREEN VIEW */}
         <ScrollArea className="block md:hidden w-full whitespace-nowrap ">
-          <div className="flex gap-4 mt-6">
+          <div className="flex gap-[8px] mt-6">
             {photorolls.map((photoroll) => (
               <Thumbnail key={photoroll.id} img={photoroll.img} />
             ))}

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Hamburger from "hamburger-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-
 import { motion } from "framer-motion";
 import {
   LinkedinLogo,
@@ -16,6 +15,8 @@ import Image from "next/image";
 import SignInModal from "@/components/auth/SignInModal";
 import SignUpModal from "@/components/auth/SignUpModal";
 import { AuthMode } from "@/types/types";
+import arrowdown from "@/assets/aboutdropdown.svg"
+import dropdown from "@/assets/aboutdropdown.svg"
 import naitramLogo from "@/assets/naitram-logo-white.svg";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
@@ -32,32 +33,36 @@ const Menu = ({
   setMenuIsOpen: Dispatch<SetStateAction<boolean>>;
   toggleMenu: () => void;
 }) => {
- 
   const links = [
     {
       name: "Home",
       href: "/",
     },
     {
-      name: "Events",
+      title: "About",
+      src:arrowdown,
+      // url: "",
+      subLinks: [
+        { title: "Gallery", herf: "/gallery" },
+        { title: "Download App", herf: "/download-app" },
+      ],
+    },
+    {
+      name: "Event",
       href: "/events",
     },
     {
-      name: "About",
-      href: "/about",
+      name: "Wallet",
+      href: "/wallet",
     },
     {
-      name: "Gallery",
-      href: "/gallery",
+      name: "Rewards",
+      href: "/reward",
     },
     {
-      name: "Contact Us",
+      name: "Get Sponsored",
       href: "/contactus",
     },
-    {
-      name: "Download App",
-      href: "/download-app",
-    }
   ];
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [token, setToken] = useState<any>();
@@ -109,6 +114,49 @@ const Menu = ({
                 custom={i}
                 variants={slide}
                 animate="enter"
+                // exit="exit"
+                initial="initial"
+                className="relative w-fit group"
+                onClick={() => {
+                  setMenuIsOpen(false);
+                }}
+              >
+                {/* Main Link */}
+                <Link href={link.href || "#"} className="relative">
+                  {link.name || link.title} 
+                </Link>
+
+                {/* Underline hover effect */}
+                <div className="absolute h-[1px] bottom-[0.15rem] scale-x-0 w-full group-hover:scale-x-100 bg-white duration-300 origin-left"></div>
+
+                {/* Dropdown Menu for links with subLinks (e.g. 'About') */}
+                {link.subLinks && (
+                  <motion.div
+                    className="absolute left-0 mt-2 w-[200px] hidden group-hover:block bg-white gradient-slate shadow-lg rounded-md z-10"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    // exit={{ opacity: 0, y: -10 }}
+                  >
+                    {link.subLinks.map((subLink, j) => (
+                      <Link
+                        key={j}
+                        href={subLink.herf} // Fixing typo herf -> href
+                        className="block px-4 py-2  hover:gradient-slate active:text-[#00D059] active:gradient-slate"
+                      >
+                        {subLink.title} 
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </motion.div>
+            ))}
+
+            {/* {links.map((link, i) => (
+              <motion.div
+                key={i}
+                custom={i}
+                variants={slide}
+                animate="enter"
                 exit="exit"
                 initial="initial"
                 className="relative w-fit group"
@@ -123,14 +171,14 @@ const Menu = ({
                   className={`absolute h-[1px] bottom-[0.15rem] scale-x-0 w-full group-hover:scale-x-100 bg-white duration-300 origin-left`}
                 ></div>
               </motion.div>
-            ))}
-             <Button
-                    variant="secondary"
-                    className=" lg:mr-[12px]"
-                    onClick={() => router.push("/create-event")}
-                  >
-                    Create Event
-                  </Button>
+            ))} */}
+            <Button
+              variant="secondary"
+              className=" lg:mr-[12px]"
+              onClick={() => router.push("/create-event")}
+            >
+              Host Event
+            </Button>
           </div>
 
           {token || count?.signIn?.data?.id ? (
@@ -150,8 +198,6 @@ const Menu = ({
                 >
                   <Button className="px-[3rem]">Logout</Button>
                 </motion.div>
-               
-                
               </DialogTrigger>
               {authMode === "SIGNIN" && (
                 <SignInModal
