@@ -23,6 +23,10 @@ import location from "@/assets/Location.svg";
 import clander from "@/assets/calendar1.svg";
 import time from "@/assets/clock1.svg";
 import { Box } from "@mui/material";
+import { getSalesData } from "@/lib/middleware/organizer";
+import ScreenLoader from "../loader/Screenloader";
+import SalesChart from "../profile-page/SalesChart";
+import SalesGraph from "../Wallet/SalesGraph/SalesGraph";
 
 function createData(
   name: number,
@@ -50,33 +54,119 @@ const rowsticket = [
 
 function EventSales() {
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
-    console.log("user id ", userid);
-    dispatch(showProfile(userid));
-  }, []);
+  const [eventid, setEventid] = useState<any>();
+  const eventSales = useAppSelector((state: any) => state.getSalesData);
+  console.log("user sales data", eventSales);
 
-  const myProfile = useAppSelector(
-    (state) => state?.getShowProfile?.myProfile?.data
-  );
   const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
   const WalletModalhandler = () => {
     setisCreateModalOpen(true);
     console.log("clicked");
   };
-  console.log("my Profile is", myProfile);
-  const userLoading = useAppSelector((state) => state?.getShowProfile);
+
+  useEffect(() => {
+    const currentUrl: any =
+      typeof window !== "undefined" ? window.location.href : null;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setEventid(value);
+    dispatch(getSalesData(value));
+    console.log("my event id is", value);
+  }, []);
+
+  const ConvertDate = (originalDateStr: string): string => {
+    const originalDate = new Date(originalDateStr);
+
+    // Extract the day, date, month, and year
+    const dayOfWeek = originalDate.toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+    const date = originalDate.getDate();
+    const month = originalDate.toLocaleDateString("en-US", { month: "long" });
+    const year = originalDate.getFullYear();
+
+    // Function to get ordinal suffix
+    const getOrdinalSuffix = (date: number) => {
+      if (date > 3 && date < 21) return "th"; // covers 11th to 19th
+      switch (date % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+
+    const ordinalSuffix = getOrdinalSuffix(date);
+
+    // Construct the formatted date string
+    const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
+
+    return formattedDate;
+  };
+  const ConvertTime = (timeStr: string): string => {
+    // Ensure input is a string
+    if (typeof timeStr !== "string") {
+      console.error("Input must be a string");
+      return "";
+    }
+
+    // Extract the time part if the input includes a date and time
+    const timeOnly = timeStr.split("T")[1]?.split("Z")[0];
+
+    if (!timeOnly) {
+      console.error("Input must include a valid time");
+      return "";
+    }
+
+    const parts = timeOnly.split(":");
+
+    // Check if timeOnly is in HH:MM or HH:MM:SS format
+    if (parts.length < 2) {
+      console.error("Input time must be in HH:MM or HH:MM:SS format");
+      return "";
+    }
+
+    const [hours, minutes] = parts.map(Number);
+
+    // Ensure the hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      console.error("Invalid time format");
+      return "";
+    }
+
+    // Determine AM or PM
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert hours from 24-hour to 12-hour format
+    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+
+    // Combine hours and period
+    const formattedTime = `${formattedHours}:${
+      minutes < 10 ? "0" + minutes : minutes
+    } ${period}`;
+
+    return formattedTime;
+  };
+
   return (
     <div className="pt-[120px] px-[24px] lg:px-[216px] md:pt-[132px] mx-auto">
+      {eventSales.loading && <ScreenLoader />}
       <div className="mb-[12px] lg:mb-[24px]">
         <Backward />
       </div>
       <div className="gap-[32px] mb-[24px] lg:mb-[30px] flex xl:flex-row flex-col lg:gap-[42px]">
         <div className="">
           <Image
-            src={larki}
+            src={eventSales?.salesData?.data?.event?.coverEventImage}
             alt="img"
-            className=" md:size-[100%] size-[100%] md:h-[100%] lg:w-[100%]"
+            width={392}
+            height={392}
+            // layout="responsive"
+            // className="md:size-[100%] size-[100%] md:h-[100%] "
           />
         </div>
         <div className="">
@@ -95,12 +185,19 @@ function EventSales() {
             )}
           </div>
           <p className="font-extrabold text-[32px] lg:text-[48px] mb-[12px] lg:mb-[24px] mt-[12px]">
-            NAITRAM Launch Party 2024
+            {eventSales?.salesData?.data?.event?.name}
           </p>
           <div className="flex items-center">
             <div className="border-[#D9D9D9] border border-solid w-[40px] h-[40px] rounded-[8px]">
+              {/* `${
+                  eventSales?.salesData?.data?.event?.user?.profilePicture
+                    ? eventSales?.salesData?.data?.event?.user?.profilePicture
+                    : id
+                }` */}
               <Image
                 src={id}
+                width={40}
+                height={40}
                 sizes="40px"
                 className="w-[40px] h-[40px]"
                 alt="img"
@@ -108,12 +205,12 @@ function EventSales() {
             </div>
             <div>
               <p className="ps-[8px] pe-[4px] text-sm lg:font-bold font-[900]">
-                AKEMIWRLD
+                {eventSales?.salesData?.data?.event?.user?.fullname}
               </p>
             </div>
-            <div>
+            {/* <div>
               <Image src={tick} alt="tick" />
-            </div>
+            </div> */}
           </div>
           <div className="mt-[16px] lg:mt-[24px]">
             <p className="flex items-center text-base font-bold mb-[12px]]">
@@ -123,7 +220,7 @@ function EventSales() {
                 className="pe-[8px] w-[30px] h-[30px]"
                 alt="location"
               />
-              Grand De Vere Connaught Room, WC2b 5DA
+              {eventSales?.salesData?.data?.event?.location}
             </p>
             <p className="flex items-center text-base font-bold mb-[12px]]">
               {" "}
@@ -132,7 +229,7 @@ function EventSales() {
                 alt="clander"
                 className="pe-[8px] w-[30px] h-[30px]"
               />
-              Saturday, 16th March 2024
+              {ConvertDate(eventSales?.salesData?.data?.event?.startTime)}
             </p>
             <p className="flex items-center text-base font-bold mb-[12px]]">
               {" "}
@@ -141,12 +238,15 @@ function EventSales() {
                 alt="time"
                 className="pe-[8px] w-[30px] h-[30px]"
               />
-              7 PM - 1 AM (Last entry 9 PM)
+              {ConvertTime(eventSales?.salesData?.data?.event?.startTime)} -{" "}
+              {ConvertTime(eventSales?.salesData?.data?.event?.endTime)}{" "}
             </p>
           </div>
         </div>
       </div>
-      <Walletbalancetable />
+      {/* <Walletbalancetable /> */}
+      {/* <SalesChart/> */}
+      <SalesGraph />
       <div className=" mb-[32px] lg:mb-[46px] gradient-slate border rounded-lg border-muted lg:mt-[30px] mt-[24px] px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
         <div className="flex items-center mb-[17px] lg:mb-[24px] justify-between">
           <div>
@@ -220,67 +320,69 @@ function EventSales() {
               </TableRow>
             </TableHead>
             <TableBody className="border-0">
-              {rows.map((rows) => (
-                <TableRow
-                  key={rows.name}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    borderBottom: "none",
-                    padding: "20px",
-                  }}
-                  className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                >
-                  <TableCell
+              {eventSales?.salesData?.data?.ticketTypes?.map(
+                (rows: any, index: any) => (
+                  <TableRow
+                    key={rows.type}
                     sx={{
-                      borderBottom: "none",
-                      borderLeft: "none",
-                      padding: "20px",
-                      color:"white",
-                    }}
-                    align="center"
-                    component="th"
-                    scope="row"
-                    className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                    // className="d-flex gap-3 align-items-center "
-                  >
-                    {rows.name}
-                  </TableCell>
-                  <TableCell
-                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
                       borderBottom: "none",
                       padding: "20px",
-                      color:"white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                    align="left"
                   >
-                    {rows.calories}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      borderBottom: "none",
-                      padding: "20px",
-                      color:"white",
-                    }}
-                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                    align="left"
-                  >
-                    {rows.fat}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      borderBottom: "none",
-                      borderRight: "none",
-                      padding: "16px",
-                      color: "white",
-                    }}
-                    className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                    align="left"
-                  >
-                    {rows.carbs}
-                  </TableCell>
-                </TableRow>
-              ))}
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        borderLeft: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      align="center"
+                      component="th"
+                      scope="row"
+                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                      // className="d-flex gap-3 align-items-center "
+                    >
+                      {index}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.type}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.userCount}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        borderRight: "none",
+                        padding: "16px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.scanCount}
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -288,43 +390,27 @@ function EventSales() {
       <div
         style={{
           background:
-            "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+            "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
         }}
-        className="flex bg-[#0F0F0F] rounded-[6.89px] gap-[0px] sm:gap-[20px] md:gap-[20px] lg:gap-[20px] justify-evenly  py-[16px] px-[0px] lg:px-[19.37px] lg:py-[13.77px] w-[100%] lg:w-full xl:w-full border-[0.86px] border-transparent"
+        className="flex bg-[#0F0F0F] rounded-[6.89px] gap-[0px] sm:gap-[20px] md:gap-[20px] lg:gap-[20px] justify-evenly py-[16px] px-[0px] lg:px-[19.37px] lg:py-[13.77px] w-[100%] lg:w-full xl:w-full border-[0.86px] border-transparent"
       >
-        <div className="flex flex-col items-center justify-center ">
-          <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-            {myProfile?.attendees !== null ? myProfile?.attendees : "0"}
-          </h2>
-          <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-            TICKETS SOLD
-          </p>
-        </div>
-        <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
-        <div className="flex flex-col items-center justify-center ">
-          <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-            {myProfile?.attendees !== null ? myProfile?.attendees : "0"}
-          </h2>
-          <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-            PREMIUM
-          </p>
-        </div>
-        <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
-        <div className="flex flex-col items-center justify-center ">
-          <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-            {myProfile?.attendees !== null ? myProfile?.attendees : "0"}
-          </h2>
-          <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-            GOLD
-          </p>
-        </div>
-        <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
-        <div className="flex flex-col items-center justify-center ">
-          <h2 className="font-normal md:text-[20px] text-[24px] mb-0">324</h2>
-          <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-            SILVER
-          </p>
-        </div>
+        {eventSales?.salesData?.data?.ticketTypes?.map(
+          (ticket: any, index: number) => (
+            <React.Fragment key={index}>
+              <div className="flex flex-col items-center justify-center">
+                <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
+                  {ticket?.userCount !== null ? ticket?.userCount : "0"}
+                </h2>
+                <p className="text-[#A6A6A6] text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
+                  {ticket.type.toUpperCase()}
+                </p>
+              </div>
+              {index < eventSales?.salesData?.data?.ticketTypes?.length - 1 && (
+                <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
+              )}
+            </React.Fragment>
+          )
+        )}
       </div>
       <div className=" mb-[32px] gradient-slate border rounded-lg border-muted mt-[32px] px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
         <div className="flex items-center mb-[17px] lg:mb-[24px] justify-between">
@@ -408,68 +494,69 @@ function EventSales() {
               </TableRow>
             </TableHead>
             <TableBody className="border-0">
-              {rows.map((rows) => (
-                <TableRow
-                  key={rows.name}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    borderBottom: "none",
-                    padding: "20px",
-                    color:"white",
-                  }}
-                  className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                >
-                  <TableCell
+              {eventSales?.salesData?.data?.ticketTypes?.map(
+                (rows: any, index: any) => (
+                  <TableRow
+                    key={rows.type}
                     sx={{
-                      borderBottom: "none",
-                      borderLeft: "none",
-                      padding: "20px",
-                      color:"white",
-                    }}
-                    align="center"
-                    component="th"
-                    scope="row"
-                    className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                    // className="d-flex gap-3 align-items-center "
-                  >
-                    {rows.name}
-                  </TableCell>
-                  <TableCell
-                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
                       borderBottom: "none",
                       padding: "20px",
-                      color:"white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                    align="left"
                   >
-                    {rows.calories}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      borderBottom: "none",
-                      padding: "20px",
-                      color:"white",
-                    }}
-                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                    align="left"
-                  >
-                    {rows.fat}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      borderBottom: "none",
-                      borderRight: "none",
-                      padding: "20px",
-                      color: "white",
-                    }}
-                    className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                    align="left"
-                  >
-                    {rows.carbs}
-                  </TableCell>
-                </TableRow>
-              ))}
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        borderLeft: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      align="center"
+                      component="th"
+                      scope="row"
+                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                      // className="d-flex gap-3 align-items-center "
+                    >
+                      {index}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.type}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.userCount}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        borderRight: "none",
+                        padding: "16px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.scanCount}
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -480,7 +567,7 @@ function EventSales() {
             <p className="lg:text-[14px] text-[#D9D9D9] font-normal">
               Tickets Sold <br />
               <span className="text-[#00D059] text-[32px] font-bold pt-[2px]">
-                330
+                {eventSales?.salesData?.data?.totalSold}
               </span>
             </p>
           </div>
@@ -559,68 +646,72 @@ function EventSales() {
               </TableRow>
             </TableHead>
             <TableBody className="border-0">
-              {rowsticket.map((rowsticket) => (
-                <TableRow
-                  key={rowsticket.name}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    borderBottom: "none",
-                    padding: "20px",
-                    color:"white",
-                  }}
-                  className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                >
-                  <TableCell
+              {eventSales?.salesData?.data?.ticketTypes?.map(
+                (rows: any, index: any) => (
+                  <TableRow
+                    key={rows.type}
                     sx={{
-                      borderBottom: "none",
-                      borderLeft: "none",
-                      color:"white",
-                      padding: "20px",
-                    }}
-                    align="center"
-                    component="th"
-                    scope="row"
-                    className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                    // className="d-flex gap-3 align-items-center "
-                  >
-                    {rowsticket.name}
-                  </TableCell>
-                  <TableCell
-                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
                       borderBottom: "none",
                       padding: "20px",
-                      color:"white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                    align="left"
                   >
-                    {rowsticket.calories}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      borderBottom: "none",
-                      padding: "20px",
-                      color:"white",
-                    }}
-                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                    align="left"
-                  >
-                    {rowsticket.fat}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      borderBottom: "none",
-                      borderRight: "none",
-                      padding: "20px",
-                      color: "white",
-                    }}
-                    className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                    align="left"
-                  >
-                    {rowsticket.carbs}%
-                  </TableCell>
-                </TableRow>
-              ))}
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        borderLeft: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      align="center"
+                      component="th"
+                      scope="row"
+                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                      // className="d-flex gap-3 align-items-center "
+                    >
+                      {index}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.type}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.userCount}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        borderRight: "none",
+                        padding: "16px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.scanCount && rows?.userCount
+                        ? ((rows.scanCount / rows.userCount) * 100).toFixed(2)
+                        : 0}
+                      %
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -632,7 +723,7 @@ function EventSales() {
               Tickets Checked
               <br />
               <span className="text-[#00D059] text-[32px] font-bold pt-[2px]">
-                330
+                {eventSales?.salesData?.data?.totaChecked}
               </span>
             </p>
           </div>
@@ -710,66 +801,72 @@ function EventSales() {
               </TableRow>
             </TableHead>
             <TableBody className="border-0">
-              {rowsticket.map((rowsticket) => (
-                <TableRow
-                  key={rowsticket.name}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    borderBottom: "none",
-                    padding: "20px",
-                  }}
-                  className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                >
-                  <TableCell
+              {eventSales?.salesData?.data?.ticketTypes?.map(
+                (rows: any, index: any) => (
+                  <TableRow
+                    key={rows.type}
                     sx={{
-                      borderBottom: "none",
-                      borderLeft: "none",
-                      padding: "20px",
-                      color:"white",
-                    }}
-                    align="center"
-                    component="th"
-                    scope="row"
-                    className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                  >
-                    {rowsticket.name}
-                  </TableCell>
-                  <TableCell
-                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
                       borderBottom: "none",
                       padding: "20px",
-                      color:"white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                    align="left"
                   >
-                    {rowsticket.calories}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      borderBottom: "none",
-                      padding: "20px",
-                      color:"white",
-                    }}
-                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                    align="left"
-                  >
-                    {rowsticket.fat}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      borderBottom: "none",
-                      borderRight: "none",
-                      padding: "20px",
-                      color: "white",
-                    }}
-                    className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                    align="left"
-                  >
-                    {rowsticket.carbs}%
-                  </TableCell>
-                </TableRow>
-              ))}
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        borderLeft: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      align="center"
+                      component="th"
+                      scope="row"
+                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                      // className="d-flex gap-3 align-items-center "
+                    >
+                      {index}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.type}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.userCount}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        borderRight: "none",
+                        padding: "16px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.scanCount && rows?.userCount
+                        ? ((rows.scanCount / rows.userCount) * 100).toFixed(2)
+                        : 0}
+                      %
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
             </TableBody>
           </Table>
         </TableContainer>

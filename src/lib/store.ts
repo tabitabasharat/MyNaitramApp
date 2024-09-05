@@ -27,6 +27,7 @@ import getOrgByID from "./reducer/getOrgByID";
 import getOrgSocialProfile from "./reducer/getOrgSocialProfile";
 import getOrgDetail from "./reducer/getOrgDetail";
 import getScannerbyEID from "./reducer/getScannerbyEID";
+import getSalesData from "./reducer/getSalesData";
 
 
 const appReducer = combineReducers({
@@ -56,7 +57,8 @@ const appReducer = combineReducers({
   getOrgByID: getOrgByID,
   getOrgSocialProfile: getOrgSocialProfile,
   getOrgDetail: getOrgDetail,
-  getScannerbyEID:getScannerbyEID
+  getScannerbyEID:getScannerbyEID,
+  getSalesData:getSalesData
 });
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,

@@ -21,14 +21,14 @@ import { useAppSelector } from "@/lib/hooks";
 
 const eventimges = [
   { id: 1, title: "All Events", imges: calender },
-  { id: 2, title: "Past Events", imges: calenderX },
-  { id: 3, title: "Your Events", imges: calendercheck },
+  { id: 2, title: "Your Events", imges: calendercheck },
+  { id: 3, title: "Past Events", imges: calenderX },
 ];
 
 const greenimges = [
   { id: 1, title: "All Events", imges: caledndergreen },
-  { id: 2, title: "Past Events", imges: calenderXgreen },
-  { id: 3, title: "Your Events", imges: calendercheckgreen },
+  { id: 2, title: "Your Events", imges: calendercheckgreen },
+  { id: 3, title: "Past Events", imges: calenderXgreen },
 ];
 
 const AllNaitramEvents = ({ setPopupOpen }: any) => {

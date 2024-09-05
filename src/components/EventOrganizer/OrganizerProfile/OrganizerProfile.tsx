@@ -259,7 +259,7 @@ const OrganizerProfile = () => {
             <div className="flex gap-2  items-center ">
               <UserGear size={20} weight="bold" />
               <p className="text-sm  md:text-base font-extrabold mb-0">
-                Preview my Organizer Profile
+                Preview my Organiser Profile
               </p>
             </div>
             <CaretRight size={16} weight="bold" />

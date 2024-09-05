@@ -145,3 +145,26 @@ export const getOrganizerDetail = createAsyncThunk(
     }
   }
 );
+
+export const getSalesData = createAsyncThunk(
+  "getSalesData",
+  async (data: any) => {
+    try {
+      console.log("inside get org details by id");
+      const res = await api.get(
+        `${API_URL}/user/getLiveEvent/${data}`
+      );
+      console.log("inside get org details by id", res);
+
+      return {
+        status: res?.status,
+        data: res?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);

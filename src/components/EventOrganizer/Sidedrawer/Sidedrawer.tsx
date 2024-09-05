@@ -193,7 +193,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">
             ANALYTICS/BILLING
           </h3>
-          <Link href="/eventsales">
+          <Link href="/salesmanage">
             <ListItem
               className={`text-xl font-bold ${
                 activeItem === "Event Analytics" ? "gradient-border rounded-lg" : ""
