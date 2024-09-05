@@ -54,12 +54,13 @@ const formSchema = z.object({
 const ScannerLogin = () => {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<any>([]);
   // const [selectedEventID, setSelectedEventID] = useState();
   const [selectedEventID, setSelectedEventID] = useState<number | undefined>(undefined);
 
   const [Dropdown, setDropdown] = useState(true);
   const [validationError, setValidationError] = useState("");
+  const [eventName,setEventName]=useState<any>("")
   const userLoading = useAppSelector((state) => state?.getUserDetail);
 
   useEffect(() => {
@@ -95,7 +96,7 @@ const ScannerLogin = () => {
   }, []);
 
   const handleOptionToggle = (option: Option) => {
-    if (selectedOptions.some((o) => o.id === option.id)) {
+    if (selectedOptions.some((o:any) => o.id === option.id)) {
       setSelectedOptions([]);
     } else {
       setSelectedOptions([option]);
@@ -134,7 +135,7 @@ const ScannerLogin = () => {
                     {option?.name}
                   </p>
                 </div>
-                {selectedOptions.some((o) => o.id === option.id) && (
+                {selectedOptions.some((o:any) => o.id === option.id) && (
                   <Image src={tick} width={10} height={10} alt="tick" />
                 )}
               </div>
@@ -165,7 +166,7 @@ const ScannerLogin = () => {
           <div className="w-full md:w-full lg:w-[428px]">
             {selectedOptions.length > 0 && (
               <h3 className="text-sm font-normal lg:text-[24px] lg:font-extrabold mb-[10px] lg:mb-[16px] ">
-                Naitram Launch Event 2024
+               {selectedOptions[0]?.name}
               </h3>
             )}
 

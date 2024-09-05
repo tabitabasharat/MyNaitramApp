@@ -5,9 +5,10 @@
   background-size: cover;
 }
 .bg-reward-outer{
-  display: flex;
+  /* display: flex;
   align-items: start ;
-  justify-content: center;
+  justify-content: center; */
+  padding: 216px 216px;
 }
 .bg-reward-outer2{
   display: flex;
@@ -29,6 +30,8 @@
   .bg-reward-outer{
     width: 100%;
     display: block;
+
+    padding: 100px 50px;
   }
   .bg-reward-outer2{
     width: 100%;

@@ -19,13 +19,14 @@ import cardsgreen from "../../assets/Cards (1).svg";
 import EventCards from "@/components/eventCards/EventCards";
 import ScreenLoader from "../loader/Screenloader";
 import { useSearchParams } from "next/navigation";
-
+import { getWalletCollectByUserID } from "@/lib/middleware/wallet";
+import { useRouter } from "next/navigation";
 
 type SelectedOption = "rewards" | "rewardcollectables" | null;
 
 function Rewards() {
   const [selected, setSelected] = useState<SelectedOption>("rewards");
-
+const router = useRouter();
 
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
@@ -55,6 +56,22 @@ function Rewards() {
   const userLoading = useAppSelector((state) => state?.getRewardCollectibles);
   const claimstatusLoading = useAppSelector((state) => state?.getClaimStatus);
 
+  const myWalletCollect = useAppSelector(
+    (state) =>
+      state?.getWalletCollectByUID?.myWalletCollectibles?.data?.userCollectibles
+  );
+
+  useEffect(() => {
+    const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+
+    dispatch(getWalletCollectByUserID(userid));
+
+  }, []);
+  const handleOptionChange = (option: SelectedOption) => {
+    setSelected(option);
+    
+    router.push(`?option=${option}`, { scroll: false });
+  };
 
   return (
     <section
@@ -80,13 +97,13 @@ function Rewards() {
           <p className="text-[#E6E6E6] text-[16px] font-bold">My Items</p>
           <ScrollArea className="w-full overflow-auto ">
             <div className="flex gap-[8px] lg:mt-[8px] mt-[16px] whitespace-nowrap min-w-[800px]">
-              {myRewardCollectibles?.map((post: any) => (
+              {myWalletCollect?.map((post: any) => (
                 <div
                   key={post.id}
                   className="flex items-start flex-col gap-[8px]"
                 >
-                  <Thumbnail img={post.image} />
-                  <p className="text-[12px]">{post.name}</p>
+                  <Thumbnail img={post?.Collectiblee?.image} />
+                  <p className="text-[12px]">{post.Collectiblee?.name}</p>
                 </div>
               ))}
             </div>
@@ -106,7 +123,8 @@ function Rewards() {
                   ? "gradient-border-rounded text-[#00A849]"
                   : ""
               }`}
-                onClick={() => setSelected("rewards")}
+                // onClick={() => setSelected("rewards")}
+                onClick={() => handleOptionChange("rewards")}
               >
                 {selected === "rewards" ? (
                   <Image
@@ -131,7 +149,8 @@ function Rewards() {
                   ? "gradient-border-rounded text-[#00A849]"
                   : ""
               }`}
-              onClick={() => setSelected("rewardcollectables")}
+              // onClick={() => setSelected("rewardcollectables")}
+              onClick={() => handleOptionChange("rewardcollectables")}
             >
               {selected === "rewardcollectables" ? (
                 <Image

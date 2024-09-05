@@ -98,9 +98,10 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Event description cannot be empty." }),
 
-  compticketno: z
-    .string()
-    .min(1, { message: "Complimentary ticket number cannot be empty." }),
+  compticketno: z.any().refine((val) => val !== undefined && val !== null, {
+    message: "Complimentary ticket cannot be empty.",
+  }),
+
   fburl: z
     .string()
     .url({ message: "Invalid Facebook URL." })
@@ -119,39 +120,23 @@ const formSchema = z.object({
     .min(1, { message: "TikTok URL cannot be empty." }),
   linkedinurl: z
     .string()
-    .url({ message: "Invalid Linkedin URL." })
-    .min(1, { message: "Linkedin URL cannot be empty." }),
+    .url({ message: "Invalid LinkedIn URL." })
+    .min(1, { message: "LinkedIn URL cannot be empty." }),
   telegramurl: z
     .string()
     .url({ message: "Invalid Twitter URL." })
-    .min(1, { message: "Telegram URL cannot be empty." }),
-  eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+    .min(1, { message: "Twitter URL cannot be empty." }),
+
+  // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
-  // tickets: z
-  //   .array(
-  //     z.object({
-  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //       price: z
-  //         .string()
-  //         .min(1, { message: "Ticket price must be greater than 0." }),
-  //       no: z
-  //         .string()
-  //         .min(1, { message: "Number of tickets must be greater than 0." }),
-  //     })
-  //   )
-  //   .refine((tickets) => tickets.length > 0, {
-  //     message: "At least one ticket is required.",
-  //   }),
+  eventmainimg: z.string().optional(),
+
   tickets: z
     .array(
       z.object({
         type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-        price: z
-          .any(),
-          // .min(1, { message: "Ticket price must be greater than 0." }),
-        no: z
-          .any(),
-          // .min(1, { message: "Number of tickets must be greater than 0." }),
+        price: z.any(),
+        no: z.any(),
         options: z
           .array(
             z.object({
@@ -166,6 +151,7 @@ const formSchema = z.object({
       message: "At least one ticket is required.",
     }),
 });
+
 type Option = {
   id: number;
   label: string;
@@ -234,7 +220,8 @@ function Editevent() {
   const [eventID, setEventId] = useState("");
 
   useEffect(() => {
-    const currentUrl:any =  typeof window !== "undefined" ? window.location.href:null;
+    const currentUrl: any =
+      typeof window !== "undefined" ? window.location.href : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventId(value);
@@ -246,9 +233,6 @@ function Editevent() {
   );
 
   console.log("my event data ", EventData);
-
-
-
 
   const imageUrl = EventData?.coverEventImage.startsWith("http" || "https")
     ? EventData?.coverEventImage
@@ -510,9 +494,12 @@ function Editevent() {
       }
     }
   };
-  const removeImage = (index: number) => {
-    setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-  };
+
+  
+ 
+ const removeImage = (index: number) => {
+  setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+};
 
   // const removeImage = (index: number) => {
   //   setGalleryFiles((prevFiles) => {
@@ -536,7 +523,8 @@ function Editevent() {
   // };
 
   useEffect(() => {
-    const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);
@@ -554,17 +542,16 @@ function Editevent() {
     console.log("my values", values);
     console.log(" Event Creation");
 
-
     setLoader(true);
-    
+
     // const EventMediaAlready = EventData?.eventmedia;
     const EventMediaAlready = [...(EventData?.eventmedia || [])];
     const imagesOfGallery = await handleFileChangeapi();
     console.log("images of gallery", imagesOfGallery, EventMediaAlready);
-  
+
     // Use concat to add new images to the copied array
     const updatedEventMedia = EventMediaAlready.concat(imagesOfGallery);
-  
+
     console.log("images updated", updatedEventMedia);
     // const imagesOfGallery = await handleFileChangeapi();
     // console.log("imge o gallery",imagesOfGallery,EventMediaAlready)
@@ -587,7 +574,7 @@ function Editevent() {
         ticketEndDate: TicketEndDate || EventData?.ticketEndDate || "",
         startTime: EventStartTime || EventData?.startTime || "",
         endTime: EventEndTime || EventData?.endTime || "",
-        mainEventImage: MainImg || EventData?.mainEventImage || "",
+        // mainEventImage: MainImg || EventData?.mainEventImage || "",
         coverEventImage: CoverImg || EventData?.coverEventImage || "",
 
         tickets: filteredTicketTypes || EventData?.tickets || "",
@@ -604,8 +591,8 @@ function Editevent() {
       dispatch(updateEvent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          SuccessToast("Event Updated Created Successfully");
-          router.push("/viewallevents");
+          SuccessToast("Event Updated Successfully");
+          router.push("/management");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -679,7 +666,7 @@ function Editevent() {
       );
 
       setTicketTypes(ticketsWithCheckedOptions);
-      const mainimgName = EventData?.mainEventImage.split("/").pop();
+      // const mainimgName = EventData?.mainEventImage.split("/").pop();
 
       form.reset({
         eventname: EventData?.name || form.getValues("eventname"),
@@ -695,7 +682,7 @@ function Editevent() {
         eventstarttime:
           EventData?.startTime || form.getValues("eventstarttime"),
         eventendtime: EventData?.endTime || form.getValues("eventendtime"),
-        eventmainimg: mainimgName || form.getValues("eventmainimg"),
+        //  eventmainimg: mainimgName || form.getValues("eventmainimg"),
         eventcoverimg:
           EventData?.coverEventImage || form.getValues("eventcoverimg"),
 
@@ -759,29 +746,179 @@ function Editevent() {
       {loader && <ScreenLoader />}
       <div className="pxpx mx-2xl  w-full pt-[120px] lg:pt-[132px]  ">
         <Backward />
-        {/* <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
-          <Image
-            src={imageUrl}
-            alt="bg-frame"
-            className="w-full h-[281px]  object-cover"
-            width={100}
-            height={281}
-          />
-          <label
-            htmlFor="upload"
-            className="flex gap-2 items-center justify-between w-full cursor-pointer"
-          >
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <div className="flex justify-center items center  rounded-[44px]  gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
-                <Image src={greenpencile} alt="pencil" />
-                <p className="text-[#00D059] text-sm font-extrabold">
-                  Edit Image
-                </p>
+        <div className="event-images-container w-full mt-[26px]">
+          <div className=" w-full md:w-[440px] lg:w-[440px]">
+            <div className="px-[24px] py-[16px] relative create-container w-full  lg:w-[440px]">
+              <div className="flex justify-between">
+                <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
+                  {" "}
+                  Cover <span className="text-primary"> Artwork</span>
+                </h1>
+                {/* <Image src={Editicon} alt="Edit-icon" /> */}
+              </div>
+
+              <Image
+                src={ufo}
+                width={350}
+                height={350}
+                className="absolute right-[0] bottom-0"
+                alt="ufo"
+              />
+            </div>
+            <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head relative ">
+              {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
+              <Image
+                src={CoverImg || imageUrl}
+                alt="bg-frame"
+                className="w-full lg:w-[392px] lg:h-[392px] h-[345px] "
+                width={100}
+                height={345}
+              />
+              {/* <Image
+                src={CoverImg || imageUrl}
+                alt="bg-img"
+                className=" md:hidden w-full  h-[345px] lg:w-[345px]"
+                width={345}
+                height={345}
+              /> */}
+              <label
+                htmlFor="uploadcover"
+                className="flex gap-2 items-center justify-between w-full cursor-pointer"
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
+                    <Image src={greenpencile} alt="pencil" />
+                    <p className="text-[#00D059] text-sm font-extrabold">
+                      Edit Image
+                    </p>
+                  </div>
+                </div>
+                <input
+                  ref={fileInputRef2}
+                  type="file"
+                  accept="image/*"
+                  id="uploadcover"
+                  className="hidden"
+                  onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
+                />
+              </label>
+            </div>
+          </div>
+          <div className="w-full">
+            <div className="px-[24px] py-[16px] relative create-container  w-full">
+              <div className="flex justify-between">
+                <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
+                  {" "}
+                  Gallery <span className="text-primary"> Media</span>
+                </h1>
+                {/* <Image src={Editicon} alt="Edit-icon" /> */}
+              </div>
+
+              <Image
+                src={ufo}
+                width={350}
+                height={350}
+                className="absolute right-[0] bottom-0"
+                alt="ufo"
+              />
+            </div>
+            <div className="gradient-slate w-full pt-[16px] pb-[16px] px-[24px] h-[424px] create-container-head relative ">
+              <div>
+                {galleryFiles?.length > 0 && (
+                  <div className="mt-4 pb-4 relative">
+                    <div className="flex flex-wrap gap-[12px]">
+                      {galleryFiles.length > 0 && (
+                        <div className="mt-4 pb-4 relative">
+                          <div className="flex flex-wrap gap-[13px]">
+                            {galleryFiles.map((file: any, index) => (
+                              <div
+                                key={index}
+                                className="relative w-[120px] h-[120px] rounded-[12px]"
+                              >
+                                {file?.type === "video" ? (
+                                  <video
+                                    src={
+                                      typeof file.url === "string"
+                                        ? file.url
+                                        : URL.createObjectURL(file)
+                                    }
+                                    className="w-full h-full object-cover relative rounded-[12px]"
+                                    width={120}
+                                    height={120}
+                                    controls
+                                  >
+                                    Your browser does not support the video tag.
+                                  </video>
+                                ) : (
+                                  <img
+                                    src={
+                                      typeof file.url === "string"
+                                        ? file.url
+                                        : URL.createObjectURL(file)
+                                    }
+                                    alt={`Gallery Image ${index + 1}`}
+                                    className="w-full h-full object-cover relative rounded-[12px]"
+                                    width={120}
+                                    height={120}
+                                  />
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => removeImage(index)}
+                                  className="trash_button"
+                                >
+                                  <Image
+                                    src={crossicon}
+                                    alt="remove"
+                                    width={20}
+                                    height={20}
+                                  />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                <label
+                  htmlFor="galleryUpload"
+                  className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end pr-[40px] ${
+                    galleryFiles.length > 0
+                      ? " gallery-box h-full"
+                      : "pt-9 gallery-top"
+                  }`}
+                >
+                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]"
+                  style={{
+                    position:"absolute",
+                    bottom:"24px"
+                  }}>
+                    <Image src={greenpencile} alt="pencil" />
+                    <p className="text-[#00D059] text-sm font-extrabold">
+                      Upload Media
+                    </p>
+                  </div>
+
+                  {/* <span className="pl-[0.75rem] uploadImageButton flex items-center">
+                  <Image src={cam} alt="pencil" /> {"Upload Media"}
+                </span> */}
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*, video/*"
+                    // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
+                    className="hidden"
+                    id="galleryUpload"
+                    onChange={handleFileChange}
+                  />
+                </label>
               </div>
             </div>
-          </label>
-        </div> */}
-        <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
+          </div>
+        </div>
+        {/* <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
           <Image
             src={CoverImg || imageUrl}
             alt="bg-frame"
@@ -810,12 +947,12 @@ function Editevent() {
               onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
             />
           </label>
-        </div>
-        <div className="px-[24px] py-[16px] relative create-container ">
+        </div> */}
+        <div className="px-[24px] py-[16px] relative create-container mt-[32px]">
           <div className="flex justify-between">
             <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
               {" "}
-              Create <span className="text-primary">Event</span>
+              Host <span className="text-primary">Event</span>
             </h1>
           </div>
 
@@ -1076,7 +1213,6 @@ function Editevent() {
                             htmlFor="upload"
                             className="pt-9 pb-3 font-bold   border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-between items-center "
                           >
-                            {/* <span>{field.value?.name || "Upload Image"}</span> */}
                             <span className="pl-[0.75rem]">
                               {MainImgName || "Upload Image"}
                             </span>
@@ -1097,7 +1233,7 @@ function Editevent() {
                   )}
                 />
 
-                {/* <FormField
+                <FormField
                   control={form.control}
                   name="eventcoverimg"
                   render={({ field }) => (
@@ -1118,7 +1254,6 @@ function Editevent() {
                           >
                             <span className="pl-[0.75rem]">
                               {CoverImgName || "Upload Image"}
-                              
                             </span>
                             <input
                               ref={fileInputRef2}
@@ -1134,7 +1269,7 @@ function Editevent() {
                       <FormMessage />
                     </FormItem>
                   )}
-                /> */}
+                />
               </div>
 
               {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
@@ -1221,7 +1356,7 @@ function Editevent() {
                 </FormItem>
               </div> */}
 
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
                 <FormItem className="relative w-full space-y-0">
                   <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                     Gallery media
@@ -1303,7 +1438,7 @@ function Editevent() {
                     </div>
                   </FormControl>
                 </FormItem>
-              </div>
+              </div> */}
 
               {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
       <FormItem className="relative w-full space-y-0">

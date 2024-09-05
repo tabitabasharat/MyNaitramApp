@@ -62,6 +62,7 @@ const Events = () => {
                 img={event.img}
                 title={event.title}
                 eventId={event?.id}
+                eventType={"test"}
               />
             </SwiperSlide>
           ))}

@@ -6,6 +6,7 @@ import ScreenLoader from "../loader/Screenloader";
 import { SuccessToast, ErrorToast } from "./Toaster/Toaster";
 import { useState, useEffect } from "react";
 import { claimReward } from "@/lib/middleware/reward";
+import ClaimRewardModal from "../Reward/ClaimRewardModal";
 
 
 
@@ -13,6 +14,8 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID }: any) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
+  const [isClaimOpen, setisClaimOpen] = useState(false);
+
 
 
   async function ClaimReward() {
@@ -28,7 +31,7 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID }: any) => {
         if (res?.payload?.status === 201) {
           setLoader(false);
           SuccessToast("Reward Claimed Successfully");
-          
+          setisClaimOpen(true);
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -64,6 +67,13 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID }: any) => {
       <div className="text-primary">
         <Image src={icon} alt="icon" />
       </div>
+      {isClaimOpen && (
+        <ClaimRewardModal
+          onClose={() => setisClaimOpen(false)}
+          open={() => setisClaimOpen(true)}
+         
+        />
+      )}
     </div>
   );
 };

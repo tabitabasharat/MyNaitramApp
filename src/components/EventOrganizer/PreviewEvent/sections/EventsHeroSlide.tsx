@@ -185,13 +185,14 @@ const EventsHeroSlide = ({
           <div className="flex gap-[0.35rem] mt-3">
             <Link
               target="_blank"
-              href="https://www.instagram.com/takeovr_uk?igsh=ZzVyMmRvcDhob3po"
+              href={`${instaUrl}`}
             >
+               
               <InstagramLogo size={30} weight="fill" />
             </Link>
             <Link
               target="_blank"
-              href="https://www.tiktok.com/@takeovr_uk?_t=8ocugSj8bKa&_r=1"
+              href={`${tiktokUrl}`}
             >
               <TiktokLogo size={30} weight="fill" />
             </Link>

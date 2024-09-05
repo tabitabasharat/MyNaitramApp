@@ -126,7 +126,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
         ticketEndDate: eventData?.eventenddate,
         startTime: eventData?.eventstarttime,
         endTime: eventData?.eventendtime,
-        mainEventImage: eventData?.eventmainimg,
+        // mainEventImage: eventData?.eventmainimg,
         coverEventImage: eventData?.eventcoverimg,
         tickets: eventData?.ticketsdata,
         totalComplemantaryTickets: eventData?.compticketno,
@@ -141,7 +141,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
       dispatch(createevent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          SuccessToast("Event Created Successfully");
+
           setisCreateModalOpen(true);
           // router.push("/viewallevents");
         } else {

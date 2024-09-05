@@ -450,7 +450,7 @@ function CreateEvent() {
       dispatch(createevent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          SuccessToast("Event Created Successfully");
+        
           router.push("/viewallevents");
         } else {
           setLoader(false);

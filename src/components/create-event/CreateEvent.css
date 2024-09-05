@@ -1,6 +1,15 @@
 .create-inner {
   padding-top: 180px;
 }
+::-webkit-scrollbar {
+  display: none;
+}
+.event-images-container
+{
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+}
 .create-container-head {
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
@@ -105,6 +114,15 @@
   color: black !important;
 }
 
+/* .gallery-box{
+  height: 250px;
+} */
+@media(max-width:992px)
+{
+  .event-images-container{
+    flex-wrap: wrap;
+  }
+}
 
 @media(max-width:768px)
 {
@@ -116,7 +134,7 @@
     padding-top: 120px;
   }
   .gallery-box{
-    height: 320px;
+    height: 120px;
   }
   .uploadImageButton{
     display: flex;
@@ -144,6 +162,8 @@
     justify-content: center;
   }
 }
+
+
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }

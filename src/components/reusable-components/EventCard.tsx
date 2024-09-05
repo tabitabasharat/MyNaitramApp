@@ -6,7 +6,7 @@ import { ScaleReveal } from "../animations/ScaleReveal";
 import event12 from "../../../public/event12.png";
 import { SuccessToast, ErrorToast } from "./Toaster/Toaster";
 import { useAppDispatch } from "@/lib/hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LikeEvent, disLikeEvent } from "@/lib/middleware/event";
 
 const EventCard = ({
@@ -22,7 +22,7 @@ const EventCard = ({
   height?: string;
   width?: string;
   eventId: any;
-  eventType:any
+  eventType: any;
 }) => {
   const imageUrl = img
     ? img.startsWith("http") || img.startsWith("https")
@@ -32,6 +32,7 @@ const EventCard = ({
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const [liked, setLiked] = useState(false);
+  const [userToken, setUserToken] = useState<any>("");
 
   async function handleLikeEvent() {
     setLoader(true);
@@ -96,13 +97,21 @@ const EventCard = ({
   };
   // const Eventtype = encodeURIComponent(JSON.stringify(eventType));
   const Eventtype = encodeURIComponent(eventType);
-  console.log("event card eventTYO",Eventtype)
+  console.log("event card eventTYO", Eventtype);
+  useEffect(() => {
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setUserToken(userID);
+  }, []);
 
   return (
     <ScaleReveal extraStyle="w-full">
       <Link
-        href={eventId ? `/specific-event/${eventId}?EventType=${Eventtype}` : "/viewallevents"}
-        
+        href={
+          eventId
+            ? `/specific-event/${eventId}?EventType=${Eventtype}`
+            : "/viewallevents"
+        }
         className="w-full"
       >
         <div
@@ -124,11 +133,13 @@ const EventCard = ({
 
           <div className="absolute flex justify-between gap-[2rem] h-full items-end z-[2] p-4 top-0 w-full">
             <p className="font-bold text-white text-xl">{title}</p>
-            <Link href="#" >
-              <div onClick={handleHeartClick} className="cursor-pointer">
-                <HeartBadge />
-              </div>
-            </Link>
+            {userToken && (
+              <Link href="javascript:void(0)">
+                <div onClick={handleHeartClick} className="cursor-pointer">
+                  <HeartBadge />
+                </div>
+              </Link>
+            )}
           </div>
         </div>
       </Link>

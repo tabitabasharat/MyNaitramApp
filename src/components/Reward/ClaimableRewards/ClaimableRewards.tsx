@@ -60,6 +60,7 @@ export default function ClaimableRewards() {
         if (res?.payload?.status === 201) {
           setLoader(false);
           SuccessToast("Collectible Claimed Successfully");
+          setisClaimOpen(true);
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -70,6 +71,30 @@ export default function ClaimableRewards() {
       ErrorToast(error);
     }
   }
+  const copyUrlToClipboard = () => {
+    if (typeof window !== "undefined") {
+      const currentUrl = window.location.href;
+      if(currentUrl)
+      {
+        SuccessToast("URL copied Successfully");
+       console.log("Your url is", currentUrl)
+
+      }
+      else{
+        ErrorToast("Failed to copy URL.");
+      }
+      // navigator.clipboard
+      //   .writeText(currentUrl)
+      //   .then(() => {
+      //     SuccessToast("URL copied to clipboard!");
+      //     console.log("Your url is", currentUrl)
+      //   })
+      //   .catch((err) => {
+      //     console.error("Failed to copy: ", err);
+      //     ErrorToast("Failed to copy URL.");
+      //   });
+    }
+  };
 
   return (
     <section className="min-h-screen pt-[8rem] lg:pt-[136px] pb-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
@@ -111,12 +136,15 @@ export default function ClaimableRewards() {
             <div className="flex items-start gap-[12px] mt-[48px]">
               <Button
                 className="px-[78px] py-16px h-[52px] text-[14px] font-extrabold "
-                onClick={() => setisClaimOpen(true)}
-                // onClick={() => ClaimCollectible()}
+                // onClick={() => setisClaimOpen(true)}
+                onClick={() => ClaimCollectible()}
               >
                 Claim Collectible
               </Button>
-              <Image src={claimbtn} alt="btn" />
+              <Image src={claimbtn} alt="btn" 
+               onClick={copyUrlToClipboard} 
+        className="cursor-pointer"
+              />
             </div>
           </div>
         </div>

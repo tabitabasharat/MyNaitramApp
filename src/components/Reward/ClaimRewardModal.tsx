@@ -30,13 +30,13 @@ import { close } from "fs";
 import { claimRewardCollectible } from "@/lib/middleware/reward";
 
 
-const ClaimRewardPopUp = ({ onClose, open,collectibleID }: any) => {
+const ClaimRewardModal = ({ onClose, open,collectibleID }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [loader, setLoader] = useState(false);
 
 
-  const value= "rewardcollectables"
+  const value= "rewards"
 
   // async function ClaimCollectible() {
   //   console.log("Collectible Claimed");
@@ -76,7 +76,7 @@ const ClaimRewardPopUp = ({ onClose, open,collectibleID }: any) => {
             background:
               "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
           }}
-          className="sm:max-w-md lg:max-w-[500px] text-white py-[54px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent "
+          className="sm:max-w-md lg:max-w-[500px] text-white py-[92px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent "
         >
           <div>
             <DialogHeader className="mb-5">
@@ -86,11 +86,10 @@ const ClaimRewardPopUp = ({ onClose, open,collectibleID }: any) => {
             <div className="flex items-center flex-col">
               <Image src={Iconpop} alt="icon" />
               <p className="mt-[16px] font-extrabold leading-[24px] whitelist-txt text-center">
-                You have claimed{" "}
-                <span className="text-[#FFC300]"> 1 Naitram </span> Membership
-                Collectible
+              
+                You have Successfully Claimed of MRT Rewards
               </p>
-              <div className="flex items-center gap-[20px] mt-[32px] ">
+              {/* <div className="flex items-center gap-[20px] mt-[32px] ">
                 <Button
                   className=" py-[12px] px-[25px] text-[14px] font-extrabold leading-[19.6px]
                  text-center  w-full text-[#030303] "
@@ -98,9 +97,9 @@ const ClaimRewardPopUp = ({ onClose, open,collectibleID }: any) => {
                 // onClick={() => ClaimCollectible()}
 
                 >
-                  View My Collectible
+                  View My Reward
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
         </DialogContent>
@@ -109,4 +108,4 @@ const ClaimRewardPopUp = ({ onClose, open,collectibleID }: any) => {
   );
 };
 
-export default ClaimRewardPopUp;
+export default ClaimRewardModal;

@@ -7,6 +7,7 @@ import Image from "next/image";
 import ufo from "@/assets/UFO_SVG.png";
 import cam from "@/assets/Camera.svg";
 import bgframe from "@/assets/uploadFrame.svg";
+import newCover from "@/assets/Wallet/coverimg-create-event.svg";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -125,7 +126,8 @@ const formSchema = z.object({
     .string()
     .url({ message: "Invalid Twitter URL." })
     .min(1, { message: "Twitter URL cannot be empty." }),
-  eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+  // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+  eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
 
   tickets: z
@@ -232,23 +234,29 @@ function OganizerCreateEvent() {
   function convertToUTC(localDateTime: string): string {
     // Create a Date object from the local date-time string
     const localDate = new Date(localDateTime);
-  
+
     // Extract UTC time components
     const utcYear = localDate.getUTCFullYear();
     const utcMonth = localDate.getUTCMonth() + 1; // Months are 0-indexed
     const utcDate = localDate.getUTCDate();
     const utcHours = localDate.getUTCHours();
     const utcMinutes = localDate.getUTCMinutes();
-  
+
     // Format the components to match the 'yyyy-MM-ddTHH:mm' format
-    const formattedUTC = `${utcYear}-${String(utcMonth).padStart(2, '0')}-${String(utcDate).padStart(2, '0')}T${String(utcHours).padStart(2, '0')}:${String(utcMinutes).padStart(2, '0')}`;
-  
+    const formattedUTC = `${utcYear}-${String(utcMonth).padStart(
+      2,
+      "0"
+    )}-${String(utcDate).padStart(2, "0")}T${String(utcHours).padStart(
+      2,
+      "0"
+    )}:${String(utcMinutes).padStart(2, "0")}`;
+
     return formattedUTC;
   }
 
   const localDateTime = "2024-09-07T14:49";
-const utcEventStartTime = convertToUTC(EventStartTime);
-console.log("my utc time",utcEventStartTime); 
+  const utcEventStartTime = convertToUTC(EventStartTime);
+  console.log("my utc time", utcEventStartTime);
 
   const handleDropdown = (index: number) => {
     setTicketTypes((prevTickets) =>
@@ -337,6 +345,8 @@ console.log("my utc time",utcEventStartTime);
       }
     }
   };
+
+  console.log("Form errors:", form.formState.errors);
 
   const handleInputChange = (
     index: number,
@@ -489,7 +499,7 @@ console.log("my utc time",utcEventStartTime);
   }
   async function EventCreation(values: z.infer<typeof formSchema>) {
     // setLoader(true);
-   
+    console.log("my values", values);
     const imagesOfGallery = await handleFileChangeapi();
 
     setisWalletModalOpen(true);
@@ -523,13 +533,14 @@ console.log("my utc time",utcEventStartTime);
 
     setEventAllData(updatedValues);
     if (updatedValues !== null) {
-      const encodedEventData = encodeURIComponent(JSON.stringify(updatedValues));
+      const encodedEventData = encodeURIComponent(
+        JSON.stringify(updatedValues)
+      );
 
       router.push(`/preview-event?eventData=${encodedEventData}`);
     } else {
     }
   }
-
 
   const handleFormSubmit = (event: any, actionTypes: any) => {
     event.preventDefault();
@@ -553,7 +564,220 @@ console.log("my utc time",utcEventStartTime);
       {loader && <ScreenLoader />}
       <div className="pxpx mx-2xl w-full   ">
         <Backward />
-        <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
+
+        <div className="event-images-container w-full mt-[26px]">
+          <div className=" w-full md:w-[440px] lg:w-[440px]">
+            <div className="px-[24px] py-[16px] relative create-container w-full  lg:w-[440px]">
+              <div className="flex justify-between">
+                <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
+                  {" "}
+                  Cover <span className="text-primary"> Artwork</span>
+                </h1>
+                {/* <Image src={Editicon} alt="Edit-icon" /> */}
+              </div>
+
+              <Image
+                src={ufo}
+                width={350}
+                height={350}
+                className="absolute right-[0] bottom-0"
+                alt="ufo"
+              />
+            </div>
+            <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head relative ">
+              {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
+             
+
+              <Image
+                src={CoverImg || newCover}
+                alt="bg-frame"
+                className="w-full lg:w-[392px] lg:h-[392px] h-[345px] "
+                width={100}
+                height={345}
+              />
+              {/* <Image
+                src={CoverImg || newCover}
+                alt="bg-img"
+                className=" md:hidden w-full  h-[345px] lg:w-[345px]"
+                width={345}
+                height={345}
+              /> */}
+              <label
+                htmlFor="uploadcover"
+                className="flex gap-2 items-center justify-between w-full cursor-pointer"
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
+                    <Image src={cam} alt="pencil" />
+                    <p className="text-[#00D059] text-sm font-extrabold">
+                      Upload Image
+                    </p>
+                  </div>
+                </div>
+                <input
+                  ref={fileInputRef2}
+                  type="file"
+                  accept="image/*"
+                  id="uploadcover"
+                  className="hidden"
+                  onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
+                />
+              </label>
+            </div>
+          </div>
+
+          <div className="w-full">
+            <div className="px-[24px] py-[16px] relative create-container  w-full">
+              <div className="flex justify-between">
+                <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
+                  {" "}
+                  Gallery <span className="text-primary"> Media</span>
+                </h1>
+                {/* <Image src={Editicon} alt="Edit-icon" /> */}
+              </div>
+
+              <Image
+                src={ufo}
+                width={350}
+                height={350}
+                className="absolute right-[0] bottom-0"
+                alt="ufo"
+              />
+            </div>
+            <div
+              className={`gradient-slate w-full pt-[16px] pb-[16px] px-[24px] h-[270px] lg:h-[424px] create-container-head relative${
+                galleryFiles.length > 0
+                  ? " block"
+                  : "flex items-center justify-center"
+              }`}
+            >
+              {galleryFiles?.length > 0 ? (
+                <>
+                  <div className="mt-4 pb-4 relative">
+                    <div className="flex flex-wrap gap-[24px] lg:gap-[13px] max-h-[148px] lg:max-h-[264px] pt-[9px] overflow-auto">
+                      {galleryFiles?.map((file, index) => {
+                        const isVideo = file.type.startsWith("video/");
+                        const isImage = file.type.startsWith("image/");
+                        return (
+                          <div
+                            key={index}
+                            className="relative  h-[57px] w-[57px] lg:w-[120px] lg:h-[120px]  rounded-[12px]"
+                          >
+                            {isVideo ? (
+                              <video
+                                src={window.URL.createObjectURL(file)}
+                                className="w-full h-full object-cover relative rounded-[12px]"
+                                width={120}
+                                height={120}
+                                controls
+                              >
+                                Your browser does not support the video tag.
+                              </video>
+                            ) : isImage ? (
+                              <Image
+                                src={window.URL.createObjectURL(file)}
+                                alt={`Gallery Image ${index + 1}`}
+                                className="w-full h-full object-cover relative rounded-[12px]"
+                                width={120}
+                                height={120}
+                              />
+                            ) : (
+                              <p className="w-full h-full flex items-center justify-center text-red-500">
+                                Unsupported media type
+                              </p>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => removeImage(index)}
+                              className="trash_button"
+                            >
+                              <Image
+                                src={crossicon}
+                                alt="remove"
+                                width={20}
+                                height={20}
+                              />
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <label
+                    htmlFor="galleryUpload"
+                    className={`pb-3 gallery-box-same border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end  ${
+                      galleryFiles.length > 0
+                        ? " gallery-box h-full"
+                        : "pt-9 gallery-top"
+                    }`}
+                  >
+                    <div
+                      className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]"
+                      style={{
+                        position: "absolute",
+                        bottom: "24px",
+                      }}
+                    >
+                      <Image src={cam} alt="pencil" />
+                      <p className="text-[#00D059] text-sm font-extrabold">
+                        Upload Media
+                      </p>
+                    </div>
+                    {/* <span className="pl-[0.75rem] uploadImageButton flex items-center">
+                    <Image src={cam} alt="pencil" /> {"Upload Media"}
+                  </span> */}
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*, video/*"
+                      // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
+                      className="hidden"
+                      id="galleryUpload"
+                      onChange={handleFileChange}
+                    />
+                  </label>
+                </>
+              ) : (
+                <div className="flex items-center justify-center h-full ">
+                  <div
+                    className="  py-[24px]  flex items-center flex-col gap-[12px] justify-center w-[345px] rounded-[12px]
+                   gradient-slate box-shadow-inset-empty  border-gradient-emptyF"
+                  >
+                    <p className="text-[16px] text-extrabold">
+                      There's No Gallery Media
+                    </p>
+                    <label
+                      htmlFor="galleryUpload"
+                      className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end  ${
+                        galleryFiles.length > 0
+                          ? " gallery-box"
+                          : " gallery-tops"
+                      }`}
+                    >
+                      <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
+                        <Image src={cam} alt="pencil" />
+                        <p className="text-[#00D059] text-sm font-extrabold">
+                          Upload Media
+                        </p>
+                      </div>
+
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*, video/*"
+                        // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
+                        className="hidden"
+                        id="galleryUpload"
+                        onChange={handleFileChange}
+                      />
+                    </label>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        {/* <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
           <Image
             src={CoverImg || bgframe}
             alt="bg-frame"
@@ -594,7 +818,7 @@ console.log("my utc time",utcEventStartTime);
               onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
             />
           </label>
-        </div>
+        </div> */}
         {/* <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
         <Image src={CoverImg || bgframe} alt="bg-frame" className="w-full hidden md:block" />
         <Image src={CoverImg || bgframe2} alt="bg-img" className="w-full md:hidden" />
@@ -617,11 +841,11 @@ console.log("my utc time",utcEventStartTime);
             </div>
           </label>
         </div> */}
-        <div className="px-[24px] py-[16px] relative create-container ">
+        <div className="px-[24px] py-[16px] relative create-container mt-[46px] ">
           <div className="flex justify-between">
             <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
               {" "}
-              Create <span className="text-primary">Event</span>
+              Host <span className="text-primary">Event</span>
             </h1>
             {/* <Image src={Editicon} alt="Edit-icon" /> */}
           </div>
@@ -870,7 +1094,7 @@ console.log("my utc time",utcEventStartTime);
                 />
               </div>
 
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container ">
+              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container ">
                 <FormField
                   control={form.control}
                   name="eventmainimg"
@@ -890,7 +1114,6 @@ console.log("my utc time",utcEventStartTime);
                             htmlFor="upload"
                             className="pt-9 pb-3 font-bold   border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-between items-center "
                           >
-                            {/* <span>{field.value?.name || "Upload Image"}</span> */}
                             <span className="pl-[0.75rem]">
                               {MainImgName || "Upload Image"}
                             </span>
@@ -910,9 +1133,9 @@ console.log("my utc time",utcEventStartTime);
                     </FormItem>
                   )}
                 />
-              </div>
+              </div> */}
 
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
                 <FormItem className="relative w-full space-y-0">
                   <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                     Gallery media
@@ -985,7 +1208,8 @@ console.log("my utc time",utcEventStartTime);
                         <input
                           type="file"
                           multiple
-                          accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
+                          accept="image/*, video/*"
+                          // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
                           className="hidden"
                           id="galleryUpload"
                           onChange={handleFileChange}
@@ -994,7 +1218,7 @@ console.log("my utc time",utcEventStartTime);
                     </div>
                   </FormControl>
                 </FormItem>
-              </div>
+              </div> */}
 
               {/* {ticketTypes.map((ticket, index) => (
                 <div
