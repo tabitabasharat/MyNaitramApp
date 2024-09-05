@@ -207,13 +207,13 @@ const SignUpModal = ({
             <Separator className="scale-x-[1.09] bg-[#292929]" />
           </DialogHeader>
 
-          {/* <Button
+          <Button
             variant="secondary"
             className="w-full flex items-center gap-1 mt-5"
             onClick={() => logingoogleUser()}
           >
             <GoogleLogo size={22} weight="fill" /> Sign up with Google
-          </Button> */}
+          </Button>
 
           {/* <div className="flex items-center justify-between gap-4 mt-5 mb-5">
             <Separator className="bg-[#292929] w-[45%]" />

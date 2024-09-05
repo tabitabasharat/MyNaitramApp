@@ -40,13 +40,13 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import ScreenLoader from "@/components/loader/Screenloader";
 const CustomPrevArrow = (props: any) => (
-  <div className="custom-arrow custom-prev-arrow" onClick={props.onClick}>
+  <div style={{cursor:"pointer"}} className="custom-arrow custom-prev-arrow" onClick={props.onClick}>
     <Image src={leftarrow} width={60} height={60} alt="right arrow" />
   </div>
 );
 
 const CustomNextArrow = (props: any) => (
-  <div className="custom-arrow custom-next-arrow" onClick={props.onClick}>
+  <div style={{cursor:"pointer"}} className="custom-arrow custom-next-arrow" onClick={props.onClick}>
     <Image src={rightarrow} width={60} height={60} alt="left arrow" />
   </div>
 );
@@ -71,8 +71,8 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
     dots: false,
     infinite: EventData?.eventmedia?.length > 1,
     autoplay: true,  // Corrected the typo to enable autoplay
-    autoplaySpeed: 5000,  // Sets the interval between slide changes (in milliseconds)
-    speed: 1000,  // Slide transition speed
+    autoplaySpeed: 3000,  // Sets the interval between slide changes (in milliseconds)
+    speed: 500,  // Slide transition speed
     fade: true,
     slidesToShow: 1,
     slidesToScroll: 1,

@@ -192,6 +192,7 @@ const SignInModal = ({
       <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0 ">
         {loader && <ScreenLoader />}
         <ScrollArea className="max-h-[90vh]">
+      
           <DialogHeader className="relative overflow-hidden pt-4 ">
             <DialogTitle className="font-bold text-2xl mb-[18px]">
               Sign <span className="text-primary">In</span>
@@ -206,6 +207,13 @@ const SignInModal = ({
             />
             <Separator className="scale-x-[1.09] bg-[#292929] " />
           </DialogHeader>
+          <Button
+            variant="secondary"
+            className="w-full flex items-center gap-1 mt-5"
+            onClick={()=>logingoogle()}
+          >
+            <GoogleLogo size={22} weight="fill" /> Sign in with Google
+          </Button>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(login)}
