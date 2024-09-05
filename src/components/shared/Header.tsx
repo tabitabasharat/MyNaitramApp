@@ -6,6 +6,7 @@ import naitramlogo from "@/assets/naitram-logo-white.svg";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import arrowdown from "@/assets/aboutdropdown.svg";
 import { cn, shimmer, toBase64 } from "@/lib/utils";
 import { Sling as Hamburger } from "hamburger-react";
 import { useEffect, useState } from "react";
@@ -65,27 +66,32 @@ const Header = () => {
   }
 
   const links = [
-    { title: "Home", url: "/" },
-    { title: "Events", url: "/viewallevents" },
-    { title: "About", url: "/about" },
-    { title: "Gallery", url: "/gallery" },
-    { title: "Contact Us", url: "/contactus" },
-    { title: "Download App", url: "/download-app" },
-
-    // { title: 'Search', url: '/search' },
+    { id: 1, title: "Home", url: "/" },
+    {
+      id: 2,
+      title: "About",
+      url: "",
+      subLinks: [
+        { title: "Gallery", url: "/gallery" },
+        { title: "Download App", url: "/download-app" },
+      ],
+    },
+    { id: 3, title: "Event", url: "/viewallevents" },
+    { id: 4, title: "Wallet", url: "/wallet" },
+    { id: 5, title: "Rewards", url: "/reward" },
+    { id: 6, title: "Get Sponsored", url: "/contactus" },
   ];
   useEffect(() => {
     const id =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setToken(id);
-  
   }, [token, count]);
   useEffect(() => {
-    const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     dispatch(showProfile(userid));
   }, []);
-
 
   const logout = () => {
     localStorage.clear();
@@ -96,7 +102,11 @@ const Header = () => {
   const myProfile = useAppSelector(
     (state) => state?.getShowProfile?.myProfile?.data
   );
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
+  const handleDropdownToggle = (id: number) => {
+    setOpenDropdown(openDropdown === id ? null : id);
+  };
   console.log("my Profile is", myProfile);
 
   return (
@@ -122,7 +132,7 @@ const Header = () => {
           ></motion.div>
         )}
       </AnimatePresence>
-      <header 
+      <header
         // style={{ position: }}
         className={cn(
           "fixed w-full pxpx py-[1.5rem] flex items-center justify-between z-50 duration-300",
@@ -134,30 +144,62 @@ const Header = () => {
             <Image src={naitramlogo} alt="Naitram-Logo" />
           </div>
         </Link>
-        <nav className="nav-inside ">
-          {links.map((link, i) => (
-            <div key={i} className="relative group">
-              <Link
-                className={cn("", {
-                  "font-bold": pathname === link.url,
-                })}
-                href={link.url}
+        <nav className="nav-inside">
+          {links.map((link) => (
+            <div key={link.id} className="relative group">
+              {/* Main Link */}
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() => handleDropdownToggle(link.id)}
               >
-                {link.title}
-              </Link>
+                <Link
+                  className={cn("", {
+                    "font-bold": pathname === link.url,
+                  })}
+                  href={link.url}
+                >
+                  {link.title}
+                  {link.id === 2 && (
+                    <Image
+                      src={arrowdown} // Specify your image path here
+                      alt="About Image"
+                      width={12} // Adjust width and height as needed
+                      height={12}
+                      className="ml-[5px] inline" // Adjust styling as needed
+                    />
+                  )}
+                </Link>
+              </div>
+
+              {/* Underline on hover */}
               <div className="bg-white h-[1.5px] w-full translate-y-[-0.2rem] scale-x-0 group-hover:scale-x-100 duration-300"></div>
+
+              {/* Dropdown Menu for 'About' */}
+              {link.subLinks && openDropdown === link.id && (
+                <div className="absolute left-0 mt-2 text-base font-bold gradient-slate bg-white shadow-lg rounded-md z-10">
+                  {link.subLinks.map((subLink, j) => (
+                    <Link
+                      key={j}
+                      href={subLink.url}
+                      className="block px-4 py-2 hover:gradient-slate active:text-[#00D059] active:gradient-slate"
+                    >
+                      {subLink.title}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </nav>
+
         <div className="flex items-center">
           {token && (
             <Button
               className="hidden lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
               // onClick={() => router.push("/organizer-event/event-dashboard")}
               onClick={() => router.push("/organizer-event/event-dashboard")}
-
             >
-              Create Event
+              Host Event
             </Button>
           )}
 

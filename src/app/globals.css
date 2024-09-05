@@ -327,7 +327,14 @@ body {
   width: 2px;
   background-color: orange;
 }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in Chrome, Safari, Edge */
+}
 
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+}
 .swiper-button-next,
 .swiper-button-prev {
   @apply fill-white scale-[1.8] w-10 h-10;

@@ -13,7 +13,7 @@ const LiveActivityChat = () => {
           'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(/blur-green.png)',
         backgroundPosition: 'right',
       }}
-      className="w-full h-[600px] md:border md:border-[#292929] rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0"
+      className="w-full lg:w-[576px] h-[600px] md:border md:border-[#292929] rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0"
     >
       <ScrollArea className="h-full w-full mt-1 z-0 space-y-2 pb-[6rem]">
         <div className="space-y-2">
@@ -31,8 +31,8 @@ const LiveActivityChat = () => {
 
       <div className="flex absolute bottom-8 w-[90%] gap-4 z-[2]">
         <Input placeholder="Type here" className="rounded-full h-12 px-6" />
-        <Button className="rounded-full">
-          <PaperPlaneTilt size={20} className="h-full" weight="bold" />
+        <Button className="rounded-full w-[36px] h-[36px]">
+          <PaperPlaneTilt size={16} className="h-full" weight="bold" />
         </Button>
       </div>
       <div className="absolute top-[-3rem] md:top-8 bg-[#0A0D0B] px-3 py-2 translate-x-1/2 right-1/2 rounded-full z-[2]">

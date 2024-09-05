@@ -210,7 +210,7 @@ const OrganizerProfile = () => {
       {userLoading?.loading && <ScreenLoader />}
 
       <h2 className="font-bold ms-[52px] lg:ms-[0px] text-[20px] lg:text-[32px]">
-        Organizer Profile
+        Organiser Profile
       </h2>
       <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[60px] mt-[34px]  lg:mt-[32px] px-[24px]">
         <div className="flex flex-col mx-auto lg:mx-0 gap-[16px] items-center  w-fit">
@@ -259,7 +259,7 @@ const OrganizerProfile = () => {
             <div className="flex gap-2  items-center ">
               <UserGear size={20} weight="bold" />
               <p className="text-sm  md:text-base font-extrabold mb-0">
-                Preview my Personal Organizer Profile
+                Preview my Personal Organiser Profile
               </p>
             </div>
             <CaretRight size={16} weight="bold" />

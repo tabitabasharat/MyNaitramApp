@@ -70,13 +70,26 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
   const settings: any = {
     dots: false,
     infinite: EventData?.eventmedia?.length > 1,
-    speed: 700,
+    autoplay: true,  // Corrected the typo to enable autoplay
+    autoplaySpeed: 5000,  // Sets the interval between slide changes (in milliseconds)
+    speed: 1000,  // Slide transition speed
+    fade: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     prevArrow: EventData?.eventmedia?.length > 1 ? <CustomPrevArrow /> : null,
     nextArrow: EventData?.eventmedia?.length > 1 ? <CustomNextArrow /> : null,
     arrows: EventData?.eventmedia?.length > 1 ? true : false,
   };
+  // const settings: any = {
+  //   dots: false,
+  //   infinite: EventData?.eventmedia?.length > 1,
+  //   speed: 700,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  //   prevArrow: EventData?.eventmedia?.length > 1 ? <CustomPrevArrow /> : null,
+  //   nextArrow: EventData?.eventmedia?.length > 1 ? <CustomNextArrow /> : null,
+  //   arrows: EventData?.eventmedia?.length > 1 ? true : false,
+  // };
   useEffect(() => {
     const currentUrl: any =
       typeof window !== "undefined" ? window.location.href : null;

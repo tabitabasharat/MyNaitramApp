@@ -10,8 +10,8 @@ import { truncateString } from '@/lib/utils';
 const LiveActivity = () => {
   const router = useRouter();
   return (
-    <section className="pt-[8rem] lg:pt-[9rem] pb-[8rem] md:w-[70%] lg:w-full md:mx-auto lg:mx-0">
-      <div className="flex gap-4 mb-8 pxpx mx-2xl">
+    <section className="pt-[8rem] lg:pt-[9rem] pb-[8rem]  md:w-[70%] lg:w-full md:mx-auto lg:mx-0">
+      <div className="flex gap-4 mb-8 lg:mb-[48px]  xl:px-[216px] lg:px-[80px] md:px-[0px] px-[24px] mx-2xl">
         <button onClick={() => router.back()}>
           <ArrowLeft size={22} />
         </button>
@@ -28,13 +28,13 @@ const LiveActivity = () => {
           / <span>Live Activity</span>
         </p>
       </div>
-      <div className="flex flex-col lg:flex-row gap-16 mx-2xl 2xl:mt-12">
-        <div className="w-full lg:w-1/2 flex flex-col gap-8 pxpx border border-t-0 border-x-0 lg:border-none pb-12 lg:pb-0 border-white/10">
+      <div className="flex flex-col xl:px-[216px] lg:px-[80px] md:px-[0px] px-[24px] lg:flex-row gap-[48px] mx-2xl 2xl:mt-12">
+        <div className="w-full lg:w-[384px] flex flex-col gap-4 lg:gap-8 border border-t-0 border-x-0 lg:border-none pb-12 lg:pb-0 border-white/10">
           <AttendanceList />
           <PhotoRoll />
         </div>
 
-        <div className="w-full lg:w-1/2 pr-0 md:pr-[1.5rem] lg:pr-[4rem] md:pl-[1.5rem] lg:pl-0">
+        <div className="w-full lg:w-1/2">
           <LiveActivityChat />
         </div>
       </div>

@@ -25,7 +25,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/organizer-event/add-scanner",
     "/organizer-event/scanner-credentials",
     "/organizer-event/helpcenter",
-    "/profile-perview"
+    "/profile-perview",
+    "/preview-event",
+    "/events/event-detail/live-activity",
   ];
 
   const pathname = usePathname();

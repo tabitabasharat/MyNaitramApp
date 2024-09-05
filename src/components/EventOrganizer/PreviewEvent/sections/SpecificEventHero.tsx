@@ -36,6 +36,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import ScreenLoader from "@/components/loader/Screenloader";
 import backbtn from "@/assets/Wallet/back-btn-event.svg";
+import { Autoplay } from "swiper/modules";
 const CustomPrevArrow = (props: any) => (
   <div className="custom-arrow custom-prev-arrow" onClick={props.onClick}>
     <Image src={leftarrow} width={60} height={60} alt="right arrow" />
@@ -60,13 +61,14 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
   const settings: any = {
     dots: false,
     infinite: eventAllData?.eventmedia?.length > 1,
-    speed: 700,
+    autoplay: true,  // Corrected the typo to enable autoplay
+    autoplaySpeed: 5000,  // Sets the interval between slide changes (in milliseconds)
+    speed: 1000,  // Slide transition speed
+    fade: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    prevArrow:
-      eventAllData?.eventmedia?.length > 1 ? <CustomPrevArrow /> : null,
-    nextArrow:
-      eventAllData?.eventmedia?.length > 1 ? <CustomNextArrow /> : null,
+    prevArrow: eventAllData?.eventmedia?.length > 1 ? <CustomPrevArrow /> : null,
+    nextArrow: eventAllData?.eventmedia?.length > 1 ? <CustomNextArrow /> : null,
     arrows: eventAllData?.eventmedia?.length > 1 ? true : false,
   };
   // useEffect(() => {
@@ -103,7 +105,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
         alt=""
       />
       <div className="mx-2xl">
-        <div className="flex items-center justify-between mb-[24px] z-[3]  pxpx pt-[8rem] lg:pt-[9rem]   w-full md:w-[70%] md:mx-auto  xl:w-full   relative  ">
+        <div className="flex items-center justify-between mb-[24px] z-[3] md:px-[0px] xl:px-[4rem]  px-[24px] pt-[8rem] xl:pt-[9rem]   w-full md:w-[70%] sm:mx-auto  xl:w-full   relative  ">
           <div className="flex items-center gap-[16px]">
             <button onClick={() => handleBackEvent()} type="button">
               <Image
@@ -128,28 +130,9 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
             Submit
           </Button>
         </div>
-        <div className="main-abovee  md:justify-center pxpx  pb-[6rem] z-[2] flex flex-col xl:flex-row gap-[32px] lg:gap-12 w-full md:w-[70%] md:mx-auto xl:w-full relative   ">
-          {/* <div className="flex items-center justify-between mb-[24px]">
-          <div
-            className="flex items-center gap-[16px]  "
-            onClick={() => router.back()}
-          >
-            <button onClick={() => router.back()} type="button">
-              <Image src={backbtn} width={44} height={44} alt="back btn"  className="lg:w-[44px] lg:h-[44px] w-[40px] h-[40px]"/>
-            </button>
-            <p className="text-[24px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">
-              Back
-            </p>
-          </div>
-          <Button
-            className="px-[68px] py-[12px] font-extrabold"
-            onClick={() => setisWalletModalOpen(true)}
-          >
-            Submit
-          </Button>
-        </div> */}
+        <div className="main-abovee xl:justify-normal lg:justify-center pxpx md:mx-auto pb-[6rem] z-[2] flex flex-col lg:flex-row gap-[32px] lg:gap-12 w-full md:w-[70%] xl:w-full relative   ">
           <div className="">
-            <div className="lhs-hero flex items-center justify-center flex-col relative ">
+            <div className="lhs-hero lg:w-[392px] w-full flex items-center justify-center flex-col relative ">
               <Image
                 src={eventAllData?.eventcoverimg}
                 alt="takeover"
@@ -161,7 +144,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
           </div>
 
           <div className="main-div-takeoverr lg:mt-[0px] mt-[0px] ">
-            <div className="rhs-hero lg:mt-0  mt-0">
+            <div className="rhs-hero w-[578px] lg:mt-0  mt-0">
               <EventsHeroSlide
                 instaUrl={eventAllData?.instaurl}
                 tiktokUrl={eventAllData?.tiktokurl}
@@ -192,7 +175,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
 
               {eventAllData?.eventmedia?.length > 0 &&
                 Array.isArray(eventAllData?.eventmedia) && (
-                  <div className="w-[665px] h-[296px] mt-[48px] slider-main-div">
+                  <div className="w-[576px] h-[296px] mt-[48px] rounded-[12px] slider-main-div">
                     <Slider {...settings}>
                       {eventAllData?.eventmedia?.map(
                         (item: any, index: any) => (
@@ -273,53 +256,6 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                   </div>
                 </div>
               </GradientBorder>
-
-              {/* DOWNLOAD NAITRAM */}
-              {/* <div className="relative gradient-slate border border-[#262626] mt-12 rounded-xl lg:p-8 p-[16px] w-full">
-              <h2 className="text-[20px] font-bold">Download NAITRAM App</h2>
-              <div className="flex flex-col gap-2 mt-4">
-                <div className="flex gap-3">
-                  <UsersThree
-                    size={18}
-                    weight="fill"
-                    className="text-[#8F8F8F]"
-                  />
-                  <p className="text-[14px]">
-                    Keep up with the event with Live Activity Feature
-                  </p>
-                </div>
-                <div className="flex gap-3">
-                  <Ticket size={18} weight="fill" className="text-[#8F8F8F]" />
-                  <p className="text-[14px]">
-                    View and open your tickets easily
-                  </p>
-                </div>
-                <div className="flex gap-3">
-                  <DeviceMobile
-                    size={18}
-                    weight="fill"
-                    className="text-[#8F8F8F]"
-                  />
-                  <p className="text-[14px]">
-                    Browse any event anytime from your hand
-                  </p>
-                </div>
-              </div>
-              <Button
-                className="flex items-center gap-[0.5rem] rounded-full mt-[32px] w-full 
-            font-extrabold py-[14px] text-[14px] lg:text-[16px] xl:text-[16px] font-extrabold h-auto flex-wrap lg:flex-nowrap"
-              >
-                <DownloadSimple size={20} weight="fill" />
-                Download App to Unlock Features
-              </Button>
-              <Image
-                src={gift}
-                width={200}
-                height={200}
-                className="absolute top-[-10%] lg:right-0 xl:right-[-8%] hidden lg:block"
-                alt="gift"
-              />
-            </div> */}
             </div>
           </div>
         </div>
