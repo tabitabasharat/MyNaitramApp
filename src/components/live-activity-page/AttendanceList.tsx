@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import 'swiper/css';
-import 'swiper/css/free-mode';
+import "swiper/css";
+import "swiper/css/free-mode";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode } from 'swiper/modules';
-import { CaretRight, MagnifyingGlass } from '@phosphor-icons/react/dist/ssr';
-import Avatar from '../reusable-components/Avatar';
-import { attendees } from '@/lib/dummyData';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode } from "swiper/modules";
+import { CaretRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import Avatar from "../reusable-components/Avatar";
+import { attendees } from "@/lib/dummyData";
 
 import {
   Dialog,
@@ -15,16 +15,21 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
-import { Separator } from '../ui/separator';
-import { ScrollArea, ScrollBar } from '../ui/scroll-area';
-import Link from 'next/link';
+import { Separator } from "../ui/separator";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import Link from "next/link";
+import { useAppSelector } from "@/lib/hooks";
+import ScreenLoader from "../loader/Screenloader";
 
 const AttendanceList = () => {
+  const eventAttendy = useAppSelector((state: any) => state?.getAllAttend);
+  console.log(eventAttendy, "this is event attendy");
   return (
     <div>
+      {eventAttendy.loading && <ScreenLoader />}
       <Dialog>
         <div className="flex justify-between">
           <p>Attendance List</p>
@@ -37,18 +42,18 @@ const AttendanceList = () => {
 
         {/* LARGE SCREEN VIEW */}
         <div className="hidden md:flex flex-wrap justify-normal items-center mt-[16px]">
-          {attendees.map((attendee) => (
-            <Link
-              href={
-                '/events/event-detail/live-activity/personal-social-profile'
-              }
-            >
-              <Avatar
-                size="size-[64px]"
-                key={attendee.id}
-                img={attendee.img}
-              />
-            </Link>
+          {eventAttendy?.attend?.data?.map((attendee: any) => (
+            // <Link
+            //   href={
+            //     '/events/event-detail/live-activity/personal-social-profile'
+            //   }
+            // >
+            <Avatar
+              size="size-[64px]"
+              key={attendee.id}
+              img={attendee.profilePicture && attendee.profilePicture}
+            />
+            // </Link>
           ))}
         </div>
 
@@ -63,20 +68,20 @@ const AttendanceList = () => {
               clickable: true,
             }}
             modules={[FreeMode]}
-            style={{ overflow: 'visible' }}
+            style={{ overflow: "visible" }}
           >
-            {attendees.map((attendee) => (
+            {eventAttendy?.attend?.data?.map((attendee: any) => (
               <SwiperSlide key={attendee.id}>
-                <Link
+                {/* <Link
                   href={
                     '/events/event-detail/live-activity/personal-social-profile'
                   }
-                >
-                  <Avatar
-                    size="size-[64px]"
-                    img={attendee.img}
-                  />
-                </Link>
+                > */}
+                <Avatar
+                  size="size-[64px]"
+                  img={attendee.profilePicture && attendee.profilePicture}
+                />
+                {/* </Link> */}
               </SwiperSlide>
             ))}
           </Swiper>
@@ -102,14 +107,14 @@ const AttendanceList = () => {
           </div>
           <ScrollArea className="h-72 w-full mt-1">
             <div className="flex flex-col gap-4">
-              {attendees.map((attendee) => (
+            {eventAttendy?.attend?.data?.map((attendee: any) => (
                 <div className="flex items-center gap-4">
                   <Avatar
                     key={attendee.id}
-                    img={attendee.img}
+                    img={attendee.profilePicture && attendee.profilePicture}
                     size="size-[55px]"
                   />
-                  <p className="font-bold text-[18px]">{attendee.name}</p>
+                  <p className="font-bold text-[18px]">{attendee.fullname}</p>
                 </div>
               ))}
             </div>

@@ -188,18 +188,22 @@ function EventSales() {
             {eventSales?.salesData?.data?.event?.name}
           </p>
           <div className="flex items-center">
-            <div className="border-[#D9D9D9] border border-solid w-[40px] h-[40px] rounded-[8px]">
+            <div className=" w-[40px] h-[40px] rounded-[8px]">
               {/* `${
                   eventSales?.salesData?.data?.event?.user?.profilePicture
                     ? eventSales?.salesData?.data?.event?.user?.profilePicture
                     : id
                 }` */}
               <Image
-                src={id}
+                src={
+                  eventSales?.salesData?.data?.event?.user?.profilePicture
+                    ? eventSales?.salesData?.data?.event?.user?.profilePicture
+                    : id
+                }
                 width={40}
                 height={40}
                 sizes="40px"
-                className="w-[40px] h-[40px]"
+                className="w-[40px] h-[40px] rounded-[8px]"
                 alt="img"
               />
             </div>

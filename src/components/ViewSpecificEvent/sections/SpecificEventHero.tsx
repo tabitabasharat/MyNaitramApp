@@ -272,7 +272,7 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
                     <p className="text-[#BFBFBF] text-[12px] pt-[4px]">
                       Tap to see the live activities
                     </p>
-                    <Link href={"/events/event-detail/live-activity"}>
+                    <Link href={`/events/event-detail/live-activity/${EventData?.id}?eventName=${EventData?.name}`}>
                       <Button className="flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full mt-[12px] w-fit ps-[0] pe-[16px] py-[10px]">
                         <Lock size={20} weight="fill" className="ms-[10px]" />
                         Live Activity

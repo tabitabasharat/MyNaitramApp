@@ -354,3 +354,26 @@ export const disLikeEvent = createAsyncThunk(
     }
   }
 );
+
+export const getEventAttend = createAsyncThunk(
+  "getEventAttend",
+  async (data: any) => {
+    try {
+      const res = await api.get(`${API_URL}/buying/getAttendees/${data}`);
+      console.log("inside get specific user Live event", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
+
+
+
