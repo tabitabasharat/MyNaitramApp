@@ -18,16 +18,31 @@ const LiveActivity = () => {
   const dispatch: any = useAppDispatch();
   const searchParams = useSearchParams();
 
+  // useEffect(() => {
+  //   const currentUrl: any =
+  //     typeof window !== "undefined" ? window.location.href : null;
+  //   const parts = currentUrl.split("/");
+  //   const value = parts[parts.length - 1];
+  //   setEventId(value);
+  //   console.log("my event id is", value);
+  //   dispatch(getEventAttend(value));
+
+
+  // }, []);
   useEffect(() => {
     const currentUrl: any =
       typeof window !== "undefined" ? window.location.href : null;
-    const parts = currentUrl.split("/");
-    const value = parts[parts.length - 1];
-    setEventId(value);
-    console.log("my event id is", value);
-    dispatch(getEventAttend(value));
-
-
+  
+    if (currentUrl) {
+      const parts = currentUrl.split("/");
+      const lastPart = parts[parts.length - 1].split("?")[0]; 
+  
+      setEventId(lastPart); 
+      console.log("My event id is", lastPart);
+  
+   
+      dispatch(getEventAttend(lastPart));
+    }
   }, []);
 
   useEffect(() => {
@@ -78,7 +93,7 @@ const LiveActivity = () => {
         </div>
 
         <div className="w-full lg:w-1/2">
-          <LiveActivityChat />
+          <LiveActivityChat  eventID={eventID}/>
         </div>
       </div>
     </section>

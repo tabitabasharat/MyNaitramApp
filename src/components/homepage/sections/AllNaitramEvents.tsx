@@ -28,13 +28,13 @@ import { useAppDispatch } from "@/lib/hooks";
 const eventimges = [
   { id: 1, title: "All Events", imges: calender },
   { id: 2, title: "Your Events", imges: calendercheck },
-  { id: 3, title: "Past Events ", imges: calenderX },
+  { id: 3, title: "Past Events", imges: calenderX },
 ];
 
 const greenimges = [
   { id: 1, title: "All Events", imges: caledndergreen },
   { id: 2, title: "Your Events", imges: calendercheckgreen },
-  { id: 3, title: "Past Events ", imges: calenderXgreen },
+  { id: 3, title: "Past Events", imges: calenderXgreen },
 ];
 
 const AllNaitramEvents = ({ setPopupOpen }: any) => {
@@ -45,12 +45,12 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
     id: number;
     title: string;
   } | null>(null);
-  const [showGreenImages, setShowGreenImages] = useState<boolean>(false);
   const [userID, setUserID] = useState<any>();
-  // Set the default event to "All Events" when the component mounts
+  
   useState(() => {
     setSelectedEvent(eventimges[0]);
   });
+
   useEffect(() => {
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -65,49 +65,67 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
     dispatch(getLiveEventById(userid));
   }, []);
 
+  // const handleClick = (id: number, type: string) => {
+  //   const event = eventimges.find((e) => e.id === id);
+  //   if (event) {
+  //     setSelectedEvent(event);
+  //     router.push(`?EventType=${type}`, { scroll: false });
+  //   }
+  // };
+
+  // const handleClick = (id: number, type: string) => {
+  //   const event = eventimges.find((e) => e.id === id);
+  //   if (event) {
+  //     setSelectedEvent(event);
+  //     router.push(`?EventType=${type}`, { scroll: false });
+  //   } else {
+  //     console.error("Event not found:", id);
+  //   }
+  // };
+  
   const handleClick = (id: number, type: string) => {
     const event = eventimges.find((e) => e.id === id);
     if (event) {
       setSelectedEvent(event);
-      router.push(`?EventType=${type}`, { scroll: false });
+      router.push(`?EventType=${encodeURIComponent(type)}`, { scroll: false });
+    } else {
+      console.error("Event not found:", id);
     }
   };
+
+  useEffect(() => {
+    const eventTypeFromParams = searchParams.get("EventType");
+    if (eventTypeFromParams) {
+      const decodedEventType = decodeURIComponent(eventTypeFromParams);
+      const event = eventimges.find((e) => e.title === decodedEventType);
+      if (event) {
+        setSelectedEvent(event);
+      } else {
+        setSelectedEvent(eventimges[0]); // Default if event not found
+      }
+    } else {
+      setSelectedEvent(eventimges[0]); // Default if no query parameter
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const id =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserID(id);
 
-    const eventTypeFromParams = searchParams.get("EventType");
-    console.log("Full search params:", searchParams.toString());
-    console.log("params event type:", eventTypeFromParams);
-
-    if (eventTypeFromParams) {
-      const decodedEventType = decodeURIComponent(eventTypeFromParams);
-      const event = eventimges.find((e) => e.title === decodedEventType);
-      if (event) {
-        setSelectedEvent(event);
-        console.log("Found event by params:", event);
-      } else {
-        console.log("Event type not found in eventimges");
-        setSelectedEvent(eventimges[0]);
-      }
-    } else {
-      console.log("No event type in params, defaulting to 'All Events'");
-      setSelectedEvent(eventimges[0]);
-    }
-  }, [searchParams]);
+    
+  }, []);
 
   // const currentImages = selectedEvent === null ? eventimges : greenimges;
   const currentImages = selectedEvent
-    ? greenimges
-    : userID
-    ? eventimges
-    : eventimges.filter((e) => e.title !== "Your Events");
+  ? greenimges
+  : userID
+  ? eventimges
+  : eventimges.filter((e) => e.title !== "Your Events");
 
-  const options = userID
-    ? eventimges
-    : eventimges.filter((e) => e.title !== "Your Events");
+const options = userID
+  ? eventimges
+  : eventimges.filter((e) => e.title !== "Your Events");
 
   const title = selectedEvent ? selectedEvent.title : "All Events";
 
@@ -142,6 +160,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
   const filteredLiveEvents = myEvents?.events?.filter((item: any) =>
     item?.name.toLowerCase().includes(searchQueryLive.toLowerCase())
   );
+ 
 
   const getFilteredEvents = () => {
     switch (title) {
@@ -155,7 +174,12 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
         return [];
     }
   };
-  console.log("Filtered Events:", getFilteredEvents());
+  useEffect(() => {
+    console.log("Selected Event:", selectedEvent);
+    console.log("Current Images:", currentImages);
+    console.log("Event Type:", title);
+  }, [selectedEvent, currentImages, title]);
+ 
   return (
     <div
       style={{
@@ -219,15 +243,16 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
                   placeholder="Search All Events"
                 />
               )}
-              {title === "Past Events" && (
+              {title === "Past Events"  &&  (
                 <Input
                   value={searchQueryPast}
                   className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
                   onChange={(event) => setSearchQueryPast(event.target.value)}
                   placeholder="Search Past Events"
                 />
+              
               )}
-              {title === "Your Events" && (
+              {title === "Your Events" &&   (
                 <Input
                   value={searchQueryLive}
                   className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
@@ -235,13 +260,19 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
                   placeholder="Search Your Events"
                 />
               )}
-              {getFilteredEvents()?.length > 0 && (
-                <MagnifyingGlass
+              <MagnifyingGlass
                   size={20}
                   className="absolute top-1/2 -translate-y-1/2 right-5"
                 />
-              )}
+              {/* {getFilteredEvents()?.length > 0 && (
+                <MagnifyingGlass
+                size={20}
+                className="absolute top-1/2 -translate-y-1/2 right-5"
+              />
+              )} */}
             </div>
+           
+           
             <AllEventsGrid events={getFilteredEvents()} eventType={title} />
             {/* All Naitram Events */}
             {/* <div className="w-full">

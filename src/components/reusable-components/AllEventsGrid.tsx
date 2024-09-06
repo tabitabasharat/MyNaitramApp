@@ -1,5 +1,6 @@
 import { FadeReveal } from "../animations/FadeReveal";
 import { Button } from "../ui/button";
+import Image from "next/image";
 import EventCard from "./EventCard";
 // import { Pagination } from "swiper/modules";
 import Pagination from "./pagination/Pagination";
@@ -8,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getViewAllEvent } from "@/lib/middleware/event";
 import { getViewPastEvents } from "@/lib/middleware/event";
 import { getEventById, getLiveEventById } from "@/lib/middleware/event";
+import rocket from "@/assets/Wallet/rocket-empty.svg";
 
 const AllEventsGrid = ({ events, eventType }: any) => {
   const dispatch = useAppDispatch();
@@ -52,7 +54,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
 
   console.log("my Live Events are", myEvents);
 
-  console.log("event type", eventType)
+  console.log("event type", eventType);
   return (
     <>
       {/* All Events */}
@@ -82,7 +84,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
             </div>
           </>
         ) : (
-          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem] gradient-slate">
             <p>No Event Found</p>
             <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
           </div>
@@ -115,9 +117,13 @@ const AllEventsGrid = ({ events, eventType }: any) => {
             </div>
           </>
         ) : (
-          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem] ">
-            <p>No Event Found</p>
-            <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+          <div className="relative gradient-slate py-[94.5px] flex items-center justify-center flex-col gap-[12px] rounded-[12px]">
+            <p className="text-[16px] text-extrabold">There’s No Event</p>
+            <button className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto ">
+              <Image src={rocket} alt="rocket" />
+              See What's On
+            </button>
+            {/* <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div> */}
           </div>
         ))}
 

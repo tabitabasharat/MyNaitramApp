@@ -960,7 +960,7 @@ function EditeventOnBack() {
               className={`gradient-slate w-full pt-[16px] pb-[16px] px-[24px] h-[270px] lg:h-[424px] create-container-head relative${
                 galleryFiles.length > 0
                   ? " block"
-                  : "flex items-center justify-center"
+                  : " flex items-center justify-center"
               }`}
             >
               <div>
