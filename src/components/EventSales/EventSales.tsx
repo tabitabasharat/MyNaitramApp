@@ -384,7 +384,7 @@ function EventSales() {
               )}
             </TableBody>
           </Table>
-          <Pagination />
+          {/* <Pagination /> */}
         </TableContainer>
       </div>
       <div
