@@ -54,10 +54,27 @@ import ScreenLoader from "@/components/loader/Screenloader";
 import { createevent } from "@/lib/middleware/event";
 import api from "@/lib/apiInterceptor";
 import arrowdown from "@/assets/arrow-down-drop.svg";
+
 import img1 from "@/assets/Handbag (1).svg";
 import img2 from "@/assets/Cake.svg";
 import img3 from "@/assets/Crown.svg";
 import img4 from "@/assets/Shield Star.svg";
+import img5 from "@/assets/Whats-Included/option5.svg";
+import img6 from "@/assets/Whats-Included/option6.svg";
+import img7 from "@/assets/Whats-Included/option7.svg";
+import img8 from "@/assets/Whats-Included/option8.svg";
+import img9 from "@/assets/Whats-Included/option9.svg";
+import img10 from "@/assets/Whats-Included/option10.svg";
+import img11 from "@/assets/Whats-Included/option11.svg";
+import img12 from "@/assets/Whats-Included/option12.svg";
+import img13 from "@/assets/Whats-Included/option13.svg";
+import img14 from "@/assets/Whats-Included/option14.svg";
+import img15 from "@/assets/Whats-Included/option15.svg";
+import img16 from "@/assets/Whats-Included/option16.svg";
+import img17 from "@/assets/Whats-Included/option17.svg";
+import img18 from "@/assets/Whats-Included/option18.svg";
+import img19 from "@/assets/Whats-Included/option19.svg";
+import img20 from "@/assets/Whats-Included/option20.svg";
 import tick from "@/assets/fi-rr-check.svg";
 import { updateEvent } from "@/lib/middleware/event";
 import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
@@ -203,12 +220,27 @@ function OganizerCreateEvent() {
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
     { type: "", price: 0, no: 0, options: [], dropdown: true },
   ]);
-
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
     { id: 2, label: "Food and Beverages", image: img2 },
     { id: 3, label: "VIP Lounge", image: img3 },
     { id: 4, label: "Security and First Aid", image: img4 },
+    { id: 5, label: "Workshops & Networking", image: img5 },
+    { id: 6, label: "Entertainment Zone", image: img6 },
+    { id: 7, label: "Charging Stations", image: img7 },
+    { id: 8, label: "Information Desk", image: img8 },
+    { id: 9, label: "Rest Areas", image: img9 },
+    { id: 10, label: "Photo Booths", image: img10 },
+    { id: 11, label: "Lost & Found", image: img11 },
+    { id: 12, label: "Kids Play Area", image: img12 },
+    { id: 13, label: "Merchandise Pickup", image: img13 },
+    { id: 14, label: "Eco-Friendly Zones", image: img14 },
+    { id: 15, label: "Parking Assistance", image: img15 },
+    { id: 16, label: "Virtual Reality Booths", image: img16 },
+    { id: 17, label: "Interactive Displays", image: img17 },
+    { id: 18, label: "Cloakroom Services", image: img18 },
+    { id: 19, label: "Water Stations", image: img19 },
+    { id: 20, label: "Ticketing & Registration", image: img20 },
   ];
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
 
@@ -504,41 +536,87 @@ function OganizerCreateEvent() {
 
     setisWalletModalOpen(true);
     const utcEventStartTime = convertToUTC(EventStartTime);
+    setEventStartTime(utcEventStartTime);
+
     const utcEventEndTime = convertToUTC(EventEndTime);
+    setEventEndTime(utcEventEndTime);
+
+    const utcTicketStartTime = convertToUTC(TicketStartDate);
+    setTicketStartDate(utcTicketStartTime);
+
+    const utcTicketEndTime = convertToUTC(TicketEndDate);
+    setTicketEndDate(utcTicketEndTime);
 
     const updatedValues = {
       ...values,
       eventmedia: imagesOfGallery,
       ticketsdata: filteredTicketTypes,
+
+      eventstartdate: utcTicketStartTime,
+      eventenddate: utcTicketEndTime,
+
+      eventstarttime: utcEventStartTime,
+      eventendtime: utcEventEndTime,
+
       utcEventStartTime: utcEventStartTime,
-      utcEventEndTime: utcEventEndTime,
+      utcEventEndtime: utcEventEndTime,
+
+      utcTicketStartTime: utcTicketStartTime,
+      utcTicketEndTime: utcTicketEndTime,
     };
+    console.log("my updated values are", updatedValues);
 
     setEventAllData(updatedValues);
   }
+
   async function handlePreviewClick(values: z.infer<typeof formSchema>) {
     // setLoader(true);
     // setisWalletModalOpen(false);
+    console.log("my values", values);
     const imagesOfGallery = await handleFileChangeapi();
+
+    setisWalletModalOpen(true);
     const utcEventStartTime = convertToUTC(EventStartTime);
+    setEventStartTime(utcEventStartTime);
+
     const utcEventEndTime = convertToUTC(EventEndTime);
+    setEventEndTime(utcEventEndTime);
+
+    const utcTicketStartTime = convertToUTC(TicketStartDate);
+    setTicketStartDate(utcTicketStartTime);
+
+    const utcTicketEndTime = convertToUTC(TicketEndDate);
+    setTicketEndDate(utcTicketEndTime);
 
     const updatedValues = {
       ...values,
       eventmedia: imagesOfGallery,
       ticketsdata: filteredTicketTypes,
+
+      eventstartdate: utcTicketStartTime,
+      eventenddate: utcTicketEndTime,
+
+      eventstarttime: utcEventStartTime,
+      eventendtime: utcEventEndTime,
+
       utcEventStartTime: utcEventStartTime,
-      utcEventEndTime: utcEventEndTime,
+      utcEventEndtime: utcEventEndTime,
+
+      utcTicketStartTime: utcTicketStartTime,
+      utcTicketEndTime: utcTicketEndTime,
     };
+    console.log("my updated values are", updatedValues);
 
     setEventAllData(updatedValues);
     if (updatedValues !== null) {
       const encodedEventData = encodeURIComponent(
         JSON.stringify(updatedValues)
       );
-
+      console.log("my encoded data", encodedEventData);
       router.push(`/preview-event?eventData=${encodedEventData}`);
-    } else {
+    }
+    else {
+      console.log("error")
     }
   }
 
@@ -586,7 +664,6 @@ function OganizerCreateEvent() {
             </div>
             <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head relative ">
               {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
-             
 
               <Image
                 src={CoverImg || newCover}
@@ -979,17 +1056,23 @@ function OganizerCreateEvent() {
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
                       <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Ticketing Start Date
+                        Ticketing Start Date & Time
                       </FormLabel>
                       <FormControl>
                         <Input
-                          type="date"
-                          aria-label="Date"
+                          // type="date"
+                          // aria-label="Date"
+                          type="datetime-local"
+                          aria-label="Date and time"
                           placeholder="Enter Start Date"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
                           onChange={(e) => {
                             setTicketStartDate(e.target.value);
+                            console.log(
+                              "my ticket date and time",
+                              e.target.value
+                            );
                             field.onChange(e);
                           }}
 
@@ -1007,12 +1090,12 @@ function OganizerCreateEvent() {
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
                       <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Ticketing End Date
+                        Ticketing End Date & time
                       </FormLabel>
                       <FormControl>
                         <Input
-                          type="date"
-                          aria-label="Date"
+                          type="datetime-local"
+                          aria-label="Date and time"
                           placeholder="Enter End Date"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
@@ -1056,7 +1139,8 @@ function OganizerCreateEvent() {
                             setEventStartTime(e.target.value);
                             field.onChange(e);
                           }}
-                          min={addTimeToDate(TicketEndDate, 0, 0)}
+                          // min={addTimeToDate(TicketEndDate, 0, 0)}
+                          min={TicketEndDate}
                         />
                       </FormControl>
 
@@ -1464,7 +1548,7 @@ function OganizerCreateEvent() {
                   </div>
 
                   {/* What's Included Section */}
-                  <div className="pb-[8px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                  <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                     <div
                       className="flex items-center justify-between"
                       onClick={() => handleDropdown(index)}
@@ -1479,9 +1563,10 @@ function OganizerCreateEvent() {
                         alt="arrow"
                       />
                     </div>
-                    {ticket?.dropdown && (
+                    {/* {ticket?.dropdown && (
                       <div>
                         {options?.map((option) => (
+
                           <div
                             key={option.id}
                             className="flex items-center justify-between pt-[8px] cursor-pointer"
@@ -1510,6 +1595,44 @@ function OganizerCreateEvent() {
                             )}
                           </div>
                         ))}
+
+                       
+                      </div>
+                    )} */}
+                    {ticket?.dropdown && (
+                      <div className="grid-container">
+                        {options?.map((option) => (
+                          <div
+                            key={option.id}
+                            className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
+                            onClick={() => handleOptionToggle(index, option)}
+                          >
+                            <div className="flex items-center gap-[10px]">
+                              <Image
+                                src={option?.image}
+                                width={16}
+                                height={16}
+                                alt="img"
+                              />
+                              <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                {option.label}
+                              </p>
+                            </div>
+                            {ticket?.options?.some(
+                              (o) => o?.id === option?.id
+                            ) && (
+                              <Image
+                                src={tick}
+                                width={10}
+                                height={10}
+                                alt="tick"
+                              />
+                            )}
+                          </div>
+                        ))}
+                        <div className="column-separator"></div>{" "}
+                        {/* Empty div to control the separator placement */}
+                        <div className="column-separator"></div>
                       </div>
                     )}
                   </div>

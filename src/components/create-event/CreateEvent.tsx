@@ -312,6 +312,10 @@ function CreateEvent() {
     ]);
   };
 
+  const handleDeleteTicketType = (index: number) => {
+    setTicketTypes((prevTickets) => prevTickets.filter((_, i) => i !== index));
+  };
+
   const handleSingleFileChange = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -1075,6 +1079,8 @@ function CreateEvent() {
                 </Button>
               </div>
 
+              
+
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
                   control={form.control}
@@ -1255,7 +1261,7 @@ function CreateEvent() {
                   type="submit"
                   className="font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                 >
-                  Create Event
+                  Host Event
                 </Button>
               </div>
             </form>

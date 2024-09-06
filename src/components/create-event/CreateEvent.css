@@ -8,7 +8,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Creates 3 equal columns */
   grid-template-rows: auto; /* Adjust as needed for rows */
-  gap: 20px 30px; /* Horizontal gap (between columns) and vertical gap (between rows) */
+  gap: 0px 60px ; /* Horizontal gap (between columns) and vertical gap (between rows) */
   position: relative;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .column-separator::before {
-  left: calc(33.33% + 15px); /* Adjust to match the horizontal gap (half of it) */
+  left: calc(31.33% + 15px); /* Adjust to match the horizontal gap (half of it) */
 }
 
 .column-separator::after {
@@ -151,8 +151,18 @@
   }
 }
 
+
 @media(max-width:768px)
 {
+  .grid-container {
+    grid-template-columns: 1fr; /* Single column */
+    gap: 0; /* No gap */
+  }
+
+  .column-separator::before,
+  .column-separator::after {
+    display: none; /* Hide separators */
+  }
    .common-container{
     flex-wrap: wrap;
     flex-direction: column;

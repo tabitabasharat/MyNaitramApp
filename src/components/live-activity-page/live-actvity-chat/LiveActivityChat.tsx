@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PaperPlaneTilt } from "@phosphor-icons/react/dist/ssr";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Chat from "@/components/live-activity-page/live-actvity-chat/Chat";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -28,6 +28,7 @@ const LiveActivityChat = ({ eventID }: any) => {
   const [userid, setUserid] = useState<string | null>(null);
   const [loader, setLoader] = useState(false);
   const [msgs, setmsgs] = useState<string>("");
+  const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const userID =
@@ -60,7 +61,8 @@ const LiveActivityChat = ({ eventID }: any) => {
   };
 
   useEffect(() => {
-    const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     socket.on("connect", () => {
       // audio.play();
       console.log("socket is connecting");
@@ -74,8 +76,18 @@ const LiveActivityChat = ({ eventID }: any) => {
         if (userid && eventID) {
           socket.off("newChatMessage", GetMessengerHistory);
         }
-        socket.off("connect", (reason) => {});
-        socket.off("disconnect", (reason) => {});
+        const handleDisconnect = (reason: any) => {
+          console.log("Socket disconnected:", reason);
+        };
+        const handleConnect = () => {
+          console.log("socket is connecting");
+          if (userid) {
+            socket.emit("join", userid);
+          }
+        };
+        socket.off("Connected", handleConnect);
+
+        socket.off("disconnect", handleDisconnect);
       };
     }
   }, []);
@@ -94,13 +106,13 @@ const LiveActivityChat = ({ eventID }: any) => {
 
       dispatch(createChat(data)).then((res: any) => {
         if (res?.payload?.status === 201) {
-          setLoader(false);
+          // setLoader(false);
           console.log("Message sent successfully", res?.payload?.data);
           SuccessToast("Message sent successfully");
           setmsgs("");
           dispatch(getChat(eventID));
         } else {
-          setLoader(false);
+          // setLoader(false);
           ErrorToast(res?.payload?.message);
         }
       });
@@ -109,7 +121,18 @@ const LiveActivityChat = ({ eventID }: any) => {
       ErrorToast(error);
     }
   }
+  const scrollToBottom = () => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  };
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [EventChat]);
+
+  // useEffect(() => {
+
+  //   chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [EventChat]);
   return (
     <div
       style={{
@@ -119,8 +142,10 @@ const LiveActivityChat = ({ eventID }: any) => {
       }}
       className="w-full lg:w-[576px] h-[600px] md:border md:border-[#292929] rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0"
     >
+      {EventChat?.length > 0 ? (
       <ScrollArea className="h-full w-full mt-1 z-0 space-y-2 pb-[6rem]">
         {userLoading.loading && <ScreenLoader />}
+
         <div className="space-y-2">
           {EventChat?.length > 0 &&
             EventChat?.map((event: any) => (
@@ -133,8 +158,12 @@ const LiveActivityChat = ({ eventID }: any) => {
                 time={formatTime(event?.createdAt)}
               />
             ))}
+          <div ref={chatEndRef} />
         </div>
       </ScrollArea>
+      ) : (
+        <p>No chat Exist</p>
+      )}
 
       <div className="flex absolute bottom-8 w-[90%] gap-4 z-[2]">
         <Input
