@@ -8,7 +8,6 @@ import SignUpModal from "../auth/SignUpModal";
 import { AuthMode } from "@/types/types";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { whitelistcheck } from "@/lib/middleware/event";
-
 const BuyTicket = ({
   eventid,
   event,
@@ -24,7 +23,6 @@ const BuyTicket = ({
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
   const [Useremail, setUserEmail] = useState<any>();
   const [userIds, setUserIds] = useState<any>("");
-
   const [canBuyTicket, setCanBuyTicket] = useState<any>();
   const EventDetail = useAppSelector(
     (state: any) => state?.getTicketStore?.specificEvent?.data
@@ -35,13 +33,11 @@ const BuyTicket = ({
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
     setToken(token);
   }, [isLoginDialogOpen]);
-
   useEffect(() => {
     const token =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserIds(token);
   }, [isLoginDialogOpen]);
-
   useEffect(() => {
     const useremail =
       typeof window !== "undefined" ? localStorage.getItem("email") : null;
@@ -149,11 +145,16 @@ const BuyTicket = ({
             )}
           </div>
         )}
-
         <CheckOutModal event={event} />
       </div>
     </Dialog>
   );
 };
-
 export default BuyTicket;
+
+
+
+
+
+
+
