@@ -157,11 +157,13 @@ type Option = {
   label: string;
   image: string;
 };
-type GalleryFile = File | { type: any; url: any };
+// type GalleryFile = File | { type: any; url: any };
+type GalleryFile = { type: "image" | "video"; url: string } | File;
 
 function Editevent() {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
+  const [removedImages, setRemovedImages] = useState<string[]>([]);
   const fileInputRef = useRef(null);
   const fileInputRef2 = useRef(null);
   const [dropdown, setDropdown] = useState(true);
@@ -213,12 +215,12 @@ function Editevent() {
     { id: 3, label: "VIP Lounge", image: img3 },
     { id: 4, label: "Security and First Aid", image: img4 },
   ];
-  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  // const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
 
-  // const [galleryFiles, setGalleryFiles] = useState<GalleryFile[]>([]);
+  const [galleryFiles, setGalleryFiles] = useState<GalleryFile[]>([]);
   // const [galleryFiles, setGalleryFiles] = useState<{ file: File; url: string }[]>([]);
   const [eventID, setEventId] = useState("");
-
+  console.log("files in gallery", galleryFiles);
   useEffect(() => {
     const currentUrl: any =
       typeof window !== "undefined" ? window.location.href : null;
@@ -495,11 +497,40 @@ function Editevent() {
     }
   };
 
-  
- 
- const removeImage = (index: number) => {
-  setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-};
+  // const removeImage = (index: number) => {
+  //   setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  // };
+  // const removeImage = (index: number) => {
+  //   setGalleryFiles((prevFiles) => {
+  //     const updatedFiles = prevFiles.filter((_, i) => i !== index);
+  //     console.log("Updated gallery files after removal:", updatedFiles); // Log to verify
+  //     return updatedFiles;
+  //   });
+  // };
+
+  const removeImage = (index: number) => {
+    setGalleryFiles((prevFiles) => {
+      const fileToRemove = prevFiles[index];
+      const updatedFiles = prevFiles.filter((_, i) => i !== index);
+
+      if ("url" in fileToRemove) {
+        // Handle URL type
+        setRemovedImages((prevRemoved) => {
+          const updatedRemoved = new Set([...prevRemoved, fileToRemove.url]);
+          return Array.from(updatedRemoved);
+        });
+      } else {
+        // Handle File type
+        const fileUrl = URL.createObjectURL(fileToRemove);
+        setRemovedImages((prevRemoved) => {
+          const updatedRemoved = new Set([...prevRemoved, fileUrl]);
+          return Array.from(updatedRemoved);
+        });
+      }
+
+      return updatedFiles;
+    });
+  };
 
   // const removeImage = (index: number) => {
   //   setGalleryFiles((prevFiles) => {
@@ -550,7 +581,13 @@ function Editevent() {
     console.log("images of gallery", imagesOfGallery, EventMediaAlready);
 
     // Use concat to add new images to the copied array
-    const updatedEventMedia = EventMediaAlready.concat(imagesOfGallery);
+    // const updatedEventMedia = EventMediaAlready.concat(imagesOfGallery);
+
+    // console.log("images updated", updatedEventMedia);
+
+    const updatedEventMedia = [...EventMediaAlready, ...imagesOfGallery].filter(
+      (media) => !removedImages.includes(media)
+    );
 
     console.log("images updated", updatedEventMedia);
     // const imagesOfGallery = await handleFileChangeapi();
@@ -613,19 +650,6 @@ function Editevent() {
         setMainImgName(imageName);
       }
 
-      // if (EventData?.eventmedia) {
-      //   const files = EventData?.eventmedia.map((url: any) => ({
-      //     type:
-      //       url?.endsWith(".mp4") ||
-      //       url?.endsWith(".avi") ||
-      //       url?.endsWith(".mov") ||
-      //       url?.endsWith(".mkv")
-      //         ? "video"
-      //         : "image",
-      //     url,
-      //   }));
-      //   setGalleryFiles(files);
-      // }
       if (EventData?.eventmedia) {
         const files = EventData?.eventmedia
           .map((media: any) => {
@@ -822,12 +846,14 @@ function Editevent() {
                 alt="ufo"
               />
             </div>
-            <div className="gradient-slate w-full pt-[16px] pb-[16px] px-[24px] h-[424px] create-container-head relative ">
+            {/* <div className="gradient-slate w-full pt-[16px] pb-[16px] px-[24px] h-[424px] create-container-head relative ">
               <div>
-                {galleryFiles?.length > 0 && (
+                <>
                   <div className="mt-4 pb-4 relative">
                     <div className="flex flex-wrap gap-[12px]">
-                      {galleryFiles.length > 0 && (
+                      {galleryFiles.length > 0 ? (
+                        <>
+                     
                         <div className="mt-4 pb-4 relative">
                           <div className="flex flex-wrap gap-[13px]">
                             {galleryFiles.map((file: any, index) => (
@@ -877,44 +903,211 @@ function Editevent() {
                               </div>
                             ))}
                           </div>
+                          <label
+                            htmlFor="galleryUpload"
+                            className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end pr-[40px] ${
+                              galleryFiles.length > 0
+                                ? " gallery-box h-full"
+                                : "pt-9 gallery-top"
+                            }`}
+                          >
+                            <div
+                              className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]"
+                              style={{
+                                position: "absolute",
+                                bottom: "24px",
+                              }}
+                            >
+                              <Image src={greenpencile} alt="pencil" />
+                              <p className="text-[#00D059] text-sm font-extrabold">
+                                Upload Media
+                              </p>
+                            </div>
+
+                            <input
+                              type="file"
+                              multiple
+                              accept="image/*, video/*"
+                              // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
+                              className="hidden"
+                              id="galleryUpload"
+                              onChange={handleFileChange}
+                            />
+                          </label>
+                          </>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-center h-full ">
+                          <div
+                            className="  py-[24px]  flex items-center flex-col gap-[12px] justify-center w-[345px] rounded-[12px]
+                   gradient-slate box-shadow-inset-empty  border-gradient-emptyF"
+                          >
+                            <p className="text-[16px] text-extrabold">
+                              There's No Gallery Media
+                            </p>
+                            <label
+                              htmlFor="galleryUpload"
+                              className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end  ${
+                                galleryFiles.length > 0
+                                  ? " gallery-box"
+                                  : " gallery-tops"
+                              }`}
+                            >
+                              <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
+                                <Image src={greenpencile} alt="pencil" />
+                                <p className="text-[#00D059] text-sm font-extrabold">
+                                  Upload Media
+                                </p>
+                              </div>
+
+                              <input
+                                type="file"
+                                multiple
+                                accept="image/*, video/*"
+                                // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
+                                className="hidden"
+                                id="galleryUpload"
+                                onChange={handleFileChange}
+                              />
+                            </label>
+                          </div>
                         </div>
                       )}
                     </div>
                   </div>
-                )}
-                <label
-                  htmlFor="galleryUpload"
-                  className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end pr-[40px] ${
-                    galleryFiles.length > 0
-                      ? " gallery-box h-full"
-                      : "pt-9 gallery-top"
-                  }`}
-                >
-                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]"
-                  style={{
-                    position:"absolute",
-                    bottom:"24px"
-                  }}>
-                    <Image src={greenpencile} alt="pencil" />
-                    <p className="text-[#00D059] text-sm font-extrabold">
-                      Upload Media
-                    </p>
-                  </div>
-
-                  {/* <span className="pl-[0.75rem] uploadImageButton flex items-center">
-                  <Image src={cam} alt="pencil" /> {"Upload Media"}
-                </span> */}
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/*, video/*"
-                    // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
-                    className="hidden"
-                    id="galleryUpload"
-                    onChange={handleFileChange}
-                  />
-                </label>
+                </>
               </div>
+            </div> */}
+
+            <div
+              className={`gradient-slate w-full pt-[16px] pb-[16px] px-[24px] h-[270px] lg:h-[424px] create-container-head relative${
+                galleryFiles.length > 0
+                  ? " block"
+                  : "flex items-center justify-center"
+              }`}
+            >
+              {galleryFiles?.length > 0 ? (
+                <>
+                  <div className="mt-4 pb-4 relative">
+                    <div className="flex flex-wrap gap-[24px] lg:gap-[13px] max-h-[148px] lg:max-h-[264px] pt-[9px] overflow-auto">
+                    {galleryFiles.map((file: any, index) => (
+                              <div
+                                key={index}
+                                className="relative lg:w-[120px] lg:h-[120px]  h-[57px] w-[57px] rounded-[12px]"
+                              >
+                                {file?.type === "video" ? (
+                                  <video
+                                    src={
+                                      typeof file.url === "string"
+                                        ? file.url
+                                        : URL.createObjectURL(file)
+                                    }
+                                    className="w-full h-full object-cover relative rounded-[12px]"
+                                    width={120}
+                                    height={120}
+                                    controls
+                                  >
+                                    Your browser does not support the video tag.
+                                  </video>
+                                ) : (
+                                  <img
+                                    src={
+                                      typeof file.url === "string"
+                                        ? file.url
+                                        : URL.createObjectURL(file)
+                                    }
+                                    alt={`Gallery Image ${index + 1}`}
+                                    className="w-full h-full object-cover relative rounded-[12px]"
+                                    width={120}
+                                    height={120}
+                                  />
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => removeImage(index)}
+                                  className="trash_button"
+                                >
+                                  <Image
+                                    src={crossicon}
+                                    alt="remove"
+                                    width={20}
+                                    height={20}
+                                  />
+                                </button>
+                              </div>
+                            ))}
+                    </div>
+                  </div>
+                  <label
+                    htmlFor="galleryUpload"
+                    className={`pb-3 gallery-box-same border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end  ${
+                      galleryFiles.length > 0
+                        ? " gallery-box h-full"
+                        : "pt-9 gallery-top"
+                    }`}
+                  >
+                    <div
+                      className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]"
+                      style={{
+                        position: "absolute",
+                        bottom: "24px",
+                      }}
+                    >
+                      <Image src={greenpencile} alt="pencil" />
+                      <p className="text-[#00D059] text-sm font-extrabold">
+                        Upload Media
+                      </p>
+                    </div>
+                   
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*, video/*"
+                      // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
+                      className="hidden"
+                      id="galleryUpload"
+                      onChange={handleFileChange}
+                    />
+                  </label>
+                </>
+              ) : (
+                <div className="flex items-center justify-center h-full ">
+                  <div
+                    className="  py-[24px]  flex items-center flex-col gap-[12px] justify-center w-[345px] rounded-[12px]
+                   gradient-slate box-shadow-inset-empty  border-gradient-emptyF"
+                  >
+                    <p className="text-[16px] text-extrabold">
+                      There's No Gallery Media
+                    </p>
+                    <label
+                      htmlFor="galleryUpload"
+                      className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end  ${
+                        galleryFiles.length > 0
+                          ? " gallery-box"
+                          : " gallery-tops"
+                      }`}
+                    >
+                      <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
+                      <Image src={greenpencile} alt="pencil" />
+
+                        <p className="text-[#00D059] text-sm font-extrabold">
+                          Upload Media
+                        </p>
+                      </div>
+
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*, video/*"
+                        // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
+                        className="hidden"
+                        id="galleryUpload"
+                        onChange={handleFileChange}
+                      />
+                    </label>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -1521,7 +1714,7 @@ function Editevent() {
                   className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
                   key={index}
                 >
-                  <div className="flex items-center gap-[24px]">
+                  <div className="flex items-center gap-[24px] lg:flex-nowrap flex-wrap">
                     {/* Event Ticket Type Field */}
                     <FormField
                       control={form.control}

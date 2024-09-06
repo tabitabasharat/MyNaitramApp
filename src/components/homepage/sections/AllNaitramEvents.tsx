@@ -13,52 +13,105 @@ import calenderX from "../../../assets/Calender X.svg";
 import calendercheckgreen from "../../../assets/Calender Checkgreen.svg";
 import calenderXgreen from "../../../assets/Calender Xgreen.svg";
 import caledndergreen from "../../../assets/Calendergreen.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import "./viewevents.css";
 import { useAppSelector } from "@/lib/hooks";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { getViewAllEvent } from "@/lib/middleware/event";
+import { getViewPastEvents } from "@/lib/middleware/event";
+import { getEventById, getLiveEventById } from "@/lib/middleware/event";
+import { useAppDispatch } from "@/lib/hooks";
 
 const eventimges = [
   { id: 1, title: "All Events", imges: calender },
-  { id: 2, title: "Past Events", imges: calenderX },
-  { id: 3, title: "Your Events", imges: calendercheck },
+  { id: 2, title: "Your Events", imges: calendercheck },
+  { id: 3, title: "Past Events ", imges: calenderX },
 ];
 
 const greenimges = [
   { id: 1, title: "All Events", imges: caledndergreen },
-  { id: 2, title: "Past Events", imges: calenderXgreen },
-  { id: 3, title: "Your Events", imges: calendercheckgreen },
+  { id: 2, title: "Your Events", imges: calendercheckgreen },
+  { id: 3, title: "Past Events ", imges: calenderXgreen },
 ];
 
 const AllNaitramEvents = ({ setPopupOpen }: any) => {
-  // State to manage the selected event
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
   const [selectedEvent, setSelectedEvent] = useState<{
     id: number;
     title: string;
   } | null>(null);
-
+  const [showGreenImages, setShowGreenImages] = useState<boolean>(false);
+  const [userID, setUserID] = useState<any>();
   // Set the default event to "All Events" when the component mounts
   useState(() => {
     setSelectedEvent(eventimges[0]);
   });
+  useEffect(() => {
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    console.log("user id ", userid);
+    const data = {
+      page: 1,
+    };
 
-  // Handle click to set the selected event
-  const handleClick = (id: number) => {
+    dispatch(getViewAllEvent(data));
+    dispatch(getViewPastEvents());
+    // dispatch(getEventById(userid));
+    dispatch(getLiveEventById(userid));
+  }, []);
+
+  const handleClick = (id: number, type: string) => {
     const event = eventimges.find((e) => e.id === id);
     if (event) {
       setSelectedEvent(event);
+      router.push(`?EventType=${type}`, { scroll: false });
     }
   };
 
-  // Determine the current images and title based on the selected event
-  const currentImages = selectedEvent === null ? eventimges : greenimges;
+  useEffect(() => {
+    const id =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setUserID(id);
+
+    const eventTypeFromParams = searchParams.get("EventType");
+    console.log("Full search params:", searchParams.toString());
+    console.log("params event type:", eventTypeFromParams);
+
+    if (eventTypeFromParams) {
+      const decodedEventType = decodeURIComponent(eventTypeFromParams);
+      const event = eventimges.find((e) => e.title === decodedEventType);
+      if (event) {
+        setSelectedEvent(event);
+        console.log("Found event by params:", event);
+      } else {
+        console.log("Event type not found in eventimges");
+        setSelectedEvent(eventimges[0]);
+      }
+    } else {
+      console.log("No event type in params, defaulting to 'All Events'");
+      setSelectedEvent(eventimges[0]);
+    }
+  }, [searchParams]);
+
+  // const currentImages = selectedEvent === null ? eventimges : greenimges;
+  const currentImages = selectedEvent
+    ? greenimges
+    : userID
+    ? eventimges
+    : eventimges.filter((e) => e.title !== "Your Events");
+
+  const options = userID
+    ? eventimges
+    : eventimges.filter((e) => e.title !== "Your Events");
+
   const title = selectedEvent ? selectedEvent.title : "All Events";
 
   const [searchTerm, setSearchTerm] = useState("");
-  const clearInput = () => {
-    setSearchTerm("");
-  };
 
   const EventsAllData = useAppSelector(
     (state) => state?.getViewAllEvents?.ViewallEvents?.data
@@ -80,34 +133,29 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
   const [searchQueryAll, setSearchQueryAll] = useState("");
   const [searchQueryPast, setSearchQueryPast] = useState("");
   const [searchQueryLive, setSearchQueryLive] = useState("");
-  const filteredAllEvents = EventsAllData?.events?.filter((item:any) =>
-    item?.name
-      .toLowerCase()
-      .includes(searchQueryAll.toLowerCase())
+  const filteredAllEvents = EventsAllData?.events?.filter((item: any) =>
+    item?.name.toLowerCase().includes(searchQueryAll.toLowerCase())
   );
-  const filteredPastEvents = EventsPastData?.events?.filter((item:any) =>
-    item?.name
-      .toLowerCase()
-      .includes(searchQueryPast.toLowerCase())
+  const filteredPastEvents = EventsPastData?.events?.filter((item: any) =>
+    item?.name.toLowerCase().includes(searchQueryPast.toLowerCase())
   );
-  const filteredLiveEvents = myEvents?.events?.filter((item:any) =>
-    item?.name
-      .toLowerCase()
-      .includes(searchQueryLive.toLowerCase())
+  const filteredLiveEvents = myEvents?.events?.filter((item: any) =>
+    item?.name.toLowerCase().includes(searchQueryLive.toLowerCase())
   );
 
   const getFilteredEvents = () => {
     switch (title) {
       case "All Events":
-        return filteredAllEvents;
+        return filteredAllEvents || [];
       case "Past Events":
-        return filteredPastEvents;
+        return filteredPastEvents || [];
       case "Your Events":
-        return filteredLiveEvents;
+        return filteredLiveEvents || [];
       default:
         return [];
     }
   };
+  console.log("Filtered Events:", getFilteredEvents());
   return (
     <div
       style={{
@@ -120,10 +168,10 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
     >
       <section className="min-h-screen pxpx mx-2xl pt-[32px] pb-[120px] md:pt-[56px] md:pb-20">
         <div className="grid grid-cols-3 gap-[4px] events md:gap-4">
-          {currentImages.map((event) => (
+          {options.map((event) => (
             <div
               key={event.id}
-              onClick={() => handleClick(event.id)}
+              onClick={() => handleClick(event.id, event.title)}
               className={`relative border  flex flex-col flex items-center justify-center md:items-start rounded-[44px] md:rounded-lg w-full md:px-[12px] md:pt-[16px] md:pb-[12px] cursor-pointer  duration-300 ${
                 selectedEvent?.id === event.id
                   ? "gradient-slate text-[#13FF7A] border-[1px] border-solid  hover:border-[#13FF7A] border-[#13FF7A] "
@@ -131,7 +179,11 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
               }`}
             >
               <Image
-                src={event.imges}
+                // src={event.imges}
+                src={
+                  currentImages.find((img) => img.id === event.id)?.imges ||
+                  event.imges
+                }
                 alt={event.title}
                 width={20}
                 height={20}
@@ -154,11 +206,10 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
         {/* Search web */}
 
         <div className="md:flex justify-start gap-10 w-full">
-          
           <FilterSideBar />
 
-             {/* Search inputs for different event types */}
-             <div className="w-full lg:mt-0 mt-[24px]">
+          {/* Search inputs for different event types */}
+          <div className="w-full lg:mt-0 mt-[24px]">
             <div className="w-full relative mb-[32px]">
               {title === "All Events" && (
                 <Input
@@ -184,18 +235,16 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
                   placeholder="Search Your Events"
                 />
               )}
-              <MagnifyingGlass
-                size={20}
-                className="absolute top-1/2 -translate-y-1/2 right-5"
-              />
+              {getFilteredEvents()?.length > 0 && (
+                <MagnifyingGlass
+                  size={20}
+                  className="absolute top-1/2 -translate-y-1/2 right-5"
+                />
+              )}
             </div>
-            <AllEventsGrid
-            events={getFilteredEvents()}
-              // events={events}
-              eventType={title}
-            />
-          {/* All Naitram Events */}
-          {/* <div className="w-full">
+            <AllEventsGrid events={getFilteredEvents()} eventType={title} />
+            {/* All Naitram Events */}
+            {/* <div className="w-full">
             <div className="w-full relative mb-[32px]">
               <Input
                 value={searchTerm}
@@ -211,7 +260,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
 
             <AllEventsGrid events={events} eventType={title} />
           </div> */}
-        </div>
+          </div>
         </div>
       </section>
     </div>

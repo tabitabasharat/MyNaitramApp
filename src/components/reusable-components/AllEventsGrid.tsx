@@ -52,11 +52,12 @@ const AllEventsGrid = ({ events, eventType }: any) => {
 
   console.log("my Live Events are", myEvents);
 
+  console.log("event type", eventType)
   return (
     <>
       {/* All Events */}
       {eventType === "All Events" &&
-        (events && events.length > 0 ? (
+        (events && events?.length > 0 ? (
           <>
             <div className="relative grid md:grid-cols-1 lg:grid-cols-3 gap-[1rem]">
               {events?.length > 0 &&
@@ -89,7 +90,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
 
       {/* Past Events */}
       {eventType === "Past Events" &&
-        (events && events?.length > 0 ? (
+        (events?.length > 0 ? (
           <>
             <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
               {events?.length > 0 &&
@@ -114,7 +115,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
             </div>
           </>
         ) : (
-          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem] ">
             <p>No Event Found</p>
             <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
           </div>

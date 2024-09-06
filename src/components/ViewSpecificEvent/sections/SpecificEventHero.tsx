@@ -153,6 +153,7 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
                 instaUrl={EventData?.instaUrl}
                 tiktokUrl={EventData?.tiktokUrl}
                 event={EventData?.id}
+                
                 title={EventData?.name}
                 eventCategory={EventData?.category}
                 eventDate={EventData?.startTime}

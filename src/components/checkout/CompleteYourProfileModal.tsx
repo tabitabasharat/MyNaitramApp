@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
 import {
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Separator } from '@/components/ui/separator';
+} from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 import {
   CaretLeft,
   Envelope,
@@ -14,11 +14,11 @@ import {
   MapPin,
   Phone,
   User,
-} from '@phosphor-icons/react/dist/ssr';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Button } from '@/components/ui/button';
+} from "@phosphor-icons/react/dist/ssr";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -26,35 +26,36 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useEffect, useState } from 'react';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
 
 const formSchema = z.object({
   full_name: z.string().min(2, {
-    message: 'Full name cannot be empty.',
+    message: "Full name cannot be empty.",
   }),
   phone: z.number().min(1, {
-    message: 'Phone Number cannot be empty.',
-  })
+    message: "Phone Number cannot be empty.",
+  }),
 });
 
 const CompleteYourProfileModal = ({
   onNext,
   handleNext,
-  setProfileInformation
+  setProfileInformation,
 }: {
   onNext: () => void;
   handleNext: any;
-  setProfileInformation:any
+  setProfileInformation: any;
 }) => {
+  const [email, setEmail] = useState<any>("");
+  const [username, setName] = useState<any>("");
 
-  const [email,setEmail]=useState<any>("")
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      full_name: '',
+      full_name: "",
       phone: undefined,
     },
   });
@@ -63,22 +64,25 @@ const CompleteYourProfileModal = ({
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    setProfileInformation(values)
+    setProfileInformation(values);
     onNext();
     console.log(values);
   }
-  useEffect(()=>{
+  useEffect(() => {
     const email =
       typeof window !== "undefined" ? localStorage.getItem("email") : null;
-      setEmail(email)
-  },[])
+    const name =
+      typeof window !== "undefined" ? localStorage.getItem("name") : null;
+    setName(name);
+    setEmail(email);
+  }, []);
   return (
     <DialogContent className="sm:max-w-[550px]  lg:max-w-[650px]">
       <DialogHeader>
         <DialogTitle className="font-bold text-2xl">
           <div className="flex items-center gap-4 pb-4">
             <button
-              onClick={() => handleNext('BuyTicket')}
+              onClick={() => handleNext("BuyTicket")}
               className="bg-white/10 p-2 w-fit rounded-full cursor-pointer"
             >
               <CaretLeft size={17} weight="bold" />
@@ -105,9 +109,10 @@ const CompleteYourProfileModal = ({
                 />
                 <FormControl>
                   <Input
-                    placeholder="Enter fullname"
+                   disabled
+                   
                     className="pt-10 pb-5 font-bold placeholder:font-normal"
-                    {...field}
+                    placeholder={username}
                   />
                 </FormControl>
 
@@ -143,28 +148,25 @@ const CompleteYourProfileModal = ({
           /> */}
 
           <div className="flex flex-col md:flex-row gap-4 w-full">
-           
-                <FormItem className="relative w-full">
-                  <FormLabel className="text-[11px] text-[#8F8F8F] absolute left-3 top-5">
-                    EMAIL
-                  </FormLabel>
-                  <Envelope
-                    className="absolute right-3 translate-y-[1.2rem]"
-                    size={20}
-                  />
-                  <FormControl>
-                    <Input
-                    disabled
-                      placeholder={email}
-                      className="pt-10 pb-5 font-bold placeholder:font-normal"
-                    
-                    />
-                  </FormControl>
+            <FormItem className="relative w-full">
+              <FormLabel className="text-[11px] text-[#8F8F8F] absolute left-3 top-5">
+                EMAIL
+              </FormLabel>
+              <Envelope
+                className="absolute right-3 translate-y-[1.2rem]"
+                size={20}
+              />
+              <FormControl>
+                <Input
+                  disabled
+                  placeholder={email}
+                  className="pt-10 pb-5 font-bold placeholder:font-normal"
+                />
+              </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              
-          
+              <FormMessage />
+            </FormItem>
+
             <FormField
               control={form.control}
               name="phone"
@@ -192,7 +194,6 @@ const CompleteYourProfileModal = ({
               )}
             />
           </div>
-        
 
           <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
             <Button type="submit" className="w-fit px-8">

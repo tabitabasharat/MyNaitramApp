@@ -8,7 +8,6 @@ import SignUpModal from "../auth/SignUpModal";
 import { AuthMode } from "@/types/types";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { whitelistcheck } from "@/lib/middleware/event";
-
 const BuyTicket = ({
   eventid,
   event,
@@ -24,7 +23,6 @@ const BuyTicket = ({
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
   const [Useremail, setUserEmail] = useState<any>();
   const [userIds, setUserIds] = useState<any>("");
-
   const [canBuyTicket, setCanBuyTicket] = useState<any>();
   const EventDetail = useAppSelector(
     (state: any) => state?.getTicketStore?.specificEvent?.data
@@ -35,20 +33,18 @@ const BuyTicket = ({
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
     setToken(token);
   }, [isLoginDialogOpen]);
-
   useEffect(() => {
     const token =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserIds(token);
   }, [isLoginDialogOpen]);
-
   useEffect(() => {
     const useremail =
       typeof window !== "undefined" ? localStorage.getItem("email") : null;
     setUserEmail(useremail);
     console.log("user login email", useremail);
   }, []);
-
+  console.log(userId, userIds);
   return (
     <Dialog>
       <div className="w-full md:w-[576px] bg-[#007A3535] rounded-xl flex flex-col lg:flex-row items-center justify-center lg:items-center lg:justify-between px-6 py-4 gap-4">
@@ -56,7 +52,9 @@ const BuyTicket = ({
           <p className="font-bold text-[24px] text-center lg:text-left">
             {/* £10 - £1000 */}
             {startPrice && endPrice
-              ? `£${startPrice>endPrice?endPrice:startPrice} - £${startPrice<endPrice?endPrice:startPrice}`
+              ? `£${startPrice > endPrice ? endPrice : startPrice} - £${
+                  startPrice < endPrice ? endPrice : startPrice
+                }`
               : "£10 - £1000"}
           </p>
           {/* <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left text-[13px] lg:text-[14px]">
@@ -85,7 +83,6 @@ const BuyTicket = ({
                     disabled
                     onClick={() => {
                       console.log(token);
-                     
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
                   >
@@ -93,13 +90,16 @@ const BuyTicket = ({
                   </Button>
                 ) : (
                   <Button
+                  disabled={ userId != userIds ? false:true}
                     onClick={() => {
                       console.log(token);
                       // BuyTicket();
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
                   >
-                    Buy Tickets
+                    {
+                      userId != userIds ?  "Buy Tickets": "Your Event"
+                    }
                   </Button>
                 )}
               </DialogTrigger>
@@ -111,7 +111,7 @@ const BuyTicket = ({
               >
                 <DialogTrigger asChild>
                   <Button
-                  disabled={ eventType === "Past Events" && true}
+                    disabled={eventType === "Past Events" && true}
                     onClick={() => {
                       console.log(token);
                     }}
@@ -119,7 +119,7 @@ const BuyTicket = ({
                   >
                     {/* {EventDetail?.data?.data    ?  "View Ticket" : "Buy Ticket"} */}
                     {eventType === "Past Events"
-                      ? "Sold"
+                      ? "Event Ended"
                       : EventDetail?.data?.data
                       ? "View Ticket"
                       : "Buy Ticket"}
@@ -142,11 +142,16 @@ const BuyTicket = ({
             )}
           </div>
         )}
-
         <CheckOutModal event={event} />
       </div>
     </Dialog>
   );
 };
-
 export default BuyTicket;
+
+
+
+
+
+
+

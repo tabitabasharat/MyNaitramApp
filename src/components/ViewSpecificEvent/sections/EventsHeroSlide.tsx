@@ -49,6 +49,7 @@ const EventsHeroSlide = ({
   tiktokUrl,
   eventType,
   userId,
+ 
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
@@ -209,7 +210,8 @@ const EventsHeroSlide = ({
 
           {/* <p className="text-muted mt-4">Location: {location}</p> */}
 
-          <BuyTicket
+      
+         <BuyTicket
             eventType={eventType}
             event={event}
             setShowTicket={setShowTicket}
@@ -217,6 +219,7 @@ const EventsHeroSlide = ({
             endPrice={ticketEndPrice}
             userId={userId}
           />
+      
         </div>
       </div>
     </>
