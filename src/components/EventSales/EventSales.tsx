@@ -153,13 +153,13 @@ function EventSales() {
   };
 
   return (
-    <div className="pt-[120px] px-[24px] lg:px-[216px] md:pt-[132px] mx-auto">
+    <div className="pt-[120px] px-[24px] lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
       {eventSales.loading && <ScreenLoader />}
       <div className="mb-[12px] lg:mb-[24px]">
         <Backward />
       </div>
-      <div className="gap-[32px] mb-[24px] lg:mb-[30px] flex xl:flex-row flex-col lg:gap-[42px]">
-        <div className="">
+      <div className="gap-[32px] mb-[24px] lg:mb-[30px] flex lg:flex-row flex-col lg:gap-[42px]">
+        <div className="flex md:justify-center sm:justify-center">
           <Image
             src={eventSales?.salesData?.data?.event?.coverEventImage}
             alt="img"

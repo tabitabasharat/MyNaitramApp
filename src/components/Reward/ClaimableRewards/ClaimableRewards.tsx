@@ -27,7 +27,7 @@ export default function ClaimableRewards() {
   const dispatch = useAppDispatch();
   const [isClaimOpen, setisClaimOpen] = useState(false);
   useEffect(() => {
-    const currentUrl:any =
+    const currentUrl: any =
       typeof window !== "undefined" ? window.location.href : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
@@ -74,13 +74,10 @@ export default function ClaimableRewards() {
   const copyUrlToClipboard = () => {
     if (typeof window !== "undefined") {
       const currentUrl = window.location.href;
-      if(currentUrl)
-      {
+      if (currentUrl) {
         SuccessToast("URL copied Successfully");
-       console.log("Your url is", currentUrl)
-
-      }
-      else{
+        console.log("Your url is", currentUrl);
+      } else {
         ErrorToast("Failed to copy URL.");
       }
       // navigator.clipboard
@@ -141,9 +138,11 @@ export default function ClaimableRewards() {
               >
                 Claim Collectible
               </Button>
-              <Image src={claimbtn} alt="btn" 
-               onClick={copyUrlToClipboard} 
-        className="cursor-pointer"
+              <Image
+                src={claimbtn}
+                alt="btn"
+                onClick={copyUrlToClipboard}
+                className="cursor-pointer"
               />
             </div>
           </div>

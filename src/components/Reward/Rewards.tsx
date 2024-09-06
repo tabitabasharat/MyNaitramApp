@@ -84,12 +84,12 @@ const router = useRouter();
       //     backgroundRepeat: "no-repeat",
       //     backgroundSize: "cover",
       //   }}
-      className="min-h-screen py-[8rem] bg-cover bg-no-repeat  px-[24px] lg:px-0 bg-reward bg-reward-outer"
+      className="min-h-screen py-[8rem] bg-cover bg-no-repeat px-[24px] lg:px-0 bg-reward bg-reward-outer"
     >
             {claimstatusLoading?.loading && <ScreenLoader/>}
             {userLoading?.loading && <ScreenLoader/>}
 
-      <div className="bg-reward-outer2 ">
+      <div className="bg-reward-outer2">
         <p className="font-extrabold lg:text-[32px] text-[20px] -tracking-[0.02em]">
           Your Rewards
         </p>
