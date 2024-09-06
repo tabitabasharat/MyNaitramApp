@@ -45,7 +45,7 @@ const formSchema = z.object({
     .email({ message: "Invalid email address." }),
 
   facebook: z.string().min(2, { message: "Full Name cannot be empty." }),
-  roll: z.string().min(2, { message: "Roll cannot be empty." }),
+  role: z.string().min(2, { message: "Roll cannot be empty." }),
   cell: z
     .string()
     .min(1, { message: "Phone number cannot be empty." })
@@ -74,7 +74,7 @@ const GetSponsored = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      roll: "",
+      role: "",
       cell: "",
       lastname: "",
       BIO: "",
