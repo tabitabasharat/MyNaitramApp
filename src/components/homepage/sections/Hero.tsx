@@ -37,10 +37,10 @@ const Hero = () => {
           </div>
           <Reveal y={100} width="100%">
             <div className="flex flex-col md:flex-row gap-[0.8rem] w-full md:w-fit md:mx-auto lg:mx-0">
-              <Button onClick={()=>{router.push("/about")}} variant="secondary">Learn More</Button>
+              <Button onClick={()=>{router.push("/about")}} variant="secondary" className='pt-[10px]'>Learn More</Button>
               <Button onClick={()=>{router.push("/download-app")}} className="flex items-center gap-[0.5rem]">
                 <DownloadSimple size={20} weight="bold" />
-                Download App
+               <p className='pt-[3px]'> Download App</p>
               </Button>
             </div>
           </Reveal>

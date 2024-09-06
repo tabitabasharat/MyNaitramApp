@@ -116,7 +116,7 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
         alt=""
       />
       <div className="">
-        <div className="main-abovee pxpx xl:px-[216px] pt-[8rem] lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] flex flex-col lg:flex-row gap-[32px] lg:gap-12 w-full md:w-[70%] md:mx-auto xl:w-full relative   ">
+        <div className="main-abovee px-[24px] w-full md:px-[100px] lg:px-[100px] xl:px-[216px] pt-[8rem] lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] flex flex-col lg:flex-row gap-[32px] lg:gap-12 w-full md:w-[100%] xl:w-full relative   ">
           <div className="">
             <div className="flex items-center gap-4 mb-6">
               <button onClick={() => router.back()} type="button">
@@ -128,7 +128,7 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
               </p>
             </div>
 
-            <div className="lhs-hero flex items-center justify-center flex-col relative ">
+            <div className="lhs-hero w-full lg:w-[392px] flex items-center justify-center flex-col relative ">
               <Image
                 src={EventData?.coverEventImage}
                 alt="takeover"
@@ -224,7 +224,7 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
                               src={item}
                               width={330}
                               height={300}
-                              className="w-full h-[296px] slider-img "
+                              className="w-full h-[315px] slider-img "
                               alt={`Slide ${index + 1}`}
                             />
                           )}

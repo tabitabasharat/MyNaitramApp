@@ -18,7 +18,7 @@ const EventCard: React.FC<{
   imageUrl: string;
   title: string;
   height?: string;
-  width?: string;
+  // width?: string;
   eventType: "tickets" | "collectables" | "rewardcollectables" | null;
 }> = ({
   eventId,
@@ -26,9 +26,9 @@ const EventCard: React.FC<{
   title,
   eventType,
   height = "288px",
-  width = "100%",
+  // width = "100%",
 }) => (
-  <ScaleReveal extraStyle="w-full">
+  <ScaleReveal extraStyle="">
     <Link
       href={
         eventType === "tickets"
@@ -39,7 +39,7 @@ const EventCard: React.FC<{
           ? `reward/claimable-reward/${eventId}`
           : "#"
       }
-      className="w-full"
+      className=""
     >
       <div
         // style={{ height, width }}
@@ -127,7 +127,7 @@ const EventGrid: React.FC<{
       {eventType === "collectables" && (
         <>
           {walletCollectLoading.loading && <ScreenLoader />}
-          <div className="grid grid-cols-1 w-full pb-[28px]  md:pb-[132px] md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px]">
+          <div className="grid grid-cols-1 pb-[28px]  md:pb-[132px] md:grid-cols-2 xl:grid-cols-3 gap-[12px] md:gap-[20px]">
             {eventType === "collectables" && myWalletCollect?.length > 0 ? (
               myWalletCollect?.map((item: any) => (
                 <EventCard
@@ -147,7 +147,7 @@ const EventGrid: React.FC<{
       {eventType === "rewardcollectables" && (
         <>
           {userRewardCollectibleLoading.loading && <ScreenLoader />}
-          <div className="grid grid-cols-1 w-full pb-[28px]  md:pb-[132px] md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px]">
             {eventType === "rewardcollectables" &&
             myRewardCollectibles?.length > 0 ? (
               myRewardCollectibles?.map((item: any) => (
