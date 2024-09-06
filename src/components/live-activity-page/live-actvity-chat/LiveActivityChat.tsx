@@ -12,6 +12,11 @@ import {
 import { createChat, getChat } from "@/lib/middleware/liveactivity";
 import ScreenLoader from "@/components/loader/Screenloader";
 import { socket } from "@/lib/socket";
+import Image from "next/image";
+import addmore from "@/assets/Button (3).svg";
+import link from "@/assets/Link Simple.svg";
+import { API_URL } from "@/lib/client";
+import api from "@/lib/apiInterceptor";
 
 // Utility function to format time
 const formatTime = (dateString: string) => {
@@ -25,10 +30,15 @@ const formatTime = (dateString: string) => {
 
 const LiveActivityChat = ({ eventID }: any) => {
   const dispatch = useAppDispatch();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [userid, setUserid] = useState<string | null>(null);
   const [loader, setLoader] = useState(false);
   const [msgs, setmsgs] = useState<string>("");
+  const [activeIndex, setActiveIndex] = useState<number | null>(null); // State to track active emoji/image
+  const [imgSrc, setImageSrc] = useState<any>("");
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  const emojis = ["😂", "🤩", "🔥", "😍"];
 
   useEffect(() => {
     const userID =
@@ -124,26 +134,58 @@ const LiveActivityChat = ({ eventID }: any) => {
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   };
-
   useEffect(() => {
     scrollToBottom();
   }, [EventChat]);
 
-  // useEffect(() => {
+  const handleSingleFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    console.log("Selected r img is:", file);
 
-  //   chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  // }, [EventChat]);
+    if (file) {
+      setLoader(true);
+
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        const filename = file?.name;
+        console.log("file name", filename);
+        const res: any = await api.post(
+          `${API_URL}/upload/uploadimage`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (res.status === 200) {
+          setLoader(false);
+
+          console.log("File uploaded", res);
+          setImageSrc(res?.data?.data);
+          console.log(res?.data?.data, "this is the file url");
+          SuccessToast("File Uploaded Successfully");
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message || "Error uploading image");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
   return (
     <div
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
-        backgroundPosition: "right",
-      }}
-      className="w-full lg:w-[576px] h-[600px] md:border md:border-[#292929] rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0"
+      className="w-full lg:w-[576px] h-[600px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
+  bg-effect2 bg-effect"
     >
-      {EventChat?.length > 0 ? (
-      <ScrollArea className="h-full w-full mt-1 z-0 space-y-2 pb-[6rem]">
+      {" "}
+      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[6rem]">
         {userLoading.loading && <ScreenLoader />}
 
         <div className="space-y-2">
@@ -160,24 +202,58 @@ const LiveActivityChat = ({ eventID }: any) => {
             ))}
           <div ref={chatEndRef} />
         </div>
-      </ScrollArea>
-      ) : (
-        <p>No chat Exist</p>
-      )}
+        <div className="absolute top-[340px] md:top[225px] md:right-[40px] sm:right-[50px] lg:top-[225px] flex flex-col items-center justify-center space-y-[4px] z-[2] right-[3px] lg:right-[30px]">
+          {emojis.map((emoji, index) => (
+            <p
+              key={index}
+              onClick={() => setActiveIndex(index)}
+              className={`cursor-pointer bg-[#FFFFFF0F] h-[32px] w-[32px] pt-[7px] pb-[4px] pe-[3.5px] ps-[5.5px] rounded-full flex items-center justify-center
+          ${activeIndex === index ? "border border-[#FFFFFF]" : ""}`} // Show border when active
+            >
+              {emoji}
+            </p>
+          ))}
 
-      <div className="flex absolute bottom-8 w-[90%] gap-4 z-[2]">
-        <Input
-          placeholder="Type here"
-          className="rounded-full h-12 px-6"
-          onChange={(e) => setmsgs(e.target.value)}
-          value={msgs}
-          onKeyDown={handleKeyDown}
+          <div
+            onClick={() => setActiveIndex(emojis.length)} // Use length to track image as the last item
+            className={`cursor-pointer bg-[#FFFFFF0F] h-[32px] w-[32px] rounded-full flex items-center justify-center 
+        ${activeIndex === emojis.length ? "border border-[#FFFFFF]" : ""}`} // Show border when active
+          >
+            <Image src={addmore} alt="img" sizes="16px" />
+          </div>
+        </div>
+      </ScrollArea>
+      <div className="flex absolute bottom-8 w-[90%] gap-[12px] z-[2]">
+        <label
+          htmlFor="upload"
+          className="flex gap-2 items-center justify-between w-full cursor-pointer"
+        >
+          <Input
+            placeholder="Type here"
+            className="rounded-full relative h-12 px-6"
+            onChange={(e) => setmsgs(e.target.value)}
+            value={msgs}
+            onKeyDown={handleKeyDown}
+          />
+          <Image
+            src={link}
+            alt="link-img"
+            sizes="16px"
+            className="absolute top-[16px] right-[60px]"
+          />
+        </label>
+        <input
+          ref={fileInputRef}
+          type="file"
+          className="hidden"
+          id="upload"
+          onChange={handleSingleFileChange}
         />
         <Button
-          className="rounded-full w-[36px] h-[36px]"
+          className="rounded-full w-[36px] p-[0px] mt-[6px] px-[10px] h-[36px]"
           onClick={() => SendMsg()}
         >
-          <PaperPlaneTilt size={16} className="h-full" weight="bold" />
+          <PaperPlaneTilt size={16} className="h-full " weight="bold" />
         </Button>
       </div>
       <div className="absolute top-[-3rem] md:top-8 bg-[#0A0D0B] px-3 py-2 translate-x-1/2 right-1/2 rounded-full z-[2]">

@@ -43,7 +43,7 @@ const EventCard: React.FC<{
     >
       <div
         // style={{ height, width }}
-        className="relative overflow-hidden rounded-lg w-full lg:w-[288px] lg:h-[288px] h-full  border border-[#424242]"
+        className="relative overflow-hidden rounded-lg w-full lg:w-[100%] lg:h-[345px]  xl:h-[388px] md:h-[384px] h-full  border border-[#424242]"
       >
         <Image
           src={imageUrl}

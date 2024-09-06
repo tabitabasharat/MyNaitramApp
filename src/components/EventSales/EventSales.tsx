@@ -27,6 +27,8 @@ import { getSalesData } from "@/lib/middleware/organizer";
 import ScreenLoader from "../loader/Screenloader";
 import SalesChart from "../profile-page/SalesChart";
 import SalesGraph from "../Wallet/SalesGraph/SalesGraph";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 function createData(
   name: number,
@@ -165,8 +167,6 @@ function EventSales() {
             alt="img"
             width={392}
             height={392}
-            // layout="responsive"
-            // className="md:size-[100%] size-[100%] md:h-[100%] "
           />
         </div>
         <div className="">
@@ -189,11 +189,6 @@ function EventSales() {
           </p>
           <div className="flex items-center">
             <div className=" w-[40px] h-[40px] rounded-[8px]">
-              {/* `${
-                  eventSales?.salesData?.data?.event?.user?.profilePicture
-                    ? eventSales?.salesData?.data?.event?.user?.profilePicture
-                    : id
-                }` */}
               <Image
                 src={
                   eventSales?.salesData?.data?.event?.user?.profilePicture
@@ -389,6 +384,7 @@ function EventSales() {
               )}
             </TableBody>
           </Table>
+          <Pagination />
         </TableContainer>
       </div>
       <div

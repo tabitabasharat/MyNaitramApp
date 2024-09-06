@@ -79,7 +79,7 @@ const Header = () => {
     { id: 3, title: "Event", url: "/viewallevents" },
     { id: 4, title: "Wallet", url: "/wallet" },
     { id: 5, title: "Rewards", url: "/reward" },
-    { id: 6, title: "Get Sponsored", url: "/contactus" },
+    { id: 6, title: "Get Sponsored", url: "/get-sponsor" },
   ];
   useEffect(() => {
     const id =

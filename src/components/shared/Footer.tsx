@@ -49,7 +49,7 @@ const Footer = () => {
               <div className="flex items-end lg:items-start flex-col gap-6 lg:gap-8">
                 <Link href={"/wallet"}>Wallet</Link>
                 <Link href={"/reward"}>Rewards</Link>
-                <Link href={"/contactus"}>Get Sponsored</Link>
+                <Link href={"/get-sponsor"}>Get Sponsored</Link>
                 {/* <Link href={''}>FAQ</Link>
                 <Link href={''}>Resource</Link> */}
               </div>
