@@ -68,6 +68,15 @@ const Menu = ({
   const dispatch = useAppDispatch();
   const router = useRouter();
   const count = useAppSelector((state) => state?.signIn);
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+
+  const handleDropdownToggle = (id: number) => {
+    if (activeDropdown === id) {
+      setActiveDropdown(null); // Close if already open
+    } else {
+      setActiveDropdown(id); // Open the clicked dropdown
+    }
+  };
 
   const logout = () => {
     localStorage.clear();
@@ -116,34 +125,42 @@ const Menu = ({
                 className="relative w-fit group"
               >
                 {link.subLinks ? (
-                  <div className="relative cursor-pointer flex items-center">
+                  <div
+                    className="relative cursor-pointer flex items-center"
+                    onClick={() => handleDropdownToggle(link.id)}
+                  >
                     <span>{link.name || link.title}</span>
+
                     {/* Conditionally render the arrowdown image if the id is 'about' */}
                     {link.id === 2 && (
                       <Image
-                        src={arrowdown} // Render the arrowdown image
+                        src={arrowdown}
                         alt="Arrow Down"
-                        className="ml-[5px]" 
-                        sizes="12px"// Add some margin-left to separate the image from the text
+                        className="ml-[5px]"
+                        sizes="12px"
                       />
                     )}
+
                     <div className="absolute h-[1px] bottom-[0.15rem] scale-x-0 w-full group-hover:scale-x-100 bg-white duration-300 origin-left"></div>
-                    {/* Dropdown Menu for links with subLinks */}
-                    <motion.div
-                      className="absolute top-[25px] left-0 mt-2 w-[200px] hidden group-hover:block bg-white gradient-slate shadow-lg rounded-md z-10"
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                    >
-                      {link.subLinks.map((subLink, j) => (
-                        <Link
-                          key={j}
-                          href={subLink.href}
-                          className="block px-4 py-2 hover:gradient-slate active:text-[#00D059] active:gradient-slate"
-                        >
-                          {subLink.title}
-                        </Link>
-                      ))}
-                    </motion.div>
+
+                    {/* Dropdown Menu (conditionally rendered on click) */}
+                    {activeDropdown === link.id && (
+                      <motion.div
+                        className="absolute top-[25px] left-0 mt-2 w-[200px] bg-white gradient-slate shadow-lg rounded-md z-10"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                      >
+                        {link.subLinks.map((subLink, j) => (
+                          <Link
+                            key={j}
+                            href={subLink.href}
+                            className="block px-4 py-2 hover:gradient-slate active:text-[#00D059] active:gradient-slate"
+                          >
+                            {subLink.title}
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
                   </div>
                 ) : (
                   <Link
