@@ -46,3 +46,50 @@ export const createChat = createAsyncThunk(
       }
     }
   );
+
+  export const msgReaction = createAsyncThunk(
+    "msgReaction",
+    async (data: any) => {
+      try {
+        console.log("inside the msg reaction");
+        const res = await api.post(`${API_URL}/reward/createChatReactions`, data);
+        console.log("inside the msg reaction", res);
+  
+        // localStorage.setItem("token", res?.data?.token);
+        return {
+          status: res?.status,
+          data: res?.data?.data,
+          token: res?.data?.token,
+        };
+      } catch (error: any) {
+        return {
+          message: error?.response?.data?.error,
+          status: error?.response?.status,
+        };
+      }
+    }
+  );
+
+
+  export const getSponsored = createAsyncThunk(
+    "getSponsored",
+    async (data: any) => {
+      try {
+        console.log("inside the  create sponsored");
+        const res = await api.post(`${API_URL}/helpcenter/createUserDetails`, data);
+        console.log("inside the create sponsored", res);
+  
+        // localStorage.setItem("token", res?.data?.token);
+        return {
+          status: res?.status,
+          data: res?.data?.data,
+          token: res?.data?.token,
+        };
+      } catch (error: any) {
+        return {
+          message: error?.response?.data?.error,
+          status: error?.response?.status,
+        };
+      }
+    }
+  );

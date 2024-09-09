@@ -17,7 +17,12 @@ import addmore from "@/assets/Button (3).svg";
 import link from "@/assets/Link Simple.svg";
 import { API_URL } from "@/lib/client";
 import api from "@/lib/apiInterceptor";
-
+import { msgReaction } from "@/lib/middleware/liveactivity";
+import EmojiPicker from "emoji-picker-react";
+import { Theme } from "emoji-picker-react";
+import { EmojiStyle } from "emoji-picker-react";
+import { SkinTones } from "emoji-picker-react";
+import { SkinTonePickerLocation } from "emoji-picker-react";
 // Utility function to format time
 const formatTime = (dateString: string) => {
   const date = new Date(dateString);
@@ -37,8 +42,74 @@ const LiveActivityChat = ({ eventID }: any) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null); // State to track active emoji/image
   const [imgSrc, setImageSrc] = useState<any>("");
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const [moreEmoji, setMoreEmoji] = useState<any>(false);
 
+  const [activeMessage, setActiveMessage] = useState<number | null>(null);
+  const [messageReactions, setMessageReactions] = useState<{
+    [key: number]: string;
+  }>({}); // State to store emoji reactions
   const emojis = ["😂", "🤩", "🔥", "😍"];
+
+  const handleMoreEmoji = () => {
+    setMoreEmoji(!moreEmoji);
+  };
+
+  console.log("active state", activeMessage);
+  console.log("active reactio", messageReactions);
+  const handleMessagePress = (messageId: number) => {
+    console.log("Clicked message ID:", messageId);
+    if (activeMessage === messageId) {
+      setActiveMessage(null); // If same message is pressed again, close reactions
+    } else {
+      setActiveMessage(messageId); // Open reactions for the selected message
+    }
+    // setActiveMessage((prevActiveMessage) =>
+    //   prevActiveMessage === messageId ? null : messageId
+    // );
+  };
+
+  // const setMessageReaction = (messageId: number, emoji: string) => {
+  //   console.log(`Setting reaction for message ${messageId}: ${emoji}`); // Debugging log
+  //   setMessageReactions((prevReactions) => ({
+  //     ...prevReactions,
+  //     [messageId]: emoji, // Store emoji for the message
+  //   }));
+  // };
+
+  const handleEmojiClick = (emojiData: any) => {
+    const emoji = emojiData.emoji;
+    if (activeMessage !== null) {
+      setMessageReaction(activeMessage, emoji);
+      setMoreEmoji(false);
+    }
+  };
+  async function setMessageReaction(messageId: number, emoji: string) {
+    try {
+      console.log(`Setting reaction for message ${messageId}: ${emoji}`);
+      
+
+      const data = {
+        chatId: messageId,
+        reactionType: emoji,
+        userId: userid,
+        eventId: eventID,
+      };
+
+      dispatch(msgReaction(data)).then((res: any) => {
+        if (res?.payload?.status === 201) {
+          console.log("Message reaction", res?.payload?.data);
+
+          // setmsgs("");
+          dispatch(getChat(eventID));
+        } else {
+          console.log(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      ErrorToast(error);
+    }
+  }
 
   useEffect(() => {
     const userID =
@@ -70,59 +141,125 @@ const LiveActivityChat = ({ eventID }: any) => {
     dispatch(getChat(eventID));
   };
 
-  useEffect(() => {
-    const userid =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-    socket.on("connect", () => {
-      // audio.play();
-      console.log("socket is connecting");
-      socket.emit("join", userid);
-    });
-    if (userid && eventID) {
-      socket.on("newChatMessage", GetMessengerHistory);
 
-      socket.on("disconnect", (reason) => {});
+
+  // useEffect(() => {
+  //   typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+  //   socket.on("connect", () => {
+  //     console.log("socket is connecting");
+  //     socket.emit("join", userid);
+  //   });
+  //   if (userid && eventID) {
+  //     socket.on("newChatMessage", GetMessengerHistory); // add client/associate
+
+  //     socket.on("disconnect", (reason) => {});
+  //     return () => {
+  //       if (userid) {
+  //         // add client/associate
+  //         socket.off("newChatMessage", GetMessengerHistory);
+  //       }
+  //       const handleDisconnect = (reason: any) => {
+  //         console.log("Socket disconnected:", reason);
+  //       };
+  //       const handleConnect = () => {
+  //         console.log("socket is connecting");
+  //         if (userid) {
+  //           socket.emit("join", userid);
+  //         }
+  //       };
+  //       socket.off("Connected", handleConnect);
+
+  //       socket.off("disconnect", handleDisconnect);
+  //     };
+  //   }
+  //   else if (userid && activeMessage) {
+  //     socket.on("reactionUpdated", GetMessengerHistory); // add client/associate
+
+  //     socket.on("disconnect", (reason) => {});
+  //     return () => {
+  //       if (userid) {
+  //         // add client/associate
+  //         socket.off("reactionUpdated", GetMessengerHistory);
+  //       }
+  //       const handleDisconnect = (reason: any) => {
+  //         console.log("Socket disconnected:", reason);
+  //       };
+  //       const handleConnect = () => {
+  //         console.log("socket is connecting");
+  //         if (userid) {
+  //           socket.emit("join", userid);
+  //         }
+  //       };
+  //       socket.off("Connected", handleConnect);
+
+  //       socket.off("disconnect", handleDisconnect);
+  //     };
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+  
+    const handleDisconnect = (reason: any) => {
+      console.log("Socket disconnected:", reason);
+    };
+  
+    const handleConnect = () => {
+      console.log("Socket is connecting");
+      if (userid) {
+        socket.emit("join", userid);
+      }
+    };
+  
+    // Only proceed if userid is available
+    if (userid) {
+      socket.on("connect", handleConnect);
+      socket.on("disconnect", handleDisconnect);
+  
+      // Handle new chat message if eventID is provided
+      if (eventID) {
+        socket.on("newChatMessage", GetMessengerHistory);
+      }
+  
+      // Handle reaction updates if activeMessage is provided
+      if (activeMessage) {
+        socket.on("reactionUpdated", GetMessengerHistory);
+      }
+  
+      // Cleanup on unmount or when dependencies change
       return () => {
-        if (userid && eventID) {
+        socket.off("connect", handleConnect);
+        socket.off("disconnect", handleDisconnect);
+  
+        // Remove listeners for eventID and activeMessage
+        if (eventID) {
           socket.off("newChatMessage", GetMessengerHistory);
         }
-        const handleDisconnect = (reason: any) => {
-          console.log("Socket disconnected:", reason);
-        };
-        const handleConnect = () => {
-          console.log("socket is connecting");
-          if (userid) {
-            socket.emit("join", userid);
-          }
-        };
-        socket.off("Connected", handleConnect);
-
-        socket.off("disconnect", handleDisconnect);
+        if (activeMessage) {
+          socket.off("reactionUpdated", GetMessengerHistory);
+        }
       };
     }
-  }, []);
-
+  }, [eventID, activeMessage]);
+  
   const userLoading = useAppSelector((state) => state?.getEventChat);
 
   async function SendMsg() {
     try {
       const data = {
         msg: msgs,
-        picture:
-          "https://web3fund.s3.eu-central-1.amazonaws.com/social-img-2.svg",
+        picture: imgSrc,
         userId: userid,
         eventId: eventID,
       };
 
       dispatch(createChat(data)).then((res: any) => {
         if (res?.payload?.status === 201) {
-          // setLoader(false);
           console.log("Message sent successfully", res?.payload?.data);
           SuccessToast("Message sent successfully");
           setmsgs("");
           dispatch(getChat(eventID));
         } else {
-          // setLoader(false);
           ErrorToast(res?.payload?.message);
         }
       });
@@ -185,7 +322,7 @@ const LiveActivityChat = ({ eventID }: any) => {
   bg-effect2 bg-effect"
     >
       {" "}
-      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[6rem]">
+      {/* <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[6rem]">
         {userLoading.loading && <ScreenLoader />}
 
         <div className="space-y-2">
@@ -198,6 +335,7 @@ const LiveActivityChat = ({ eventID }: any) => {
                 img={event?.picture}
                 userimg={event?.user?.profilePicture}
                 time={formatTime(event?.createdAt)}
+                reactionimg={"🔥"}
               />
             ))}
           <div ref={chatEndRef} />
@@ -222,6 +360,75 @@ const LiveActivityChat = ({ eventID }: any) => {
             <Image src={addmore} alt="img" sizes="16px" />
           </div>
         </div>
+      </ScrollArea> */}
+      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[6rem]">
+        {/* {userLoading.loading && <ScreenLoader />} */}
+
+        <div className="space-y-2">
+          {EventChat?.length > 0 &&
+            EventChat?.map((event: any, index: any) => (
+              <div key={event?.id} className="relative">
+                <div
+                  onClick={() => handleMessagePress(event?.id)}
+                 
+                >
+                  <Chat
+                    key={event?.id}
+                    msgtext={event?.msg}
+                    username={event?.user?.fullname}
+                    img={event?.picture}
+                    userimg={event?.user?.profilePicture}
+                    time={formatTime(event?.createdAt)}
+                    reactions={event?.reactions}
+                    // reactionimg={event?.reactions
+                    //   ?.map((reaction: any) => reaction?.reactionType)
+                    //   .join(" ")}
+                      // reactioncount={event?.reactions
+                      //   ?.map((reaction: any) => reaction?.count)
+                      //  }
+                  
+                  />
+                </div>
+                {activeMessage === event?.id && (
+                  <div className="absolute top-0 right-0 flex flex-col items-center space-y-2 z-10">
+                    {emojis.map((emoji, index) => (
+                      <p
+                        key={index}
+                        onClick={() => setMessageReaction(event?.id, emoji)}
+                        className={`cursor-pointer bg-[#FFFFFF0F] h-[32px] w-[32px] pt-[7px] pb-[4px] pe-[3.5px] ps-[5.5px] rounded-full flex items-center justify-center text-xl ${
+                          messageReactions[event?.id] === emoji
+                            ? "border border-[#FFFFFF]"
+                            : ""
+                        }`}
+                      >
+                        {emoji}
+                      </p>
+                    ))}
+                    <Image
+                      src={addmore}
+                      alt="img"
+                      sizes="16px"
+                      onClick={() => handleMoreEmoji()}
+                    />
+                    {activeMessage === event?.id && moreEmoji && (
+                      <div className="absolute top-0 right-0 p-2 gradient-slate rounded ">
+                        <EmojiPicker
+                          onEmojiClick={handleEmojiClick}
+                          theme={"dark" as Theme}
+                          height={"350px"}
+                          lazyLoadEmojis={true}
+                          style={{
+                            background: "transparent",
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+        </div>
+        <div ref={chatEndRef} />
       </ScrollArea>
       <div className="flex absolute bottom-8 w-[90%] gap-[12px] z-[2]">
         <label

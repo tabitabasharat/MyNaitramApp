@@ -37,6 +37,7 @@ import { getOrganizerByID } from "@/lib/middleware/organizer";
 import user from "@/assets/profile.svg";
 import organization from "@/assets/Buildings.svg";
 import cell from "@/assets/cell.svg";
+import { getSponsored } from "@/lib/middleware/liveactivity";
 
 const formSchema = z.object({
   email: z
@@ -44,15 +45,15 @@ const formSchema = z.object({
     .min(1, { message: "Email cannot be empty." })
     .email({ message: "Invalid email address." }),
 
-  facebook: z.string().min(2, { message: "Full Name cannot be empty." }),
-  role: z.string().min(2, { message: "Roll cannot be empty." }),
+  firstname: z.string().min(1, { message: "Full Name cannot be empty." }),
+  role: z.string().min(2, { message: "Role cannot be empty." }),
   cell: z
     .string()
     .min(1, { message: "Phone number cannot be empty." })
-    .refine((val) => !isNaN(Number(val)), {
-      message: "Phone number must be numeric.",
-    }),
-  organization: z.string().min(1, { message: "Twitter Url cannot be empty." }),
+    .regex(/^\d+$/, { message: "Phone number must be numeric." }), 
+  organization: z
+    .string()
+    .min(1, { message: "Organization name cannot be empty." }),
   lastname: z.string().min(1, { message: "Last name cannot be empty." }),
   BIO: z.string().min(1, { message: "Description cannot be empty." }),
 });
@@ -62,21 +63,22 @@ const GetSponsored = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [loader, setLoader] = useState(false);
 
-  const [imageSrc, setImageSrc] = useState("");
-  const [bio, setBIO] = useState("");
-  const [fbUrl, setFbUrl] = useState("");
-  const [instaUrl, setinstaUrl] = useState("");
-  const [linkedinUrl, setlinkedinUrl] = useState("");
-  const [twitterUrl, settwitterUrl] = useState("");
-  const [youtubeUrl, setyoutubeUrl] = useState("");
-  const [tiktokUrl, settiktokUrl] = useState("");
+  const [Name, setName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [Email, setEmail] = useState("");
+  const [OrgName, setOrgName] = useState("");
+  const [Role, setRole] = useState("");
+  const [ContactNo, setContactNo] = useState("");
+  const [Description, setDescription] = useState("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      firstname: "",
+      lastname: "",
       role: "",
       cell: "",
-      lastname: "",
+
       BIO: "",
       email: "",
       organization: "",
@@ -97,46 +99,6 @@ const GetSponsored = () => {
     dispatch(getOrganizerByID(id));
   }, []);
 
-  const handleSingleFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = e.target.files?.[0];
-    console.log("Selected r img is:", file);
-
-    if (file) {
-      setLoader(true);
-
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-        const res: any = await api.post(
-          `${API_URL}/upload/uploadimage`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-
-        if (res.status === 200) {
-          setLoader(false);
-
-          console.log("Profile image", res);
-          console.log("Profile image uploaded");
-          setImageSrc(res?.data?.data);
-          console.log(res?.data?.data, "this is the Profile");
-          SuccessToast("Profile Image Updated Successfully");
-        } else {
-          setLoader(false);
-          ErrorToast(res?.payload?.message || "Error uploading image");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
-
   const pathname = usePathname();
 
   async function updateActivity(values: z.infer<typeof formSchema>) {
@@ -146,25 +108,20 @@ const GetSponsored = () => {
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     try {
       const data = {
-        fbUrl: fbUrl || myActivity?.fbUrl || "",
-        instaUrl: instaUrl || myActivity?.instaUrl || "",
-        linkedinUrl: linkedinUrl || myActivity?.linkedinUrl || "",
-        // const [Name, setName] = useState("");
-        youtubeUrl: youtubeUrl || myActivity?.youtubeUrl || "",
-        twitterUrl: twitterUrl || myActivity?.twitterUrl || "",
-        tiktokUrl: tiktokUrl || myActivity?.tiktokUrl || "",
-        bio: bio || myActivity?.bio || "",
-
-        profilePicture: imageSrc,
-
-        userId: userID,
+        firstName: Name,
+        lastName: LastName,
+        email: Email,
+        organizationName: OrgName,
+        role: Role,
+        contactNo: ContactNo,
+        message: Description,
       };
-      dispatch(updateOrganizerProfile(data)).then((res: any) => {
+      dispatch(getSponsored(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          console.log("org Activity res", res?.payload?.data);
-          SuccessToast("Profile Updated Successfully");
-          dispatch(getOrganizerByID(userID));
+          console.log("Sponsored", res?.payload?.data);
+          SuccessToast("Submitted Successfully");
+          // dispatch(getOrganizerByID(userID));
         } else {
           setLoader(false);
           console.log(res?.payload?.message);
@@ -213,14 +170,18 @@ const GetSponsored = () => {
           </h3>
           <Form {...form}>
             <form
-              //   onSubmit={form.handleSubmit(updateActivity)}
               className=" w-full"
+              onSubmit={(event) => {
+                console.log("Form submit triggered");
+                form.handleSubmit(updateActivity)(event);
+              }}
+              //  onSubmit={form.handleSubmit(login)}
             >
               <div className="lg:flex w-full  gap-[24px]">
                 <div className="w-full">
                   <FormField
                     control={form.control}
-                    name="facebook"
+                    name="firstname"
                     render={({ field }) => (
                       <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
                         <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
@@ -236,6 +197,10 @@ const GetSponsored = () => {
                             placeholder="Enter First Name"
                             className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                             {...field}
+                            onChange={(e) => {
+                              setName(e.target.value);
+                              field.onChange(e);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -263,6 +228,10 @@ const GetSponsored = () => {
                             placeholder="Enter Last Name"
                             className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                             {...field}
+                            onChange={(e) => {
+                              setLastName(e.target.value);
+                              field.onChange(e);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -290,6 +259,10 @@ const GetSponsored = () => {
                             placeholder="Enter Email Address"
                             className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                             {...field}
+                            onChange={(e) => {
+                              setEmail(e.target.value);
+                              field.onChange(e);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -316,6 +289,10 @@ const GetSponsored = () => {
                             placeholder="Enter Organization Name"
                             className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                             {...field}
+                            onChange={(e) => {
+                              setOrgName(e.target.value);
+                              field.onChange(e);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -344,6 +321,10 @@ const GetSponsored = () => {
                             placeholder="Enter Role"
                             className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                             {...field}
+                            onChange={(e) => {
+                              setRole(e.target.value);
+                              field.onChange(e);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -367,9 +348,21 @@ const GetSponsored = () => {
                         />
                         <FormControl>
                           <Input
+                            type="tel"
+                            inputMode="numeric"
+                            pattern="\d*"
                             placeholder="Enter Contact Number"
                             className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                             {...field}
+                            onChange={(e) => {
+                              setContactNo(e.target.value);
+                              field.onChange(e);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key.match(/[^0-9]/) && !['Backspace', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -391,6 +384,10 @@ const GetSponsored = () => {
                         placeholder="Enter Message"
                         className="pt-[36px] pb-5 h-[135px] lg:h-[260px] placeholder:text-base placeholder:text-[white] placeholder:font-extrabold resize-none"
                         {...field}
+                        onChange={(e) => {
+                          setDescription(e.target.value);
+                          field.onChange(e);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
