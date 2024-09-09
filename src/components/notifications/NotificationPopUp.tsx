@@ -16,20 +16,20 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
           size={20}
         />
       </div>
-      <div className="flex flex-wrap gap-3 mt-3">
+      <div className="flex flex-wrap gap-2 mt-3">
         <GradientBorder className="rounded-full w-fit">
-          <div className="border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-4 py-2 gradient-slate text-primary items-center lg:items-start">
-            <p>Today</p>
+          <div className="border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate text-primary items-center lg:items-start">
+            <p className='text-sm font-extrabold'>Today</p>
           </div>
         </GradientBorder>
-        <div className="border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-4 py-2 gradient-slate text-white items-center lg:items-start">
-          <p>This Week</p>
+        <div className="border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate text-white items-center lg:items-start">
+          <p className='text-sm font-extrabold'>This Week</p>
         </div>
-        <div className="border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-4 py-2 gradient-slate text-white items-center lg:items-start">
-          <p>This Month</p>
+        <div className="border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px]  gradient-slate text-white items-center lg:items-start">
+          <p className='text-sm font-extrabold'>This Month</p>
         </div>
       </div>
-      <div className="mt-8 flex flex-col gap-2">
+      <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
         <EventNotificationCard />
         <MessgaeNotificationCard />
         <EventNotificationCard />

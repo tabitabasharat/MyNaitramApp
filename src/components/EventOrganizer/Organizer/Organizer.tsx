@@ -38,12 +38,12 @@ const Organizer = () => {
       <div>
         <div className="flex mt-[44px] md:mt-[49px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start lg:mt-[90px]">
           <div className="flex flex-col justify-center lg:mx-0 md:gap-[32px] gap-[32px] w-fit">
-            <h2 className="font-extrabold text-[20px] lg:ms-[0px] ms-[52px] lg:text-[32px]">
+            <h2 className="font-extrabold text-[20px] lg:ms-[0px] ms-[24px] lg:text-[32px]">
               Events Dashboard
             </h2>
           </div>
           <div className="lg:w-auto xl:w-auto w-full">
-            <div className="flex flex-col lg:flex-row md-flex-row gap-[32px] px-[24px]">
+            <div className="flex flex-col lg:flex-row md-flex-row gap-[32px]">
               <div className="flex justify-center w-full items-center">
                 <GradientBorder className="rounded-full p-[3px] w-fit">
                   <div className="bg-black rounded-full p-[6px]">

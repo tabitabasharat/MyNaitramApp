@@ -50,21 +50,21 @@ const Collectiontable = () => {
               onClick={() => router.back()}
             />
             <h2 className="text-[24px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">
-              Collectables
+              Collectibles
             </h2>
           </div>
-          <div className="flex lg:items-center   flex-col lg:flex-row lg:gap-[40px] gap-[32px]">
+          <div className="flex lg:items-center  flex-col lg:flex-row lg:gap-[40px] gap-[32px]">
             <div className="flex items-center justify-center ">
               <Image
                 src={imageUrl}
                 alt="img"
-                className="size-[393px] flex items-center justify-center"
+                className="size-[393px] bg-[red] flex items-center justify-center"
                 width={393}
                 height={393}
               />
             </div>
             <div className="flex gap-[24px] flex-col lg:gap-[32px]">
-              <h3 className="lg:text-[48px] font-extrabold text-[32px] -tracking-[0.02em] ">
+              <h3 className="lg:text-[48px] font-extrabold text-[32px] -tracking-[0.02em]">
                 {myData?.name}
               </h3>
               <p className="font-normal text-[13px] lg:text-[16px] textbr">

@@ -11,13 +11,14 @@ import ClaimRewardPopUp from "../ClaimRewardPopUp";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { getRewardCollectibleByID } from "@/lib/middleware/reward";
 import ScreenLoader from "@/components/loader/Screenloader";
 import {
   SuccessToast,
   ErrorToast,
 } from "@/components/reusable-components/Toaster/Toaster";
 import { useEffect } from "react";
-import { getRewardCollectibleByID } from "@/lib/middleware/reward";
+
 import { claimRewardCollectible } from "@/lib/middleware/reward";
 
 export default function ClaimableRewards() {

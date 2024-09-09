@@ -10,6 +10,7 @@ import { getViewAllEvent } from "@/lib/middleware/event";
 import { getViewPastEvents } from "@/lib/middleware/event";
 import { getEventById, getLiveEventById } from "@/lib/middleware/event";
 import rocket from "@/assets/Wallet/rocket-empty.svg";
+import YourEvents from "./YourEvents";
 
 const AllEventsGrid = ({ events, eventType }: any) => {
   const dispatch = useAppDispatch();
@@ -64,7 +65,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
             <div className="relative grid md:grid-cols-1 lg:grid-cols-3 gap-[1rem]">
               {events?.length > 0 &&
                 events?.map((event: any) => (
-                  <EventCard
+                  <YourEvents
                     key={event?.id}
                     img={event?.coverEventImage}
                     title={event?.name}

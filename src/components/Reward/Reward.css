@@ -93,7 +93,7 @@
     width: 100%;
     display: block;
 
-    padding: 100px 24px 54px;
+    padding: 100px 24px 54px !important;
   }
 }
 

@@ -127,7 +127,9 @@ const EventGrid: React.FC<{
       {eventType === "collectables" && (
         <>
           {walletCollectLoading.loading && <ScreenLoader />}
-          <div className="grid grid-cols-1 pb-[28px]  md:pb-[132px] md:grid-cols-2 xl:grid-cols-3 gap-[12px] md:gap-[20px]">
+          {/* <div className="grid grid-cols-1 pb-[28px]  md:pb-[132px] md:grid-cols-2 xl:grid-cols-3 gap-[12px] md:gap-[20px]"> */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px]">
+
             {eventType === "collectables" && myWalletCollect?.length > 0 ? (
               myWalletCollect?.map((item: any) => (
                 <EventCard
