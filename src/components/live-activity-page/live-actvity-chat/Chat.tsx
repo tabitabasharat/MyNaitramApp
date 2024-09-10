@@ -52,11 +52,7 @@ const Chat = ({ img, msgtext, username, userimg, time, reactionimg ,    reaction
               {reactioncount}
             </p> */}
 
-            {/* {reactionimg?.map((reaction:any, index:any) => (
-          <span key={index} className="reaction-emoji">
-            {reaction}
-          </span>
-        ))} */}
+         
           </div>
         </div>
       </div>

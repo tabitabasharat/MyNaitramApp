@@ -108,7 +108,7 @@ const ScannerLogin = () => {
   console.log("my selected options", selectedOptions);
 
   return (
-    <div className="w-full lg:w-[600px] xl:ps-[172px] md:mx-auto mt-[44px] px-[24px] lg:px-[0px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
+    <div className="w-full lg:w-[600px] md:ps-[90px] lg:ps-[100px] xl:ps-[172px] md:mx-auto mt-[44px] px-[24px] lg:px-[0px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 

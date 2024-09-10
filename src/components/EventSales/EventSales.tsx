@@ -27,7 +27,6 @@ import { getSalesData } from "@/lib/middleware/organizer";
 import ScreenLoader from "../loader/Screenloader";
 import SalesChart from "../profile-page/SalesChart";
 import SalesGraph from "../Wallet/SalesGraph/SalesGraph";
-import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
 function createData(
@@ -155,7 +154,7 @@ function EventSales() {
   };
 
   return (
-    <div className="pt-[120px] px-[24px] lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
+    <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] event-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
       {eventSales.loading && <ScreenLoader />}
       <div className="mb-[12px] lg:mb-[24px]">
         <Backward />
@@ -169,7 +168,7 @@ function EventSales() {
             height={392}
           />
         </div>
-        <div className="">
+        <div>
           <div
             className="bg-[#00A849] py-[8px] px-[12px] w-[124px] lg:w-[135px] rounded-[100px]"
             onClick={WalletModalhandler}
@@ -207,9 +206,6 @@ function EventSales() {
                 {eventSales?.salesData?.data?.event?.user?.fullname}
               </p>
             </div>
-            {/* <div>
-              <Image src={tick} alt="tick" />
-            </div> */}
           </div>
           <div className="mt-[16px] lg:mt-[24px]">
             <p className="flex items-center text-base font-bold mb-[12px]]">
@@ -243,8 +239,6 @@ function EventSales() {
           </div>
         </div>
       </div>
-      {/* <Walletbalancetable /> */}
-      {/* <SalesChart/> */}
       <SalesGraph />
       <div className=" mb-[32px] lg:mb-[46px] gradient-slate border rounded-lg border-muted lg:mt-[30px] mt-[24px] px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
         <div className="flex items-center mb-[17px] lg:mb-[24px] justify-between">
@@ -384,7 +378,6 @@ function EventSales() {
               )}
             </TableBody>
           </Table>
-          {/* <Pagination /> */}
         </TableContainer>
       </div>
       <div
@@ -716,7 +709,7 @@ function EventSales() {
           </Table>
         </TableContainer>
       </div>
-      <div className=" mb-[59.12px] lg:mb-[26.25px] gradient-slate border rounded-lg border-muted px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
+      <div className="gradient-slate border rounded-lg border-muted px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
         <div className="flex items-center mb-[17px] lg:mb-[24px] justify-between">
           <div>
             <p className="lg:text-[14px] text-[#D9D9D9] font-normal">

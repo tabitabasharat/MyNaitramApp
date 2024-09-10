@@ -409,13 +409,15 @@ const LiveActivityChat = ({ eventID }: any) => {
                       alt="img"
                       sizes="16px"
                       onClick={() => handleMoreEmoji()}
+                      className="cursor-pointer"
                     />
                     {activeMessage === event?.id && moreEmoji && (
-                      <div className="absolute top-0 right-0 p-2 gradient-slate rounded ">
+                      <div className="absolute top-0 right-[35px] p-2 gradient-slate rounded cursor-pointer">
                         <EmojiPicker
                           onEmojiClick={handleEmojiClick}
                           theme={"dark" as Theme}
                           height={"350px"}
+                          width={"100%"}
                           lazyLoadEmojis={true}
                           style={{
                             background: "transparent",

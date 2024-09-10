@@ -206,6 +206,7 @@ body {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
 .gradient-border {
   position: relative;
   border-radius: 8px; /* This controls the rounding of the corners */
@@ -366,7 +367,11 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield; /* Firefox */
 }
-
+.event-bg-effect{
+  background-image: url("../assets/eventsaleblur.svg");
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
 .webkit-blur {
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
@@ -409,6 +414,9 @@ input[type="number"] {
   }
   .spacer-row .MuiTableCell-root {
     height: auto;
+  }
+  .event-bg-effect{
+    background:transparent;
   }
 }
 @media (max-width: 425px) {

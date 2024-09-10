@@ -45,19 +45,6 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Email cannot be empty." })
     .email({ message: "Invalid email address." }),
-  //   password: z
-  //     .string()
-  //     .min(8, { message: "Password must contain at least 8 characters." })
-  //     .regex(/[a-z]/, {
-  //       message: "Password must contain at least one lowercase letter.",
-  //     })
-  //     .regex(/[A-Z]/, {
-  //       message: "Password must contain at least one uppercase letter.",
-  //     })
-  //     .regex(/[0-9]/, { message: "Password must contain at least one number." })
-  //     .regex(/[^a-zA-Z0-9]/, {
-  //       message: "Password must contain at least one special character.",
-  //     }),
 });
 const FAQ = ({
   className,
@@ -76,8 +63,6 @@ const FAQ = ({
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // :white_check_mark: This will be type-safe and validated.
     console.log(values);
   }
   const pathname = usePathname();
@@ -86,13 +71,12 @@ const FAQ = ({
     setActiveDiv(index);
   };
   const [active, setActive] = useState(false);
-  // Function to toggle the active state
   const handleClickAccor = () => {
     setActive(!active);
   };
   const [activeIndex, setActiveIndex] = useState(0);
   const handleAccordionChange = (index: any) => {
-    setActiveIndex(activeIndex === index ? null : index); // Toggle the active index
+    setActiveIndex(activeIndex === index ? null : index);
   };
   return (
     <div className="w-full mt-[45px] lg:w-[600px] lg:ps-[172px] md:mx-auto lg:mt-[92px] lg:mx-0">
@@ -201,7 +185,10 @@ const FAQ = ({
                 },
                 "&.MuiButtonBase-root.MuiAccordionSummary-root": {
                   minHeight: "0",
-                  // padding:"20px 12px",
+                  borderRadius:"8px"
+                },
+                "&.MuiButtonBase-root.MuiAccordionSummary-root .MuiAccordionSummary-content": {
+                  color:"#FFFFFF"
                 },
               }}
             >

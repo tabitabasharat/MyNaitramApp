@@ -37,34 +37,6 @@ const ClaimRewardPopUp = ({ onClose, open,collectibleID }: any) => {
 
 
   const value= "rewardcollectables"
-
-  // async function ClaimCollectible() {
-  //   console.log("Collectible Claimed");
-  //   const userID =
-  //     typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-  //   console.log("my id is", userID);
-  //   try {
-  //     const data = {
-  //       collectibleId: collectibleID,
-  //       userId: userID,
-  //     };
-  //     dispatch(claimRewardCollectible(data)).then((res: any) => {
-  //       if (res?.payload?.status === 201) {
-  //         setLoader(false);
-  //         SuccessToast("Collectible Claimed Successfully");
-  //         const value= "rewardcollectables"
-  //         router.push(`/reward?option=${value}`)
-  //       } else {
-  //         setLoader(false);
-  //         ErrorToast(res?.payload?.message);
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //     ErrorToast(error);
-  //   }
-  // }
-
   return (
     <Dialog open={open} onOpenChange={onClose}>
       {/* <DialogTrigger>Open Dialog</DialogTrigger> */}
