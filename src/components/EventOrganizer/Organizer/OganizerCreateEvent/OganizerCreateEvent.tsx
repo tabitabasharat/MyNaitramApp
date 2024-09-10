@@ -287,7 +287,7 @@ function OganizerCreateEvent() {
   }
 
   const localDateTime = "2024-09-07T14:49";
-  const utcEventStartTime = convertToUTC(EventStartTime);
+  const utcEventStartTime = convertToUTC(TicketStartDate);
   console.log("my utc time", utcEventStartTime);
 
   const handleDropdown = (index: number) => {
@@ -400,44 +400,7 @@ function OganizerCreateEvent() {
     ]);
   };
 
-  const handleSingleFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = e.target.files?.[0];
-    const filename = file?.name;
-    setMainImgName(filename);
 
-    if (file) {
-      setLoader(true);
-
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-        const res: any = await api.post(
-          `${API_URL}/upload/uploadimage`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-
-        if (res.status === 200) {
-          setLoader(false);
-
-          form.setValue("eventmainimg", res?.data?.data);
-          setMainImg(res?.data?.data);
-          SuccessToast("Main Cover Image Uploaded Successfully");
-        } else {
-          setLoader(false);
-          ErrorToast(res?.payload?.message || "Error uploading image");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
   const handleCoverSingleFileChange = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -784,7 +747,7 @@ function OganizerCreateEvent() {
                     htmlFor="galleryUpload"
                     className={`pb-3 gallery-box-same border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end  ${
                       galleryFiles.length > 0
-                        ? " gallery-box h-full"
+                        ? " gallery-box"
                         : "pt-9 gallery-top"
                     }`}
                   >

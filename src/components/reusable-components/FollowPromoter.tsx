@@ -5,21 +5,30 @@ import verifiedimg from "@/assets/tick-yello.svg";
 import {
   InstagramLogo,
   SealCheck,
-  XLogo,
   TwitterLogo,
+  FacebookLogo,
+  LinkedinLogo,
+  TiktokLogo,
+  TelegramLogo
 } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getEventCount } from "@/lib/middleware/event";
+import { getOrganizerByID , getOrganizerSocialProfile} from "@/lib/middleware/organizer";
 
-const FollowPromoter = ({ userId }: any) => {
+
+const FollowPromoter = ({ userId, eventName }: any) => {
   const dispatch = useAppDispatch();
   const [userToken, setUserToken] = useState<any>();
   useEffect(() => {
-    dispatch(getEventCount(userId));
+    // dispatch(getEventCount(userId));
+    dispatch(getOrganizerByID(userId));
+    dispatch(getOrganizerSocialProfile(userId));
   }, [userId]);
+
+ 
 
   const myEvents = useAppSelector(
     (state) => state?.getEventCount?.myEventsCount
@@ -27,10 +36,19 @@ const FollowPromoter = ({ userId }: any) => {
 
   console.log("my Events count", myEvents);
 
-  const imageUrl = myEvents?.data?.data[0]?.profilePicture?.startsWith(
+ 
+
+  const  myProfile = useAppSelector(
+    (state) => state?.getOrgSocialProfile?.mySocialData?.data?.data
+  );
+
+  console.log("my  infooo is", myProfile);
+
+
+  const imageUrl =  myProfile?.profile?.profilePicture?.startsWith(
     "http" || "https"
   )
-    ? myEvents?.data?.data[0]?.profilePicture
+    ? myProfile?.profile?.profilePicture
     : promoter;
 
     
@@ -53,9 +71,9 @@ const FollowPromoter = ({ userId }: any) => {
           alt="promoter"
         />
         <div>
-          <Link href={"/events/event-detail/promoter-profile"}>
+          <Link href={`/events/event-detail/promoter-profile?eventname=${eventName}`}>
             <p className="font-bold text-[14px]  font-bold flex items-center gap-1 hover:underline capitalize">
-              {myEvents?.data?.data[0]?.fullname}
+             {myProfile?.userProfile?.fullname}
               {/* { myEvents?.data?.data[0]?.user?.fullname} */}
               <Image src={verifiedimg} alt="img" width={10.5} height={10.5} />
               {/* <SealCheck
@@ -67,24 +85,24 @@ const FollowPromoter = ({ userId }: any) => {
           </Link>
           <p className="text-[#FFFFFF3D] text-[12px]">
             <span className="text-[11px] text-[#E6E6E6]">
-              {myEvents?.data?.totalEvents} Events
+              { myProfile?.profile?.totalEvents} Events
             </span>{" "}
             |{" "}
             <span className="text-[11px] text-[#E6E6E6]">
               {" "}
-              {myEvents?.data?.totalAttendees} Attendees
+              {myProfile?.profile?.totalAttendees} Attendees
             </span>
           </p>
         </div>
       </div>
       <hr className="border-white/10 my-[16px]" />
       <div className="flex gap-3 items-center justify-start wrapping-flex">
-        {
+        {/* {
           userToken !=myEvents?.data?.data[0]?.id && 
         <Button variant="secondary" className="text-[14px] font-bold py-[10px]">
           Follow Promoter
         </Button>
-        }
+        } */}
         <div className="flex gap-3 h-full">
           <div className="border border-white w-fit p-2 rounded-full">
             <InstagramLogo
@@ -101,7 +119,51 @@ const FollowPromoter = ({ userId }: any) => {
             <TwitterLogo
               onClick={() => {
                 typeof window !== "undefined"
-                  ? window.open(myEvents?.data?.data[0]?.twitterUrl, "_blank")
+                  ? window.open( myProfile?.profile?.twitterUrl, "_blank")
+                  : null;
+              }}
+              size={25}
+              weight="fill"
+            />
+          </div>
+          <div className="border border-white w-fit p-2 rounded-full">
+            <FacebookLogo
+              onClick={() => {
+                typeof window !== "undefined"
+                  ? window.open(myProfile?.profile?.fbUrl, "_blank")
+                  : null;
+              }}
+              size={25}
+              weight="fill"
+            />
+          </div>
+          <div className="border border-white w-fit p-2 rounded-full">
+            <TiktokLogo
+              onClick={() => {
+                typeof window !== "undefined"
+                  ? window.open(myProfile?.profile?.tiktokUrl, "_blank")
+                  : null;
+              }}
+              size={25}
+              weight="fill"
+            />
+          </div>
+          <div className="border border-white w-fit p-2 rounded-full">
+            <LinkedinLogo
+              onClick={() => {
+                typeof window !== "undefined"
+                  ? window.open(myProfile?.profile?.linkedinUrl, "_blank")
+                  : null;
+              }}
+              size={25}
+              weight="fill"
+            />
+          </div>
+          <div className="border border-white w-fit p-2 rounded-full">
+            <TelegramLogo
+              onClick={() => {
+                typeof window !== "undefined"
+                  ? window.open(myProfile?.profile?.twitterUrl, "_blank")
                   : null;
               }}
               size={25}

@@ -33,7 +33,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { getOrganizerByID } from "@/lib/middleware/organizer";
 import user from "@/assets/profile.svg";
 import organization from "@/assets/Buildings.svg";
 import cell from "@/assets/cell.svg";
@@ -85,21 +84,9 @@ const GetSponsored = () => {
     },
   });
 
-  const myActivity = useAppSelector(
-    (state) => state?.getOrgByID?.myOrgData?.data
-  );
-  console.log("my profile data", myActivity);
 
-  const userLoading = useAppSelector((state) => state?.getOrgByID);
 
-  useEffect(() => {
-    const id =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-    console.log("user id ", id);
-    dispatch(getOrganizerByID(id));
-  }, []);
-
-  const pathname = usePathname();
+ 
 
   async function updateActivity(values: z.infer<typeof formSchema>) {
     console.log("my values", values);
@@ -121,7 +108,7 @@ const GetSponsored = () => {
           setLoader(false);
           console.log("Sponsored", res?.payload?.data);
           SuccessToast("Submitted Successfully");
-          // dispatch(getOrganizerByID(userID));
+         
         } else {
           setLoader(false);
           console.log(res?.payload?.message);

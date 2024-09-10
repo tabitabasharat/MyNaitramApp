@@ -14,7 +14,7 @@ const Grid = () => {
       </h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-[12px] lg:gap-[20px]">
-        {myProfile?.data?.userEvents.map((post: any) => (
+        {myProfile?.data?.events && myProfile?.data?.events.map((post: any) => (
           <Cards eventId={post?.id} key={post.id} img={post?.coverEventImage} title={post.name} />
         ))}
       </div>

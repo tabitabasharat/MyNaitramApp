@@ -91,18 +91,19 @@ const OrganizerProfile = () => {
   });
 
   const myActivity = useAppSelector(
-    (state) => state?.getOrgByID?.myOrgData?.data
+    (state) => state?.getOrgByID?.myOrgData?.data?.organizerProfiles[0]
   );
   console.log("my profile data", myActivity);
 
   const userLoading = useAppSelector((state) => state?.getOrgByID);
 
   useEffect(() => {
-    const id =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const id =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", id);
     dispatch(getOrganizerByID(id));
   }, []);
-  
+
   useEffect(() => {
     if (myActivity) {
       const currentValues = form.getValues();
@@ -123,8 +124,6 @@ const OrganizerProfile = () => {
       }
     }
   }, [myActivity]);
-
- 
 
   const handleSingleFileChange = async (
     e: React.ChangeEvent<HTMLInputElement>
@@ -168,22 +167,63 @@ const OrganizerProfile = () => {
 
   const pathname = usePathname();
 
+  // async function updateActivity(values: z.infer<typeof formSchema>) {
+  //   console.log("my values", values)
+  //   setLoader(true);
+  //   const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+  //   try {
+  //     const data = {
+  //       fbUrl: fbUrl || myActivity?.fbUrl || "",
+  //       instaUrl: instaUrl || myActivity?.instaUrl || "",
+  //       linkedinUrl: linkedinUrl || myActivity?.linkedinUrl || "",
+
+  //       youtubeUrl: youtubeUrl || myActivity?.youtubeUrl || "",
+  //       twitterUrl: twitterUrl || myActivity?.twitterUrl || "",
+  //       tiktokUrl: tiktokUrl || myActivity?.tiktokUrl || "",
+  //       bio: bio || myActivity?.bio || "",
+
+  //       profilePicture: imageSrc,
+
+  //       userId: userID,
+  //     };
+  //     dispatch(updateOrganizerProfile(data)).then((res: any) => {
+  //       if (res?.payload?.status === 200) {
+  //         setLoader(false);
+  //         console.log("org Activity res", res?.payload?.data);
+  //         SuccessToast("Profile Updated Successfully");
+  //         dispatch(getOrganizerByID(userID))
+  //       } else {
+  //         setLoader(false);
+  //         console.log(res?.payload?.message);
+  //         ErrorToast(res?.payload?.message);
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // }
+
   async function updateActivity(values: z.infer<typeof formSchema>) {
-    console.log("my values", values)
+    console.log("my values", values);
     setLoader(true);
-    const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     try {
       const data = {
-        fbUrl: fbUrl || myActivity?.fbUrl || "",
-        instaUrl: instaUrl || myActivity?.instaUrl || "",
+        profilePicture: imageSrc,
+        profileUpdate: false,
         linkedinUrl: linkedinUrl || myActivity?.linkedinUrl || "",
-
         youtubeUrl: youtubeUrl || myActivity?.youtubeUrl || "",
         twitterUrl: twitterUrl || myActivity?.twitterUrl || "",
-        tiktokUrl: tiktokUrl || myActivity?.tiktokUrl || "",
+        fbUrl: fbUrl || myActivity?.fbUrl || "",
+
+        instaUrl: instaUrl || myActivity?.instaUrl || "",
+
         bio: bio || myActivity?.bio || "",
 
-        profilePicture: imageSrc,
+        tiktokUrl: tiktokUrl || myActivity?.tiktokUrl || "",
+
+        OrganizationUpdate: false,
 
         userId: userID,
       };
@@ -192,7 +232,7 @@ const OrganizerProfile = () => {
           setLoader(false);
           console.log("org Activity res", res?.payload?.data);
           SuccessToast("Profile Updated Successfully");
-          dispatch(getOrganizerByID(userID))
+          dispatch(getOrganizerByID(userID));
         } else {
           setLoader(false);
           console.log(res?.payload?.message);
@@ -203,7 +243,6 @@ const OrganizerProfile = () => {
       console.error("Error:", error);
     }
   }
-
   return (
     <div className="w-full md:w-[70%] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
       {loader && <ScreenLoader />}
@@ -231,7 +270,7 @@ const OrganizerProfile = () => {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/*" 
+                accept="image/*"
                 className="hidden"
                 id="upload"
                 onChange={handleSingleFileChange}
@@ -280,7 +319,6 @@ const OrganizerProfile = () => {
                       </FormLabel>
                       <FormControl>
                         <Textarea
-                      
                           placeholder="Enter Bio"
                           className="pt-[36px] pb-5 h-[136px] text-[#D9D9D9] text-base placeholder:font-normal resize-none"
                           {...field}

@@ -142,7 +142,7 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
               </div> */}
 
               {EventData?.userId && (
-                <FollowPromoter userId={EventData?.userId} />
+                <FollowPromoter userId={EventData?.userId} eventName={EventData?.name} />
               )}
             </div>
           </div>

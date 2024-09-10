@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { ScaleReveal } from '../animations/ScaleReveal';
 import fallbackImage from "../../assets/event-video.png";
 
-const MobileEventCard = ({ img, title,eventId }: { img: string; title: string ; eventId:any}) => {
+const MobileEventCard = ({ img, title,eventId, eventDate }: { img: string; title: string ; eventId:any, eventDate:any}) => {
   const imageUrl = img?.startsWith("http" || "https") ? img : fallbackImage.src;
   console.log("image src is", imageUrl);
+ 
   return (
     <ScaleReveal>
       <Link  href={eventId ? `/specific-event/${eventId}` : "/events"} className="w-full">
@@ -25,7 +26,7 @@ const MobileEventCard = ({ img, title,eventId }: { img: string; title: string ; 
             />
             <div className="flex flex-col justify-between">
               <div>
-                <p className="text-primary text-sm">Friday, 15th June 2024</p>
+                <p className="text-primary text-sm"> {eventDate}</p>
                 <p className="font-bold text-[18px] w-[90%] lg:w-full leading-[1.2] my-1">
                   {title}
                 </p>

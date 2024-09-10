@@ -13,7 +13,7 @@ import GoldGradientBorder from "../ui/gold-gradient-border";
 import { shimmer, toBase64 } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import JoinEventCard from "@/components/reusable-components/JoinEventCard";
+import sealnew from "@/assets/Wallet/Sealnew.svg"
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getUserSocialProfile } from "@/lib/middleware/profile";
@@ -21,9 +21,20 @@ import { getOrganizerSocialProfile } from "@/lib/middleware/organizer";
 
 const ProfilePreview = () => {
   const dispatch = useAppDispatch();
+  const [userEmail, setUserEmail] = useState<any>("");
+  const [userName, setUsername] = useState<any>("");
 
   useEffect(() => {
-    const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const useremail =
+      typeof window !== "undefined" ? localStorage.getItem("email") : null;
+    setUserEmail(useremail);
+    const username =
+      typeof window !== "undefined" ? localStorage.getItem("name") : null;
+
+    setUsername(username);
+
     console.log("user id ", userid);
     dispatch(getOrganizerSocialProfile(userid));
   }, []);
@@ -40,7 +51,7 @@ const ProfilePreview = () => {
         <GoldGradientBorder className="w-fit rounded-full p-[3px] h-fit">
           <div className="bg-black rounded-full p-[7px]">
             <Image
-              src={myProfile?.data?.profilePicture}
+              src={myProfile?.data?.profile?.profilePicture}
               width={136}
               height={136}
               className="h-[128px] w-[128px] sm:h-[136px] sm:w-[136px] object-cover object-top rounded-full"
@@ -52,21 +63,24 @@ const ProfilePreview = () => {
           </div>
         </GoldGradientBorder>
         <div className="w-full md:w-fit ">
-          <p className="font-extrabold mt-[24px] mb-[8px] flex justify-center md:justify-start items-center gap-1 text-[24px]">
-            {myProfile?.data?.fullname}{" "}
-            <SealCheck
-              className="text-[#FFC109] w-[16px] h-[16px] sm::w-[20px] sm:h-[20px] -translate-y-1"
-              // size={20}
+          <p className="font-extrabold mt-[24px] mb-[8px] flex justify-center md:justify-start  gap-1 text-[24px]">
+            {myProfile?.data?.userProfile?.fullname}{" "}
+          
+            <Image src={sealnew} alt="verified" />
+            {/* <SealCheck
+              className="text-[#FFC109] w-[20px] h-[20px] sm::w-[20px] sm:h-[20px]  "
+              
               weight="fill"
-            />
+            /> */}
           </p>
           <p className="text-primary font-extrabold text-sm sm:text-base text-center md:text-left">
-            {myProfile?.data?.email}
+            {myProfile?.data?.userProfile?.email}
+          
           </p>
           <p className="mt-1 font-bold text-center md:text-left hidden md:block">
             <span className="text-[24px] sm:text-base">
               {" "}
-              {myProfile?.totalAttendees}{" "}
+              {myProfile?.data?.profile?.totalAttendees}{" "}
               <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
                 {" "}
                 Attended
@@ -74,7 +88,7 @@ const ProfilePreview = () => {
             </span>{" "}
             <span className="opacity-50 "> | </span>{" "}
             <span className="text-[24px] sm:text-base">
-              {myProfile?.pagination?.totalEvents}{" "}
+              {myProfile?.data?.profile?.totalEvents}{" "}
               <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
                 {" "}
                 Events{" "}
@@ -84,21 +98,26 @@ const ProfilePreview = () => {
 
           <div className="md:hidden border border-[#0FFF7730] rounded-lg gradient-slate flex justify-evenly items-center w-full  mt-[20px]">
             <div className="flexc flex-col items-center justify-center py-[16px] font-bold text-center">
-              <p className="text-[18px]"> {myProfile?.totalAttendees}</p>
+              <p className="text-[18px]">
+                {" "}
+                {myProfile?.data?.profile?.totalAttendees}
+              </p>
               <p className="text-[12px] opacity-50">ATTENDED</p>
             </div>
             <div className="w-px h-8 bg-white/20"></div>
             <div className="flexc flex-col items-center py-[16px] justify-center font-bold text-center">
-              <p className="text-[18px]">{myProfile?.pagination?.totalEvents}</p>
+              <p className="text-[18px]">
+                {myProfile?.data?.profile?.totalEvents}
+              </p>
               <p className="text-[12px] opacity-50">EVENTS</p>
             </div>
           </div>
           <p className="font-normal text-center lg:text-start text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
-            {myProfile?.bio}
+            {myProfile?.data?.profile?.bio}
           </p>
           <div className="flex justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
             <Link
-              href={myProfile?.data?.instaUrl || "#"}
+              href={myProfile?.data?.profile?.instaUrl || "#"}
               passHref
               target="_blank"
             >
@@ -109,7 +128,10 @@ const ProfilePreview = () => {
                 />
               </div>
             </Link>
-            <Link href={myProfile?.data?.twitterUr || "#"} target="_blank">
+            <Link
+              href={myProfile?.data?.profile?.twitterUrl || "#"}
+              target="_blank"
+            >
               <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
                 <TwitterLogo
                   className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
@@ -117,7 +139,7 @@ const ProfilePreview = () => {
                 />
               </div>
             </Link>
-            <Link href={myProfile?.data?.fbUrl || "#"} target="_blank">
+            <Link href={myProfile?.data?.profile?.fbUrl || "#"} target="_blank">
               <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
                 <FacebookLogo
                   className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
@@ -125,7 +147,10 @@ const ProfilePreview = () => {
                 />
               </div>
             </Link>
-            <Link href={myProfile?.data?.linkedinUrl || "#"} target="_blank">
+            <Link
+              href={myProfile?.data?.profile?.linkedinUrl || "#"}
+              target="_blank"
+            >
               <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
                 <LinkedinLogo
                   className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
