@@ -245,7 +245,7 @@ const AccountVerificationModal = ({
               Didn't receive the code? Request again
             </button>
             <DialogFooter className="w-full pt-4 bg-[#101010] border-t border-muted">
-              <Button type="submit" className="font-bold w-full">
+              <Button type="submit" className="font-extrabold text-base w-full">
                 Verify
               </Button>
             </DialogFooter>

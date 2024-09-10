@@ -44,15 +44,15 @@ const Hero = () => {
       className="min-h-screen lg:h-screen bg-cover bg-no-repeat relative overflow-clip  pt-[10rem] lg:pt-0"
     >
       <div className="flex flex-col lg:flex-row justify-between items-center h-full pxpx mx-2xl relative">
-        <div className="lg:w-1/2 xl:w-[40%] z-[8] flex flex-col justify-center items-center lg:justify-start lg:items-start gap-[3rem]">
+        <div className="lg:w-1/2 xl:w-[40%] z-[8] flex flex-col justify-center items-center lg:justify-start lg:items-start gap-[40px]">
           <div>
             <Reveal y={100} width="100%">
-              <h1 className="font-bold text-[38px] lg:text-[64px] leading-[1.1] text-center lg:text-start">
+              <h1 className="font-extrabold text-[40px] lg:text-[64px] leading-[1.1] text-center lg:text-start">
                 Revolutionize Your Experience
               </h1>
             </Reveal>
             <Reveal y={100} width="100%">
-              <p className="mt-4 text-muted text-center lg:text-start md:w-[60%] lg:w-full md:mx-auto lg:mx-0">
+              <p className="mt-[12px] text-muted text-base text-center lg:text-start md:w-[60%] lg:w-full md:mx-auto lg:mx-0">
                 Discover a new way to engage with events through Naitram,
                 enhance your experience from start to finish. Whether you're
                 attending a conference, festival, or corporate gathering
@@ -60,13 +60,13 @@ const Hero = () => {
             </Reveal>
           </div>
           <Reveal y={100} width="100%">
-            <div className="flex flex-col md:flex-row gap-[0.8rem] w-full md:w-fit md:mx-auto lg:mx-0">
+            <div className="flex flex-col md:flex-row gap-[12px] w-full md:w-fit md:mx-auto lg:mx-0">
               <Button
                 onClick={() => {
                   router.push("/about");
                 }}
                 variant="secondary"
-                className="pt-[10px]"
+                className="p-[12px] font-extrabold text-sm"
               >
                 Learn More
               </Button>
@@ -74,22 +74,19 @@ const Hero = () => {
                 onClick={() => {
                   router.push("/download-app");
                 }}
-                className="flex items-center gap-[0.5rem]"
+                className="flex items-center gap-[4px] p-[12px]"
               >
                 <DownloadSimple size={20} weight="bold" />
-                <p className="pt-[3px]"> Download App</p>
+                <p className=" font-extrabold text-sm"> Download App</p>
               </Button>
-              <div>
-                {/* Button to trigger popup */}
+              {/* <div>
                 <Button
-                  onClick={handleTogglePopup} // Toggle isClaimOpen on click
+                  onClick={handleTogglePopup}
                   className="flex items-center gap-[0.5rem]"
                 >
                   <DownloadSimple size={20} weight="bold" />
                   <p className="pt-[3px]"> pop ups</p>
                 </Button>
-
-                {/* Conditionally render the popup component */}
                 {isClaimOpen && (
                   <Receviepayment
                     onClose={() => setIsClaimOpen(false)} // This will close the popup
@@ -97,7 +94,7 @@ const Hero = () => {
                     collectibleID={collectID} // Pass collectible ID if needed
                   />
                 )}
-              </div>
+              </div> */}
             </div>
           </Reveal>
         </div>

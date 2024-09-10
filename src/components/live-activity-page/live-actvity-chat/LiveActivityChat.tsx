@@ -69,33 +69,6 @@ const LiveActivityChat = ({ eventID }: any) => {
     dispatch(getChat(eventID));
   };
 
-  // useEffect(() => {
-  //   const userid =
-  //     typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-  //   socket.on("connect", () => {
-  //     // audio.play();
-  //     console.log("socket is connecting");
-  //     socket.emit("join", userid);
-  //   });
-  //   if (userid && eventID) {
-  //     socket.on("newChatMessage", GetMessengerHistory);
-
-  //     socket.on("disconnect", (reason) => {});
-  //     return () =>
-  //       if (userid && eventID)
-  //          {
-  //         socket.off("newChatMessage", GetMessengerHistory);
-  //       }
-  //       socket.off("connect", (reason) => {
-  //         console.log(reason)
-  //       });
-  //       socket.off("disconnect", (reason) => {
-  //         console.log(reason)
-  //       });
-  //     };
-  //   }
-  // }, []);
-
   const userLoading = useAppSelector((state) => state?.getEventChat);
 
   async function SendMsg() {
@@ -188,7 +161,7 @@ const LiveActivityChat = ({ eventID }: any) => {
               />
             ))}
         </div>
-        <div className="absolute top-[340px] md:top[225px] md:right-[40px] sm:right-[50px] lg:top-[225px] flex flex-col items-center justify-center space-y-[4px] z-[2] right-[3px] lg:right-[30px]">
+        <div className="absolute top-[340px] md:top[225px] sm:right-[30px] md:right-[35px] sm:right-[50px] lg:top-[225px] flex flex-col items-center justify-center space-y-[4px] z-[2] right-[1px] lg:right-[20px]">
           {emojis.map((emoji, index) => (
             <p
               key={index}
