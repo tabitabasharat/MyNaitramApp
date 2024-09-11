@@ -49,6 +49,7 @@ import {
   ErrorToast,
 } from "../reusable-components/Toaster/Toaster";
 import ScreenLoader from "../loader/Screenloader";
+import { AppleLogo } from "@phosphor-icons/react";
 const formSchema = z
   .object({
     full_name: z.string().min(2, { message: "Full name cannot be empty." }),
@@ -190,10 +191,10 @@ const SignUpModal = ({
 
   return (
     <>
-      <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
+      <DialogContent className="sm:max-w-md lg:max-w-[600px] px-[0px] pb-4 pt-0">
         {loader && <ScreenLoader />}
         <ScrollArea className="max-h-[90vh]">
-          <DialogHeader className="relative overflow-hidden pt-4">
+          <DialogHeader className="relative px-[24px] overflow-hidden pt-4">
             <DialogTitle className="font-bold text-2xl mb-[18px]">
               Sign <span className="text-primary">Up</span>
             </DialogTitle>
@@ -206,155 +207,163 @@ const SignUpModal = ({
             />
             <Separator className="scale-x-[1.09] bg-[#292929]" />
           </DialogHeader>
-
-          <Button
-            variant="secondary"
-            className="w-full flex items-center gap-1 mt-5"
-            onClick={() => logingoogleUser()}
-          >
-            <GoogleLogo size={22} weight="fill" /> Sign up with Google
-          </Button>
-
-          {/* <div className="flex items-center justify-between gap-4 mt-5 mb-5">
-            <Separator className="bg-[#292929] w-[45%]" />
-            <p className="font-bold">OR</p>
-            <Separator className="bg-[#292929] w-[45%]" />
-          </div> */}
-
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 mt-[24px]"
+          <div className="px-[24px]">
+            <Button
+              variant="secondary"
+              className="w-full flex items-center gap-1 mt-6"
+              onClick={() => logingoogleUser()}
             >
-              <FormField
-                control={form.control}
-                name="full_name"
-                render={({ field }) => (
-                  <FormItem className="relative">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
-                      FULL NAME
-                    </FormLabel>
-                    <User
-                      className="absolute right-3 translate-y-[0.9rem]"
-                      size={20}
-                    />
-                    <FormControl>
-                      <Input
-                        placeholder="Enter Full name"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
-                        {...field}
-                        onChange={(e) => {
-                          setFullName(e.target.value);
-                          field.onChange(e);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="relative">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
-                      EMAIL
-                    </FormLabel>
-                    <Envelope
-                      className="absolute right-3 translate-y-[0.9rem]"
-                      size={20}
-                    />
-                    <FormControl>
-                      <Input
-                        placeholder="youremail@example.com"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
-                        {...field}
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                          field.onChange(e);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem className="relative">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
-                      PASSWORD
-                    </FormLabel>
-                    <Lock
-                      className="absolute right-3 translate-y-[0.9rem] z-10"
-                      size={20}
-                    />
-                    <FormControl>
-                      <PasswordInput
-                        placeholder="Input password"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
-                        {...field}
-                        onChange={(e) => {
-                          setPassword(e.target.value);
-                          field.onChange(e);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="confirm_password"
-                render={({ field }) => (
-                  <FormItem className="relative">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
-                      CONFIRM PASSWORD
-                    </FormLabel>
-                    <Lock
-                      className="absolute right-3 translate-y-[0.9rem] z-10"
-                      size={20}
-                    />
-                    <FormControl>
-                      <PasswordInput
-                        placeholder="Input password again"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
-                        {...field}
-                        onChange={(e) => {
-                          setConfirmPassword(e.target.value);
-                          field.onChange(e);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
-                <Button type="submit" className="font-bold w-full">
-                  Create an Account
-                </Button>
-              </DialogFooter>
-              <p className="font-bold text-center">
-                Have an account?{" "}
-                <span
-                  onClick={() => {
-                    setAuthMode("SIGNIN");
-                  }}
-                  className="underline cursor-pointer hover:opacity-60 duration-300"
-                >
-                  Login here
-                </span>
+              <GoogleLogo size={22} weight="fill" /> Sign up with Google
+            </Button>
+            <Button
+              variant="secondary"
+              className="w-full flex text-sm lg:text-base font-bold items-center gap-1 lg:mt-[16px] mt-[24px]"
+              onClick={() => logingoogleUser()}
+            >
+              <AppleLogo size={22} weight="fill" /> Sign up with Apple
+            </Button>
+            <div className="flex items-center mt-[24px] justify-center">
+              <hr className="flex-grow border-t border-[#292929]" />
+              <p className="px-4 text-center text-sm font-extrabold  text-white">
+                OR
               </p>
-            </form>
-          </Form>
+              <hr className="flex-grow border-t border-[#292929]" />
+            </div>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="mt-[24px]"
+              >
+                <FormField
+                  control={form.control}
+                  name="full_name"
+                  render={({ field }) => (
+                    <FormItem className="relative space-y-[24px]">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                        FULL NAME
+                      </FormLabel>
+                      <User
+                        className="absolute right-3 translate-y-[0.9rem]"
+                        size={20}
+                      />
+                      <FormControl>
+                        <Input
+                          placeholder="Enter Full name"
+                          className="pt-11 pb-5 placeholder:text-base placeholder:text-white placeholder:font-extrabold"
+                          {...field}
+                          onChange={(e) => {
+                            setFullName(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem className="relative space-y-[20px]">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                        EMAIL
+                      </FormLabel>
+                      <Envelope
+                        className="absolute right-3 translate-y-[0.9rem]"
+                        size={20}
+                      />
+                      <FormControl>
+                        <Input
+                          placeholder="youremail@example.com"
+                          className="pt-11 pb-5 placeholder:text-base placeholder:text-white placeholder:font-extrabold"
+                          {...field}
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem className="relative  space-y-[20px]">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3 z-10">
+                        PASSWORD
+                      </FormLabel>
+                      <Lock
+                        className="absolute right-3 translate-y-[0.9rem] z-10"
+                        size={20}
+                      />
+                      <FormControl>
+                        <PasswordInput
+                          placeholder="Input password"
+                          className="pt-11 pb-5 placeholder:text-base placeholder:text-white placeholder:font-extrabold"
+                          {...field}
+                          onChange={(e) => {
+                            setPassword(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="confirm_password"
+                  render={({ field }) => (
+                    <FormItem className="relative space-y-[20px] ">
+                      <FormLabel className="text-[12px] font-bold  text-[#8F8F8F] absolute left-3 top-3 z-10">
+                        CONFIRM PASSWORD
+                      </FormLabel>
+                      <Lock
+                        className="absolute right-3 translate-y-[0.9rem] z-10"
+                        size={20}
+                      />
+                      <FormControl>
+                        <PasswordInput
+                          placeholder="Input password again"
+                          className="pt-11 pb-5 placeholder:text-base placeholder:text-white placeholder:font-extrabold"
+                          {...field}
+                          onChange={(e) => {
+                            setConfirmPassword(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
+                  <Button type="submit" className="font-extrabold text-base w-full">
+                    Create an Account
+                  </Button>
+                </DialogFooter>
+                <p className="font-extrabold text-sm mt-[16px] text-center">
+                  Have an account?{" "}
+                  <span
+                    onClick={() => {
+                      setAuthMode("SIGNIN");
+                    }}
+                    className="underline cursor-pointer hover:opacity-60 duration-300"
+                  >
+                    Login here
+                  </span>
+                </p>
+              </form>
+            </Form>
+          </div>
         </ScrollArea>
       </DialogContent>
       {isVerificationModalOpen && (

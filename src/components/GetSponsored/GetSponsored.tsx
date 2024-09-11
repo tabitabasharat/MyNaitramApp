@@ -181,11 +181,11 @@ const GetSponsored = () => {
         <h3 className="font-extrabold text-[32px] lg:text-[48px] mb-[24px] lg:mb-[32px]">
           Get Sponsored
         </h3>
-        <h2 className="text-[18px] lg:text-[24px] font-extrabold mb-[16px] lg:mb-[24px]">
+        <h2 className="text-[18px] lg:text-[24px] font-extrabold mb-[16px] lg:mb-[28px]">
           Are you an event organiser or promoter looking to elevate your event
           or just getting <br className="hidden xl:block" /> started?
         </h2>
-        <p className="font-normal text-[13px] text-[16px] mb-[24px] lg:mb-[32px]">
+        <p className="font-normal text-[13px] lg:text-[16px] mb-[24px] lg:mb-[32px]">
           At Naitram, we are dedicated to supporting and cultivating some of the
           best events worldwide, delivering exceptional experiences{" "}
           <br className="hidden xl:block" />
@@ -382,7 +382,7 @@ const GetSponsored = () => {
                 control={form.control}
                 name="BIO"
                 render={({ field }) => (
-                  <FormItem className="relative mb-[42px] md:mb-[24px] space-y-0">
+                  <FormItem className="relative mb-[32px] md:mb-[24px] space-y-0">
                     <FormLabel className="text-[12px] text-[#8F8F8F] font-bold absolute left-3 top-3">
                       MESSAGE
                     </FormLabel>

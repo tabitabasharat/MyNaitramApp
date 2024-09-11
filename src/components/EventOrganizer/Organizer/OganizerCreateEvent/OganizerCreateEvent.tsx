@@ -73,6 +73,14 @@ type TicketType = {
   options: TicketTypeOption[];
   dropdown: any;
 };
+type cateOption = {
+  id: number;
+  label: string;
+};
+type Category = {
+  options: cateOption[];
+  dropdown: any;
+};
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
   eventcategory: z
@@ -151,6 +159,11 @@ type Option = {
   label: string;
   image: string;
 };
+type CateOption = {
+  id: number;
+  label: string;
+  // image: string;
+};
 interface EventData {
   // Add all other fields from your form schema
   eventmedia?: any[]; // Adjust the type based on what imagesOfGallery returns
@@ -203,7 +216,9 @@ function OganizerCreateEvent() {
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
     { type: "", price: 0, no: 0, options: [], dropdown: true },
   ]);
-
+  const [categoryTypes, setCategoryTypes] = useState<Category[]>([
+    { options: [], dropdown: false },
+  ]);
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
     { id: 2, label: "Food and Beverages", image: img2 },
@@ -211,7 +226,30 @@ function OganizerCreateEvent() {
     { id: 4, label: "Security and First Aid", image: img4 },
   ];
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
-
+  const optionscate: CateOption[] = [
+    { id: 1, label: "Music" },
+    { id: 2, label: "Business" },
+    { id: 3, label: "Food & Drink" },
+    { id: 4, label: "Community" },
+    { id: 5, label: "Arts"},
+    { id: 6, label: "Film & Media"},
+    { id: 7, label: "Sports & Fitness" },
+    { id: 8, label: "Health" },
+    { id: 9, label: "Science & Tech" },
+    { id: 10, label: "Travel & utdoor" },
+    { id: 11, label: "Charities & Causes"},
+    { id: 12, label: "Spirituality" },
+    { id: 13, label: "Seasonal"},
+    { id: 14, label: "Government"},
+    { id: 15, label: "Fashion" },
+    { id: 16, label: "Home & Lifestyle" },
+    { id: 17, label: "Auto, Biat & Air" },
+    { id: 18, label: "Hobbies" },
+    { id: 19, label: "Family & Education"},
+    { id: 20, label: "School Activities" },
+    { id: 21, label: "Other"},
+  ];
+  
   // function convertToUTC(localDateTime: string): string {
   //   // Create a Date object from the local date-time string
   //   const localDate = new Date(localDateTime);
@@ -254,18 +292,6 @@ function OganizerCreateEvent() {
     return formattedUTC;
   }
 
-  const localDateTime = "2024-09-07T14:49";
-  const utcEventStartTime = convertToUTC(EventStartTime);
-  console.log("my utc time", utcEventStartTime);
-
-  const handleDropdown = (index: number) => {
-    setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
-      )
-    );
-  };
-
   const handleOptionToggle = (index: number, option: TicketTypeOption) => {
     setTicketTypes((prevTickets) =>
       prevTickets.map((ticket, i) =>
@@ -280,6 +306,27 @@ function OganizerCreateEvent() {
       )
     );
   };
+
+  const handlecateDropdown = (index: number) => {
+    setCategoryTypes((prevTickets) =>
+      prevTickets.map((ticket, i) =>
+        i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
+      )
+    );
+  };
+
+  const localDateTime = "2024-09-07T14:49";
+  const utcEventStartTime = convertToUTC(EventStartTime);
+  console.log("my utc time", utcEventStartTime);
+
+  const handleDropdown = (index: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket, i) =>
+        i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
+      )
+    );
+  };
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -516,6 +563,8 @@ function OganizerCreateEvent() {
 
     setEventAllData(updatedValues);
   }
+
+
   async function handlePreviewClick(values: z.infer<typeof formSchema>) {
     // setLoader(true);
     // setisWalletModalOpen(false);
@@ -552,6 +601,21 @@ function OganizerCreateEvent() {
     }
   };
 
+  const handleCateOptionToggle = (index: number, option: cateOption) => {
+    setCategoryTypes((prevCate) =>
+      prevCate.map((ticket, i) =>
+        i === index
+          ? {
+              ...ticket,
+              options: ticket.options.some((o) => o.id === option.id)
+                ? ticket.options.filter((o) => o.id !== option.id)
+                : [...ticket.options, option],
+            }
+          : ticket
+      )
+    );
+  };
+
   return (
     <section
       style={{
@@ -586,7 +650,6 @@ function OganizerCreateEvent() {
             </div>
             <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head relative ">
               {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
-             
 
               <Image
                 src={CoverImg || newCover}
@@ -869,33 +932,34 @@ function OganizerCreateEvent() {
 
               // }}
             >
-              <div className="flex items-start gap-[24px] w-full common-container">
-                <FormField
-                  control={form.control}
-                  name="eventname"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
-                        Event Name
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter Event Name"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
-                          {...field}
-                          onChange={(e) => {
-                            setEventname(e.target.value);
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
+              {categoryTypes.map((ticket, index) => (
+                <div className="flex items-start gap-[24px] w-full common-container">
+                  <FormField
+                    control={form.control}
+                    name="eventname"
+                    render={({ field }) => (
+                      <FormItem className="relative w-full space-y-0">
+                        <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
+                          Event Name
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter Event Name"
+                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
+                            {...field}
+                            onChange={(e) => {
+                              setEventname(e.target.value);
+                              field.onChange(e);
+                            }}
+                          />
+                        </FormControl>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
+                  {/* <FormField
                   control={form.control}
                   name="eventcategory"
                   render={({ field }) => (
@@ -917,8 +981,64 @@ function OganizerCreateEvent() {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
-              </div>
+                /> */}
+                  <FormField
+                    control={form.control}
+                    name={`tickets.${index}.options`}
+                    render={({ field }) => (
+                      <FormItem className="pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                        <div
+                          className="flex items-center justify-between"
+                          onClick={() => handlecateDropdown(index)}
+                        >
+                          <div className="flex flex-col">
+                            <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase">
+                              EVENT category
+                            </p>
+                            <p>Select Event Category</p>
+                          </div>
+                          <Image
+                            src={ticket?.dropdown ? arrowdown : arrowdown}
+                            width={11}
+                            height={11}
+                            alt="arrow"
+                          />
+                        </div>
+                        {ticket?.dropdown && (
+                          <div>
+                            {optionscate?.map((option) => (
+                              <div
+                                key={option.id}
+                                className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                onClick={() =>
+                                  handleCateOptionToggle(index, option)
+                                }
+                              >
+                                <div className="flex items-center gap-[10px]">
+                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p>
+                                </div>
+                                {ticket?.options?.some(
+                                  (o) => o?.id === option?.id
+                                ) && (
+                                  <Image
+                                    src={tick}
+                                    width={10}
+                                    height={10}
+                                    alt="tick"
+                                  />
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              ))}
               <div className="mt-[24px]">
                 <FormField
                   control={form.control}

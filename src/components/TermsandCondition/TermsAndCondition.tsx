@@ -14,7 +14,7 @@ export default function TermsAndCondition() {
     >
       <div className="pxpx mx-2xl pp-inner">
         <h1 className="lg:text-[60px] text-[30px] font-[600] mb-[20px] uppercase ">
-          TERMS & CONDITIONS / PURCHASE POLICY
+          TERMS OF SERVICES / PURCHASE POLICY
         </h1>
 
         <ol className="list-decimal list-inside mt-4 ">
