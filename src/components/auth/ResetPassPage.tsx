@@ -94,11 +94,11 @@ const ResetPassPage = () => {
         <div className="resetpass-stlying-main-div">
           <Image alt="logo" src={logo} className="logo-stlying" />
           <Separator className="scale-x-[1.09] bg-[#292929]" />
-          <div className="font-bold text-2xl resetpass-stlying">
+          <div className="font-extrabold text-2xl resetpass-stlying">
             Reset <span className="text-primary">Password</span>
           </div>
-          <div className=" pb-4 font-bold opacity-70">
-            Please enter the email address associated with your account.
+          <div className=" pb-[20px] font-bold text-sm opacity-70">
+            Please enter the email address associated with<br className="hidden lg:block"/> your account.
           </div>
           <Form {...form}>
             <form
@@ -109,8 +109,8 @@ const ResetPassPage = () => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="relative mt-0 mb-14">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
+                  <FormItem className="relative mt-0 space-y-0 mb-[50px]">
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                       EMAIL
                     </FormLabel>
                     <Envelope
@@ -120,7 +120,7 @@ const ResetPassPage = () => {
                     <FormControl>
                       <Input
                         placeholder="youremail@example.com"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
+                        className="pt-11 pb-5 placeholder:text-[#D9D9D9] placeholder:text-sm placeholder:font-normal"
                         {...field}
                         onChange={(e) => {
                           setEmail(e.target.value);
@@ -132,7 +132,7 @@ const ResetPassPage = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="font-bold w-full">
+              <Button type="submit" className="lg:text-base text-sm font-extrabold w-full">
                 Submit
               </Button>
             </form>

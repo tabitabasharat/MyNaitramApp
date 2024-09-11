@@ -112,7 +112,7 @@ const router = useRouter();
         </div>
         <div className="h-full pt-[32px] w-full ">
           <p className="lg:mb-[8px] mb-[16px] text-[#E6E6E6] text-[16px] font-bold">
-            Claimable Rewards
+            Claimable
           </p>
 
           <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[12px]">

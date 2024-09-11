@@ -65,23 +65,6 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
     dispatch(getLiveEventById(userid));
   }, []);
 
-  // const handleClick = (id: number, type: string) => {
-  //   const event = eventimges.find((e) => e.id === id);
-  //   if (event) {
-  //     setSelectedEvent(event);
-  //     router.push(`?EventType=${type}`, { scroll: false });
-  //   }
-  // };
-
-  // const handleClick = (id: number, type: string) => {
-  //   const event = eventimges.find((e) => e.id === id);
-  //   if (event) {
-  //     setSelectedEvent(event);
-  //     router.push(`?EventType=${type}`, { scroll: false });
-  //   } else {
-  //     console.error("Event not found:", id);
-  //   }
-  // };
   
   const handleClick = (id: number, type: string) => {
     const event = eventimges.find((e) => e.id === id);

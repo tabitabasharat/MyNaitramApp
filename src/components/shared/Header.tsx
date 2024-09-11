@@ -135,7 +135,7 @@ const Header = () => {
       <header
         // style={{ position: }}
         className={cn(
-          "fixed w-full pxpx py-[1.5rem] flex items-center justify-between z-50 duration-300",
+          "fixed w-full pxpx py-[26px] flex items-center justify-between z-50 duration-300",
           { "bg-black/50 backdrop-blur-lg webkit-header-blur": fixedBg }
         )}
       >
@@ -154,7 +154,7 @@ const Header = () => {
               >
                 <Link
                   className={cn("", {
-                    "font-bold": pathname === link.url,
+                    "text-base font-normal": pathname === link.url,
                   })}
                   href={link.url}
                 >
@@ -195,7 +195,7 @@ const Header = () => {
         <div className="flex items-center">
           {token && (
             <Button
-              className="hidden pt-[11px] lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
+              className="hidden p-[12px] py-[8px] font- font-extrabold text-base lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
               // onClick={() => router.push("/organizer-event/event-dashboard")}
               onClick={() => router.push("/organizer-event/event-dashboard")}
             >
@@ -232,10 +232,10 @@ const Header = () => {
           </>
 
           {isLoggedIn && token && (
-            <div className="mr-[12px] md:ms-0 md:mr-0 lg:ms-0 lg:mr-0 flex items-center gap-4 h-full">
+            <div className="mr-[12px] md:ms-0 md:mr-0 lg:ms-0 lg:mr-0 flex items-center lg:gap-[20px] gap-[10px] h-full">
               <Popover open={notifPopupOpen} onOpenChange={setNotifPopupOpen}>
                 <PopoverTrigger asChild>
-                  <Bell size={25} className="cursot-pointer" />
+                  <Bell  className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer" />
                 </PopoverTrigger>
                 <PopoverContent className="text-white border border-muted shadow-custom bg-black w-[350px] lg:w-[400px] rounded-2xl -translate-x-4 translate-y-6">
                   <ScrollArea className="h-[450px] border-none ">
@@ -246,7 +246,7 @@ const Header = () => {
 
               <Popover open={popupOpen} onOpenChange={setPopupOpen}>
                 <PopoverTrigger asChild>
-                  <div className="border  p-[6px] border-muted gradient-slate rounded-full lg:flex items-center   cursor-pointer">
+                  <div className="border  p-[6px] h-[44px] w-[44px] border-muted gradient-slate rounded-full lg:flex items-center   cursor-pointer">
                     {/* <div className="size-[44px] lg:size-[44px] gradient-slate p-[6px] rounded-full overflow-hidden  shadow-inner shadow-md border border-gray-700 rounded-full border-gradient bg-gradient-to-t from-transparent to-transparent"> */}
                     <Link
                       href={"/profile/profile-main"}
@@ -288,7 +288,7 @@ const Header = () => {
           >
             <div className="text-black bg-white rounded-full size-10 grid place-items-center">
               <div className="translate-x-[-0.3rem] translate-y-[-0.2rem]">
-                <Hamburger toggled={menuIsOpen} size={17} />
+                <Hamburger toggled={menuIsOpen} size={20} />
               </div>
             </div>
           </button>

@@ -340,7 +340,7 @@ const LiveActivityChat = ({ eventID }: any) => {
             ))}
           <div ref={chatEndRef} />
         </div>
-        <div className="absolute top-[340px] md:top[225px] md:right-[40px] sm:right-[50px] lg:top-[225px] flex flex-col items-center justify-center space-y-[4px] z-[2] right-[3px] lg:right-[30px]">
+        <div className="absolute top-[340px] md:top[225px] sm:right-[30px] md:right-[35px] sm:right-[50px] lg:top-[225px] flex flex-col items-center justify-center space-y-[4px] z-[2] right-[1px] lg:right-[20px]">
           {emojis.map((emoji, index) => (
             <p
               key={index}

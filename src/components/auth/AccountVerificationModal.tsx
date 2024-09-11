@@ -178,11 +178,11 @@ const AccountVerificationModal = ({
   }
 
   return (
-    <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0">
+    <DialogContent className="sm:max-w-md lg:max-w-[600px] px-[0px] pb-4 pt-0">
        {loader && <ScreenLoader />}
       <ScrollArea className="max-h-[90vh]">
-        <DialogHeader className="relative overflow-hidden pt-4">
-          <DialogTitle className="font-bold text-2xl">
+        <DialogHeader className="relative px-[24px] overflow-hidden">
+          <DialogTitle className="font-extrabold text-2xl py-[18px]">
             Account <span className="text-primary">Verification</span>
           </DialogTitle>
           <Image
@@ -194,10 +194,11 @@ const AccountVerificationModal = ({
           />
           <Separator className="scale-x-[1.09] bg-[#292929]" />
         </DialogHeader>
+        <div className="px-[24px]">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(VerifySignUp)}
-            className="space-y-2"
+            className=""
           >
             <div className="input-stlying">
               {["textbox", "textbox1", "textbox2", "textbox3"].map(
@@ -239,18 +240,19 @@ const AccountVerificationModal = ({
               )}
             </div>
             <button
-              className="opacity-70 font-bold mb-14 hover:opacity-100 underline translate-y-[-0.4rem]"
+              className="opacity-70 font-normal mb-[50px] hover:opacity-100 "
               onClick={()=>{ResentCode()}}
             >
-              Didn't receive the code? Request again
+              Didn't receive the code? <span className="font-extrabold underline"> Request again</span>
             </button>
             <DialogFooter className="w-full pt-4 bg-[#101010] border-t border-muted">
-              <Button type="submit" className="font-bold w-full">
+              <Button type="submit" className="font-extrabold text-base w-full">
                 Verify
               </Button>
             </DialogFooter>
           </form>
         </Form>
+        </div>
       </ScrollArea>
     </DialogContent>
   );

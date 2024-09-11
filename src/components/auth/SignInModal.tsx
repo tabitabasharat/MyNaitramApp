@@ -42,6 +42,8 @@ import axios from "axios";
 import ScreenLoader from "../loader/Screenloader";
 import { useRouter } from "next/navigation";
 import AccountVerificationModal from "./AccountVerificationModal";
+import { AppleIcon } from "lucide-react";
+import { AppleLogo } from "@phosphor-icons/react";
 
 const formSchema = z.object({
   email: z
@@ -77,6 +79,8 @@ const SignInModal = ({
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   const [email, setEmail] = useState("");
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [password, setPassword] = useState("");
   const [isVerificationModalOpen, setVerificationModalOpen] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -86,6 +90,23 @@ const SignInModal = ({
       password: "",
     },
   });
+  const isFormActive =
+    isEmailFocused ||
+    isPasswordFocused ||
+    email.length > 0 ||
+    password.length > 0;
+
+  // const handleEmailChange = (e): any => {
+  //   const value = e.target.value;
+  //   setEmail(value);
+  //   setIsEmailActive(value !== "" || document.activeElement === e.target);
+  // };
+
+  // const handlePasswordChange = (e) => {
+  //   const value = e.target.value;
+  //   setPassword(value);
+  //   setIsPasswordActive(value !== "" || document.activeElement === e.target);
+  // };
 
   async function login(alues: z.infer<typeof formSchema>) {
     setLoader(true);
@@ -189,12 +210,11 @@ const SignInModal = ({
 
   return (
     <>
-      <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-4 pt-0 ">
+      <DialogContent className="sm:max-w-md lg:max-w-[600px] px-[0px] pb-4 pt-0 ">
         {loader && <ScreenLoader />}
         <ScrollArea className="max-h-[90vh]">
-      
-          <DialogHeader className="relative overflow-hidden pt-4 ">
-            <DialogTitle className="font-bold text-2xl mb-[18px]">
+          <DialogHeader className="relative px-[24px] overflow-hidden  ">
+            <DialogTitle className="font-bold py-[18px] text-2xl">
               Sign <span className="text-primary">In</span>
             </DialogTitle>
 
@@ -207,94 +227,129 @@ const SignInModal = ({
             />
             <Separator className="scale-x-[1.09] bg-[#292929] " />
           </DialogHeader>
-          <Button
-            variant="secondary"
-            className="w-full flex items-center gap-1 mt-5"
-            onClick={()=>logingoogle()}
-          >
-            <GoogleLogo size={22} weight="fill" /> Sign in with Google
-          </Button>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(login)}
-              className="space-y-4 mt-[24px]"
+          <div className="px-[24px]">
+            <Button
+              variant="secondary"
+              className="w-full flex items-center gap-1 mt-6"
+              onClick={() => logingoogle()}
             >
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="relative">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3">
-                      EMAIL
-                    </FormLabel>
-                    <Envelope
-                      className="absolute right-3 translate-y-[0.9rem]"
-                      size={20}
-                    />
-                    <FormControl>
-                      <Input
-                        placeholder="youremail@example.com"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
-                        {...field}
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                          field.onChange(e);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem className="relative">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
-                      PASSWORD
-                    </FormLabel>
-                    <Lock
-                      className="absolute right-3 translate-y-[0.9rem] z-10"
-                      size={20}
-                    />
-                    <FormControl>
-                      <PasswordInput
-                        placeholder="Input password"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
-                        {...field}
-                        onChange={(e) => {
-                          setPassword(e.target.value);
-                          field.onChange(e);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <button className="opacity-70 font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
-                <Link href="/auth/resetpasspage">Forgot your password?</Link>
-              </button>
-              <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
-                <Button type="submit" className="font-bold w-full">
-                  Log In
-                </Button>
-              </DialogFooter>
-              <p className="font-bold text-center">
-                Don't have an account?{" "}
-                <span
-                  onClick={() => {
-                    setAuthMode("SIGNUP");
-                  }}
-                  className="underline cursor-pointer hover:opacity-60 duration-300"
-                >
-                  Sign up now
-                </span>
+              <GoogleLogo size={22} weight="fill" /> Sign in with Google
+            </Button>
+            <Button
+              variant="secondary"
+              className="w-full flex text-sm lg:text-base font-bold items-center gap-1 lg:mt-[16px] mt-[24px]"
+              onClick={() => logingoogle()}
+            >
+              <AppleLogo size={22} weight="fill" /> Sign up with Apple
+            </Button>
+            <div className="flex items-center mt-[24px] justify-center">
+              <hr className="flex-grow border-t border-[#292929]" />
+              <p className="px-4 text-center text-sm font-extrabold  text-white">
+                OR
               </p>
-            </form>
-          </Form>
+              <hr className="flex-grow border-t border-[#292929]" />
+            </div>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(login)} className="mt-[24px]">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem
+                      className={`relative mb-[20px] ${
+                        isEmailFocused ? "auth-bg-gradient" : ""
+                      }`}
+                    >
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                        EMAIL
+                      </FormLabel>
+                      <Envelope
+                        className="absolute right-3 translate-y-[0.9rem]"
+                        size={20}
+                      />
+                      <FormControl>
+                        <Input
+                          placeholder="youremail@example.com"
+                          className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-extrabold"
+                          {...field}
+                          onFocus={() => setIsEmailFocused(true)}
+                          onBlur={() => setIsEmailFocused(false)}
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Password Field */}
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem
+                      className={`relative space-y-0 ${
+                        isPasswordFocused ? "auth-bg-gradient" : ""
+                      }`}
+                    >
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3 z-10">
+                        PASSWORD
+                      </FormLabel>
+                      <Lock
+                        className="absolute right-3 translate-y-[0.9rem] z-10"
+                        size={20}
+                      />
+                      <FormControl>
+                        <PasswordInput
+                          placeholder="Input password"
+                          className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-extrabold"
+                          // {...field}
+                          // onFocus={()=> setIsPasswordFocused(true)}
+                          // onBlur={()=> setIsPasswordFocused(false)}
+                          // onChange={(e) => setPassword(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+                          {...field}
+                          onFocus={() => setIsPasswordFocused(true)}
+                          onBlur={() => setIsPasswordFocused(false)}
+                          onChange={(e) => {
+                            setPassword(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <button className="opacity-70 font-bold text-base text-[#BFBFBF] hover:opacity-100 underline mt-[8px]">
+                  <Link href="/auth/resetpasspage">Forgot your password?</Link>
+                </button>
+
+                <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
+                  <Button type="submit" className="font-bold text-base w-full">
+                    Log In
+                  </Button>
+                </DialogFooter>
+
+                <p className="font-extrabold mt-[16px] text-sm text-center">
+                  Don't have an account?{" "}
+                  <span
+                    onClick={() => {
+                      setAuthMode("SIGNUP");
+                    }}
+                    className="underline cursor-pointer hover:opacity-60 duration-300"
+                  >
+                    Sign up now
+                  </span>
+                </p>
+              </form>
+            </Form>
+          </div>
         </ScrollArea>
       </DialogContent>
 

@@ -22,10 +22,12 @@
 /* input[type="date"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1
 } */
+
+
 .menu-show{
   display: none;
 }
-.nav-inside{
+.nav-inside {
   display: flex;
   gap: 3rem;
 }
@@ -64,15 +66,14 @@ body {
   }
 }
 
-    @media(max-width:1200px)
-    {
-      .menu-show{
-        display: block;
-      }
-      .nav-inside{
-        display: none;
-      }
-    }
+@media (max-width: 1200px) {
+  .menu-show {
+    display: block;
+  }
+  .nav-inside {
+    display: none;
+  }
+}
 @media (max-width: 425px) {
   .max-width-adjustment-in-graph {
     width: 130% !important;
@@ -183,6 +184,26 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   padding: 0px;
+}
+.auth-bg-gradient {
+  position: relative;
+  border-radius: 8px !important;
+}
+.auth-bg-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 8px !important; /* Inherit the border-radius from the parent */
+  padding: 1px; /* Adjust this value to control the thickness of the border */
+  background: linear-gradient(
+    135deg,
+    #13ff7a 0.2%,
+    #002b12 50.2%,
+    #13ff7a 100.2%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 .gradient-bg {
   position: relative;
@@ -312,10 +333,13 @@ body {
 }
 .border-gradient-empty {
   border: 1px solid;
-  border-image-source: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
+  border-image-source: linear-gradient(
+    360deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
   border-image-slice: 1;
 }
-
 
 .box-shadow-inset-empty {
   box-shadow: 0px 3px 5px 0px #232323 inset;
@@ -367,7 +391,7 @@ body {
 .swiper-button-prev {
   @apply fill-white scale-[1.8] w-10 h-10;
 }
-.bg-effect2{
+.bg-effect2 {
   background-image: none;
 }
 .scrollbar-hidden::-webkit-scrollbar {
@@ -382,7 +406,7 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield; /* Firefox */
 }
-.event-bg-effect{
+.event-bg-effect {
   background-image: url("../assets/eventsaleblur.svg");
   background-repeat: no-repeat;
   background-position: bottom;
@@ -430,8 +454,8 @@ input[type="number"] {
   .spacer-row .MuiTableCell-root {
     height: auto;
   }
-  .event-bg-effect{
-    background:transparent;
+  .event-bg-effect {
+    background: transparent;
   }
 }
 @media (max-width: 425px) {
@@ -462,8 +486,8 @@ input[type="number"] {
     -webkit-mask-composite: xor;
     mask-composite: exclude;
   }
-  .bg-effect2{
-    background-image: url('../assets/Blur2.svg') !important;
+  .bg-effect2 {
+    background-image: url("../assets/Blur2.svg") !important;
     background-repeat: no-repeat;
   }
 }
@@ -489,10 +513,9 @@ input[type="number"] {
     -webkit-mask-composite: xor;
     mask-composite: exclude;
   }
-
 }
 @media (min-width: 425px) {
-  .bg-effect{
+  .bg-effect {
     background-image: url("../assets/Blur.svg");
     background-repeat: no-repeat;
   }

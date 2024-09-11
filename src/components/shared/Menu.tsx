@@ -176,7 +176,7 @@ const Menu = ({
             ))}
             <Button
               variant="secondary"
-              className="pt-[15px] lg:mr-[12px]"
+              className="bg-[#13FF7A] p-[12px] py-[8px] font- font-extrabold text-base lg:mr-[12px]"
               onClick={() => router.push("/create-event")}
             >
               Host Event
@@ -198,7 +198,7 @@ const Menu = ({
                   initial="initial"
                   className="h-fit w-fit mt-[1.5rem] lg:mt-[2rem] z-[1]"
                 >
-                  <Button className="px-[3rem]">Logout</Button>
+                  <Button className="px-[3rem] bg-[#13FF7A]">Logout</Button>
                 </motion.div>
               </DialogTrigger>
               {authMode === "SIGNIN" && (
