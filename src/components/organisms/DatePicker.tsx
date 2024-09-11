@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
-
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -13,6 +13,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+type DatePickerProps = {
+  setSelectedDate: (date: Date | null) => void;
+};
 
 const FormSchema = z.object({
   date: z.date({
@@ -20,7 +23,7 @@ const FormSchema = z.object({
   }),
 });
 
-export function DatePicker() {
+export function DatePicker({ setSelectedDate }: DatePickerProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -49,7 +52,12 @@ export function DatePicker() {
                   <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={field.onChange}
+                    
+
+                    onSelect={(date:any) => {
+                      field.onChange(date);
+                      setSelectedDate(date); // Call the parent state setter when the date is selected
+                    }}
                     // disabled={(date: any) =>
                     //   date > new Date() || date < new Date('1900-01-01')
                     // }

@@ -25,7 +25,7 @@ const Organizer = () => {
   }, []);
 
   const myOrgData = useAppSelector(
-    (state) => state?.getOrgDetail?.orgDetail?.data
+    (state) => state?.getOrgDetail?.orgDetail?.data?.data
   );
 
   console.log("my Profilee is", myOrgData);
@@ -49,8 +49,8 @@ const Organizer = () => {
                   <div className="bg-black rounded-full p-[6px]">
                     <Image
                       src={
-                        myOrgData?.data?.profilePicture
-                          ? myOrgData?.data?.profilePicture
+                        myOrgData?.userDetails?.organizerProfile?.profilePicture
+                          ? myOrgData?.userDetails?.organizerProfile?.profilePicture
                           : "/person3.jpg"
                       }
                       width={216}
@@ -66,10 +66,10 @@ const Organizer = () => {
               </div>
               <div className="flex flex-col lg:items-start items-center justify-center ">
                 <h2 className="text-[28px] font-extrabold text-center lg:text-start xl:text-start  leading-[31.36px] mb-[0px] lg:mb-[9px] ">
-                  {myOrgData?.data?.fullname}
+                  {myOrgData?.userDetails?.fullName}
                 </h2>
                 <p className="md:mb-[24px] pt-[24px] pb-[20px] lg:py-[0px] font-bold text-[#FFFFFF80] text-sm lg:font-normal">
-                  {myOrgData?.data?.email}
+                  {myOrgData?.userDetails?.email}
                 </p>
                 <div
                   style={{
@@ -80,8 +80,8 @@ const Organizer = () => {
                 >
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-                      {myOrgData?.totalEvents !== null
-                        ? myOrgData?.totalEvents
+                      {myOrgData?.pagination?.totalEvents !== null
+                        ? myOrgData?.pagination?.totalEvents
                         : "0"}
                     </h2>
                     <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">

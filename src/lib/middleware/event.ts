@@ -148,17 +148,21 @@ export const createevent = createAsyncThunk(
   }
 );
 
-
 export const getViewAllEvent = createAsyncThunk(
   "getViewAllEvent",
-  async (data:any) => {
-    console.log("this is page data",data)
+  async (data: any) => {
+    console.log("this is page data", data);
     try {
       console.log("inside get Events ");
-      const res = await api.get(`${API_URL}/event/getEventsAll?page=${data?.page?data?.page:1}`);
-      // const res = await api.get(`${API_URL}/event/getEventsAll?page=${data?.page?data?.page:1}&category=${data?.category}&nextprem=${value}`);
+      // const res = await api.get(`${API_URL}/event/getEventsAll?page=${data?.page?data?.page:1}`);
+      const res = await api.get(
+        `${API_URL}/event/getEventsAll?page=${
+          data?.page ? data?.page : 1
+        }&startDate=${data?.startDate}&endDate=${data?.endDate}&location=${
+          data?.location
+        }&startMonth=${data?.startMonth}&endMonth=${data?.endMonth}&today=${data?.today}&chooseDate=${data?.chooseDate} `
+      );
 
-     
       console.log("inside get all Events ", res);
       // localStorage.setItem("token", res?.data?.token);
       return {
@@ -173,7 +177,6 @@ export const getViewAllEvent = createAsyncThunk(
     }
   }
 );
-
 
 export const getEventByEventId = createAsyncThunk(
   "getEventByEventId",
@@ -196,7 +199,6 @@ export const getEventByEventId = createAsyncThunk(
   }
 );
 
-
 export const getViewPastEvents = createAsyncThunk(
   "getViewPastEvents",
   async () => {
@@ -217,10 +219,6 @@ export const getViewPastEvents = createAsyncThunk(
     }
   }
 );
-
-
-
-
 
 export const getEventCount = createAsyncThunk(
   "getEventCount",
@@ -264,33 +262,31 @@ export const getLiveEventById = createAsyncThunk(
   }
 );
 
-
-
 export const updateEvent = createAsyncThunk(
   "updateEvent",
   async (data: any) => {
     try {
       console.log("inside update Event");
-      const res = await api.put(`${API_URL}/event/updateEvent`,{
-        userId:data?.userId,
-        eventId:data?.eventId,
-        name:data?.name,
+      const res = await api.put(`${API_URL}/event/updateEvent`, {
+        userId: data?.userId,
+        eventId: data?.eventId,
+        name: data?.name,
         category: data?.category,
         eventDescription: data?.eventDescription,
         location: data?.location,
         ticketStartDate: data?.ticketStartDate,
         ticketEndDate: data?.ticketEndDate,
-        startTime: data?. startTime,
+        startTime: data?.startTime,
         endTime: data?.endTime,
         mainEventImage: data?.mainEventImage,
         coverEventImage: data?.coverEventImage,
         tickets: data?.tickets,
-        totalComplemantaryTickets: data?. totalComplemantaryTickets,
+        totalComplemantaryTickets: data?.totalComplemantaryTickets,
         fbUrl: data?.fbUrl,
         instaUrl: data?.instaUrl,
         youtubeUrl: data?.youtubeUrl,
         twitterUrl: data?.twitterUrl,
-        tiktokUrl:  data?.tiktokUrl,
+        tiktokUrl: data?.tiktokUrl,
         linkedinUrl: data?.linkedinUrl,
         eventmedia: data?.eventmedia,
       });
@@ -309,28 +305,25 @@ export const updateEvent = createAsyncThunk(
   }
 );
 
-export const LikeEvent = createAsyncThunk(
-  "LikeEvent",
-  async (data: any) => {
-    try {
-      console.log("Inside like event");
-      const res = await api.post(`${API_URL}/event/likeEvent`, data);
-      console.log("Inside like event", res);
+export const LikeEvent = createAsyncThunk("LikeEvent", async (data: any) => {
+  try {
+    console.log("Inside like event");
+    const res = await api.post(`${API_URL}/event/likeEvent`, data);
+    console.log("Inside like event", res);
 
-      // localStorage.setItem("token", res?.data?.token);
-      return {
-        status: res?.status,
-        data: res?.data?.data,
-        token: res?.data?.token,
-      };
-    } catch (error: any) {
-      return {
-        message: error?.response?.data?.error,
-        status: error?.response?.status,
-      };
-    }
+    // localStorage.setItem("token", res?.data?.token);
+    return {
+      status: res?.status,
+      data: res?.data?.data,
+      token: res?.data?.token,
+    };
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
   }
-);
+});
 
 export const disLikeEvent = createAsyncThunk(
   "disLikeEvent",
@@ -374,6 +367,3 @@ export const getEventAttend = createAsyncThunk(
     }
   }
 );
-
-
-

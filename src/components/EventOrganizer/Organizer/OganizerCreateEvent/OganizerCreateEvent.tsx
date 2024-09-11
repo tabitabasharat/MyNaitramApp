@@ -13,9 +13,10 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef, useEffect } from "react";
 import Editicon from "@/assets/Editicon.svg";
-import addicon from "@/assets/add-icon.svg";
+// import addicon from "@/assets/add-icon.svg";
+import addicon from "@/assets/Wallet/Plus.svg";
 import Backward from "@/components/Backward/Backward";
-import Link from "next/link";
+import deleteicon from "@/assets/Wallet/delete-icon.svg";
 import {
   Form,
   FormControl,
@@ -399,7 +400,10 @@ function OganizerCreateEvent() {
       { type: "", price: 0, no: 0, options: [], dropdown: true },
     ]);
   };
-
+  const handleDeleteTicketType = (index: number) => {
+    const updatedTicketTypes = ticketTypes.filter((_, i) => i !== index);
+    setTicketTypes(updatedTicketTypes);
+  };
 
   const handleCoverSingleFileChange = async (
     e: React.ChangeEvent<HTMLInputElement>
@@ -577,9 +581,8 @@ function OganizerCreateEvent() {
       );
       console.log("my encoded data", encodedEventData);
       router.push(`/preview-event?eventData=${encodedEventData}`);
-    }
-    else {
-      console.log("error")
+    } else {
+      console.log("error");
     }
   }
 
@@ -1599,13 +1602,33 @@ function OganizerCreateEvent() {
                       </div>
                     )}
                   </div>
+                  <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
+                    <Button
+                      className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                      onClick={() => handleDeleteTicketType(index)}
+                    >
+                      <Image
+                        src={deleteicon}
+                        alt="delete-icon"
+                        height={12}
+                        width={12}
+                      />
+                      Delete Ticket Type
+                    </Button>
+                  </div>
                 </div>
               ))}
 
               {/* Add Ticket Type Button */}
               <div className="flex justify-end items-center mt-[12px] ticket-btn">
                 <Button
-                  className="font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                  style={{
+                    background:
+                      "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                  }}
+                  className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px]  rounded-full  
+               border-[0.86px] border-transparent text-[11px] font-extrabold"
+                  // className=" font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
                   onClick={handleAddTicketType}
                 >
                   <Image src={addicon} alt="Add-icon" height={12} width={12} />
@@ -1788,10 +1811,10 @@ function OganizerCreateEvent() {
                   )}
                 />
               </div>
-              <div className="flex items-center justify-end gap-[20px]">
-                <div className="flex justify-end items-center mt-[36px] edit-btn">
+              <div className="flex items-center justify-end lg:gap-[20px] gap-[12px] lg:flex-nowrap md:flex-nowrap wrap-btns mt-[36px]">
+                <div className="flex justify-end items-center  edit-btn">
                   <button
-                    className="flex h-[52px] py-[12px] px-[68px] edit-btn justify-center items-center rounded-[44px] gap-[6px] gradient-bg gradient-border-edit "
+                    className="w-full lg:w-fit flex h-[52px] py-[17px] px-[55.25px] lg:py-[12px] lg:px-[68px] edit-btn justify-center items-center rounded-[44px] gap-[6px] gradient-bg gradient-border-edit "
                     // onClick={handlePreviewClick}
                     // onClick={() => setActionType("preview")}
 
@@ -1800,10 +1823,10 @@ function OganizerCreateEvent() {
                     Preview
                   </button>
                 </div>
-                <div className="flex justify-end items-center mt-[36px] edit-btn">
+                <div className="flex justify-end items-center edit-btn">
                   <Button
                     type="submit"
-                    className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
+                    className="w-full lg:w-fit flex  justify-center items-center font-bold py-[17px] px-[55.25px] lg:py-[12px] lg:px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                     // onClick={() => setActionType("create")}
                     onClick={(event) => handleFormSubmit(event, "create")}
                   >

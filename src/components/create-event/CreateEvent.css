@@ -199,6 +199,12 @@
     justify-content: center;
   }
 }
+@media(max-width:425px)
+{
+  .wrap-btns{
+    flex-wrap: wrap;
+  }
+}
 
 
 ::-webkit-calendar-picker-indicator {

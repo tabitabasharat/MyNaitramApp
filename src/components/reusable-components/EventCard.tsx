@@ -24,11 +24,19 @@ const EventCard = ({
   eventId: any;
   eventType: any;
 }) => {
-  const imageUrl = img
+  // const imageUrl = img
+  //   ? img.startsWith("http") || img.startsWith("https")
+  //     ? img
+  //     : img
+  //   : event12;
+
+    const imageUrl = img
     ? img.startsWith("http") || img.startsWith("https")
       ? img
-      : img
-    : event12;
+      : img.startsWith("/") 
+      ? img
+      : `/${img}` 
+    : event12.src;
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const [liked, setLiked] = useState(false);

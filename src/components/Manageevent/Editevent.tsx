@@ -2,6 +2,8 @@
 import React from "react";
 // import "./CreateEvent.css";
 import "@/components/create-event/CreateEvent.css";
+import deleteicon from "@/assets/Wallet/delete-icon.svg";
+
 import Image from "next/image";
 import ufo from "@/assets/UFO_SVG.png";
 import { Input } from "../ui/input";
@@ -336,28 +338,6 @@ function Editevent() {
     }
   };
 
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files) {
-  //     const filesArray = Array.from(event.target.files).map((file) => ({
-  //       file, // Keep the original file object
-  //       url: URL.createObjectURL(file), // Create an object URL for the file
-  //       type: file.type.startsWith("video") ? "video" : "image", // Determine type based on file type
-  //     }));
-
-  //     setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]);
-  //   }
-  // };
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files) {
-  //     const filesArray = Array.from(event.target.files);
-  //     const newFiles = filesArray.map(file => ({
-  //       file,
-  //       url: URL.createObjectURL(file),
-  //     }));
-  //     setGalleryFiles(prevFiles => [...prevFiles, ...newFiles]); // Update state with all selected files
-  //   }
-  // };
-
   const handleFileChangeapi = async () => {
     if (galleryFiles) {
       setLoader(true);
@@ -396,39 +376,6 @@ function Editevent() {
       }
     }
   };
-  // const handleFileChangeapi = async () => {
-  //   if (galleryFiles && galleryFiles.length > 0) {
-  //     setLoader(true);
-
-  //     try {
-  //       const formData = new FormData();
-
-  //       // Filter to include only files that are instances of File
-  //       galleryFiles
-  //         .filter((file) => file instanceof File)
-  //         .forEach((file) => formData.append("files", file));
-
-  //       // Upload files to the server
-  //       const res: any = await api.post(
-  //         `${API_URL}/upload/uploadMultiple`,
-  //         formData
-  //       );
-
-  //       if (res?.status === 200) {
-  //         setLoader(false);
-  //         setEventsFile(res?.data?.imageUrls);
-  //         SuccessToast("Images Uploaded Successfully");
-  //         return res?.data?.imageUrls;
-  //       } else {
-  //         setLoader(false);
-  //         ErrorToast(res?.payload?.message || "Error uploading image");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //       setLoader(false);
-  //     }
-  //   }
-  // };
 
   const handleInputChange = (
     index: number,
@@ -448,6 +395,27 @@ function Editevent() {
       ...prevTickets,
       { type: "", price: 0, no: 0, options: [], dropdown: true },
     ]);
+  };
+  // const handleDeleteTicketType = (index: number) => {
+  //   setTicketTypes((prevTickets) => prevTickets.filter((_, i) => i !== index));
+  //   const updatedTickets = form.getValues("tickets")?.filter((_, i) => i !== index);
+  //   form.setValue("tickets", updatedTickets);
+
+  // };
+
+  const handleDeleteTicketType = (index: number) => {
+    // Remove from the ticketTypes state
+    const updatedTickets = ticketTypes.filter((_, i) => i !== index);
+    setTicketTypes(updatedTickets);
+
+    // Remove the ticket data from the form state
+    form.setValue("tickets", updatedTickets); // Update form values
+
+    // Reset specific field data if necessary (optional)
+    form.reset({
+      ...form.getValues(), // Keep other form values
+      tickets: updatedTickets, // Update only the tickets field
+    });
   };
 
   const handleSingleFileChange = async (
@@ -571,27 +539,6 @@ function Editevent() {
       return updatedFiles;
     });
   };
-
-  // const removeImage = (index: number) => {
-  //   setGalleryFiles((prevFiles) => {
-  //     // Get the URL of the file being removed
-  //     const fileToRemove = prevFiles[index];
-  //     if (fileToRemove && fileToRemove?.url) {
-  //       // Revoke the object URL to avoid memory leaks
-  //       URL.revokeObjectURL(fileToRemove?.url);
-  //     }
-
-  //     // Return a new array excluding the removed file
-  //     return prevFiles.filter((_, i) => i !== index);
-  //   });
-  // };
-
-  // const removeImage = (index: number) => {
-  //   setGalleryFiles(prevFiles => {
-  //     const updatedFiles = prevFiles.filter((_, i) => i !== index);
-  //     return updatedFiles;
-  //   });
-  // };
 
   useEffect(() => {
     const userID =
@@ -1342,7 +1289,7 @@ function Editevent() {
                       </FormLabel>
                       <FormControl>
                         <Input
-                           type="datetime-local"
+                          type="datetime-local"
                           aria-label="Date and time"
                           placeholder="Enter Start Date"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
@@ -1370,7 +1317,7 @@ function Editevent() {
                       </FormLabel>
                       <FormControl>
                         <Input
-                            type="datetime-local"
+                          type="datetime-local"
                           aria-label="Date and time"
                           placeholder="Enter End Date"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
@@ -1955,8 +1902,9 @@ function Editevent() {
                                 )}
                               </div>
                             ))}
-                             <div className="column-separator"></div> {/* Empty div to control the separator placement */}
-                             <div className="column-separator"></div>
+                            <div className="column-separator"></div>{" "}
+                            {/* Empty div to control the separator placement */}
+                            <div className="column-separator"></div>
                           </div>
                         )}
 
@@ -1964,6 +1912,21 @@ function Editevent() {
                       </FormItem>
                     )}
                   />
+
+                  <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
+                    <Button
+                      className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                      onClick={() => handleDeleteTicketType(index)}
+                    >
+                      <Image
+                        src={deleteicon}
+                        alt="delete-icon"
+                        height={12}
+                        width={12}
+                      />
+                      Delete Ticket Type
+                    </Button>
+                  </div>
                 </div>
               ))}
 
@@ -2027,6 +1990,19 @@ function Editevent() {
                   <Image src={addicon} alt="Add-icon" height={12} width={12} />
                   Add Ticket Type
                 </Button>
+              </div>
+              <div className="flex justify-center items-center mt-[12px] ">
+                {Object.keys(form.formState.errors).length > 0 && (
+                  <div className="mt-[12px] text-red-500">
+                    {Object.values(form.formState.errors).map(
+                      (error: any, index: number) => (
+                        <p key={index} className="text-sm">
+                          {error.message}
+                        </p>
+                      )
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">

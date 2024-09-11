@@ -6,6 +6,7 @@ import Header from '@/components/shared/Header';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 export default function Template({ children }: { children: React.ReactNode }) {
   const profileRoutes = [
     "/profile/profile-main",
@@ -22,16 +23,18 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/organizer-event/launch-event",
     "/eventsales",
     "/organizer-event/sacnner-login",
-    "/organizer-event/add-scanner",
+    `/organizer-event/add-scanner/$[id]`,
     "/organizer-event/scanner-credentials",
     "/organizer-event/helpcenter",
     "/profile-perview",
     "/preview-event",
     "/events/event-detail/live-activity",
   ];
-
   const pathname = usePathname();
-  const isProfileRoute = profileRoutes.includes(pathname);
+  // const isProfileRoute = profileRoutes.includes(pathname);
+
+  // Check for dynamic route using pathname.startsWith
+  const isProfileRoute = profileRoutes.includes(pathname) || pathname.startsWith("/organizer-event/add-scanner/");
 
   return (
     <>

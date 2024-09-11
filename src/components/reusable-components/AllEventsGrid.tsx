@@ -71,6 +71,10 @@ const AllEventsGrid = ({ events, eventType }: any) => {
                     title={event?.name}
                     eventId={event?.id}
                     eventType={eventType}
+                    eventDate={event?.startTime}
+                    endTime={event?.endTime}
+                    startTime={event?.startTime}
+                    likedEvents={event?.likes}
                   />
                 ))}
 

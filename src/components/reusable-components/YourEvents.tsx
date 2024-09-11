@@ -1,5 +1,7 @@
 import Link from "next/link";
 import HeartBadge from "../ui/heart-badge";
+import { Heart } from "@phosphor-icons/react/dist/ssr";
+
 import Image from "next/image";
 import { shimmer, toBase64 } from "@/lib/utils";
 import share from "@/assets/share.svg";
@@ -15,6 +17,10 @@ const YourEvents = ({
   title,
   eventId,
   eventType,
+  eventDate,
+  endTime,
+  startTime,
+  likedEvents,
   height = "345px",
   width = "100%",
 }: {
@@ -24,12 +30,23 @@ const YourEvents = ({
   width?: string;
   eventId: any;
   eventType: any;
+  eventDate: any;
+  endTime: any;
+  startTime: any;
+  likedEvents: any;
 }) => {
-  const imageUrl = img
+  // const imageUrl = img
+  //   ? img.startsWith("http") || img.startsWith("https")
+  //     ? img
+  //     : img
+  //   : event12;
+    const imageUrl = img
     ? img.startsWith("http") || img.startsWith("https")
       ? img
-      : img
-    : event12;
+      : img.startsWith("/") 
+      ? img
+      : `/${img}` 
+    : event12.src;
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -48,7 +65,7 @@ const YourEvents = ({
       dispatch(LikeEvent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          SuccessToast("Event Liked Successfully");
+          // SuccessToast("Event Liked Successfully");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -73,7 +90,7 @@ const YourEvents = ({
       dispatch(disLikeEvent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          SuccessToast("Event Disliked Successfully");
+          // SuccessToast("Event Disliked Successfully");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -85,25 +102,116 @@ const YourEvents = ({
       ErrorToast(error);
     }
   }
+
   const handleHeartClick = (event: React.MouseEvent) => {
     console.log("liked va", liked);
+
     event.stopPropagation();
-    if (!liked) {
-      setLiked(true);
-      handleLikeEvent();
-    } else {
+    if (liked) {
       setLiked(false);
       handleDisLikeEvent();
+    } else {
+      setLiked(true);
+      handleLikeEvent();
     }
   };
   // const Eventtype = encodeURIComponent(JSON.stringify(eventType));
   const Eventtype = encodeURIComponent(eventType);
   console.log("event card eventTYO", Eventtype);
   useEffect(() => {
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserToken(userID);
-  }, []);
+   
+    if (userID ) {
+      const userHasLiked = likedEvents.some(
+        (likedEvent: any) =>  likedEvent.userId == userID
+      );
+      console.log("user has" , userHasLiked)
+      setLiked(userHasLiked);
+    }
+    else{
+      setLiked(false);
+    }
+  }, [likedEvents]);
+
+  const ConvertDate = (originalDateStr: string): string => {
+    const originalDate = new Date(originalDateStr);
+
+    // Extract the day, date, month, and year
+    const dayOfWeek = originalDate.toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+    const date = originalDate.getDate();
+    const month = originalDate.toLocaleDateString("en-US", { month: "long" });
+    const year = originalDate.getFullYear();
+
+    // Function to get ordinal suffix
+    const getOrdinalSuffix = (date: number) => {
+      if (date > 3 && date < 21) return "th"; // covers 11th to 19th
+      switch (date % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+
+    const ordinalSuffix = getOrdinalSuffix(date);
+
+    // Construct the formatted date string
+    const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
+
+    return formattedDate;
+  };
+
+  const ConvertTime = (timeStr: string): string => {
+    // Ensure input is a string
+    if (typeof timeStr !== "string") {
+      console.error("Input must be a string");
+      return "";
+    }
+
+    // Extract the time part if the input includes a date and time
+    const timeOnly = timeStr.split("T")[1]?.split("Z")[0];
+
+    if (!timeOnly) {
+      console.error("Input must include a valid time");
+      return "";
+    }
+
+    const parts = timeOnly.split(":");
+
+    // Check if timeOnly is in HH:MM or HH:MM:SS format
+    if (parts.length < 2) {
+      console.error("Input time must be in HH:MM or HH:MM:SS format");
+      return "";
+    }
+
+    const [hours, minutes] = parts.map(Number);
+
+    // Ensure the hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      console.error("Invalid time format");
+      return "";
+    }
+
+    // Determine AM or PM
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert hours from 24-hour to 12-hour format
+    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+
+    // Combine hours and period
+    const formattedTime = `${formattedHours}:${
+      minutes < 10 ? "0" + minutes : minutes
+    } ${period}`;
+
+    return formattedTime;
+  };
 
   return (
     <ScaleReveal extraStyle="w-full">
@@ -132,21 +240,30 @@ const YourEvents = ({
 
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
 
-          <div className="absolute flex justify-between h-full items-end z-[2] p-4 top-0 w-full">
+          <div className="absolute flex justify-between h-full items-end z-[2] p-4 top-0 w-full ">
             <div>
               <p className="font-bold text-white text-xl">{title}</p>
               <p className="font-bold text-[11px] text-[#FFFFFF]">
-                Saturday, 5th March 2024 <br/> - 5 PM - 12 AM
+                {ConvertDate(eventDate)}
+                <br /> {ConvertTime(startTime)} - {ConvertTime(endTime)}{" "}
               </p>
             </div>
             {userToken && (
               <Link href="javascript:void(0)">
                 <div
                   onClick={handleHeartClick}
-                  className="flex gap-[10px] cursor-pointer"
+                  className="flex gap-[10px] cursor-pointer me-[24px]"
                 >
                   <Image src={share} sizes="40px" alt="share" />
-                  <HeartBadge  />
+
+                  <div className="bg-white/20 p-[0.6rem] rounded-full backdrop-blur-lg webkit-header-blur">
+                    <Heart
+                      size={20}
+                   
+                      color="white"
+                      weight={liked ? "fill" : "regular"}
+                    />
+                  </div>
                 </div>
               </Link>
             )}

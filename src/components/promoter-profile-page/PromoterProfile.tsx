@@ -11,7 +11,6 @@ import {
   TwitterLogo
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
-
 import { Button } from "@/components/ui/button";
 import GoldGradientBorder from "../ui/gold-gradient-border";
 import MobileEventCard from "../reusable-components/MobileEventCard";
@@ -21,6 +20,8 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useState, useEffect } from "react";
 import { getOrganizerSocialProfile } from "@/lib/middleware/organizer";
 import { useSearchParams } from 'next/navigation';
+import sealnew from "@/assets/Wallet/Sealnew.svg"
+
 
 const PromoterProfile = () => {
   const router = useRouter();
@@ -74,6 +75,15 @@ const PromoterProfile = () => {
 
     return formattedDate;
   };
+  const getMinimumPrice = (tickets: { price: string }[] | null): string => {
+    if (!tickets || tickets.length === 0) return "N/A";
+  
+    const prices = tickets.map(ticket => parseFloat(ticket.price)).filter(price => !isNaN(price));
+    if (prices.length === 0) return "N/A";
+  
+    const minPrice = Math.min(...prices);
+    return minPrice.toFixed(2); // Format to 2 decimal places
+  };
   return (
     <section className="pt-[8rem] lg:pt-[9rem] pb-[8rem] relative overflow-hidden">
       {/* BLUR BACKGROUND IMAGE */}
@@ -122,13 +132,14 @@ const PromoterProfile = () => {
               </div>
             </GoldGradientBorder>
             <div>
-              <p className="font-bold flex items-center gap-1 text-[26px] mt-10">
+              <p className="font-bold flex items-center gap-1  gap-1 text-[26px] mt-10">
                 {myEventInfo?.userProfile?.fullname}
-                <SealCheck
+                <Image src={sealnew} alt="verified" />
+                {/* <SealCheck
                   className="text-[#FFC109] -translate-y-1"
                   size={18}
                   weight="fill"
-                />
+                /> */}
               </p>
 
               <p>
@@ -192,6 +203,8 @@ const PromoterProfile = () => {
                   title={events?.name}
                   eventId={events?.id}
                   eventDate={ConvertDate(events?.startTime)}
+                  ticketPrice={getMinimumPrice(events?.tickets)}
+                  likedEvents={events?.likes} 
                 />
               ))}
             {/* <MobileEventCard img={events[3].img} title={events[3].title} eventId={events[3].id}/>

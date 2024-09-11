@@ -40,22 +40,58 @@ import { useRouter } from "next/navigation";
 type Option = {
   id: number;
   label: string;
-  subtitles: [string, string, string];
+  subtitles: any;
 };
 const options: Option[] = [
   {
     id: 1,
     label: "Admin",
     subtitles: [
-      "Can see history of all users scanned after the event",
-      "Lorem Ispum",
-      "Lorem Ispum",
+      <p key={1} className="flex items-center">
+        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        Event attendance list
+      </p>,
+
+      <p key={2} className="flex">
+        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        Sort ticket scanned by each scanner (in case of <br></br> multiple
+        generic scanners)
+      </p>,
+      <p key={3} className="flex">
+        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        Ticket KPI analytics
+      </p>,
+      <p key={4} className="flex">
+        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        Customer information (name, email, ticketing<br></br> details (ticket
+        purchase time, ticket category,<br></br> order no, ticket type, activity
+        log))
+      </p>,
     ],
   },
   {
     id: 2,
     label: "Generic",
-    subtitles: ["Lorem Ispum", "Lorem Ispum", "Lorem Ispum"],
+    subtitles: [
+      <p key={1} className="flex items-center">
+        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        Can only signing
+      </p>,
+
+      <p key={2} className="flex">
+        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        Scan tickets
+      </p>,
+      <p key={2} className="flex">
+        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        Only that specific scanned ticket logs
+      </p>,
+      <p key={2} className="flex">
+        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        In the ticket log (the generic scanner can only<br></br> display the
+        ticket holders; Name, ticket details and<br></br> Log activities)
+      </p>,
+    ],
   },
 ];
 
@@ -76,7 +112,7 @@ const AddScanner = () => {
   const [loader, setLoader] = useState(false);
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");
-  const [ scannerData,setScannerData] = useState("")
+  const [scannerData, setScannerData] = useState("");
 
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
   const [selectedLabel, setSelectedLabel] = useState("");
@@ -130,20 +166,6 @@ const AddScanner = () => {
     console.log("my event is", value);
   }, []);
 
-  // useEffect(() => {
-  //   if (myProfile) {
-  //     form.reset({
-  //       name: myProfile?.fullname || form.getValues("name"),
-  //       email: myProfile?.email || form.getValues("email"),
-  //     });
-  //   }
-  //   if (myProfile?.profilePicture) {
-  //     setImageSrc(myProfile.profilePicture);
-  //   } else {
-  //     setImageSrc("/person3.jpg");
-  //   }
-  // }, [myProfile]);
-
   async function updateActivity(values: z.infer<typeof formSchema>) {
     setLoader(true);
     const userID = localStorage.getItem("_id");
@@ -153,17 +175,20 @@ const AddScanner = () => {
         email: Email,
         userId: userID,
         typeScanner: selectedLabel,
-        eventId: Eventid
-       
+        eventId: Eventid,
       };
       dispatch(CreateScanner(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
           console.log("Create Scanner", res?.payload?.data);
           SuccessToast("Scanner Created Successfully");
-          const encodedEventData = encodeURIComponent(JSON.stringify(res?.payload?.data));
+          const encodedEventData = encodeURIComponent(
+            JSON.stringify(res?.payload?.data)
+          );
 
-          router.push(`/organizer-event/scanner-credentials?ScannerData=${encodedEventData}`);
+          router.push(
+            `/organizer-event/scanner-credentials?ScannerData=${encodedEventData}`
+          );
         } else {
           setLoader(false);
           console.log(res?.payload?.message);
@@ -184,7 +209,7 @@ const AddScanner = () => {
         Add Scanner
       </h2>
       <div className="flex flex-col lg:flex-row mt-[32px]">
-        <div className="w-full md:w-full relative h-[85vh] lg:h-[auto] lg:w-[428px]">
+        <div className="w-full md:w-full relative h-[85vh] lg:h-[auto] lg:w-[600px]">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(updateActivity)}
@@ -247,7 +272,7 @@ const AddScanner = () => {
                 )}
               />
 
-              <div className="pb-[8px] mb-[32px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+              <div className="pb-[16px] mb-[32px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                 <div className="flex items-center justify-between">
                   <p className="text-base font-bold lg:pb-[12px] pb-[16px] text-white">
                     Choose Scanner Type
@@ -256,7 +281,7 @@ const AddScanner = () => {
                 <Separator className="scale--[1.12] bg-[#292929]" />
                 {Dropdown && (
                   <div className="pt-[16px] lg:pt-[12px]">
-                    {options.map((option) => (
+                    {options?.map((option) => (
                       <div
                         key={option.id}
                         className="flex items-center justify-between pt-[2px] cursor-pointer"
@@ -264,7 +289,7 @@ const AddScanner = () => {
                       >
                         <div className="flex w-full flex-col">
                           <div className="flex jutify-between w-full">
-                            <p className="text-[14px] w-full text-start text-[#FFFFFF] font-normal items-center">
+                            <p className="text-[14px] w-full text-start text-[#FFFFFF] font-normal items-center mt-[12px]">
                               {option.label}
                             </p>
                             {selectedOptions.some(
@@ -278,14 +303,16 @@ const AddScanner = () => {
                               />
                             )}
                           </div>
-                          {option.subtitles.map((subtitles, index) => (
-                            <p
-                              key={index}
-                              className="ps-[2px] font-normal text-sm"
-                            >
-                              . {subtitles}
-                            </p>
-                          ))}
+                          {option.subtitles.map(
+                            (subtitles: any, index: any) => (
+                              <p
+                                key={index}
+                                className="ps-[2px] font-normal text-[12px] text-[#D9D9D9] mt-[8px] "
+                              >
+                                {subtitles}
+                              </p>
+                            )
+                          )}
                         </div>
                       </div>
                     ))}
