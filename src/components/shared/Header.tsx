@@ -237,8 +237,8 @@ const Header = () => {
                 <PopoverTrigger asChild>
                   <Bell  className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer" />
                 </PopoverTrigger>
-                <PopoverContent className="text-white border border-muted shadow-custom bg-black w-[350px] lg:w-[400px] rounded-2xl -translate-x-4 translate-y-6">
-                  <ScrollArea className="h-[450px] border-none ">
+                <PopoverContent className="text-white border border-muted shadow-custom bg-black w-[350px] lg:w-[400px] rounded-2xl  -translate-x-4 translate-y-6">
+                  <ScrollArea className="h-[658px] px-[8px] pb-[62px] border-none ">
                     <NotificationPopUp setNotifPopupOpen={setNotifPopupOpen} />
                   </ScrollArea>
                 </PopoverContent>
