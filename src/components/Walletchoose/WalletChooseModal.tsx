@@ -143,6 +143,8 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
           setLoader(false);
 
           setisCreateModalOpen(true);
+          localStorage.removeItem("eventData");
+
           // router.push("/viewallevents");
         } else {
           setLoader(false);
@@ -184,7 +186,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
           </div>
           <div className="px-6">
             <p className="text-[#BFBFBF] pb-[20px] lg:pb-[24px] text-sm font-bold lg:font-normal">
-              Gorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+              Gosssem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
               vulputate libero et velit interdum, ac aliquet odio mattis. Class
               aptent taciti sociosqu ad litora torquent per conubia nostra, per
               inceptos himenaeos. Curabitur tempus urna at turpis condimentum

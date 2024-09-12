@@ -32,7 +32,7 @@ const AttendanceList = () => {
       {eventAttendy.loading && <ScreenLoader />}
       <Dialog>
         <div className="flex justify-between">
-          <p>Attendance List</p>
+          <p>Active Users</p>
           <DialogTrigger asChild>
             <button className="text-[#8F8F8F] flex hover:text-white duration-300">
               View All <CaretRight size={20} weight="bold" />

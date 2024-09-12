@@ -13,9 +13,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import ScreenLoader from "@/components/loader/Screenloader";
 import { getOrganizerDetail } from "@/lib/middleware/organizer";
+import { useRouter } from "next/navigation";
 
 const Organizer = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   useEffect(() => {
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -39,7 +41,7 @@ const Organizer = () => {
         <div className="flex mt-[44px] md:mt-[49px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start lg:mt-[90px]">
           <div className="flex flex-col justify-center lg:mx-0 md:gap-[32px] gap-[32px] w-fit">
             <h2 className="font-extrabold text-[20px] lg:ms-[0px] ms-[24px] lg:text-[32px]">
-              Events Dashboard
+              Organiser Dashboard
             </h2>
           </div>
           <div className="lg:w-auto xl:w-auto w-full">
@@ -50,7 +52,8 @@ const Organizer = () => {
                     <Image
                       src={
                         myOrgData?.userDetails?.organizerProfile?.profilePicture
-                          ? myOrgData?.userDetails?.organizerProfile?.profilePicture
+                          ? myOrgData?.userDetails?.organizerProfile
+                              ?.profilePicture
                           : "/person3.jpg"
                       }
                       width={216}
@@ -78,8 +81,18 @@ const Organizer = () => {
                   }}
                   className="flex bg-[#0F0F0F] rounded-[6.89px] flex-wrap gap-[0px] sm:gap-[20px] md:gap-[20px] lg:gap-[20px] justify-evenly  py-[16px] px-[0px] lg:px-[19.37px] lg:py-[13.77px] w-[100%] lg:w-[428px] xl:w-[428px] border-[0.86px] border-transparent"
                 >
-                  <div className="flex flex-col items-center justify-center ">
-                    <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
+                  <div
+                    className="flex flex-col items-center justify-center cursor-pointer "
+                    onClick={() => {
+                      router.push("/management");
+                    }}
+                  >
+                    <h2
+                      className="font-normal md:text-[20px] text-[24px] mb-0 cursor-pointer"
+                      onClick={() => {
+                        router.push("/management");
+                      }}
+                    >
                       {myOrgData?.pagination?.totalEvents !== null
                         ? myOrgData?.pagination?.totalEvents
                         : "0"}
@@ -102,8 +115,8 @@ const Organizer = () => {
                   <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-                      {myOrgData?.followers !== null
-                        ? myOrgData?.followers
+                      {myOrgData?.totalFollowers !== null
+                        ? myOrgData?.totalFollowers
                         : "0"}
                     </h2>
                     <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">

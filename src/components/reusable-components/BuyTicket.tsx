@@ -8,6 +8,7 @@ import SignUpModal from "../auth/SignUpModal";
 import { AuthMode } from "@/types/types";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { whitelistcheck } from "@/lib/middleware/event";
+import { useRouter } from "next/navigation";
 const BuyTicket = ({
   eventid,
   event,
@@ -18,6 +19,7 @@ const BuyTicket = ({
   eventType,
 }: any) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const [token, setToken] = useState<any>();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
@@ -92,15 +94,24 @@ const BuyTicket = ({
                   </Button>
                 ) : (
                   <Button
-                  disabled={ userId != userIds ? false:true}
+                  // disabled={ userId != userIds ? false:true}
                     onClick={() => {
-                      console.log(token);
+                      
                       // BuyTicket();
+                      if(userId == userIds)
+                      {
+                        router.push("/management")
+                        console.log(token);
+
+                      }
+                      else{
+                        console.log(token);
+                      }
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
                   >
                     {
-                      userId != userIds ?  "Buy Tickets": "Your Event"
+                      userId != userIds ?  "Buy Tickets": "Manage Event"
                     }
                    
                   </Button>
@@ -145,7 +156,11 @@ const BuyTicket = ({
             )}
           </div>
         )}
+    
+   { userId != userIds && 
         <CheckOutModal event={event} />
+   }
+  
       </div>
     </Dialog>
   );

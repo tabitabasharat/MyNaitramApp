@@ -58,7 +58,9 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
   const dispatch: any = useAppDispatch();
   const [isAbout, setisAbout] = useState(false);
 
-  const settings: any = {
+  console.log("data", eventAllData?.eventname)
+  const settings: any =
+   {
     dots: false,
     infinite: eventAllData?.eventmedia?.length > 1,
     autoplay: true,  // Corrected the typo to enable autoplay
@@ -85,7 +87,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
   //   dispatch(getEventCount(EventData?.userId));
   // }, [EventData?.userId]);
   const handleBackEvent = () => {
-    router.push(`/OrganizerEventCreate/?eventData=${backData}`);
+    router.push("/OrganizerEventCreate");
   };
   return (
     <section className="bg-imgg">
@@ -159,14 +161,14 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                 eventdescription={eventAllData?.eventdescription}
                 // activeIndex={activeIndex}
                 setShowTicket={setShowTicket}
-                ticketStartPrice={
-                  eventAllData?.tickets?.length === 1
-                    ? "0"
-                    : eventAllData?.tickets[0]?.price
-                }
-                ticketEndPrice={
-                  eventAllData?.tickets[eventAllData?.tickets.length - 1]?.price
-                }
+                // ticketStartPrice={
+                //   eventAllData?.ticketsdata?.length === 1
+                //     ? "0"
+                //     : eventAllData?.ticketsdata[0]?.price
+                // }
+                // ticketEndPrice={
+                //   eventAllData?.tickets[eventAllData?.ticketsdata.length - 1]?.price
+                // }
                 // handleBulletClick={() => handleBulletClick(event)}
                 AboutDrop={isAbout}
                 AboutToggle={() => setisAbout(!isAbout)}

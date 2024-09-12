@@ -104,9 +104,18 @@ type Category = {
 };
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
-  eventcategory: z
-    .string()
-    .min(1, { message: "Event category cannot be empty." }),
+  eventcategory: z.array(
+    z.object({
+      options: z
+        .array(
+          z.object({
+            id: z.number(),
+            label: z.string(),
+          })
+        )
+        .min(1, { message: "Event Category is required" }),
+    })
+  ),
   eventlocation: z
     .string()
     .min(1, { message: "Event location cannot be empty." }),
@@ -246,14 +255,16 @@ function EditeventOnBack() {
   const [CoverImg, setCoverImg] = useState("");
   const [CoverImgName, setCoverImgName] = useState<any>("");
 
-  const [FBUrl, setFBUrl] = useState("");
-  const [InstaUrl, setInstaUrl] = useState("");
-  const [TwitterUrl, setTwitterUrl] = useState("");
+  const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
+ 
+  const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
 
-  const [YoutubeUrl, setYoutubeUrl] = useState("");
+  const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
 
-  const [tiktokUrl, settiktokUrl] = useState("");
-  const [linkedinUrl, setlinkedinUrl] = useState("");
+  const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
+
+  const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
+  const [linkedinUrl, setlinkedinUrl] = useState("https://www.linkedin.com/");
   const [eventsFiles, setEventsFile] = useState<any>([]);
   const [eventAllData, setEventAllData] = useState<EventData | null>(null);
   console.log("iside eventalldata", eventAllData);
@@ -320,20 +331,25 @@ function EditeventOnBack() {
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [removedImages, setRemovedImages] = useState<string[]>([]);
 
+ 
   useEffect(() => {
-    const eventDataParam = searchParams.get("eventData");
-    if (eventDataParam) {
-      try {
-        const decodedData = decodeURIComponent(eventDataParam);
-        const parsedData = JSON.parse(decodedData);
-        setEventData(parsedData);
-
-        console.log("Parsed Event Data:", parsedData);
-      } catch (error) {
-        console.error("Failed to decode and parse event data", error);
+    if (typeof window !== "undefined") {
+      const storedData = localStorage.getItem("eventData");
+      if (storedData) {
+        try {
+          // Parse the JSON data from localStorage
+          const parsedData: any = JSON.parse(storedData);
+          setEventData(parsedData);
+          console.log("my parsed data", parsedData);
+        } catch (error) {
+          console.error("Error parsing event data from localStorage:", error);
+          setEventData(null); // Reset state in case of an error
+        }
+      } else {
+        setEventData(null); // No data found in localStorage
       }
     }
-  }, [searchParams]);
+  }, []);
 
   useEffect(() => {
     const currentUrl: any =
@@ -344,6 +360,8 @@ function EditeventOnBack() {
     console.log("my event id is", value);
     dispatch(getEventByEventId(value));
   }, []);
+
+
   const EventData = useAppSelector(
     (state) => state?.getEventByEventID?.eventIdEvents?.data
   );
@@ -381,7 +399,7 @@ function EditeventOnBack() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       eventname: "",
-      eventcategory: "",
+      eventcategory: [],
       eventlocation: "",
       eventstartdate: "",
       eventenddate: "",
@@ -392,12 +410,15 @@ function EditeventOnBack() {
       eventcoverimg: "",
       eventdescription: "",
 
-      fburl: "",
-      instaurl: "",
-      youtubeurl: "",
-      telegramurl: "",
-      tiktokurl: "",
-      linkedinurl: "",
+
+      fburl: "https://www.facebook.com/",
+      instaurl: "https://instagram.com/",
+      youtubeurl: "https://www.youtube.com/",
+      telegramurl: "https://www.x.com/",
+      tiktokurl: "https://www.tiktok.com/@",
+      linkedinurl: "https://www.linkedin.com/",
+
+     
       tickets: [],
     },
   });
@@ -639,62 +660,8 @@ function EditeventOnBack() {
 
     return formattedUTC;
   }
-  async function handlePreviewClick(values: z.infer<typeof formSchema>) {
-    // setLoader(true);
-    // setisWalletModalOpen(false);
-    const EventMediaAlready = [...(Eventdata?.eventmedia || [])];
-    const imagesOfGallery = await handleFileChangeapi();
-    console.log("images of gallery", imagesOfGallery, EventMediaAlready);
 
-    const updatedEventMedia = [...EventMediaAlready, ...imagesOfGallery].filter(
-      (media) => !removedImages.includes(media)
-    );
-    console.log("images updated", updatedEventMedia);
-    // const updatedEventMedia = EventMediaAlready.concat(imagesOfGallery);
 
-    console.log("images updated", updatedEventMedia);
-    const utcEventStartTime = convertToUTC(EventStartTime);
-    setEventStartTime(utcEventStartTime);
-
-    const utcEventEndTime = convertToUTC(EventEndTime);
-    setEventEndTime(utcEventEndTime);
-
-    const utcTicketStartTime = convertToUTC(TicketStartDate);
-    setTicketStartDate(utcTicketStartTime);
-
-    const utcTicketEndTime = convertToUTC(TicketEndDate);
-    setTicketEndDate(utcTicketEndTime);
-
-    const updatedValues = {
-      ...values,
-      eventmedia: imagesOfGallery,
-      ticketsdata: filteredTicketTypes,
-
-      eventstartdate: utcTicketStartTime,
-      eventenddate: utcTicketEndTime,
-
-      eventstarttime: utcEventStartTime,
-      eventendtime: utcEventEndTime,
-
-      utcEventStartTime: utcEventStartTime,
-      utcEventEndtime: utcEventEndTime,
-
-      utcTicketStartTime: utcTicketStartTime,
-      utcTicketEndTime: utcTicketEndTime,
-    };
-
-    setEventAllData(updatedValues);
-    if (updatedValues !== null) {
-      const encodedEventData = encodeURIComponent(
-        JSON.stringify(updatedValues)
-      );
-      console.log("my encoded data", encodedEventData);
-
-      router.push(`/preview-event?eventData=${encodedEventData}`);
-    } else {
-      console.log("error")
-    }
-  }
 
   //   setGalleryFiles((prevFiles) => {
   //     // Get the URL of the file being removed
@@ -827,20 +794,126 @@ function EditeventOnBack() {
       (media) => !removedImages.includes(media)
     );
     console.log("images updated", updatedEventMedia);
-    const utcEventStartTime = convertToUTC(EventStartTime);
-    setEventStartTime(utcEventStartTime);
-    const utcEventEndTime = convertToUTC(EventEndTime);
-    setEventEndTime(utcEventEndTime);
 
+    // const utcEventStartTime = convertToUTC(EventStartTime);
+    // setEventStartTime(utcEventStartTime);
+
+    // const utcEventEndTime = convertToUTC(EventEndTime);
+    // setEventEndTime(utcEventEndTime);
+
+    // const utcTicketStartTime = convertToUTC(TicketStartDate);
+    // setTicketStartDate(utcTicketStartTime);
+
+    // const utcTicketEndTime = convertToUTC(TicketEndDate);
+    // setTicketEndDate(utcTicketEndTime);
+
+    const utcEventStartTime = EventStartTime ? convertToUTC(EventStartTime) : Eventdata?.eventstarttime;
+    const utcEventEndTime = EventEndTime ? convertToUTC(EventEndTime) :  Eventdata?.eventendtime;
+    const utcTicketStartTime = TicketStartDate ? convertToUTC(TicketStartDate) :  Eventdata?.eventstartdate;
+    const utcTicketEndTime = TicketEndDate ? convertToUTC(TicketEndDate) :  Eventdata?.eventenddate;
+
+    const selectedCategories = categoryTypes.map((category) => ({
+      options: category.options.map((option) => ({
+        id: option.id,
+        label: option.label,
+      })),
+    }));
     const updatedValues = {
       ...values,
       eventmedia: updatedEventMedia,
-      ticketsdata: filteredTicketTypes,
-      utcEventStartTime: EventStartTime,
+       ticketsdata: filteredTicketTypes,
+      eventcategory: selectedCategories,
+
+      // utcEventStartTime: EventStartTime,
       utcEventEndTime: EventEndTime,
+
+      eventstartdate: utcTicketStartTime,
+      eventenddate: utcTicketEndTime,
+
+      eventstarttime: utcEventStartTime,
+      eventendtime: utcEventEndTime,
+
+      // utcEventStartTime: utcEventStartTime,
+      // utcEventEndtime: utcEventEndTime,
+
+      // utcTicketStartTime: utcTicketStartTime,
+      // utcTicketEndTime: utcTicketEndTime,
+
+
+      // eventmedia: updatedEventMedia,
+      // ticketsdata: filteredTicketTypes,
+
+      // eventcategory: selectedCategories,
+      // eventstartdate: utcTicketStartTime,
+      // eventenddate: utcTicketEndTime,
+
+      // eventstarttime: utcEventStartTime,
+      // eventendtime: utcEventEndTime,
+
+      // utcEventStartTime: utcEventStartTime,
+      // utcEventEndtime: utcEventEndTime,
+
+      // utcTicketStartTime: utcTicketStartTime,
+      // utcTicketEndTime: utcTicketEndTime,
+    };
+
+
+    setEventAllData(updatedValues);
+    console.log("my updated values", updatedValues)
+
+  }
+  async function handlePreviewClick(values: z.infer<typeof formSchema>) {
+    // setLoader(true);
+    // setisWalletModalOpen(false);
+    const EventMediaAlready = [...(Eventdata?.eventmedia || [])];
+    const imagesOfGallery = await handleFileChangeapi();
+    console.log("images of gallery", imagesOfGallery, EventMediaAlready);
+
+    const updatedEventMedia = [...EventMediaAlready, ...imagesOfGallery].filter(
+      (media) => !removedImages.includes(media)
+    );
+    console.log("images updated", updatedEventMedia);
+    // const updatedEventMedia = EventMediaAlready.concat(imagesOfGallery);
+
+    console.log("images updated", updatedEventMedia);
+    const utcEventStartTime = EventStartTime ? convertToUTC(EventStartTime) : Eventdata?.eventstarttime;
+    const utcEventEndTime = EventEndTime ? convertToUTC(EventEndTime) :  Eventdata?.eventendtime;
+    const utcTicketStartTime = TicketStartDate ? convertToUTC(TicketStartDate) :  Eventdata?.eventstartdate;
+    const utcTicketEndTime = TicketEndDate ? convertToUTC(TicketEndDate) :  Eventdata?.eventenddate;
+ 
+    const selectedCategories = categoryTypes.map((category) => ({
+      options: category.options.map((option) => ({
+        id: option.id,
+        label: option.label,
+      })),
+    }));
+
+    const updatedValues = {
+
+      ...values,
+      eventmedia: updatedEventMedia,
+       ticketsdata: filteredTicketTypes,
+      eventcategory: selectedCategories,
+
+      // utcEventStartTime: EventStartTime,
+      utcEventEndTime: EventEndTime,
+
+      eventstartdate: utcTicketStartTime,
+      eventenddate: utcTicketEndTime,
+
+      eventstarttime: utcEventStartTime,
+      eventendtime: utcEventEndTime,
+
+     
     };
 
     setEventAllData(updatedValues);
+    if (updatedValues !== null) {
+      localStorage.setItem("eventData", JSON.stringify(updatedValues));
+      router.push("/preview-event");
+    } else {
+      console.log("error");
+    }
   }
   console.log("Form errors:", form.formState.errors);
 
@@ -905,13 +978,34 @@ function EditeventOnBack() {
       );
 
       setTicketTypes(ticketsWithCheckedOptions);
-      // const mainimgName = Eventdata?.eventmainimg?.split("/").pop();
-      // console.log("img name", mainimgName);
+
+      let categories = [];
+      try {
+        categories = Eventdata?.eventcategory || [];
+      } catch (e) {
+        console.error("Error parsing category data:", e);
+      }
+  
+      // Update category types with selected options
+      const updatedCategoryTypes = categories?.map((category: any) => ({
+        ...category,
+        options: category?.options?.map((option: any) => ({
+          ...option,
+          checked:
+            Eventdata?.selectedOptions?.some(
+              (selected: any) => selected.id === option.id
+            ) || false,
+        })),
+      }));
+  
+      setCategoryTypes(updatedCategoryTypes);
+
+      console.log("my updated",updatedCategoryTypes)
 
       form.reset({
         eventname: Eventdata?.eventname || form.getValues("eventname"),
         eventcategory:
-          Eventdata?.eventcategory || form.getValues("eventcategory"),
+          Eventdata?.updatedCategoryTypes || form.getValues("eventcategory"),
         eventdescription:
           Eventdata?.eventdescription || form.getValues("eventdescription"),
         eventlocation:
@@ -1293,9 +1387,10 @@ function EditeventOnBack() {
 
                   <FormField
                     control={form.control}
-                    name={`tickets.${index}.options`}
+                    // name={`tickets.${index}.options`}
+                    name="eventcategory"
                     render={({ field }) => (
-                      <FormItem className="pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                      <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                         <div
                           className="flex items-center justify-between"
                           onClick={() => handlecateDropdown(index)}
@@ -1314,7 +1409,7 @@ function EditeventOnBack() {
                           />
                         </div>
                         {ticket?.dropdown && (
-                          <div>
+                          <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929]  rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
                             {optionscate?.map((option) => (
                               <div
                                 key={option.id}
@@ -1440,7 +1535,7 @@ function EditeventOnBack() {
                       </FormLabel>
                       <FormControl>
                         <Input
-                           type="datetime-local"
+                          type="datetime-local"
                           aria-label="Date and time"
                           placeholder="Enter End Date"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
@@ -2145,9 +2240,17 @@ function EditeventOnBack() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
+                          // onChange={(e) => {
+                          //   setFBUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setFBUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                            // Prevent the user from modifying the base URL
+                            if (value.startsWith("https://www.facebook.com/")) {
+                              setFBUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2168,10 +2271,19 @@ function EditeventOnBack() {
                         <Input
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
+                          // value={InstaUrl}
                           {...field}
+                          // onChange={(e) => {
+                          //   setInstaUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setInstaUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                            // Prevent the user from modifying the base URL
+                            if (value.startsWith("https://instagram.com/")) {
+                              setInstaUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2195,9 +2307,17 @@ function EditeventOnBack() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
+                          // onChange={(e) => {
+                          //   setTwitterUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setTwitterUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                            // Prevent the user from modifying the base URL
+                            if (value.startsWith("https://www.x.com/")) {
+                              setTwitterUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2219,9 +2339,17 @@ function EditeventOnBack() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                           {...field}
+                          // onChange={(e) => {
+                          //   setYoutubeUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setYoutubeUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                            // Prevent the user from modifying the base URL
+                            if (value.startsWith("https://www.youtube.com/")) {
+                              setYoutubeUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2244,9 +2372,17 @@ function EditeventOnBack() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
+                          // onChange={(e) => {
+                          //   settiktokUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            settiktokUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                           
+                            if (value.startsWith("https://www.tiktok.com/@")) {
+                              settiktokUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2268,9 +2404,17 @@ function EditeventOnBack() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                           {...field}
+                          // onChange={(e) => {
+                          //   setlinkedinUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setlinkedinUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                            // Prevent the user from modifying the base URL
+                            if (value.startsWith("https://www.linkedin.com/")) {
+                              setYoutubeUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>

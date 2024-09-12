@@ -41,7 +41,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
     (state) => state?.getViewAllEvents?.ViewallEvents?.data
   );
 
-  console.log("All Events are", EventsAllData);
+  console.log("All Events are new", EventsAllData);
 
   const EventsPastData = useAppSelector(
     (state) => state?.getPastEvents?.ViewPastEvents?.data

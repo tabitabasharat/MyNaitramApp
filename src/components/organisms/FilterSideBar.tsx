@@ -229,7 +229,7 @@ const FilterSideBar = () => {
         endDate: null,
         startMonth: null,
         endMonth: null,
-        chooseDate: formatChosenDate(chosenDate),
+        chooseDate: chosenDate ? formatChosenDate(chosenDate) : null,
       };
 
       // Assign values based on the selected event time
@@ -262,7 +262,8 @@ const FilterSideBar = () => {
   const handleResetFilters = () => {
     setSelectedEventTime(null);
     setSelectedLocation(null);
-
+    setStartDate(null);
+    setEndDate(null);
     setchosenDate(null);
 
     dispatch(getViewAllEvent({ page: 1 }));
@@ -286,7 +287,7 @@ const FilterSideBar = () => {
           <Funnel size={22} weight="bold" className="text-primary" />
           <p className="text-[20px]">Filters</p>
         </div>
-        <p className="font-bold underline" onClick={handleResetFilters}>
+        <p className="font-bold underline cursor-pointer" onClick={handleResetFilters}>
           Reset filters
         </p>
       </div>

@@ -163,6 +163,13 @@ export const getViewAllEvent = createAsyncThunk(
         }&startMonth=${data?.startMonth}&endMonth=${data?.endMonth}&today=${data?.today}&chooseDate=${data?.chooseDate} `
       );
 
+      // const res = await api.get(
+      //   `${API_URL}/event/getEventsAll?page=${
+      //     data?.page ? data?.page : 1
+      //   }&location=${
+      //     data?.location
+      //   }&startDate=${data?.startDate}&today=${data?.today}&chooseDate=${data?.chooseDate} `
+      // );
       console.log("inside get all Events ", res);
       // localStorage.setItem("token", res?.data?.token);
       return {

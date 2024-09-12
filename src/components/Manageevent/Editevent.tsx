@@ -102,9 +102,16 @@ type Category = {
 };
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
-  eventcategory: z
-    .string()
-    .min(1, { message: "Event category cannot be empty." }),
+  eventcategory: z.array(
+    z.object({
+      options: z.array(
+        z.object({
+          id: z.number(),
+          label: z.string(),
+        })
+      ).min(1, { message: "Event Category is required" })
+    })
+  ) ,
   eventlocation: z
     .string()
     .min(1, { message: "Event location cannot be empty." }),
@@ -227,14 +234,14 @@ function Editevent() {
   const [CoverImg, setCoverImg] = useState("");
   const [CoverImgName, setCoverImgName] = useState<any>("");
 
-  const [FBUrl, setFBUrl] = useState("");
-  const [InstaUrl, setInstaUrl] = useState("");
-  const [TwitterUrl, setTwitterUrl] = useState("");
+  const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
+  const [InstaUrl, setInstaUrl] = useState("https://www.instagram.com/");
+  const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
 
-  const [YoutubeUrl, setYoutubeUrl] = useState("");
+  const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
 
-  const [tiktokUrl, settiktokUrl] = useState("");
-  const [linkedinUrl, setlinkedinUrl] = useState("");
+  const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
+  const [linkedinUrl, setlinkedinUrl] = useState("https://www.linkedin.com/");
   const [eventsFiles, setEventsFile] = useState<any>([]);
   const router = useRouter();
 
@@ -363,7 +370,7 @@ function Editevent() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       eventname: "",
-      eventcategory: "",
+      eventcategory: [],
       eventlocation: "",
       eventstartdate: "",
       eventenddate: "",
@@ -638,6 +645,14 @@ function Editevent() {
       label: option?.label,
     })),
   }));
+  const selectedCategories = categoryTypes.map((category) => ({
+    options: category.options.map((option) => ({
+      id: option.id,
+      label: option.label,
+    })),
+  }));
+  const isCategorySelected = categoryTypes.some(category => category?.options?.length > 0);
+
   async function EventCreation(values: z.infer<typeof formSchema>) {
     console.log("my values", values);
     console.log(" Event Creation");
@@ -668,18 +683,40 @@ function Editevent() {
     // }
 
     // console.log("image os updaed",EventMediaAlready)
+    let categories = [];
+    try {
+      categories = JSON.parse(EventData?.category || "[]");
+    } catch (e) {
+      console.error("Error parsing category data:", e);
+    }
+
+    // Update category types with selected options
+    const updatedCategoryTypes = categories?.map((category: any) => ({
+      ...category,
+      options: category?.options?.map((option: any) => ({
+        ...option,
+        checked: EventData?.selectedOptions?.some((selected: any) => selected.id === option.id) || false,
+      })),
+    }));
+
+    setCategoryTypes(updatedCategoryTypes);
+
+    const utcEventStartTime = EventStartTime ? convertToUTC(EventStartTime) : EventData?.startTime;
+    const utcEventEndTime = EventEndTime ? convertToUTC(EventEndTime) :  EventData?.endTime;
+    const utcTicketStartTime = TicketStartDate ? convertToUTC(TicketStartDate) : EventData?.ticketStartDate;
+    const utcTicketEndTime = TicketEndDate ? convertToUTC(TicketEndDate) :  EventData?.ticketEndDate;
     try {
       const data = {
         userId: userid,
         eventId: eventID,
         name: Eventname || EventData?.name || "",
-        category: EventCategory || EventData?.category || "",
+        category: selectedCategories || updatedCategoryTypes || "",
         eventDescription: Eventdescription || EventData?.eventDescription || "",
         location: EventLocation || EventData?.location || "",
-        ticketStartDate: TicketStartDate || EventData?.ticketStartDate || "",
-        ticketEndDate: TicketEndDate || EventData?.ticketEndDate || "",
-        startTime: EventStartTime || EventData?.startTime || "",
-        endTime: EventEndTime || EventData?.endTime || "",
+        ticketStartDate: utcTicketStartTime ,
+        ticketEndDate: utcTicketEndTime ,
+        startTime: utcEventStartTime ,
+        endTime: utcEventEndTime ,
         // mainEventImage: MainImg || EventData?.mainEventImage || "",
         coverEventImage: CoverImg || EventData?.coverEventImage || "",
 
@@ -760,11 +797,41 @@ function Editevent() {
       );
 
       setTicketTypes(ticketsWithCheckedOptions);
+
+      // const updatedCategoryTypes = EventData?.category?.map((categories:any) => ({
+      //   ...categories,
+      //   options: categories?.options?.map((option: any) => ({
+      //     ...option,
+      //     checked: categories?.options.some((o: any) => o?.id === option?.id), 
+      //   })),
+        
+      // }));
+
+
+  
+      
       // const mainimgName = EventData?.mainEventImage.split("/").pop();
 
+      let categories = [];
+      try {
+        categories = JSON.parse(EventData?.category || "[]");
+      } catch (e) {
+        console.error("Error parsing category data:", e);
+      }
+  
+      // Update category types with selected options
+      const updatedCategoryTypes = categories?.map((category: any) => ({
+        ...category,
+        options: category?.options?.map((option: any) => ({
+          ...option,
+          checked: EventData?.selectedOptions?.some((selected: any) => selected.id === option.id) || false,
+        })),
+      }));
+  
+      setCategoryTypes(updatedCategoryTypes);
       form.reset({
         eventname: EventData?.name || form.getValues("eventname"),
-        eventcategory: EventData?.category || form.getValues("eventcategory"),
+        eventcategory: updatedCategoryTypes || form.getValues("eventcategory"),
         eventdescription:
           EventData?.eventDescription || form.getValues("eventdescription"),
         eventlocation: EventData?.location || form.getValues("eventlocation"),
@@ -1264,9 +1331,10 @@ function Editevent() {
                   />
                   <FormField
                     control={form.control}
-                    name={`tickets.${index}.options`}
+                    // name={`tickets.${index}.options`}
+                       name="eventcategory"
                     render={({ field }) => (
-                      <FormItem className="pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                      <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                         <div
                           className="flex items-center justify-between"
                           onClick={() => handlecateDropdown(index)}
@@ -1285,7 +1353,8 @@ function Editevent() {
                           />
                         </div>
                         {ticket?.dropdown && (
-                          <div>
+                          <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929]  rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                         
                             {optionscate?.map((option) => (
                               <div
                                 key={option.id}
@@ -2140,9 +2209,17 @@ function Editevent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
+                          // onChange={(e) => {
+                          //   setFBUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setFBUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                           
+                            if (value.startsWith("https://www.facebook.com/")) {
+                              setFBUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2164,9 +2241,18 @@ function Editevent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                           {...field}
+                          // onChange={(e) => {
+                          //   setInstaUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+
                           onChange={(e) => {
-                            setInstaUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                           
+                            if (value.startsWith("https://www.instagram.com/")) {
+                              setInstaUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2190,9 +2276,17 @@ function Editevent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
+                          // onChange={(e) => {
+                          //   setTwitterUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setTwitterUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                          
+                            if (value.startsWith("https://www.x.com/")) {
+                              setTwitterUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2214,9 +2308,17 @@ function Editevent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                           {...field}
+                          // onChange={(e) => {
+                          //   setYoutubeUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setYoutubeUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                            
+                            if (value.startsWith("https://www.youtube.com/")) {
+                              setYoutubeUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2239,9 +2341,17 @@ function Editevent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
+                          // onChange={(e) => {
+                          //   settiktokUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            settiktokUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                          
+                            if (value.startsWith("https://www.tiktok.com/@")) {
+                              settiktokUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2263,9 +2373,16 @@ function Editevent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                           {...field}
+                          // onChange={(e) => {
+                          //   setlinkedinUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setlinkedinUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                            if (value.startsWith("https://www.linkedin.com/")) {
+                              setlinkedinUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2277,6 +2394,7 @@ function Editevent() {
               <div className="flex justify-end items-center mt-[36px] edit-btn">
                 <Button
                   type="submit"
+                  disabled={!isCategorySelected}
                   className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                 >
                   Submit

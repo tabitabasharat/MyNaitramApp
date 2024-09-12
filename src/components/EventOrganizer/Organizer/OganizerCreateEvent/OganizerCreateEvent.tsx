@@ -1,6 +1,6 @@
 "use client";
+
 import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
-import SpecificEventPage from "../../PreviewEvent/SpecificEventPage";
 import React from "react";
 import "@/components/create-event/CreateEvent.css";
 import Image from "next/image";
@@ -99,11 +99,41 @@ type Category = {
   options: cateOption[];
   dropdown: any;
 };
+
+const categorySchema = z.object({
+  options: z
+    .array(
+      z.object({
+        id: z.number(),
+        label: z.string(),
+      })
+    )
+    .min(1, { message: "Please select at least one option." }), // Ensure at least one option is selected
+  dropdown: z.boolean().optional(),
+});
+
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
-  eventcategory: z
-    .string()
-    .min(1, { message: "Event category cannot be empty." }),
+
+  // eventcategory: z.array(categorySchema).nonempty({ message: "At least one category is required." }),
+
+  eventcategory: z.array(
+    z.object({
+      options: z
+        .array(
+          z.object({
+            id: z.number(),
+            label: z.string(),
+          })
+        )
+        .min(1, { message: "Event Category is required" }),
+    })
+  ),
+
+  // eventcategory: z.array(z.any()).min(1, { message: "Event Category is required" }),
+
+  // Ensure at least one category is selected
+
   eventlocation: z
     .string()
     .min(1, { message: "Event location cannot be empty." }),
@@ -187,7 +217,8 @@ interface EventData {
   eventmedia?: any[]; // Adjust the type based on what imagesOfGallery returns
 }
 function OganizerCreateEvent() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [isPreviewModalOpen, setisPreviewModalOpen] = useState(false);
   const [actionType, setActionType] = useState("");
@@ -220,19 +251,23 @@ function OganizerCreateEvent() {
   const [CoverImg, setCoverImg] = useState("");
   const [CoverImgName, setCoverImgName] = useState<any>("");
 
-  const [FBUrl, setFBUrl] = useState("");
-  const [InstaUrl, setInstaUrl] = useState("");
-  const [TwitterUrl, setTwitterUrl] = useState("");
+  const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
+  const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
+  const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
 
-  const [YoutubeUrl, setYoutubeUrl] = useState("");
+  const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
 
-  const [tiktokUrl, settiktokUrl] = useState("");
-  const [linkedinUrl, setlinkedinUrl] = useState("");
+  const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
+  const [linkedinUrl, setlinkedinUrl] = useState("https://www.linkedin.com/");
   const [eventsFiles, setEventsFile] = useState<any>([]);
   const router = useRouter();
 
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
     { type: "", price: 0, no: 0, options: [], dropdown: true },
+  ]);
+
+  const [categoryTypes, setCategoryTypes] = useState<Category[]>([
+    { options: [], dropdown: false },
   ]);
 
   const options: Option[] = [
@@ -258,48 +293,30 @@ function OganizerCreateEvent() {
     { id: 20, label: "Ticketing & Registration", image: img20 },
   ];
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+
   const optionscate: CateOption[] = [
     { id: 1, label: "Music" },
     { id: 2, label: "Business" },
     { id: 3, label: "Food & Drink" },
     { id: 4, label: "Community" },
-    { id: 5, label: "Arts"},
-    { id: 6, label: "Film & Media"},
+    { id: 5, label: "Arts" },
+    { id: 6, label: "Film & Media" },
     { id: 7, label: "Sports & Fitness" },
     { id: 8, label: "Health" },
     { id: 9, label: "Science & Tech" },
     { id: 10, label: "Travel & utdoor" },
-    { id: 11, label: "Charities & Causes"},
+    { id: 11, label: "Charities & Causes" },
     { id: 12, label: "Spirituality" },
-    { id: 13, label: "Seasonal"},
-    { id: 14, label: "Government"},
+    { id: 13, label: "Seasonal" },
+    { id: 14, label: "Government" },
     { id: 15, label: "Fashion" },
     { id: 16, label: "Home & Lifestyle" },
     { id: 17, label: "Auto, Biat & Air" },
     { id: 18, label: "Hobbies" },
-    { id: 19, label: "Family & Education"},
+    { id: 19, label: "Family & Education" },
     { id: 20, label: "School Activities" },
-    { id: 21, label: "Other"},
+    { id: 21, label: "Other" },
   ];
-  
-  // function convertToUTC(localDateTime: string): string {
-  //   // Create a Date object from the local date-time string
-  //   const localDate = new Date(localDateTime);
-
-  //   // Extract UTC time components
-  //   const utcYear = localDate.getUTCFullYear();
-  //   const utcMonth = localDate.getUTCMonth() + 1; // Months are 0-indexed
-  //   const utcDate = localDate.getUTCDate();
-  //   const utcHours = localDate.getUTCHours();
-  //   const utcMinutes = localDate.getUTCMinutes();
-  //   const utcSeconds = localDate.getUTCSeconds();
-
-  //   return `${utcYear}-${String(utcMonth).padStart(2, "0")}-${String(
-  //     utcDate
-  //   ).padStart(2, "0")}T${String(utcHours).padStart(2, "0")}:${String(
-  //     utcMinutes
-  //   ).padStart(2, "0")}:${String(utcSeconds).padStart(2, "0")}Z`;
-  // }
 
   function convertToUTC(localDateTime: string): string {
     // Create a Date object from the local date-time string
@@ -324,10 +341,6 @@ function OganizerCreateEvent() {
     return formattedUTC;
   }
 
-  const localDateTime = "2024-09-07T14:49";
-  const utcEventStartTime = convertToUTC(EventStartTime);
-  console.log("my utc time", utcEventStartTime);
-
   const handleDropdown = (index: number) => {
     setTicketTypes((prevTickets) =>
       prevTickets.map((ticket, i) =>
@@ -350,23 +363,12 @@ function OganizerCreateEvent() {
       )
     );
   };
+  console.log("Selected Categories:", categoryTypes);
 
   const handlecateDropdown = (index: number) => {
-    setCategoryTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
-      )
-    );
-  };
-
-  const localDateTime = "2024-09-07T14:49";
-  const utcEventStartTime = convertToUTC(EventStartTime);
-  console.log("my utc time", utcEventStartTime);
-
-  const handleDropdown = (index: number) => {
-    setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
+    setCategoryTypes((prevCategories) =>
+      prevCategories.map((category, i) =>
+        i === index ? { ...category, dropdown: !category.dropdown } : category
       )
     );
   };
@@ -375,7 +377,7 @@ function OganizerCreateEvent() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       eventname: "",
-      eventcategory: "",
+      eventcategory: [],
       eventlocation: "",
       eventstartdate: "",
       eventenddate: "",
@@ -388,12 +390,12 @@ function OganizerCreateEvent() {
       eventdescription: "",
 
       compticketno: "",
-      fburl: "",
-      instaurl: "",
-      youtubeurl: "",
-      telegramurl: "",
-      tiktokurl: "",
-      linkedinurl: "",
+      fburl: "https://www.facebook.com/",
+      instaurl: "https://instagram.com/",
+      youtubeurl: "https://www.youtube.com/",
+      telegramurl: "https://www.x.com/",
+      tiktokurl: "https://www.tiktok.com/@",
+      linkedinurl: "https://www.linkedin.com/",
       tickets: [],
     },
   });
@@ -554,9 +556,13 @@ function OganizerCreateEvent() {
 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
+  const isCategorySelected = categoryTypes.some(
+    (category) => category?.options?.length > 0
+  );
   async function EventCreation(values: z.infer<typeof formSchema>) {
     // setLoader(true);
     console.log("my values", values);
+
     const imagesOfGallery = await handleFileChangeapi();
 
     setisWalletModalOpen(true);
@@ -572,11 +578,24 @@ function OganizerCreateEvent() {
     const utcTicketEndTime = convertToUTC(TicketEndDate);
     setTicketEndDate(utcTicketEndTime);
 
+    // const selectedCategories = categoryTypes.map((category) => ({
+    //   ...category,
+    //   options: category.options,
+    // }));
+    // const selectedCategories = categoryTypes.flatMap(category => category.options);
+    const selectedCategories = categoryTypes.map((category) => ({
+      options: category.options.map((option) => ({
+        id: option.id,
+        label: option.label,
+      })),
+    }));
+
     const updatedValues = {
       ...values,
       eventmedia: imagesOfGallery,
       ticketsdata: filteredTicketTypes,
 
+      eventcategory: selectedCategories,
       eventstartdate: utcTicketStartTime,
       eventenddate: utcTicketEndTime,
 
@@ -595,27 +614,35 @@ function OganizerCreateEvent() {
   }
   async function handlePreviewClick(values: z.infer<typeof formSchema>) {
     // setLoader(true);
-    // setisWalletModalOpen(false);
+    setisWalletModalOpen(false);
     console.log("my values", values);
     const imagesOfGallery = await handleFileChangeapi();
 
-    setisWalletModalOpen(true);
     const utcEventStartTime = convertToUTC(EventStartTime);
-    setEventStartTime(utcEventStartTime);
+    // setEventStartTime(utcEventStartTime);
 
     const utcEventEndTime = convertToUTC(EventEndTime);
-    setEventEndTime(utcEventEndTime);
+    // setEventEndTime(utcEventEndTime);
 
     const utcTicketStartTime = convertToUTC(TicketStartDate);
-    setTicketStartDate(utcTicketStartTime);
+    // setTicketStartDate(utcTicketStartTime);
 
     const utcTicketEndTime = convertToUTC(TicketEndDate);
-    setTicketEndDate(utcTicketEndTime);
+    // setTicketEndDate(utcTicketEndTime);
+
+    const selectedCategories = categoryTypes.map((category) => ({
+      options: category.options.map((option) => ({
+        id: option.id,
+        label: option.label,
+      })),
+    }));
 
     const updatedValues = {
       ...values,
       eventmedia: imagesOfGallery,
       ticketsdata: filteredTicketTypes,
+
+      eventcategory: selectedCategories,
 
       eventstartdate: utcTicketStartTime,
       eventenddate: utcTicketEndTime,
@@ -623,21 +650,46 @@ function OganizerCreateEvent() {
       eventstarttime: utcEventStartTime,
       eventendtime: utcEventEndTime,
 
-      utcEventStartTime: utcEventStartTime,
-      utcEventEndtime: utcEventEndTime,
+      // utcEventStartTime: utcEventStartTime,
+      // utcEventEndtime: utcEventEndTime,
 
-      utcTicketStartTime: utcTicketStartTime,
-      utcTicketEndTime: utcTicketEndTime,
+      // utcTicketStartTime: utcTicketStartTime,
+      // utcTicketEndTime: utcTicketEndTime,
     };
     console.log("my updated values are", updatedValues);
 
     setEventAllData(updatedValues);
+    // if (updatedValues !== null)
+    //   {
+    //   const encodedEventData = encodeURIComponent(
+    //     JSON.stringify(updatedValues)
+    //   );
+    //   console.log("my encoded data", encodedEventData);
+    //   router.push(`/preview-event?eventData=${encodedEventData}`);
+    // } else {
+    //   console.log("error");
+    // }
+    // if (updatedValues !== null) {
+    //   try {
+    //     const encodedEventData = encodeURIComponent(JSON.stringify(updatedValues));
+    //     console.log("my encoded data", encodedEventData);
+
+    //     // Check if data length exceeds URL limit
+    //     if (encodedEventData.length < 2000) { // Example limit
+    //       router.push(`/preview-event?eventData=${encodedEventData}`);
+    //     } else {
+    //       console.error("Data is too large for URL. Consider alternative methods.");
+    //       // Use an alternative method such as local storage or POST request
+    //     }
+    //   } catch (error) {
+    //     console.error("Error encoding data", error);
+    //   }
+    // } else {
+    //   console.log("error");
+    // }
     if (updatedValues !== null) {
-      const encodedEventData = encodeURIComponent(
-        JSON.stringify(updatedValues)
-      );
-      console.log("my encoded data", encodedEventData);
-      router.push(`/preview-event?eventData=${encodedEventData}`);
+      localStorage.setItem("eventData", JSON.stringify(updatedValues));
+      router.push("/preview-event");
     } else {
       console.log("error");
     }
@@ -654,16 +706,16 @@ function OganizerCreateEvent() {
   };
 
   const handleCateOptionToggle = (index: number, option: cateOption) => {
-    setCategoryTypes((prevCate) =>
-      prevCate.map((ticket, i) =>
+    setCategoryTypes((prevCategories) =>
+      prevCategories.map((category, i) =>
         i === index
           ? {
-              ...ticket,
-              options: ticket.options.some((o) => o.id === option.id)
-                ? ticket.options.filter((o) => o.id !== option.id)
-                : [...ticket.options, option],
+              ...category,
+              options: category.options.some((o) => o.id === option.id)
+                ? category.options.filter((o) => o.id !== option.id)
+                : [...category.options, option],
             }
-          : ticket
+          : category
       )
     );
   };
@@ -984,34 +1036,33 @@ function OganizerCreateEvent() {
 
               // }}
             >
-              {categoryTypes.map((ticket, index) => (
-                <div className="flex items-start gap-[24px] w-full common-container">
-                  <FormField
-                    control={form.control}
-                    name="eventname"
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
-                          Event Name
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter Event Name"
-                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
-                            {...field}
-                            onChange={(e) => {
-                              setEventname(e.target.value);
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
+              <div className="flex items-start gap-[24px] w-full common-container">
+                <FormField
+                  control={form.control}
+                  name="eventname"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
+                        Event Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter Event Name"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
+                          {...field}
+                          onChange={(e) => {
+                            setEventname(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
 
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  {/* <FormField
+                {/* <FormField
                   control={form.control}
                   name="eventcategory"
                   render={({ field }) => (
@@ -1034,11 +1085,18 @@ function OganizerCreateEvent() {
                     </FormItem>
                   )}
                 /> */}
+                {categoryTypes.map((ticket, index) => (
                   <FormField
                     control={form.control}
-                    name={`tickets.${index}.options`}
+                    // name={`eventcategory.${index}.options`}
+                    name="eventcategory"
                     render={({ field }) => (
-                      <FormItem className="pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                      <FormItem
+                        className="relative pb-[8px] w-full rounded-md border border-[#292929] 
+                      gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] 
+                      file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] 
+                      focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                      >
                         <div
                           className="flex items-center justify-between"
                           onClick={() => handlecateDropdown(index)}
@@ -1057,7 +1115,7 @@ function OganizerCreateEvent() {
                           />
                         </div>
                         {ticket?.dropdown && (
-                          <div>
+                          <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929]  rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
                             {optionscate?.map((option) => (
                               <div
                                 key={option.id}
@@ -1085,12 +1143,15 @@ function OganizerCreateEvent() {
                             ))}
                           </div>
                         )}
+                        {}
+
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                </div>
-              ))}
+                ))}
+              </div>
+
               <div className="mt-[24px]">
                 <FormField
                   control={form.control}
@@ -1160,7 +1221,7 @@ function OganizerCreateEvent() {
                           type="datetime-local"
                           aria-label="Date and time"
                           placeholder="Enter Start Date"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] w-full  "
                           {...field}
                           onChange={(e) => {
                             setTicketStartDate(e.target.value);
@@ -1806,9 +1867,17 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
+                          // onChange={(e) => {
+                          //   setFBUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setFBUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                           
+                            if (value.startsWith("https://www.facebook.com/")) {
+                              setFBUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -1828,11 +1897,21 @@ function OganizerCreateEvent() {
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
+                          // value={InstaUrl}
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                           {...field}
+                          // onChange={(e) => {
+                          //   setInstaUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+
                           onChange={(e) => {
-                            setInstaUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                           
+                            if (value.startsWith("https://instagram.com/")) {
+                              setInstaUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -1856,9 +1935,18 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
+                          // onChange={(e) => {
+                          //   setTwitterUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+
                           onChange={(e) => {
-                            setTwitterUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                            // Prevent the user from modifying the base URL
+                            if (value.startsWith("https://www.x.com/")) {
+                              setTwitterUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -1880,9 +1968,17 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                           {...field}
+                          // onChange={(e) => {
+                          //   setYoutubeUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setYoutubeUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                           
+                            if (value.startsWith("https://www.youtube.com/")) {
+                              setYoutubeUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -1905,9 +2001,17 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                           {...field}
+                          // onChange={(e) => {
+                          //   settiktokUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            settiktokUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                           
+                            if (value.startsWith("https://www.tiktok.com/@")) {
+                              settiktokUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -1929,9 +2033,17 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                           {...field}
+                          // onChange={(e) => {
+                          //   setlinkedinUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setlinkedinUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                           
+                            if (value.startsWith("https://www.linkedin.com/")) {
+                              setlinkedinUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -1946,7 +2058,7 @@ function OganizerCreateEvent() {
                     className="w-full lg:w-fit flex h-[52px] py-[17px] px-[55.25px] lg:py-[12px] lg:px-[68px] edit-btn justify-center items-center rounded-[44px] gap-[6px] gradient-bg gradient-border-edit "
                     // onClick={handlePreviewClick}
                     // onClick={() => setActionType("preview")}
-
+                    disabled={!isCategorySelected}
                     onClick={(event) => handleFormSubmit(event, "preview")}
                   >
                     Preview
@@ -1958,6 +2070,7 @@ function OganizerCreateEvent() {
                     className="w-full lg:w-fit flex  justify-center items-center font-bold py-[17px] px-[55.25px] lg:py-[12px] lg:px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                     // onClick={() => setActionType("create")}
                     onClick={(event) => handleFormSubmit(event, "create")}
+                    disabled={!isCategorySelected}
                   >
                     Submit
                   </Button>
