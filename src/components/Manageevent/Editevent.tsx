@@ -715,7 +715,7 @@ function Editevent() {
       console.error("Error parsing category data:", e);
     }
 
-    const updatedCategoryTypes = categories.map((category: string, index: number) => ({
+    const updatedCategoryTypes = categories?.map((category: string, index: number) => ({
       label: category, 
       
     }))
@@ -834,7 +834,7 @@ function Editevent() {
       console.error("Error parsing category data:", e);
     }
 
-    const updatedCategoryTypes = categories.map((category: string, index: number) => ({
+    const updatedCategoryTypes = categories?.map((category: string, index: number) => ({
       label: category, 
       
     }));
