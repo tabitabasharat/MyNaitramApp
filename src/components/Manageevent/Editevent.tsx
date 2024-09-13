@@ -1272,7 +1272,7 @@ function Editevent() {
                   name="eventname"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
                         Event Name
                       </FormLabel>
                       <FormControl>
@@ -1351,7 +1351,7 @@ function Editevent() {
                   control={form.control}
                   name="eventdescription"
                   render={({ field }) => (
-                    <FormItem className="relative w-full gradient-slate-input space-y-0">
+                    <FormItem className="relative w-full gradient-slate-input space-y-0  h-[260px]  pb-3">
                       <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event Description
                       </FormLabel>
@@ -1366,8 +1366,15 @@ function Editevent() {
                           }}
                           placeholder="Enter Event Description"
                         /> */}
-                        <div className="absolute h-[180px] lg:h-[260px]  top-[25px]">
-                        <Editor  />
+                        <div className=" absolute inset-0 pb-3 overflow-auto top-[25px] h-[200px]">
+                        <Editor
+                         value={field.value} 
+                            onChange={(content) => {
+                              field.onChange(content);
+
+                              setEventdescription(content);
+                            }}
+                          />
                         </div>
                       </FormControl>
                       <FormMessage />

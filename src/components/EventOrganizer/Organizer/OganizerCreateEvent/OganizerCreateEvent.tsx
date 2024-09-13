@@ -80,6 +80,7 @@ import tick from "@/assets/fi-rr-check.svg";
 import { updateEvent } from "@/lib/middleware/event";
 import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
 import { AnyAaaaRecord } from "dns";
+import Editor from "@/components/reusable-components/Editor";
 
 type TicketTypeOption = {
   id: number;
@@ -209,7 +210,6 @@ type Option = {
   image: string;
 };
 type CateOption = {
-
   label: string;
   // image: string;
 };
@@ -244,6 +244,7 @@ function OganizerCreateEvent() {
   const [EventEndTime, setEventEndTime] = useState("");
 
   const [Eventdescription, setEventdescription] = useState("");
+  console.log("event des", Eventdescription);
 
   const [CompTicketNo, setCompTicketNo] = useState("");
   const [MainImg, setMainImg] = useState("");
@@ -363,7 +364,6 @@ function OganizerCreateEvent() {
       )
     );
   };
- 
 
   // const handlecateDropdown = (index: number) => {
   //   setCategoryTypes((prevCategories) =>
@@ -733,8 +733,8 @@ function OganizerCreateEvent() {
 
   const handleCateOptionToggle = (option: any) => {
     setCategoryTypes((prev: any) =>
-      prev.some((o: any) => o.label === option.label) 
-        ? prev.filter((o: any) => o.label !== option.label) 
+      prev.some((o: any) => o.label === option.label)
+        ? prev.filter((o: any) => o.label !== option.label)
         : [...prev, option]
     );
   };
@@ -1226,7 +1226,7 @@ function OganizerCreateEvent() {
                 />
               </div>
 
-              <div className="mt-[24px]">
+              {/* <div className="mt-[24px]">
                 <FormField
                   control={form.control}
                   name="eventdescription"
@@ -1246,6 +1246,41 @@ function OganizerCreateEvent() {
                           }}
                           placeholder="Enter Event Description"
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div> */}
+              <div className="mt-[24px]">
+                <FormField
+                  control={form.control}
+                  name="eventdescription"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full gradient-slate-input space-y-0  h-[260px]  pb-3">
+                      <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                        Event Description
+                      </FormLabel>
+                      <FormControl className="relative">
+                        {/* <Textarea
+                          {...field}
+                          // value={Eventdescription}
+                          className="pt-11 create-txtarea-input "
+                          onChange={(e) => {
+                            setEventdescription(e.target.value);
+                            field.onChange(e);
+                          }}
+                          placeholder="Enter Event Description"
+                        /> */}
+                        <div className=" absolute inset-0 pb-3 overflow-auto top-[28px] h-[200px]">
+                          <Editor
+                            onChange={(content) => {
+                              field.onChange(content);
+
+                              setEventdescription(content);
+                            }}
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -1866,22 +1901,22 @@ function OganizerCreateEvent() {
                       </div>
                     )}
                   </div>
-                  {index != 0 && 
-                  <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
-                    <Button
-                      className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
-                      onClick={() => handleDeleteTicketType(index)}
-                    >
-                      <Image
-                        src={deleteicon}
-                        alt="delete-icon"
-                        height={12}
-                        width={12}
-                      />
-                      Delete Ticket Type
-                    </Button>
-                  </div>
-}
+                  {index != 0 && (
+                    <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
+                      <Button
+                        className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                        onClick={() => handleDeleteTicketType(index)}
+                      >
+                        <Image
+                          src={deleteicon}
+                          alt="delete-icon"
+                          height={12}
+                          width={12}
+                        />
+                        Delete Ticket Type
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ))}
 

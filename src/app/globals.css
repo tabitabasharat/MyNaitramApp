@@ -222,9 +222,11 @@ body {
   line-height: 19.2px;
   text-align: left;
 color: white !important;  
+height: 200px;
 }
 .custom-quill .ql-toolbar {
   border: none !important;
+  /* height: 200px; */
 }
 .custom-quill::placeholder {
   font-family: Nexa;
@@ -233,6 +235,38 @@ color: white !important;
   line-height: 19.2px;
   text-align: left;
   color: #FFFFFF !important;
+}
+
+.ql-editor {
+  box-sizing: border-box;
+  line-height: 1.42;
+  /* height: 100%; */
+  outline: none;
+  overflow-y: auto;
+  padding: 0px 15px 12px 15px !important;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  text-align: left;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  height: 200px !important;
+}
+
+.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+  display: block;
+  margin-top: -1px;
+  top: 100%;
+  z-index: 1;
+  overflow: auto;
+  height: 135px;
+  background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a);
+ 
+  border-color:  #292929 !important;
+
+
+}
+.ql-snow .ql-picker.ql-header {
+  width: 120px !important;
 }
 .bg-lunchevent-img {
   background-image: url("../assets/Image.svg");
@@ -416,6 +450,23 @@ border-image-source: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(
 }
 .custom-quill .ql-toolbar.ql-snow .ql-picker-label {
 color: white !important;
+}
+
+
+.ql-toolbar.ql-snow{
+  padding-top:12px !important;
+  padding-bottom: 12px !important;
+  padding-left: 5px !important;
+}
+
+.ql-editor.ql-blank::before{
+  color: rgba(0, 0, 0, 0.6);
+    content: attr(data-placeholder);
+    font-style: normal !important;
+    left: 15px !important;
+    pointer-events: none;
+    position: absolute ;
+     right: 0 !important;
 }
 .gradient-slate-input::before {
   content: "";

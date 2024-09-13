@@ -1,10 +1,11 @@
+import { Content } from "@radix-ui/react-popover";
 import React, { useState, useRef, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch, useSelector } from "react-redux";
 
-const fontSizes = ['small', false, 'large', 'huge'];
-const fonts = ['Arial'];
+const fontSizes = ["small", false, "large", "huge"];
+const fonts = ["Arial"];
 // import { setContractEditor } from "@/components/services/redux/reducer/addcontracteditor";
 var modules = {
   toolbar: [
@@ -13,44 +14,35 @@ var modules = {
     [],
   ],
 };
-var formats = [
-  "header",
-  "height",
-  "bold",
-  "italic",
-  "underline",
-];
-export default function Editor() {
-  const dispatch = useDispatch();
-  const [valuecontent, setvaluecontent] = useState();
-//   console.log("Editor Content Entered new is ", imgcontent);
-//   const handleProcedureContentChange = (content) => {
-//     console.log("Editor Content image---->", imgcontent);
-//     if (imgcontent !== null) {
-//       console.log("this is edotor content",content)
-//       setvaluecontent(content);
-//       dispatch(setContractEditor(content));
-//     } else {
-//       setvaluecontent(content);
-//       dispatch(setContractEditor(content));
-//     }
-//   };
-//   useEffect(() => {
-//     if (imgcontent !== null) {
-//       setvaluecontent(imgcontent);
-//       dispatch(setContractEditor(imgcontent));
-//     }
-//   }, [imgcontent]);
-  return (
-    <ReactQuill
-      theme="snow"
-      value={valuecontent}
-    //   onChange={handleProcedureContentChange}
-      modules={modules}
-      formats={formats}
-      placeholder="Enter Event Description"
-      style={{ height: "100%", width: "940px" }}
-       className="custom-quill w-full sm:w-3/4 md:w-[720px] lg:w-[940px]"
-    />
-  );
+var formats = ["header", "height", "bold", "italic", "underline"];
+
+interface EditorProps {
+  onChange: (content: string) => void;
+  value?: string; // Define prop type for onChange
 }
+
+const Editor: React.FC<EditorProps> = ({ onChange,value }) => {
+  // Function to handle content change in the editor
+  const handleEditorChange = (content: string) => {
+    console.log("my content ", content)
+    if (onChange) {
+      onChange(content); // Call the onChange prop if it exists
+    }
+  };
+
+  return(
+  <ReactQuill
+    onChange={handleEditorChange}
+    theme="snow"
+   value={value}
+    // onChange = {onContentChange}
+    modules={modules}
+    formats={formats}
+    placeholder="Enter Event Description"
+    style={{ height: "100%", width: "100%" }}
+    className="custom-quill w-full sm:w-3/4 md:w-[720px] lg:w-[940px]"
+  />
+  );
+};
+
+export default Editor;
