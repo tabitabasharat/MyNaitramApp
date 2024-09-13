@@ -104,18 +104,8 @@ type Category = {
 };
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
-  eventcategory: z.array(
-    z.object({
-      options: z
-        .array(
-          z.object({
-            id: z.number(),
-            label: z.string(),
-          })
-        )
-        .min(1, { message: "Event Category is required" }),
-    })
-  ),
+  eventcategory: z.array(z.any()),
+
   eventlocation: z
     .string()
     .min(1, { message: "Event location cannot be empty." }),
@@ -211,7 +201,6 @@ type Option = {
 };
 
 type CateOption = {
-  id: number;
   label: string;
   // image: string;
 };
@@ -256,7 +245,7 @@ function EditeventOnBack() {
   const [CoverImgName, setCoverImgName] = useState<any>("");
 
   const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
- 
+
   const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
 
   const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
@@ -273,9 +262,8 @@ function EditeventOnBack() {
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
     { type: "", price: 0, no: 0, options: [], dropdown: true },
   ]);
-  const [categoryTypes, setCategoryTypes] = useState<Category[]>([
-    { options: [], dropdown: false },
-  ]);
+  const [categoryTypes, setCategoryTypes] = useState<any>([]);
+  const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
 
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
@@ -300,27 +288,27 @@ function EditeventOnBack() {
     { id: 20, label: "Ticketing & Registration", image: img20 },
   ];
   const optionscate: CateOption[] = [
-    { id: 1, label: "Music" },
-    { id: 2, label: "Business" },
-    { id: 3, label: "Food & Drink" },
-    { id: 4, label: "Community" },
-    { id: 5, label: "Arts" },
-    { id: 6, label: "Film & Media" },
-    { id: 7, label: "Sports & Fitness" },
-    { id: 8, label: "Health" },
-    { id: 9, label: "Science & Tech" },
-    { id: 10, label: "Travel & utdoor" },
-    { id: 11, label: "Charities & Causes" },
-    { id: 12, label: "Spirituality" },
-    { id: 13, label: "Seasonal" },
-    { id: 14, label: "Government" },
-    { id: 15, label: "Fashion" },
-    { id: 16, label: "Home & Lifestyle" },
-    { id: 17, label: "Auto, Biat & Air" },
-    { id: 18, label: "Hobbies" },
-    { id: 19, label: "Family & Education" },
-    { id: 20, label: "School Activities" },
-    { id: 21, label: "Other" },
+    { label: "Music" },
+    { label: "Business" },
+    { label: "Food & Drink" },
+    { label: "Community" },
+    { label: "Arts" },
+    { label: "Film & Media" },
+    { label: "Sports & Fitness" },
+    { label: "Health" },
+    { label: "Science & Tech" },
+    { label: "Travel & utdoor" },
+    { label: "Charities & Causes" },
+    { label: "Spirituality" },
+    { label: "Seasonal" },
+    { label: "Government" },
+    { label: "Fashion" },
+    { label: "Home & Lifestyle" },
+    { label: "Auto, Biat & Air" },
+    { label: "Hobbies" },
+    { label: "Family & Education" },
+    { label: "School Activities" },
+    { label: "Other" },
   ];
   // const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
   const [galleryFiles, setGalleryFiles] = useState<GalleryFile[]>([]);
@@ -331,7 +319,6 @@ function EditeventOnBack() {
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [removedImages, setRemovedImages] = useState<string[]>([]);
 
- 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedData = localStorage.getItem("eventData");
@@ -360,7 +347,6 @@ function EditeventOnBack() {
     console.log("my event id is", value);
     dispatch(getEventByEventId(value));
   }, []);
-
 
   const EventData = useAppSelector(
     (state) => state?.getEventByEventID?.eventIdEvents?.data
@@ -410,7 +396,6 @@ function EditeventOnBack() {
       eventcoverimg: "",
       eventdescription: "",
 
-
       fburl: "https://www.facebook.com/",
       instaurl: "https://instagram.com/",
       youtubeurl: "https://www.youtube.com/",
@@ -418,7 +403,6 @@ function EditeventOnBack() {
       tiktokurl: "https://www.tiktok.com/@",
       linkedinurl: "https://www.linkedin.com/",
 
-     
       tickets: [],
     },
   });
@@ -447,18 +431,14 @@ function EditeventOnBack() {
     }
   };
 
-  const handleCateOptionToggle = (index: number, option: cateOption) => {
-    setCategoryTypes((prevCate) =>
-      prevCate.map((ticket, i) =>
-        i === index
-          ? {
-              ...ticket,
-              options: ticket.options.some((o) => o.id === option.id)
-                ? ticket.options.filter((o) => o.id !== option.id)
-                : [...ticket.options, option],
-            }
-          : ticket
-      )
+  const handleCatDropdownToggle = () => {
+    setIsCatDropdownOpen((prev) => !prev);
+  };
+  const handleCateOptionToggle = (option: any) => {
+    setCategoryTypes((prev: any) =>
+      prev.some((o: any) => o.label === option.label)
+        ? prev.filter((o: any) => o.label !== option.label)
+        : [...prev, option]
     );
   };
 
@@ -661,8 +641,6 @@ function EditeventOnBack() {
     return formattedUTC;
   }
 
-
-
   //   setGalleryFiles((prevFiles) => {
   //     // Get the URL of the file being removed
   //     const fileToRemove = prevFiles[index];
@@ -692,14 +670,6 @@ function EditeventOnBack() {
     }
   };
 
-  const handlecateDropdown = (index: number) => {
-    setCategoryTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
-      )
-    );
-  };
-
   useEffect(() => {
     const userID =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -716,71 +686,7 @@ function EditeventOnBack() {
       label: option?.label,
     })),
   }));
-  // async function EventCreation(values: z.infer<typeof formSchema>) {
-  //   console.log("my values", values);
-  //   console.log(" Event Creation");
 
-  //   setLoader(true);
-
-  //   // const EventMediaAlready = EventData?.eventmedia;
-  //   const EventMediaAlready = [...(EventData?.eventmedia || [])];
-  //   const imagesOfGallery = await handleFileChangeapi();
-  //   console.log("images of gallery", imagesOfGallery, EventMediaAlready);
-
-  //   // Use concat to add new images to the copied array
-  //   const updatedEventMedia = EventMediaAlready.concat(imagesOfGallery);
-
-  //   console.log("images updated", updatedEventMedia);
-  //   // const imagesOfGallery = await handleFileChangeapi();
-  //   // console.log("imge o gallery",imagesOfGallery,EventMediaAlready)
-  //   // for (let i of imagesOfGallery ){
-  //   //   EventMediaAlready.push(i)
-  //   //   console.log(i)
-
-  //   // }
-
-  //   // console.log("image os updaed",EventMediaAlready)
-  //   try {
-  //     const data = {
-  //       userId: userid,
-  //       eventId: eventID,
-  //       name: Eventname || Eventdata?.eventname || "",
-  //       category: EventCategory || Eventdata?.eventcategory || "",
-  //       eventDescription: Eventdescription || Eventdata?.eventdescription || "",
-  //       location: EventLocation || Eventdata?.eventlocation || "",
-  //       ticketStartDate: TicketStartDate || Eventdata?.eventstartdate || "",
-  //       ticketEndDate: TicketEndDate || Eventdata?.eventenddate || "",
-  //       startTime: EventStartTime || Eventdata?.utcEventStartTime || "",
-  //       endTime: EventEndTime || Eventdata?.utcEventEndTime || "",
-  //       mainEventImage: MainImg || Eventdata?.eventmainimg || "",
-  //       coverEventImage: CoverImg || Eventdata?.eventcoverimg || "",
-
-  //       tickets: filteredTicketTypes || Eventdata?.ticketsdata || "",
-  //       totalComplemantaryTickets:
-  //         CompTicketNo || Eventdata?.compticketno || "",
-  //       fbUrl: FBUrl || Eventdata?.fburl || "",
-  //       instaUrl: InstaUrl || Eventdata?.instaurl || "",
-  //       youtubeUrl: YoutubeUrl || Eventdata?.youtubeurl || "",
-  //       twitterUrl: TwitterUrl || Eventdata?.telegramurl || "",
-  //       tiktokUrl: tiktokUrl || Eventdata?.tiktokurl || "",
-  //       linkedinUrl: linkedinUrl || Eventdata?.linkedinurl || "",
-  //       eventmedia: updatedEventMedia || Eventdata?.eventmedia || "",
-  //     };
-  //     dispatch(updateEvent(data)).then((res: any) => {
-  //       if (res?.payload?.status === 200) {
-  //         setLoader(false);
-  //         SuccessToast("Event Updated Created Successfully");
-  //         router.push("/viewallevents");
-  //       } else {
-  //         setLoader(false);
-  //         ErrorToast(res?.payload?.message);
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //     ErrorToast(error);
-  //   }
-  // }
   async function EventCreation(values: z.infer<typeof formSchema>) {
     // setLoader(true);
 
@@ -788,41 +694,37 @@ function EditeventOnBack() {
     const EventMediaAlready = [...(Eventdata?.eventmedia || [])];
     const imagesOfGallery = await handleFileChangeapi();
     console.log("images of gallery", imagesOfGallery, EventMediaAlready);
-    // const updatedEventMedia = EventMediaAlready.concat(imagesOfGallery);
 
     const updatedEventMedia = [...EventMediaAlready, ...imagesOfGallery].filter(
       (media) => !removedImages.includes(media)
     );
     console.log("images updated", updatedEventMedia);
 
-    // const utcEventStartTime = convertToUTC(EventStartTime);
-    // setEventStartTime(utcEventStartTime);
+    const utcEventStartTime = EventStartTime
+      ? convertToUTC(EventStartTime)
+      : Eventdata?.eventstarttime;
+    const utcEventEndTime = EventEndTime
+      ? convertToUTC(EventEndTime)
+      : Eventdata?.eventendtime;
+    const utcTicketStartTime = TicketStartDate
+      ? convertToUTC(TicketStartDate)
+      : Eventdata?.eventstartdate;
+    const utcTicketEndTime = TicketEndDate
+      ? convertToUTC(TicketEndDate)
+      : Eventdata?.eventenddate;
 
-    // const utcEventEndTime = convertToUTC(EventEndTime);
-    // setEventEndTime(utcEventEndTime);
+    const updatedCategoryTypes = Eventdata?.eventcategory.map(
+      (category: string, index: number) => ({
+        label: category,
+      })
+    );
+    setCategoryTypes(updatedCategoryTypes);
 
-    // const utcTicketStartTime = convertToUTC(TicketStartDate);
-    // setTicketStartDate(utcTicketStartTime);
-
-    // const utcTicketEndTime = convertToUTC(TicketEndDate);
-    // setTicketEndDate(utcTicketEndTime);
-
-    const utcEventStartTime = EventStartTime ? convertToUTC(EventStartTime) : Eventdata?.eventstarttime;
-    const utcEventEndTime = EventEndTime ? convertToUTC(EventEndTime) :  Eventdata?.eventendtime;
-    const utcTicketStartTime = TicketStartDate ? convertToUTC(TicketStartDate) :  Eventdata?.eventstartdate;
-    const utcTicketEndTime = TicketEndDate ? convertToUTC(TicketEndDate) :  Eventdata?.eventenddate;
-
-    const selectedCategories = categoryTypes.map((category) => ({
-      options: category.options.map((option) => ({
-        id: option.id,
-        label: option.label,
-      })),
-    }));
     const updatedValues = {
       ...values,
       eventmedia: updatedEventMedia,
-       ticketsdata: filteredTicketTypes,
-      eventcategory: selectedCategories,
+      ticketsdata: filteredTicketTypes,
+      eventcategory: updatedCategoryTypes,
 
       // utcEventStartTime: EventStartTime,
       utcEventEndTime: EventEndTime,
@@ -838,7 +740,6 @@ function EditeventOnBack() {
 
       // utcTicketStartTime: utcTicketStartTime,
       // utcTicketEndTime: utcTicketEndTime,
-
 
       // eventmedia: updatedEventMedia,
       // ticketsdata: filteredTicketTypes,
@@ -857,10 +758,8 @@ function EditeventOnBack() {
       // utcTicketEndTime: utcTicketEndTime,
     };
 
-
     setEventAllData(updatedValues);
-    console.log("my updated values", updatedValues)
-
+    console.log("my updated values", updatedValues);
   }
   async function handlePreviewClick(values: z.infer<typeof formSchema>) {
     // setLoader(true);
@@ -876,24 +775,35 @@ function EditeventOnBack() {
     // const updatedEventMedia = EventMediaAlready.concat(imagesOfGallery);
 
     console.log("images updated", updatedEventMedia);
-    const utcEventStartTime = EventStartTime ? convertToUTC(EventStartTime) : Eventdata?.eventstarttime;
-    const utcEventEndTime = EventEndTime ? convertToUTC(EventEndTime) :  Eventdata?.eventendtime;
-    const utcTicketStartTime = TicketStartDate ? convertToUTC(TicketStartDate) :  Eventdata?.eventstartdate;
-    const utcTicketEndTime = TicketEndDate ? convertToUTC(TicketEndDate) :  Eventdata?.eventenddate;
- 
-    const selectedCategories = categoryTypes.map((category) => ({
-      options: category.options.map((option) => ({
-        id: option.id,
-        label: option.label,
-      })),
-    }));
+    const utcEventStartTime = EventStartTime
+      ? convertToUTC(EventStartTime)
+      : Eventdata?.eventstarttime;
+    const utcEventEndTime = EventEndTime
+      ? convertToUTC(EventEndTime)
+      : Eventdata?.eventendtime;
+    const utcTicketStartTime = TicketStartDate
+      ? convertToUTC(TicketStartDate)
+      : Eventdata?.eventstartdate;
+    const utcTicketEndTime = TicketEndDate
+      ? convertToUTC(TicketEndDate)
+      : Eventdata?.eventenddate;
+
+    const updatedCategoryTypes = Eventdata?.eventcategory.map(
+      (category: string, index: number) => ({
+        label: category,
+      })
+    );
+
+    const categorylabels = updatedCategoryTypes?.map(
+      (category: any) => category?.label
+    );
+    setCategoryTypes(categorylabels);
 
     const updatedValues = {
-
       ...values,
       eventmedia: updatedEventMedia,
-       ticketsdata: filteredTicketTypes,
-      eventcategory: selectedCategories,
+      ticketsdata: filteredTicketTypes,
+      eventcategory: categorylabels,
 
       // utcEventStartTime: EventStartTime,
       utcEventEndTime: EventEndTime,
@@ -903,8 +813,6 @@ function EditeventOnBack() {
 
       eventstarttime: utcEventStartTime,
       eventendtime: utcEventEndTime,
-
-     
     };
 
     setEventAllData(updatedValues);
@@ -925,19 +833,6 @@ function EditeventOnBack() {
         setMainImgName(imageName);
       }
 
-      // if (EventData?.eventmedia) {
-      //   const files = EventData?.eventmedia.map((url: any) => ({
-      //     type:
-      //       url?.endsWith(".mp4") ||
-      //       url?.endsWith(".avi") ||
-      //       url?.endsWith(".mov") ||
-      //       url?.endsWith(".mkv")
-      //         ? "video"
-      //         : "image",
-      //     url,
-      //   }));
-      //   setGalleryFiles(files);
-      // }
       if (Eventdata?.eventmedia) {
         const files = Eventdata?.eventmedia
           .map((media: any) => {
@@ -979,28 +874,15 @@ function EditeventOnBack() {
 
       setTicketTypes(ticketsWithCheckedOptions);
 
-      let categories = [];
-      try {
-        categories = Eventdata?.eventcategory || [];
-      } catch (e) {
-        console.error("Error parsing category data:", e);
-      }
-  
-      // Update category types with selected options
-      const updatedCategoryTypes = categories?.map((category: any) => ({
-        ...category,
-        options: category?.options?.map((option: any) => ({
-          ...option,
-          checked:
-            Eventdata?.selectedOptions?.some(
-              (selected: any) => selected.id === option.id
-            ) || false,
-        })),
-      }));
-  
+      const updatedCategoryTypes = Eventdata?.eventcategory.map(
+        (category: string, index: number) => ({
+          label: category,
+        })
+      );
+
       setCategoryTypes(updatedCategoryTypes);
 
-      console.log("my updated",updatedCategoryTypes)
+      console.log("updatedCategoryTypes", updatedCategoryTypes);
 
       form.reset({
         eventname: Eventdata?.eventname || form.getValues("eventname"),
@@ -1358,91 +1240,87 @@ function EditeventOnBack() {
               //   form.handleSubmit(EventCreation)(event);
               // }}
             >
-              {categoryTypes.map((ticket, index) => (
-                <div className="flex items-start gap-[24px] w-full common-container">
-                  <FormField
-                    control={form.control}
-                    name="eventname"
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
-                          Event Name
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter Event Name"
-                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
-                            {...field}
-                            onChange={(e) => {
-                              setEventname(e.target.value);
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
+              <div className="flex items-start gap-[24px] w-full common-container">
+                <FormField
+                  control={form.control}
+                  name="eventname"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
+                        Event Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter Event Name"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
+                          {...field}
+                          onChange={(e) => {
+                            setEventname(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
 
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    // name={`tickets.${index}.options`}
-                    name="eventcategory"
-                    render={({ field }) => (
-                      <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                        <div
-                          className="flex items-center justify-between"
-                          onClick={() => handlecateDropdown(index)}
-                        >
-                          <div className="flex flex-col">
-                            <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase">
-                              EVENT category
-                            </p>
-                            <p>Select Event Category</p>
-                          </div>
-                          <Image
-                            src={ticket?.dropdown ? arrowdown : arrowdown}
-                            width={11}
-                            height={11}
-                            alt="arrow"
-                          />
+                <FormField
+                  control={form.control}
+                  name="eventcategory"
+                  render={({ field }) => (
+                    <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                      <div
+                        className="flex items-center justify-between"
+                        onClick={handleCatDropdownToggle}
+                      >
+                        <div className="flex flex-col">
+                          <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase">
+                            EVENT category
+                          </p>
+                          <p>Select Event Category</p>
                         </div>
-                        {ticket?.dropdown && (
-                          <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929]  rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                            {optionscate?.map((option) => (
-                              <div
-                                key={option.id}
-                                className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                onClick={() =>
-                                  handleCateOptionToggle(index, option)
-                                }
-                              >
-                                <div className="flex items-center gap-[10px]">
-                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                    {option.label}
-                                  </p>
-                                </div>
-                                {ticket?.options?.some(
-                                  (o) => o?.id === option?.id
-                                ) && (
-                                  <Image
-                                    src={tick}
-                                    width={10}
-                                    height={10}
-                                    alt="tick"
-                                  />
-                                )}
+                        <Image
+                          src={isCatDropdownOpen ? arrowdown : arrowdown}
+                          width={11}
+                          height={11}
+                          alt="arrow"
+                        />
+                      </div>
+                      {isCatDropdownOpen && (
+                        <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                          {optionscate?.map((option) => (
+                            <div
+                              key={option.label}
+                              className="flex items-center justify-between pt-[8px] cursor-pointer"
+                              onClick={() => handleCateOptionToggle(option)}
+                            >
+                              <div className="flex items-center gap-[10px]">
+                                <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                  {option.label}
+                                </p>
                               </div>
-                            ))}
-                          </div>
-                        )}
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              ))}
+                              {categoryTypes?.some(
+                                (o: any) => o.label === option.label
+                              ) && (
+                                <Image
+                                  src={tick}
+                                  width={10}
+                                  height={10}
+                                  alt="tick"
+                                />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <div className="mt-[24px]">
                 <FormField
                   control={form.control}
@@ -2378,7 +2256,7 @@ function EditeventOnBack() {
                           // }}
                           onChange={(e) => {
                             const value = e.target.value;
-                           
+
                             if (value.startsWith("https://www.tiktok.com/@")) {
                               settiktokUrl(value);
                               field.onChange(value);

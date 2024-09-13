@@ -469,6 +469,9 @@ function OganizerCreateEvent() {
     ]);
   };
   const handleDeleteTicketType = (index: number) => {
+    if (index === 0) {
+      return;
+    }
     const updatedTicketTypes = ticketTypes.filter((_, i) => i !== index);
     setTicketTypes(updatedTicketTypes);
   };
@@ -1867,6 +1870,7 @@ function OganizerCreateEvent() {
                       </div>
                     )}
                   </div>
+                  {index != 0 && 
                   <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
                     <Button
                       className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
@@ -1881,6 +1885,7 @@ function OganizerCreateEvent() {
                       Delete Ticket Type
                     </Button>
                   </div>
+}
                 </div>
               ))}
 

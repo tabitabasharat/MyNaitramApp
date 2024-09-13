@@ -102,8 +102,7 @@ type Category = {
 };
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
-  eventcategory: z.array(z.any().optional()),
-  
+  eventcategory: z.array(z.any()),
 
   eventlocation: z
     .string()
@@ -186,7 +185,6 @@ type Option = {
   image: string;
 };
 type CateOption = {
-
   label: string;
   // image: string;
 };
@@ -248,7 +246,7 @@ function Editevent() {
   const [categoryTypes, setCategoryTypes] = useState<any>([]);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
 
- const optionscate: CateOption[] = [
+  const optionscate: CateOption[] = [
     { label: "Music" },
     { label: "Business" },
     { label: "Food & Drink" },
@@ -294,10 +292,8 @@ function Editevent() {
     { id: 19, label: "Water Stations", image: img19 },
     { id: 20, label: "Ticketing & Registration", image: img20 },
   ];
-  // const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
 
   const [galleryFiles, setGalleryFiles] = useState<GalleryFile[]>([]);
-  // const [galleryFiles, setGalleryFiles] = useState<{ file: File; url: string }[]>([]);
   const [eventID, setEventId] = useState("");
   console.log("files in gallery", galleryFiles);
   useEffect(() => {
@@ -327,18 +323,12 @@ function Editevent() {
       )
     );
   };
-  // const handlecateDropdown = (index: number) => {
-  //   setCategoryTypes((prevTickets) =>
-  //     prevTickets.map((ticket, i) =>
-  //       i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
-  //     )
-  //   );
-  // };
+ 
 
   const handleCateOptionToggle = (option: any) => {
     setCategoryTypes((prev: any) =>
-      prev.some((o: any) => o.label === option.label) 
-        ? prev.filter((o: any) => o.label !== option.label) 
+      prev.some((o: any) => o.label === option.label)
+        ? prev.filter((o: any) => o.label !== option.label)
         : [...prev, option]
     );
   };
@@ -361,35 +351,6 @@ function Editevent() {
     );
   };
 
-  // const handleCateOptionToggle = (index: number, option: cateOption) => {
-  //   setCategoryTypes((prevCate) =>
-  //     prevCate.map((ticket, i) =>
-  //       i === index
-  //         ? {
-  //             ...ticket,
-  //             options: ticket.options.some((o) => o.id === option.id)
-  //               ? ticket.options.filter((o) => o.id !== option.id)
-  //               : [...ticket.options, option],
-  //           }
-  //         : ticket
-  //     )
-  //   );
-  // };
-
-  // const handleCateOptionToggle = (index: number, option: cateOption) => {
-  //   setCategoryTypes((prevCate) =>
-  //     prevCate.map((ticket, i) =>
-  //       i === index
-  //         ? {
-  //             ...ticket,
-  //             options: ticket.options.some((o) => o.label === option.label) // Compare by label
-  //               ? ticket.options.filter((o) => o.label !== option.label) // Remove if already selected
-  //               : [...ticket.options, option], // Add if not selected
-  //           }
-  //         : ticket
-  //     )
-  //   );
-  // };
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -490,6 +451,11 @@ function Editevent() {
 
   const handleDeleteTicketType = (index: number) => {
     // Remove from the ticketTypes state
+    if (index === 0) {
+      // Optionally, display a message or handle the restriction
+      console.warn("Cannot delete the ticket type at index 0.");
+      return;
+    }
     const updatedTickets = ticketTypes.filter((_, i) => i !== index);
     setTicketTypes(updatedTickets);
 
@@ -590,16 +556,7 @@ function Editevent() {
     }
   };
 
-  // const removeImage = (index: number) => {
-  //   setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-  // };
-  // const removeImage = (index: number) => {
-  //   setGalleryFiles((prevFiles) => {
-  //     const updatedFiles = prevFiles.filter((_, i) => i !== index);
-  //     console.log("Updated gallery files after removal:", updatedFiles); // Log to verify
-  //     return updatedFiles;
-  //   });
-  // };
+ 
 
   const removeImage = (index: number) => {
     setGalleryFiles((prevFiles) => {
@@ -663,20 +620,12 @@ function Editevent() {
 
     return formattedUTC;
   }
-  const filteredcategoryTypes = ticketTypes.map((ticket) => ({
-    options: ticket?.options?.map((option) => ({
-      id: option?.id,
-      label: option?.label,
-    })),
-  }));
  
   const isCategorySelected = categoryTypes?.length > 0;
 
   console.log("is cat", isCategorySelected);
 
-  const categorylabels = categoryTypes?.map(
-    (category: any) => category?.label
-  );
+  const categorylabels = categoryTypes?.map((category: any) => category?.label);
 
   async function EventCreation(values: z.infer<typeof formSchema>) {
     console.log("my values", values);
@@ -715,11 +664,12 @@ function Editevent() {
       console.error("Error parsing category data:", e);
     }
 
-    const updatedCategoryTypes = categories.map((category: string, index: number) => ({
-      label: category, 
-      
-    }))
-    setCategoryTypes(updatedCategoryTypes)
+    const updatedCategoryTypes = categories.map(
+      (category: string, index: number) => ({
+        label: category,
+      })
+    );
+    setCategoryTypes(updatedCategoryTypes);
 
     const utcEventStartTime = EventStartTime
       ? convertToUTC(EventStartTime)
@@ -738,7 +688,7 @@ function Editevent() {
         userId: userid,
         eventId: eventID,
         name: Eventname || EventData?.name || "",
-        category: categorylabels || updatedCategoryTypes || "" ,
+        category: categorylabels || updatedCategoryTypes || "",
         eventDescription: Eventdescription || EventData?.eventDescription || "",
         location: EventLocation || EventData?.location || "",
         ticketStartDate: utcTicketStartTime,
@@ -827,36 +777,22 @@ function Editevent() {
       setTicketTypes(ticketsWithCheckedOptions);
 
       let categories = [];
-    try {
-      categories = JSON.parse(EventData?.category || "[]");
-      console.log("my cat", categories); // Logs the parsed category array
-    } catch (e) {
-      console.error("Error parsing category data:", e);
-    }
+      try {
+        categories = JSON.parse(EventData?.category || "[]");
+        console.log("my cat", categories); // Logs the parsed category array
+      } catch (e) {
+        console.error("Error parsing category data:", e);
+      }
 
-    const updatedCategoryTypes = categories.map((category: string, index: number) => ({
-      label: category, 
+      const updatedCategoryTypes = categories.map(
+        (category: string, index: number) => ({
+          label: category,
+        })
+      );
+
+      setCategoryTypes(updatedCategoryTypes);
+      console.log("updatedCategoryTypes", updatedCategoryTypes);
       
-    }));
-
-    setCategoryTypes(updatedCategoryTypes);
-    console.log("updatedCategoryTypes", updatedCategoryTypes);
-      // let categories = [];
-      // try {
-      //   categories = JSON.parse(EventData?.category || "[]");
-      // } catch (e) {
-      //   console.error("Error parsing category data:", e);
-      // }
-
-      // const updatedCategoryTypes = categories?.map((category: any) => ({
-      //   ...category,
-      //   options: category?.options?.map((option: any) => ({
-      //     ...option,
-      //     checked: EventData?.selectedOptions?.some((selected: any) => selected.id === option.id) || false,
-      //   })),
-      // }));
-
-      // setCategoryTypes(updatedCategoryTypes);
       form.reset({
         eventname: EventData?.name || form.getValues("eventname"),
         eventcategory: updatedCategoryTypes || form.getValues("eventcategory"),
@@ -2098,21 +2034,22 @@ function Editevent() {
                       </FormItem>
                     )}
                   />
-
-                  <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
-                    <Button
-                      className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
-                      onClick={() => handleDeleteTicketType(index)}
-                    >
-                      <Image
-                        src={deleteicon}
-                        alt="delete-icon"
-                        height={12}
-                        width={12}
-                      />
-                      Delete Ticket Type
-                    </Button>
-                  </div>
+                  {index !== 0 && (
+                    <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
+                      <Button
+                        className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                        onClick={() => handleDeleteTicketType(index)}
+                      >
+                        <Image
+                          src={deleteicon}
+                          alt="delete-icon"
+                          height={12}
+                          width={12}
+                        />
+                        Delete Ticket Type
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ))}
 
@@ -2425,21 +2362,7 @@ function Editevent() {
                   Submit
                 </Button>
               </div>
-              {/* <div className="flex items-center justify-end gap-[20px]">
-                <div className="flex justify-end items-center mt-[36px] edit-btn">
-                  <button className="flex h-[52px] py-[12px] px-[68px] edit-btn justify-center items-center rounded-[44px] gap-[6px] gradient-bg gradient-border-edit ">
-                    Preview
-                  </button>
-                </div>
-                <div className="flex justify-end items-center mt-[36px] edit-btn">
-                  <Button
-                    type="submit"
-                    className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
-                  >
-                    Submit
-                  </Button>
-                </div>
-              </div> */}
+              
             </form>
           </Form>
         </div>
