@@ -79,6 +79,7 @@ import img20 from "@/assets/Whats-Included/option20.svg";
 import tick from "@/assets/fi-rr-check.svg";
 import { updateEvent } from "@/lib/middleware/event";
 import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
+import { AnyAaaaRecord } from "dns";
 
 type TicketTypeOption = {
   id: number;
@@ -208,7 +209,7 @@ type Option = {
   image: string;
 };
 type CateOption = {
-  id: number;
+
   label: string;
   // image: string;
 };
@@ -266,9 +267,12 @@ function OganizerCreateEvent() {
     { type: "", price: 0, no: 0, options: [], dropdown: true },
   ]);
 
-  const [categoryTypes, setCategoryTypes] = useState<Category[]>([
-    { options: [], dropdown: false },
-  ]);
+  // const [categoryTypes, setCategoryTypes] = useState<Category[]>([
+  //   { options: [], dropdown: false },
+  // ]);
+
+  const [categoryTypes, setCategoryTypes] = useState<any>([]);
+  const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
 
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
@@ -295,27 +299,27 @@ function OganizerCreateEvent() {
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
 
   const optionscate: CateOption[] = [
-    { id: 1, label: "Music" },
-    { id: 2, label: "Business" },
-    { id: 3, label: "Food & Drink" },
-    { id: 4, label: "Community" },
-    { id: 5, label: "Arts" },
-    { id: 6, label: "Film & Media" },
-    { id: 7, label: "Sports & Fitness" },
-    { id: 8, label: "Health" },
-    { id: 9, label: "Science & Tech" },
-    { id: 10, label: "Travel & utdoor" },
-    { id: 11, label: "Charities & Causes" },
-    { id: 12, label: "Spirituality" },
-    { id: 13, label: "Seasonal" },
-    { id: 14, label: "Government" },
-    { id: 15, label: "Fashion" },
-    { id: 16, label: "Home & Lifestyle" },
-    { id: 17, label: "Auto, Biat & Air" },
-    { id: 18, label: "Hobbies" },
-    { id: 19, label: "Family & Education" },
-    { id: 20, label: "School Activities" },
-    { id: 21, label: "Other" },
+    { label: "Music" },
+    { label: "Business" },
+    { label: "Food & Drink" },
+    { label: "Community" },
+    { label: "Arts" },
+    { label: "Film & Media" },
+    { label: "Sports & Fitness" },
+    { label: "Health" },
+    { label: "Science & Tech" },
+    { label: "Travel & utdoor" },
+    { label: "Charities & Causes" },
+    { label: "Spirituality" },
+    { label: "Seasonal" },
+    { label: "Government" },
+    { label: "Fashion" },
+    { label: "Home & Lifestyle" },
+    { label: "Auto, Biat & Air" },
+    { label: "Hobbies" },
+    { label: "Family & Education" },
+    { label: "School Activities" },
+    { label: "Other" },
   ];
 
   function convertToUTC(localDateTime: string): string {
@@ -363,14 +367,18 @@ function OganizerCreateEvent() {
       )
     );
   };
-  console.log("Selected Categories:", categoryTypes);
+ 
 
-  const handlecateDropdown = (index: number) => {
-    setCategoryTypes((prevCategories) =>
-      prevCategories.map((category, i) =>
-        i === index ? { ...category, dropdown: !category.dropdown } : category
-      )
-    );
+  // const handlecateDropdown = (index: number) => {
+  //   setCategoryTypes((prevCategories) =>
+  //     prevCategories.map((category, i) =>
+  //       i === index ? { ...category, dropdown: !category.dropdown } : category
+  //     )
+  //   );
+  // };
+
+  const handleCatDropdownToggle = () => {
+    setIsCatDropdownOpen((prev) => !prev);
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -556,9 +564,10 @@ function OganizerCreateEvent() {
 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
-  const isCategorySelected = categoryTypes.some(
-    (category) => category?.options?.length > 0
-  );
+  const isCategorySelected = categoryTypes?.length > 0;
+
+  console.log("is cat", isCategorySelected);
+
   async function EventCreation(values: z.infer<typeof formSchema>) {
     // setLoader(true);
     console.log("my values", values);
@@ -578,24 +587,16 @@ function OganizerCreateEvent() {
     const utcTicketEndTime = convertToUTC(TicketEndDate);
     setTicketEndDate(utcTicketEndTime);
 
-    // const selectedCategories = categoryTypes.map((category) => ({
-    //   ...category,
-    //   options: category.options,
-    // }));
-    // const selectedCategories = categoryTypes.flatMap(category => category.options);
-    const selectedCategories = categoryTypes.map((category) => ({
-      options: category.options.map((option) => ({
-        id: option.id,
-        label: option.label,
-      })),
-    }));
+    const categorylabels = categoryTypes?.map(
+      (category: any) => category?.label
+    );
 
     const updatedValues = {
       ...values,
       eventmedia: imagesOfGallery,
       ticketsdata: filteredTicketTypes,
 
-      eventcategory: selectedCategories,
+      eventcategory: categorylabels,
       eventstartdate: utcTicketStartTime,
       eventenddate: utcTicketEndTime,
 
@@ -630,19 +631,23 @@ function OganizerCreateEvent() {
     const utcTicketEndTime = convertToUTC(TicketEndDate);
     // setTicketEndDate(utcTicketEndTime);
 
-    const selectedCategories = categoryTypes.map((category) => ({
-      options: category.options.map((option) => ({
-        id: option.id,
-        label: option.label,
-      })),
-    }));
+    // const selectedCategories = categoryTypes.map((category) => ({
+    //   options: category.options.map((option) => ({
+    //     id: option.id,
+    //     label: option.label,
+    //   })),
+    // }));
+
+    const categorylabels = categoryTypes?.map(
+      (category: any) => category?.label
+    );
 
     const updatedValues = {
       ...values,
       eventmedia: imagesOfGallery,
       ticketsdata: filteredTicketTypes,
 
-      eventcategory: selectedCategories,
+      eventcategory: categorylabels,
 
       eventstartdate: utcTicketStartTime,
       eventenddate: utcTicketEndTime,
@@ -705,20 +710,36 @@ function OganizerCreateEvent() {
     }
   };
 
-  const handleCateOptionToggle = (index: number, option: cateOption) => {
-    setCategoryTypes((prevCategories) =>
-      prevCategories.map((category, i) =>
-        i === index
-          ? {
-              ...category,
-              options: category.options.some((o) => o.id === option.id)
-                ? category.options.filter((o) => o.id !== option.id)
-                : [...category.options, option],
-            }
-          : category
-      )
+  // const handleCateOptionToggle = (index: number, option: cateOption) => {
+  //   setCategoryTypes((prevCategories) =>
+  //     prevCategories.map((category, i) =>
+  //       i === index
+  //         ? {
+  //             ...category,
+  //             options: category.options.some((o) => o.id === option.id)
+  //               ? category.options.filter((o) => o.id !== option.id)
+  //               : [...category.options, option],
+  //           }
+  //         : category
+  //     )
+  //   );
+  // };
+  // const handleCateOptionToggle = (option: any) => {
+  //   setCategoryTypes((prev: any) =>
+  //     prev.some((o: any) => o.id === option.id)
+  //       ? prev.filter((o: any) => o.id !== option.id)
+  //       : [...prev, option]
+  //   );
+  // };
+
+  const handleCateOptionToggle = (option: any) => {
+    setCategoryTypes((prev: any) =>
+      prev.some((o: any) => o.label === option.label) 
+        ? prev.filter((o: any) => o.label !== option.label) 
+        : [...prev, option]
     );
   };
+  console.log("my cat", categoryTypes);
 
   return (
     <section
@@ -1085,10 +1106,10 @@ function OganizerCreateEvent() {
                     </FormItem>
                   )}
                 /> */}
-                {categoryTypes.map((ticket, index) => (
+                {/* {categoryTypes.map((ticket, index) => (
                   <FormField
                     control={form.control}
-                    // name={`eventcategory.${index}.options`}
+                 
                     name="eventcategory"
                     render={({ field }) => (
                       <FormItem
@@ -1149,7 +1170,61 @@ function OganizerCreateEvent() {
                       </FormItem>
                     )}
                   />
-                ))}
+                ))} */}
+
+                <FormField
+                  control={form.control}
+                  name="eventcategory"
+                  render={({ field }) => (
+                    <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                      <div
+                        className="flex items-center justify-between"
+                        onClick={handleCatDropdownToggle}
+                      >
+                        <div className="flex flex-col">
+                          <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase">
+                            EVENT category
+                          </p>
+                          <p>Select Event Category</p>
+                        </div>
+                        <Image
+                          src={isCatDropdownOpen ? arrowdown : arrowdown}
+                          width={11}
+                          height={11}
+                          alt="arrow"
+                        />
+                      </div>
+                      {isCatDropdownOpen && (
+                        <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                          {optionscate?.map((option) => (
+                            <div
+                              key={option.label}
+                              className="flex items-center justify-between pt-[8px] cursor-pointer"
+                              onClick={() => handleCateOptionToggle(option)}
+                            >
+                              <div className="flex items-center gap-[10px]">
+                                <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                  {option.label}
+                                </p>
+                              </div>
+                              {categoryTypes?.some(
+                                (o: any) => o.label === option.label
+                              ) && (
+                                <Image
+                                  src={tick}
+                                  width={10}
+                                  height={10}
+                                  alt="tick"
+                                />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <div className="mt-[24px]">
@@ -1873,7 +1948,7 @@ function OganizerCreateEvent() {
                           // }}
                           onChange={(e) => {
                             const value = e.target.value;
-                           
+
                             if (value.startsWith("https://www.facebook.com/")) {
                               setFBUrl(value);
                               field.onChange(value);
@@ -1907,7 +1982,7 @@ function OganizerCreateEvent() {
 
                           onChange={(e) => {
                             const value = e.target.value;
-                           
+
                             if (value.startsWith("https://instagram.com/")) {
                               setInstaUrl(value);
                               field.onChange(value);
@@ -1974,7 +2049,7 @@ function OganizerCreateEvent() {
                           // }}
                           onChange={(e) => {
                             const value = e.target.value;
-                           
+
                             if (value.startsWith("https://www.youtube.com/")) {
                               setYoutubeUrl(value);
                               field.onChange(value);
@@ -2007,7 +2082,7 @@ function OganizerCreateEvent() {
                           // }}
                           onChange={(e) => {
                             const value = e.target.value;
-                           
+
                             if (value.startsWith("https://www.tiktok.com/@")) {
                               settiktokUrl(value);
                               field.onChange(value);
@@ -2039,7 +2114,7 @@ function OganizerCreateEvent() {
                           // }}
                           onChange={(e) => {
                             const value = e.target.value;
-                           
+
                             if (value.startsWith("https://www.linkedin.com/")) {
                               setlinkedinUrl(value);
                               field.onChange(value);
@@ -2058,7 +2133,7 @@ function OganizerCreateEvent() {
                     className="w-full lg:w-fit flex h-[52px] py-[17px] px-[55.25px] lg:py-[12px] lg:px-[68px] edit-btn justify-center items-center rounded-[44px] gap-[6px] gradient-bg gradient-border-edit "
                     // onClick={handlePreviewClick}
                     // onClick={() => setActionType("preview")}
-                    disabled={!isCategorySelected}
+                    // disabled={!isCategorySelected}
                     onClick={(event) => handleFormSubmit(event, "preview")}
                   >
                     Preview

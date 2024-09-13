@@ -102,16 +102,9 @@ type Category = {
 };
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
-  eventcategory: z.array(
-    z.object({
-      options: z.array(
-        z.object({
-          id: z.number(),
-          label: z.string(),
-        })
-      ).min(1, { message: "Event Category is required" })
-    })
-  ) ,
+  eventcategory: z.array(z.any().optional()),
+  
+
   eventlocation: z
     .string()
     .min(1, { message: "Event location cannot be empty." }),
@@ -193,7 +186,7 @@ type Option = {
   image: string;
 };
 type CateOption = {
-  id: number;
+
   label: string;
   // image: string;
 };
@@ -248,33 +241,37 @@ function Editevent() {
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
     { type: "", price: 0, no: 0, options: [], dropdown: true },
   ]);
-  const [categoryTypes, setCategoryTypes] = useState<Category[]>([
-    {  options: [], dropdown: false },
-  ]);
-  const optionscate: CateOption[] = [
-    { id: 1, label: "Music" },
-    { id: 2, label: "Business" },
-    { id: 3, label: "Food & Drink" },
-    { id: 4, label: "Community" },
-    { id: 5, label: "Arts"},
-    { id: 6, label: "Film & Media"},
-    { id: 7, label: "Sports & Fitness" },
-    { id: 8, label: "Health" },
-    { id: 9, label: "Science & Tech" },
-    { id: 10, label: "Travel & utdoor" },
-    { id: 11, label: "Charities & Causes"},
-    { id: 12, label: "Spirituality" },
-    { id: 13, label: "Seasonal"},
-    { id: 14, label: "Government"},
-    { id: 15, label: "Fashion" },
-    { id: 16, label: "Home & Lifestyle" },
-    { id: 17, label: "Auto, Biat & Air" },
-    { id: 18, label: "Hobbies" },
-    { id: 19, label: "Family & Education"},
-    { id: 20, label: "School Activities" },
-    { id: 21, label: "Other"},
+  // const [categoryTypes, setCategoryTypes] = useState<Category[]>([
+  //   { options: [], dropdown: false },
+  // ]);
 
+  const [categoryTypes, setCategoryTypes] = useState<any>([]);
+  const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
+
+ const optionscate: CateOption[] = [
+    { label: "Music" },
+    { label: "Business" },
+    { label: "Food & Drink" },
+    { label: "Community" },
+    { label: "Arts" },
+    { label: "Film & Media" },
+    { label: "Sports & Fitness" },
+    { label: "Health" },
+    { label: "Science & Tech" },
+    { label: "Travel & utdoor" },
+    { label: "Charities & Causes" },
+    { label: "Spirituality" },
+    { label: "Seasonal" },
+    { label: "Government" },
+    { label: "Fashion" },
+    { label: "Home & Lifestyle" },
+    { label: "Auto, Biat & Air" },
+    { label: "Hobbies" },
+    { label: "Family & Education" },
+    { label: "School Activities" },
+    { label: "Other" },
   ];
+
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
     { id: 2, label: "Food and Beverages", image: img2 },
@@ -330,12 +327,23 @@ function Editevent() {
       )
     );
   };
-  const handlecateDropdown = (index: number) => {
-    setCategoryTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
-      )
+  // const handlecateDropdown = (index: number) => {
+  //   setCategoryTypes((prevTickets) =>
+  //     prevTickets.map((ticket, i) =>
+  //       i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
+  //     )
+  //   );
+  // };
+
+  const handleCateOptionToggle = (option: any) => {
+    setCategoryTypes((prev: any) =>
+      prev.some((o: any) => o.label === option.label) 
+        ? prev.filter((o: any) => o.label !== option.label) 
+        : [...prev, option]
     );
+  };
+  const handleCatDropdownToggle = () => {
+    setIsCatDropdownOpen((prev) => !prev);
   };
 
   const handleOptionToggle = (index: number, option: TicketTypeOption) => {
@@ -344,28 +352,44 @@ function Editevent() {
         i === index
           ? {
               ...ticket,
-              options: ticket.options.some((o) => o.id === option.id)
-                ? ticket.options.filter((o) => o.id !== option.id)
-                : [...ticket.options, option],
+              options: ticket?.options?.some((o) => o.id === option.id)
+                ? ticket?.options?.filter((o) => o.id !== option.id)
+                : [...ticket?.options, option],
             }
           : ticket
       )
     );
   };
-  const handleCateOptionToggle = (index: number, option: cateOption) => {
-    setCategoryTypes((prevCate) =>
-      prevCate.map((ticket, i) =>
-        i === index
-          ? {
-              ...ticket,
-              options: ticket.options.some((o) => o.id === option.id)
-                ? ticket.options.filter((o) => o.id !== option.id)
-                : [...ticket.options, option],
-            }
-          : ticket
-      )
-    );
-  };
+
+  // const handleCateOptionToggle = (index: number, option: cateOption) => {
+  //   setCategoryTypes((prevCate) =>
+  //     prevCate.map((ticket, i) =>
+  //       i === index
+  //         ? {
+  //             ...ticket,
+  //             options: ticket.options.some((o) => o.id === option.id)
+  //               ? ticket.options.filter((o) => o.id !== option.id)
+  //               : [...ticket.options, option],
+  //           }
+  //         : ticket
+  //     )
+  //   );
+  // };
+
+  // const handleCateOptionToggle = (index: number, option: cateOption) => {
+  //   setCategoryTypes((prevCate) =>
+  //     prevCate.map((ticket, i) =>
+  //       i === index
+  //         ? {
+  //             ...ticket,
+  //             options: ticket.options.some((o) => o.label === option.label) // Compare by label
+  //               ? ticket.options.filter((o) => o.label !== option.label) // Remove if already selected
+  //               : [...ticket.options, option], // Add if not selected
+  //           }
+  //         : ticket
+  //     )
+  //   );
+  // };
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -645,13 +669,14 @@ function Editevent() {
       label: option?.label,
     })),
   }));
-  const selectedCategories = categoryTypes.map((category) => ({
-    options: category.options.map((option) => ({
-      id: option.id,
-      label: option.label,
-    })),
-  }));
-  const isCategorySelected = categoryTypes.some(category => category?.options?.length > 0);
+ 
+  const isCategorySelected = categoryTypes?.length > 0;
+
+  console.log("is cat", isCategorySelected);
+
+  const categorylabels = categoryTypes?.map(
+    (category: any) => category?.label
+  );
 
   async function EventCreation(values: z.infer<typeof formSchema>) {
     console.log("my values", values);
@@ -690,38 +715,41 @@ function Editevent() {
       console.error("Error parsing category data:", e);
     }
 
-    // Update category types with selected options
-    const updatedCategoryTypes = categories?.map((category: any) => ({
-      ...category,
-      options: category?.options?.map((option: any) => ({
-        ...option,
-        checked: EventData?.selectedOptions?.some((selected: any) => selected.id === option.id) || false,
-      })),
-    }));
+    const updatedCategoryTypes = categories.map((category: string, index: number) => ({
+      label: category, 
+      
+    }))
+    setCategoryTypes(updatedCategoryTypes)
 
-    setCategoryTypes(updatedCategoryTypes);
-
-    const utcEventStartTime = EventStartTime ? convertToUTC(EventStartTime) : EventData?.startTime;
-    const utcEventEndTime = EventEndTime ? convertToUTC(EventEndTime) :  EventData?.endTime;
-    const utcTicketStartTime = TicketStartDate ? convertToUTC(TicketStartDate) : EventData?.ticketStartDate;
-    const utcTicketEndTime = TicketEndDate ? convertToUTC(TicketEndDate) :  EventData?.ticketEndDate;
+    const utcEventStartTime = EventStartTime
+      ? convertToUTC(EventStartTime)
+      : EventData?.startTime;
+    const utcEventEndTime = EventEndTime
+      ? convertToUTC(EventEndTime)
+      : EventData?.endTime;
+    const utcTicketStartTime = TicketStartDate
+      ? convertToUTC(TicketStartDate)
+      : EventData?.ticketStartDate;
+    const utcTicketEndTime = TicketEndDate
+      ? convertToUTC(TicketEndDate)
+      : EventData?.ticketEndDate;
     try {
       const data = {
         userId: userid,
         eventId: eventID,
         name: Eventname || EventData?.name || "",
-        category: selectedCategories || updatedCategoryTypes || "",
+        category: categorylabels || updatedCategoryTypes || "" ,
         eventDescription: Eventdescription || EventData?.eventDescription || "",
         location: EventLocation || EventData?.location || "",
-        ticketStartDate: utcTicketStartTime ,
-        ticketEndDate: utcTicketEndTime ,
-        startTime: utcEventStartTime ,
-        endTime: utcEventEndTime ,
+        ticketStartDate: utcTicketStartTime,
+        ticketEndDate: utcTicketEndTime,
+        startTime: utcEventStartTime,
+        endTime: utcEventEndTime,
         // mainEventImage: MainImg || EventData?.mainEventImage || "",
         coverEventImage: CoverImg || EventData?.coverEventImage || "",
 
         tickets: filteredTicketTypes || EventData?.tickets || "",
-        eventcategory: filteredcategoryTypes || EventData?.eventcategory || "",
+        eventcategory: categorylabels || updatedCategoryTypes || "",
         totalComplemantaryTickets:
           CompTicketNo || EventData?.totalComplemantaryTickets || "",
         fbUrl: FBUrl || EventData?.fbUrl || "",
@@ -798,37 +826,37 @@ function Editevent() {
 
       setTicketTypes(ticketsWithCheckedOptions);
 
-      // const updatedCategoryTypes = EventData?.category?.map((categories:any) => ({
-      //   ...categories,
-      //   options: categories?.options?.map((option: any) => ({
+      let categories = [];
+    try {
+      categories = JSON.parse(EventData?.category || "[]");
+      console.log("my cat", categories); // Logs the parsed category array
+    } catch (e) {
+      console.error("Error parsing category data:", e);
+    }
+
+    const updatedCategoryTypes = categories.map((category: string, index: number) => ({
+      label: category, 
+      
+    }));
+
+    setCategoryTypes(updatedCategoryTypes);
+    console.log("updatedCategoryTypes", updatedCategoryTypes);
+      // let categories = [];
+      // try {
+      //   categories = JSON.parse(EventData?.category || "[]");
+      // } catch (e) {
+      //   console.error("Error parsing category data:", e);
+      // }
+
+      // const updatedCategoryTypes = categories?.map((category: any) => ({
+      //   ...category,
+      //   options: category?.options?.map((option: any) => ({
       //     ...option,
-      //     checked: categories?.options.some((o: any) => o?.id === option?.id), 
+      //     checked: EventData?.selectedOptions?.some((selected: any) => selected.id === option.id) || false,
       //   })),
-        
       // }));
 
-
-  
-      
-      // const mainimgName = EventData?.mainEventImage.split("/").pop();
-
-      let categories = [];
-      try {
-        categories = JSON.parse(EventData?.category || "[]");
-      } catch (e) {
-        console.error("Error parsing category data:", e);
-      }
-  
-      // Update category types with selected options
-      const updatedCategoryTypes = categories?.map((category: any) => ({
-        ...category,
-        options: category?.options?.map((option: any) => ({
-          ...option,
-          checked: EventData?.selectedOptions?.some((selected: any) => selected.id === option.id) || false,
-        })),
-      }));
-  
-      setCategoryTypes(updatedCategoryTypes);
+      // setCategoryTypes(updatedCategoryTypes);
       form.reset({
         eventname: EventData?.name || form.getValues("eventname"),
         eventcategory: updatedCategoryTypes || form.getValues("eventcategory"),
@@ -1303,91 +1331,86 @@ function Editevent() {
                 form.handleSubmit(EventCreation)(event);
               }}
             >
-              {categoryTypes.map((ticket, index) => (
-                <div className="flex items-start gap-[24px] w-full common-container">
-                  <FormField
-                    control={form.control}
-                    name="eventname"
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
-                          Event Name
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter Event Name"
-                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
-                            {...field}
-                            onChange={(e) => {
-                              setEventname(e.target.value);
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
+              <div className="flex items-start gap-[24px] w-full common-container">
+                <FormField
+                  control={form.control}
+                  name="eventname"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
+                        Event Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter Event Name"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
+                          {...field}
+                          onChange={(e) => {
+                            setEventname(e.target.value);
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
 
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    // name={`tickets.${index}.options`}
-                       name="eventcategory"
-                    render={({ field }) => (
-                      <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                        <div
-                          className="flex items-center justify-between"
-                          onClick={() => handlecateDropdown(index)}
-                        >
-                          <div className="flex flex-col">
-                            <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase">
-                              EVENT category
-                            </p>
-                            <p>Select Event Category</p>
-                          </div>
-                          <Image
-                            src={ticket?.dropdown ? arrowdown : arrowdown}
-                            width={11}
-                            height={11}
-                            alt="arrow"
-                          />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="eventcategory"
+                  render={({ field }) => (
+                    <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                      <div
+                        className="flex items-center justify-between"
+                        onClick={handleCatDropdownToggle}
+                      >
+                        <div className="flex flex-col">
+                          <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase">
+                            EVENT category
+                          </p>
+                          <p>Select Event Category</p>
                         </div>
-                        {ticket?.dropdown && (
-                          <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929]  rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                         
-                            {optionscate?.map((option) => (
-                              <div
-                                key={option.id}
-                                className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                onClick={() =>
-                                  handleCateOptionToggle(index, option)
-                                }
-                              >
-                                <div className="flex items-center gap-[10px]">
-                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                    {option.label}
-                                  </p>
-                                </div>
-                                {ticket?.options?.some(
-                                  (o) => o?.id === option?.id
-                                ) && (
-                                  <Image
-                                    src={tick}
-                                    width={10}
-                                    height={10}
-                                    alt="tick"
-                                  />
-                                )}
+                        <Image
+                          src={isCatDropdownOpen ? arrowdown : arrowdown}
+                          width={11}
+                          height={11}
+                          alt="arrow"
+                        />
+                      </div>
+                      {isCatDropdownOpen && (
+                        <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                          {optionscate?.map((option) => (
+                            <div
+                              key={option.label}
+                              className="flex items-center justify-between pt-[8px] cursor-pointer"
+                              onClick={() => handleCateOptionToggle(option)}
+                            >
+                              <div className="flex items-center gap-[10px]">
+                                <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                  {option.label}
+                                </p>
                               </div>
-                            ))}
-                          </div>
-                        )}
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              ))}
+                              {categoryTypes?.some(
+                                (o: any) => o.label === option.label
+                              ) && (
+                                <Image
+                                  src={tick}
+                                  width={10}
+                                  height={10}
+                                  alt="tick"
+                                />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <div className="mt-[24px]">
                 <FormField
                   control={form.control}
@@ -2215,7 +2238,7 @@ function Editevent() {
                           // }}
                           onChange={(e) => {
                             const value = e.target.value;
-                           
+
                             if (value.startsWith("https://www.facebook.com/")) {
                               setFBUrl(value);
                               field.onChange(value);
@@ -2248,8 +2271,10 @@ function Editevent() {
 
                           onChange={(e) => {
                             const value = e.target.value;
-                           
-                            if (value.startsWith("https://www.instagram.com/")) {
+
+                            if (
+                              value.startsWith("https://www.instagram.com/")
+                            ) {
                               setInstaUrl(value);
                               field.onChange(value);
                             }
@@ -2282,7 +2307,7 @@ function Editevent() {
                           // }}
                           onChange={(e) => {
                             const value = e.target.value;
-                          
+
                             if (value.startsWith("https://www.x.com/")) {
                               setTwitterUrl(value);
                               field.onChange(value);
@@ -2314,7 +2339,7 @@ function Editevent() {
                           // }}
                           onChange={(e) => {
                             const value = e.target.value;
-                            
+
                             if (value.startsWith("https://www.youtube.com/")) {
                               setYoutubeUrl(value);
                               field.onChange(value);
@@ -2347,7 +2372,7 @@ function Editevent() {
                           // }}
                           onChange={(e) => {
                             const value = e.target.value;
-                          
+
                             if (value.startsWith("https://www.tiktok.com/@")) {
                               settiktokUrl(value);
                               field.onChange(value);
