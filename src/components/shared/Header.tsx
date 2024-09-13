@@ -70,7 +70,7 @@ const Header = () => {
     {
       id: 2,
       title: "About",
-      url: "",
+      url: "/about",
       subLinks: [
         { title: "Gallery", url: "/gallery" },
         { title: "Download App", url: "/download-app" },
@@ -81,13 +81,9 @@ const Header = () => {
     {
       id: 5,
       title: "Rewards",
-      url: "",
-      subLinks: [
-        { title: "Wallet", url: "/wallet" },
-        // { title: "Download App", url: "/download-app" },
-      ],
+      url: "/reward",
+      subLinks: [{ title: "Wallet", url: "/wallet" }],
     },
-    // { id: 5, title: "Rewards", url: "/reward" },
     { id: 6, title: "Get Sponsored", url: "/get-sponsor" },
   ];
   useEffect(() => {
@@ -157,33 +153,35 @@ const Header = () => {
           {links.map((link) => (
             <div key={link.id} className="relative group">
               {/* Main Link */}
-              <div
-                className="flex items-center cursor-pointer"
-                onClick={() => handleDropdownToggle(link.id)}
-              >
+              <div className="flex items-center cursor-pointer">
                 <Link
+                  href={link.url}
                   className={cn("", {
                     "text-base font-normal": pathname === link.url,
                   })}
-                  href={link.url}
                 >
                   {link.title}
-                  {(link.id === 2 || link.id === 5) && (
-                    <Image
-                      src={arrowdown} // Specify your image path here
-                      alt="About Image"
-                      width={12} // Adjust width and height as needed
-                      height={12}
-                      className="ml-[5px] inline" // Adjust styling as needed
-                    />
-                  )}
                 </Link>
+
+                {(link.id === 2 || link.id === 5) && (
+                  <Image
+                    src={arrowdown} // Specify your image path here
+                    alt={`${link.title} Arrow`}
+                    width={12} // Adjust width and height as needed
+                    height={12}
+                    className="ml-[5px] inline cursor-pointer" // Adjust styling as needed
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevent link redirection
+                      handleDropdownToggle(link.id); // Open/close dropdown
+                    }}
+                  />
+                )}
               </div>
 
               {/* Underline on hover */}
               <div className="bg-white h-[1.5px] w-full translate-y-[-0.2rem] scale-x-0 group-hover:scale-x-100 duration-300"></div>
 
-              {/* Dropdown Menu for 'About' */}
+              {/* Dropdown Menu */}
               {link.subLinks && openDropdown === link.id && (
                 <div className="absolute left-0 mt-2 text-base font-bold gradient-slate bg-white shadow-lg rounded-md z-10">
                   {link.subLinks.map((subLink, j) => (
@@ -219,7 +217,10 @@ const Header = () => {
                 onOpenChange={setIsLoginDialogOpen}
               >
                 <DialogTrigger asChild>
-                  <Button variant="secondary" className="hidden lg:block">
+                  <Button
+                    variant="secondary"
+                    className="hidden pb-[6px] lg:block"
+                  >
                     Sign In
                   </Button>
                 </DialogTrigger>
@@ -241,7 +242,7 @@ const Header = () => {
           </>
 
           {isLoggedIn && token && (
-            <div className="mr-[12px] md:ms-0 md:mr-0 lg:ms-0 lg:mr-0 flex items-center lg:gap-[20px] gap-[10px] h-full">
+            <div className="mr-[12px] md:mr-[12px] lg:ms-0 lg:mr-[12px] xl:mr-- flex items-center lg:gap-[20px] gap-[10px] h-full">
               <Popover open={notifPopupOpen} onOpenChange={setNotifPopupOpen}>
                 <PopoverTrigger asChild>
                   <Bell className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer" />
@@ -255,7 +256,7 @@ const Header = () => {
 
               <Popover open={popupOpen} onOpenChange={setPopupOpen}>
                 <PopoverTrigger asChild>
-                  <div className="border  p-[6px] h-[44px] w-[44px] border-muted gradient-slate rounded-full lg:flex items-center   cursor-pointer">
+                  <div className="border  p-[6px] h-[44px] w-[44px] border-muted gradient-slate rounded-full lg:flex items-center  cursor-pointer">
                     {/* <div className="size-[44px] lg:size-[44px] gradient-slate p-[6px] rounded-full overflow-hidden  shadow-inner shadow-md border border-gray-700 rounded-full border-gradient bg-gradient-to-t from-transparent to-transparent"> */}
                     <Link
                       href={"/profile/profile-main"}
