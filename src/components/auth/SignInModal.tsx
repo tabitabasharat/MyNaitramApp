@@ -256,9 +256,7 @@ const SignInModal = ({
                   name="email"
                   render={({ field }) => (
                     <FormItem
-                      className={`relative mb-[20px] ${
-                        isEmailFocused ? "auth-bg-gradient" : ""
-                      }`}
+                      className="relative mb-[20px] space-y-0 "
                     >
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         EMAIL
@@ -270,7 +268,7 @@ const SignInModal = ({
                       <FormControl>
                         <Input
                           placeholder="youremail@example.com"
-                          className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-extrabold"
+                          className="pt-11 pb-5"
                           {...field}
                           onFocus={() => setIsEmailFocused(true)}
                           onBlur={() => setIsEmailFocused(false)}
@@ -302,13 +300,7 @@ const SignInModal = ({
                       <FormControl>
                         <PasswordInput
                           placeholder="Input password"
-                          className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-extrabold"
-                          // {...field}
-                          // onFocus={()=> setIsPasswordFocused(true)}
-                          // onBlur={()=> setIsPasswordFocused(false)}
-                          // onChange={(e) => setPassword(e.target.value);
-                          //   field.onChange(e);
-                          // }}
+                          className="pt-11 pb-5"
                           {...field}
                           onFocus={() => setIsPasswordFocused(true)}
                           onBlur={() => setIsPasswordFocused(false)}

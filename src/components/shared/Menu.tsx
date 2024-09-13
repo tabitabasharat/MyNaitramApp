@@ -40,6 +40,7 @@ const Menu = ({
     },
     {
       title: "About",
+      href: "/about",
       id: 2,
       subLinks: [
         { title: "Gallery", href: "/gallery" },
@@ -56,6 +57,7 @@ const Menu = ({
     },
     {
       title: "Rewards",
+      href: "/reward",
       id: 4,
       subLinks: [
         { title: "Wallet", href: "/wallet" },
@@ -115,9 +117,9 @@ const Menu = ({
             </Link>
             <button
               onClick={toggleMenu}
-              className="flex items-center gap-[0.1rem] translate-x-[0.6rem]"
+              className="flex items-center w-[40px] h-[40px] gap-[0.1rem] translate-x-[0.6rem]"
             >
-              <div className="text-white ">
+              <div className="text-white w-[40px] h-[40px]">
                 <Hamburger toggled={menuIsOpen} size={22} />
               </div>
             </button>
@@ -133,23 +135,31 @@ const Menu = ({
                 className="relative w-fit group"
               >
                 {link.subLinks ? (
-                  <div
-                    className="relative cursor-pointer flex items-center"
-                    onClick={() => handleDropdownToggle(link.id)}
-                  >
-                    <span>{link.name || link.title}</span>
+                  <div className="relative flex items-center">
+                    {/* Main link (e.g., "Rewards", "About") */}
+                    <Link
+                      href={link.href}
+                      onClick={() => setMenuIsOpen(false)} // Close menu when clicked
+                      className="relative cursor-pointer"
+                    >
+                      {link.name || link.title}
+                      <div className="absolute h-[1px] bottom-[0.15rem] scale-x-0 w-full group-hover:scale-x-100 bg-white duration-300 origin-left"></div>
+                    </Link>
 
-                    {/* Conditionally render the arrowdown image if the id is 'about' */}
-                    {(link.id === 2 || link.id === 4)&&(
-                      <Image
-                        src={arrowdown}
-                        alt="Arrow Down"
-                        className="ml-[5px]"
-                        sizes="12px"
-                      />
+                    {/* Arrow for dropdown toggle (works independently) */}
+                    {(link.id === 2 || link.id === 4) && (
+                      <div
+                        className="ml-2 cursor-pointer"
+                        onClick={() => handleDropdownToggle(link.id)} // Toggle dropdown
+                      >
+                        <Image
+                          src={arrowdown}
+                          alt="Arrow Down"
+                          className="ml-[5px]"
+                          sizes="12px"
+                        />
+                      </div>
                     )}
-
-                    <div className="absolute h-[1px] bottom-[0.15rem] scale-x-0 w-full group-hover:scale-x-100 bg-white duration-300 origin-left"></div>
 
                     {/* Dropdown Menu (conditionally rendered on click) */}
                     {activeDropdown === link.id && (
@@ -173,7 +183,7 @@ const Menu = ({
                 ) : (
                   <Link
                     href={link.href || "#"}
-                    onClick={() => setMenuIsOpen(false)}
+                    onClick={() => setMenuIsOpen(false)} // Close menu when clicked
                     className="relative"
                   >
                     {link.name || link.title}
@@ -182,6 +192,7 @@ const Menu = ({
                 )}
               </motion.div>
             ))}
+
             <Button
               variant="secondary"
               className="bg-[#13FF7A] p-[12px] py-[8px] font- font-extrabold text-base lg:mr-[12px]"

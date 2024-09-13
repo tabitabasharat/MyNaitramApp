@@ -6,10 +6,10 @@
 
 ::-webkit-calendar-picker-indicator {
   position: absolute;
-  right: 12px; 
+  right: 12px;
   top: 50%;
-  transform: translateY(-50%); 
-  padding: 0.5rem; 
+  transform: translateY(-50%);
+  padding: 0.5rem;
   cursor: pointer;
 }
 ::-webkit-calendar-picker-indicator {
@@ -30,8 +30,6 @@
   opacity: 1
 } */
 
-
-
 input[type="date"]::-webkit-calendar-picker-indicator {
   background: transparent;
   bottom: 0;
@@ -45,7 +43,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   width: auto;
 }
 
-.menu-show{
+.menu-show {
   display: none;
 }
 .nav-inside {
@@ -216,12 +214,12 @@ body {
   stroke: none;
 }
 .custom-quill .ql-editor::before {
-  font-family: var(--font-base)  !important;
+  font-family: var(--font-base) !important;
   font-size: 16px !important;
   font-weight: 700 !important;
   line-height: 19.2px;
   text-align: left;
-color: white !important;  
+  color: white !important;
 }
 .custom-quill .ql-toolbar {
   border: none !important;
@@ -232,7 +230,7 @@ color: white !important;
   font-weight: 800 !important;
   line-height: 19.2px;
   text-align: left;
-  color: #FFFFFF !important;
+  color: #ffffff !important;
 }
 .bg-lunchevent-img {
   background-image: url("../assets/Image.svg");
@@ -240,7 +238,7 @@ color: white !important;
   background-repeat: no-repeat;
   padding: 0px;
 }
-.auth-bg-gradient {
+/* .auth-bg-gradient {
   position: relative;
   border-radius: 8px !important;
 }
@@ -248,14 +246,30 @@ color: white !important;
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 8px !important; /* Inherit the border-radius from the parent */
-  padding: 1px; /* Adjust this value to control the thickness of the border */
+  border-radius: 8px !important;
+  padding: 1px; 
   background: linear-gradient(
     135deg,
     #13ff7a 0.2%,
     #002b12 50.2%,
     #13ff7a 100.2%
   );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+} */
+.gradient-bg-auth {
+  position: relative;
+  border-radius: 8px; /* This controls the rounding of the corners */
+}
+
+.gradient-bg-auth::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit; /* Inherit the border-radius from the parent */
+  padding: 1px; /* Adjust this value to control the thickness of the border */
+  background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -390,32 +404,38 @@ color: white !important;
 .gradient-slate-input {
   position: relative;
   border-radius: 12px !important; /* Controls the rounding of the corners */
-  background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a);/* Solid background color */
+  background: linear-gradient(
+    to top,
+    #0f0f0f,
+    #0f0f0f,
+    #0f0f0f,
+    #1a1a1a
+  ); /* Solid background color */
   border: 1px solid transparent; /* Border needs to be transparent to see the gradient border */
   z-index: 1; /* Ensure it is above the pseudo-element */
 }
 .custom-quill .ql-snow .ql-picker-options {
-  background: linear-gradient(
-    360deg,
-    #0F0F0F 72%,
-    #1A1A1A 100%
-  ) !important;
+  background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%) !important;
   border-radius: 12px !important;
 }
-.custom-quill .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg{
+.custom-quill
+  .ql-snow
+  .ql-picker:not(.ql-color-picker):not(.ql-icon-picker)
+  svg {
   color: white !important;
 }
-.custom-quill .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label{
+.custom-quill .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
   border-radius: 8px !important;
   border: 1px solid !important;
 
-border-image-source: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%) !important;
-
-
-
+  border-image-source: linear-gradient(
+    360deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  ) !important;
 }
 .custom-quill .ql-toolbar.ql-snow .ql-picker-label {
-color: white !important;
+  color: white !important;
 }
 .gradient-slate-input::before {
   content: "";
@@ -423,18 +443,17 @@ color: white !important;
   inset: 0;
   border-radius: 12px !important; /* Inherit the border-radius from the parent */
   padding: 1px; /* Adjust this value to control the thickness of the border */
-  background: linear-gradient(
-    360deg,
-    #0F0F0F 72%,
-    #1A1A1A 100%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+  background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   z-index: -1; /* Place behind the main element */
   border: 1px solid transparent; /* The actual border visible due to gradient */
-  border-image: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
+  border-image: linear-gradient(
+    360deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
   border-image-slice: 1;
 }
 

@@ -238,7 +238,7 @@ const SignUpModal = ({
                   control={form.control}
                   name="full_name"
                   render={({ field }) => (
-                    <FormItem className="relative space-y-[24px]">
+                    <FormItem className="relative mb-[24px]">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         FULL NAME
                       </FormLabel>
@@ -265,7 +265,7 @@ const SignUpModal = ({
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem className="relative space-y-[20px]">
+                    <FormItem className="relative mb-[20px]">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         EMAIL
                       </FormLabel>
@@ -293,7 +293,7 @@ const SignUpModal = ({
                   control={form.control}
                   name="password"
                   render={({ field }) => (
-                    <FormItem className="relative  space-y-[20px]">
+                    <FormItem className="relative mb-[20px]">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3 z-10">
                         PASSWORD
                       </FormLabel>
@@ -321,7 +321,7 @@ const SignUpModal = ({
                   control={form.control}
                   name="confirm_password"
                   render={({ field }) => (
-                    <FormItem className="relative space-y-[20px] ">
+                    <FormItem className="relative mb-[20px] ">
                       <FormLabel className="text-[12px] font-bold  text-[#8F8F8F] absolute left-3 top-3 z-10">
                         CONFIRM PASSWORD
                       </FormLabel>
