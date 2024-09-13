@@ -12,6 +12,8 @@ import {
   DialogFooter,
   DialogPortal,
 } from "@/components/ui/newdialog";
+import arrowdown from "@/assets/arrow-down-drop.svg";
+
 import { Separator } from "../ui/separator";
 import Image from "next/image";
 import Iconpop from "@/assets/launchprofileicon.svg";
@@ -171,8 +173,9 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
           className="flex flex-col w-[650px] text-white px-[0px] gap-[24px] pt-[22px] pb-[0px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent "
         >
           <div className="w-full">
-            <DialogHeader className="flex items-end">
-              <DialogTitle className="font-bold pe-[24px] text-2xl mb-1">
+            <DialogHeader>
+              <DialogTitle className="flex justify-between font-bold px-[24px] text-2xl mb-1">
+                <h2 className="font-extrabold text-[24px]">Crypto Wallet</h2>
                 <Image
                   src={close}
                   sizes="28px"
@@ -212,6 +215,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
                       <FormItem className="relative md:mb-6 space-y-0">
                         <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                           Wallet
+                     
                         </FormLabel>
                         <Wallet
                           className="absolute right-3 top-[30%]"
@@ -237,8 +241,14 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
 
                   <div className="pb-[8px] mt-[12px] mb-[30px] lg:mb-[42px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                     <div className="flex items-center justify-between">
-                      <p className="text-base font-bold pb-[16px] text-white">
+                      <p className="text-base font-bold pb-[16px] text-white flex items-center justify-between w-full">
                         Chain
+                        <Image
+                        src={ arrowdown}
+                        width={11}
+                        height={11}
+                        alt="arrow"
+                      />
                       </p>
                     </div>
                     <Separator className="scale--[1.12] bg-[#292929]" />

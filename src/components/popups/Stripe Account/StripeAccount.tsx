@@ -73,6 +73,7 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [loader, setLoader] = useState(false);
+  // const [stripemail,setStripeEmail] = useState("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -81,7 +82,7 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
     },
   });
   const userLoading = useAppSelector((state) => state?.getShowProfile);
-  const [walletaddress, setwalletaddress] = useState("");
+  const [stripemail, setStripeEmail] = useState("");
   const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [Dropdown, setDropdown] = useState(true);
@@ -118,7 +119,7 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
       const data = {
         userId: userid,
         chain: selectedOption?.label || "",
-        wallet: walletaddress,
+        stripeAccount: stripemail,
         name: eventData?.eventname,
         category: eventData?.eventcategory,
         eventDescription: eventData?.eventdescription,
@@ -138,11 +139,12 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
         tiktokUrl: eventData?.tiktokurl,
         linkedinUrl: eventData?.linkedinurl,
         eventmedia: eventData?.eventmedia,
+        
       };
       dispatch(createevent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-
+          localStorage.removeItem("eventData");
           setisCreateModalOpen(true);
           // router.push("/viewallevents");
         } else {
@@ -222,7 +224,7 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
                             onChange={(e) => {
                               field.onChange(e);
                               setValidationError("");
-                              setwalletaddress(e.target.value);
+                              setStripeEmail(e.target.value);
                             }}
                           />
                         </FormControl>
@@ -237,7 +239,7 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
                         type="submit" // Change to "button" to prevent form submission
                         className="w-full font-extrabold text-base"
                         disabled={
-                          !selectedOption || !form.watch("walletAddress")
+                          !form.watch("walletAddress")
                         }
                         // onClick={() => {
                         //   if (

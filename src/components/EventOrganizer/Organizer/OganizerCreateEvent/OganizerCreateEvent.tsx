@@ -1,5 +1,5 @@
 "use client";
-
+import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
 import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
 import React from "react";
 import "@/components/create-event/CreateEvent.css";
@@ -1274,6 +1274,7 @@ function OganizerCreateEvent() {
                         /> */}
                         <div className=" absolute inset-0 pb-3 overflow-auto top-[28px] h-[200px]">
                           <Editor
+                            value={field.value}
                             onChange={(content) => {
                               field.onChange(content);
 
@@ -2191,9 +2192,15 @@ function OganizerCreateEvent() {
           </Form>
         </div>
         {isWalletModalOpen && (
-          <WalletChooseModal
-            onClose={() => setisWalletModalOpen(false)}
+          // <WalletChooseModal
+          //   onClose={() => setisWalletModalOpen(false)}
+          //   open={() => setisWalletModalOpen(true)}
+          //   eventData={eventAllData}
+          // />
+          <Receviepayment
+            onClose={() => setisWalletModalOpen(false)} 
             open={() => setisWalletModalOpen(true)}
+           
             eventData={eventAllData}
           />
         )}

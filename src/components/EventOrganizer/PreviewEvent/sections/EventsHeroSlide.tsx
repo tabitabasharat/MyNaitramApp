@@ -263,9 +263,12 @@ const EventsHeroSlide = ({
           {AboutDrop && (
             <div>
               <div>
-                <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[5px]  w-[100%] mb-[12px]">
+                {/* <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[5px]  w-[100%] mb-[12px]">
                   {eventdescription}
-                </p>
+                  </p> */}
+              <div dangerouslySetInnerHTML={{ __html: eventdescription }} className="text-white" />
+
+                
               </div>
             </div>
           )}

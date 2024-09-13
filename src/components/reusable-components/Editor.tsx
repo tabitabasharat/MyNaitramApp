@@ -40,7 +40,7 @@ const Editor: React.FC<EditorProps> = ({ onChange,value }) => {
     formats={formats}
     placeholder="Enter Event Description"
     style={{ height: "100%", width: "100%" }}
-    className="custom-quill w-full sm:w-3/4 md:w-[720px] lg:w-[940px]"
+    className="custom-quill w-full sm:w-3/4 md:w-[720px] lg:w-[940px] overflow-hidden"
   />
   );
 };

@@ -39,6 +39,7 @@ import {
   Heart,
 } from "@phosphor-icons/react/dist/ssr";
 import ScreenLoader from "@/components/loader/Screenloader";
+import { SuccessToast,ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
 const CustomPrevArrow = (props: any) => (
   <div
     style={{ cursor: "pointer" }}
@@ -112,6 +113,19 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     dispatch(getEventCount(EventData?.userId));
   }, [EventData?.userId]);
 
+  const copyUrlToClipboard = () => {
+    if (typeof window !== "undefined") {
+      const currentUrl = window.location.href;
+      if (currentUrl) {
+        SuccessToast("URL copied Successfully");
+        console.log("Your url is", currentUrl);
+      } else {
+        ErrorToast("Failed to copy URL.");
+      }
+     
+    }
+  };
+
   return (
     <section className="bg-img ">
       {userLoading?.loading && <ScreenLoader />}
@@ -139,7 +153,9 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
               </p>
             </div>
             <div className="">
-              <button className="bg-[#13FF7A] text-sm font-extrabold flex w-full sm:w-fit justify-center p-[10px] gap-[6px] rounded-[100px] text-[black]">
+              <button className="bg-[#13FF7A] text-sm font-extrabold flex w-full sm:w-fit justify-center p-[10px] gap-[6px] rounded-[100px] text-[black]"   
+              onClick={copyUrlToClipboard}
+                >
                 {" "}
                 <Image src={shareicon} sizes="16px" alt="share icon" />{" "}
                 <p> Share</p>

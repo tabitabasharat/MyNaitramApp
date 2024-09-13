@@ -22,6 +22,16 @@ const AllEventsGrid = ({ events, eventType }: any) => {
     console.log("user id ", userid);
     const data = {
       page: 1,
+      
+        
+        location:  null,
+        today: null,
+        startDate: null,
+        endDate: null,
+        startMonth: null,
+        endMonth: null,
+        chooseDate:  null,
+    
     };
 
     dispatch(getViewAllEvent(data));

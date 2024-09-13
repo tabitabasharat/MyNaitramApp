@@ -56,7 +56,7 @@ const FilterSideBar = () => {
   useEffect(() => {
     const data: any = {
       page: 1,
-      location: selectedLocation,
+      location: selectedLocation || null,
       today: null,
       startDate: null,
       endDate: null,
@@ -79,12 +79,13 @@ const FilterSideBar = () => {
       data.startMonth = currentMonth.startOfMonth;
       data.endMonth = currentMonth.endOfMonth;
     } else {
-      data.startDate = startDate;
-      data.endDate = endDate;
+      data.startDate = startDate || null;
+    data.endDate = endDate || null;
     }
 
     dispatch(getViewAllEvent(data));
   }, [
+    dispatch,
     dispatch,
     selectedLocation,
     selectedEventTime,
@@ -219,7 +220,6 @@ const FilterSideBar = () => {
   const handleLocationChange = (location: Location) => {
     setSelectedLocation(location);
   };
-
 
   const handleResetFilters = () => {
     setSelectedEventTime(null);

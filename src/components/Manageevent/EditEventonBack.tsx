@@ -1,5 +1,8 @@
 "use client";
 import React from "react";
+import deleteicon from "@/assets/Wallet/delete-icon.svg";
+
+import Editor from "../reusable-components/Editor";
 // import "./CreateEvent.css";
 import "@/components/create-event/CreateEvent.css";
 import Image from "next/image";
@@ -381,6 +384,14 @@ function EditeventOnBack() {
       )
     );
   };
+  const handleDeleteTicketType = (index: number) => {
+    if (index === 0) {
+      return;
+    }
+    const updatedTicketTypes = ticketTypes.filter((_, i) => i !== index);
+    setTicketTypes(updatedTicketTypes);
+  };
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -1346,12 +1357,12 @@ function EditeventOnBack() {
                   control={form.control}
                   name="eventdescription"
                   render={({ field }) => (
-                    <FormItem className="relative w-full  space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                    <FormItem className="relative w-full gradient-slate-input space-y-0  h-[260px]  pb-3">
+                      <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event Description
                       </FormLabel>
-                      <FormControl>
-                        <Textarea
+                      <FormControl className="relative">
+                        {/* <Textarea
                           {...field}
                           // value={Eventdescription}
                           className="pt-11 create-txtarea-input "
@@ -1360,7 +1371,16 @@ function EditeventOnBack() {
                             field.onChange(e);
                           }}
                           placeholder="Enter Event Description"
-                        />
+                        /> */}
+                        <div className=" absolute inset-0 pb-3 overflow-auto top-[25px] h-[200px]">
+                        <Editor
+                         value={field.value} 
+                            onChange={(content) => {
+                              field.onChange(content);
+                              setEventdescription(content);
+                            }}
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -2032,6 +2052,22 @@ function EditeventOnBack() {
                       </FormItem>
                     )}
                   />
+                   {index !== 0 && (
+                    <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
+                      <Button
+                        className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                        onClick={() => handleDeleteTicketType(index)}
+                      >
+                        <Image
+                          src={deleteicon}
+                          alt="delete-icon"
+                          height={12}
+                          width={12}
+                        />
+                        Delete Ticket Type
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ))}
 

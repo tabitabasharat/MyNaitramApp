@@ -17,12 +17,13 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getRewardCollectibleByID } from "@/lib/middleware/reward";
 import StripeAccount from "../Stripe Account/StripeAccount";
 import Cryptowallet from "../cryptowallet/Cryptowallet";
+import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
 
-const Receviepayment = ({ onClose, open, collectibleID,walletID }: any) => {
+const Receviepayment = ({ onClose, open, eventData }: any) => {
   const router = useRouter();
   const [isClaimOpen, setIsClaimOpen] = useState(false);
-  const [iswalletOpen,setIsWalletOpen] = useState(false);
-  const [cryptowalletID, setCryptowalletID] = useState(""); 
+  const [iswalletOpen, setIsWalletOpen] = useState(false);
+  const [cryptowalletID, setCryptowalletID] = useState("");
   const [collectID, setCollectID] = useState(""); // Assuming you'll use this for some logic
   const [loader, setLoader] = useState(false); // Assuming this is for some loader logic
   const dispatch = useAppDispatch(); // Redux dispatch
@@ -75,17 +76,25 @@ const Receviepayment = ({ onClose, open, collectibleID,walletID }: any) => {
               <p className="mt-[16px] font-extrabold leading-[24px] whitelist-txt text-center">
                 Receive Payment in:
               </p>
-              <div  className="flex items-center gap-[20px] mt-[32px] ">
-                <button onClick={handleTogglewallet} className="gradient-border-btn p-[12px] text-[#00D059] text-sm font-extrabold">
+              <div className="flex items-center gap-[20px] mt-[32px] ">
+                <button
+                  onClick={handleTogglewallet}
+                  className="gradient-border-btn p-[12px] text-[#00D059] text-sm font-extrabold"
+                >
                   Crypto Wallet
                 </button>
                 {iswalletOpen && (
-                    <Cryptowallet
-                      onClose={() => setIsWalletOpen(false)} // This will close the popup
-                      open={iswalletOpen} // Pass the current state to open the popup
-                      cryptowalletID={cryptowalletID} // Pass collectible ID if needed
-                    />
-                  )}
+                  // <Cryptowallet
+                  //   onClose={() => setIsWalletOpen(false)} // This will close the popup
+                  //   open={iswalletOpen} // Pass the current state to open the popup
+                  //   cryptowalletID={cryptowalletID} // Pass collectible ID if needed
+                  // />
+                  <WalletChooseModal
+                    onClose={() => setIsWalletOpen(false)}
+                    open={iswalletOpen}
+                    eventData={eventData}
+                  />
+                )}
                 <div>
                   <button
                     onClick={handleTogglestripe}
@@ -98,7 +107,8 @@ const Receviepayment = ({ onClose, open, collectibleID,walletID }: any) => {
                     <StripeAccount
                       onClose={() => setIsClaimOpen(false)} // This will close the popup
                       open={isClaimOpen} // Pass the current state to open the popup
-                      collectibleID={collectID} // Pass collectible ID if needed
+                      collectibleID={collectID} 
+                      eventData={eventData}// Pass collectible ID if needed
                     />
                   )}
                 </div>

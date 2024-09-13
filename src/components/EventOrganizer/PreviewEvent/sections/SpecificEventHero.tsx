@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
-
+import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
 import "./EventHero.css";
 import EventsHeroSlide from "./EventsHeroSlide";
 import { useEffect, useRef, useState } from "react";
@@ -92,11 +92,17 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
   return (
     <section className="bg-imgg">
       {isWalletModalOpen && (
-        <WalletChooseModal
-          onClose={() => setisWalletModalOpen(false)}
-          open={() => setisWalletModalOpen(true)}
-          eventData={eventAllData}
-        />
+        // <WalletChooseModal
+        //   onClose={() => setisWalletModalOpen(false)}
+        //   open={() => setisWalletModalOpen(true)}
+        //   eventData={eventAllData}
+        // />
+        <Receviepayment
+            onClose={() => setisWalletModalOpen(false)} 
+            open={() => setisWalletModalOpen(true)}
+           
+            eventData={eventAllData}
+          />
       )}
       <Image
         style={{ filter: "blur(30px)" }}
@@ -125,7 +131,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
 
           <Button
             type="submit"
-            className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
+            className=" flex  justify-center items-center font-bold py-[12px]  px-[40px] lg:px-[68px] rounded-[200px]  font-extrabold  h-[44px] lg:h-[52px] edit-btn w-fit"
             onClick={() => setisWalletModalOpen(true)}
             // onClick={(event) => handleFormSubmit(event, "create")}
           >
