@@ -51,13 +51,21 @@ const Menu = ({
       href: "/events",
     },
     {
-      name: "Wallet",
-      href: "/wallet",
+      name: "Host",
+      href: "/organizer-event/event-dashboard",
     },
     {
-      name: "Rewards",
-      href: "/reward",
+      title: "Rewards",
+      id: 4,
+      subLinks: [
+        { title: "Wallet", href: "/wallet" },
+        // { title: "Download App", href: "/download-app" },
+      ],
     },
+    // {
+    //   name: "Rewards",
+    //   href: "/reward",
+    // },
     {
       name: "Get Sponsored",
       href: "/contactus",
@@ -132,7 +140,7 @@ const Menu = ({
                     <span>{link.name || link.title}</span>
 
                     {/* Conditionally render the arrowdown image if the id is 'about' */}
-                    {link.id === 2 && (
+                    {(link.id === 2 || link.id === 4)&&(
                       <Image
                         src={arrowdown}
                         alt="Arrow Down"

@@ -98,7 +98,7 @@ const Organizer = () => {
                         : "0"}
                     </h2>
                     <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      Events
+                      EVENTS
                     </p>
                   </div>
                   <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
@@ -120,7 +120,7 @@ const Organizer = () => {
                         : "0"}
                     </h2>
                     <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      Followers
+                      FOLLOWERS
                     </p>
                   </div>
                   <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
@@ -131,7 +131,7 @@ const Organizer = () => {
                         : "0"}
                     </h2>
                     <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      Sales
+                      SALES
                     </p>
                   </div>
                 </div>

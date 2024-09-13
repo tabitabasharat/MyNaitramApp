@@ -103,7 +103,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
           Follow Promoter
         </Button>
         } */}
-        <div className="flex gap-3 h-full">
+        <div className="flex gap-3 flex-wrap h-full">
           <div className="border border-white w-fit p-2 rounded-full">
             <InstagramLogo
               onClick={() => {

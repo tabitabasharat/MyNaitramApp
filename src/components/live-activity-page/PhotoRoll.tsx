@@ -20,7 +20,7 @@ const PhotoRoll = () => {
     <div>
       <Dialog>
         <div className="flex justify-between">
-          <p>Photo Roll</p>
+          <p className='lg:font-bold lg:text-[16px] font-extrabold text-sm'>Photo Roll</p>
           <DialogTrigger asChild>
             <button className="text-[#8F8F8F] flex hover:text-white duration-300">
               View All <CaretRight size={20} weight="bold" />
@@ -47,7 +47,7 @@ const PhotoRoll = () => {
 
         <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-0">
           <DialogHeader>
-            <DialogTitle className="font-bold text-2xl">Photo Roll</DialogTitle>
+            <DialogTitle className="font-extrabold lg:text-base text-sm">Photo Roll</DialogTitle>
             <Separator className="scale-x-[1.09] bg-[#292929]" />
           </DialogHeader>
 

@@ -32,7 +32,7 @@ const AttendanceList = () => {
       {eventAttendy.loading && <ScreenLoader />}
       <Dialog>
         <div className="flex justify-between">
-          <p>Active Users</p>
+          <p className="text-sm font-extrabold lg:text-base lg:font-bold">Active Users</p>
           <DialogTrigger asChild>
             <button className="text-[#8F8F8F] flex hover:text-white duration-300">
               View All <CaretRight size={20} weight="bold" />
@@ -90,7 +90,7 @@ const AttendanceList = () => {
         <DialogContent className="sm:max-w-md lg:max-w-[500px] pb-0">
           <DialogHeader>
             <DialogTitle className="font-bold text-2xl">
-              Attendance List
+             <p className="font-extrabold text-[20px] lg:text-[24px]">Active Users List</p>
             </DialogTitle>
             <Separator className="scale-x-[1.12] bg-[#292929]" />
           </DialogHeader>

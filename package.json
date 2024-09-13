@@ -54,6 +54,7 @@
     "react-hook-form": "^7.52.1",
     "react-input-mask": "^2.0.4",
     "react-is": "^18.3.1",
+    "react-quill": "^2.0.0",
     "react-redux": "^9.1.2",
     "react-slick": "^0.30.2",
     "react-time-picker": "^7.0.0",

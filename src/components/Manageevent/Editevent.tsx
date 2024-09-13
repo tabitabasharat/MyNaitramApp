@@ -81,6 +81,7 @@ import { updateEvent } from "@/lib/middleware/event";
 import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
 import Backward from "../Backward/Backward";
 import Editbutton from "../ui/Editbutton";
+import Editor from "../reusable-components/Editor";
 type TicketTypeOption = {
   id: number;
   label: string;
@@ -1350,12 +1351,12 @@ function Editevent() {
                   control={form.control}
                   name="eventdescription"
                   render={({ field }) => (
-                    <FormItem className="relative w-full  space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                    <FormItem className="relative w-full gradient-slate-input space-y-0">
+                      <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event Description
                       </FormLabel>
-                      <FormControl>
-                        <Textarea
+                      <FormControl className="relative">
+                        {/* <Textarea
                           {...field}
                           // value={Eventdescription}
                           className="pt-11 create-txtarea-input "
@@ -1364,7 +1365,10 @@ function Editevent() {
                             field.onChange(e);
                           }}
                           placeholder="Enter Event Description"
-                        />
+                        /> */}
+                        <div className="absolute h-[180px] lg:h-[260px]  top-[25px]">
+                        <Editor  />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -1378,7 +1382,7 @@ function Editevent() {
                   name="eventlocation"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event location
                       </FormLabel>
                       <FormControl>
@@ -1404,7 +1408,7 @@ function Editevent() {
                   name="eventstartdate"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Ticketing Start Date & Time
                       </FormLabel>
                       <FormControl>
@@ -1432,7 +1436,7 @@ function Editevent() {
                   name="eventenddate"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Ticketing End Date & Time
                       </FormLabel>
                       <FormControl>
@@ -1463,7 +1467,7 @@ function Editevent() {
                   name="eventstarttime"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event Start Date & time
                       </FormLabel>
                       <FormControl>
@@ -1491,7 +1495,7 @@ function Editevent() {
                   name="eventendtime"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event End Date & time
                       </FormLabel>
                       <FormControl>
@@ -1850,7 +1854,7 @@ function Editevent() {
                       name={`tickets.${index}.type`}
                       render={({ field }) => (
                         <FormItem className="relative w-full space-y-0">
-                          <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                          <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                             Event Ticket Type
                           </FormLabel>
                           <FormControl>
@@ -1879,7 +1883,7 @@ function Editevent() {
                       name={`tickets.${index}.price`}
                       render={({ field }) => (
                         <FormItem className="relative w-full space-y-0">
-                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                          <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 uppercase pt-[16px] pb-[4px]">
                             Event Ticket Price
                           </FormLabel>
                           <FormControl>
@@ -1909,7 +1913,7 @@ function Editevent() {
                       name={`tickets.${index}.no`}
                       render={({ field }) => (
                         <FormItem className="relative w-full space-y-0">
-                          <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                          <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                             Event Number of Tickets
                           </FormLabel>
                           <FormControl>
@@ -2132,7 +2136,7 @@ function Editevent() {
                   name="compticketno"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Complimentary number of tickets
                       </FormLabel>
                       <FormControl>
@@ -2159,7 +2163,7 @@ function Editevent() {
                   name="fburl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Facebook
                       </FormLabel>
                       <FormControl>
@@ -2191,7 +2195,7 @@ function Editevent() {
                   name="instaurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Instagram
                       </FormLabel>
                       <FormControl>
@@ -2228,7 +2232,7 @@ function Editevent() {
                   name="telegramurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Twitter
                       </FormLabel>
                       <FormControl>
@@ -2260,7 +2264,7 @@ function Editevent() {
                   name="youtubeurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Youtube
                       </FormLabel>
                       <FormControl>
@@ -2293,7 +2297,7 @@ function Editevent() {
                   name="tiktokurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Tiktok
                       </FormLabel>
                       <FormControl>
@@ -2325,7 +2329,7 @@ function Editevent() {
                   name="linkedinurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Linkedin
                       </FormLabel>
                       <FormControl>

@@ -284,16 +284,13 @@ const SignInModal = ({
                     </FormItem>
                   )}
                 />
-
                 {/* Password Field */}
                 <FormField
                   control={form.control}
                   name="password"
                   render={({ field }) => (
                     <FormItem
-                      className={`relative space-y-0 ${
-                        isPasswordFocused ? "auth-bg-gradient" : ""
-                      }`}
+                      className="relative space-y-0 "
                     >
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3 z-10">
                         PASSWORD

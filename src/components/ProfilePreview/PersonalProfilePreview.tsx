@@ -43,7 +43,7 @@ const PersonalSocialProfile = () => {
           <button onClick={() => router.back()}>
             <ArrowLeft size={20} />
           </button>
-          <p className="text-sm sm:text-base font-bold">Back</p>
+          <p className="text-sm sm:text-[24px] font-extrabold">Back</p>
         </div>
 
         <ProfilePreview />

@@ -267,10 +267,6 @@ function OganizerCreateEvent() {
     { type: "", price: 0, no: 0, options: [], dropdown: true },
   ]);
 
-  // const [categoryTypes, setCategoryTypes] = useState<Category[]>([
-  //   { options: [], dropdown: false },
-  // ]);
-
   const [categoryTypes, setCategoryTypes] = useState<any>([]);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
 
