@@ -155,21 +155,21 @@ export const getViewAllEvent = createAsyncThunk(
     try {
       console.log("inside get Events ");
       // const res = await api.get(`${API_URL}/event/getEventsAll?page=${data?.page?data?.page:1}`);
-      // const res = await api.get(
-      //   `${API_URL}/event/getEventsAll?page=${
-      //     data?.page ? data?.page : 1
-      //   }&startDate=${data?.startDate}&endDate=${data?.endDate}&location=${
-      //     data?.location
-      //   }&startMonth=${data?.startMonth}&endMonth=${data?.endMonth}&today=${data?.today}&chooseDate=${data?.chooseDate} `
-      // );
-
       const res = await api.get(
         `${API_URL}/event/getEventsAll?page=${
           data?.page ? data?.page : 1
-        }&location=${
+        }&startDate=${data?.startDate}&endDate=${data?.endDate}&location=${
           data?.location
-        }&startDate=${data?.startDate}&today=${data?.today}&chooseDate=${data?.chooseDate} `
+        }&startMonth=${data?.startMonth}&endMonth=${data?.endMonth}&today=${data?.today}&chooseDate=${data?.chooseDate} `
       );
+
+      // const res = await api.get(
+      //   `${API_URL}/event/getEventsAll?page=${
+      //     data?.page ? data?.page : 1
+      //   }&location=${
+      //     data?.location
+      //   }&startDate=${data?.startDate}&today=${data?.today}&chooseDate=${data?.chooseDate} `
+      // );
       console.log("inside get all Events ", res);
       // localStorage.setItem("token", res?.data?.token);
       return {
