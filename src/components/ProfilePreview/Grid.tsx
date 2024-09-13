@@ -9,7 +9,7 @@ const Grid = () => {
   console.log("my Social Profile infooo is", myProfile);
   return (
     <>
-      <h2 className="font-extrabold text-sm lg:text-[32px] lg:mb-[24px] mb-[16px] mt-[32px] lg:mt-[80px]">
+      <h2 className="font-bold text-sm lg:text-[32px] lg:mb-[24px] mb-[16px] mt-[32px] lg:mt-[80px]">
         Upcoming Events
       </h2>
 

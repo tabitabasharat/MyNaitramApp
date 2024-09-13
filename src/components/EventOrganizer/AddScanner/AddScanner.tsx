@@ -48,21 +48,21 @@ const options: Option[] = [
     label: "Admin",
     subtitles: [
       <p key={1} className="flex items-center">
-        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        <p className="me-2 p-0 mb-2 font-normal text-[12px]">. </p>
         Event attendance list
       </p>,
 
       <p key={2} className="flex">
-        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        <p className="me-2 p-0 mb-2 font-normal text-[12px]">. </p>
         Sort ticket scanned by each scanner (in case of <br></br> multiple
         generic scanners)
       </p>,
       <p key={3} className="flex">
-        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        <p className="me-2 p-0 mb-2 font-normal text-[12px]">. </p>
         Ticket KPI analytics
       </p>,
       <p key={4} className="flex">
-        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        <p className="me-2 p-0 mb-2 font-normal text-[12px]">. </p>
         Customer information (name, email, ticketing<br></br> details (ticket
         purchase time, ticket category,<br></br> order no, ticket type, activity
         log))
@@ -74,20 +74,20 @@ const options: Option[] = [
     label: "Generic",
     subtitles: [
       <p key={1} className="flex items-center">
-        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        <p className="me-2 p-0 mb-2 font-normal text-[12px]">. </p>
         Can only signing
       </p>,
 
       <p key={2} className="flex">
-        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        <p className="me-2 p-0 mb-2 font-normal text-[12px]">. </p>
         Scan tickets
       </p>,
       <p key={2} className="flex">
-        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        <p className="me-2 p-0 mb-2 font-normal text-[12px]">. </p>
         Only that specific scanned ticket logs
       </p>,
       <p key={2} className="flex">
-        <p className="me-2 p-0 mb-2 text-extrabold text-[12px]">. </p>
+        <p className="me-2 p-0 mb-2 font-normal text-[12px]">. </p>
         In the ticket log (the generic scanner can only<br></br> display the
         ticket holders; Name, ticket details and<br></br> Log activities)
       </p>,

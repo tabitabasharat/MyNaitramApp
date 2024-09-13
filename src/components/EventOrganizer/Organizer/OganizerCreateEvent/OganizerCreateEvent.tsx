@@ -234,6 +234,9 @@ function OganizerCreateEvent() {
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
     { type: "", price: 0, no: 0, options: [], dropdown: true },
   ]);
+  const [categoryTypes, setCategoryTypes] = useState<Category[]>([
+    { options: [], dropdown: false },
+  ]);
 
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
@@ -359,17 +362,17 @@ function OganizerCreateEvent() {
     );
   };
 
-  const localDateTime = "2024-09-07T14:49";
-  const utcEventStartTime = convertToUTC(EventStartTime);
-  console.log("my utc time", utcEventStartTime);
+  // const localDateTime = "2024-09-07T14:49";
+  // const utcEventStartTime = convertToUTC(EventStartTime);
+  // console.log("my utc time", utcEventStartTime);
 
-  const handleDropdown = (index: number) => {
-    setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
-      )
-    );
-  };
+  // const handleDropdown = (index: number) => {
+  //   setTicketTypes((prevTickets) =>
+  //     prevTickets.map((ticket, i) =>
+  //       i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
+  //     )
+  //   );
+  // };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

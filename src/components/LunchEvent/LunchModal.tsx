@@ -57,21 +57,11 @@ const LunchModal = ({ onClose, open }: any) => {
           className="sm:max-w-md w-[464px] text-white px-[24px] py-[32px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent "
         >
           <div>
-            {/* <DialogHeader >
-              <DialogTitle className="font-bold text-2xl mb-1"></DialogTitle>
-            </DialogHeader> */}
-
             <div className="flex items-center flex-col">
               <Image src={Iconpop} alt="icon" />
               <p className="mt-[16px] font-extrabold text-base leading-[24px] whitelist-txt text-center">
-                Please update your Organiser Profile <br /> to create an event.
+                Please update your Organiser Profile <br /> to host an event.
               </p>
-              <Button
-                className="mt-[32px] text-[14px] font-extrabold w-full "
-                onClick={() => router.push("/organizer-event/profile")}
-              >
-                Let’s go 🎉
-              </Button>
             </div>
           </div>
         </DialogContent>

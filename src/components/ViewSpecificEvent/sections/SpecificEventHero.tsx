@@ -24,7 +24,7 @@ import Avatar2 from "@/assets/Avatar-2.svg";
 import Avatar3 from "@/assets/Avatar-3.svg";
 import rightarrow from "@/assets/right-arrow.svg";
 import leftarrow from "@/assets/left-arrow.svg";
-
+import shareicon from "@/assets/blackUpload Simple.svg";
 import { Button } from "@/components/ui/button";
 import GradientBorder from "@/components/ui/gradient-border";
 import FollowPromoter from "@/components/reusable-components/FollowPromoter";
@@ -40,18 +40,26 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import ScreenLoader from "@/components/loader/Screenloader";
 const CustomPrevArrow = (props: any) => (
-  <div style={{cursor:"pointer"}} className="custom-arrow custom-prev-arrow" onClick={props.onClick}>
+  <div
+    style={{ cursor: "pointer" }}
+    className="custom-arrow custom-prev-arrow"
+    onClick={props.onClick}
+  >
     <Image src={leftarrow} width={60} height={60} alt="right arrow" />
   </div>
 );
 
 const CustomNextArrow = (props: any) => (
-  <div style={{cursor:"pointer"}} className="custom-arrow custom-next-arrow" onClick={props.onClick}>
+  <div
+    style={{ cursor: "pointer" }}
+    className="custom-arrow custom-next-arrow"
+    onClick={props.onClick}
+  >
     <Image src={rightarrow} width={60} height={60} alt="left arrow" />
   </div>
 );
 
-const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
+const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   const router = useRouter();
   const [eventID, setEventId] = useState("");
   const [loader, setLoader] = useState(false);
@@ -70,9 +78,9 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
   const settings: any = {
     dots: false,
     infinite: EventData?.eventmedia?.length > 1,
-    autoplay: true,  // Corrected the typo to enable autoplay
-    autoplaySpeed: 3000,  // Sets the interval between slide changes (in milliseconds)
-    speed: 500,  // Slide transition speed
+    autoplay: true, // Corrected the typo to enable autoplay
+    autoplaySpeed: 3000, // Sets the interval between slide changes (in milliseconds)
+    speed: 500, // Slide transition speed
     fade: true,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -115,10 +123,13 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
         className="w-full h-screen absolute object-cover object-center z-0 opacity-30"
         alt=""
       />
+
       <div className="">
-        <div className="main-abovee px-[24px] w-full md:px-[100px] lg:px-[100px] xl:px-[216px] pt-[8rem] lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] flex flex-col lg:flex-row gap-[32px] lg:gap-12 w-full md:w-[100%] xl:w-full relative   ">
-          <div className="">
-            <div className="flex items-center gap-4 mb-6">
+        <div className="main-abovee px-[24px] w-full md:px-[100px] lg:px-[100px] xl:px-[216px] pt-[8rem] lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] gap-[32px] lg:gap-12 w-full md:w-[100%] xl:w-full relative   ">
+          <div className="flex mb-[32px] justify-between items-center">
+
+            <div className="flex items-center gap-4 ">
+              {/* <div className="flex items-center gap-4 mb-6"> */}
               <button onClick={() => router.back()} type="button">
                 <ArrowLeft size={22} />
               </button>
@@ -127,7 +138,16 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
                 <span>{EventData?.name}</span>
               </p>
             </div>
-
+            <div className="">
+              <button className="bg-[#13FF7A] text-sm font-extrabold flex w-full sm:w-fit justify-center p-[10px] gap-[6px] rounded-[100px] text-[black]">
+                {" "}
+                <Image src={shareicon} sizes="16px" alt="share icon" />{" "}
+                <p> Share</p>
+              </button>
+            </div>
+          </div>
+          <div className="flex gap-[40px] flex-col lg:flex-row">
+          <div className="">
             <div className="lhs-hero w-full lg:w-[392px] flex items-center justify-center flex-col relative ">
               <Image
                 src={EventData?.coverEventImage}
@@ -142,18 +162,20 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
               </div> */}
 
               {EventData?.userId && (
-                <FollowPromoter userId={EventData?.userId} eventName={EventData?.name} />
+                <FollowPromoter
+                  userId={EventData?.userId}
+                  eventName={EventData?.name}
+                />
               )}
             </div>
           </div>
 
           <div className="main-div-takeoverr ">
-            <div className="rhs-hero lg:mt-12 md:w-[576px] mt-0">
+            <div className="rhs-hero md:w-[576px] mt-0">
               <EventsHeroSlide
                 instaUrl={EventData?.instaUrl}
                 tiktokUrl={EventData?.tiktokUrl}
                 event={EventData?.id}
-                
                 title={EventData?.name}
                 eventCategory={EventData?.category}
                 eventDate={EventData?.startTime}
@@ -177,7 +199,6 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
                 AboutToggle={() => setisAbout(!isAbout)}
                 userId={EventData?.userId}
                 eventType={eventType}
-               
               />
 
               {/* Gallery Media Slider */}
@@ -273,7 +294,9 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
                     <p className="text-[#BFBFBF] text-[12px] pt-[4px]">
                       Tap to see the live activities
                     </p>
-                    <Link href={`/events/event-detail/live-activity/${EventData?.id}?eventName=${EventData?.name}`}>
+                    <Link
+                      href={`/events/event-detail/live-activity/${EventData?.id}?eventName=${EventData?.name}`}
+                    >
                       <Button className="flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full mt-[12px] w-fit ps-[0] pe-[16px] py-[10px]">
                         <Lock size={20} weight="fill" className="ms-[10px]" />
                         Live Activity
@@ -334,6 +357,7 @@ const SpecificEventHero = ({ setShowTicket ,eventType}: any) => {
                 />
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>
