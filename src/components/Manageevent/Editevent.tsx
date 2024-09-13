@@ -664,12 +664,11 @@ function Editevent() {
       console.error("Error parsing category data:", e);
     }
 
-    const updatedCategoryTypes = categories.map(
-      (category: string, index: number) => ({
-        label: category,
-      })
-    );
-    setCategoryTypes(updatedCategoryTypes);
+    const updatedCategoryTypes = categories.map((category: string, index: number) => ({
+      label: category, 
+      
+    }))
+    setCategoryTypes(updatedCategoryTypes)
 
     const utcEventStartTime = EventStartTime
       ? convertToUTC(EventStartTime)
@@ -784,11 +783,10 @@ function Editevent() {
         console.error("Error parsing category data:", e);
       }
 
-      const updatedCategoryTypes = categories.map(
-        (category: string, index: number) => ({
-          label: category,
-        })
-      );
+    const updatedCategoryTypes = categories.map((category: string, index: number) => ({
+      label: category, 
+      
+    }));
 
       setCategoryTypes(updatedCategoryTypes);
       console.log("updatedCategoryTypes", updatedCategoryTypes);

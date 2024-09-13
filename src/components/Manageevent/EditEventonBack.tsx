@@ -434,14 +434,21 @@ function EditeventOnBack() {
   const handleCatDropdownToggle = () => {
     setIsCatDropdownOpen((prev) => !prev);
   };
+  // const handleCateOptionToggle = (option: any) => {
+  //   setCategoryTypes((prev: any) =>
+  //     prev.some((o: any) => o.label === option.label)
+  //       ? prev.filter((o: any) => o.label !== option.label)
+  //       : [...prev, option]
+  //   );
+  // };
+
   const handleCateOptionToggle = (option: any) => {
     setCategoryTypes((prev: any) =>
-      prev.some((o: any) => o.label === option.label)
-        ? prev.filter((o: any) => o.label !== option.label)
-        : [...prev, option]
+      prev.includes(option.label)
+        ? prev.filter((category: any) => category !== option.label)
+        : [...prev, option.label]
     );
   };
-
   const handleFileChangeapi = async () => {
     if (galleryFiles) {
       setLoader(true);
@@ -713,12 +720,8 @@ function EditeventOnBack() {
       ? convertToUTC(TicketEndDate)
       : Eventdata?.eventenddate;
 
-    const updatedCategoryTypes = Eventdata?.eventcategory.map(
-      (category: string, index: number) => ({
-        label: category,
-      })
-    );
-    setCategoryTypes(updatedCategoryTypes);
+      const updatedCategoryTypes = categoryTypes
+
 
     const updatedValues = {
       ...values,
@@ -788,22 +791,19 @@ function EditeventOnBack() {
       ? convertToUTC(TicketEndDate)
       : Eventdata?.eventenddate;
 
-    const updatedCategoryTypes = Eventdata?.eventcategory.map(
-      (category: string, index: number) => ({
-        label: category,
-      })
-    );
+    // const updatedCategoryTypes = Eventdata?.eventcategory.map(
+    //   (category: string, index: number) => ({
+    //     label: category,
+    //   })
+    // );
+    // setCategoryTypes(updatedCategoryTypes);
 
-    const categorylabels = updatedCategoryTypes?.map(
-      (category: any) => category?.label
-    );
-    setCategoryTypes(categorylabels);
-
+    const updatedCategoryTypes = categoryTypes
     const updatedValues = {
       ...values,
       eventmedia: updatedEventMedia,
       ticketsdata: filteredTicketTypes,
-      eventcategory: categorylabels,
+      eventcategory: updatedCategoryTypes,
 
       // utcEventStartTime: EventStartTime,
       utcEventEndTime: EventEndTime,
@@ -816,6 +816,7 @@ function EditeventOnBack() {
     };
 
     setEventAllData(updatedValues);
+    console.log("my updated", updatedValues);
     if (updatedValues !== null) {
       localStorage.setItem("eventData", JSON.stringify(updatedValues));
       router.push("/preview-event");
@@ -874,20 +875,31 @@ function EditeventOnBack() {
 
       setTicketTypes(ticketsWithCheckedOptions);
 
-      const updatedCategoryTypes = Eventdata?.eventcategory.map(
-        (category: string, index: number) => ({
-          label: category,
-        })
-      );
+      // const updatedCategoryTypes = Eventdata?.eventcategory.map(
+      //   (category: string, index: number) => ({
+      //     label: category,
+      //   })
+      // );
 
+      // setCategoryTypes(updatedCategoryTypes);
+
+      // console.log("updatedCategoryTypes", updatedCategoryTypes);
+
+      const updatedCategoryTypes = Eventdata?.eventcategory?.map((category: any) =>
+        typeof category === "string" ? category : category.label
+      ) || [];
+  
       setCategoryTypes(updatedCategoryTypes);
-
+  
       console.log("updatedCategoryTypes", updatedCategoryTypes);
+
+      // const updatedCategoryTypes = Eventdata?.eventcategory || [];
+      // setCategoryTypes(updatedCategoryTypes);
 
       form.reset({
         eventname: Eventdata?.eventname || form.getValues("eventname"),
         eventcategory:
-          Eventdata?.updatedCategoryTypes || form.getValues("eventcategory"),
+          updatedCategoryTypes || form.getValues("eventcategory"),
         eventdescription:
           Eventdata?.eventdescription || form.getValues("eventdescription"),
         eventlocation:
@@ -1301,9 +1313,17 @@ function EditeventOnBack() {
                                   {option.label}
                                 </p>
                               </div>
-                              {categoryTypes?.some(
+                              {/* {categoryTypes?.some(
                                 (o: any) => o.label === option.label
                               ) && (
+                                <Image
+                                  src={tick}
+                                  width={10}
+                                  height={10}
+                                  alt="tick"
+                                />
+                              )} */}
+                              {categoryTypes.includes(option.label) && (
                                 <Image
                                   src={tick}
                                   width={10}

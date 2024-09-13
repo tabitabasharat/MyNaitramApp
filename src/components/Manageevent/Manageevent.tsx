@@ -16,6 +16,7 @@ import AllEventsGrid from "../reusable-components/AllEventsGrid";
 import EventCard from "../reusable-components/EventCard";
 import { useState, useEffect } from "react";
 import { getEventsByUID } from "@/lib/middleware/organizer";
+import { ErrorToast } from "../reusable-components/Toaster/Toaster";
 function Manageevent({
   events,
   eventType,
@@ -37,7 +38,8 @@ function Manageevent({
   // console.log("All Events are", EventsAllData);
 
   useEffect(() => {
-    const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     const data = {
       page: 1,
@@ -97,10 +99,15 @@ function Manageevent({
                         </p>
                         <Link
                           href={
-                            event?.id
+                            event?.eventTickets?.length == 0
                               ? `/management/edit-event/${event.id}`
-                              : "#"
+                              : "javascript:void(0)"
                           }
+                          onClick={() => {
+                            if (event?.eventTickets?.length !== 0) {
+                              ErrorToast("You Cannot Edit event");
+                            }
+                          }}
                         >
                           <Image src={edit} alt="edit" />
                         </Link>
