@@ -77,8 +77,17 @@ const Header = () => {
       ],
     },
     { id: 3, title: "Event", url: "/viewallevents" },
-    { id: 4, title: "Wallet", url: "/wallet" },
-    { id: 5, title: "Rewards", url: "/reward" },
+    { id: 4, title: "Host", url: "/organizer-event/event-dashboard" },
+    {
+      id: 5,
+      title: "Rewards",
+      url: "",
+      subLinks: [
+        { title: "Wallet", url: "/wallet" },
+        // { title: "Download App", url: "/download-app" },
+      ],
+    },
+    // { id: 5, title: "Rewards", url: "/reward" },
     { id: 6, title: "Get Sponsored", url: "/get-sponsor" },
   ];
   useEffect(() => {
@@ -159,7 +168,7 @@ const Header = () => {
                   href={link.url}
                 >
                   {link.title}
-                  {link.id === 2 && (
+                  {(link.id === 2 || link.id === 5) && (
                     <Image
                       src={arrowdown} // Specify your image path here
                       alt="About Image"
@@ -235,7 +244,7 @@ const Header = () => {
             <div className="mr-[12px] md:ms-0 md:mr-0 lg:ms-0 lg:mr-0 flex items-center lg:gap-[20px] gap-[10px] h-full">
               <Popover open={notifPopupOpen} onOpenChange={setNotifPopupOpen}>
                 <PopoverTrigger asChild>
-                  <Bell  className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer" />
+                  <Bell className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer" />
                 </PopoverTrigger>
                 <PopoverContent className="text-white border border-muted shadow-custom bg-black w-[350px] lg:w-[400px] rounded-2xl  -translate-x-4 translate-y-6">
                   <ScrollArea className="h-[658px] px-[8px] pb-[62px] border-none ">
