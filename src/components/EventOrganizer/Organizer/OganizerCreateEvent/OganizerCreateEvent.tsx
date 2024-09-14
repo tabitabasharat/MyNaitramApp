@@ -1280,6 +1280,7 @@ function OganizerCreateEvent() {
 
                               setEventdescription(content);
                             }}
+                            value={Eventdescription}
                           />
                         </div>
                       </FormControl>
