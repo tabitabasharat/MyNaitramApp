@@ -207,10 +207,17 @@ export const getEventByEventId = createAsyncThunk(
 
 export const getViewPastEvents = createAsyncThunk(
   "getViewPastEvents",
-  async () => {
+  async (data: any) => {
     try {
       console.log("inside get Past Events ");
-      const res = await api.get(`${API_URL}/event/getPastEvents`);
+      // const res = await api.get(`${API_URL}/event/getPastEvents`);
+
+      const res = await api.get(
+        `${API_URL}/event/getPastEvents?page=${
+          data?.page ? data?.page : 1
+        }&startDate=${data?.startDate}&today=${data?.today}&location=${
+          data?.location}&thisMonth=${data.thisMonth}&chooseDate=${data?.chooseDate}`
+      );
       console.log("inside get Past Events ", res);
       // localStorage.setItem("token", res?.data?.token);
       return {
@@ -252,8 +259,13 @@ export const getLiveEventById = createAsyncThunk(
   async (data: any) => {
     try {
       console.log("inside get Live Event By user id");
-      const res = await api.get(`${API_URL}/event/getLiveEvents/${data}`);
-
+      // const res = await api.get(`${API_URL}/event/getLiveEvents/${data}`);
+      const res = await api.get(
+        `${API_URL}/event/getLiveEvents/${data?.userId}?page=${
+          data?.page ? data?.page : 1
+        }&startDate=${data?.startDate}&today=${data?.today}&location=${
+          data?.location}&thisMonth=${data.thisMonth}&chooseDate=${data?.chooseDate}`
+      );
       
       console.log("inside get specific user Live event", res);
       // localStorage.setItem("token", res?.data?.token);

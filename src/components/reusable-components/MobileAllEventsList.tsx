@@ -28,7 +28,7 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
       page: 1,
     };
     dispatch(getViewAllEvent(data));
-    dispatch(getViewPastEvents());
+    dispatch(getViewPastEvents(data));
     dispatch(getLiveEventById(userid));
   }, []);
 
@@ -57,6 +57,9 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
           img={event?.coverEventImage}
           title={event?.name}
           eventId={event?.id}
+          ticketPrice={event?.id}
+          likedEvents={event?.id}
+          eventDate={event?.id}
         />
       ));
     } else {

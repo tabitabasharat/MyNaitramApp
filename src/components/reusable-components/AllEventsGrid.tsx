@@ -35,7 +35,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
     };
 
     dispatch(getViewAllEvent(data));
-    dispatch(getViewPastEvents());
+    dispatch(getViewPastEvents(data));
     const dats={
       id:userid
     }

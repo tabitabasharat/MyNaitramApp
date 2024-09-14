@@ -22,7 +22,7 @@ import { DatePicker } from "./DatePicker";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { getViewAllEvent } from "@/lib/middleware/event";
+import { getViewAllEvent,getLiveEventById,getViewPastEvents } from "@/lib/middleware/event";
 import { useState, useEffect } from "react";
 import {
   SuccessToast,
@@ -54,6 +54,8 @@ const FilterSideBar = () => {
   } | null>(null);
 
   useEffect(() => {
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     const data: any = {
       page: 1,
       location: selectedLocation || null,
@@ -63,7 +65,9 @@ const FilterSideBar = () => {
       startMonth: null,
       endMonth: null,
       chooseDate: chosenDate ? formatChosenDate(chosenDate) : null,
-      thisMonth:thisMonth
+      thisMonth:thisMonth,
+      userId:userid
+
     };
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -84,6 +88,10 @@ const FilterSideBar = () => {
     }
 
     dispatch(getViewAllEvent(data));
+    dispatch(getLiveEventById(data));
+    dispatch(getViewPastEvents(data));
+
+    
   }, [
     dispatch,
     dispatch,

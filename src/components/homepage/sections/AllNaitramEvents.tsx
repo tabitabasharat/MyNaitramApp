@@ -46,7 +46,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
     title: string;
   } | null>(null);
   const [userID, setUserID] = useState<any>();
-  
+
   useState(() => {
     setSelectedEvent(eventimges[0]);
   });
@@ -57,25 +57,35 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
     console.log("user id ", userid);
     const data = {
       page: 1,
-      
-        
-        location:  null,
-        today: null,
-        startDate: null,
-        endDate: null,
-        startMonth: null,
-        endMonth: null,
-        chooseDate:  null,
-    
+
+      location: null,
+      today: null,
+      startDate: null,
+      endDate: null,
+      startMonth: null,
+      endMonth: null,
+      chooseDate: null,
     };
 
     dispatch(getViewAllEvent(data));
-    dispatch(getViewPastEvents());
+    dispatch(getViewPastEvents(data));
     // dispatch(getEventById(userid));
-    dispatch(getLiveEventById(userid));
+
+    const dataLive = {
+      page: 1,
+      userId: userid,
+
+      location: null,
+      today: null,
+      startDate: null,
+      endDate: null,
+      startMonth: null,
+      endMonth: null,
+      chooseDate: null,
+    };
+    dispatch(getLiveEventById(dataLive));
   }, []);
 
-  
   const handleClick = (id: number, type: string) => {
     const event = eventimges.find((e) => e.id === id);
     if (event) {
@@ -105,20 +115,18 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
     const id =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserID(id);
-
-    
   }, []);
 
   // const currentImages = selectedEvent === null ? eventimges : greenimges;
   const currentImages = selectedEvent
-  ? greenimges
-  : userID
-  ? eventimges
-  : eventimges.filter((e) => e.title !== "Your Events");
+    ? greenimges
+    : userID
+    ? eventimges
+    : eventimges.filter((e) => e.title !== "Your Events");
 
-const options = userID
-  ? eventimges
-  : eventimges.filter((e) => e.title !== "Your Events");
+  const options = userID
+    ? eventimges
+    : eventimges.filter((e) => e.title !== "Your Events");
 
   const title = selectedEvent ? selectedEvent.title : "All Events";
 
@@ -153,7 +161,6 @@ const options = userID
   const filteredLiveEvents = myEvents?.events?.filter((item: any) =>
     item?.name.toLowerCase().includes(searchQueryLive.toLowerCase())
   );
- 
 
   const getFilteredEvents = () => {
     switch (title) {
@@ -172,7 +179,7 @@ const options = userID
     console.log("Current Images:", currentImages);
     console.log("Event Type:", title);
   }, [selectedEvent, currentImages, title]);
- 
+
   return (
     <div
       style={{
@@ -236,16 +243,15 @@ const options = userID
                   placeholder="Search All Events"
                 />
               )}
-              {title === "Past Events"  &&  (
+              {title === "Past Events" && (
                 <Input
                   value={searchQueryPast}
                   className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
                   onChange={(event) => setSearchQueryPast(event.target.value)}
                   placeholder="Search Past Events"
                 />
-              
               )}
-              {title === "Your Events" &&   (
+              {title === "Your Events" && (
                 <Input
                   value={searchQueryLive}
                   className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
@@ -254,9 +260,9 @@ const options = userID
                 />
               )}
               <MagnifyingGlass
-                  size={20}
-                  className="absolute top-1/2 -translate-y-1/2 right-5"
-                />
+                size={20}
+                className="absolute top-1/2 -translate-y-1/2 right-5"
+              />
               {/* {getFilteredEvents()?.length > 0 && (
                 <MagnifyingGlass
                 size={20}
@@ -264,8 +270,7 @@ const options = userID
               />
               )} */}
             </div>
-           
-           
+
             <AllEventsGrid events={getFilteredEvents()} eventType={title} />
             {/* All Naitram Events */}
             {/* <div className="w-full">

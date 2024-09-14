@@ -30,6 +30,7 @@ import getScannerbyEID from "./reducer/getScannerbyEID";
 import getSalesData from "./reducer/getSalesData";
 import getAllAttendy from "./reducer/getAllAttendy";
 import getEventChat from "./reducer/getEventChat";
+import getUserNotifications from "./reducer/getUserNotifications";
 
 
 const appReducer = combineReducers({
@@ -62,7 +63,8 @@ const appReducer = combineReducers({
   getScannerbyEID:getScannerbyEID,
   getSalesData:getSalesData,
   getAllAttend:getAllAttendy,
-  getEventChat:getEventChat
+  getEventChat:getEventChat,
+  getUserNotifications:getUserNotifications,
 });
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,
