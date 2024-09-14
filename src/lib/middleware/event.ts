@@ -158,9 +158,8 @@ export const getViewAllEvent = createAsyncThunk(
       const res = await api.get(
         `${API_URL}/event/getEventsAll?page=${
           data?.page ? data?.page : 1
-        }&startDate=${data?.startDate}&endDate=${data?.endDate}&location=${
-          data?.location
-        }&startMonth=${data?.startMonth}&endMonth=${data?.endMonth}&today=${data?.today}&chooseDate=${data?.chooseDate} `
+        }&startDate=${data?.startDate}&today=${data?.today}&location=${
+          data?.location}&thisMonth=${data.thisMonth}&chooseDate=${data?.chooseDate}`
       );
 
       // const res = await api.get(
