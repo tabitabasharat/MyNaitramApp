@@ -46,7 +46,7 @@ function Manageevent({
     };
     dispatch(getEventsByUID(userid));
 
-    // dispatch(getViewAllEvent(data));
+    dispatch(getViewAllEvent(data));
   }, []);
 
   const EventsData = useAppSelector(

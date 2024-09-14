@@ -4,7 +4,7 @@ import api from "../apiInterceptor";
 import { API_URL } from "../client";
 
 export const getEventsByUID = createAsyncThunk(
-  " getEventsByUID",
+  "getEventsByUID",
   async (data: any) => {
     try {
       console.log("inside get events by user id");

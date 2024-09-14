@@ -26,8 +26,11 @@ const AllEventsGrid = ({ events, eventType }: any) => {
 
     dispatch(getViewAllEvent(data));
     dispatch(getViewPastEvents());
+    const dats={
+      id:userid
+    }
     // dispatch(getEventById(userid));
-    dispatch(getLiveEventById(userid));
+    // dispatch(getLiveEventById(dats));
   }, []);
   const handlePageChange = (page: number) => {
     const data = {

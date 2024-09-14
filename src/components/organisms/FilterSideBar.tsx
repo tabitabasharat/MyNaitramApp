@@ -35,6 +35,7 @@ type Location = "London" | "Atlanta" | "New York" | "Malta" | null;
 const FilterSideBar = () => {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
+  
 
   const [startDate, setStartDate] = useState<string | null>(null);
   const [endDate, setEndDate] = useState<string | null>(null);
@@ -42,6 +43,7 @@ const FilterSideBar = () => {
   const [chosenDate, setchosenDate] = useState<Date | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<Location>(null);
   const [selectedEventTime, setSelectedEventTime] = useState<EventTime>(null);
+  const [thisMonth,setThisMonth]=useState<any>(false);
   const [currentWeek, setCurrentWeek] = useState<{
     startOfWeek: string;
     endOfWeek: string;
@@ -61,7 +63,12 @@ const FilterSideBar = () => {
       startMonth: null,
       endMonth: null,
       chooseDate: chosenDate ? formatChosenDate(chosenDate) : null,
+      thisMonth:thisMonth
     };
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const type = urlParams.get('EventType');
+    console.log(type,"R")
 
     if (selectedEventTime === "Today") {
       data.today = getCurrentDate();
@@ -152,12 +159,14 @@ const FilterSideBar = () => {
     switch (eventTime) {
       case "Today":
         const today = getCurrentDate();
+        setThisMonth(false);
         setStartDate(today);
         setEndDate(today);
         break;
 
       case "This Week":
         if (currentWeek) {
+          setThisMonth(false)
           setStartDate(currentWeek.startOfWeek);
           setEndDate(currentWeek.endOfWeek);
         }
@@ -165,6 +174,8 @@ const FilterSideBar = () => {
 
       case "This Month":
         if (currentMonth) {
+          setThisMonth(true)
+
           setStartDate(currentMonth.startOfMonth);
           setEndDate(currentMonth.endOfMonth);
         }
@@ -208,56 +219,7 @@ const FilterSideBar = () => {
   const handleLocationChange = (location: Location) => {
     setSelectedLocation(location);
   };
-  async function applyFilter() {
-    setLoader(true);
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-    try {
-      // const data = {
-      //   location: selectedLocation,
-      //   startDate: startDate,
-      //   endDate: endDate,
-      //   startMonth: startDate,
-      //   endMonth: endDate,
-      //   today: startDate,
-      // };
 
-      let data: any = {
-        location: selectedLocation,
-        today: null,
-        startDate: null,
-        endDate: null,
-        startMonth: null,
-        endMonth: null,
-        chooseDate: chosenDate ? formatChosenDate(chosenDate) : null,
-      };
-
-      // Assign values based on the selected event time
-      if (selectedEventTime === "Today") {
-        const today = getCurrentDate();
-        data.today = today;
-      } else if (selectedEventTime === "This Week" && currentWeek) {
-        data.startDate = currentWeek.startOfWeek;
-        data.endDate = currentWeek.endOfWeek;
-      } else if (selectedEventTime === "This Month" && currentMonth) {
-        data.startMonth = currentMonth.startOfMonth;
-        data.endMonth = currentMonth.endOfMonth;
-      }
-      dispatch(getViewAllEvent(data)).then((res: any) => {
-        if (res?.payload?.status === 200) {
-          setLoader(false);
-          console.log("org Activity res", res?.payload?.data);
-          SuccessToast("Profile Updated Successfully");
-        } else {
-          setLoader(false);
-          console.log(res?.payload?.message);
-          ErrorToast(res?.payload?.message);
-        }
-      });
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
 
   const handleResetFilters = () => {
     setSelectedEventTime(null);
@@ -487,13 +449,6 @@ const FilterSideBar = () => {
         </div>
         
       </div> */}
-      <Button
-        variant="secondary"
-        className="w-full mt-2"
-        onClick={() => applyFilter()}
-      >
-        Apply
-      </Button>
     </div>
   );
 };
