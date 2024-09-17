@@ -1274,7 +1274,7 @@ function OganizerCreateEvent() {
                         /> */}
                         <div className=" absolute inset-0 pb-3 overflow-auto top-[28px] h-[200px]">
                           <Editor
-                            value={field.value}
+                            // value={field.value}
                             onChange={(content) => {
                               field.onChange(content);
 
