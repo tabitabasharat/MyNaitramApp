@@ -77,10 +77,10 @@ const LiveAccntSetting = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      facebook: "",
-      insta: "",
-      linkedIn: "",
-      telegram: "",
+      facebook: "https://www.facebook.com/",
+      insta: "https://instagram.com/",
+      linkedIn:  "https://www.linkedin.com/",
+      telegram: "https://www.telegram.com/"
     },
   });
 
@@ -266,9 +266,18 @@ const LiveAccntSetting = ({
                           placeholder="Enter Fullname"
                           className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   setFbUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+
                           onChange={(e) => {
-                            setFbUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.facebook.com/")) {
+                              setFbUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
@@ -293,9 +302,17 @@ const LiveAccntSetting = ({
                           placeholder="Enter Fullname"
                           className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   setinstaUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setinstaUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://instagram.com/")) {
+                              setinstaUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
@@ -320,9 +337,17 @@ const LiveAccntSetting = ({
                           placeholder="Enter Fullname"
                           className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   setlinkedinUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setlinkedinUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.linkedin.com/")) {
+                              setlinkedinUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
@@ -347,9 +372,17 @@ const LiveAccntSetting = ({
                           placeholder="youremail@example.com"
                           className="pt-11 pb-5 text-base  placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   settelegramUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            settelegramUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.telegram.com/")) {
+                              settelegramUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
