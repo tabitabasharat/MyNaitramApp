@@ -80,12 +80,12 @@ const OrganizerProfile = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      facebook: "",
-      insta: "",
-      linkedIn: "",
-      twitter: "",
-      youtube: "",
-      tiktok: "",
+      facebook: "https://www.facebook.com/",
+      insta: "https://instagram.com/",
+      linkedIn:  "https://www.linkedin.com/",
+      twitter:  "https://www.twitter.com/",
+      youtube:  "https://www.youtube.com/",
+      tiktok:  "https://www.tiktok.com/@",
       BIO: "",
     },
   });
@@ -349,9 +349,17 @@ const OrganizerProfile = () => {
                           placeholder="Enter Fullname"
                           className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   setFbUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setFbUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.facebook.com/")) {
+                              setFbUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
@@ -376,9 +384,17 @@ const OrganizerProfile = () => {
                           placeholder="Enter Fullname"
                           className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   setinstaUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setinstaUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://instagram.com/")) {
+                              setinstaUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
@@ -403,9 +419,17 @@ const OrganizerProfile = () => {
                           placeholder="Enter Fullname"
                           className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   setlinkedinUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setlinkedinUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.linkedin.com/")) {
+                              setlinkedinUrl(value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
@@ -430,9 +454,18 @@ const OrganizerProfile = () => {
                           placeholder="username12"
                           className="pt-11 pb-5 text-base  placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   settiktokUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+
                           onChange={(e) => {
-                            settiktokUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.tiktok.com/@")) {
+                              settiktokUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
@@ -457,9 +490,17 @@ const OrganizerProfile = () => {
                           placeholder="username12"
                           className="pt-11 pb-5 text-base  placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   setyoutubeUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setyoutubeUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.youtube.com/")) {
+                              setyoutubeUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
@@ -484,9 +525,18 @@ const OrganizerProfile = () => {
                           placeholder="username12"
                           className="pt-11 pb-5 text-base  placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   settwitterUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+
                           onChange={(e) => {
-                            settwitterUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.twitter.com/")) {
+                              settwitterUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
