@@ -78,37 +78,59 @@ const FAQ = ({
   const handleAccordionChange = (index: any) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
+  const [activebtn, setActivebtn] = useState<string>("General");
+
+  // Function to handle clicks and set active state
+  const handleClickbtn = (period: string) => {
+    setActivebtn(period);
+  };
+
   return (
     <div className="w-full mt-[45px] lg:w-[600px] lg:ps-[172px] md:mx-auto lg:mt-[92px] lg:mx-0">
       <h2 className="font-bold text-[24px] ms-[24px] lg:ms-[0px] lg:text-[32px] mb-[24px] sm:mb-[53px]">
         FAQ
       </h2>
-      <div
+      <div className="flex  gap-[8px] ">
+        {/* {["General", "Account", "Login"].map((text, index) => ( */}
+        <div className="flex flex-wrap gap-2 mt-[20px]">
+          {/* General Button */}
+          <div
+            onClick={() => handleClickbtn("General")}
+            className={`border border-[#3C3C3C] w-[92px] rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
+              activebtn === "General"
+                ? "gradient-border-notify text-primary"
+                : "text-white"
+            } items-center cursor-pointer`}
+          >
+            <p className="text-sm font-extrabold">General</p>
+          </div>
 
-        className="flex  gap-[8px] "
-      >
-        {["General", "Account", "Login"].map((text, index) => (
-        <div
-        key={index}
-        style={{
-          background: activeDiv === index
-            ? "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"
-            : "linear-gradient(#0F0F0F, #1A1A1A) padding-box",
-          borderImage: activeDiv === index
-            ? "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%)"
-            : "none",
-          borderImageSlice: activeDiv === index ? 1 : undefined,
-        }}
-        className={`text-sm font-bold p-[12px] rounded-[44px] border w-[92px] text-center cursor-pointer ${
-          activeDiv === index
-            ? "text-green-500 border-[0.86px] rounded-[44px] bg-[#1A1A1A]"
-            : "text-[#E6E6E6] border-[#FFFFFF0F] gradient-slate"
-        }`}
-        onClick={() => handleClick(index)}
-      >
-        {text}
-      </div>
-        ))}
+          {/* Account Button */}
+          <div
+            onClick={() => handleClickbtn("Account")}
+            className={`border border-[#3C3C3C] w-[92px] rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
+              activebtn === "Account"
+                ? "gradient-border-notify text-primary"
+                : "text-white"
+            } items-center cursor-pointer`}
+          >
+            <p className="text-sm font-extrabold">Account</p>
+          </div>
+
+          {/* Login Button */}
+          <div
+            onClick={() => handleClickbtn("Login")}
+            className={`border border-[#3C3C3C] w-[92px] text-center rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
+              activebtn === "Login"
+                ? "gradient-border-notify text-primary"
+                : "text-white"
+            } items-center cursor-pointer`}
+          >
+            <p className="text-sm font-extrabold">Login</p>
+          </div>
+        </div>
+        {/* ))} */}
       </div>
       <div className="flex flex-col lg:flex-col gap-[12px] sm:gap-[20px] mt-[24px] lg:mt-[20px]">
         {[
@@ -143,12 +165,14 @@ const FAQ = ({
             onChange={() => handleAccordionChange(index)}
             className="gradient-slate border-[0.86px] border-transparent rounded-[8px] mb-[0px]"
             style={{
-              background: activeIndex === index
-                ? "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"
-                : "linear-gradient(#0F0F0F, #1A1A1A) padding-box",
-              borderImage: activeIndex === index
-                ? "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%)"
-                : "none",
+              background:
+                activeIndex === index
+                  ? "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"
+                  : "linear-gradient(#0F0F0F, #1A1A1A) padding-box",
+              borderImage:
+                activeIndex === index
+                  ? "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%)"
+                  : "none",
               borderImageSlice: activeIndex === index ? 1 : undefined,
             }}
             sx={{
@@ -185,11 +209,12 @@ const FAQ = ({
                 },
                 "&.MuiButtonBase-root.MuiAccordionSummary-root": {
                   minHeight: "0",
-                  borderRadius:"8px"
+                  borderRadius: "8px",
                 },
-                "&.MuiButtonBase-root.MuiAccordionSummary-root .MuiAccordionSummary-content": {
-                  color:"#FFFFFF"
-                },
+                "&.MuiButtonBase-root.MuiAccordionSummary-root .MuiAccordionSummary-content":
+                  {
+                    color: "#FFFFFF",
+                  },
               }}
             >
               {accordion.title}

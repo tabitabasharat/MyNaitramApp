@@ -49,7 +49,7 @@ const Menu = ({
     },
     {
       name: "Event",
-      href: "/events",
+      href: "/viewallevents",
     },
     {
       name: "Host",
@@ -70,7 +70,7 @@ const Menu = ({
     // },
     {
       name: "Get Sponsored",
-      href: "/contactus",
+      href: "/get-sponsor",
     },
   ];
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
@@ -103,7 +103,7 @@ const Menu = ({
   return (
     <>
       <motion.div
-        className="fixed right-0 h-full w-full md:w-[450px] gradient-slate border-l border-l-[#282828] z-[80] px-[2.5rem] lg:hidden"
+        className="fixed z-[1200] right-0 h-full w-full md:w-[450px] gradient-slate border-l border-l-[#282828] z-[80] px-[2.5rem] lg:hidden"
         initial={{ x: "120%" }}
         animate={{ x: menuIsOpen ? 0 : "120%" }}
         transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
@@ -196,7 +196,7 @@ const Menu = ({
             <Button
               variant="secondary"
               className="bg-[#13FF7A] p-[12px] py-[8px] font- font-extrabold text-base lg:mr-[12px]"
-              onClick={() => router.push("/create-event")}
+              onClick={() => router.push("/organizer-event/event-dashboard")}
             >
               Host Event
             </Button>

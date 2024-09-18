@@ -43,7 +43,7 @@ const Footer = () => {
             <div className="flex justify-between lg:justify-start lg:gap-24 xl:gap-28">
               <div className="flex flex-col tems-start gap-6 lg:gap-8">
                 <Link href={"/"}>Home</Link>
-                <Link href={"/events"}>Event</Link>
+                <Link href={"/viewallevents"}>Event</Link>
                 <Link href={"/about"}>About</Link>
               </div>
               <div className="flex items-end lg:items-start flex-col gap-6 lg:gap-8">

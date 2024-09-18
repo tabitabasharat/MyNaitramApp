@@ -346,7 +346,9 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
             font-extrabold py-[14px] text-[14px] lg:text-[16px] xl:text-[16px] font-extrabold h-auto flex-wrap lg:flex-nowrap"
                 >
                   <DownloadSimple size={20} weight="fill" />
+                  <Link href="/download-app">
                   Download App to Unlock Features
+                  </Link>
                 </Button>
                 <Image
                   src={gift}
