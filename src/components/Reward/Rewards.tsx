@@ -60,6 +60,7 @@ const router = useRouter();
     (state) =>
       state?.getWalletCollectByUID?.myWalletCollectibles?.data?.userCollectibles
   );
+  console.log("wallet collect" , myWalletCollect)
 
   useEffect(() => {
     const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
@@ -95,9 +96,10 @@ const router = useRouter();
         </p>
         <div className="lg:pt-[32px] pt-[52px]">
           <p className="text-[#E6E6E6] text-[16px] font-bold">My Items</p>
+          {myWalletCollect ? (
           <ScrollArea className="w-full overflow-auto ">
             <div className="flex gap-[8px] lg:mt-[8px] mt-[16px] whitespace-nowrap min-w-[800px]">
-              {myWalletCollect?.map((post: any) => (
+              {myWalletCollect && myWalletCollect?.map((post: any) => (
                 <div
                   key={post.id}
                   className="flex items-start flex-col gap-[8px]"
@@ -109,6 +111,9 @@ const router = useRouter();
             </div>
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
+          ) : (
+            <p className="text-extrabold">No Collectibles Exist </p>
+          )}
         </div>
         <div className="h-full pt-[32px] w-full ">
           <p className="lg:mb-[8px] mb-[16px] text-[#E6E6E6] text-[16px] font-bold">

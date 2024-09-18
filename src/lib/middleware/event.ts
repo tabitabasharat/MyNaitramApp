@@ -373,7 +373,7 @@ export const getEventAttend = createAsyncThunk(
   async (data: any) => {
     try {
       const res = await api.get(`${API_URL}/buying/getAttendees/${data}`);
-      console.log("inside get specific user Live event", res);
+      console.log("inside get attendees", res);
       // localStorage.setItem("token", res?.data?.token);
       return {
         status: res?.status,

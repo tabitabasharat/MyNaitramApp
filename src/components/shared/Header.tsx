@@ -242,12 +242,12 @@ const Header = () => {
           </>
 
           {isLoggedIn && token && (
-            <div className="mr-[12px] md:mr-[12px] lg:ms-0 lg:mr-[12px] xl:mr-- flex items-center lg:gap-[20px] gap-[10px] h-full">
+            <div className="relative mr-[12px] md:mr-[12px] lg:ms-0 lg:mr-[12px] xl:mr-- flex items-center lg:gap-[20px] gap-[10px] h-full">
               <Popover open={notifPopupOpen} onOpenChange={setNotifPopupOpen}>
-                <PopoverTrigger asChild>
+                <PopoverTrigger asChild className="relative z-[1200]">
                   <Bell className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer" />
                 </PopoverTrigger>
-                <PopoverContent className="text-white border border-muted shadow-custom bg-black w-[350px] lg:w-[400px] rounded-2xl  -translate-x-4 translate-y-6">
+                <PopoverContent className="relative z-[1200] text-white border border-muted shadow-custom bg-black w-[350px] lg:w-[400px] rounded-2xl  -translate-x-4 translate-y-6">
                   <ScrollArea className="h-[658px] px-[8px] pb-[62px] border-none ">
                     <NotificationPopUp setNotifPopupOpen={setNotifPopupOpen} />
                   </ScrollArea>

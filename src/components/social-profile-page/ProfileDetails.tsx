@@ -38,7 +38,7 @@ const ProfileDetails = () => {
         <GoldGradientBorder className="w-fit rounded-full p-[3px] h-fit">
           <div className="bg-black rounded-full p-[7px]">
             <Image
-              src={myProfile?.profilePicture}
+              src={myProfile?.profilePicture ? myProfile?.profilePicture : "/person3.jpg"}
               width={136}
               height={136}
               className="h-[128px] w-[128px] sm:h-[136px] sm:w-[136px] object-cover object-top rounded-full"
@@ -51,7 +51,7 @@ const ProfileDetails = () => {
         </GoldGradientBorder>
         <div className="w-full md:w-fit ">
           <p className="font-extrabold mt-[12px] flex justify-center md:justify-start items-center gap-1 text-[24px]">
-            {myProfile?.fullname}{" "}
+            {myProfile?.fullname ?  myProfile?.fullname : ""}{" "}
             <SealCheck
               className="text-[#FFC109] w-[16px] h-[16px] sm::w-[20px] sm:h-[20px] -translate-y-1"
               // size={20}
@@ -59,12 +59,12 @@ const ProfileDetails = () => {
             />
           </p>
           <p className="text-primary font-extrabold text-sm md:pt-[6px] md:pb-[4px] sm:text-base text-center md:text-left">
-            {myProfile?.email}
+            {myProfile?.email ? myProfile?.email : "" }
           </p>
           <p className="mt-1 font-bold text-center md:text-left hidden md:block">
             <span className="text-[24px] sm:text-base">
               {" "}
-              {myProfile?.totalAttendees}{" "}
+              {myProfile?.totalAttendees ? myProfile?.totalAttendees : ""}{" "}
               <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
                 {" "}
                 Attended
@@ -72,7 +72,7 @@ const ProfileDetails = () => {
             </span>{" "}
             <span className="opacity-50 "> | </span>{" "}
             <span className="text-[24px] sm:text-base">
-              {myProfile?.totalEvents}{" "}
+              {myProfile?.totalEvents ? myProfile?.totalEvents : ""}{" "}
               <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
                 {" "}
                 Events{" "}

@@ -31,7 +31,7 @@ import getSalesData from "./reducer/getSalesData";
 import getAllAttendy from "./reducer/getAllAttendy";
 import getEventChat from "./reducer/getEventChat";
 import getUserNotifications from "./reducer/getUserNotifications";
-
+import getFollowPromoters from "./reducer/getFollowPromoters";
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -65,6 +65,7 @@ const appReducer = combineReducers({
   getAllAttend:getAllAttendy,
   getEventChat:getEventChat,
   getUserNotifications:getUserNotifications,
+  getFollowPromoters:getFollowPromoters
 });
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,

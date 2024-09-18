@@ -31,9 +31,9 @@ const PersonalSocialProfile = () => {
         style={{ filter: "blur(40px)" }}
         width={1000}
         height={1000}
-        src={myProfile?.profilePicture}
+        src={myProfile?.profilePicture ? myProfile?.profilePicture : "/person3.jpg"}
         className="w-full object-cover absolute top-0 object-top z-0 opacity-[0.22] h-screen"
-        alt=""
+        alt="img"
       />
       <div className="pb-[72px] px-[24px] lg:px-[0px] mx-2xl pt-[108px] pb-12 lg:pt-[132px] lg:pb-36 relative z-[2]">
         <div className="flex gap-[12px] md:gap-[16px] sm:mb-[44px] mb-[52px] ">
@@ -44,8 +44,10 @@ const PersonalSocialProfile = () => {
             Personal Social Profile
           </p>
         </div>
+        
 
         <ProfileDetails />
+      
         <PostTabs />
       </div>
     </div>

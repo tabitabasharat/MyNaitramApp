@@ -71,7 +71,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
           alt="promoter"
         />
         <div>
-          <Link href={`/events/event-detail/promoter-profile?eventname=${eventName}`}>
+          <Link href={`/events/event-detail/promoter-profile?eventname=${eventName}&userId=${userId}`}>
             <p className="font-bold text-[14px]  font-bold flex items-center gap-1 hover:underline capitalize">
              {myProfile?.userProfile?.fullname}
               {/* { myEvents?.data?.data[0]?.user?.fullname} */}

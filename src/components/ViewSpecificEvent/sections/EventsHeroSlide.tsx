@@ -49,7 +49,6 @@ const EventsHeroSlide = ({
   tiktokUrl,
   eventType,
   userId,
- 
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
@@ -152,9 +151,15 @@ const EventsHeroSlide = ({
           </div>
 
           <div className="flex gap-[0.35rem]">
-            <Badge className="lg:text-[12px]">Party</Badge>
+            {eventCategory?.length > 0 &&
+              eventCategory.map((category:any, index:any) => (
+                <Badge key={index} className="lg:text-[12px]">
+                  {category}
+                </Badge>
+              ))}
+            {/* <Badge className="lg:text-[12px]">Party</Badge>
             <Badge className="lg:text-[12px]">Invitation</Badge>
-            <Badge className="lg:text-[12px]">TAKEOVR</Badge>
+            <Badge className="lg:text-[12px]">TAKEOVR</Badge> */}
           </div>
           <div className="flex gap-[0.35rem] mt-3">
             <Link target="_blank" href={`${instaUrl}`}>
@@ -200,20 +205,19 @@ const EventsHeroSlide = ({
           </div>
           {AboutDrop && (
             <div className="mb-[12px]">
-           
-                {/* <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[5px]  w-[100%] mb-[12px]">
+              {/* <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[5px]  w-[100%] mb-[12px]">
                   {eventdescription}
                 </p> */}
-              <div dangerouslySetInnerHTML={{ __html: eventdescription }} className="text-white  " />
-
-              
+              <div
+                dangerouslySetInnerHTML={{ __html: eventdescription }}
+                className="text-white  "
+              />
             </div>
           )}
 
           {/* <p className="text-muted mt-4">Location: {location}</p> */}
 
-      
-         <BuyTicket
+          <BuyTicket
             eventType={eventType}
             event={event}
             setShowTicket={setShowTicket}
@@ -221,7 +225,6 @@ const EventsHeroSlide = ({
             endPrice={ticketEndPrice}
             userId={userId}
           />
-      
         </div>
       </div>
     </>

@@ -106,6 +106,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
+   
   }));
   const dispatch = useAppDispatch();
   const router = useRouter();

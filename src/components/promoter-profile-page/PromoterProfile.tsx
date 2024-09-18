@@ -8,7 +8,7 @@ import {
   SealCheck,
   InstagramLogo,
   XLogo,
-  TwitterLogo
+  TwitterLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -19,21 +19,36 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useState, useEffect } from "react";
 import { getOrganizerSocialProfile } from "@/lib/middleware/organizer";
-import { useSearchParams } from 'next/navigation';
-import sealnew from "@/assets/Wallet/Sealnew.svg"
-
+import { useSearchParams } from "next/navigation";
+import sealnew from "@/assets/Wallet/Sealnew.svg";
+import {
+  FollowPromoter,
+  getFollowingPromoters,
+  UnFollowPromoter,
+} from "@/lib/middleware/liveactivity";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "../reusable-components/Toaster/Toaster";
+import ScreenLoader from "../loader/Screenloader";
 
 const PromoterProfile = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
-  const eventName = searchParams.get('eventname'); 
+  const eventName = searchParams.get("eventname");
+  const userSpecificId = searchParams.get("userId");
+  const [uId, setUid] = useState<any>("");
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
 
     console.log("user id ", userid);
-    dispatch(getOrganizerSocialProfile(userid));
+    setUid(userid);
+    dispatch(getOrganizerSocialProfile(userSpecificId));
+    dispatch(getFollowingPromoters(userid));
   }, []);
 
   const myEventInfo = useAppSelector(
@@ -77,13 +92,74 @@ const PromoterProfile = () => {
   };
   const getMinimumPrice = (tickets: { price: string }[] | null): string => {
     if (!tickets || tickets.length === 0) return "N/A";
-  
-    const prices = tickets.map(ticket => parseFloat(ticket.price)).filter(price => !isNaN(price));
+
+    const prices = tickets
+      .map((ticket) => parseFloat(ticket.price))
+      .filter((price) => !isNaN(price));
     if (prices.length === 0) return "N/A";
-  
+
     const minPrice = Math.min(...prices);
     return minPrice.toFixed(2); // Format to 2 decimal places
   };
+
+  async function handleFollow() {
+    setLoading(true);
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    try {
+      const data = {
+        followId: userSpecificId,
+        userId: userID,
+      };
+      dispatch(FollowPromoter(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoading(false);
+          console.log("org Activity res", res?.payload?.data);
+          SuccessToast("You are now Following ");
+          dispatch(getFollowingPromoters(userID));
+        } else {
+          setLoading(false);
+          console.log(res?.payload?.message);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+  async function handleUnFollow() {
+    setLoading(true);
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    try {
+      const data = {
+        followId: userSpecificId,
+        userId: userID,
+      };
+      dispatch(UnFollowPromoter(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoading(false);
+          console.log("org Activity res", res?.payload?.data);
+          SuccessToast("You have unfollowed ");
+          dispatch(getFollowingPromoters(userID));
+        } else {
+          setLoading(false);
+          console.log(res?.payload?.message);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  const myFollowers = useAppSelector(
+    (state) => state?.getFollowPromoters?.myFollowers?.data
+  );
+
+  console.log("my followers data", myFollowers);
+
+  const isFollowing = myFollowers?.some((item: any) => item?.followId == userSpecificId);
   return (
     <section className="pt-[8rem] lg:pt-[9rem] pb-[8rem] relative overflow-hidden">
       {/* BLUR BACKGROUND IMAGE */}
@@ -110,7 +186,7 @@ const PromoterProfile = () => {
               </span>
               <span className="text-[#BFBFBF] hidden lg:inline-block px-1">
                 {" "}
-               {eventName}{" "}
+                {eventName}{" "}
               </span>
               / <span>Promoter Profile</span>
             </p>
@@ -154,10 +230,23 @@ const PromoterProfile = () => {
               <p className="md:w-[80%] text-muted mt-4">
                 {myEventInfo?.profile?.bio}
               </p>
+              {uId != userSpecificId && 
               <div className="flex gap-3 mt-10 items-center">
-                <Button variant="secondary" className="h-14">
-                  Follow Promoter
+                <Button
+                  variant="secondary"
+                  className="h-14"
+                  // onClick={() => handleFollow()}
+                  onClick={() => {
+                    if (isFollowing) {
+                      handleUnFollow();
+                    } else {
+                      handleFollow();
+                    }
+                  }}
+                >
+                   {isFollowing ? "UnfollowPromoter" : "FollowPromoter"}
                 </Button>
+
                 <div className="flex gap-3 h-full">
                   <Link
                     href={myEventInfo?.profile?.instaUrl || "#"}
@@ -185,13 +274,14 @@ const PromoterProfile = () => {
                   </Link>
                 </div>
               </div>
+}
             </div>
           </div>
         </div>
 
         {/* DIVISION */}
 
-        <div className="md:w-[70%] md:mx-auto lg:mx-0 lg:w-[50%] mt-12">
+        <div className="md:w-[70%] md:mx-auto lg:mx-0 lg:w-[50%] mt-12 h-[450px] overflow-y-auto scrollbar-hide">
           <p className="text-[18px] font-bold text-[#E6E6E6]">
             Our Upcoming Events
           </p>
@@ -204,7 +294,7 @@ const PromoterProfile = () => {
                   eventId={events?.id}
                   eventDate={ConvertDate(events?.startTime)}
                   ticketPrice={getMinimumPrice(events?.tickets)}
-                  likedEvents={events?.likes} 
+                  likedEvents={events?.likes}
                 />
               ))}
             {/* <MobileEventCard img={events[3].img} title={events[3].title} eventId={events[3].id}/>

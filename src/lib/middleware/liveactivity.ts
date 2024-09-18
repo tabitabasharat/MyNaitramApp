@@ -93,3 +93,91 @@ export const createChat = createAsyncThunk(
       }
     }
   );
+
+  export const checkEventTicketStatus = createAsyncThunk(
+    "checkEventTicketStatus",
+    async (data: any) => {
+      try {
+        console.log("inside get Event Status");
+        const res = await api.post(`${API_URL}/event/checkEventAndTicketStatus`,data);
+        console.log("inside get Event Status", res);
+        // localStorage.setItem("token", res?.data?.token);
+        return {
+          status: res?.status,
+          data: res?.data,
+        };
+      } catch (error: any) {
+        return {
+          message: error?.response?.data?.error,
+          status: error?.response?.status,
+        };
+      }
+    }
+  );
+
+  export const FollowPromoter = createAsyncThunk(
+    "FollowPromoter",
+    async (data: any) => {
+      try {
+        console.log("inside follow promoter");
+        const res = await api.post(`${API_URL}/reward/createFollow`, data);
+        console.log("inside follow promoter", res);
+  
+        // localStorage.setItem("token", res?.data?.token);
+        return {
+          status: res?.status,
+          data: res?.data?.data,
+          token: res?.data?.token,
+        };
+      } catch (error: any) {
+        return {
+          message: error?.response?.data?.error,
+          status: error?.response?.status,
+        };
+      }
+    }
+  );
+
+
+  export const UnFollowPromoter = createAsyncThunk(
+    "UnFollowPromoter",
+    async (data: any) => {
+      try {
+        console.log("inside unfollow promoter");
+        const res = await api.post(`${API_URL}/reward/unfollow`, data);
+        console.log("inside unfollow promoter", res);
+  
+        // localStorage.setItem("token", res?.data?.token);
+        return {
+          status: res?.status,
+          data: res?.data?.data,
+          token: res?.data?.token,
+        };
+      } catch (error: any) {
+        return {
+          message: error?.response?.data?.error,
+          status: error?.response?.status,
+        };
+      }
+    }
+  );
+  export const getFollowingPromoters = createAsyncThunk(
+    "getFollowingPromoters",
+    async (data: any) => {
+      try {
+        console.log("inside get following promoter");
+        const res = await api.get(`${API_URL}/reward/getFollowers/${data}`);
+        console.log("inside  get following promoter", res);
+        // localStorage.setItem("token", res?.data?.token);
+        return {
+          status: res?.status,
+          data: res?.data?.data,
+        };
+      } catch (error: any) {
+        return {
+          message: error?.response?.data?.error,
+          status: error?.response?.status,
+        };
+      }
+    }
+  );

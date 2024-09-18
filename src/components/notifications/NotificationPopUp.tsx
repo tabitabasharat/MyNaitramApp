@@ -20,8 +20,71 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
     console.log("user id ", userid);
     dispatch(getUserNotifications(userid));
   }, []);
+
+  const Notify = useAppSelector(
+    (state) => state?.getUserNotifications?.myNotifications?.data
+  );
+
+  console.log("All Notifications are", Notify);
+
+  const getAllNotifications = () => {
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    console.log("user id ", userid);
+    dispatch(getUserNotifications(userid));
+  };
+
+  useEffect(() => {
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    console.log("user id ", userid);
+    const handleDisconnect = (reason: any) => {
+      console.log("Socket disconnected:", reason);
+    };
+
+    const handleConnect = () => {
+      console.log("Socket is connecting");
+      if (userid) {
+        socket.emit("join", userid);
+      }
+    };
+    socket.on("connect", () => {
+      console.log("socket is connecting");
+      socket.emit("join", userid);
+    });
+    if (userid) {
+      socket.on("userLoggedIn", getAllNotifications);
+      socket.on("userSignedUp", getAllNotifications);
+      socket.on("rewardClaimed", getAllNotifications);
+      socket.on("eventCreated", getAllNotifications);
+
+      socket.on("eventDisliked", getAllNotifications);
+      socket.on("eventLiked", getAllNotifications);
+      socket.on("eventUpdated", getAllNotifications);
+      socket.on("profileUpdated", getAllNotifications);
+
+      // socket.on("disconnect", (reason) => {});
+      socket.on("disconnect", handleDisconnect);
+
+      return () => {
+        if (userid) {
+          socket.off("userLoggedIn", getAllNotifications);
+          socket.off("userSignedUp", getAllNotifications);
+          socket.off("rewardClaimed", getAllNotifications);
+          socket.off("eventDisliked", getAllNotifications);
+          socket.off("eventLiked", getAllNotifications);
+          socket.off("eventUpdated", getAllNotifications);
+          socket.off("eventCreated", getAllNotifications);
+          socket.off("profileUpdated", getAllNotifications);
+        }
+
+        socket.off("connect", handleConnect);
+        socket.off("disconnect", handleDisconnect);
+      };
+    }
+  }, []);
   return (
-    <div className="bg-black">
+    <div className="bg-black relative z-[1400]">
       <div className="flex justify-between">
         <p className="text-[22px] font-bold">Notifications</p>
         <X
@@ -75,12 +138,21 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
         </div>
       </div>
       <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
-        <EventNotificationCard />
-        <MessgaeNotificationCard />
-        <EventNotificationCard />
-        <MessgaeNotificationCard />
-        <EventNotificationCard />
-        <MessgaeNotificationCard />
+        {Notify?.length > 0 &&
+          Notify?.map((item: any, index: any) => {
+            return (
+              <EventNotificationCard
+                msg={item?.msg}
+                heading={item?.action}
+                notifyTime={item?.createdAt}
+              />
+            );
+          })}
+        {/* <MessgaeNotificationCard
+                 msg={item?.msg}
+                 heading={item?.action}
+                 notifyTime={item?.createdAt}
+               /> */}
       </div>
     </div>
   );

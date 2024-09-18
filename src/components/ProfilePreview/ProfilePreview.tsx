@@ -51,7 +51,7 @@ const ProfilePreview = () => {
         <GoldGradientBorder className="w-fit rounded-full p-[3px] h-fit">
           <div className="bg-black rounded-full p-[7px]">
             <Image
-              src={myProfile?.data?.profile?.profilePicture}
+              src={myProfile?.data?.profile?.profilePicture ? myProfile?.data?.profile?.profilePicture : "/person3.jpg"}
               width={136}
               height={136}
               className="h-[128px] w-[128px] sm:h-[136px] sm:w-[136px] object-cover object-top rounded-full"
