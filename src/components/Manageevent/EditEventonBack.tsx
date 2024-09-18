@@ -86,6 +86,7 @@ import { updateEvent } from "@/lib/middleware/event";
 import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
 import Backward from "../Backward/Backward";
 import Editbutton from "../ui/Editbutton";
+import Receviepayment from "../popups/receviepayment/Receviepayment";
 type TicketTypeOption = {
   id: number;
   label: string;
@@ -731,8 +732,7 @@ function EditeventOnBack() {
       ? convertToUTC(TicketEndDate)
       : Eventdata?.eventenddate;
 
-      const updatedCategoryTypes = categoryTypes
-
+    const updatedCategoryTypes = categoryTypes;
 
     const updatedValues = {
       ...values,
@@ -809,7 +809,7 @@ function EditeventOnBack() {
     // );
     // setCategoryTypes(updatedCategoryTypes);
 
-    const updatedCategoryTypes = categoryTypes
+    const updatedCategoryTypes = categoryTypes;
     const updatedValues = {
       ...values,
       eventmedia: updatedEventMedia,
@@ -896,12 +896,13 @@ function EditeventOnBack() {
 
       // console.log("updatedCategoryTypes", updatedCategoryTypes);
 
-      const updatedCategoryTypes = Eventdata?.eventcategory?.map((category: any) =>
-        typeof category === "string" ? category : category.label
-      ) || [];
-  
+      const updatedCategoryTypes =
+        Eventdata?.eventcategory?.map((category: any) =>
+          typeof category === "string" ? category : category.label
+        ) || [];
+
       setCategoryTypes(updatedCategoryTypes);
-  
+
       console.log("updatedCategoryTypes", updatedCategoryTypes);
 
       // const updatedCategoryTypes = Eventdata?.eventcategory || [];
@@ -909,8 +910,7 @@ function EditeventOnBack() {
 
       form.reset({
         eventname: Eventdata?.eventname || form.getValues("eventname"),
-        eventcategory:
-          updatedCategoryTypes || form.getValues("eventcategory"),
+        eventcategory: updatedCategoryTypes || form.getValues("eventcategory"),
         eventdescription:
           Eventdata?.eventdescription || form.getValues("eventdescription"),
         eventlocation:
@@ -1373,8 +1373,8 @@ function EditeventOnBack() {
                           placeholder="Enter Event Description"
                         /> */}
                         <div className=" absolute inset-0 pb-3 overflow-auto top-[25px] h-[200px]">
-                        <Editor
-                         value={field.value} 
+                          <Editor
+                            value={field.value}
                             onChange={(content) => {
                               field.onChange(content);
                               setEventdescription(content);
@@ -2052,7 +2052,7 @@ function EditeventOnBack() {
                       </FormItem>
                     )}
                   />
-                   {index !== 0 && (
+                  {index !== 0 && (
                     <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
                       <Button
                         className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
@@ -2407,7 +2407,13 @@ function EditeventOnBack() {
           </Form>
         </div>
         {isWalletModalOpen && (
-          <WalletChooseModal
+          // <WalletChooseModal
+          //   onClose={() => setisWalletModalOpen(false)}
+          //   open={() => setisWalletModalOpen(true)}
+          //   eventData={eventAllData}
+          // />
+
+          <Receviepayment
             onClose={() => setisWalletModalOpen(false)}
             open={() => setisWalletModalOpen(true)}
             eventData={eventAllData}

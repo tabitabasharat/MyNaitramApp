@@ -105,7 +105,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
         } */}
         <div className="flex gap-3 flex-wrap h-full">
           <div className="border border-white w-fit p-2 rounded-full">
-            <InstagramLogo
+            <InstagramLogo style={{cursor:"pointer"}}
               onClick={() => {
                 typeof window !== "undefined"
                   ? window.open(myEvents?.data?.data[0]?.instaUrl, "_blank")
@@ -116,7 +116,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
             />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <TwitterLogo
+            <TwitterLogo style={{cursor:"pointer"}}
               onClick={() => {
                 typeof window !== "undefined"
                   ? window.open( myProfile?.profile?.twitterUrl, "_blank")
@@ -127,7 +127,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
             />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <FacebookLogo
+            <FacebookLogo style={{cursor:"pointer"}}
               onClick={() => {
                 typeof window !== "undefined"
                   ? window.open(myProfile?.profile?.fbUrl, "_blank")
@@ -138,7 +138,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
             />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <TiktokLogo
+            <TiktokLogo style={{cursor:"pointer"}}
               onClick={() => {
                 typeof window !== "undefined"
                   ? window.open(myProfile?.profile?.tiktokUrl, "_blank")
@@ -149,7 +149,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
             />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <LinkedinLogo
+            <LinkedinLogo style={{cursor:"pointer"}}
               onClick={() => {
                 typeof window !== "undefined"
                   ? window.open(myProfile?.profile?.linkedinUrl, "_blank")
@@ -160,7 +160,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
             />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <TelegramLogo
+            <TelegramLogo style={{cursor:"pointer"}}
               onClick={() => {
                 typeof window !== "undefined"
                   ? window.open(myProfile?.profile?.twitterUrl, "_blank")

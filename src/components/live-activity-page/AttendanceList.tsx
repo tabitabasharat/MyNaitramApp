@@ -43,17 +43,14 @@ const AttendanceList = () => {
         {/* LARGE SCREEN VIEW */}
         <div className="hidden md:flex flex-wrap justify-normal items-center mt-[16px]">
           {eventAttendy?.attend?.data?.map((attendee: any) => (
-            // <Link
-            //   href={
-            //     '/events/event-detail/live-activity/personal-social-profile'
-            //   }
-            // >
+
+        
             <Avatar
               size="size-[64px]"
-              key={attendee.id}
-              img={attendee.profilePicture && attendee.profilePicture}
+              key={attendee?.id}
+              img={attendee?.profilePicture ? attendee?.profilePicture:""}
             />
-            // </Link>
+            
           ))}
         </div>
 
@@ -72,16 +69,12 @@ const AttendanceList = () => {
           >
             {eventAttendy?.attend?.data?.map((attendee: any) => (
               <SwiperSlide key={attendee.id}>
-                {/* <Link
-                  href={
-                    '/events/event-detail/live-activity/personal-social-profile'
-                  }
-                > */}
+                
                 <Avatar
                   size="size-[64px]"
-                  img={attendee.profilePicture && attendee.profilePicture}
+                  img={attendee?.profilePicture ? attendee?.profilePicture:""}
                 />
-                {/* </Link> */}
+               
               </SwiperSlide>
             ))}
           </Swiper>
@@ -110,8 +103,8 @@ const AttendanceList = () => {
             {eventAttendy?.attend?.data?.map((attendee: any) => (
                 <div className="flex items-center gap-4">
                   <Avatar
-                    key={attendee.id}
-                    img={attendee.profilePicture && attendee.profilePicture}
+                    key={attendee?.id}
+                    img={attendee?.profilePicture ? attendee?.profilePicture:""}
                     size="size-[55px]"
                   />
                   <p className="font-bold text-[18px]">{attendee.fullname}</p>

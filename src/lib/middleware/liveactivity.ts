@@ -166,7 +166,7 @@ export const createChat = createAsyncThunk(
     async (data: any) => {
       try {
         console.log("inside get following promoter");
-        const res = await api.get(`${API_URL}/reward/getFollowers/${data}`);
+        const res = await api.get(`${API_URL}/reward/getFollowers/${data?.userId}/${data?.followId}`);
         console.log("inside  get following promoter", res);
         // localStorage.setItem("token", res?.data?.token);
         return {

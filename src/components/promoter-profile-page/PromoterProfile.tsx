@@ -48,14 +48,18 @@ const PromoterProfile = () => {
     console.log("user id ", userid);
     setUid(userid);
     dispatch(getOrganizerSocialProfile(userSpecificId));
-    dispatch(getFollowingPromoters(userid));
+    const data = {
+      followId: userSpecificId,
+      userId: userid,
+    };
+    dispatch(getFollowingPromoters(data));
   }, []);
 
   const myEventInfo = useAppSelector(
     (state) => state?.getOrgSocialProfile?.mySocialData?.data?.data
   );
 
-  console.log("my  infooo is", myEventInfo);
+  console.log("my infooo is", myEventInfo);
 
   const ConvertDate = (originalDateStr: string): string => {
     const originalDate = new Date(originalDateStr);
@@ -116,7 +120,11 @@ const PromoterProfile = () => {
           setLoading(false);
           console.log("org Activity res", res?.payload?.data);
           SuccessToast("You are now Following ");
-          dispatch(getFollowingPromoters(userID));
+          const datas = {
+            followId: userSpecificId,
+            userId: userID,
+          };
+          dispatch(getFollowingPromoters(datas));
         } else {
           setLoading(false);
           console.log(res?.payload?.message);
@@ -141,7 +149,11 @@ const PromoterProfile = () => {
           setLoading(false);
           console.log("org Activity res", res?.payload?.data);
           SuccessToast("You have unfollowed ");
-          dispatch(getFollowingPromoters(userID));
+          const datas = {
+            followId: userSpecificId,
+            userId: userID,
+          };
+          dispatch(getFollowingPromoters(datas));
         } else {
           setLoading(false);
           console.log(res?.payload?.message);
@@ -232,7 +244,7 @@ const PromoterProfile = () => {
               </p>
               {uId != userSpecificId && 
               <div className="flex gap-3 mt-10 items-center">
-                <Button
+                <Button style={{paddingTop:"4px",paddingBottom:"0px"}}
                   variant="secondary"
                   className="h-14"
                   // onClick={() => handleFollow()}
