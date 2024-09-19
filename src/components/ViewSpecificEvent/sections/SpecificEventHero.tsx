@@ -299,7 +299,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
                 {EventData?.eventmedia?.length > 0 &&
                   Array.isArray(EventData?.eventmedia) && (
-                    <div className="w-[665px] md:w-[576px] h-[296px] mt-[48px] slider-main-div">
+                    <div className="w-[665px] md:w-[576px] h-[350px] mt-[48px] slider-main-div">
                       <Slider {...settings}>
                         {EventData?.eventmedia?.map((item: any, index: any) => (
                           <div key={index} className="w-full">
@@ -320,7 +320,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                                 src={item}
                                 width={330}
                                 height={300}
-                                className="w-full h-[315px] slider-img "
+                                className="w-full object-contain h-[350px] slider-img "
                                 alt={`Slide ${index + 1}`}
                               />
                             )}

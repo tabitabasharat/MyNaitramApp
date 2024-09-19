@@ -37,6 +37,7 @@ import {
 import ScreenLoader from "@/components/loader/Screenloader";
 import backbtn from "@/assets/Wallet/back-btn-event.svg";
 import { Autoplay } from "swiper/modules";
+import PreviewEventFollowPromoter from "@/components/reusable-components/PreviewEventFollowPromoter";
 const CustomPrevArrow = (props: any) => (
   <div className="custom-arrow custom-prev-arrow" onClick={props.onClick}>
     <Image src={leftarrow} width={60} height={60} alt="right arrow" />
@@ -58,19 +59,20 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
   const dispatch: any = useAppDispatch();
   const [isAbout, setisAbout] = useState(false);
 
-  console.log("data", eventAllData?.eventname)
-  const settings: any =
-   {
+  console.log("data", eventAllData?.eventname);
+  const settings: any = {
     dots: false,
     infinite: eventAllData?.eventmedia?.length > 1,
-    autoplay: true,  // Corrected the typo to enable autoplay
-    autoplaySpeed: 5000,  // Sets the interval between slide changes (in milliseconds)
-    speed: 1000,  // Slide transition speed
+    autoplay: true, // Corrected the typo to enable autoplay
+    autoplaySpeed: 5000, // Sets the interval between slide changes (in milliseconds)
+    speed: 1000, // Slide transition speed
     fade: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    prevArrow: eventAllData?.eventmedia?.length > 1 ? <CustomPrevArrow /> : null,
-    nextArrow: eventAllData?.eventmedia?.length > 1 ? <CustomNextArrow /> : null,
+    prevArrow:
+      eventAllData?.eventmedia?.length > 1 ? <CustomPrevArrow /> : null,
+    nextArrow:
+      eventAllData?.eventmedia?.length > 1 ? <CustomNextArrow /> : null,
     arrows: eventAllData?.eventmedia?.length > 1 ? true : false,
   };
   // useEffect(() => {
@@ -98,11 +100,10 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
         //   eventData={eventAllData}
         // />
         <Receviepayment
-            onClose={() => setisWalletModalOpen(false)} 
-            open={() => setisWalletModalOpen(true)}
-           
-            eventData={eventAllData}
-          />
+          onClose={() => setisWalletModalOpen(false)}
+          open={() => setisWalletModalOpen(true)}
+          eventData={eventAllData}
+        />
       )}
       <Image
         style={{ filter: "blur(30px)" }}
@@ -139,7 +140,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
           </Button>
         </div>
         <div className="main-abovee xl:justify-normal lg:justify-center pxpx md:mx-auto pb-[6rem] z-[2] flex flex-col lg:flex-row gap-[32px] lg:gap-12 w-full md:w-[70%] xl:w-full relative   ">
-          <div className="">
+          {/* <div className="">
             <div className="lhs-hero lg:w-[392px] w-full flex items-center justify-center flex-col relative ">
               <Image
                 src={eventAllData?.eventcoverimg}
@@ -148,6 +149,28 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                 height={200}
                 className="img-center rounded-lg relative"
               />
+            </div>
+          </div> */}
+          <div className="">
+            <div className="lhs-hero w-full lg:w-[392px] flex items-center justify-center flex-col relative ">
+              <Image
+                src={eventAllData?.eventcoverimg}
+                alt="takeover"
+                width={392}
+                height={200}
+                className="img-center rounded-lg relative"
+              />
+
+              {/* <div className="bg-white/20 p-[1rem] rounded-full backdrop-blur-lg webkit-header-blur w-fit absolute right-[24px] bottom-0">
+                <Heart size={23} weight="fill" />
+              </div> */}
+
+              {/* {eventAllData?.userId && ( */}
+                <PreviewEventFollowPromoter
+                  userId={eventAllData?.userId}
+                  eventName={eventAllData?.name}
+                />
+              {/* )} */}
             </div>
           </div>
 
@@ -256,8 +279,10 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                       Tap to see the live activities
                     </p>
                     <Link href={"/events/event-detail/live-activity"}>
-                      <Button className="flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full mt-[12px] w-fit ps-[0] pe-[16px] py-[10px]"
-                      disabled>
+                      <Button
+                        className="flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full mt-[12px] w-fit ps-[0] pe-[16px] py-[10px]"
+                        disabled
+                      >
                         <Lock size={20} weight="fill" className="ms-[10px]" />
                         Live Activity
                       </Button>
