@@ -212,6 +212,34 @@ const YourEvents = ({
 
     return formattedTime;
   };
+  // const copyUrlToClipboard = () => {
+  //   if (typeof window !== "undefined") {
+  //     const currentUrl = window.location.href;
+  //     if (currentUrl) {
+  //       SuccessToast("URL copied Successfully");
+  //       console.log("Your url is", currentUrl);
+  //     } else {
+  //       ErrorToast("Failed to copy URL.");
+  //     }
+  //   }
+  // };
+  const copyUrlToClipboard = () => {
+    if (typeof window !== "undefined") {
+      const currentUrl = window.location.href;
+      if (currentUrl) {
+        navigator.clipboard.writeText(currentUrl)
+          .then(() => {
+            SuccessToast("URL copied successfully");
+            console.log("Your URL is", currentUrl);
+          })
+          .catch(() => {
+            ErrorToast("Failed to copy URL.");
+          });
+      } else {
+        ErrorToast("Failed to copy URL.");
+      }
+    }
+  };
 
   return (
     <ScaleReveal extraStyle="w-full">
@@ -251,12 +279,12 @@ const YourEvents = ({
             {userToken && (
               <Link href="javascript:void(0)">
                 <div
-                  onClick={handleHeartClick}
+                  
                   className="flex gap-[10px] cursor-pointer me-[24px]"
                 >
-                  <Image src={share} sizes="40px" alt="share" />
+                  <Image src={share} sizes="40px" alt="share"     onClick={copyUrlToClipboard}/>
 
-                  <div className="bg-white/20 p-[0.6rem] rounded-full backdrop-blur-lg webkit-header-blur">
+                  <div className="bg-white/20 p-[0.6rem] rounded-full backdrop-blur-lg webkit-header-blur" onClick={handleHeartClick}>
                     <Heart
                       size={20}
                    

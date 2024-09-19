@@ -200,7 +200,7 @@ const router = useRouter();
             })
           ) : (
             <div>
-              <EventCards eventType={selected}  />
+              <EventCards eventType={selected}    eventitems={""}/>
             </div>
           )}
         </div>

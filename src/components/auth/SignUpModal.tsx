@@ -215,13 +215,13 @@ const SignUpModal = ({
             >
               <GoogleLogo size={22} weight="fill" /> Sign up with Google
             </Button>
-            <Button
+            {/* <Button
               variant="secondary"
               className="w-full flex text-sm lg:text-base font-bold items-center gap-1 lg:mt-[16px] mt-[24px]"
               onClick={() => logingoogleUser()}
             >
               <AppleLogo size={22} weight="fill" /> Sign up with Apple
-            </Button>
+            </Button> */}
             <div className="flex items-center mt-[24px] justify-center">
               <hr className="flex-grow border-t border-[#292929]" />
               <p className="px-4 text-center text-sm font-extrabold  text-white">

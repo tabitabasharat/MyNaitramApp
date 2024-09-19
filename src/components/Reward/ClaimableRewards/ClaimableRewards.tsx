@@ -72,28 +72,36 @@ export default function ClaimableRewards() {
       ErrorToast(error);
     }
   }
+  // const copyUrlToClipboard = () => {
+  //   if (typeof window !== "undefined") {
+  //     const currentUrl = window.location.href;
+  //     if (currentUrl) {
+  //       SuccessToast("URL copied Successfully");
+  //       console.log("Your url is", currentUrl);
+  //     } else {
+  //       ErrorToast("Failed to copy URL.");
+  //     }
+     
+  //   }
+  // };
+
   const copyUrlToClipboard = () => {
     if (typeof window !== "undefined") {
       const currentUrl = window.location.href;
       if (currentUrl) {
-        SuccessToast("URL copied Successfully");
-        console.log("Your url is", currentUrl);
+        navigator.clipboard.writeText(currentUrl)
+          .then(() => {
+            SuccessToast("URL copied successfully");
+            console.log("Your URL is", currentUrl);
+          })
+          .catch(() => {
+            ErrorToast("Failed to copy URL.");
+          });
       } else {
         ErrorToast("Failed to copy URL.");
       }
-      // navigator.clipboard
-      //   .writeText(currentUrl)
-      //   .then(() => {
-      //     SuccessToast("URL copied to clipboard!");
-      //     console.log("Your url is", currentUrl)
-      //   })
-      //   .catch((err) => {
-      //     console.error("Failed to copy: ", err);
-      //     ErrorToast("Failed to copy URL.");
-      //   });
     }
   };
-
   return (
     <section className="min-h-screen pt-[8rem] lg:pt-[136px] pb-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
       <div className="mx-auto max-w-screen-lg ">

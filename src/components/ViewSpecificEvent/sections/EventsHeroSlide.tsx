@@ -150,7 +150,7 @@ const EventsHeroSlide = ({
             ))}
           </div>
 
-          <div className="flex gap-[0.35rem]">
+          <div className="flex gap-[0.35rem] flex-wrap w-[80%]">
             {eventCategory?.length > 0 &&
               eventCategory.map((category:any, index:any) => (
                 <Badge key={index} className="lg:text-[12px]">

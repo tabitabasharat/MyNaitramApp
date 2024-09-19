@@ -13,6 +13,7 @@ import {
 } from "@/lib/middleware/wallet";
 import { getRewardCollectibles } from "@/lib/middleware/reward";
 import ScreenLoader from "../loader/Screenloader";
+
 const EventCard: React.FC<{
   eventId: number;
   imageUrl: string;
@@ -43,7 +44,7 @@ const EventCard: React.FC<{
     >
       <div
         // style={{ height, width }}
-        className="relative overflow-hidden rounded-lg w-full lg:w-[100%] lg:h-[345px]  xl:h-[388px] md:h-[384px] h-full  border border-[#424242]"
+        className="relative overflow-hidden rounded-lg w-full lg:w-[100%] lg:h-[345px]  xl:h-[388px] md:h-[384px] h-[345px]  border border-[#424242]"
       >
         <Image
           src={imageUrl}
@@ -66,7 +67,8 @@ const EventCard: React.FC<{
 
 const EventGrid: React.FC<{
   eventType: "tickets" | "collectables" | "rewardcollectables" | null;
-}> = ({ eventType }) => {
+  eventitems: any
+}> = ({ eventType, eventitems }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -105,8 +107,8 @@ const EventGrid: React.FC<{
         <>
           {ticketsLoading.loading && <ScreenLoader />}
           <div className="grid grid-cols-1 w-full pb-[28px]  md:pb-[132px] md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px]">
-            {eventType === "tickets" && myEvents?.length > 0 ? (
-              myEvents?.map((item: any) => (
+            {eventType === "tickets" && eventitems?.length > 0 ? (
+              eventitems?.map((item: any) => (
                 <EventCard
                   key={item?.event?.id}
                   eventId={item?.ticketId}
@@ -128,10 +130,10 @@ const EventGrid: React.FC<{
         <>
           {walletCollectLoading.loading && <ScreenLoader />}
           {/* <div className="grid grid-cols-1 pb-[28px]  md:pb-[132px] md:grid-cols-2 xl:grid-cols-3 gap-[12px] md:gap-[20px]"> */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px] w-full">
 
-            {eventType === "collectables" && myWalletCollect?.length > 0 ? (
-              myWalletCollect?.map((item: any) => (
+            {eventType === "collectables" && eventitems?.length > 0 ? (
+             eventitems?.map((item: any) => (
                 <EventCard
                   key={item?.id}
                   eventId={item?.Collectiblee?.id}

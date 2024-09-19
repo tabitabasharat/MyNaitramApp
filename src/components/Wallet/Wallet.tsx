@@ -14,17 +14,43 @@ import { getTicketsByID } from "@/lib/middleware/wallet";
 
 type SelectedOption = "tickets" | "collectables" | null;
 
-export default function Wallet  ()  {
+export default function Wallet() {
   const [selected, setSelected] = useState<SelectedOption>("tickets");
   const dispatch = useAppDispatch();
+  const [searchQuerytickets, setSearchQuerytickets] = useState("");
+  const [searchQueryCollectibles, setSearchQueryCollectibles] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-
-      const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+      const userid =
+        typeof window !== "undefined" ? localStorage.getItem("_id") : null;
       dispatch(getTicketsByID(userid));
     }
   }, []);
+
+  const myWalletCollect = useAppSelector(
+    (state) =>
+      state?.getWalletCollectByUID?.myWalletCollectibles?.data?.userCollectibles
+  );
+
+  const filteredCollectibles = myWalletCollect?.filter((item: any) =>
+    item?.Collectiblee?.name
+      ?.toLowerCase()
+      .includes(searchQueryCollectibles.toLowerCase())
+  );
+
+  console.log("my filtered collectibles are ", filteredCollectibles);
+  console.log("my wallet collectibles are ", myWalletCollect);
+
+  const mytickets = useAppSelector(
+    (state) => state?.getTicketsByUId?.myTickets?.data
+  );
+  console.log("my events are ", mytickets);
+
+  const filteredTickets = mytickets?.filter((item: any) =>
+    item?.event?.name?.toLowerCase().includes(searchQuerytickets.toLowerCase())
+  );
+  console.log("my filtered tickets are ", filteredTickets);
 
   return (
     <section className="min-h-screen pt-[7rem] lg:pt-[8rem] pb-[8rem] bg-cover bg-no-repeat md:px-[100px]   bg-reward  ">
@@ -85,24 +111,44 @@ export default function Wallet  ()  {
                   alt="Default Collectibles"
                 />
               )}
-              <p>Collectables</p>
+              <p>Collectibles</p>
             </div>
           </div>
-          <div className="w-full relative mb-[16px] md:mb-[32px]">
-            <Input
-              className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-[12px] md:text-sm font-normal"
-              placeholder="Search Event"
-            />
-            <MagnifyingGlass
-              size={20}
-              className="absolute top-1/2 -translate-y-1/2 right-5"
-            />
-          </div>
-          <EventCards eventType={selected} />
+          {selected === "tickets" && (
+            <div className="w-full relative mb-[16px] md:mb-[32px]">
+              <Input
+                className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-[12px] md:text-sm font-normal"
+                placeholder="Search Tickets"
+                value={searchQuerytickets}
+                onChange={(event) => setSearchQuerytickets(event.target.value)}
+              />
+              <MagnifyingGlass
+                size={20}
+                className="absolute top-1/2 -translate-y-1/2 right-5"
+              />
+            </div>
+          )}
+          {selected == "collectables" && (
+            <div className="w-full relative mb-[16px] md:mb-[32px]">
+              <Input
+                className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-[12px] md:text-sm font-normal"
+                placeholder="Search Event"
+                value={searchQueryCollectibles}
+                onChange={(event) =>
+                  setSearchQueryCollectibles(event.target.value)
+                }
+              />
+              <MagnifyingGlass
+                size={20}
+                className="absolute top-1/2 -translate-y-1/2 right-5"
+              />
+            </div>
+          )}
+
+
+          <EventCards eventType={selected}  eventitems={selected === "tickets" ? filteredTickets : filteredCollectibles}/>
         </div>
       </div>
     </section>
   );
-};
-
-
+}

@@ -117,12 +117,30 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     dispatch(getEventCount(EventData?.userId));
   }, [EventData?.userId]);
 
+  // const copyUrlToClipboard = () => {
+  //   if (typeof window !== "undefined") {
+  //     const currentUrl = window.location.href;
+  //     if (currentUrl) {
+  //       SuccessToast("URL copied Successfully");
+  //       console.log("Your url is", currentUrl);
+  //     } else {
+  //       ErrorToast("Failed to copy URL.");
+  //     }
+  //   }
+  // };
+
   const copyUrlToClipboard = () => {
     if (typeof window !== "undefined") {
       const currentUrl = window.location.href;
       if (currentUrl) {
-        SuccessToast("URL copied Successfully");
-        console.log("Your url is", currentUrl);
+        navigator.clipboard.writeText(currentUrl)
+          .then(() => {
+            SuccessToast("URL copied successfully");
+            console.log("Your URL is", currentUrl);
+          })
+          .catch(() => {
+            ErrorToast("Failed to copy URL.");
+          });
       } else {
         ErrorToast("Failed to copy URL.");
       }

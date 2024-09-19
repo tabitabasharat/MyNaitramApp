@@ -4,6 +4,13 @@
 @tailwind components;
 @tailwind utilities;
 
+  .bg-enlarge-img{
+    background-image: url("../assets/Wallet/enlarge-qr-bg.svg");
+    background-repeat: no-repeat;
+    /* width: 100%; */
+    background-size: cover;
+  }
+
 ::-webkit-calendar-picker-indicator {
   position: absolute;
   right: 12px;

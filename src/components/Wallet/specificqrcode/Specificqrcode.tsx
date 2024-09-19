@@ -5,48 +5,110 @@ import Backbtn from "@/assets/Wallet/Back - Button.svg";
 import { Badge } from "@/components/ui/badge";
 import rhsimg from "@/assets/qr.svg";
 import location from "@/assets/Location.svg";
-import candendar from "@/assets/calendar1.svg"
-import time from "@/assets/clock1.svg"
-import stall from "@/assets/stall1.svg"
-import food from "@/assets/dob1.svg"
-import vip from "@/assets/crown1.svg"
-import security from "@/assets/security.svg"
+import candendar from "@/assets/calendar1.svg";
+import time from "@/assets/clock1.svg";
+import stall from "@/assets/stall1.svg";
+import food from "@/assets/dob1.svg";
+import vip from "@/assets/crown1.svg";
+import security from "@/assets/security.svg";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "@/components/loader/Screenloader";
 import { getTicketByQR } from "@/lib/middleware/wallet";
 import { useRouter } from "next/navigation";
+import img1 from "@/assets/Handbag (1).svg";
+import img2 from "@/assets/Cake.svg";
+import img3 from "@/assets/Crown.svg";
+import img4 from "@/assets/Shield Star.svg";
+import img5 from "@/assets/Whats-Included/option5.svg";
+import img6 from "@/assets/Whats-Included/option6.svg";
+import img7 from "@/assets/Whats-Included/option7.svg";
+import img8 from "@/assets/Whats-Included/option8.svg";
+import img9 from "@/assets/Whats-Included/option9.svg";
+import img10 from "@/assets/Whats-Included/option10.svg";
+import img11 from "@/assets/Whats-Included/option11.svg";
+import img12 from "@/assets/Whats-Included/option12.svg";
+import img13 from "@/assets/Whats-Included/option13.svg";
+import img14 from "@/assets/Whats-Included/option14.svg";
+import img15 from "@/assets/Whats-Included/option15.svg";
+import img16 from "@/assets/Whats-Included/option16.svg";
+import img17 from "@/assets/Whats-Included/option17.svg";
+import img18 from "@/assets/Whats-Included/option18.svg";
+import img19 from "@/assets/Whats-Included/option19.svg";
+import img20 from "@/assets/Whats-Included/option20.svg";
 
 interface Location {
   id: number;
   address: any;
-  image:any
-
+  image: any;
 }
 interface Ticket {
   id: number;
   address: any;
-  image:any
+  image: any;
 }
 
 const Ticket: Ticket[] = [
-  {
-    id: 1,
-    image: stall,
-    address: "Merchandise Stalls",
-  },
-  { id: 2, image: food, address: "Food and Beverages" },
-  { id: 3, image: vip, address: "VIP Lounge" },
-  { id: 4, image: security, address: "Security and First Aid" },
+  // {
+  //   id: 1,
+  //   image: stall,
+  //   address: "Merchandise Stalls",
+  // },
+  // { id: 2, image: food, address: "Food and Beverages" },
+  // { id: 3, image: vip, address: "VIP Lounge" },
+  // { id: 4, image: security, address: "Security and First Aid" },
+
+  { id: 1, address: "Merchandise Stalls", image: img1 },
+  { id: 2, address: "Food and Beverages", image: img2 },
+  { id: 3, address: "VIP Lounge", image: img3 },
+  { id: 4, address: "Security and First Aid", image: img4 },
+  { id: 5, address: "Workshops & Networking", image: img5 },
+  { id: 6, address: "Entertainment Zone", image: img6 },
+  { id: 7, address: "Charging Stations", image: img7 },
+  { id: 8, address: "Information Desk", image: img8 },
+  { id: 9, address: "Rest Areas", image: img9 },
+  { id: 10, address: "Photo Booths", image: img10 },
+  { id: 11, address: "Lost & Found", image: img11 },
+  { id: 12, address: "Kids Play Area", image: img12 },
+  { id: 13, address: "Merchandise Pickup", image: img13 },
+  { id: 14, address: "Eco-Friendly Zones", image: img14 },
+  { id: 15, address: "Parking Assistance", image: img15 },
+  { id: 16, address: "Virtual Reality Booths", image: img16 },
+  { id: 17, address: "Interactive Displays", image: img17 },
+  { id: 18, address: "Cloakroom Services", image: img18 },
+  { id: 19, address: "Water Stations", image: img19 },
+  { id: 20, address: "Ticketing & Registration", image: img20 },
 ];
 
-const imageMap:any = {
-  "Merchandise Stalls": stall,
-  "Food and Beverages": food,
-  "VIP Lounge": vip,
-  "Security and First Aid": security,
-};
+// const imageMap:any = {
+//   "Merchandise Stalls": stall,
+//   "Food and Beverages": food,
+//   "VIP Lounge": vip,
+//   "Security and First Aid": security,
+// };
 
+const imageMap: any = {
+  "Merchandise Stalls": img1,
+  "Food and Beverages": img2,
+  "VIP Lounge": img3,
+  "Security and First Aid": img4,
+  "Workshops & Networking": img5,
+  "Entertainment Zone": img6,
+  "Charging Stations": img7,
+  "Information Desk": img8,
+  "Rest Areas": img9,
+  "Photo Booths": img10,
+  "Lost & Found": img11,
+  "Kids Play Area": img12,
+  "Merchandise Pickup": img13,
+  "Eco-Friendly Zones": img14,
+  "Parking Assistance": img15,
+  "Virtual Reality Booths": img16,
+  "Interactive Displays": img17,
+  "Cloakroom Services": img18,
+  "Water Stations": img19,
+  "Ticketing & Registration": img20,
+};
 const locations: Location[] = [
   {
     id: 1,
@@ -64,7 +126,8 @@ export default function Specificqrcode() {
   const [eventID, setEventId] = useState("");
   const [loader, setLoader] = useState(false);
   useEffect(() => {
-    const currentUrl:any = typeof window !== "undefined" ? window.location.href:null;
+    const currentUrl: any =
+      typeof window !== "undefined" ? window.location.href : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventId(value);
@@ -186,28 +249,31 @@ export default function Specificqrcode() {
             className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]"
           />
           <p className="text-[20px] lg:text-[24px] font-bold">
-          {TicketData?.event?.name}
+            {TicketData?.event?.name}
           </p>
         </div>
         {/* Main content container */}
         <div className="flex flex-col-reverse justify-between items-center gap-[62px]  lg:flex-row">
           <div className="flex flex-col">
             <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
-              <div className="flex w-full gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0">
-                <Badge className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]">
-                  Party
-                </Badge>
-                <Badge className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]">
-                  Invitation
-                </Badge>
-                <Badge className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]">
-                  TAKEOVR
-                </Badge>
+              <div className="flex w-full gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 w-full lg:w-[80%] flex-wrap">
+                {TicketData?.event?.category?.length > 0 &&
+                  TicketData?.event?.category?.map(
+                    (category: any, index: any) => (
+                      <Badge
+                        key={index}
+                        className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]"
+                      >
+                        {category}
+                      </Badge>
+                    )
+                  )}
+             
               </div>
             </div>
             <div>
               <h2 className="font-extrabold text-start pb-[12px] lg:pb-[24px] text-[32px] lg:text-[48px]">
-              {TicketData?.event?.name}
+                {TicketData?.event?.name}
               </h2>
               <div className="flex flex-col justify-center">
                 {locations.map((location) => (
@@ -222,12 +288,16 @@ export default function Specificqrcode() {
                       // className=" "
                       alt="Location Icon"
                     />
-                    <p className="font-bold text-start text-[16px]">{location.address}</p>
+                    <p className="font-bold text-start text-[16px]">
+                      {location.address}
+                    </p>
                   </div>
                 ))}
               </div>
-              <div className="flex flex-col justify-center">
-                <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">Included in this ticket type</h3>
+              {/* <div className="flex flex-col justify-center">
+                <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
+                  Included in this ticket type
+                </h3>
                 {TicketData?.event?.tickets[TicketData?.isIndex]?.options.map(
                   (Ticket: any) => (
                     <div
@@ -235,10 +305,10 @@ export default function Specificqrcode() {
                       className="flex items-center mb-[12px]"
                     >
                       <Image
-                       src={imageMap[Ticket?.label]}
+                        src={imageMap[Ticket?.label]}
                         width={30}
                         height={30}
-                        alt="Location Icon"
+                        alt={`${Ticket.label} icon`}
                         className=" me-[8px]"
                       />
                       <p className="font-bold text-start text-[16px]">
@@ -247,14 +317,53 @@ export default function Specificqrcode() {
                     </div>
                   )
                 )}
+              </div> */}
+              <div className="flex flex-col justify-center">
+                <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
+                  Included in this ticket type
+                </h3>
+                {TicketData?.event?.tickets?.map(
+                  (ticket: any, index: number) => (
+                    <div key={index}>
+                      <h4 className="font-bold text-[18px] mb-[12px]">
+                        {ticket?.type}
+                      </h4>
+                      {ticket.options?.map((option: any) => (
+                        <div
+                          key={option.id}
+                          className="flex items-center mb-[12px]"
+                        >
+                          <Image
+                            src={imageMap[option?.label]}
+                            width={20}
+                            height={20}
+                            alt={`${option.label} icon`}
+                            className=" me-[8px]"
+                          />
+                          <p className="font-bold text-start text-[16px] ">
+                            {option?.label}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )
+                )}
               </div>
             </div>
           </div>
           {/* <div style={{background:"#00A849",borderRadius:"12px"}}  */}
           {/* > */}
-            <Image style={{borderRadius:"12px"}} width={320} height={320} src={TicketData?.qrCode} alt="rhs" className="pt-[0px]" />
-          {/* </div> */}
+
+          <Image
+            style={{ borderRadius: "12px" }}
+            width={320}
+            height={320}
+            src={TicketData?.qrCode}
+            alt="rhs"
+            className="pt-[0px]"
+          />
         </div>
+        {/* </div> */}
       </div>
     </section>
   );
