@@ -280,11 +280,11 @@ const AddScanner = () => {
                 </div>
                 <Separator className="scale--[1.12] bg-[#292929]" />
                 {Dropdown && (
-                  <div className="pt-[16px] lg:pt-[12px]">
+                  <div className="pt-[16px] lg:pt-[0px]">
                     {options?.map((option) => (
                       <div
                         key={option.id}
-                        className="flex items-center justify-between pt-[2px] cursor-pointer"
+                        className="flex items-center justify-between  cursor-pointer"
                         onClick={() => handleOptionToggle(option)}
                       >
                         <div className="flex w-full flex-col">
@@ -307,7 +307,7 @@ const AddScanner = () => {
                             (subtitles: any, index: any) => (
                               <p
                                 key={index}
-                                className="ps-[2px] font-normal text-[12px] text-[#D9D9D9] mt-[8px] "
+                                className="ps-[2px] font-normal text-[12px] text-[#D9D9D9] mt-[7px] "
                               >
                                 {subtitles}
                               </p>

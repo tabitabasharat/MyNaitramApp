@@ -52,6 +52,7 @@ const EventsHeroSlide = ({
   instaUrl,
   tiktokUrl,
   ticketsdata,
+  
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
@@ -177,10 +178,16 @@ const EventsHeroSlide = ({
             ))}
           </div>
 
-          <div className="flex gap-[0.35rem]">
-            <Badge className="lg:text-[12px]">Party</Badge>
+          <div className="flex gap-[0.35rem] flex-wrap lg:w-[80%]">
+          {eventCategory?.length > 0 &&
+              eventCategory.map((category:any, index:any) => (
+                <Badge key={index} className="lg:text-[12px]">
+                  {category}
+                </Badge>
+              ))}
+            {/* <Badge className="lg:text-[12px]">Party</Badge>
             <Badge className="lg:text-[12px]">Invitation</Badge>
-            <Badge className="lg:text-[12px]">TAKEOVR</Badge>
+            <Badge className="lg:text-[12px]">TAKEOVR</Badge> */}
           </div>
           <div className="flex gap-[0.35rem] mt-3">
             <Link

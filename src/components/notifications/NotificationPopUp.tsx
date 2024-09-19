@@ -62,6 +62,7 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
       socket.on("eventLiked", getAllNotifications);
       socket.on("eventUpdated", getAllNotifications);
       socket.on("profileUpdated", getAllNotifications);
+      socket.on("ticketBought", getAllNotifications);
 
       // socket.on("disconnect", (reason) => {});
       socket.on("disconnect", handleDisconnect);
@@ -76,6 +77,7 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
           socket.off("eventUpdated", getAllNotifications);
           socket.off("eventCreated", getAllNotifications);
           socket.off("profileUpdated", getAllNotifications);
+          socket.off("ticketBought", getAllNotifications);
         }
 
         socket.off("connect", handleConnect);

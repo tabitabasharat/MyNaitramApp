@@ -113,7 +113,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
         alt=""
       />
       <div className="mx-2xl">
-        <div className="flex items-center justify-between mb-[24px] z-[3] md:px-[0px] xl:px-[4rem]  px-[24px] pt-[8rem] xl:pt-[9rem]   w-full md:w-[70%] sm:mx-auto  xl:w-full   relative  ">
+        <div className="flex items-center justify-between mb-[24px] z-[3] md:px-[0px] xl:px-[4rem]  px-[24px] pt-[8rem] xl:pt-[9rem]   w-full md:w-[80%] sm:mx-auto  xl:w-full   relative  ">
           <div className="flex items-center gap-[16px]">
             <button onClick={() => handleBackEvent()} type="button">
               <Image
@@ -131,7 +131,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
 
           <Button
             type="submit"
-            className=" flex  justify-center items-center font-bold py-[12px]  px-[40px] lg:px-[68px] rounded-[200px]  font-extrabold  h-[44px] lg:h-[52px] edit-btn w-fit"
+            className=" flex  justify-center items-center font-bold py-[12px]  px-[40px] lg:px-[68px] rounded-[200px]  font-extrabold  h-[44px] lg:h-[52px]  w-fit"
             onClick={() => setisWalletModalOpen(true)}
             // onClick={(event) => handleFormSubmit(event, "create")}
           >
