@@ -72,7 +72,7 @@ const Header = () => {
       title: "About",
       url: "/about",
       subLinks: [
-        { title: "Gallery", url: "/gallery" },
+        { title: "/Gallery", url: "/gallery" },
         { title: "Download App", url: "/download-app" },
       ],
     },
@@ -140,7 +140,7 @@ const Header = () => {
       <header
         // style={{ position: }}
         className={cn(
-          "fixed w-full pxpx py-[26px] flex items-center justify-between z-50 duration-300",
+          "fixed w-full  pxpx py-[26px] pr-[24px] flex items-center justify-between z-50 duration-300",
           { "bg-black/50 backdrop-blur-lg webkit-header-blur": fixedBg }
         )}
       >

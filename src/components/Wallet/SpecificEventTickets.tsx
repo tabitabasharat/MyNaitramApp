@@ -118,7 +118,8 @@ export default function SpecificEventTickets() {
   const [eventID, setEventId] = useState("");
   const [loader, setLoader] = useState(false);
   useEffect(() => {
-    const currentUrl:any =  typeof window !== "undefined" ? window.location.href:null;
+    const currentUrl: any =
+      typeof window !== "undefined" ? window.location.href : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventId(value);
@@ -248,13 +249,18 @@ export default function SpecificEventTickets() {
           <div className="flex flex-col">
             <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
               <div className="flex gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 flex-wrap w-full lg:w-[80%]">
-              {TicketData?.event?.category?.length > 0 &&
-              TicketData?.event?.category?.map((category:any, index:any) => (
-                <Badge key={index} className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]">
-                  {category}
-                </Badge>
-              ))}
-             
+                {TicketData?.event?.category?.length > 0 &&
+                  TicketData?.event?.category?.map(
+                    (category: any, index: any) => (
+                      <Badge
+                        key={index}
+                        className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]"
+                      >
+                        {category}
+                      </Badge>
+                    )
+                  )}
+
                 {/* <Badge className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]">
                   Party
                 </Badge>
@@ -287,7 +293,7 @@ export default function SpecificEventTickets() {
                   </div>
                 ))}
               </div>
-              {/* <div className="flex flex-col justify-center">
+              <div className="flex flex-col justify-center">
                 <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
                   Included in this ticket type
                 </h3>
@@ -299,8 +305,8 @@ export default function SpecificEventTickets() {
                     >
                       <Image
                         src={imageMap[Ticket?.label]}
-                        width={30}
-                        height={30}
+                        width={20}
+                        height={20}
                         alt="Location Icon"
                         className=" me-[8px]"
                       />
@@ -310,9 +316,9 @@ export default function SpecificEventTickets() {
                     </div>
                   )
                 )}
-              </div> */}
+              </div>
 
-              <div className="flex flex-col justify-center">
+              {/* <div className="flex flex-col justify-center">
                 <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
                   Included in this ticket type
                 </h3>
@@ -342,7 +348,7 @@ export default function SpecificEventTickets() {
                     </div>
                   )
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="bg-ticket-img sm:w-[408px] md:w-[408px] lg:w-[408px] w-full rounded-[12px] pt-[32px] px-[20px] pb-[2px]">
@@ -351,7 +357,8 @@ export default function SpecificEventTickets() {
             </div> */}
             <div className="flex flex-col justify-center items-center">
               <div>
-                <Image style={{borderRadius:"12px"}}
+                <Image
+                  style={{ borderRadius: "12px" }}
                   width={144}
                   height={144}
                   src={TicketData?.qrCode}
@@ -364,22 +371,45 @@ export default function SpecificEventTickets() {
                 </button>
               </Link>
             </div>
-            <div >
-              <h2 className="font-normal text-sm pb-[4px] text-start">Event Name</h2>
+            <div>
+              <h2 className="font-normal text-sm pb-[4px] text-start">
+                Event Name
+              </h2>
               <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">
                 {TicketData?.event?.name}
               </h3>
             </div>
             <div className="pt-[24px]">
-              <h2 className="font-normal text-sm pb-[4px] text-start">Ticket Type</h2>
+              <h2 className="font-normal text-sm pb-[4px] text-start">
+                Ticket Type
+              </h2>
               <h3 className="font-extrabold text-base pb-[24px] border-b border-dashed border-[#00D059] text-start">
-                {TicketData?.event?.ticketType}
+                {TicketData?.event?.tickets[TicketData?.isIndex]?.type}
               </h3>
             </div>
             <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
               <div>
-                <h2 className="font-normal text-sm text-start">Transaction ID</h2>
-                <h3 className="font-bold text-base text-start">Simple_1708531039717</h3>
+                <h2 className="font-normal text-sm text-start">
+                  Transaction ID
+                </h2>
+                <h3 className="font-bold text-base text-start">
+                  {/* {TicketData?.txHash} */}
+                  {/* {TicketData?.txHash
+                    ? `${TicketData.txHash.slice(
+                        0,
+                        10
+                      )}...${TicketData.txHash.slice(-9)}`
+                    : "N/A"} */}
+
+                  {TicketData?.txHash
+                    ? TicketData.txHash.length > 20
+                      ? `${TicketData.txHash.slice(
+                          0,
+                          19
+                        )}...`
+                      : TicketData.txHash
+                    : "N/A"}
+                </h3>
               </div>
               <div>
                 <Image src={blockchain} alt="img" />

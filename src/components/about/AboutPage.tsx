@@ -45,11 +45,11 @@ export default function AboutPage ()  {
         </div>
         <div className="flex flex-col items-center justify-center py-[100px]">
           <Reveal y={100} width="100%">
-            <div className="flex flex-col items-center justify-center py-[100px]">
+            <div className="flex flex-col items-center justify-center lg:py-[100px] pb-[100px]">
               <h2 className=" md:text-6xl text-[30px] font-[600] text-center text-white mb-[20px]">
                 Why are we doing this?
               </h2>
-              <p className=" md:max-w-[47.891%] text-center md:text-xl text-[17px] text-white mb-[1.6em]">
+              <p className=" md:max-w-[47.891%] text-center md:text-xl text-[16px] text-white mb-[1.6em]">
                 we’re driven by the belief that live events are foundational to
                 creating lasting memories and building communities. We’ve seen
                 how ticket fraud and scalping can tarnish these experiences.{" "}
@@ -91,13 +91,13 @@ export default function AboutPage ()  {
           </Reveal>
           <Reveal y={100} width="100%">
             <div className=" items-center  flex flex-col ">
-              <p className=" md:max-w-[55.338%] text-[17px] text-center md:text-xl  text-white mb-[1.6em]">
+              <p className=" md:max-w-[55.338%] text-[16px] text-center md:text-xl  text-white mb-[1.6em]">
                 The ticketing industry’s structure often places fans at the
                 bottom, undervaluing their importance and failing to incentivise
                 their loyalty. To solve this, our structure prioritises fans at
                 the top, recognising their significance.
               </p>
-              <p className=" md:max-w-[55.338%] text-center md:text-xl text-[17px] text-white mb-[1.6em]">
+              <p className=" md:max-w-[55.338%] text-center md:text-xl text-[16px] text-white mb-[1.6em]">
                 The ticketing system, positioned at the bottom, serves as a
                 foundation for connecting fans, artists, and organisers,
                 emphasising the importance of addressing fans’ needs and

@@ -262,7 +262,7 @@ const SignInModal = ({
                         EMAIL
                       </FormLabel>
                       <Envelope
-                        className="absolute right-3 translate-y-[0.9rem]"
+                        className="absolute right-3 top-[10px] translate-y-[0.9rem]"
                         size={20}
                       />
                       <FormControl>
@@ -294,7 +294,7 @@ const SignInModal = ({
                         PASSWORD
                       </FormLabel>
                       <Lock
-                        className="absolute right-3 translate-y-[0.9rem] z-10"
+                        className="absolute right-3 top-[10px] translate-y-[0.9rem] z-10"
                         size={20}
                       />
                       <FormControl>

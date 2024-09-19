@@ -294,7 +294,7 @@ export default function Specificqrcode() {
                   </div>
                 ))}
               </div>
-              {/* <div className="flex flex-col justify-center">
+              <div className="flex flex-col justify-center">
                 <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
                   Included in this ticket type
                 </h3>
@@ -306,8 +306,8 @@ export default function Specificqrcode() {
                     >
                       <Image
                         src={imageMap[Ticket?.label]}
-                        width={30}
-                        height={30}
+                        width={20}
+                        height={20}
                         alt={`${Ticket.label} icon`}
                         className=" me-[8px]"
                       />
@@ -317,8 +317,8 @@ export default function Specificqrcode() {
                     </div>
                   )
                 )}
-              </div> */}
-              <div className="flex flex-col justify-center">
+              </div>
+              {/* <div className="flex flex-col justify-center">
                 <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
                   Included in this ticket type
                 </h3>
@@ -348,7 +348,7 @@ export default function Specificqrcode() {
                     </div>
                   )
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
           {/* <div style={{background:"#00A849",borderRadius:"12px"}}  */}

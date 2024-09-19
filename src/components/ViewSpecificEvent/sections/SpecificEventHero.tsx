@@ -422,22 +422,24 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   <Button
                     className="flex items-center gap-[0.5rem] rounded-full mt-[32px] w-full 
             font-extrabold py-[14px] text-[14px] lg:text-[16px] xl:text-[16px] font-extrabold h-auto flex-wrap lg:flex-nowrap"
-                  >
-                    <DownloadSimple size={20} weight="fill" />
-                    Download App to Unlock Features
-                  </Button>
-                  <Image
-                    src={gift}
-                    width={200}
-                    height={200}
-                    className="absolute top-[-10%] lg:right-0 xl:right-[-8%] hidden lg:block"
-                    alt="gift"
-                  />
-                </div>
+                >
+                  <DownloadSimple size={20} weight="fill" />
+                  <Link href="/download-app">
+                  Download App to Unlock Features
+                  </Link>
+                </Button>
+                <Image
+                  src={gift}
+                  width={200}
+                  height={200}
+                  className="absolute top-[-10%] lg:right-0 xl:right-[-8%] hidden lg:block"
+                  alt="gift"
+                />
               </div>
             </div>
           </div>
         </div>
+      </div>
       </div>
     </section>
   );
