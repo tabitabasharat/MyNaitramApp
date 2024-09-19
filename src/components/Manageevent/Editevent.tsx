@@ -776,22 +776,45 @@ function Editevent() {
 
       setTicketTypes(ticketsWithCheckedOptions);
 
-      let categories = [];
+    //   let categories = [];
+    //   try {
+    //     categories = JSON.parse(EventData?.category || "[]");
+    //     console.log("my cat", categories); 
+    //   } catch (e) {
+    //     console.log("Error parsing category data:");
+    //   }
+
+    // const updatedCategoryTypes = categories.map((category: string, index: number) => ({
+    //   label: category, 
+      
+    // }));
+
+    //   setCategoryTypes(updatedCategoryTypes);
+    //   console.log("updatedCategoryTypes", updatedCategoryTypes);
+      
+    let categories: string[] = [];
+
+    if (Array.isArray(EventData?.category)) {
+    
+      categories = EventData?.category;
+    } else {
+     
       try {
         categories = JSON.parse(EventData?.category || "[]");
-        console.log("my cat", categories); // Logs the parsed category array
       } catch (e) {
-        console.error("Error parsing category data:", e);
+        console.log("Error parsing category data:", e);
       }
-
-    const updatedCategoryTypes = categories.map((category: string, index: number) => ({
-      label: category, 
-      
+    }
+    
+    console.log("my cat", categories);
+    
+    const updatedCategoryTypes = categories.map((category: string) => ({
+      label: category,
     }));
-
-      setCategoryTypes(updatedCategoryTypes);
-      console.log("updatedCategoryTypes", updatedCategoryTypes);
-      
+    
+    setCategoryTypes(updatedCategoryTypes);
+    console.log("updatedCategoryTypes", updatedCategoryTypes);
+  
       form.reset({
         eventname: EventData?.name || form.getValues("eventname"),
         eventcategory: updatedCategoryTypes || form.getValues("eventcategory"),
