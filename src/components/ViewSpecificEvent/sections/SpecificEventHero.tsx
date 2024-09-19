@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import Image from "next/image";
 
 import { getEventByEventId, getEventCount } from "@/lib/middleware/event";
+import { getEventAttend } from "@/lib/middleware/event";
 
 import Link from "next/link";
 import gift from "@/assets/gift.png";
@@ -111,6 +112,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     setEventId(value);
     console.log("my event id is", value);
     dispatch(getEventByEventId(value));
+    dispatch(getEventAttend(value));
   }, []);
 
   useEffect(() => {
@@ -133,7 +135,8 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     if (typeof window !== "undefined") {
       const currentUrl = window.location.href;
       if (currentUrl) {
-        navigator.clipboard.writeText(currentUrl)
+        navigator.clipboard
+          .writeText(currentUrl)
           .then(() => {
             SuccessToast("URL copied successfully");
             console.log("Your URL is", currentUrl);
@@ -148,6 +151,8 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   };
 
   async function handleLiveActivity() {
+    setLoader(true);
+
     const userID =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("my id is", userID);
@@ -185,6 +190,11 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     }
   }
 
+  const eventAttendy = useAppSelector(
+    (state: any) => state?.getAllAttend?.attend?.data
+  );
+
+  console.log("this is event attendees", eventAttendy);
   return (
     <section className="bg-img ">
       {userLoading?.loading && <ScreenLoader />}
@@ -363,8 +373,14 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                           className="rounded-full border border-[#034C22] z-[3]"
                         />
                       </div>
+
                       <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
-                        Evelyn and 348 others going
+                        {eventAttendy?.length > 0 && (
+                          <>
+                            {eventAttendy[0]?.fullname} and{" "}
+                            {eventAttendy?.length - 1} others going
+                          </>
+                        )}
                       </h3>
                       <p className="text-[#BFBFBF] text-[12px] pt-[4px]">
                         Tap to see the live activities
@@ -422,24 +438,24 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   <Button
                     className="flex items-center gap-[0.5rem] rounded-full mt-[32px] w-full 
             font-extrabold py-[14px] text-[14px] lg:text-[16px] xl:text-[16px] font-extrabold h-auto flex-wrap lg:flex-nowrap"
-                >
-                  <DownloadSimple size={20} weight="fill" />
-                  <Link href="/download-app">
-                  Download App to Unlock Features
-                  </Link>
-                </Button>
-                <Image
-                  src={gift}
-                  width={200}
-                  height={200}
-                  className="absolute top-[-10%] lg:right-0 xl:right-[-8%] hidden lg:block"
-                  alt="gift"
-                />
+                  >
+                    <DownloadSimple size={20} weight="fill" />
+                    <Link href="/download-app">
+                      Download App to Unlock Features
+                    </Link>
+                  </Button>
+                  <Image
+                    src={gift}
+                    width={200}
+                    height={200}
+                    className="absolute top-[-10%] lg:right-0 xl:right-[-8%] hidden lg:block"
+                    alt="gift"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </section>
   );

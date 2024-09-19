@@ -8,8 +8,10 @@ import { ArrowLeft } from '@phosphor-icons/react/dist/ssr';
 import { truncateString } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { getEventAttend } from '@/lib/middleware/event';
-import { useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch ,useAppSelector} from '@/lib/hooks';
 import { useSearchParams } from "next/navigation";
+import ScreenLoader from '../loader/Screenloader';
+import { getChat } from '@/lib/middleware/liveactivity';
 
 const LiveActivity = () => {
   const router = useRouter();
@@ -67,8 +69,17 @@ const LiveActivity = () => {
       }
     }
   }, [searchParams]);
+  const userLoading = useAppSelector((state) => state?.getEventChat);
+  // useEffect(() => {
+  //   if (eventID) {
+  //     console.log("Fetching chat for eventID:", eventID);
+  //     dispatch(getChat(eventID));
+  //   }
+  // }, [eventID, dispatch]);
+
   return (
     <section className="pt-[8rem] lg:pt-[9rem] pb-[8rem]  md:w-[70%] lg:w-full md:mx-auto lg:mx-0">
+    
       <div className="flex gap-4 mb-8 lg:mb-[48px]  xl:ps-[100px] xl:pe-[216px] lg:px-[80px] md:px-[0px] px-[24px] mx-2xl">
         <button onClick={() => router.back()}>
           <ArrowLeft size={22} />

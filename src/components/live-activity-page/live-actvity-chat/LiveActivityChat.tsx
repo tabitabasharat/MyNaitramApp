@@ -143,59 +143,7 @@ const LiveActivityChat = ({ eventID }: any) => {
 
 
 
-  // useEffect(() => {
-  //   typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-  //   socket.on("connect", () => {
-  //     console.log("socket is connecting");
-  //     socket.emit("join", userid);
-  //   });
-  //   if (userid && eventID) {
-  //     socket.on("newChatMessage", GetMessengerHistory); // add client/associate
-
-  //     socket.on("disconnect", (reason) => {});
-  //     return () => {
-  //       if (userid) {
-  //         // add client/associate
-  //         socket.off("newChatMessage", GetMessengerHistory);
-  //       }
-  //       const handleDisconnect = (reason: any) => {
-  //         console.log("Socket disconnected:", reason);
-  //       };
-  //       const handleConnect = () => {
-  //         console.log("socket is connecting");
-  //         if (userid) {
-  //           socket.emit("join", userid);
-  //         }
-  //       };
-  //       socket.off("Connected", handleConnect);
-
-  //       socket.off("disconnect", handleDisconnect);
-  //     };
-  //   }
-  //   else if (userid && activeMessage) {
-  //     socket.on("reactionUpdated", GetMessengerHistory); // add client/associate
-
-  //     socket.on("disconnect", (reason) => {});
-  //     return () => {
-  //       if (userid) {
-  //         // add client/associate
-  //         socket.off("reactionUpdated", GetMessengerHistory);
-  //       }
-  //       const handleDisconnect = (reason: any) => {
-  //         console.log("Socket disconnected:", reason);
-  //       };
-  //       const handleConnect = () => {
-  //         console.log("socket is connecting");
-  //         if (userid) {
-  //           socket.emit("join", userid);
-  //         }
-  //       };
-  //       socket.off("Connected", handleConnect);
-
-  //       socket.off("disconnect", handleDisconnect);
-  //     };
-  //   }
-  // }, []);
+  
 
   useEffect(() => {
     const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -267,8 +215,18 @@ const LiveActivityChat = ({ eventID }: any) => {
       ErrorToast(error);
     }
   }
+  // const scrollToBottom = () => {
+  //   chatEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  // };
   const scrollToBottom = () => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    const chatArea = chatEndRef.current;
+    if (chatArea) {
+      const { scrollHeight, clientHeight } = chatArea;
+      const isAtBottom = Math.abs(scrollHeight - clientHeight - chatArea.scrollTop) < 50; // Adjust threshold as needed
+      if (isAtBottom) {
+        chatEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+      }
+    }
   };
   useEffect(() => {
     scrollToBottom();
@@ -322,7 +280,7 @@ const LiveActivityChat = ({ eventID }: any) => {
     >
       {" "}
       {/* <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[6rem]">
-        {userLoading.loading && <ScreenLoader />}
+        userLoading.loading && <ScreenLoader />
 
         <div className="space-y-2">
           {EventChat?.length > 0 &&

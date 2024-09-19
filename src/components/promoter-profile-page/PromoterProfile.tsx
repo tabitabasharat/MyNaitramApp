@@ -222,7 +222,7 @@ const PromoterProfile = () => {
             <div>
               <p className="font-bold flex items-center gap-1  gap-1 text-[26px] mt-10">
                 {myEventInfo?.userProfile?.fullname}
-                <Image src={sealnew} alt="verified" />
+                {/* <Image src={sealnew} alt="verified" /> */}
                 {/* <SealCheck
                   className="text-[#FFC109] -translate-y-1"
                   size={18}

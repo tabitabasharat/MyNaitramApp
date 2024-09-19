@@ -134,7 +134,10 @@ const Profile = () => {
                   <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-                      324
+                     
+                     {myProfile?.followers !== null
+                        ? myProfile?.followers
+                        : "0"}
                     </h2>
                     <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
                       FOLLOWING

@@ -66,7 +66,7 @@ const ProfilePreview = () => {
           <p className="font-extrabold mt-[24px] mb-[8px] flex justify-center md:justify-start  gap-1 text-[24px]">
             {myProfile?.data?.userProfile?.fullname}{" "}
           
-            <Image src={sealnew} alt="verified" />
+            {/* <Image src={sealnew} alt="verified" /> */}
             {/* <SealCheck
               className="text-[#FFC109] w-[20px] h-[20px] sm::w-[20px] sm:h-[20px]  "
               

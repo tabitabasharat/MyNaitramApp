@@ -75,7 +75,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
             <p className="font-bold text-[14px]  font-bold flex items-center gap-1 hover:underline capitalize">
              {myProfile?.userProfile?.fullname}
               {/* { myEvents?.data?.data[0]?.user?.fullname} */}
-              <Image src={verifiedimg} alt="img" width={10.5} height={10.5} />
+              {/* <Image src={verifiedimg} alt="img" width={10.5} height={10.5} /> */}
               {/* <SealCheck
                 className="text-[#FFC109] -translate-y-1"
                 size={17}

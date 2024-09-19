@@ -326,13 +326,32 @@ function Editevent() {
   };
  
 
+  // const handleCateOptionToggle = (option: any) => {
+  //   setCategoryTypes((prev: any) =>
+  //     prev.some((o: any) => o.label === option.label)
+  //       ? prev.filter((o: any) => o.label !== option.label)
+  //       : [...prev, option]
+  //   );
+  // };
+
   const handleCateOptionToggle = (option: any) => {
-    setCategoryTypes((prev: any) =>
-      prev.some((o: any) => o.label === option.label)
-        ? prev.filter((o: any) => o.label !== option.label)
-        : [...prev, option]
-    );
+    setCategoryTypes((prev: any) => {
+    
+      if (prev.some((o: any) => o.label === option.label)) {
+        return prev.filter((o: any) => o.label !== option.label);
+      }
+  
+     
+      if (prev.length < 4) {
+        return [...prev, option];
+      }
+  
+      // If 4 categories are already selected, do nothing (or show a warning)
+      ErrorToast("You can only select 4 categories at a time")
+      return prev;
+    });
   };
+  
   const handleCatDropdownToggle = () => {
     setIsCatDropdownOpen((prev) => !prev);
   };

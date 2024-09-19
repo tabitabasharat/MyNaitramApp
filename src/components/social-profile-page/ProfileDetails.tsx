@@ -33,7 +33,7 @@ const ProfileDetails = () => {
   console.log("my Social Profile info is", myProfile);
 
   return (
-    <div className="flex flex-col md:flex-row w-full items-center justify-between">
+    <div className="flex flex-col md:flex-row w-full items-center justify-between  gap-[0px] md:gap-[24px]">
       <div className="flex flex-col w-[100%] md:flex-row gap-[24] md:gap-[32px] justify-center items-center md:justify-start md:items-start">
         <GoldGradientBorder className="w-fit rounded-full p-[3px] h-fit">
           <div className="bg-black rounded-full p-[7px]">
@@ -52,32 +52,34 @@ const ProfileDetails = () => {
         <div className="w-full md:w-fit ">
           <p className="font-extrabold mt-[12px] flex justify-center md:justify-start items-center gap-1 text-[24px]">
             {myProfile?.fullname ?  myProfile?.fullname : ""}{" "}
-            <SealCheck
+            {/* <SealCheck
               className="text-[#FFC109] w-[16px] h-[16px] sm::w-[20px] sm:h-[20px] -translate-y-1"
-              // size={20}
+               size={20}
               weight="fill"
-            />
+            /> */}
           </p>
           <p className="text-primary font-extrabold text-sm md:pt-[6px] md:pb-[4px] sm:text-base text-center md:text-left">
             {myProfile?.email ? myProfile?.email : "" }
           </p>
           <p className="mt-1 font-bold text-center md:text-left hidden md:block">
+            
             <span className="text-[24px] sm:text-base">
-              {" "}
-              {myProfile?.totalAttendees ? myProfile?.totalAttendees : ""}{" "}
-              <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
-                {" "}
-                Attended
-              </span>
-            </span>{" "}
-            <span className="opacity-50 "> | </span>{" "}
-            <span className="text-[24px] sm:text-base">
-              {myProfile?.totalEvents ? myProfile?.totalEvents : ""}{" "}
+              {myProfile?.totalEvents ? myProfile?.totalEvents : 0}{" "}
               <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
                 {" "}
                 Events{" "}
               </span>
             </span>
+            <span className="opacity-50 "> | </span>{" "}
+
+            <span className="text-[24px] sm:text-base">
+              {" "}
+              {myProfile?.totalAttendees ? myProfile?.totalAttendees : 0}{" "}
+              <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
+                {" "}
+                Attended
+              </span>
+            </span>{" "}
           </p>
 
           <div className="md:hidden border border-[#0FFF7730] rounded-lg gradient-slate flex justify-evenly items-center w-full  mt-5">

@@ -66,8 +66,7 @@ const ResetPassPage = () => {
           SuccessToast("Email Sent Successfully");
           console.log("Email Sent Successfully");
 
-          // router.push("/auth/resetcomfirmpass")
-          // navigate("/New-Password");
+          
         } else {
           console.log(res?.payload?.message);
           setLoader(false);
