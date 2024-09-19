@@ -107,7 +107,7 @@ const CompleteYourProfileModal = ({
             <FormMessage />
           </FormItem>
           <div className="flex flex-col md:flex-row gap-4 w-full">
-            <FormItem className="relative w-full">
+            {/* <FormItem className="relative w-full">
               <FormLabel className="text-[11px] text-[#8F8F8F] absolute left-3 top-5">
                 EMAIL
               </FormLabel>
@@ -120,6 +120,25 @@ const CompleteYourProfileModal = ({
                   disabled
                   placeholder={email}
                   className="pt-10 pb-5 font-bold placeholder:font-normal"
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem> */}
+            <FormItem className="relative w-full">
+              <FormLabel className="text-[11px] text-[#8F8F8F] absolute left-3 top-5">
+                EMAIL
+              </FormLabel>
+              <Envelope
+                className="absolute right-3 z-10 translate-y-[1.2rem]"
+                size={20}
+              />
+              <FormControl className="">
+                <Input
+                  disabled
+                  placeholder={email}
+                  className="pt-10 pb-5 font-bold placeholder:font-normal overflow-x-auto whitespace-nowrap"
+                  style={{ width: "100%", paddingRight: "2.5rem" }}
                 />
               </FormControl>
 

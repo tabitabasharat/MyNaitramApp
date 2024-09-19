@@ -9,17 +9,19 @@ import {
   FacebookLogo,
   LinkedinLogo,
   TiktokLogo,
-  TelegramLogo
+  TelegramLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getEventCount } from "@/lib/middleware/event";
-import { getOrganizerByID , getOrganizerSocialProfile} from "@/lib/middleware/organizer";
+import {
+  getOrganizerByID,
+  getOrganizerSocialProfile,
+} from "@/lib/middleware/organizer";
 
-
-const FollowPromoter = ({ userId, eventName }: any) => {
+const PreviewEventFollowPromoter = ({ userId, eventName }: any) => {
   const dispatch = useAppDispatch();
   const [userToken, setUserToken] = useState<any>();
   useEffect(() => {
@@ -28,35 +30,28 @@ const FollowPromoter = ({ userId, eventName }: any) => {
     dispatch(getOrganizerSocialProfile(userId));
   }, [userId]);
 
- 
-
   const myEvents = useAppSelector(
     (state) => state?.getEventCount?.myEventsCount
   );
 
   console.log("my Events count", myEvents);
 
- 
-
-  const  myProfile = useAppSelector(
+  const myProfile = useAppSelector(
     (state) => state?.getOrgSocialProfile?.mySocialData?.data?.data
   );
 
   console.log("my  infooo is", myProfile);
 
-
-  const imageUrl =  myProfile?.profile?.profilePicture?.startsWith(
+  const imageUrl = myProfile?.profile?.profilePicture?.startsWith(
     "http" || "https"
   )
     ? myProfile?.profile?.profilePicture
     : promoter;
 
-    
-
   useEffect(() => {
     const token =
-    typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-    setUserToken(token)
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setUserToken(token);
   }, []);
 
   return (
@@ -71,11 +66,13 @@ const FollowPromoter = ({ userId, eventName }: any) => {
           alt="promoter"
         />
         <div>
-          <Link href={`/events/event-detail/promoter-profile?eventname=${eventName}&userId=${userId}`}>
+          <Link
+            href={`/events/event-detail/promoter-profile?eventname=${eventName}&userId=${userId}`}
+          >
             <p className="font-bold text-[14px]  font-bold flex items-center gap-1 hover:underline capitalize">
-             {myProfile?.userProfile?.fullname}
+              {myProfile?.userProfile?.fullname}
               {/* { myEvents?.data?.data[0]?.user?.fullname} */}
-              {/* <Image src={verifiedimg} alt="img" width={10.5} height={10.5} /> */}
+              <Image src={verifiedimg} alt="img" width={10.5} height={10.5} />
               {/* <SealCheck
                 className="text-[#FFC109] -translate-y-1"
                 size={17}
@@ -85,7 +82,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
           </Link>
           <p className="text-[#FFFFFF3D] text-[12px]">
             <span className="text-[11px] text-[#E6E6E6]">
-              { myProfile?.profile?.totalEvents} Events
+              {myProfile?.profile?.totalEvents} Events
             </span>{" "}
             |{" "}
             <span className="text-[11px] text-[#E6E6E6]">
@@ -103,15 +100,10 @@ const FollowPromoter = ({ userId, eventName }: any) => {
           Follow Promoter
         </Button>
         } */}
-             {
-
-        <Button variant="secondary" className="text-[14px] font-bold py-[10px]">
-          Follow Promoter
-        </Button>
-        }
         <div className="flex gap-3 flex-wrap h-full">
           <div className="border border-white w-fit p-2 rounded-full">
-            <InstagramLogo style={{cursor:"pointer"}}
+            <InstagramLogo
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
                   ? window.open(myEvents?.data?.data[0]?.instaUrl, "_blank")
@@ -122,10 +114,11 @@ const FollowPromoter = ({ userId, eventName }: any) => {
             />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <TwitterLogo style={{cursor:"pointer"}}
+            <TwitterLogo
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
-                  ? window.open( myProfile?.profile?.twitterUrl, "_blank")
+                  ? window.open(myProfile?.profile?.twitterUrl, "_blank")
                   : null;
               }}
               size={25}
@@ -133,7 +126,8 @@ const FollowPromoter = ({ userId, eventName }: any) => {
             />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <FacebookLogo style={{cursor:"pointer"}}
+            <FacebookLogo
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
                   ? window.open(myProfile?.profile?.fbUrl, "_blank")
@@ -144,7 +138,8 @@ const FollowPromoter = ({ userId, eventName }: any) => {
             />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <TiktokLogo style={{cursor:"pointer"}}
+            <TiktokLogo
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
                   ? window.open(myProfile?.profile?.tiktokUrl, "_blank")
@@ -155,7 +150,8 @@ const FollowPromoter = ({ userId, eventName }: any) => {
             />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <LinkedinLogo style={{cursor:"pointer"}}
+            <LinkedinLogo
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
                   ? window.open(myProfile?.profile?.linkedinUrl, "_blank")
@@ -166,7 +162,8 @@ const FollowPromoter = ({ userId, eventName }: any) => {
             />
           </div>
           <div className="border border-white w-fit p-2 rounded-full">
-            <TelegramLogo style={{cursor:"pointer"}}
+            <TelegramLogo
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
                   ? window.open(myProfile?.profile?.twitterUrl, "_blank")
@@ -182,4 +179,4 @@ const FollowPromoter = ({ userId, eventName }: any) => {
   );
 };
 
-export default FollowPromoter;
+export default PreviewEventFollowPromoter;
