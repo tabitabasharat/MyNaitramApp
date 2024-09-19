@@ -256,7 +256,6 @@ const LiveActivityChat = ({ eventID }: any) => {
       dispatch(createChat(data)).then((res: any) => {
         if (res?.payload?.status === 201) {
           console.log("Message sent successfully", res?.payload?.data);
-          SuccessToast("Message sent successfully");
           setmsgs("");
           dispatch(getChat(eventID));
         } else {
@@ -465,9 +464,9 @@ const LiveActivityChat = ({ eventID }: any) => {
           <PaperPlaneTilt size={16} className="h-full " weight="bold" />
         </Button>
       </div>
-      <div className="absolute top-[-3rem] md:top-8 bg-[#0A0D0B] px-3 py-2 translate-x-1/2 right-1/2 rounded-full z-[2]">
+      {/* <div className="absolute top-[-3rem] md:top-8 bg-[#0A0D0B] px-3 py-2 translate-x-1/2 right-1/2 rounded-full z-[2]">
         <p className="font-bold text-[13px] text-[#D9D9D9]">Tue, 14 March</p>
-      </div>
+      </div> */}
       <div className="absolute bottom-0 inset-0 rounded-xl gradient-chat z-[1] pointer-events-none"></div>
     </div>
   );

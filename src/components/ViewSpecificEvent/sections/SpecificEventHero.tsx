@@ -150,7 +150,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
           if (res?.payload?.data?.statusCode === false) {
             console.log("status success", res?.payload?.data);
-            SuccessToast("You Cannot Access this Event");
+            ErrorToast("You Cannot Access this Event");
           } else {
             router.push(
               `/events/event-detail/live-activity/${EventData?.id}?eventName=${EventData?.name}`
