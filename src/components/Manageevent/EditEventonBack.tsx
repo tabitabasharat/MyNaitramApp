@@ -454,12 +454,27 @@ function EditeventOnBack() {
   //   );
   // };
 
+  // const handleCateOptionToggle = (option: any) => {
+  //   setCategoryTypes((prev: any) =>
+  //     prev.includes(option.label)
+  //       ? prev.filter((category: any) => category !== option.label)
+  //       : [...prev, option.label]
+  //   );
+  // };
   const handleCateOptionToggle = (option: any) => {
-    setCategoryTypes((prev: any) =>
-      prev.includes(option.label)
-        ? prev.filter((category: any) => category !== option.label)
-        : [...prev, option.label]
-    );
+    setCategoryTypes((prev: any) => {
+      if (prev.includes(option.label)) {
+       
+        return prev.filter((category: any) => category !== option.label);
+      } else if (prev.length < 4) {
+       
+        return [...prev, option.label];
+      } else {
+       
+        console.log("You can only select up to 4 categories.");
+        return prev; 
+      }
+    });
   };
   const handleFileChangeapi = async () => {
     if (galleryFiles) {

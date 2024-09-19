@@ -21,7 +21,7 @@ import {
   getOrganizerSocialProfile,
 } from "@/lib/middleware/organizer";
 
-const PreviewEventFollowPromoter = ({ userId, eventName }: any) => {
+const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
   const dispatch = useAppDispatch();
   const [userToken, setUserToken] = useState<any>();
   useEffect(() => {
@@ -66,20 +66,18 @@ const PreviewEventFollowPromoter = ({ userId, eventName }: any) => {
           alt="promoter"
         />
         <div>
-          <Link
-            href={`/events/event-detail/promoter-profile?eventname=${eventName}&userId=${userId}`}
-          >
-            <p className="font-bold text-[14px]  font-bold flex items-center gap-1 hover:underline capitalize">
+         
+            <p className="font-bold text-[14px]  font-bold flex items-center gap-1  capitalize">
               {myProfile?.userProfile?.fullname}
               {/* { myEvents?.data?.data[0]?.user?.fullname} */}
-              <Image src={verifiedimg} alt="img" width={10.5} height={10.5} />
+              {/* <Image src={verifiedimg} alt="img" width={10.5} height={10.5} /> */}
               {/* <SealCheck
                 className="text-[#FFC109] -translate-y-1"
                 size={17}
                 weight="fill"
               /> */}
             </p>
-          </Link>
+      
           <p className="text-[#FFFFFF3D] text-[12px]">
             <span className="text-[11px] text-[#E6E6E6]">
               {myProfile?.profile?.totalEvents} Events
@@ -106,31 +104,31 @@ const PreviewEventFollowPromoter = ({ userId, eventName }: any) => {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
-                  ? window.open(myEvents?.data?.data[0]?.instaUrl, "_blank")
+                  ? window.open(eventDATA?.instaurl, "_blank")
                   : null;
               }}
               size={25}
               weight="fill"
             />
           </div>
-          <div className="border border-white w-fit p-2 rounded-full">
+          {/* <div className="border border-white w-fit p-2 rounded-full">
             <TwitterLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
-                  ? window.open(myProfile?.profile?.twitterUrl, "_blank")
+                  ? window.open(eventDATA?.telegramurl, "_blank")
                   : null;
               }}
               size={25}
               weight="fill"
             />
-          </div>
+          </div> */}
           <div className="border border-white w-fit p-2 rounded-full">
             <FacebookLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
-                  ? window.open(myProfile?.profile?.fbUrl, "_blank")
+                  ? window.open(eventDATA?.fburl, "_blank")
                   : null;
               }}
               size={25}
@@ -142,7 +140,7 @@ const PreviewEventFollowPromoter = ({ userId, eventName }: any) => {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
-                  ? window.open(myProfile?.profile?.tiktokUrl, "_blank")
+                  ? window.open(eventDATA?.tiktokurl, "_blank")
                   : null;
               }}
               size={25}
@@ -154,7 +152,7 @@ const PreviewEventFollowPromoter = ({ userId, eventName }: any) => {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
-                  ? window.open(myProfile?.profile?.linkedinUrl, "_blank")
+                  ? window.open(eventDATA?.linkedinurl, "_blank")
                   : null;
               }}
               size={25}
@@ -166,7 +164,7 @@ const PreviewEventFollowPromoter = ({ userId, eventName }: any) => {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
-                  ? window.open(myProfile?.profile?.twitterUrl, "_blank")
+                  ? window.open(eventDATA?.telegramurl, "_blank")
                   : null;
               }}
               size={25}

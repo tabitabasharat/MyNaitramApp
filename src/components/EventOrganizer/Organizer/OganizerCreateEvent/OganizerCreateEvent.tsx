@@ -740,18 +740,17 @@ function OganizerCreateEvent() {
   // };
   const handleCateOptionToggle = (option: any) => {
     setCategoryTypes((prev: any) => {
-      // If the category is already selected, allow deselection
+     
       if (prev.some((o: any) => o.label === option.label)) {
         return prev.filter((o: any) => o.label !== option.label);
       }
       
-      // If fewer than 4 categories are selected, allow adding a new one
+    
       if (prev.length < 4) {
         return [...prev, option];
       }
       
-      // If 4 categories are already selected, do nothing (or show a warning)
-      ErrorToast("You can only select 4 categories at a time")
+      // ErrorToast("You can only select 4 categories at a time")
 
       return prev;
     });

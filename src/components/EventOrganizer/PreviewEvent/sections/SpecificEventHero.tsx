@@ -38,6 +38,10 @@ import ScreenLoader from "@/components/loader/Screenloader";
 import backbtn from "@/assets/Wallet/back-btn-event.svg";
 import { Autoplay } from "swiper/modules";
 import PreviewEventFollowPromoter from "@/components/reusable-components/PreviewEventFollowPromoter";
+import {
+  getOrganizerByID,
+  getOrganizerSocialProfile,
+} from "@/lib/middleware/organizer";
 const CustomPrevArrow = (props: any) => (
   <div className="custom-arrow custom-prev-arrow" onClick={props.onClick}>
     <Image src={leftarrow} width={60} height={60} alt="right arrow" />
@@ -53,13 +57,26 @@ const CustomNextArrow = (props: any) => (
 const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
   console.log("inside event new", eventAllData);
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
+  const [UserID, setUserID] = useState<any>("");
+
 
   const router = useRouter();
 
   const dispatch: any = useAppDispatch();
   const [isAbout, setisAbout] = useState(false);
 
-  console.log("data", eventAllData?.eventname);
+  console.log("data", eventAllData);
+  useEffect(() => {
+    const id =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    console.log("user id ", id);
+    setUserID(id)
+    dispatch(getOrganizerByID(id));
+    dispatch(getOrganizerSocialProfile(id));
+   
+  }, []);
+
+ 
   const settings: any = {
     dots: false,
     infinite: eventAllData?.eventmedia?.length > 1,
@@ -167,8 +184,9 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
 
               {/* {eventAllData?.userId && ( */}
                 <PreviewEventFollowPromoter
-                  userId={eventAllData?.userId}
-                  eventName={eventAllData?.name}
+                  userId={UserID}
+                  eventName={eventAllData?.eventname}
+                  eventDATA={eventAllData}
                 />
               {/* )} */}
             </div>

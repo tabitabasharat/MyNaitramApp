@@ -346,8 +346,8 @@ function Editevent() {
         return [...prev, option];
       }
   
-      // If 4 categories are already selected, do nothing (or show a warning)
-      ErrorToast("You can only select 4 categories at a time")
+     
+      // ErrorToast("You can only select 4 categories at a time")
       return prev;
     });
   };
