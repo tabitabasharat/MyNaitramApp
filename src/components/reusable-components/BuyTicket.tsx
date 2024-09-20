@@ -51,7 +51,7 @@ const BuyTicket = ({
 
   return (
     <Dialog>
-      <div className="w-full md:w-[576px] bg-[#007A3535] rounded-xl flex flex-col lg:flex-row items-center justify-center lg:items-center lg:justify-between px-6 py-4 gap-4">
+      <div className="w-full event-width-adjustment bg-[#007A3535] rounded-xl flex flex-col lg:flex-row items-center justify-center lg:items-center lg:justify-between px-6 py-4 gap-4">
         <div>
           <p className="font-bold text-[24px] text-center lg:text-left">
             {/* £10 - £1000 */}

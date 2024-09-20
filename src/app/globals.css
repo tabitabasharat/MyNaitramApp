@@ -630,7 +630,9 @@ input[type="number"] {
 .no-border-table .MuiTableCell-root {
   border: none; /* Removes borders from all table cells */
 }
-
+.event-width-adjustment{
+  width:100% !important;
+    }
 .no-border-table .MuiTableRow-root {
   border: none; /* Removes any potential border on table rows */
 }
@@ -727,5 +729,18 @@ input[type="number"] {
   .bg-effect {
     background-image: url("../assets/Blur.svg");
     background-repeat: no-repeat;
+  }
+}
+@media (min-width: 1023px) and (max-width: 1090px) {
+  .event-width-adjustment {
+    width: 500px !important;
+  }
+}
+@media (min-width:1023px) {
+
+}
+@media (min-width:1090px) {
+  .event-width-adjustment{
+width: 576px !important; 
   }
 }

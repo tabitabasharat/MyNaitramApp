@@ -102,7 +102,6 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
         />
       </div>
       <div className="flex mt-[16px]">
-        {/* USER tab */}
         <div className="w-full">
           <p
             className={`text-center text-sm font-bold pb-[16px]  ${
@@ -115,8 +114,6 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
             USER
           </p>
         </div>
-
-        {/* ORGANISER tab */}
         <div className="w-full">
           <p
             className={`text-center text-sm font-bold pb-[16px] ${

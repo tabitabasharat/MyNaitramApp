@@ -254,7 +254,9 @@ const Header = () => {
                 </PopoverContent>
               </Popover>
 
-              <Popover open={popupOpen} onOpenChange={setPopupOpen}>
+              {/* <Popover open={popupOpen} onOpenChange={setPopupOpen}> */}
+              <Popover >
+
                 <PopoverTrigger asChild>
                   <div className="border  p-[6px] h-[44px] w-[44px] border-muted gradient-slate rounded-full lg:flex items-center  cursor-pointer">
                     {/* <div className="size-[44px] lg:size-[44px] gradient-slate p-[6px] rounded-full overflow-hidden  shadow-inner shadow-md border border-gray-700 rounded-full border-gradient bg-gradient-to-t from-transparent to-transparent"> */}
@@ -282,10 +284,10 @@ const Header = () => {
                 </PopoverTrigger>
                 <PopoverContent className="bg-black rounded-2xl text-white border-none shadow-none p-0 -translate-x-4 translate-y-2">
                   <ScrollArea className="h-[550px] rounded-2xl shadow-custom">
-                    <ProfileSidebar
+                    {/* <ProfileSidebar
                       setPopupOpen={setPopupOpen}
                       className="top-0 w-[350px] md:w-full"
-                    />
+                    /> */}
                   </ScrollArea>
                 </PopoverContent>
               </Popover>

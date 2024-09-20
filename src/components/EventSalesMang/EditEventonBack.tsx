@@ -869,7 +869,7 @@ function EditeventOnBack() {
               className="flex gap-2 items-center justify-between w-full cursor-pointer"
             >
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
+                <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate">
                   <Image src={greenpencile} alt="pencil" />
                   <p className="text-[#00D059] text-sm font-extrabold">
                   Edit Image
@@ -975,7 +975,7 @@ function EditeventOnBack() {
                       : "pt-9 gallery-top"
                   }`}
                 >
-                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]"
+                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate"
                   style={{
                     position:"absolute",
                     bottom:"24px"

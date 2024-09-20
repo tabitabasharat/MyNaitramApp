@@ -343,8 +343,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
             },
             "& .MuiTypography-root": {
               fontSize: "14px",
-              fontWeight: "400",
-              fontFamily: poppins.style.fontFamily,
+              fontFamily: "var(--font-base)",
             },
           }}
           open

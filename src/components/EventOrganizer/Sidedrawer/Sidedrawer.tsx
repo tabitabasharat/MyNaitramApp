@@ -30,14 +30,14 @@ import scanner from "@/assets/Scan.svg";
 import Link from "next/link";
 import { useAppDispatch } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
-import { Poppins } from "next/font/google";
+// import { Poppins } from "next/font/google";
 
-const poppins = Poppins({
-  subsets: ["latin"], // Specify the subsets you need
-  weight: ["400", "700"], // Specify the weights you need
-  variable: "--font-poppins",
-  display: "swap",
-});
+// const poppins = Poppins({
+//   subsets: ["latin"], // Specify the subsets you need
+//   weight: ["400", "700"], // Specify the weights you need
+//   variable: "--font-poppins",
+//   display: "swap",
+// });
 
 interface Props {
   window?: () => Window;
@@ -191,7 +191,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
           <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">
-            ANALYTICS/BILLING
+            ANALYTICS
           </h3>
           <Link href="/salesmanage">
             <ListItem
@@ -337,7 +337,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
             "& .MuiTypography-root": {
               fontSize: "14px",
               fontWeight: "400",
-              fontFamily: poppins.style.fontFamily,
+              fontFamily: "var(--font-base)",
             },
           }}
           open

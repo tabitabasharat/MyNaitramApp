@@ -67,7 +67,7 @@ const Organizer = () => {
                   </div>
                 </GradientBorder>
               </div>
-              <div className="flex flex-col lg:items-start items-center justify-center ">
+              <div className="flex flex-col lg:items-start items-center lg:justify-start justify-center ">
                 <h2 className="text-[28px] font-extrabold text-center lg:text-start xl:text-start  leading-[31.36px] mb-[0px] lg:mb-[9px] ">
                   {myOrgData?.userDetails?.fullName}
                 </h2>
@@ -126,7 +126,7 @@ const Organizer = () => {
                   <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-                      {myOrgData?.totalSales !== null
+                    £{myOrgData?.totalSales !== null
                         ? myOrgData?.totalSales
                         : "0"}
                     </h2>

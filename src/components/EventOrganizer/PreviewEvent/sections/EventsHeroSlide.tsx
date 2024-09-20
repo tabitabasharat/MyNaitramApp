@@ -189,7 +189,7 @@ const EventsHeroSlide = ({
             <Badge className="lg:text-[12px]">Invitation</Badge>
             <Badge className="lg:text-[12px]">TAKEOVR</Badge> */}
           </div>
-          <div className="flex gap-[0.35rem] mt-3">
+          {/* <div className="flex gap-[0.35rem] mt-3">
             <Link
               target="_blank"
               href={`${instaUrl}`}
@@ -203,7 +203,7 @@ const EventsHeroSlide = ({
             >
               <TiktokLogo size={30} weight="fill" />
             </Link>
-          </div>
+          </div> */}
 
           <h2 className="text-[32px] lg:w-full lg:text-[48px] xl:text-[48px] font-extrabold leading-[1.2] mt-[12px] mb-[24px] -tracking-[0.02em] ">
             {title}
@@ -261,7 +261,7 @@ const EventsHeroSlide = ({
             </div>
           </div> */}
           <div
-            className="flex items-center gap-[6px] cursor-pointer mt-[24px] mb-[12px]"
+            className="flex items-center gap-[6px] cursor-pointer mt-[24px] lg:mt-[48px] mb-[12px]"
             onClick={() => AboutToggle()}
           >
             <p className="text-[#13FF7A]">About this event</p>
@@ -273,9 +273,7 @@ const EventsHeroSlide = ({
                 {/* <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[5px]  w-[100%] mb-[12px]">
                   {eventdescription}
                   </p> */}
-              <div dangerouslySetInnerHTML={{ __html: eventdescription }} className="text-white" />
-
-                
+              <div dangerouslySetInnerHTML={{ __html: eventdescription }} className="text-white break-words overflow-hidden text-ellipsis" />
               </div>
             </div>
           )}

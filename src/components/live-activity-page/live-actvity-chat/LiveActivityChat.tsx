@@ -86,7 +86,6 @@ const LiveActivityChat = ({ eventID }: any) => {
   async function setMessageReaction(messageId: number, emoji: string) {
     try {
       console.log(`Setting reaction for message ${messageId}: ${emoji}`);
-      
 
       const data = {
         chatId: messageId,
@@ -141,44 +140,41 @@ const LiveActivityChat = ({ eventID }: any) => {
     dispatch(getChat(eventID));
   };
 
-
-
-  
-
   useEffect(() => {
-    const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-  
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+
     const handleDisconnect = (reason: any) => {
       console.log("Socket disconnected:", reason);
     };
-  
+
     const handleConnect = () => {
       console.log("Socket is connecting");
       if (userid) {
         socket.emit("join", userid);
       }
     };
-  
+
     // Only proceed if userid is available
     if (userid) {
       socket.on("connect", handleConnect);
       socket.on("disconnect", handleDisconnect);
-  
+
       // Handle new chat message if eventID is provided
       if (eventID) {
         socket.on("newChatMessage", GetMessengerHistory);
       }
-  
+
       // Handle reaction updates if activeMessage is provided
       if (activeMessage) {
         socket.on("reactionUpdated", GetMessengerHistory);
       }
-  
+
       // Cleanup on unmount or when dependencies change
       return () => {
         socket.off("connect", handleConnect);
         socket.off("disconnect", handleDisconnect);
-  
+
         // Remove listeners for eventID and activeMessage
         if (eventID) {
           socket.off("newChatMessage", GetMessengerHistory);
@@ -189,7 +185,7 @@ const LiveActivityChat = ({ eventID }: any) => {
       };
     }
   }, [eventID, activeMessage]);
-  
+
   const userLoading = useAppSelector((state) => state?.getEventChat);
 
   async function SendMsg() {
@@ -222,7 +218,8 @@ const LiveActivityChat = ({ eventID }: any) => {
     const chatArea = chatEndRef.current;
     if (chatArea) {
       const { scrollHeight, clientHeight } = chatArea;
-      const isAtBottom = Math.abs(scrollHeight - clientHeight - chatArea.scrollTop) < 50; // Adjust threshold as needed
+      const isAtBottom =
+        Math.abs(scrollHeight - clientHeight - chatArea.scrollTop) < 50; // Adjust threshold as needed
       if (isAtBottom) {
         chatEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
       }
@@ -325,10 +322,7 @@ const LiveActivityChat = ({ eventID }: any) => {
           {EventChat?.length > 0 &&
             EventChat?.map((event: any, index: any) => (
               <div key={event?.id} className="relative">
-                <div
-                  onClick={() => handleMessagePress(event?.id)}
-                 
-                >
+                <div onClick={() => handleMessagePress(event?.id)}>
                   <Chat
                     key={event?.id}
                     msgtext={event?.msg}
@@ -340,10 +334,9 @@ const LiveActivityChat = ({ eventID }: any) => {
                     // reactionimg={event?.reactions
                     //   ?.map((reaction: any) => reaction?.reactionType)
                     //   .join(" ")}
-                      // reactioncount={event?.reactions
-                      //   ?.map((reaction: any) => reaction?.count)
-                      //  }
-                  
+                    // reactioncount={event?.reactions
+                    //   ?.map((reaction: any) => reaction?.count)
+                    //  }
                   />
                 </div>
                 {activeMessage === event?.id && (
@@ -354,7 +347,7 @@ const LiveActivityChat = ({ eventID }: any) => {
                         onClick={() => setMessageReaction(event?.id, emoji)}
                         className={`cursor-pointer bg-[#FFFFFF0F] h-[32px] w-[32px] pt-[7px] pb-[4px] pe-[3.5px] ps-[5.5px] rounded-full flex items-center justify-center text-xl ${
                           messageReactions[event?.id] === emoji
-                            ? "border border-[#FFFFFF]"
+                            ? "border border-solid border-[#FFFFFF]"
                             : ""
                         }`}
                       >

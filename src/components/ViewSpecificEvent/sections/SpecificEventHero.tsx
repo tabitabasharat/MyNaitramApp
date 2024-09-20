@@ -221,7 +221,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
       />
 
       <div className="">
-        <div className="main-abovee px-[24px] w-full md:px-[100px] lg:px-[100px] xl:px-[216px] pt-[8rem] lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] gap-[32px] lg:gap-12 w-full md:w-[100%] xl:w-full relative   ">
+        <div className="main-abovee px-[24px] w-full md:px-[100px] lg:pe-[100px] lg:ps-[100px] xl:px-[216px] pt-[8rem] lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] gap-[32px] lg:gap-12 w-full md:w-[100%] xl:w-full relative   ">
           <div className="flex mb-[32px] justify-between items-center">
             <div className="flex items-center gap-4 ">
               {/* <div className="flex items-center gap-4 mb-6"> */}
@@ -252,9 +252,9 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
               />
             )}
           </div>
-          <div className="flex gap-[40px] flex-col lg:flex-row">
+          <div className="flex gap-[40px] event-spacing-adjustment flex-col lg:flex-row">
             <div className="">
-              <div className="lhs-hero w-full lg:w-[392px] flex items-center justify-center flex-col relative ">
+              <div className="lhs-hero w-full lg:w-[392px]  flex items-center justify-center flex-col relative ">
                 <Image
                   src={EventData?.coverEventImage}
                   alt="takeover"
@@ -277,7 +277,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
             </div>
 
             <div className="main-div-takeoverr ">
-              <div className="rhs-hero md:w-[576px] mt-0">
+              <div className="rhs-hero event-width-adjustment mt-0">
                 <EventsHeroSlide
                   instaUrl={EventData?.instaUrl}
                   tiktokUrl={EventData?.tiktokUrl}
@@ -330,7 +330,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
                 {EventData?.eventmedia?.length > 0 &&
                   Array.isArray(EventData?.eventmedia) && (
-                    <div className="w-[665px] md:w-[576px] h-[350px] mt-[48px] slider-main-div">
+                    <div className="w-[665px] event-width-adjustment h-[350px] mt-[48px] slider-main-div">
                       <Slider {...settings}>
                         {EventData?.eventmedia?.map((item: any, index: any) => (
                           <div key={index} className="w-full">

@@ -196,9 +196,9 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
             <div
               key={event.id}
               onClick={() => handleClick(event.id, event.title)}
-              className={`relative border  flex flex-col flex items-center justify-center md:items-start rounded-[44px] md:rounded-lg w-full md:px-[12px] md:pt-[16px] md:pb-[12px] cursor-pointer  duration-300 ${
+              className={`relative flex flex-col flex items-center justify-center md:items-start rounded-[44px] md:rounded-lg w-full md:px-[12px] md:pt-[16px] md:pb-[12px] cursor-pointer  duration-300 ${
                 selectedEvent?.id === event.id
-                  ? "gradient-slate text-[#13FF7A] border-[1px] border-solid  hover:border-[#13FF7A] border-[#13FF7A] "
+                  ? "gradient-slate text-[#13FF7A] gradient-border-rounded "
                   : "gradient-slate border-muted"
               }`}
             >

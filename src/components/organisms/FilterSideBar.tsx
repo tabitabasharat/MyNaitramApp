@@ -9,6 +9,7 @@ import {
   CaretDown,
   CurrencyDollar,
 } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
 import { Checkbox } from "../ui/checkbox";
 import {
   Form,
@@ -22,28 +23,43 @@ import { DatePicker } from "./DatePicker";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { getViewAllEvent,getLiveEventById,getViewPastEvents } from "@/lib/middleware/event";
+import {
+  getViewAllEvent,
+  getLiveEventById,
+  getViewPastEvents,
+} from "@/lib/middleware/event";
 import { useState, useEffect } from "react";
 import {
   SuccessToast,
   ErrorToast,
 } from "../reusable-components/Toaster/Toaster";
+import category from "@/assets/element-3.svg";
+import price from "@/assets/money.svg";
+import sortby from "@/assets/arrange-square-2.svg";
 
-type EventTime = "Today" | "This Week" | "This Month" | null;
-type Location = "London" | "Atlanta" | "New York" | "Malta" | null;
+type EventTime =
+  | "Concerts"
+  | "Sports Games"
+  | "Festival"
+  | "Conferences"
+  | "Travel Expo"
+  | "Live Music"
+  | null;
+type Location = "See only Free Events" | null;
+type FilterDate = "Date" | null;
 
 const FilterSideBar = () => {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
-  
-
+  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<string | null>(null);
   const [endDate, setEndDate] = useState<string | null>(null);
-
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [chosenDate, setchosenDate] = useState<Date | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<Location>(null);
+  const [filterDate, setFilterDate] = useState<FilterDate>(null);
   const [selectedEventTime, setSelectedEventTime] = useState<EventTime>(null);
-  const [thisMonth,setThisMonth]=useState<any>(false);
+  const [thisMonth, setThisMonth] = useState<any>(false);
   const [currentWeek, setCurrentWeek] = useState<{
     startOfWeek: string;
     endOfWeek: string;
@@ -65,33 +81,39 @@ const FilterSideBar = () => {
       startMonth: null,
       endMonth: null,
       chooseDate: chosenDate ? formatChosenDate(chosenDate) : null,
-      thisMonth:thisMonth,
-      userId:userid
-
+      thisMonth: thisMonth,
+      userId: userid,
     };
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const type = urlParams.get('EventType');
-    console.log(type,"R")
+    const type = urlParams.get("EventType");
+    console.log(type, "R");
 
-    if (selectedEventTime === "Today") {
+    if (selectedEventTime === "Concerts") {
       data.today = getCurrentDate();
-    } else if (selectedEventTime === "This Week" && currentWeek) {
+    } else if (selectedEventTime === "Sports Games" && currentWeek) {
       data.startDate = currentWeek.startOfWeek;
       data.endDate = currentWeek.endOfWeek;
-    } else if (selectedEventTime === "This Month" && currentMonth) {
+    } else if (selectedEventTime === "Festival" && currentMonth) {
+      data.startMonth = currentMonth.startOfMonth;
+      data.endMonth = currentMonth.endOfMonth;
+    } else if (selectedEventTime === "Conferences" && currentMonth) {
+      data.startMonth = currentMonth.startOfMonth;
+      data.endMonth = currentMonth.endOfMonth;
+    } else if (selectedEventTime === "Travel Expo" && currentMonth) {
+      data.startMonth = currentMonth.startOfMonth;
+      data.endMonth = currentMonth.endOfMonth;
+    } else if (selectedEventTime === "Live Music" && currentMonth) {
       data.startMonth = currentMonth.startOfMonth;
       data.endMonth = currentMonth.endOfMonth;
     } else {
       data.startDate = startDate || null;
-    data.endDate = endDate || null;
+      data.endDate = endDate || null;
     }
 
     dispatch(getViewAllEvent(data));
     dispatch(getLiveEventById(data));
     dispatch(getViewPastEvents(data));
-
-    
   }, [
     dispatch,
     dispatch,
@@ -151,6 +173,15 @@ const FilterSideBar = () => {
     };
   };
 
+  const categories = [
+    "Concerts",
+    "Sports Games",
+    "Festival",
+    "Conferences",
+    "Travel Expo",
+    "Live Music",
+  ];
+
   useEffect(() => {
     const { startOfWeek, endOfWeek } = getCurrentWeekDates();
     setCurrentWeek({ startOfWeek, endOfWeek });
@@ -166,24 +197,24 @@ const FilterSideBar = () => {
     setchosenDate(null); // Reset chosenDate when eventTime is selected
 
     switch (eventTime) {
-      case "Today":
+      case "Concerts":
         const today = getCurrentDate();
         setThisMonth(false);
         setStartDate(today);
         setEndDate(today);
         break;
 
-      case "This Week":
+      case "Sports Games":
         if (currentWeek) {
-          setThisMonth(false)
+          setThisMonth(false);
           setStartDate(currentWeek.startOfWeek);
           setEndDate(currentWeek.endOfWeek);
         }
         break;
 
-      case "This Month":
+      case "Festival":
         if (currentMonth) {
-          setThisMonth(true)
+          setThisMonth(true);
 
           setStartDate(currentMonth.startOfMonth);
           setEndDate(currentMonth.endOfMonth);
@@ -195,7 +226,7 @@ const FilterSideBar = () => {
         setEndDate(null);
     }
   };
-
+  // "" | "" | "Festival"|"Conferences"|"Travel Expo"|"Live Music"
   // const handleEventTimeChange = (eventTime: EventTime) => {
   //   setSelectedEventTime(eventTime);
   //   switch (eventTime) {
@@ -228,6 +259,9 @@ const FilterSideBar = () => {
   const handleLocationChange = (location: Location) => {
     setSelectedLocation(location);
   };
+  // const handleDateChange = (FilterDate: FilterDate) => {
+  //   setFilterDate(FilterDate);
+  // };
 
   const handleResetFilters = () => {
     setSelectedEventTime(null);
@@ -239,17 +273,44 @@ const FilterSideBar = () => {
     dispatch(getViewAllEvent({ page: 1 }));
   };
 
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategories(
+      (prevSelected) =>
+        prevSelected.includes(category)
+          ? prevSelected.filter((item) => item !== category) // Remove if already selected
+          : [...prevSelected, category] // Add if not selected
+    );
+  };
+
+  // const formatChosenDate = (date: Date | null): string => {
+  //   if (!date) {
+  //     console.log("not selected");
+  //     return "";
+  //   }
+
+  //   const year = date.getFullYear();
+  //   const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  //   const day = String(date.getDate()).padStart(2, "0");
+  //   return `${year}-${month}-${day}`;
+  // };
+
+  const handleDateChange = () => {
+    // Toggle the DatePicker visibility
+    setShowDatePicker((prev) => !prev);
+    setFilterDate((prev) => (prev === "Date" ? null : "Date")); // Toggle filterDate state
+  };
+
   const formatChosenDate = (date: Date | null): string => {
     if (!date) {
       console.log("not selected");
       return "";
     }
-
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+
   return (
     <div className="lg:w-[300px]">
       <div className="flex md:flex-col lg:flex-row justify-between gap-1 lg:gap-0">
@@ -257,7 +318,10 @@ const FilterSideBar = () => {
           <Funnel size={22} weight="bold" className="text-primary" />
           <p className="text-[20px]">Filters</p>
         </div>
-        <p className="font-bold underline cursor-pointer" onClick={handleResetFilters}>
+        <p
+          className="font-bold underline cursor-pointer"
+          onClick={handleResetFilters}
+        >
           Reset filters
         </p>
       </div>
@@ -266,116 +330,88 @@ const FilterSideBar = () => {
       <div className="mt-6 flex flex-col gap-[0.6rem]">
         <div className="flex justify-between">
           <div className="flex gap-3">
-            <Calendar size={20} weight="bold" className="text-primary" />
-            <p>Event Time</p>
+            <Image src={category} alt="category" />
+            <p className="font-bold text-base">Categories</p>
           </div>
         </div>
 
-        <div className="flex items-center space-x-3">
-          <Checkbox
-            id="today"
-            checked={selectedEventTime === "Today"}
-            onCheckedChange={() => handleEventTimeChange("Today")}
-          />
-          <label htmlFor="today" className="leading-none">
-            Today
-          </label>
-        </div>
-        <div className="flex items-center space-x-3">
-          <Checkbox
-            id="this week"
-            checked={selectedEventTime === "This Week"}
-            onCheckedChange={() => handleEventTimeChange("This Week")}
-          />
-          <label htmlFor="this week" className="leading-none">
-            {/* This Week (
-            {currentWeek
-              ? `${currentWeek.startOfWeek} - ${currentWeek.endOfWeek}`
-              : "Loading..."}
-            ) */}
-            This Week
-          </label>
-        </div>
-        <div className="flex items-center space-x-3">
-          <Checkbox
-            id="this month"
-            checked={selectedEventTime === "This Month"}
-            onCheckedChange={() => handleEventTimeChange("This Month")}
-          />
-          <label htmlFor="this month" className="leading-none">
-            {/* This Month (
-            {currentMonth
-              ? `${currentMonth.startOfMonth} - ${currentMonth.endOfMonth}`
-              : "Loading..."}
-            ) */}
-            This Month
-          </label>
-        </div>
-
-        <DatePicker
-          setSelectedDate={(date: Date | null) => {
-            setchosenDate(date);
-            setSelectedEventTime(null); // Reset eventTime when a date is selected
-            setStartDate(date ? formatChosenDate(date) : null);
-            setEndDate(date ? formatChosenDate(date) : null);
-          }}
-        />
-      </div>
-      <hr className="opacity-20 h-px mt-6" />
-      {/* LOCATIONS */}
-      <div className="flex flex-col gap-[0.6rem]">
-        <div className="flex justify-between mt-6">
-          <div className="flex gap-3">
-            <MapPin size={20} weight="bold" className="text-primary" />
-            <p>Locations</p>
+        {categories.map((category) => (
+          <div key={category} className="flex items-center space-x-3">
+            <Checkbox
+              id={category.toLowerCase().replace(" ", "-")}
+              checked={selectedCategories.includes(category)}
+              onCheckedChange={() => handleCategoryChange(category)}
+            />
+            <label
+              htmlFor={category.toLowerCase().replace(" ", "-")}
+              className="leading-none font-bold text-base"
+            >
+              {category}
+            </label>
           </div>
-        </div>
-        <div className="flex items-center space-x-3">
-          <Checkbox
-            id="london"
-            checked={selectedLocation === "London"}
-            onCheckedChange={() => handleLocationChange("London")}
-          />
-          <label htmlFor="london" className="leading-none">
-            London
-          </label>
-        </div>
-        <div className="flex items-center space-x-3">
-          <Checkbox
-            id="atlanta"
-            checked={selectedLocation === "Atlanta"}
-            onCheckedChange={() => handleLocationChange("Atlanta")}
-          />
-          <label htmlFor="atlanta" className="leading-none">
-            Atlanta
-          </label>
-        </div>
-        <div className="flex items-center space-x-3">
-          <Checkbox
-            id="new york"
-            checked={selectedLocation === "New York"}
-            onCheckedChange={() => handleLocationChange("New York")}
-          />
-          <label htmlFor="new york" className="leading-none">
-            New York
-          </label>
-        </div>
-        <div className="flex items-center space-x-3">
-          <Checkbox
-            id="malta"
-            checked={selectedLocation === "Malta"}
-            onCheckedChange={() => handleLocationChange("Malta")}
-          />
-          <label htmlFor="malta" className="leading-none">
-            Malta
-          </label>
-        </div>
+        ))}
+
         <Button
           variant="ghost"
           className="w-fit flex gap-[0.5rem] items-center ml-4"
         >
           See more <CaretDown size={17} weight="bold" />
         </Button>
+      </div>
+      <hr className="opacity-20 h-px mt-6" />
+      {/* PRICE */}
+      <div className="flex flex-col gap-[0.6rem]">
+        <div className="flex justify-between mt-6">
+          <div className="flex gap-3">
+            <Image src={price} alt="price" />
+            <p className="font-bold text-base">Price</p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-3">
+          <Checkbox
+            id="london"
+            checked={selectedLocation === "See only Free Events"}
+            onCheckedChange={() => handleLocationChange("See only Free Events")}
+          />
+          <label htmlFor="london" className="leading-none font-bold text-base">
+            See only Free Events
+          </label>
+        </div>
+      </div>
+      <hr className="opacity-20 h-px mt-4" />
+      {/* SORT BY */}
+      <div className="flex flex-col gap-[0.6rem]">
+        <div className="flex justify-between mt-6">
+          <div className="flex gap-3">
+            <Image src={sortby} alt="sortby" />
+            <p className="font-bold text-base">Sort By</p>
+          </div>
+        </div>
+        <div>
+      <div className="flex items-center space-x-3">
+        <Checkbox
+          id="london"
+          checked={filterDate === "Date"}
+          onCheckedChange={handleDateChange}
+        />
+        <label htmlFor="london" className="leading-none font-bold text-base">
+          Date
+        </label>
+      </div>
+
+      {/* Conditionally render DatePicker when showDatePicker is true */}
+      {showDatePicker && (
+        <DatePicker
+          setSelectedDate={(date: Date | null) => {
+            // setChosenDate(date);
+            setStartDate(date ? formatChosenDate(date) : null);
+            setEndDate(date ? formatChosenDate(date) : null);
+            // Optionally, you can hide the DatePicker after a date is selected
+            // setShowDatePicker(false);
+          }}
+        />
+      )}
+    </div>
       </div>
       <hr className="opacity-20 h-px mt-4" />
 

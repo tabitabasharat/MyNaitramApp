@@ -124,13 +124,13 @@ function Rewards() {
           </p>
 
           <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[12px]">
-            <div className="flex gap-[12px] w-full">
+            <div className="flex w-full lg:w-[331px] gap-[12px]">
               <div
-                className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
-                  selected === "rewards"
-                    ? "gradient-border-rounded text-[#00A849]"
-                    : ""
-                }`}
+               className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] w-full lg:w-[331px] flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
+                selected === "rewards"
+                  ? "gradient-border-rounded text-[#00A849]"
+                  : ""
+              }`}
                 // onClick={() => setSelected("rewards")}
                 onClick={() => handleOptionChange("rewards")}
               >
@@ -152,7 +152,7 @@ function Rewards() {
             </div>
 
             <div
-              className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
+              className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] lg:w-[331px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
                 selected === "rewardcollectables"
                   ? "gradient-border-rounded text-[#00A849]"
                   : ""
