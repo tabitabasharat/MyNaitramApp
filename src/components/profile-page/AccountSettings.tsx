@@ -306,7 +306,7 @@ const AccountSettings = () => {
                 </Button>
               </div> */}
 
-              <div className="flex justify-start lg:justify-end  absolute bottom-[0px] mb-[32px] md:mt-[32px]  sm:relative mt-[57px] w-full">
+              <div className="flex justify-start lg:justify-end  absolute bottom-[0px] mb-[32px] md:mt-[43px]  sm:relative mt-[57px] w-full">
                 <Button
                   type="submit"
                className="w-full  px-[30.5px] py-[12px]  md:mb-[0px] font-extrabold text-base md:w-fit"

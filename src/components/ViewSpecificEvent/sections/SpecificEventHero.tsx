@@ -7,7 +7,7 @@ import "swiper/css/effect-fade";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-
+import ShareModal from "./ShareModal";
 import "./EventHero.css";
 import EventsHeroSlide from "./EventsHeroSlide";
 import { useEffect, useRef, useState } from "react";
@@ -17,7 +17,7 @@ import Image from "next/image";
 
 import { getEventByEventId, getEventCount } from "@/lib/middleware/event";
 import { getEventAttend } from "@/lib/middleware/event";
-
+import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
 import Link from "next/link";
 import gift from "@/assets/gift.png";
 import Avatar1 from "@/assets/Avatar-1.svg";
@@ -45,6 +45,7 @@ import {
   ErrorToast,
 } from "@/components/reusable-components/Toaster/Toaster";
 import { checkEventTicketStatus } from "@/lib/middleware/liveactivity";
+
 const CustomPrevArrow = (props: any) => (
   <div
     style={{ cursor: "pointer" }}
@@ -67,9 +68,10 @@ const CustomNextArrow = (props: any) => (
 
 const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   const router = useRouter();
+  const [sharemodal, setShareModal] = useState<any>(false);
   const [eventID, setEventId] = useState("");
   const [loader, setLoader] = useState(false);
-
+  const [copiedUrl, setCopiedUrl] = useState<any>("");
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<any>(null);
 
@@ -138,8 +140,11 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
         navigator.clipboard
           .writeText(currentUrl)
           .then(() => {
-            SuccessToast("URL copied successfully");
+            setCopiedUrl(currentUrl)
+            // SuccessToast("URL copied successfully");
             console.log("Your URL is", currentUrl);
+
+            setShareModal(true);
           })
           .catch(() => {
             ErrorToast("Failed to copy URL.");
@@ -148,6 +153,10 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
         ErrorToast("Failed to copy URL.");
       }
     }
+  };
+
+  const handleShare = () => {
+    setShareModal(true);
   };
 
   async function handleLiveActivity() {
@@ -194,6 +203,10 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     (state: any) => state?.getAllAttend?.attend?.data
   );
 
+  const eventAttend = useAppSelector(
+    (state: any) => state?.getAllAttend?.attend
+  );
+
   console.log("this is event attendees", eventAttendy);
   return (
     <section className="bg-img ">
@@ -224,12 +237,20 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
               <button
                 className="bg-[#13FF7A] text-sm font-extrabold flex w-full sm:w-fit justify-center p-[10px] gap-[6px] rounded-[100px] text-[black]"
                 onClick={copyUrlToClipboard}
+                // onClick={()=> handleShare()}
               >
                 {" "}
                 <Image src={shareicon} sizes="16px" alt="share icon" />{" "}
                 <p> Share</p>
               </button>
             </div>
+            {sharemodal && (
+              <ShareModal
+                onClose={() => setShareModal(false)}
+                open={() => setShareModal(true)}
+               eventUrl={copiedUrl}
+              />
+            )}
           </div>
           <div className="flex gap-[40px] flex-col lg:flex-row">
             <div className="">
@@ -352,21 +373,28 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                     <div className="w-full flex flex-col justify-center items-center">
                       <div className="flex -space-x-3">
                         <Image
-                          src={Avatar1}
+                          src={
+                            eventAttend?.data?.[0]?.profilePicture || Avatar1
+                          }
                           width={60}
                           height={60}
                           alt="avatar"
                           className="rounded-full border border-[#034C22] z-[1]"
                         />
                         <Image
-                          src={Avatar2}
+                          // src={Avatar2}
+                          src={
+                            eventAttend?.data?.[1]?.profilePicture || Avatar2
+                          }
                           width={60}
                           height={60}
                           alt="avatar"
                           className="rounded-full border border-[#034C22] z-[2]"
                         />
                         <Image
-                          src={Avatar3}
+                          src={
+                            eventAttend?.data?.[2]?.profilePicture || Avatar3
+                          }
                           width={60}
                           height={60}
                           alt="avatar"

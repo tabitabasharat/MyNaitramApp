@@ -1933,7 +1933,7 @@ function Editevent() {
                       render={({ field }) => (
                         <FormItem className="relative w-full space-y-0">
                           <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 uppercase pt-[16px] pb-[4px]">
-                            Event Ticket Price
+                          Event Ticket Price (£) 
                           </FormLabel>
                           <FormControl>
                             <Input

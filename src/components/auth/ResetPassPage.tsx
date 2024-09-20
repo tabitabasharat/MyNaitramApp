@@ -113,7 +113,9 @@ const ResetPassPage = () => {
                       EMAIL
                     </FormLabel>
                     <Envelope
-                      className="absolute right-3 translate-y-[0.9rem]"
+                      className="absolute top-[8px] right-3 translate-y-[0.9rem] z-10"
+
+                     
                       size={20}
                     />
                     <FormControl>

@@ -108,6 +108,9 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
   const handleBackEvent = () => {
     router.push("/OrganizerEventCreate");
   };
+  const eventAttendy = useAppSelector(
+    (state: any) => state?.getAllAttend?.attend?.data
+  );
   return (
     <section className="bg-imgg">
       {isWalletModalOpen && (
@@ -269,7 +272,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                   <div className="w-full flex flex-col justify-center items-center">
                     <div className="flex -space-x-3">
                       <Image
-                        src={Avatar1}
+                        src={eventAttendy[0]?.profilePicture  ? eventAttendy[0]?.profilePicture  : Avatar1}
                         width={60}
                         height={60}
                         alt="avatar"
@@ -290,9 +293,17 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                         className="rounded-full border border-[#034C22] z-[3]"
                       />
                     </div>
-                    <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
+                    {/* <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
                       Evelyn and 348 others going
-                    </h3>
+                    </h3> */}
+                    <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
+                        {eventAttendy?.length > 0 && (
+                          <>
+                            {eventAttendy[0]?.fullname} and{" "}
+                            {eventAttendy?.length - 1} others going
+                          </>
+                        )}
+                      </h3>
                     <p className="text-[#BFBFBF] text-[12px] pt-[4px]">
                       Tap to see the live activities
                     </p>

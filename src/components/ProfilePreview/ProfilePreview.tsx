@@ -78,6 +78,15 @@ const ProfilePreview = () => {
           
           </p>
           <p className="mt-1 font-bold text-center md:text-left hidden md:block">
+          <span className="text-[24px] sm:text-base">
+              {myProfile?.data?.profile?.totalEvents}{" "}
+              <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
+                {" "}
+                Events{" "}
+              </span>
+            </span>
+            <span className="opacity-50 "> | </span>{" "}
+
             <span className="text-[24px] sm:text-base">
               {" "}
               {myProfile?.data?.profile?.totalAttendees}{" "}
@@ -86,17 +95,18 @@ const ProfilePreview = () => {
                 Attended
               </span>
             </span>{" "}
-            <span className="opacity-50 "> | </span>{" "}
-            <span className="text-[24px] sm:text-base">
-              {myProfile?.data?.profile?.totalEvents}{" "}
-              <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
-                {" "}
-                Events{" "}
-              </span>
-            </span>
+            
           </p>
 
           <div className="md:hidden border border-[#0FFF7730] rounded-lg gradient-slate flex justify-evenly items-center w-full  mt-[20px]">
+          <div className="flex flex-col items-center py-[16px] justify-center font-bold text-center">
+              <p className="text-[18px]">
+                {myProfile?.data?.profile?.totalEvents}
+              </p>
+              <p className="text-[12px] opacity-50">EVENTS</p>
+            </div>
+            <div className="w-px h-8 bg-white/20"></div>
+
             <div className="flexc flex-col items-center justify-center py-[16px] font-bold text-center">
               <p className="text-[18px]">
                 {" "}
@@ -104,15 +114,9 @@ const ProfilePreview = () => {
               </p>
               <p className="text-[12px] opacity-50">ATTENDED</p>
             </div>
-            <div className="w-px h-8 bg-white/20"></div>
-            <div className="flexc flex-col items-center py-[16px] justify-center font-bold text-center">
-              <p className="text-[18px]">
-                {myProfile?.data?.profile?.totalEvents}
-              </p>
-              <p className="text-[12px] opacity-50">EVENTS</p>
-            </div>
+           
           </div>
-          <p className="font-normal text-center lg:text-start text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
+          <p className="font-normal text-center md:text-start text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
             {myProfile?.data?.profile?.bio}
           </p>
           <div className="flex justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">

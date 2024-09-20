@@ -121,6 +121,20 @@ const Profile = () => {
                   }}
                   className="flex bg-[#0F0F0F] rounded-[6.89px] gap-[20px] justify-evenly  py-[16px] lg:py-[13.77px] w-[100%] lg:w-[428px] xl:w-[428px] border-[0.86px] border-transparent"
                 >
+                  
+                  <div className="flex flex-col items-center justify-center ">
+                    <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
+                     
+                     {myProfile?.eventsCount !== null
+                        ? myProfile?.eventsCount
+                        : "0"}
+                    </h2>
+                    <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
+                    EVENTS
+                    </p>
+                  </div>
+                  <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
+
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
                       {myProfile?.attendees !== null
@@ -128,19 +142,7 @@ const Profile = () => {
                         : "0"}
                     </h2>
                     <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      ATTENDEES
-                    </p>
-                  </div>
-                  <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
-                  <div className="flex flex-col items-center justify-center ">
-                    <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-                     
-                     {myProfile?.followers !== null
-                        ? myProfile?.followers
-                        : "0"}
-                    </h2>
-                    <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      FOLLOWING
+                      ATTENDED
                     </p>
                   </div>
                 </div>

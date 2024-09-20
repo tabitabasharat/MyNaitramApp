@@ -131,6 +131,10 @@ export default function SpecificEventTickets() {
     (state) => state?.getTicketByQR?.myQRTickets?.data
   );
   console.log("MY ticket data is", TicketData);
+
+  const userLoading = useAppSelector(
+    (state) => state?.getTicketByQR
+  );
   const ConvertDate = (originalDateStr: string): string => {
     const originalDate = new Date(originalDateStr);
 
@@ -231,6 +235,7 @@ export default function SpecificEventTickets() {
   ];
   return (
     <section className="min-h-screen py-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
+      {userLoading.loading && <ScreenLoader/>}
       <div className="max-w-screen-lg lg:gap-[0px]   mx-auto text-center lg:text-left">
         {/* Container for back button and title */}
         <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-8">
@@ -388,7 +393,7 @@ export default function SpecificEventTickets() {
               </h3>
             </div>
             <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
-              <div>
+              <Link href={`https://sepolia.etherscan.io/tx/${TicketData?.txHash}`} target="_blank">
                 <h2 className="font-normal text-sm text-start">
                   Transaction ID
                 </h2>
@@ -402,15 +407,15 @@ export default function SpecificEventTickets() {
                     : "N/A"} */}
 
                   {TicketData?.txHash
-                    ? TicketData.txHash.length > 20
-                      ? `${TicketData.txHash.slice(
+                    ? TicketData?.txHash.length > 20
+                      ? `${TicketData?.txHash.slice(
                           0,
                           19
                         )}...`
-                      : TicketData.txHash
+                      : TicketData?.txHash
                     : "N/A"}
                 </h3>
-              </div>
+              </Link>
               <div>
                 <Image src={blockchain} alt="img" />
               </div>

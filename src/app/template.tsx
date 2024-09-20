@@ -29,7 +29,8 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/profile-perview",
     "/preview-event",
     "/events/event-detail/live-activity",
-    "/wallet"
+    "/wallet",
+    "/profile/reward-item"
   ];
   const pathname = usePathname();
   // const isProfileRoute = profileRoutes.includes(pathname);

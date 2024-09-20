@@ -30,7 +30,7 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID }: any) => {
       dispatch(claimReward(data)).then((res: any) => {
         if (res?.payload?.status === 201) {
           setLoader(false);
-          SuccessToast("Reward Claimed Successfully");
+          // SuccessToast("Reward Claimed Successfully");
           setisClaimOpen(true);
         } else {
           setLoader(false);

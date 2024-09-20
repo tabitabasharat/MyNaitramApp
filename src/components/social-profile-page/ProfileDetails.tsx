@@ -21,7 +21,8 @@ const ProfileDetails = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     dispatch(getUserSocialProfile(userid));
   }, []);
@@ -33,12 +34,16 @@ const ProfileDetails = () => {
   console.log("my Social Profile info is", myProfile);
 
   return (
-    <div className="flex flex-col md:flex-row w-full items-center justify-between  gap-[0px] md:gap-[24px]">
+    <div className="flex flex-col md:flex-row w-full items-center justify-between  gap-[0px] md:gap-[100px]">
       <div className="flex flex-col w-[100%] md:flex-row gap-[24] md:gap-[32px] justify-center items-center md:justify-start md:items-start">
         <GoldGradientBorder className="w-fit rounded-full p-[3px] h-fit">
           <div className="bg-black rounded-full p-[7px]">
             <Image
-              src={myProfile?.profilePicture ? myProfile?.profilePicture : "/person3.jpg"}
+              src={
+                myProfile?.profilePicture
+                  ? myProfile?.profilePicture
+                  : "/person3.jpg"
+              }
               width={136}
               height={136}
               className="h-[128px] w-[128px] sm:h-[136px] sm:w-[136px] object-cover object-top rounded-full"
@@ -51,7 +56,7 @@ const ProfileDetails = () => {
         </GoldGradientBorder>
         <div className="w-full md:w-fit ">
           <p className="font-extrabold mt-[12px] flex justify-center md:justify-start items-center gap-1 text-[24px]">
-            {myProfile?.fullname ?  myProfile?.fullname : ""}{" "}
+            {myProfile?.fullname ? myProfile?.fullname : ""}{" "}
             {/* <SealCheck
               className="text-[#FFC109] w-[16px] h-[16px] sm::w-[20px] sm:h-[20px] -translate-y-1"
                size={20}
@@ -59,10 +64,9 @@ const ProfileDetails = () => {
             /> */}
           </p>
           <p className="text-primary font-extrabold text-sm md:pt-[6px] md:pb-[4px] sm:text-base text-center md:text-left">
-            {myProfile?.email ? myProfile?.email : "" }
+            {myProfile?.email ? myProfile?.email : ""}
           </p>
           <p className="mt-1 font-bold text-center md:text-left hidden md:block">
-            
             <span className="text-[24px] sm:text-base">
               {myProfile?.totalEvents ? myProfile?.totalEvents : 0}{" "}
               <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
@@ -71,7 +75,6 @@ const ProfileDetails = () => {
               </span>
             </span>
             <span className="opacity-50 "> | </span>{" "}
-
             <span className="text-[24px] sm:text-base">
               {" "}
               {myProfile?.totalAttendees ? myProfile?.totalAttendees : 0}{" "}
@@ -83,14 +86,20 @@ const ProfileDetails = () => {
           </p>
 
           <div className="md:hidden border border-[#0FFF7730] rounded-lg gradient-slate flex justify-evenly items-center w-full  mt-5">
-            <div className="flexc flex-col items-center justify-center py-[16px] font-bold text-center">
-              <p className="text-[18px]">32</p>
-              <p className="text-[12px] opacity-50">ATTENDED</p>
+            <div className="flexc flex-col items-center py-[16px] justify-center font-bold text-center">
+              <p className="text-[18px]">
+                {myProfile?.totalEvents ? myProfile?.totalEvents : 0}
+              </p>
+              <p className="text-[12px] opacity-50">EVENTS</p>
             </div>
             <div className="w-px h-8 bg-white/20"></div>
-            <div className="flexc flex-col items-center py-[16px] justify-center font-bold text-center">
-              <p className="text-[18px]">251</p>
-              <p className="text-[12px] opacity-50">EVENTS</p>
+
+            <div className="flexc flex-col items-center justify-center py-[16px] font-bold text-center">
+              <p className="text-[18px]">
+                {" "}
+                {myProfile?.totalAttendees ? myProfile?.totalAttendees : 0}{" "}
+              </p>
+              <p className="text-[12px] opacity-50">ATTENDED</p>
             </div>
           </div>
         </div>

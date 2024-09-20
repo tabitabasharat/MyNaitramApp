@@ -6,9 +6,35 @@ import backwardimg from "@/assets/Back - Button.svg";
 import leftimg  from "@/assets/Wallet/Left-reward-item.svg"
 import "../Reward.css"
 import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useState,useEffect } from "react";
+import { getRewardCollectibleByID } from "@/lib/middleware/reward";
+
+
 
 export default function Rewarditem() {
     const router = useRouter();
+    const dispatch = useAppDispatch();
+  const [collectID, setCollectID] = useState("");
+
+    useEffect(() => {
+      const currentUrl: any =
+        typeof window !== "undefined" ? window.location.href : null;
+      const parts = currentUrl.split("/");
+      const value = parts[parts.length - 1];
+      setCollectID(value);
+      console.log("my event id is", value);
+      dispatch(getRewardCollectibleByID(value));
+    }, []);
+
+    const myData = useAppSelector(
+      (state) =>
+        state?.getRewardCollectibleID?.mySpecificCollectible?.data?.collectible
+    );
+    console.log("my data inside item",myData)
+    const imageUrl = myData?.image?.startsWith("http" || "https")
+    ? myData?.image
+    : leftimg;
   return (
     <section
      
@@ -26,21 +52,23 @@ export default function Rewarditem() {
             My Items
           </h2>
         </div>
-        <div className="flex items-center justify-center flex-col lg:flex-row lg:gap-[40px] gap-[32px]">
-          <div className="">
-            <Image src={leftimg} className="" alt="img" />
+        <div className="flex lg:items-center justify-start flex-col lg:flex-row lg:gap-[40px] gap-[32px]">
+          <div className="flex items-center justify-center lg:block">
+          <Image
+              src={imageUrl}
+              alt="img"
+              className="lg:size-[392px] size-[345px] "
+              width={392}
+              height={392}
+            />
+            {/* <Image src={leftimg} className="" alt="img" /> */}
           </div>
           <div className="flex gap-[24px] flex-col lg:gap-[32px]">
             <h3 className="lg:text-[48px] font-extrabold text-[32px] -tracking-[0.02em] ">
-              Naitram TOP EARNER
+            {myData?.name}
             </h3>
             <p className="font-normal text-[13px] lg:text-[16px] textbr">
-              Consequat bibendum mattis nam tincidunt amet nunc neque nunc
-              blandit.<br></br> Senectus tempor lectus accumsan gravida neque.
-              Pellentesque<br></br> scelerisque consectetur nisl ut hac id enim.
-              Consequat bibendum mattis<br></br> nam tincidunt amet nunc neque nunc
-              blandit. Senectus tempor lectus<br></br> accumsan gravida neque.
-              Pellentesque scelerisque consectetur nisl ut hac<br></br> id enim.
+            {myData?.description}
             </p>
           </div>
         </div>
