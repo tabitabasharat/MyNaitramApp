@@ -280,7 +280,7 @@ const YourEvents = ({
               <Link href="javascript:void(0)">
                 <div
                   
-                  className="flex gap-[10px] cursor-pointer me-[24px]"
+                  className="flex gap-[10px] cursor-pointer"
                 >
                   <Image src={share} sizes="40px" alt="share"     onClick={copyUrlToClipboard}/>
 

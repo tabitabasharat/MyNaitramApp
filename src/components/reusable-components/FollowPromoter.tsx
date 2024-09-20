@@ -110,7 +110,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
         {
           <Button
             variant="secondary"
-            className="text-[14px] font-bold py-[10px]"
+            className="text-[14px] font-bold p-[10px]"
             onClick={() => handleFollow()}
           >
             Follow Promoter

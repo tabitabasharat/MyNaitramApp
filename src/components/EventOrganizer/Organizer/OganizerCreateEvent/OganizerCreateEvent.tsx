@@ -1079,13 +1079,13 @@ function OganizerCreateEvent() {
                   name="eventname"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
                         Event Name
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Event Name"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                           {...field}
                           onChange={(e) => {
                             setEventname(e.target.value);
@@ -1198,10 +1198,10 @@ function OganizerCreateEvent() {
                         onClick={handleCatDropdownToggle}
                       >
                         <div className="flex flex-col">
-                          <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase">
+                          <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">
                             EVENT category
                           </p>
-                          <p>Select Event Category</p>
+                          <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Select Event Category</p>
                         </div>
                         <Image
                           src={isCatDropdownOpen ? arrowdown : arrowdown}
@@ -1313,13 +1313,13 @@ function OganizerCreateEvent() {
                   name="eventlocation"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event location
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Location"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                           {...field}
                           onChange={(e) => {
                             setEventLocation(e.target.value);
@@ -1339,7 +1339,7 @@ function OganizerCreateEvent() {
                   name="eventstartdate"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Ticketing Start Date & Time
                       </FormLabel>
                       <FormControl>
@@ -1349,7 +1349,7 @@ function OganizerCreateEvent() {
                           type="datetime-local"
                           aria-label="Date and time"
                           placeholder="Enter Start Date"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] w-full  "
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                           {...field}
                           onChange={(e) => {
                             setTicketStartDate(e.target.value);
@@ -1373,7 +1373,7 @@ function OganizerCreateEvent() {
                   name="eventenddate"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Ticketing End Date & time
                       </FormLabel>
                       <FormControl>
@@ -1381,7 +1381,7 @@ function OganizerCreateEvent() {
                           type="datetime-local"
                           aria-label="Date and time"
                           placeholder="Enter End Date"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                           {...field}
                           onChange={(e) => {
                             setTicketEndDate(e.target.value);
@@ -1404,7 +1404,7 @@ function OganizerCreateEvent() {
                   name="eventstarttime"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event Start Date & time
                       </FormLabel>
                       <FormControl>
@@ -1412,7 +1412,7 @@ function OganizerCreateEvent() {
                           type="datetime-local"
                           aria-label="Date and time"
                           placeholder="Enter Start Time"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                           {...field}
                           onChange={(e) => {
                             // const utcTime = convertToUTC(e.target.value);
@@ -1438,7 +1438,7 @@ function OganizerCreateEvent() {
                   name="eventendtime"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event End Date & time
                       </FormLabel>
                       <FormControl>
@@ -1446,7 +1446,7 @@ function OganizerCreateEvent() {
                           type="datetime-local"
                           aria-label="Date and time"
                           placeholder="Enter End Time"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                           {...field}
                           onChange={(e) => {
                             setEventEndTime(e.target.value);
@@ -1461,280 +1461,6 @@ function OganizerCreateEvent() {
                   )}
                 />
               </div>
-
-              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container ">
-                <FormField
-                  control={form.control}
-                  name="eventmainimg"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Main event image
-                      </FormLabel>
-                      <UploadSimple
-                        className="absolute right-[24px] top-[30%] "
-                        size={20}
-                      />
-
-                      <FormControl>
-                        <div>
-                          <label
-                            htmlFor="upload"
-                            className="pt-9 pb-3 font-bold   border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-between items-center "
-                          >
-                            <span className="pl-[0.75rem]">
-                              {MainImgName || "Upload Image"}
-                            </span>
-
-                            <input
-                              ref={fileInputRef}
-                              type="file"
-                              accept="image/*"
-                              className="hidden"
-                              id="upload"
-                              onChange={handleSingleFileChange}
-                            />
-                          </label>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div> */}
-
-              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                <FormItem className="relative w-full space-y-0">
-                  <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                    Gallery media
-                    {galleryFiles?.length > 0 && (
-                      <div className="mt-4 pb-4 relative">
-                        <div className="flex flex-wrap gap-[12px]">
-                          {galleryFiles?.map((file, index) => {
-                            const isVideo = file.type.startsWith("video/");
-                            const isImage = file.type.startsWith("image/");
-                            return (
-                              <div
-                                key={index}
-                                className="relative w-[80px] h-[80px] bg-gray-200 rounded-[12px]"
-                              >
-                                {isVideo ? (
-                                  <video
-                                    src={window.URL.createObjectURL(file)}
-                                    className="w-full h-full object-cover relative rounded-[12px]"
-                                    width={80}
-                                    height={80}
-                                    controls
-                                  >
-                                    Your browser does not support the video tag.
-                                  </video>
-                                ) : isImage ? (
-                                  <Image
-                                    src={window.URL.createObjectURL(file)}
-                                    alt={`Gallery Image ${index + 1}`}
-                                    className="w-full h-full object-cover relative rounded-[12px]"
-                                    width={80}
-                                    height={80}
-                                  />
-                                ) : (
-                                  <p className="w-full h-full flex items-center justify-center text-red-500">
-                                    Unsupported media type
-                                  </p>
-                                )}
-                                <button
-                                  type="button"
-                                  onClick={() => removeImage(index)}
-                                  className="trash_button"
-                                >
-                                  <Image
-                                    src={crossicon}
-                                    alt="remove"
-                                    width={20}
-                                    height={20}
-                                  />
-                                </button>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                  </FormLabel>
-                  <FormControl>
-                    <div>
-                      <label
-                        htmlFor="galleryUpload"
-                        className={`pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px] ${
-                          galleryFiles.length > 0
-                            ? "h-[200px] gallery-box"
-                            : "pt-9 gallery-top"
-                        }`}
-                      >
-                        <span className="pl-[0.75rem] uploadImageButton">
-                          {"Upload Images"}
-                        </span>
-                        <input
-                          type="file"
-                          multiple
-                          accept="image/*, video/*"
-                          // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
-                          className="hidden"
-                          id="galleryUpload"
-                          onChange={handleFileChange}
-                        />
-                      </label>
-                    </div>
-                  </FormControl>
-                </FormItem>
-              </div> */}
-
-              {/* {ticketTypes.map((ticket, index) => (
-                <div
-                  className="flex items-start gap-[24px] w-full mt-[24px] common-container"
-                  key={index}
-                >
-                  <FormField
-                    control={form.control}
-                    name={`tickets.${index}.type`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                          Event Ticket Type
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter Type"
-                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                            {...field}
-                            onChange={(e) => {
-                              handleInputChange(index, "type", e.target.value);
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name={`tickets.${index}.price`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                          Event Ticket Price
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Enter Price"
-                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                            {...field}
-                            onChange={(e) => {
-                              handleInputChange(
-                                index,
-                                "price",
-                                parseFloat(e.target.value)
-                              );
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name={`tickets.${index}.no`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                          Event Number of Tickets
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Enter No. of Tickets"
-                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                            {...field}
-                            onChange={(e) => {
-                              handleInputChange(
-                                index,
-                                "no",
-                                parseInt(e.target.value, 10)
-                              );
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              ))} */}
-
-              {/* <div className="pb-[8px] mt-[12px] w-full rounded-md border border-[#292929] gradient-slate  pt-[16px] px-[12px]  text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                <div
-                  className="flex items-center justify-between "
-                  onClick={handleDropdown}
-                >
-                  <p className="text-sm text-gray-500 uppercase">
-                    WHATS INCLUDED
-                  </p>
-                  <Image
-                    src={Dropdown ? arrowdown : arrowdown}
-                    width={11}
-                    height={11}
-                    alt="arrow"
-                  />
-                </div>
-                {Dropdown && (
-                  <div>
-                    {options?.map((option) => (
-                      <div
-                        key={option?.id}
-                        className="flex items-center justify-between pt-[8px] cursor-pointer"
-                        onClick={() => handleOptionToggle(option)}
-                      >
-                        <div className="flex items-center gap-[10px]  ">
-                          <Image
-                            src={option.image}
-                            width={16}
-                            height={16}
-                            alt="img"
-                          />
-                          <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                            {option.label}
-                          </p>
-                        </div>
-                        {selectedOptions.some((o) => o.id === option.id) && (
-                          <Image src={tick} width={10} height={10} alt="tick" />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-                To use the selected options elsewhere 
-                 <div>
-                  Selected Options:{" "}
-                  {selectedOptions.map((o) => o.label).join(", ")}
-                </div>
-              </div> */}
-
-              {/* <div className="flex justify-end items-center mt-[12px] ticket-btn">
-                <Button
-                  className="font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold "
-                  onClick={handleAddTicketType}
-                >
-                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                  Add Ticket Type
-                </Button>
-              </div> */}
-
               {ticketTypes.map((ticket, index) => (
                 <div
                   className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
@@ -1747,13 +1473,13 @@ function OganizerCreateEvent() {
                       name={`tickets.${index}.type`}
                       render={({ field }) => (
                         <FormItem className="relative w-full space-y-0">
-                          <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                          <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                             Event Ticket Type
                           </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Enter Type"
-                              className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                              className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                               {...field}
                               onChange={(e) => {
                                 handleInputChange(
@@ -1776,14 +1502,14 @@ function OganizerCreateEvent() {
                       name={`tickets.${index}.price`}
                       render={({ field }) => (
                         <FormItem className="relative w-full space-y-0">
-                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                          <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 uppercase pt-[16px] pb-[4px]">
                             Event Ticket Price
                           </FormLabel>
                           <FormControl>
                             <Input
                               type="number"
                               placeholder="Enter Price"
-                              className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                              className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                               {...field}
                               onChange={(e) => {
                                 handleInputChange(
@@ -1806,14 +1532,14 @@ function OganizerCreateEvent() {
                       name={`tickets.${index}.no`}
                       render={({ field }) => (
                         <FormItem className="relative w-full space-y-0">
-                          <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                          <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                             Event Number of Tickets
                           </FormLabel>
                           <FormControl>
                             <Input
                               type="number"
                               placeholder="Enter No. of Tickets"
-                              className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                              className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                               {...field}
                               onChange={(e) => {
                                 handleInputChange(
@@ -1837,7 +1563,7 @@ function OganizerCreateEvent() {
                       className="flex items-center justify-between"
                       onClick={() => handleDropdown(index)}
                     >
-                      <p className="text-sm text-gray-500 uppercase">
+                      <p className="text-sm text-[#8F8F8F] uppercase">
                         WHATS INCLUDED
                       </p>
                       <Image
@@ -1962,14 +1688,14 @@ function OganizerCreateEvent() {
                   name="compticketno"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Complimentary number of tickets
                       </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           placeholder="Enter No. of Tickets"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                           {...field}
                           onChange={(e) => {
                             setCompTicketNo(e.target.value);
@@ -1989,13 +1715,13 @@ function OganizerCreateEvent() {
                   name="fburl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Facebook
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                           {...field}
                           // onChange={(e) => {
                           //   setFBUrl(e.target.value);
@@ -2021,14 +1747,14 @@ function OganizerCreateEvent() {
                   name="instaurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Instagram
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
                           // value={InstaUrl}
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                           {...field}
                           // onChange={(e) => {
                           //   setInstaUrl(e.target.value);
@@ -2057,13 +1783,13 @@ function OganizerCreateEvent() {
                   name="telegramurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Twitter
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                           {...field}
                           // onChange={(e) => {
                           //   setTwitterUrl(e.target.value);
@@ -2090,13 +1816,13 @@ function OganizerCreateEvent() {
                   name="youtubeurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Youtube
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                           {...field}
                           // onChange={(e) => {
                           //   setYoutubeUrl(e.target.value);
@@ -2123,13 +1849,13 @@ function OganizerCreateEvent() {
                   name="tiktokurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Tiktok
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                           {...field}
                           // onChange={(e) => {
                           //   settiktokUrl(e.target.value);
@@ -2155,13 +1881,13 @@ function OganizerCreateEvent() {
                   name="linkedinurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Linkedin
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                           {...field}
                           // onChange={(e) => {
                           //   setlinkedinUrl(e.target.value);

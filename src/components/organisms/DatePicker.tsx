@@ -36,34 +36,19 @@ export function DatePicker({ setSelectedDate }: DatePickerProps) {
           name="date"
           render={({ field }) => (
             <FormItem>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <p className="underline">
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Choose Date</span>
-                      )}
-                    </p>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 border-black" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    className="bg-black text-white border border-black"
-                    onSelect={(date: any) => {
-                      field.onChange(date);
-                      setSelectedDate(date); // Call the parent state setter when the date is selected
-                    }}
-                    // disabled={(date: any) =>
-                    //   date > new Date() || date < new Date('1900-01-01')
-                    // }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+              <Calendar
+                mode="single"
+                selected={field.value}
+                className="bg-black text-white border border-black"
+                onSelect={(date: any) => {
+                  field.onChange(date);
+                  setSelectedDate(date); // Call the parent state setter when the date is selected
+                }}
+                // disabled={(date: any) =>
+                //   date > new Date() || date < new Date('1900-01-01')
+                // }
+                initialFocus
+              />
             </FormItem>
           )}
         />

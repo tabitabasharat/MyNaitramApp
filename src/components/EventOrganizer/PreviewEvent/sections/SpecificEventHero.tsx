@@ -59,7 +59,6 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [UserID, setUserID] = useState<any>("");
 
-
   const router = useRouter();
 
   const dispatch: any = useAppDispatch();
@@ -70,13 +69,11 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
     const id =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", id);
-    setUserID(id)
+    setUserID(id);
     dispatch(getOrganizerByID(id));
     dispatch(getOrganizerSocialProfile(id));
-   
   }, []);
 
- 
   const settings: any = {
     dots: false,
     infinite: eventAllData?.eventmedia?.length > 1,
@@ -130,8 +127,9 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
         className="w-full h-screen absolute object-cover object-center z-0 opacity-30"
         alt=""
       />
-      <div className="mx-2xl">
-        <div className="flex items-center justify-between mb-[24px] z-[3] md:px-[0px] xl:px-[4rem]  px-[24px] pt-[8rem] xl:pt-[9rem]   w-full md:w-[80%] sm:mx-auto  xl:w-full   relative  ">
+      <div>
+      <div className="main-abovee px-[24px] w-full md:px-[100px] lg:ps-[40px] lg:pe-[40px] xl:px-[216px] pt-[8rem] lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] gap-[32px] lg:gap-12 w-full md:w-[100%] xl:w-full relative">
+        <div className="flex justify-between items-center mb-[24px]">
           <div className="flex items-center gap-[16px]">
             <button onClick={() => handleBackEvent()} type="button">
               <Image
@@ -156,7 +154,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
             Submit
           </Button>
         </div>
-        <div className="main-abovee xl:justify-normal lg:justify-center pxpx md:mx-auto pb-[6rem] z-[2] flex flex-col lg:flex-row gap-[32px] lg:gap-12 w-full md:w-[70%] xl:w-full relative   ">
+        <div className="flex gap-[40px] flex-col lg:flex-row">
           {/* <div className="">
             <div className="lhs-hero lg:w-[392px] w-full flex items-center justify-center flex-col relative ">
               <Image
@@ -183,17 +181,17 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
               </div> */}
 
               {/* {eventAllData?.userId && ( */}
-                <PreviewEventFollowPromoter
-                  userId={UserID}
-                  eventName={eventAllData?.eventname}
-                  eventDATA={eventAllData}
-                />
+              <PreviewEventFollowPromoter
+                userId={UserID}
+                eventName={eventAllData?.eventname}
+                eventDATA={eventAllData}
+              />
               {/* )} */}
             </div>
           </div>
 
           <div className="main-div-takeoverr lg:mt-[0px] mt-[0px] ">
-            <div className="rhs-hero w-[578px] lg:mt-0  mt-0">
+            <div className="rhs-hero event-width-adjustment lg:mt-0  mt-0">
               <EventsHeroSlide
                 instaUrl={eventAllData?.instaurl}
                 tiktokUrl={eventAllData?.tiktokurl}
@@ -224,7 +222,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
 
               {eventAllData?.eventmedia?.length > 0 &&
                 Array.isArray(eventAllData?.eventmedia) && (
-                  <div className="w-[576px] h-[315]px] mt-[48px] rounded-[12px] slider-main-div">
+                  <div className="w-[576px] event-width-adjustment h-[350]px] mt-[48px] rounded-[12px] slider-main-div">
                     <Slider {...settings}>
                       {eventAllData?.eventmedia?.map(
                         (item: any, index: any) => (
@@ -237,7 +235,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                                 src={item}
                                 width={330}
                                 height={200}
-                                className="w-full h-[296px] slider-img object-fill "
+                                className="w-full h-[296px] slider-img object-contain "
                                 controls
                                 // alt={`Slide ${index + 1}`}
                               />
@@ -246,7 +244,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                                 src={item}
                                 width={330}
                                 height={200}
-                                className="w-full h-[315px] slider-img "
+                                className="w-full h-[350px] object-contain slider-img "
                                 alt={`Slide ${index + 1}`}
                               />
                             )}
@@ -310,6 +308,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
               </GradientBorder>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

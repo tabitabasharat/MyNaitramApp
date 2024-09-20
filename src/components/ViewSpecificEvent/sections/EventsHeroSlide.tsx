@@ -136,7 +136,7 @@ const EventsHeroSlide = ({
   return (
     <>
       {" "}
-      <div>
+      <div className="">
         <div>
           <div className="hidden flex gap-1 mb-3">
             {top5Events.map((_, index) => (
@@ -161,14 +161,14 @@ const EventsHeroSlide = ({
             <Badge className="lg:text-[12px]">Invitation</Badge>
             <Badge className="lg:text-[12px]">TAKEOVR</Badge> */}
           </div>
-          <div className="flex gap-[0.35rem] mt-3">
+          {/* <div className="flex gap-[0.35rem] mt-3">
             <Link target="_blank" href={`${instaUrl}`}>
               <InstagramLogo size={30} weight="fill" />
             </Link>
             <Link target="_blank" href={`${tiktokUrl}`}>
               <TiktokLogo size={30} weight="fill" />
             </Link>
-          </div>
+          </div> */}
 
           <h2 className="text-[32px] lg:w-full lg:text-[48px] xl:text-[48px] font-extrabold leading-[1.2] mt-[12px] mb-[24px] -tracking-[0.02em] ">
             {title}
@@ -197,7 +197,7 @@ const EventsHeroSlide = ({
             </div>
           </div>
           <div
-            className="flex items-center gap-[6px] cursor-pointer mt-[10px] mb-[12px]"
+            className="flex items-center gap-[6px] cursor-pointer mt-[24px] lg:mt-[48px] mb-[12px]"
             onClick={() => AboutToggle()}
           >
             <p className="text-[#13FF7A] ">About this event</p>
@@ -210,7 +210,7 @@ const EventsHeroSlide = ({
                 </p> */}
               <div
                 dangerouslySetInnerHTML={{ __html: eventdescription }}
-                className="text-white  "
+                className="text-white break-words overflow-hidden text-ellipsis"
               />
             </div>
           )}

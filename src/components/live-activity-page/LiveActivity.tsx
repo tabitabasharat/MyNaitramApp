@@ -103,7 +103,7 @@ const LiveActivity = () => {
           {/* <PhotoRoll /> */}
         </div>
 
-        <div className="w-full lg:w-1/2">
+        <div className="w-full event-width-adjustment">
           <LiveActivityChat  eventID={eventID}/>
         </div>
       </div>

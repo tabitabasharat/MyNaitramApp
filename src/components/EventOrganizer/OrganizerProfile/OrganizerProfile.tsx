@@ -285,11 +285,11 @@ const OrganizerProfile = () => {
             Change Photo Profile
           </Button>
         </div>
-        <div className="flex w-full  md:w-full lg:w-[428px] flex-col lg:flex-col gap-6 md:gap-8 mt-[0px] lg:mt-[32px]">
+        <div className="flex w-full  md:w-full lg:w-[428px] flex-col lg:flex-col gap-6 md:gap-8">
           <Link
             href="/profile-perview"
             className={cn(
-              "gradient-slate gradient-border w-full flex justify-between rounded-lg items-center  px-4 md:px-3 py-2.5 md:py-5 hover:border-[#13FF7A] duration-300 cursor-pointer relative",
+              "gradient-slate gradient-border w-full flex justify-between rounded-lg items-center lg:px-[12px] lg:py-[20px] p-[16px] md:py-5 hover:border-[#13FF7A] duration-300 cursor-pointer relative",
               {
                 "": pathname.startsWith("/social-profile"),
               }
@@ -341,8 +341,8 @@ const OrganizerProfile = () => {
                         FACEBOOK
                       </FormLabel>
                       <FacebookLogo
-                        className="absolute right-3 top-[30%]"
-                        size={28}
+                        className="absolute right-3 top-[35%]"
+                        size={20}
                       />
                       <FormControl>
                         <Input
@@ -376,8 +376,8 @@ const OrganizerProfile = () => {
                         INSTAGRAM
                       </FormLabel>
                       <InstagramLogo
-                        className="absolute right-3 top-[30%]"
-                        size={28}
+                        className="absolute right-3 top-[35%]"
+                        size={20}
                       />
                       <FormControl>
                         <Input
@@ -411,8 +411,8 @@ const OrganizerProfile = () => {
                         LINKEDIN
                       </FormLabel>
                       <LinkedinLogo
-                        className="absolute right-3 top-[30%]"
-                        size={28}
+                        className="absolute right-3 top-[35%]"
+                        size={20}
                       />
                       <FormControl>
                         <Input
@@ -446,8 +446,8 @@ const OrganizerProfile = () => {
                         TIKTOK
                       </FormLabel>
                       <TiktokLogo
-                        className="absolute right-3 top-[30%]"
-                        size={28}
+                        className="absolute right-3 top-[35%]"
+                        size={20}
                       />
                       <FormControl>
                         <Input
@@ -482,8 +482,8 @@ const OrganizerProfile = () => {
                         YOUTUBE
                       </FormLabel>
                       <YoutubeLogo
-                        className="absolute right-3 top-[30%]"
-                        size={28}
+                        className="absolute right-3 top-[35%]"
+                        size={20}
                       />
                       <FormControl>
                         <Input
@@ -518,7 +518,7 @@ const OrganizerProfile = () => {
                       </FormLabel>
                       <TwitterLogo
                         className="absolute right-3 top-[30%]"
-                        size={28}
+                        size={20}
                       />
                       <FormControl>
                         <Input
