@@ -21,7 +21,7 @@ function Browserexplore() {
             </p>
           </div>
           <DialogTrigger asChild>
-            <Button className="text-black p-3 font-bold w-full lg:w-fit">
+            <Button className="text-black py-[8px] lg:p-3  font-bold w-full lg:w-fit">
               Browse Other Events
             </Button>
           </DialogTrigger>

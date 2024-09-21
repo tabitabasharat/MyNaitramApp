@@ -244,7 +244,7 @@ const OrganizerProfile = () => {
     }
   }
   return (
-    <div className="w-full md:w-[70%] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
+    <div className="w-full md:w-[70%] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[auto]">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 

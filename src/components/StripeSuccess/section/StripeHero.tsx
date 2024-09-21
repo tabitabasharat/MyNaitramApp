@@ -167,8 +167,8 @@ const StripeHero = ({
       {" "}
       <div>
         <div>
-          <div className="ps-[20px] py-[16px] gap-[20px] flex-col lg:flex-row justify-center items-center bg-transparent flex rounded-[12px] lg:bg-[#007A353D]">
-            <div className="rounded-full overflow-hidden size-[60px]">
+          <div className="ps-[20px] py-[16px] gap-[20px] flex-col lg:flex-row justify-center lg:justify-start items-center bg-transparent flex rounded-[12px] lg:bg-[#007A353D]">
+            <div className="rounded-full overflow-hidden">
               <Image
                 src={success}
                 className=" h-[80px] w-[80px] lg:w-[60px] lg:h-[60px]"

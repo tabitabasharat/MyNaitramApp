@@ -97,7 +97,7 @@ const FAQ = ({
           {/* General Button */}
           <div
             onClick={() => handleClickbtn("General")}
-            className={`border border-[#3C3C3C] w-[92px] rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
+            className={`border border-[#3C3C3C] w-[92px] justify-center rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
               activebtn === "General"
                 ? "gradient-border-notify text-primary"
                 : "text-white"
@@ -109,19 +109,19 @@ const FAQ = ({
           {/* Account Button */}
           <div
             onClick={() => handleClickbtn("Account")}
-            className={`border border-[#3C3C3C] w-[92px] rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
+            className={`border border-[#3C3C3C] w-[92px] flex justify-center rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
               activebtn === "Account"
                 ? "gradient-border-notify text-primary"
                 : "text-white"
             } items-center cursor-pointer`}
           >
-            <p className="text-sm font-extrabold">Account</p>
+            <p className="text-sm text-center font-extrabold">Account</p>
           </div>
 
           {/* Login Button */}
           <div
             onClick={() => handleClickbtn("Login")}
-            className={`border border-[#3C3C3C] w-[92px] text-center rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
+            className={`border border-[#3C3C3C] w-[92px] justify-center text-center rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
               activebtn === "Login"
                 ? "gradient-border-notify text-primary"
                 : "text-white"
@@ -132,7 +132,7 @@ const FAQ = ({
         </div>
         {/* ))} */}
       </div>
-      <div className="flex flex-col lg:flex-col gap-[12px] sm:gap-[20px] mt-[24px] lg:mt-[20px]">
+      <div className="flex flex-col lg:flex-col gap-[12px] sm:gap-[20px] mb-[80px] mt-[24px] lg:mt-[20px]">
         {[
           {
             title: "What is Naitram?",

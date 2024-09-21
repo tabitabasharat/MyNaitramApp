@@ -101,12 +101,12 @@ const DeleteAccnt = () => {
             </GradientBorder>
           </div>
           <div>
-            <h2 className="text-[#BFBFBF] text-sm font-extrabold">
+            <h2 className="text-[#BFBFBF] text-center lg:text-start text-sm font-extrabold">
               Are you sure you want to delete your account?
               <br className="hidden sm:inline" />
               You will lose all your data by deleting your account.
             </h2>
-            <div className="flex flex-col absolute bottom-[-394px] mb-[68px] w-full lg:w-full items-center justify-center sm:relative sm:w-auto sm:bottom-auto">
+            <div className="flex flex-col mt-[220px] sm:mt-[0px] mb-[68px] w-full lg:w-full items-center justify-center sm:relative sm:w-auto sm:bottom-auto">
               <button
                 className="lg:my-[32px] my-[24px] bg-[#FF1717] text-white w-full lg:w-full xl:w-[428px] p-[12px] rounded-[200px] lg:text-[base] text-sm font-extrabold"
                 // onClick={() => deleteUser()}
