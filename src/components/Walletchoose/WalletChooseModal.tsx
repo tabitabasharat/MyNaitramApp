@@ -59,20 +59,20 @@ const options: Option[] = [
   { id: 7, label: "Solana" },
 ];
 
-// const formSchema = z.object({
-//   walletAddress: z
-//     .string()
-//     .min(1, { message: "Wallet Address cannot be empty." }),
-// });
-
 const formSchema = z.object({
   walletAddress: z
     .string()
-    .min(1, { message: "Wallet Address cannot be empty." })
-    .refine((value) => value !== "null" && value !== "Null", {
-      message: "Wallet Address cannot be 'null'.",
-    }),
+    .min(1, { message: "Wallet Address cannot be empty." }),
 });
+
+// const formSchema = z.object({
+//   walletAddress: z
+//     .string()
+//     .min(1, { message: "Wallet Address cannot be empty." })
+//     .refine((value) => value !== "null" && value !== "Null", {
+//       message: "Wallet Address cannot be 'null'.",
+//     }),
+// });
 
 type LunchModalProps = {
   onClose: () => void; // Function to close the dialog
