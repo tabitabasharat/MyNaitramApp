@@ -132,7 +132,7 @@ const AccountSettings = () => {
         if (res?.payload?.status === 200) {
           setLoader(false);
           console.log("Profile res", res?.payload?.data);
-          SuccessToast("Profile Updated Successfully");
+          // SuccessToast("Profile Updated Successfully");
           dispatch(getUserByID(userID));
         } else {
           setLoader(false);

@@ -219,7 +219,7 @@ interface EventData {
 }
 function OganizerCreateEvent() {
   const dropdownRef = useRef<HTMLDivElement>(null);
-
+  const [categoryAlert, setCategoryAlert] = useState<any>(false);
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [isPreviewModalOpen, setisPreviewModalOpen] = useState(false);
   const [actionType, setActionType] = useState("");
@@ -404,12 +404,33 @@ function OganizerCreateEvent() {
     },
   });
 
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     const filesArray = Array.from(event.target.files);
+  //     setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]);
+  //   }
+  // };
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);
-      setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]); // Update state with all selected files
+
+      setGalleryFiles((prevFiles) => {
+        const totalFiles = prevFiles.length + filesArray.length;
+
+        // If adding the new files exceeds 10, limit the number of added files
+        if (totalFiles > 10) {
+          const remainingSlots = 10 - prevFiles.length;
+          const limitedFilesArray = filesArray.slice(0, remainingSlots);
+          ErrorToast("You can only select 10 media items");
+          return [...prevFiles, ...limitedFilesArray];
+        }
+
+        return [...prevFiles, ...filesArray];
+      });
     }
   };
+
   const handleFileChangeapi = async () => {
     if (galleryFiles) {
       setLoader(true);
@@ -738,23 +759,65 @@ function OganizerCreateEvent() {
   //       : [...prev, option]
   //   );
   // };
+  // const handleCateOptionToggle = (option: any) => {
+  //   setCategoryTypes((prev: any) => {
+  //     if (prev.some((o: any) => o.label === option.label)) {
+  //       return prev.filter((o: any) => o.label !== option.label);
+  //     }
+
+  //     if (prev.length < 4) {
+  //       return [...prev, option];
+  //     }
+
+  //     ErrorToast("You can only select 4 categories at a time")
+
+  //     return prev;
+  //   });
+  // };
+
+  // const handleCateOptionToggle = (option: any) => {
+  //   setCategoryTypes((prev: any) => {
+  //     if (prev.some((o: any) => o.label === option.label)) {
+  //       return prev.filter((o: any) => o.label !== option.label);
+  //     }
+
+  //     if (prev.length >= 4) {
+  //       setCategoryAlert(true);
+  //       // ErrorToast("You can only select 4 categories at a time");
+  //       return prev;
+  //     }
+  //     setCategoryAlert(false);
+
+  //     return [...prev, option];
+  //   });
+  // };
   const handleCateOptionToggle = (option: any) => {
     setCategoryTypes((prev: any) => {
-     
-      if (prev.some((o: any) => o.label === option.label)) {
-        return prev.filter((o: any) => o.label !== option.label);
+      const isSelected = prev.some((o: any) => o.label === option.label);
+  
+      if (isSelected) {
+        const updatedCategories = prev.filter((o: any) => o.label !== option.label);
+  
+        // If removing a category and the total is now less than 4, reset the alert
+        if (updatedCategories.length < 4) {
+          setCategoryAlert(false);
+        }
+  
+        return updatedCategories;
       }
-      
-    
-      if (prev.length < 4) {
-        return [...prev, option];
+  
+      // If trying to add more than 4 categories, show the alert
+      if (prev.length >= 4) {
+        setCategoryAlert(true);
+        return prev;
       }
-      
-      // ErrorToast("You can only select 4 categories at a time")
-
-      return prev;
+  
+      setCategoryAlert(false); // Reset alert when a new category is added within the limit
+      return [...prev, option];
     });
   };
+  
+
   console.log("my cat", categoryTypes);
 
   return (
@@ -799,7 +862,7 @@ function OganizerCreateEvent() {
                 width={100}
                 height={345}
               />
-            
+
               <label
                 htmlFor="uploadcover"
                 className="flex gap-2 items-center justify-between w-full cursor-pointer  "
@@ -903,14 +966,18 @@ function OganizerCreateEvent() {
                   </div>
                   <label
                     htmlFor="galleryUpload"
-                    className={`pb-3 gallery-box-same border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end  ${
-                      galleryFiles.length > 0
-                        ? " gallery-box"
-                        : "pt-9 gallery-top"
-                    }`}
+                    className={`pb-3 gallery-box-same border-none font-bold border border-[#292929]
+                      placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end 
+                      ${
+                        galleryFiles.length >= 10
+                          ? "opacity-50 cursor-not-allowed"
+                          : galleryFiles.length > 0
+                          ? "gallery-box"
+                          : "pt-9 gallery-top"
+                      }`}
                   >
                     <div
-                      className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate"
+                      className=" flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate disabled:cursor-not-allowed disabled:opacity-50"
                       style={{
                         position: "absolute",
                         bottom: "24px",
@@ -929,9 +996,10 @@ function OganizerCreateEvent() {
                       multiple
                       accept="image/*, video/*"
                       // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
-                      className="hidden"
+                      className="hidden "
                       id="galleryUpload"
                       onChange={handleFileChange}
+                      disabled={galleryFiles?.length >= 10}
                     />
                   </label>
                 </>
@@ -1195,7 +1263,9 @@ function OganizerCreateEvent() {
                           <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">
                             EVENT category
                           </p>
-                          <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Select Event Category</p>
+                          <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                            Select Event Category
+                          </p>
                         </div>
                         <Image
                           src={isCatDropdownOpen ? arrowdown : arrowdown}
@@ -1204,32 +1274,37 @@ function OganizerCreateEvent() {
                           alt="arrow"
                         />
                       </div>
+
                       {isCatDropdownOpen && (
-                        <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                          {optionscate?.map((option) => (
-                            <div
-                              key={option.label}
-                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                              onClick={() => handleCateOptionToggle(option)}
-                            >
-                              <div className="flex items-center gap-[10px]">
-                                <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                  {option.label}
-                                </p>
+                        <>
+                          <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                      {categoryAlert == true && <p className="text-[red] text-[16px]">You can only select 4 categories at a time</p>}
+                           
+                            {optionscate?.map((option) => (
+                              <div
+                                key={option.label}
+                                className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                onClick={() => handleCateOptionToggle(option)}
+                              >
+                                <div className="flex items-center gap-[10px]">
+                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p>
+                                </div>
+                                {categoryTypes?.some(
+                                  (o: any) => o.label === option.label
+                                ) && (
+                                  <Image
+                                    src={tick}
+                                    width={10}
+                                    height={10}
+                                    alt="tick"
+                                  />
+                                )}
                               </div>
-                              {categoryTypes?.some(
-                                (o: any) => o.label === option.label
-                              ) && (
-                                <Image
-                                  src={tick}
-                                  width={10}
-                                  height={10}
-                                  alt="tick"
-                                />
-                              )}
-                            </div>
-                          ))}
-                        </div>
+                            ))}
+                          </div>
+                        </>
                       )}
                       <FormMessage />
                     </FormItem>
@@ -1936,9 +2011,8 @@ function OganizerCreateEvent() {
           //   eventData={eventAllData}
           // />
           <Receviepayment
-            onClose={() => setisWalletModalOpen(false)} 
+            onClose={() => setisWalletModalOpen(false)}
             open={() => setisWalletModalOpen(true)}
-           
             eventData={eventAllData}
           />
         )}

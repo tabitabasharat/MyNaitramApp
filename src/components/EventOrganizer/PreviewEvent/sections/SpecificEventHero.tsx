@@ -108,6 +108,10 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
   const eventAttendy = useAppSelector(
     (state: any) => state?.getAllAttend?.attend?.data
   );
+  const eventAttend = useAppSelector(
+    (state: any) => state?.getAllAttend?.attend
+  );
+
   return (
     <section className="bg-imgg">
       {isWalletModalOpen && (
@@ -270,21 +274,30 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                   <div className="w-full flex flex-col justify-center items-center">
                     <div className="flex -space-x-3">
                       <Image
-                        src={eventAttendy[0]?.profilePicture  ? eventAttendy[0]?.profilePicture  : Avatar1}
+                       src={
+                        eventAttend?.data?.[0]?.profilePicture || Avatar1
+                      }
                         width={60}
                         height={60}
                         alt="avatar"
                         className="rounded-full border border-[#034C22] z-[1]"
                       />
                       <Image
-                        src={Avatar2}
+                        src={
+                          eventAttend?.data?.[1]?.profilePicture || Avatar2
+                        }
+                         
+
                         width={60}
                         height={60}
                         alt="avatar"
                         className="rounded-full border border-[#034C22] z-[2]"
                       />
                       <Image
-                        src={Avatar3}
+                        src={
+                          eventAttend?.data?.[2]?.profilePicture || Avatar3
+                        }
+
                         width={60}
                         height={60}
                         alt="avatar"
