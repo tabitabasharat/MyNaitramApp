@@ -35,14 +35,22 @@ export function DatePicker({ setSelectedDates }: DatePickerProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
+  // const handleSelectDate = (dates: Date[] | undefined) => {
+  //   if (!dates) return;
+  
+  //   form.setValue("dates", dates);
+  //   setSelectedDates(dates);
+  // };
   const handleSelectDate = (dates: Date[] | undefined) => {
     if (!dates) return;
-  
-    // Update form values and parent state
-    form.setValue("dates", dates);
-    setSelectedDates(dates);
-  };
 
+    // If the length exceeds 2, slice the array to keep only the first two
+    const updatedDates = dates.length > 2 ? dates.slice(0, 2) : dates;
+
+    // Update form values and parent state
+    form.setValue("dates", updatedDates);
+    setSelectedDates(updatedDates);
+  };
   return (
     <Form {...form}>
       <form className=" cursor-pointer">
