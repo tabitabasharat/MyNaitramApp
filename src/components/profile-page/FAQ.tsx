@@ -209,6 +209,7 @@ const FAQ = ({
                 },
                 "&.MuiButtonBase-root.MuiAccordionSummary-root": {
                   minHeight: "0",
+                  height:"80px",
                   borderRadius: "8px",
                 },
                 "&.MuiButtonBase-root.MuiAccordionSummary-root .MuiAccordionSummary-content":
