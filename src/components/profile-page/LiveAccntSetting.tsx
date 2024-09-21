@@ -87,17 +87,16 @@ const LiveAccntSetting = ({
     defaultValues: {
       facebook: "https://www.facebook.com/",
       insta: "https://instagram.com/",
-      linkedIn:  "https://linkedin.com/in/",
+      linkedIn: "https://linkedin.com/in/",
       telegram: "https://www.telegram.com/",
-      twitter:  "https://www.com/",
-      youtube:  "https://www.youtube.com/",
+      twitter: "https://www.x.com/",
+      youtube: "https://www.youtube.com/",
     },
   });
 
-
-
   useEffect(() => {
-    const id = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const id =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", id);
     dispatch(showLiveActivity(id));
   }, []);
@@ -111,13 +110,12 @@ const LiveAccntSetting = ({
         insta: myliveActivity[0]?.instaUrl || currentValues.insta,
         linkedIn: myliveActivity[0]?.linkedinUrl || currentValues.linkedIn,
         telegram: myliveActivity[0]?.telegramUrl || currentValues.telegram,
-        twitter: myliveActivity?.twitterUrl || currentValues.twitter,
-        youtube: myliveActivity?.youtubeUrl || currentValues.youtube,
+        twitter: myliveActivity[0]?.twitterUrl || currentValues.twitter,
+        youtube: myliveActivity[0]?.youtubeUrl || currentValues.youtube,
       });
       setChecked(myliveActivity[0]?.isActive);
     }
   }, [myliveActivity]);
-  
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
@@ -179,14 +177,15 @@ const LiveAccntSetting = ({
 
   async function updateActivity(values: z.infer<typeof formSchema>) {
     setLoader(true);
-    const userID = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     try {
       const data = {
         fbUrl: fbUrl || myliveActivity[0]?.fbUrl || "",
         instaUrl: instaUrl || myliveActivity[0]?.instaUrl || "",
         linkedinUrl: linkedinUrl || myliveActivity[0]?.linkedinUrl || "",
-        youtubeUrl: youtubeUrl || myliveActivity?.youtubeUrl || "",
-        twitterUrl: twitterUrl || myliveActivity?.twitterUrl || "",
+        youtubeUrl: youtubeUrl || myliveActivity[0]?.youtubeUrl || "",
+        twitterUrl: twitterUrl || myliveActivity[0]?.twitterUrl || "",
         telegramUrl: telegramUrl || myliveActivity[0]?.telegramUrl || "",
         isActive: checked,
         userID: userID,
@@ -211,7 +210,7 @@ const LiveAccntSetting = ({
     <>
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
       {loader && <ScreenLoader />}
-      <div className="w-full lg:w-[70%] md:ps-[0px] lg:pe-[20px] mt-[48px] lg:ps-[90px] xl:ps-[172px] md:mx-auto lg:w-full  lg:mx-[0] relative">
+      <div className="w-full lg:w-[70%] md:ps-[0px] lg:pe-[20px] mt-[48px] lg:ps-[90px] xl:ps-[172px] md:mx-auto lg:w-full  lg:mx-[0] relative h-[90vh] overflow-y-auto scrollbar-hide">
         <h2 className="font-bold text-[20px] ms-[24px] lg:ms-[0px] lg:text-[32px]">
           Live Activity Settings
         </h2>
@@ -404,7 +403,7 @@ const LiveAccntSetting = ({
                     </FormItem>
                   )}
                 />
-                                <FormField
+                <FormField
                   control={form.control}
                   name="youtube"
                   render={({ field }) => (

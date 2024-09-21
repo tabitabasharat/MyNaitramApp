@@ -57,13 +57,8 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
     console.log("user id ", userid);
     const data = {
       page: 1,
-
-      location: null,
-      today: null,
-      startDate: null,
-      endDate: null,
-      startMonth: null,
-      endMonth: null,
+      category: null,
+      free: null,
       chooseDate: null,
     };
 
@@ -72,15 +67,10 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
     // dispatch(getEventById(userid));
 
     const dataLive = {
-      page: 1,
       userId: userid,
-
-      location: null,
-      today: null,
-      startDate: null,
-      endDate: null,
-      startMonth: null,
-      endMonth: null,
+      page: 1,
+      category: null,
+      free: null,
       chooseDate: null,
     };
     dispatch(getLiveEventById(dataLive));

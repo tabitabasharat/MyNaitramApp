@@ -11,9 +11,11 @@ import { getViewPastEvents } from "@/lib/middleware/event";
 import { getEventById, getLiveEventById } from "@/lib/middleware/event";
 import rocket from "@/assets/Wallet/rocket-empty.svg";
 import YourEvents from "./YourEvents";
+import { useRouter } from "next/navigation";
 
 const AllEventsGrid = ({ events, eventType }: any) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -22,23 +24,21 @@ const AllEventsGrid = ({ events, eventType }: any) => {
     console.log("user id ", userid);
     const data = {
       page: 1,
-      
-        
-        location:  null,
-        today: null,
-        startDate: null,
-        endDate: null,
-        startMonth: null,
-        endMonth: null,
-        chooseDate:  null,
-    
+
+      location: null,
+      today: null,
+      startDate: null,
+      endDate: null,
+      startMonth: null,
+      endMonth: null,
+      chooseDate: null,
     };
 
     dispatch(getViewAllEvent(data));
     dispatch(getViewPastEvents(data));
-    const dats={
-      id:userid
-    }
+    const dats = {
+      id: userid,
+    };
     // dispatch(getEventById(userid));
     // dispatch(getLiveEventById(dats));
   }, []);
@@ -104,7 +104,13 @@ const AllEventsGrid = ({ events, eventType }: any) => {
         ) : (
           <div className="relative gradient-slate py-[94.5px] border border-[#292929] flex items-center justify-center flex-col gap-[12px] rounded-[12px]">
             <p className="text-[16px] text-extrabold">There’s No Event</p>
-            <button className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto ">
+            <button
+              className="text-[16px]  font-extrabold bg-[#00D059] 
+            text-[#030303] flex items-center
+             h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] 
+             rounded-[100px] w-auto "
+              onClick={() => router.push("/viewallevents")}
+            >
               <Image src={rocket} alt="rocket" />
               See What's On
             </button>
@@ -140,7 +146,11 @@ const AllEventsGrid = ({ events, eventType }: any) => {
         ) : (
           <div className="relative gradient-slate py-[94.5px] border border-[#292929] flex items-center justify-center flex-col gap-[12px] rounded-[12px]">
             <p className="text-[16px] text-extrabold">There’s No Event</p>
-            <button className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto ">
+            <button
+              className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center 
+            gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto "
+              onClick={() => router.push("/viewallevents")}
+            >
               <Image src={rocket} alt="rocket" />
               See What's On
             </button>
@@ -165,12 +175,15 @@ const AllEventsGrid = ({ events, eventType }: any) => {
           </div>
         ) : (
           <div className="relative gradient-slate py-[94.5px] border border-[#292929] flex items-center justify-center flex-col gap-[12px] rounded-[12px]">
-          <p className="text-[16px] text-extrabold">There’s No Event</p>
-          <button className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto ">
-            <Image src={rocket} alt="rocket" />
-            See What's On
-          </button>
-        </div>
+            <p className="text-[16px] text-extrabold">There’s No Event</p>
+            <button
+              className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto "
+              onClick={() => router.push("/viewallevents")}
+            >
+              <Image src={rocket} alt="rocket" />
+              See What's On
+            </button>
+          </div>
         ))}
     </>
   );

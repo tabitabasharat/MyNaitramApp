@@ -13,37 +13,53 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+// type DatePickerProps = {
+//   setSelectedDate: (date: Date | null) => void;
+// };
 type DatePickerProps = {
-  setSelectedDate: (date: Date | null) => void;
+  setSelectedDates: (dates: Date[]) => void; // Change to accept an array
 };
 
+// const FormSchema = z.object({
+//   dates: z.date({
+//     required_error: "A date of birth is required.",
+//   }),
+// });
+
 const FormSchema = z.object({
-  date: z.date({
-    required_error: "A date of birth is required.",
-  }),
+  dates: z.array(z.date()).min(1, "At least one date is required."), 
 });
 
-export function DatePicker({ setSelectedDate }: DatePickerProps) {
+
+export function DatePicker({ setSelectedDates }: DatePickerProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
+  const handleSelectDate = (dates: Date[] | undefined) => {
+    if (!dates) return;
+  
+    // Update form values and parent state
+    form.setValue("dates", dates);
+    setSelectedDates(dates);
+  };
 
   return (
     <Form {...form}>
       <form className=" cursor-pointer">
         <FormField
           control={form.control}
-          name="date"
+          name="dates"
           render={({ field }) => (
             <FormItem>
               <Calendar
-                mode="single"
+                mode="multiple"
                 selected={field.value}
                 className="bg-black text-white border border-black"
-                onSelect={(date: any) => {
-                  field.onChange(date);
-                  setSelectedDate(date); // Call the parent state setter when the date is selected
-                }}
+                // onSelect={(date: any) => {
+                //   field.onChange(date);
+                //   setSelectedDates(date);
+                // }}
+                onSelect={handleSelectDate}
                 // disabled={(date: any) =>
                 //   date > new Date() || date < new Date('1900-01-01')
                 // }
