@@ -82,8 +82,8 @@ const OrganizerProfile = () => {
     defaultValues: {
       facebook: "https://www.facebook.com/",
       insta: "https://instagram.com/",
-      linkedIn:  "https://www.linkedin.com/",
-      twitter:  "https://www.twitter.com/",
+      linkedIn:  "https://linkedin.com/in/",
+      twitter:  "https://www.com/",
       youtube:  "https://www.youtube.com/",
       tiktok:  "https://www.tiktok.com/@",
       BIO: "",
@@ -426,7 +426,7 @@ const OrganizerProfile = () => {
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://www.linkedin.com/")) {
+                            if (value.startsWith("https://linkedin.com/in/")) {
                               setlinkedinUrl(value);
                               field.onChange(e);
                             }
@@ -533,7 +533,7 @@ const OrganizerProfile = () => {
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://www.twitter.com/")) {
+                            if (value.startsWith("https://www.x.com/")) {
                               settwitterUrl(e.target.value);
                               field.onChange(e);
                             }

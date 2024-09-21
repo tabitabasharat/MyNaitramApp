@@ -252,12 +252,12 @@ function EditeventOnBack() {
 
   const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
 
-  const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
+  const [TwitterUrl, setTwitterUrl] = useState("https://www.com/");
 
   const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
 
   const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
-  const [linkedinUrl, setlinkedinUrl] = useState("https://www.linkedin.com/");
+  const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
   const [eventsFiles, setEventsFile] = useState<any>([]);
   const [eventAllData, setEventAllData] = useState<EventData | null>(null);
   console.log("iside eventalldata", eventAllData);
@@ -411,9 +411,9 @@ function EditeventOnBack() {
       fburl: "https://www.facebook.com/",
       instaurl: "https://instagram.com/",
       youtubeurl: "https://www.youtube.com/",
-      telegramurl: "https://www.x.com/",
+      telegramurl: "https://www.com/",
       tiktokurl: "https://www.tiktok.com/@",
-      linkedinurl: "https://www.linkedin.com/",
+      linkedinurl: "https://linkedin.com/in/",
 
       tickets: [],
     },
@@ -435,14 +435,36 @@ function EditeventOnBack() {
     }
   }, [searchParams]);
 
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     const filesArray = Array.from(event.target.files);
+  //     setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]); // Update state with all selected files
+  //     console.log("Gallery files:", [...galleryFiles, ...filesArray]);
+  //   }
+  // };
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);
-      setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]); // Update state with all selected files
-      console.log("Gallery files:", [...galleryFiles, ...filesArray]);
+
+      setGalleryFiles((prevFiles) => {
+        // Check the total number of files after adding new ones
+        const totalFiles = prevFiles.length + filesArray.length;
+
+        // If adding new files would exceed 10, limit the number of files added
+        if (totalFiles > 10) {
+          const remainingSlots = 10 - prevFiles.length;
+          const limitedFilesArray = filesArray.slice(0, remainingSlots);
+
+          console.log("You can only upload 10 media files.");
+          ErrorToast("You can only select 10 media items");
+
+          return [...prevFiles, ...limitedFilesArray];
+        }
+
+        return [...prevFiles, ...filesArray];
+      });
     }
   };
-
   const handleCatDropdownToggle = () => {
     setIsCatDropdownOpen((prev) => !prev);
   };
@@ -1148,11 +1170,20 @@ function EditeventOnBack() {
                     </div>
                     <label
                       htmlFor="galleryUpload"
-                      className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end pr-[40px] ${
-                        galleryFiles.length > 0
-                          ? " gallery-box h-full"
-                          : "pt-9 gallery-top"
-                      }`}
+                      // className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end pr-[40px] ${
+                      //   galleryFiles.length > 0
+                      //     ? " gallery-box h-full"
+                      //     : "pt-9 gallery-top"
+                      // }`}
+                      className={`pb-3 gallery-box-same border-none font-bold border border-[#292929]
+                        placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end 
+                        ${
+                          galleryFiles.length >= 10
+                            ? "opacity-50 cursor-not-allowed"
+                            : galleryFiles.length > 0
+                            ? "gallery-box h-full"
+                            : "pt-9 gallery-top"
+                        }`}
                     >
                       <div
                         className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]"
@@ -1177,6 +1208,8 @@ function EditeventOnBack() {
                         // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
                         className="hidden"
                         id="galleryUpload"
+                    disabled={galleryFiles?.length >= 10}
+
                         onChange={handleFileChange}
                       />
                     </label>
@@ -2263,7 +2296,7 @@ function EditeventOnBack() {
                           onChange={(e) => {
                             const value = e.target.value;
                             // Prevent the user from modifying the base URL
-                            if (value.startsWith("https://www.x.com/")) {
+                            if (value.startsWith("https://www.com/")) {
                               setTwitterUrl(value);
                               field.onChange(value);
                             }
@@ -2360,7 +2393,7 @@ function EditeventOnBack() {
                           onChange={(e) => {
                             const value = e.target.value;
                             // Prevent the user from modifying the base URL
-                            if (value.startsWith("https://www.linkedin.com/")) {
+                            if (value.startsWith("https://linkedin.com/in/")) {
                               setYoutubeUrl(value);
                               field.onChange(value);
                             }

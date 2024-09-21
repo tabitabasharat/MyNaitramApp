@@ -255,12 +255,12 @@ function OganizerCreateEvent() {
 
   const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
   const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
-  const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
+  const [TwitterUrl, setTwitterUrl] = useState("https://www.com/");
 
   const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
 
   const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
-  const [linkedinUrl, setlinkedinUrl] = useState("https://www.linkedin.com/");
+  const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
   const [eventsFiles, setEventsFile] = useState<any>([]);
   const router = useRouter();
 
@@ -397,9 +397,9 @@ function OganizerCreateEvent() {
       fburl: "https://www.facebook.com/",
       instaurl: "https://instagram.com/",
       youtubeurl: "https://www.youtube.com/",
-      telegramurl: "https://www.x.com/",
+      telegramurl: "https://www.com/",
       tiktokurl: "https://www.tiktok.com/@",
-      linkedinurl: "https://www.linkedin.com/",
+      linkedinurl: "https://linkedin.com/in/",
       tickets: [],
     },
   });
@@ -1868,7 +1868,7 @@ function OganizerCreateEvent() {
                           onChange={(e) => {
                             const value = e.target.value;
                             // Prevent the user from modifying the base URL
-                            if (value.startsWith("https://www.x.com/")) {
+                            if (value.startsWith("https://www.com/")) {
                               setTwitterUrl(value);
                               field.onChange(value);
                             }
@@ -1965,7 +1965,7 @@ function OganizerCreateEvent() {
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://www.linkedin.com/")) {
+                            if (value.startsWith("https://linkedin.com/in/")) {
                               setlinkedinUrl(value);
                               field.onChange(value);
                             }

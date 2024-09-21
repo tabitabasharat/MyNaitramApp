@@ -56,11 +56,13 @@ const ScannerLogin = () => {
   const [loader, setLoader] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<any>([]);
   // const [selectedEventID, setSelectedEventID] = useState();
-  const [selectedEventID, setSelectedEventID] = useState<number | undefined>(undefined);
+  const [selectedEventID, setSelectedEventID] = useState<number | undefined>(
+    undefined
+  );
 
   const [Dropdown, setDropdown] = useState(true);
   const [validationError, setValidationError] = useState("");
-  const [eventName,setEventName]=useState<any>("")
+  const [eventName, setEventName] = useState<any>("");
   const userLoading = useAppSelector((state) => state?.getUserDetail);
 
   useEffect(() => {
@@ -96,12 +98,12 @@ const ScannerLogin = () => {
   }, []);
 
   const handleOptionToggle = (option: Option) => {
-    if (selectedOptions.some((o:any) => o.id === option.id)) {
+    if (selectedOptions.some((o: any) => o.id === option.id)) {
       setSelectedOptions([]);
     } else {
       setSelectedOptions([option]);
       dispatch(getScannerByEventID(option?.id));
-      setSelectedEventID(option?.id)
+      setSelectedEventID(option?.id);
     }
   };
 
@@ -124,33 +126,51 @@ const ScannerLogin = () => {
         <Separator className="scale--[1.12] bg-[#292929]" />
         {Dropdown && (
           <div className="pt-[16px] lg:pt-[12px]">
-            {EventsData?.data?.map((option: any) => (
-              <div
-                key={option?.id}
-                className="flex items-center justify-between pt-[2px] cursor-pointer"
-                onClick={() => handleOptionToggle(option)}
-              >
-                <div className="flex items-center gap-[10px]">
-                  <p className="text-[14px] text-[#FFFFFF] font-normal items-center">
-                    {option?.name}
-                  </p>
+            {EventsData?.length > 0 ? (
+              EventsData?.data?.map((option: any) => (
+                <div
+                  key={option?.id}
+                  className="flex items-center justify-between pt-[2px] cursor-pointer"
+                  onClick={() => handleOptionToggle(option)}
+                >
+                  <div className="flex items-center gap-[10px]">
+                    <p className="text-[14px] text-[#FFFFFF] font-normal items-center">
+                      {option?.name}
+                    </p>
+                  </div>
+                  {selectedOptions.some((o: any) => o.id === option.id) && (
+                    <Image src={tick} width={10} height={10} alt="tick" />
+                  )}
                 </div>
-                {selectedOptions.some((o:any) => o.id === option.id) && (
-                  <Image src={tick} width={10} height={10} alt="tick" />
-                )}
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-[16px]">
+                You don't have any events to create a scanner login
+              </p>
+            )}
           </div>
         )}
         {validationError && (
           <p className="text-red-500 text-sm mt-2">{validationError}</p>
         )}
       </div>
-      <Link href={`/organizer-event/add-scanner/${selectedEventID}`}>
+      {EventsData?.length > 0 && 
+      <Link
+        href={
+          EventsData?.length > 0
+            ? `/organizer-event/add-scanner/${selectedEventID}`
+            : "#"
+        }
+        onClick={(e) => EventsData?.length <= 0 && e.preventDefault()} >
         <div className="flex mb-[24px] lg:mb-[32px] justify-end">
           <Button
+            disabled={EventsData?.length <= 0}
             type="submit"
-            className="max-w-fit gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold py-[8px] lg:py-[16px] lg:px-[24px] px-[12px] text-sm md:text-base md:w-fit"
+            className="max-w-fit gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
+            py-[8px] lg:py-[16px] lg:px-[24px] px-[12px] text-sm md:text-base md:w-fit
+            disabled:cursor-not-allowed disabled:opacity-50"
+
+           
           >
             <Image
               src={add}
@@ -161,12 +181,13 @@ const ScannerLogin = () => {
           </Button>
         </div>
       </Link>
+}
       <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[60px] mt-[34px]  lg:mt-[32px]">
         <div className="flex w-full  md:w-full lg:w-[600px] flex-col lg:flex-col gap-6 md:gap-8 mt-[0px] lg:mt-[32px]">
           <div className="w-full md:w-full lg:w-[428px]">
             {selectedOptions.length > 0 && (
               <h3 className="text-sm font-normal lg:text-[24px] lg:font-extrabold mb-[10px] lg:mb-[16px] ">
-               {selectedOptions[0]?.name}
+                {selectedOptions[0]?.name}
               </h3>
             )}
 
@@ -210,8 +231,6 @@ const ScannerLogin = () => {
                 )}
               </form>
             </Form>
-
-          
           </div>
         </div>
       </div>

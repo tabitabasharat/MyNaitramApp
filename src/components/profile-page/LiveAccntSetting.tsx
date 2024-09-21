@@ -79,7 +79,7 @@ const LiveAccntSetting = ({
     defaultValues: {
       facebook: "https://www.facebook.com/",
       insta: "https://instagram.com/",
-      linkedIn:  "https://www.linkedin.com/",
+      linkedIn:  "https://linkedin.com/in/",
       telegram: "https://www.telegram.com/"
     },
   });

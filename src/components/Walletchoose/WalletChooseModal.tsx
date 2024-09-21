@@ -59,10 +59,19 @@ const options: Option[] = [
   { id: 7, label: "Solana" },
 ];
 
+// const formSchema = z.object({
+//   walletAddress: z
+//     .string()
+//     .min(1, { message: "Wallet Address cannot be empty." }),
+// });
+
 const formSchema = z.object({
   walletAddress: z
     .string()
-    .min(1, { message: "Wallet Address cannot be empty." }),
+    .min(1, { message: "Wallet Address cannot be empty." })
+    .refine((value) => value !== "null" && value !== "Null", {
+      message: "Wallet Address cannot be 'null'.",
+    }),
 });
 
 type LunchModalProps = {
@@ -215,7 +224,6 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
                       <FormItem className="relative md:mb-6 space-y-0">
                         <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                           Wallet
-                     
                         </FormLabel>
                         <Wallet
                           className="absolute right-3 top-[30%]"
@@ -234,6 +242,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
                             }}
                           />
                         </FormControl>
+                      
                         <FormMessage />
                       </FormItem>
                     )}
@@ -244,11 +253,11 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
                       <p className="text-base font-bold pb-[16px] text-white flex items-center justify-between w-full">
                         Chain
                         <Image
-                        src={ arrowdown}
-                        width={11}
-                        height={11}
-                        alt="arrow"
-                      />
+                          src={arrowdown}
+                          width={11}
+                          height={11}
+                          alt="arrow"
+                        />
                       </p>
                     </div>
                     <Separator className="scale--[1.12] bg-[#292929]" />

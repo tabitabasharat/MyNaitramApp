@@ -128,7 +128,7 @@ const formSchema = z.object({
     .string()
     .url({ message: "Invalid Twitter URL." })
     .min(1, { message: "Twitter URL cannot be empty." }),
-    eventmainimg: z.string().optional(),
+  eventmainimg: z.string().optional(),
 
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   // tickets: z
@@ -339,11 +339,34 @@ function EditeventOnBack() {
     }
   }, [searchParams]);
 
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     const filesArray = Array.from(event.target.files);
+  //     setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]); // Update state with all selected files
+  //     console.log("Gallery files:", [...galleryFiles, ...filesArray]);
+  //   }
+  // };
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);
-      setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]); // Update state with all selected files
-      console.log("Gallery files:", [...galleryFiles, ...filesArray]);
+
+      setGalleryFiles((prevFiles) => {
+        // Check the total number of files after adding new ones
+        const totalFiles = prevFiles.length + filesArray.length;
+
+        // If adding new files would exceed 10, limit the number of files added
+        if (totalFiles > 10) {
+          const remainingSlots = 10 - prevFiles.length;
+          const limitedFilesArray = filesArray.slice(0, remainingSlots);
+
+          console.log("You can only upload 10 media files.");
+          ErrorToast("You can only select 10 media items");
+
+          return [...prevFiles, ...limitedFilesArray];
+        }
+
+        return [...prevFiles, ...filesArray];
+      });
     }
   };
 
@@ -829,65 +852,65 @@ function EditeventOnBack() {
         <Backward />
 
         <div className="event-images-container w-full mt-[26px]">
-        <div className=" w-full md:w-[440px] lg:w-[440px]">
-          <div className="px-[24px] py-[16px] relative create-container w-full  lg:w-[440px]">
-            <div className="flex justify-between">
-              <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
-                {" "}
-                Cover <span className="text-primary"> Artwork</span>
-              </h1>
-              {/* <Image src={Editicon} alt="Edit-icon" /> */}
-            </div>
+          <div className=" w-full md:w-[440px] lg:w-[440px]">
+            <div className="px-[24px] py-[16px] relative create-container w-full  lg:w-[440px]">
+              <div className="flex justify-between">
+                <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
+                  {" "}
+                  Cover <span className="text-primary"> Artwork</span>
+                </h1>
+                {/* <Image src={Editicon} alt="Edit-icon" /> */}
+              </div>
 
-            <Image
-              src={ufo}
-              width={350}
-              height={350}
-              className="absolute right-[0] bottom-0"
-              alt="ufo"
-            />
-          </div>
-          <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head relative ">
-            {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
-           
-             <Image
+              <Image
+                src={ufo}
+                width={350}
+                height={350}
+                className="absolute right-[0] bottom-0"
+                alt="ufo"
+              />
+            </div>
+            <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head relative ">
+              {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
+
+              <Image
                 src={CoverImg || imageUrl}
                 alt="bg-frame"
                 className="w-full lg:w-[392px] lg:h-[392px] h-[345px] "
                 width={100}
                 height={345}
               />
-            {/* <Image
+              {/* <Image
               src={CoverImg || imageUrl}
               alt="bg-img"
               className=" md:hidden w-full  h-[345px] lg:w-[345px]"
               width={345}
               height={345}
             /> */}
-            <label
-              htmlFor="uploadcover"
-              className="flex gap-2 items-center justify-between w-full cursor-pointer"
-            >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate">
-                  <Image src={greenpencile} alt="pencil" />
-                  <p className="text-[#00D059] text-sm font-extrabold">
-                  Edit Image
-                  </p>
+              <label
+                htmlFor="uploadcover"
+                className="flex gap-2 items-center justify-between w-full cursor-pointer"
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate">
+                    <Image src={greenpencile} alt="pencil" />
+                    <p className="text-[#00D059] text-sm font-extrabold">
+                      Edit Image
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <input
-                ref={fileInputRef2}
-                type="file"
-                accept="image/*"
-                id="uploadcover"
-                className="hidden"
-                onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
-              />
-            </label>
+                <input
+                  ref={fileInputRef2}
+                  type="file"
+                  accept="image/*"
+                  id="uploadcover"
+                  className="hidden"
+                  onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
+                />
+              </label>
+            </div>
           </div>
-        </div>
-        <div className="w-full">
+          <div className="w-full">
             <div className="px-[24px] py-[16px] relative create-container  w-full">
               <div className="flex justify-between">
                 <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
@@ -910,76 +933,87 @@ function EditeventOnBack() {
                 {galleryFiles?.length > 0 && (
                   <div className="mt-4 pb-4 relative">
                     <div className="flex flex-wrap gap-[12px]">
-                    {galleryFiles.length > 0 ? (
-                      <div className="mt-4 pb-4 relative">
-                        <div className="flex flex-wrap gap-[12px]">
-                          {galleryFiles.map((file: any, index) => (
-                            <div
-                              key={index}
-                              className="relative w-[120px] h-[120px]  rounded-[12px]"
-                            >
-                              {file?.type === "video" ? (
-                                <video
-                                  src={
-                                    typeof file.url === "string"
-                                      ? file.url
-                                      : URL.createObjectURL(file)
-                                  }
-                                  className="w-full h-full object-cover relative rounded-[12px]"
-                                  width={120}
-                                  height={120}
-                                  controls
-                                >
-                                  Your browser does not support the video tag.
-                                </video>
-                              ) : (
-                                <img
-                                  src={
-                                    typeof file.url === "string"
-                                      ? file.url
-                                      : URL.createObjectURL(file)
-                                  }
-                                  alt={`Gallery Image ${index + 1}`}
-                                  className="w-full h-full object-cover relative rounded-[12px]"
-                                  width={120}
-                                  height={120}
-                                />
-                              )}
-                              <button
-                                type="button"
-                                onClick={() => removeImage(index)}
-                                className="trash_button"
+                      {galleryFiles.length > 0 ? (
+                        <div className="mt-4 pb-4 relative">
+                          <div className="flex flex-wrap gap-[12px]">
+                            {galleryFiles.map((file: any, index) => (
+                              <div
+                                key={index}
+                                className="relative w-[120px] h-[120px]  rounded-[12px]"
                               >
-                                <Image
-                                  src={crossicon}
-                                  alt="remove"
-                                  width={20}
-                                  height={20}
-                                />
-                              </button>
-                            </div>
-                          ))}
+                                {file?.type === "video" ? (
+                                  <video
+                                    src={
+                                      typeof file.url === "string"
+                                        ? file.url
+                                        : URL.createObjectURL(file)
+                                    }
+                                    className="w-full h-full object-cover relative rounded-[12px]"
+                                    width={120}
+                                    height={120}
+                                    controls
+                                  >
+                                    Your browser does not support the video tag.
+                                  </video>
+                                ) : (
+                                  <img
+                                    src={
+                                      typeof file.url === "string"
+                                        ? file.url
+                                        : URL.createObjectURL(file)
+                                    }
+                                    alt={`Gallery Image ${index + 1}`}
+                                    className="w-full h-full object-cover relative rounded-[12px]"
+                                    width={120}
+                                    height={120}
+                                  />
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => removeImage(index)}
+                                  className="trash_button"
+                                >
+                                  <Image
+                                    src={crossicon}
+                                    alt="remove"
+                                    width={20}
+                                    height={20}
+                                  />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    ):(
-                      <p>No img</p>
-                    )}
+                      ) : (
+                        <p>No img</p>
+                      )}
                     </div>
                   </div>
                 )}
                 <label
                   htmlFor="galleryUpload"
-                  className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end pr-[40px] ${
-                    galleryFiles.length > 0
-                      ? " gallery-box h-full"
-                      : "pt-9 gallery-top"
-                  }`}
+                  // className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end pr-[40px] ${
+                  //   galleryFiles.length > 0
+                  //     ? " gallery-box h-full"
+                  //     : "pt-9 gallery-top"
+                  // }`}
+                  className={`pb-3 gallery-box-same border-none font-bold border border-[#292929]
+                    placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end 
+                    ${
+                      galleryFiles.length >= 10
+                        ? "opacity-50 cursor-not-allowed"
+                        : galleryFiles.length > 0
+                        ? "gallery-box h-full"
+                        : "pt-9 gallery-top"
+                    }`}
                 >
-                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate"
-                  style={{
-                    position:"absolute",
-                    bottom:"24px"
-                  }}>
+                  <div
+                    className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate"
+                    style={{
+                      position: "absolute",
+                      bottom: "24px",
+                    }}
+                  >
                     <Image src={greenpencile} alt="pencil" />
                     <p className="text-[#00D059] text-sm font-extrabold">
                       Edit Media
@@ -997,12 +1031,13 @@ function EditeventOnBack() {
                     className="hidden"
                     id="galleryUpload"
                     onChange={handleFileChange}
+                    disabled={galleryFiles?.length >= 10}
                   />
                 </label>
               </div>
             </div>
           </div>
-            </div>
+        </div>
         {/* <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
           <Image
             src={CoverImg || imageUrl}
@@ -1644,7 +1679,7 @@ function EditeventOnBack() {
                       render={({ field }) => (
                         <FormItem className="relative w-full space-y-0">
                           <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                          Event Ticket Price (£)
+                            Event Ticket Price (£)
                           </FormLabel>
                           <FormControl>
                             <Input
