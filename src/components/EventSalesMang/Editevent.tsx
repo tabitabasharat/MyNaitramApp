@@ -1728,7 +1728,7 @@ function Editevent() {
               {/* Add Ticket Type Button */}
               <div className="flex justify-end items-center mt-[12px] ticket-btn">
                 <Button
-                  className="font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                  className=" h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
                   onClick={handleAddTicketType}
                 >
                   <Image src={addicon} alt="Add-icon" height={12} width={12} />

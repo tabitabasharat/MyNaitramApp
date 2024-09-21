@@ -8,35 +8,35 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 export default function Template({ children }: { children: React.ReactNode }) {
-  const profileRoutes = [
-    "/profile/profile-main",
-    "/profile/account-settings",
-    "/profile/LiveAccntSettings",
-    "/profile/help-center",
-    "/profile/FAQ",
-    "/profile/Delete-account",
-    "/social-profile",
-    "/organizer-event/event-dashboard",
-    "/organizer-event/profile",
-    "profile-perview",
-    "/management",
-    "/organizer-event/launch-event",
-    "/eventsales",
-    "/organizer-event/sacnner-login",
-    `/organizer-event/add-scanner/$[id]`,
-    "/organizer-event/scanner-credentials",
-    "/organizer-event/helpcenter",
-    "/profile-perview",
-    "/preview-event",
-    "/events/event-detail/live-activity",
-    "/wallet",
-    "/profile/reward-item"
-  ];
-  const pathname = usePathname();
+  // const profileRoutes = [
+  //   "/profile/profile-main",
+  //   "/profile/account-settings",
+  //   "/profile/LiveAccntSettings",
+  //   "/profile/help-center",
+  //   "/profile/FAQ",
+  //   "/profile/Delete-account",
+  //   "/social-profile",
+  //   "/organizer-event/event-dashboard",
+  //   "/organizer-event/profile",
+  //   "profile-perview",
+  //   "/management",
+  //   "/organizer-event/launch-event",
+  //   "/eventsales",
+  //   "/organizer-event/sacnner-login",
+  //   `/organizer-event/add-scanner/$[id]`,
+  //   "/organizer-event/scanner-credentials",
+  //   "/organizer-event/helpcenter",
+  //   "/profile-perview",
+  //   "/preview-event",
+  //   "/events/event-detail/live-activity",
+  //   "/wallet",
+  //   "/profile/reward-item"
+  // ];
+  // const pathname = usePathname();
   // const isProfileRoute = profileRoutes.includes(pathname);
 
   // Check for dynamic route using pathname.startsWith
-  const isProfileRoute = profileRoutes.includes(pathname) || pathname.startsWith("/organizer-event/add-scanner/");
+  // const isProfileRoute = profileRoutes.includes(pathname) || pathname.startsWith("/organizer-event/add-scanner/");
 
   return (
     <>
@@ -54,7 +54,8 @@ export default function Template({ children }: { children: React.ReactNode }) {
       <Transition>
         <Header />
         {children}
-        {!isProfileRoute && <Footer />}
+        {/* {!isProfileRoute && <Footer />} */}
+        <Footer />
       </Transition>
     </>
   );

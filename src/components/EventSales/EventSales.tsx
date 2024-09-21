@@ -14,6 +14,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import filter from "@/assets/Favorite - Button.svg";
+import filter1 from "@/assets/Favorite - Buttonarrow.svg";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { showProfile } from "@/lib/middleware/profile";
@@ -166,14 +167,15 @@ function EventSales() {
             alt="img"
             width={392}
             height={392}
+            className="rounded-[12px] w-[392px] h-[392px]"
           />
         </div>
         <div>
           <div
-            className="bg-[#00A849] py-[8px] px-[12px] w-[124px] lg:w-[135px] rounded-[100px]"
+            className="bg-[#00A849] border border-solid border-[#757575] py-[8px] px-[12px] w-[124px] lg:w-[135px] rounded-[100px]"
             onClick={WalletModalhandler}
           >
-            <p className="text-[#030303] text-[11px] lg:font-extrabold font-[900] lg:text-[12px]">
+            <p className="text-[#030303] italic text-[11px] lg:font-extrabold font-[900] lg:text-[12px]">
               FEATURED EVENT
             </p>
             {isCreateModalOpen && (
@@ -240,7 +242,7 @@ function EventSales() {
         </div>
       </div>
       <SalesGraph />
-      <div className=" mb-[32px] lg:mb-[46px] gradient-slate border rounded-lg border-muted lg:mt-[30px] mt-[24px] px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
+      {/* <div className=" mb-[32px] lg:mb-[46px] gradient-slate border rounded-lg border-muted lg:mt-[30px] mt-[24px] px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
         <div className="flex items-center mb-[17px] lg:mb-[24px] justify-between">
           <div>
             <p className="lg:text-[32px] text-[24px] font-normal lg:font-bold">
@@ -404,156 +406,8 @@ function EventSales() {
             </React.Fragment>
           )
         )}
-      </div>
-      <div className=" mb-[32px] gradient-slate border rounded-lg border-muted mt-[32px] px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
-        <div className="flex items-center mb-[17px] lg:mb-[24px] justify-between">
-          <div>
-            <p className="lg:text-[32px] text-[24px] font-normal lg:font-bold">
-              Attendees Check in
-            </p>
-          </div>
-          <div>
-            <Image src={filter} alt="img" />
-          </div>
-        </div>
-        <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
-          <Table
-            sx={{
-              minWidth: 650,
-              borderBottom: "none",
-              borderTop: "1px solid #292929",
-              borderLeft: "none",
-              borderRight: "none",
-              // padding: "20px 100px 22px 30px",
-              color: "white",
-              background: "#0F0F0F",
-              // color: "white",
-              fontSize: 16,
-              fontweight: 500,
-            }}
-            aria-label="simple table"
-          >
-            <TableHead className="table-gradient">
-              <TableRow sx={{ border: "1px solid #292929" }}>
-                <TableCell
-                  className="w-[40px] lg:w-[70px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
-                  sx={{
-                    color: "#A6A6A6",
-                    borderBottom: "none",
-                    borderTop: "1px solid #292929",
-                  }}
-                  align="center"
-                  // width={"10%"}
-                >
-                  #
-                </TableCell>
-                <TableCell
-                  className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[500px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
-                  // width={"10%"}
-                  align="left"
-                  sx={{
-                    color: "#A6A6A6",
-                    borderBottom: "none",
-                    borderTop: "1px solid #292929",
-                  }}
-                >
-                  Ticket Type
-                </TableCell>
-                <TableCell
-                  className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[413px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
-                  // width={"9%"}
-                  align="left"
-                  sx={{
-                    color: "#A6A6A6",
-                    borderBottom: "none",
-                    borderTop: "1px solid #292929",
-                  }}
-                >
-                  Users
-                </TableCell>
-                <TableCell
-                  className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[233px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
-                  // width={"9%"}
-                  align="left"
-                  sx={{
-                    color: "#A6A6A6",
-                    borderBottom: "none",
-                    borderTop: "1px solid #292929",
-                  }}
-                >
-                  Attendees
-                </TableCell>
-                {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
-              </TableRow>
-            </TableHead>
-            <TableBody className="border-0">
-              {eventSales?.salesData?.data?.ticketTypes?.map(
-                (rows: any, index: any) => (
-                  <TableRow
-                    key={rows.type}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      borderBottom: "none",
-                      padding: "20px",
-                    }}
-                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                  >
-                    <TableCell
-                      sx={{
-                        borderBottom: "none",
-                        borderLeft: "none",
-                        padding: "20px",
-                        color: "white",
-                      }}
-                      align="center"
-                      component="th"
-                      scope="row"
-                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                      // className="d-flex gap-3 align-items-center "
-                    >
-                      {index}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        borderBottom: "none",
-                        padding: "20px",
-                        color: "white",
-                      }}
-                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                      align="left"
-                    >
-                      {rows?.type}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        borderBottom: "none",
-                        padding: "20px",
-                        color: "white",
-                      }}
-                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                      align="left"
-                    >
-                      {rows?.userCount}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        borderBottom: "none",
-                        borderRight: "none",
-                        padding: "16px",
-                        color: "white",
-                      }}
-                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                      align="left"
-                    >
-                      {rows?.scanCount}
-                    </TableCell>
-                  </TableRow>
-                )
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+      </div> */}
+
       <div className=" mb-[32px] lg:mb-[46px] gradient-slate border rounded-lg border-muted px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
         <div className="flex items-center mb-[17px] lg:mb-[24px] justify-between">
           <div>
@@ -713,7 +567,7 @@ function EventSales() {
         <div className="flex items-center mb-[17px] lg:mb-[24px] justify-between">
           <div>
             <p className="lg:text-[14px] text-[#D9D9D9] font-normal">
-              Tickets Checked
+              Scanned Tickets
               <br />
               <span className="text-[#00D059] text-[32px] font-bold pt-[2px]">
                 {eventSales?.salesData?.data?.totaChecked}
@@ -721,7 +575,7 @@ function EventSales() {
             </p>
           </div>
           <div>
-            <Image src={filter} alt="img" />
+            <Image src={filter1} alt="img" />
           </div>
         </div>
         <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
@@ -777,7 +631,7 @@ function EventSales() {
                     borderTop: "1px solid #292929",
                   }}
                 >
-                  Sold
+                  Scan
                 </TableCell>
                 <TableCell
                   className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[233px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
@@ -856,6 +710,155 @@ function EventSales() {
                         ? ((rows.scanCount / rows.userCount) * 100).toFixed(2)
                         : 0}
                       %
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+      <div className=" mb-[32px] gradient-slate border rounded-lg border-muted mt-[32px] px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
+        <div className="flex items-center mb-[17px] lg:mb-[24px] justify-between">
+          <div>
+            <p className="lg:text-[32px] text-[24px] font-normal lg:font-bold">
+              Scanned Ticket Categories
+            </p>
+          </div>
+          <div>
+            <Image src={filter} alt="img" />
+          </div>
+        </div>
+        <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+          <Table
+            sx={{
+              minWidth: 650,
+              borderBottom: "none",
+              borderTop: "1px solid #292929",
+              borderLeft: "none",
+              borderRight: "none",
+              // padding: "20px 100px 22px 30px",
+              color: "white",
+              background: "#0F0F0F",
+              // color: "white",
+              fontSize: 16,
+              fontweight: 500,
+            }}
+            aria-label="simple table"
+          >
+            <TableHead className="table-gradient">
+              <TableRow sx={{ border: "1px solid #292929" }}>
+                <TableCell
+                  className="w-[40px] lg:w-[70px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  sx={{
+                    color: "#A6A6A6",
+                    borderBottom: "none",
+                    borderTop: "1px solid #292929",
+                  }}
+                  align="center"
+                  // width={"10%"}
+                >
+                  #
+                </TableCell>
+                <TableCell
+                  className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[500px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  // width={"10%"}
+                  align="left"
+                  sx={{
+                    color: "#A6A6A6",
+                    borderBottom: "none",
+                    borderTop: "1px solid #292929",
+                  }}
+                >
+                  Ticket Categories
+                </TableCell>
+                <TableCell
+                  className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[413px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  // width={"9%"}
+                  align="left"
+                  sx={{
+                    color: "#A6A6A6",
+                    borderBottom: "none",
+                    borderTop: "1px solid #292929",
+                  }}
+                >
+                 Scanned
+                </TableCell>
+                <TableCell
+                  className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[233px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                  // width={"9%"}
+                  align="left"
+                  sx={{
+                    color: "#A6A6A6",
+                    borderBottom: "none",
+                    borderTop: "1px solid #292929",
+                  }}
+                >
+                  Attendees
+                </TableCell>
+                {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
+              </TableRow>
+            </TableHead>
+            <TableBody className="border-0">
+              {eventSales?.salesData?.data?.ticketTypes?.map(
+                (rows: any, index: any) => (
+                  <TableRow
+                    key={rows.type}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      borderBottom: "none",
+                      padding: "20px",
+                    }}
+                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                  >
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        borderLeft: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      align="center"
+                      component="th"
+                      scope="row"
+                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                      // className="d-flex gap-3 align-items-center "
+                    >
+                      {index}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.type}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        padding: "20px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.userCount}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        borderRight: "none",
+                        padding: "16px",
+                        color: "white",
+                      }}
+                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                      align="left"
+                    >
+                      {rows?.scanCount}
                     </TableCell>
                   </TableRow>
                 )

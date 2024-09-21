@@ -9,7 +9,7 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { useState, useRef, useEffect } from "react";
 import Editicon from "@/assets/Editicon.svg";
-import addicon from "@/assets/add-icon.svg";
+import addicon from "@/assets/Wallet/Plus.svg";
 import greenpencile from "@/assets/Pencil.svg";
 import bgframe from "@/assets/Frame 1597878544.svg";
 import Link from "next/link";
