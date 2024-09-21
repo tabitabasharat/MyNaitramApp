@@ -10,13 +10,16 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import gift from "@/assets/gift.png"
+import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+import { getEventByEventId } from "@/lib/middleware/event";
 
 const StripeSuccess = ()=>{
+  const dispatch = useAppDispatch();
     const router = useRouter();
+  const [eventID, setEventId] = useState("");
+
     const searchParams = useSearchParams();
-    // const [eventData, setEventData] = useState(null);
     const [eventData, setEventData] = useState<any | null>(null);
-    const [eventDataNotStringfy, seteventDataNotStringfy] = useState<any | null>(null);
   
     const [showTicket, setShowTicket] = useState<any>(false);
     console.log(showTicket, "this is data");
@@ -27,30 +30,25 @@ const StripeSuccess = ()=>{
       }
     }, [showTicket]);
   
+    const EventData = useAppSelector(
+      (state) => state?.getEventByEventID?.eventIdEvents?.data
+    );
     useEffect(() => {
-      if (typeof window !== 'undefined') {
-        const storedData = localStorage.getItem('eventData');
-        if (storedData) {
-          try {
-            // Parse the JSON data from localStorage
-            const parsedData: any = JSON.parse(storedData);
-            setEventData(parsedData);
-            console.log("my parsed data",parsedData);
-          } catch (error) {
-            console.error("Error parsing event data from localStorage:", error);
-            setEventData(null); // Reset state in case of an error
-          }
-        } else {
-          setEventData(null); // No data found in localStorage
-        }
-      }
+      const currentUrl: any =
+        typeof window !== "undefined" ? window.location.href : null;
+      const parts = currentUrl.split("/");
+      const value = parts[parts.length - 1];
+      setEventId(value);
+      console.log("my event id is", value);
+      dispatch(getEventByEventId(34));
+     
     }, []);
     return(
         <>
         <SpecificEventHeroStripe
           setShowTicket={setShowTicket}
-          eventAllData={eventData}
-          backData={eventDataNotStringfy}
+          eventAllData={EventData}
+         
         />
       </>
     )

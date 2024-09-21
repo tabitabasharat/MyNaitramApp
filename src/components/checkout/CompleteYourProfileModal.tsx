@@ -50,7 +50,7 @@ const CompleteYourProfileModal = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      phone: undefined,
+      phone:undefined,
     },
   });
 
@@ -163,7 +163,12 @@ const CompleteYourProfileModal = ({
                       placeholder="+00 000-000"
                       className="pt-10 pb-5 font-bold placeholder:font-normal"
                       {...field}
-                      onChange={(event) => field.onChange(+event.target.value)}
+                      onChange={(event) => {
+                        const value = event.target.value;
+                        field.onChange(value ? +value : undefined);
+                      }}
+                      // onChange={(event) => field.onChange(+event.target.value)} 
+                    
                     />
                   </FormControl>
 

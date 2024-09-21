@@ -12,6 +12,7 @@ import { getEventById, getLiveEventById } from "@/lib/middleware/event";
 import rocket from "@/assets/Wallet/rocket-empty.svg";
 import YourEvents from "./YourEvents";
 import { useRouter } from "next/navigation";
+import getPastEvents from "@/lib/reducer/getPastEvents";
 
 const AllEventsGrid = ({ events, eventType }: any) => {
   const dispatch = useAppDispatch();
@@ -48,6 +49,8 @@ const AllEventsGrid = ({ events, eventType }: any) => {
     };
 
     dispatch(getViewAllEvent(data));
+    dispatch(getViewPastEvents(data));
+    dispatch(getLiveEventById(data))
   };
 
   const EventsAllData = useAppSelector(
@@ -161,6 +164,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
       {/* Your Events or Live Events */}
       {eventType === "Your Events" &&
         (events?.length > 0 ? (
+          <>
           <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
             {events?.map((event: any) => (
               <EventCard
@@ -173,6 +177,15 @@ const AllEventsGrid = ({ events, eventType }: any) => {
             ))}
             <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
           </div>
+          <div className="container p-0">
+          <Pagination
+            currentPage={myEvents?.currentPage}
+            totalPages={myEvents?.totalPages}
+            onPageChange={handlePageChange}
+          />
+        
+        </div>
+        </>
         ) : (
           <div className="relative gradient-slate py-[94.5px] border border-[#292929] flex items-center justify-center flex-col gap-[12px] rounded-[12px]">
             <p className="text-[16px] text-extrabold">There’s No Event</p>

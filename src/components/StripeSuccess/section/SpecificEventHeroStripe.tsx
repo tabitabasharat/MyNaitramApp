@@ -80,21 +80,7 @@ const SpecificEventHeroStripe = ({
     dispatch(getOrganizerSocialProfile(id));
   }, []);
 
-  const settings: any = {
-    dots: false,
-    infinite: eventAllData?.eventmedia?.length > 1,
-    autoplay: true, // Corrected the typo to enable autoplay
-    autoplaySpeed: 5000, // Sets the interval between slide changes (in milliseconds)
-    speed: 1000, // Slide transition speed
-    fade: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    prevArrow:
-      eventAllData?.eventmedia?.length > 1 ? <CustomPrevArrow /> : null,
-    nextArrow:
-      eventAllData?.eventmedia?.length > 1 ? <CustomNextArrow /> : null,
-    arrows: eventAllData?.eventmedia?.length > 1 ? true : false,
-  };
+ 
   // useEffect(() => {
   //   const currentUrl: any =
   //     typeof window !== "undefined" ? window.location.href : null;
@@ -108,15 +94,7 @@ const SpecificEventHeroStripe = ({
   // useEffect(() => {
   //   dispatch(getEventCount(EventData?.userId));
   // }, [EventData?.userId]);
-  const handleBackEvent = () => {
-    router.push("/OrganizerEventCreate");
-  };
-  const eventAttendy = useAppSelector(
-    (state: any) => state?.getAllAttend?.attend?.data
-  );
-  const eventAttend = useAppSelector(
-    (state: any) => state?.getAllAttend?.attend
-  );
+
 
   return (
     <section className="bg-imgg">
@@ -136,7 +114,7 @@ const SpecificEventHeroStripe = ({
         style={{ filter: "blur(30px)" }}
         width={1000}
         height={1000}
-        src={eventAllData?.eventcoverimg}
+        src={eventAllData?.coverEventImage}
         className="w-full h-screen absolute object-cover object-center z-0 opacity-30"
         alt=""
       />
@@ -147,8 +125,8 @@ const SpecificEventHeroStripe = ({
               <div>
                 <div className="lhs-hero w-full lg:w-[392px] flex items-center justify-center flex-col relative ">
                   <Image
-                    src={eventAllData?.eventcoverimg}
-                    alt="takeover"
+                   src={eventAllData?.coverEventImage}
+                    alt="img"
                     width={392}
                     height={200}
                     className="img-center rounded-lg relative"
@@ -168,13 +146,13 @@ const SpecificEventHeroStripe = ({
                   <StripeHero
                     instaUrl={eventAllData?.instaurl}
                     tiktokUrl={eventAllData?.tiktokurl}
-                    event={eventAllData?.eventname}
-                    title={eventAllData?.eventname}
+                    event={eventAllData?.name}
+                    title={eventAllData?.name}
                     eventCategory={eventAllData?.eventcategory}
-                    eventDate={eventAllData?.eventstarttime}
+                    eventDate={eventAllData?.startTime}
                     endTime={eventAllData?.eventendtime}
-                    startTime={eventAllData?.eventstarttime}
-                    img={eventAllData?.eventcoverimg}
+                    startTime={eventAllData?.startTime}
+                    img={eventAllData?.coverEventImage}
                     location={eventAllData?.eventlocation}
                     eventdescription={eventAllData?.eventdescription}
                     // activeIndex={activeIndex}

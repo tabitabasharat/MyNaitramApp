@@ -360,7 +360,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   )}
 
                 {/* LIVE ACTIVITY */}
-                <GradientBorder className="mt-[48px] w-full">
+                <GradientBorder className="mt-[48px] w-full ">
                   <div
                     style={{
                       backgroundImage: "url(/live-activity-bg.png)",
@@ -374,29 +374,29 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                           src={
                             eventAttend?.data?.[0]?.profilePicture || Avatar1
                           }
-                          width={60}
-                          height={60}
+                          width={48}
+                          height={48}
                           alt="avatar"
-                          className="rounded-full border border-[#034C22] z-[1]"
+                          className="rounded-full border border-[#034C22] z-[1] size-[48px]"
                         />
                         <Image
                           // src={Avatar2}
                           src={
                             eventAttend?.data?.[1]?.profilePicture || Avatar2
                           }
-                          width={60}
-                          height={60}
+                          width={48}
+                          height={48}
                           alt="avatar"
-                          className="rounded-full border border-[#034C22] z-[2]"
+                          className="rounded-full border border-[#034C22] z-[2] size-[48px]"
                         />
                         <Image
                           src={
                             eventAttend?.data?.[2]?.profilePicture || Avatar3
                           }
-                          width={60}
-                          height={60}
+                          width={48}
+                          height={48}
                           alt="avatar"
-                          className="rounded-full border border-[#034C22] z-[3]"
+                          className="rounded-full border border-[#034C22] z-[3] size-[48px]"
                         />
                       </div>
 

@@ -158,7 +158,7 @@ export const getViewAllEvent = createAsyncThunk(
       const res = await api.get(
         `${API_URL}/event/getEventsAll?page=${
           data?.page ? data?.page : 1
-        }&category=${data?.category}&Free=${data?.free}&chooseDate=${data?.chooseDate}`
+        }&limit=${data?.limit ? data?.limit : 12 }&category=${data?.category}&Free=${data?.free}&chooseDate=${data?.chooseDate}`
       );
 
       // const res = await api.get(
@@ -268,7 +268,7 @@ export const getLiveEventById = createAsyncThunk(
       const res = await api.get(
         `${API_URL}/event/getLiveEvents/${data?.userId}?page=${
           data?.page ? data?.page : 1
-        }&category=${data?.category}&Free=${data?.free}&chooseDate=${data?.chooseDate}`
+        }&limit=${data?.limit ? data?.limit : 12 }&category=${data?.category}&Free=${data?.free}&chooseDate=${data?.chooseDate}`
       );
       // const res = await api.get(
       //   `${API_URL}/event/getLiveEvents/${data?.userId}?page=${
