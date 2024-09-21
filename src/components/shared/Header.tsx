@@ -72,7 +72,7 @@ const Header = () => {
       title: "About",
       url: "/about",
       subLinks: [
-        { title: "/Gallery", url: "/gallery" },
+        { title: "Gallery", url: "/gallery" },
         { title: "Download App", url: "/download-app" },
       ],
     },

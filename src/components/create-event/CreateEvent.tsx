@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { useState, useRef, useEffect } from "react";
 import Editicon from "@/assets/Editicon.svg";
-import addicon from "@/assets/add-icon.svg";
+import addicon from "@/assets/Wallet/Plus.svg";
 import Link from "next/link";
 import {
   Form,
@@ -1071,7 +1071,12 @@ function CreateEvent() {
               {/* Add Ticket Type Button */}
               <div className="flex justify-end items-center mt-[12px] ticket-btn">
                 <Button
-                  className="font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                  style={{
+                    background:
+                      "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                  }}
+                  className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px]  rounded-full  
+               border-[0.86px] border-transparent text-[11px] font-extrabold"
                   onClick={handleAddTicketType}
                 >
                   <Image src={addicon} alt="Add-icon" height={12} width={12} />

@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import upload from "@/assets/material-symbols_upload.svg"
+import upload from "@/assets/Link Simple.svg"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { z } from "zod";
@@ -238,7 +238,8 @@ const OrganizerHelpcenter = ({
                   <Image
                     src={upload}
                     alt="upload"
-                    className="md:w-[28px] md:h-[28px] w-[16px] h-[16px]"
+
+                    className="md:w-[20px] md:h-[20px] w-[16px] h-[16px]"
                   />
                 </label>
                 <input

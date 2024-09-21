@@ -11,7 +11,7 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { useState, useRef, useEffect } from "react";
 import Editicon from "@/assets/Editicon.svg";
-import addicon from "@/assets/add-icon.svg";
+import addicon from "@/assets/Wallet/Plus.svg";
 import greenpencile from "@/assets/Pencil.svg";
 import bgframe from "@/assets/Frame 1597878544.svg";
 import Link from "next/link";
@@ -324,7 +324,6 @@ function Editevent() {
       )
     );
   };
- 
 
   // const handleCateOptionToggle = (option: any) => {
   //   setCategoryTypes((prev: any) =>
@@ -336,22 +335,19 @@ function Editevent() {
 
   const handleCateOptionToggle = (option: any) => {
     setCategoryTypes((prev: any) => {
-    
       if (prev.some((o: any) => o.label === option.label)) {
         return prev.filter((o: any) => o.label !== option.label);
       }
-  
-     
+
       if (prev.length < 4) {
         return [...prev, option];
       }
-  
-     
+
       // ErrorToast("You can only select 4 categories at a time")
       return prev;
     });
   };
-  
+
   const handleCatDropdownToggle = () => {
     setIsCatDropdownOpen((prev) => !prev);
   };
@@ -576,8 +572,6 @@ function Editevent() {
     }
   };
 
- 
-
   const removeImage = (index: number) => {
     setGalleryFiles((prevFiles) => {
       const fileToRemove = prevFiles[index];
@@ -640,7 +634,7 @@ function Editevent() {
 
     return formattedUTC;
   }
- 
+
   const isCategorySelected = categoryTypes?.length > 0;
 
   console.log("is cat", isCategorySelected);
@@ -684,11 +678,12 @@ function Editevent() {
       console.error("Error parsing category data:", e);
     }
 
-    const updatedCategoryTypes = categories.map((category: string, index: number) => ({
-      label: category, 
-      
-    }))
-    setCategoryTypes(updatedCategoryTypes)
+    const updatedCategoryTypes = categories.map(
+      (category: string, index: number) => ({
+        label: category,
+      })
+    );
+    setCategoryTypes(updatedCategoryTypes);
 
     const utcEventStartTime = EventStartTime
       ? convertToUTC(EventStartTime)
@@ -795,45 +790,43 @@ function Editevent() {
 
       setTicketTypes(ticketsWithCheckedOptions);
 
-    //   let categories = [];
-    //   try {
-    //     categories = JSON.parse(EventData?.category || "[]");
-    //     console.log("my cat", categories); 
-    //   } catch (e) {
-    //     console.log("Error parsing category data:");
-    //   }
+      //   let categories = [];
+      //   try {
+      //     categories = JSON.parse(EventData?.category || "[]");
+      //     console.log("my cat", categories);
+      //   } catch (e) {
+      //     console.log("Error parsing category data:");
+      //   }
 
-    // const updatedCategoryTypes = categories.map((category: string, index: number) => ({
-    //   label: category, 
-      
-    // }));
+      // const updatedCategoryTypes = categories.map((category: string, index: number) => ({
+      //   label: category,
 
-    //   setCategoryTypes(updatedCategoryTypes);
-    //   console.log("updatedCategoryTypes", updatedCategoryTypes);
-      
-    let categories: string[] = [];
+      // }));
 
-    if (Array.isArray(EventData?.category)) {
-    
-      categories = EventData?.category;
-    } else {
-     
-      try {
-        categories = JSON.parse(EventData?.category || "[]");
-      } catch (e) {
-        console.log("Error parsing category data:", e);
+      //   setCategoryTypes(updatedCategoryTypes);
+      //   console.log("updatedCategoryTypes", updatedCategoryTypes);
+
+      let categories: string[] = [];
+
+      if (Array.isArray(EventData?.category)) {
+        categories = EventData?.category;
+      } else {
+        try {
+          categories = JSON.parse(EventData?.category || "[]");
+        } catch (e) {
+          console.log("Error parsing category data:", e);
+        }
       }
-    }
-    
-    console.log("my cat", categories);
-    
-    const updatedCategoryTypes = categories.map((category: string) => ({
-      label: category,
-    }));
-    
-    setCategoryTypes(updatedCategoryTypes);
-    console.log("updatedCategoryTypes", updatedCategoryTypes);
-  
+
+      console.log("my cat", categories);
+
+      const updatedCategoryTypes = categories.map((category: string) => ({
+        label: category,
+      }));
+
+      setCategoryTypes(updatedCategoryTypes);
+      console.log("updatedCategoryTypes", updatedCategoryTypes);
+
       form.reset({
         eventname: EventData?.name || form.getValues("eventname"),
         eventcategory: updatedCategoryTypes || form.getValues("eventcategory"),
@@ -1409,8 +1402,8 @@ function Editevent() {
                           placeholder="Enter Event Description"
                         /> */}
                         <div className=" absolute inset-0 pb-3 overflow-auto top-[25px] h-[200px]">
-                        <Editor
-                         value={field.value} 
+                          <Editor
+                            value={field.value}
                             onChange={(content) => {
                               field.onChange(content);
 
@@ -1567,337 +1560,12 @@ function Editevent() {
                   )}
                 />
               </div>
-
-              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container ">
-                <FormField
-                  control={form.control}
-                  name="eventmainimg"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Main event image
-                      </FormLabel>
-                      <UploadSimple
-                        className="absolute right-[24px] top-[30%] "
-                        size={20}
-                      />
-
-                      <FormControl>
-                        <div>
-                          <label
-                            htmlFor="upload"
-                            className="pt-9 pb-3 font-bold   border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-between items-center "
-                          >
-                            <span className="pl-[0.75rem]">
-                              {MainImgName || "Upload Image"}
-                            </span>
-
-                            <input
-                              ref={fileInputRef}
-                              type="file"
-                              accept="image/png image/jpg image/jpeg image/svg"
-                              className="hidden"
-                              id="upload"
-                              onChange={handleSingleFileChange}
-                            />
-                          </label>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="eventcoverimg"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        cover event image
-                      </FormLabel>
-                      <UploadSimple
-                        className="absolute right-[24px] top-[30%] "
-                        size={20}
-                      />
-
-                      <FormControl>
-                        <div>
-                          <label
-                            htmlFor="upload2"
-                            className="pt-9 pb-3 font-bold   border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-between items-center "
-                          >
-                            <span className="pl-[0.75rem]">
-                              {CoverImgName || "Upload Image"}
-                            </span>
-                            <input
-                              ref={fileInputRef2}
-                              type="file"
-                              accept="image/png image/jpg image/jpeg image/svg"
-                              className="hidden"
-                              id="upload2"
-                              onChange={handleCoverSingleFileChange}
-                            />
-                          </label>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div> */}
-
-              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                <FormItem className="relative w-full space-y-0">
-                  <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                    Gallery media
-                    {galleryFiles?.length > 0 && (
-                      <div className="mt-4 pb-4 relative">
-                        <div className="flex flex-wrap gap-[12px]">
-                          {galleryFiles?.map((file, index) => {
-                            const isVideo = file?.type?.startsWith("video/");
-                            const isImage = file?.type?.startsWith("image/");
-                            return (
-                              <div
-                                key={index}
-                                className="relative w-[80px] h-[80px] bg-gray-200 rounded-[12px]"
-                              >
-                                {isVideo ? (
-                                  <video
-                                    src={window.URL.createObjectURL(file)}
-                                    className="w-full h-full object-cover relative rounded-[12px]"
-                                    width={80}
-                                    height={80}
-                                    controls
-                                  >
-                                    Your browser does not support the video tag.
-                                  </video>
-                                ) : isImage ? (
-                                  <Image
-                                    src={window.URL.createObjectURL(file)}
-                                    alt={`Gallery Image ${index + 1}`}
-                                    className="w-full h-full object-cover relative rounded-[12px]"
-                                    width={80}
-                                    height={80}
-                                  />
-                                ) : (
-                                  <p className="w-full h-full flex items-center justify-center text-red-500">
-                                    Unsupported media type
-                                  </p>
-                                )}
-                                <button
-                                  type="button"
-                                  onClick={() => removeImage(index)}
-                                  className="trash_button"
-                                >
-                                  <Image
-                                    src={crossicon}
-                                    alt="remove"
-                                    width={20}
-                                    height={20}
-                                  />
-                                </button>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                  </FormLabel>
-                  <FormControl>
-                    <div>
-                      <label
-                        htmlFor="galleryUpload"
-                        className={`pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px] ${
-                          galleryFiles.length > 0
-                            ? "h-[200px] gallery-box"
-                            : "pt-9 gallery-top"
-                        }`}
-                      >
-                        <span className="pl-[0.75rem] uploadImageButton">
-                          {"Upload Images"}
-                        </span>
-                        <input
-                          type="file"
-                          multiple
-                          accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
-                          className="hidden"
-                          id="galleryUpload"
-                          onChange={handleFileChange}
-                        />
-                      </label>
-                    </div>
-                  </FormControl>
-                </FormItem>
-              </div> */}
-
-              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                <FormItem className="relative w-full space-y-0">
-                  <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                    Gallery media
-                    {galleryFiles.length > 0 && (
-                      <div className="mt-4 pb-4 relative">
-                        <div className="flex flex-wrap gap-[12px]">
-                          {galleryFiles.map((file: any, index) => (
-                            <div
-                              key={index}
-                              className="relative w-[80px] h-[80px] bg-gray-200 rounded-[12px]"
-                            >
-                              {file?.type === "video" ? (
-                                <video
-                                  src={
-                                    typeof file.url === "string"
-                                      ? file.url
-                                      : URL.createObjectURL(file)
-                                  }
-                                  className="w-full h-full object-cover relative rounded-[12px]"
-                                  width={80}
-                                  height={80}
-                                  controls
-                                >
-                                  Your browser does not support the video tag.
-                                </video>
-                              ) : (
-                                <img
-                                  src={
-                                    typeof file.url === "string"
-                                      ? file.url
-                                      : URL.createObjectURL(file)
-                                  }
-                                  alt={`Gallery Image ${index + 1}`}
-                                  className="w-full h-full object-cover relative rounded-[12px]"
-                                  width={80}
-                                  height={80}
-                                />
-                              )}
-                              <button
-                                type="button"
-                                onClick={() => removeImage(index)}
-                                className="trash_button"
-                              >
-                                <Image
-                                  src={crossicon}
-                                  alt="remove"
-                                  width={20}
-                                  height={20}
-                                />
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </FormLabel>
-                  <FormControl>
-                    <div>
-                      <label
-                        htmlFor="galleryUpload"
-                        className={`pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px] ${
-                          galleryFiles.length > 0
-                            ? "h-[200px] gallery-box"
-                            : "pt-9 gallery-top"
-                        }`}
-                      >
-                        <span className="pl-[0.75rem] uploadImageButton">
-                          Upload Images
-                        </span>
-                        <input
-                          type="file"
-                          multiple
-                          accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
-                          className="hidden"
-                          id="galleryUpload"
-                          onChange={handleFileChange}
-                        />
-                      </label>
-                    </div>
-                  </FormControl>
-                </FormItem>
-              </div> */}
-
-              {/* <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-      <FormItem className="relative w-full space-y-0">
-        <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-          Gallery media
-          {galleryFiles.length > 0 && (
-            <div className="mt-4 pb-4 relative">
-              <div className="flex flex-wrap gap-[12px]">
-                {galleryFiles.map((fileObj, index) => (
-                  <div
-                    key={index}
-                    className="relative w-[80px] h-[80px] bg-gray-200 rounded-[12px]"
-                  >
-                    {fileObj?.file?.type.startsWith('video') ? (
-                      <video
-                        src={fileObj.url}
-                        className="w-full h-full object-cover relative rounded-[12px]"
-                        width={80}
-                        height={80}
-                        controls
-                      >
-                        Your browser does not support the video tag.
-                      </video>
-                    ) : (
-                      <Image
-                        src={fileObj.url}
-                        alt={`Gallery Image ${index + 1}`}
-                        className="w-full h-full object-cover relative rounded-[12px]"
-                        width={80}
-                        height={80}
-                      />
-                    )}
-                    <button
-                      type="button"
-                      onClick={() => removeImage(index)}
-                      className="trash_button"
-                    >
-                      <Image
-                        src={crossicon}
-                        alt="remove"
-                        width={20}
-                        height={20}
-                      />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </FormLabel>
-        <FormControl>
-          <div>
-            <label
-              htmlFor="galleryUpload"
-              className={`pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px] ${
-                galleryFiles.length > 0
-                  ? "h-[200px] gallery-box"
-                  : "pt-9 gallery-top"
-              }`}
-            >
-              <span className="pl-[0.75rem] uploadImageButton">
-                {"Upload Images"}
-              </span>
-              <input
-                type="file"
-                multiple
-                accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
-                className="hidden"
-                id="galleryUpload"
-                onChange={handleFileChange}
-              />
-            </label>
-          </div>
-        </FormControl>
-      </FormItem>
-    </div> */}
-
               {ticketTypes.map((ticket, index) => (
                 <div
                   className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
                   key={index}
                 >
                   <div className="flex items-center gap-[24px] lg:flex-nowrap flex-wrap">
-                    {/* Event Ticket Type Field */}
                     <FormField
                       control={form.control}
                       name={`tickets.${index}.type`}
@@ -1933,7 +1601,7 @@ function Editevent() {
                       render={({ field }) => (
                         <FormItem className="relative w-full space-y-0">
                           <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 uppercase pt-[16px] pb-[4px]">
-                          Event Ticket Price (£) 
+                            Event Ticket Price (£)
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -2158,7 +1826,12 @@ function Editevent() {
               {/* Add Ticket Type Button */}
               <div className="flex justify-end items-center mt-[12px] ticket-btn">
                 <Button
-                  className="font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                  style={{
+                    background:
+                      "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                  }}
+                  className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px]  rounded-full  
+border-[0.86px] border-transparent text-[11px] font-extrabold"
                   onClick={handleAddTicketType}
                 >
                   <Image src={addicon} alt="Add-icon" height={12} width={12} />
@@ -2407,13 +2080,11 @@ function Editevent() {
               <div className="flex justify-end items-center mt-[36px] edit-btn">
                 <Button
                   type="submit"
-
                   className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                 >
                   Submit
                 </Button>
               </div>
-              
             </form>
           </Form>
         </div>
