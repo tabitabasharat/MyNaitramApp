@@ -228,7 +228,7 @@ function Editevent() {
 
   const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
   const [InstaUrl, setInstaUrl] = useState("https://www.instagram.com/");
-  const [TwitterUrl, setTwitterUrl] = useState("https://www.com/");
+  const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
 
   const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
 
@@ -392,11 +392,30 @@ function Editevent() {
     },
   });
 
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     const filesArray = Array.from(event.target.files);
+  //     setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]); // Update state with all selected files
+  //     console.log("Gallery files:", [...galleryFiles, ...filesArray]);
+  //   }
+  // };
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);
-      setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]); // Update state with all selected files
-      console.log("Gallery files:", [...galleryFiles, ...filesArray]);
+
+      setGalleryFiles((prevFiles) => {
+        const totalFiles = prevFiles.length + filesArray.length;
+
+        // If adding the new files exceeds 10, limit the number of added files
+        if (totalFiles > 10) {
+          const remainingSlots = 10 - prevFiles.length;
+          const limitedFilesArray = filesArray.slice(0, remainingSlots);
+          ErrorToast("You can only select 10 media items");
+          return [...prevFiles, ...limitedFilesArray];
+        }
+
+        return [...prevFiles, ...filesArray];
+      });
     }
   };
 
@@ -1175,11 +1194,20 @@ function Editevent() {
                   </div>
                   <label
                     htmlFor="galleryUpload"
-                    className={`pb-3 gallery-box-same border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end  ${
-                      galleryFiles.length > 0
-                        ? " gallery-box h-full"
-                        : "pt-9 gallery-top"
-                    }`}
+                    // className={`pb-3 gallery-box-same border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end  ${
+                    //   galleryFiles.length > 0
+                    //     ? " gallery-box h-full"
+                    //     : "pt-9 gallery-top"
+                    // }`}
+                    className={`pb-3 gallery-box-same border-none font-bold border border-[#292929]
+                      placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end 
+                      ${
+                        galleryFiles.length >= 10
+                          ? "opacity-50 cursor-not-allowed"
+                          : galleryFiles.length > 0
+                          ? "gallery-box h-full"
+                          : "pt-9 gallery-top"
+                      }`}
                   >
                     <div
                       className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate"
@@ -1202,6 +1230,7 @@ function Editevent() {
                       className="hidden"
                       id="galleryUpload"
                       onChange={handleFileChange}
+                      disabled={galleryFiles?.length >= 10}
                     />
                   </label>
                 </>
@@ -1969,7 +1998,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://www.com/")) {
+                            if (value.startsWith("https://www.x.com/")) {
                               setTwitterUrl(value);
                               field.onChange(value);
                             }

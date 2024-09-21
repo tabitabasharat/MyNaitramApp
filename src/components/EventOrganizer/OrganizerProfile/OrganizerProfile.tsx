@@ -83,7 +83,7 @@ const OrganizerProfile = () => {
       facebook: "https://www.facebook.com/",
       insta: "https://instagram.com/",
       linkedIn:  "https://linkedin.com/in/",
-      twitter:  "https://www.com/",
+      twitter:  "https://www.x.com/",
       youtube:  "https://www.youtube.com/",
       tiktok:  "https://www.tiktok.com/@",
       BIO: "",

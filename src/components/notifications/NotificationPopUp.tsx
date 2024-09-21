@@ -8,6 +8,7 @@ import EventNotificationCard from "./EventNotificationCard";
 import MessgaeNotificationCard from "./MessgaeNotificationCard";
 import { useState, useEffect } from "react";
 import { getUserNotifications } from "@/lib/middleware/notification";
+import profileimg from "@/assets/Avatar-1.svg";
 
 const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
   const dispatch = useAppDispatch();
@@ -134,21 +135,25 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
         {/* <GradientBorder
           className={`rounded-full w-fit`}
         > */}
-          <div
-            onClick={() => handleClick("today")}
-            className={`border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
-              active === "today" ? "gradient-border-notify text-primary" : "text-white"
-            } items-center lg:items-start cursor-pointer`}
-          >
-            <p className="text-sm font-extrabold">Today</p>
-          </div>
+        <div
+          onClick={() => handleClick("today")}
+          className={`border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
+            active === "today"
+              ? "gradient-border-notify text-primary"
+              : "text-white"
+          } items-center lg:items-start cursor-pointer`}
+        >
+          <p className="text-sm font-extrabold">Today</p>
+        </div>
         {/* </GradientBorder> */}
 
         {/* This Week */}
         <div
           onClick={() => handleClick("week")}
           className={`border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
-            active === "week" ? "gradient-border-notify text-primary" : "text-white"
+            active === "week"
+              ? "gradient-border-notify text-primary"
+              : "text-white"
           } items-center lg:items-start cursor-pointer`}
         >
           <p className="text-sm font-extrabold">This Week</p>
@@ -158,7 +163,9 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
         <div
           onClick={() => handleClick("month")}
           className={`border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
-            active === "month" ? "gradient-border-notify text-primary" : "text-white"
+            active === "month"
+              ? "gradient-border-notify text-primary"
+              : "text-white"
           } items-center lg:items-start cursor-pointer`}
         >
           <p className="text-sm font-extrabold">This Month</p>
@@ -166,23 +173,57 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
       </div>
 
       {/* Notifications List */}
-      <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
-        {Notify?.length > 0 &&
-          Notify?.map((item: any, index: any) => {
-            return (
-              <EventNotificationCard
-                msg={item?.msg}
-                heading={item?.action}
-                notifyTime={item?.createdAt}
-              />
-            );
-          })}
-        {/* <MessgaeNotificationCard
-                 msg={item?.msg}
-                 heading={item?.action}
-                 notifyTime={item?.createdAt}
-               /> */}
-      </div>
+     
+      {activeTab === "USER" && (
+        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
+          {Notify?.length > 0 &&
+            Notify?.map((item: any, index: any) => {
+              
+              if (
+                item?.action !== "Event created" &&
+                item?.action !== "Event updated" &&
+                item?.action !== "Ticket Purchase"
+              ) {
+                return (
+                  <EventNotificationCard
+                    key={index}
+                    msg={item?.msg}
+                    heading={item?.action}
+                    notifyTime={item?.createdAt}
+                    
+                  />
+                  
+                );
+              }
+              return null;
+            })}
+        </div>
+      )}
+
+      {activeTab === "ORGANISER" && (
+        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
+          {Notify?.length > 0 &&
+            Notify?.map((item: any, index: any) => {
+              
+              if (
+                item?.action === "Event created" ||
+                item?.action === "Event updated" ||
+                item?.action === "Ticket Purchase"
+              ) {
+                return (
+                  <EventNotificationCard
+                    key={index}
+                    msg={item?.msg}
+                    heading={item?.action}
+                    notifyTime={item?.createdAt}
+                    profileimg={profileimg}
+                  />
+                );
+              }
+              return null;
+            })}
+        </div>
+      )}
     </div>
   );
 };

@@ -73,7 +73,7 @@ function Manageevent({
                   {/* <Link href={`/events`} className="w-full"> */}
                   <Link
                     href={
-                      event?.id ? `/specific-event/${event?.id}` : "/events"
+                      event?.id ? `/event/${event?.id}` : "/events"
                     }
                     className="w-full"
                   >

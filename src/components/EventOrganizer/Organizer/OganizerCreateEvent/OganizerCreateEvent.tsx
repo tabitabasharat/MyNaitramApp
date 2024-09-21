@@ -255,7 +255,7 @@ function OganizerCreateEvent() {
 
   const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
   const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
-  const [TwitterUrl, setTwitterUrl] = useState("https://www.com/");
+  const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
 
   const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
 
@@ -397,7 +397,7 @@ function OganizerCreateEvent() {
       fburl: "https://www.facebook.com/",
       instaurl: "https://instagram.com/",
       youtubeurl: "https://www.youtube.com/",
-      telegramurl: "https://www.com/",
+      telegramurl: "https://www.x.com/",
       tiktokurl: "https://www.tiktok.com/@",
       linkedinurl: "https://linkedin.com/in/",
       tickets: [],
@@ -1868,7 +1868,7 @@ function OganizerCreateEvent() {
                           onChange={(e) => {
                             const value = e.target.value;
                             // Prevent the user from modifying the base URL
-                            if (value.startsWith("https://www.com/")) {
+                            if (value.startsWith("https://www.x.com/")) {
                               setTwitterUrl(value);
                               field.onChange(value);
                             }

@@ -113,7 +113,7 @@ const MobileEventCard = ({
   return (
     <ScaleReveal>
       <Link
-        href={eventId ? `/specific-event/${eventId}` : "/viewallevents"}
+        href={eventId ? `/event/${eventId}` : "/viewallevents"}
         className="w-full"
       >
         <div className="gradient-slate border-2 border-[#1F1F1F] rounded-lg p-4 flex justify-between w-full">

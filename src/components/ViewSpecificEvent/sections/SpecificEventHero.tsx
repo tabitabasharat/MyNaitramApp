@@ -135,25 +135,23 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
   const copyUrlToClipboard = () => {
     if (typeof window !== "undefined") {
-      const currentUrl = window.location.href;
+      let currentUrl = window.location.href;
       if (currentUrl) {
-        navigator.clipboard
-          .writeText(currentUrl)
-          .then(() => {
-            setCopiedUrl(currentUrl)
-            // SuccessToast("URL copied successfully");
-            console.log("Your URL is", currentUrl);
-
-            setShareModal(true);
-          })
-          .catch(() => {
-            ErrorToast("Failed to copy URL.");
-          });
+       
+        currentUrl = currentUrl.split('?')[0];
+        
+       
+        setCopiedUrl(currentUrl);
+        console.log("Your URL is", currentUrl);
+        
+     
+        setShareModal(true);
       } else {
-        ErrorToast("Failed to copy URL.");
+        ErrorToast("Failed to store URL.");
       }
     }
   };
+  
 
   const handleShare = () => {
     setShareModal(true);

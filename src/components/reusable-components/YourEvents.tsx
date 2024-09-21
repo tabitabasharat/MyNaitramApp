@@ -1,7 +1,7 @@
 import Link from "next/link";
 import HeartBadge from "../ui/heart-badge";
 import { Heart } from "@phosphor-icons/react/dist/ssr";
-
+import ShareModal from "../ViewSpecificEvent/sections/ShareModal";
 import Image from "next/image";
 import { shimmer, toBase64 } from "@/lib/utils";
 import share from "@/assets/share.svg";
@@ -51,6 +51,10 @@ const YourEvents = ({
   const [loader, setLoader] = useState(false);
   const [liked, setLiked] = useState(false);
   const [userToken, setUserToken] = useState<any>("");
+  const [sharemodal, setShareModal] = useState<any>(false);
+  const [copiedUrl, setCopiedUrl] = useState<any>("");
+
+
 
   async function handleLikeEvent() {
     setLoader(true);
@@ -225,28 +229,26 @@ const YourEvents = ({
   // };
   const copyUrlToClipboard = () => {
     if (typeof window !== "undefined") {
-      const currentUrl = window.location.href;
-      if (currentUrl) {
-        navigator.clipboard.writeText(currentUrl)
-          .then(() => {
-            SuccessToast("URL copied successfully");
-            console.log("Your URL is", currentUrl);
-          })
-          .catch(() => {
-            ErrorToast("Failed to copy URL.");
-          });
-      } else {
-        ErrorToast("Failed to copy URL.");
-      }
+      const domainName = window.location.origin; 
+      const eventUrl = `${domainName}/event/${eventId}`; 
+      
+      
+      setCopiedUrl(eventUrl);
+      console.log("Your event URL is", eventUrl);
+      
+     
+      setShareModal(true);
     }
   };
+  
+  
 
   return (
     <ScaleReveal extraStyle="w-full">
       <Link
         href={
           eventId
-            ? `/specific-event/${eventId}?EventType=${Eventtype}`
+            ? `/event/${eventId}?EventType=${Eventtype}`
             : "/viewallevents"
         }
         className="w-full"
@@ -282,7 +284,7 @@ const YourEvents = ({
                   
                   className="flex gap-[10px] cursor-pointer"
                 >
-                  <Image src={share} sizes="40px" alt="share"     onClick={copyUrlToClipboard}/>
+                  <Image src={share} sizes="40px" alt="share" onClick={copyUrlToClipboard}/>
 
                   <div className="bg-white/20 p-[0.6rem] rounded-full backdrop-blur-lg webkit-header-blur" onClick={handleHeartClick}>
                     <Heart
@@ -298,6 +300,13 @@ const YourEvents = ({
           </div>
         </div>
       </Link>
+      {sharemodal && (
+              <ShareModal
+                onClose={() => setShareModal(false)}
+                open={() => setShareModal(true)}
+               eventUrl={copiedUrl}
+              />
+            )}
     </ScaleReveal>
   );
 };

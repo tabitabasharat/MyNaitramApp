@@ -13,6 +13,7 @@ import vip from "../../assets/crown1.svg";
 import security from "../../assets/security.svg";
 // import info from "../../assets/Info.svg";
 import qrcode from "../../assets/QR Code.svg";
+import blurqrcode from "@/assets/Wallet/blure qr-code.svg";
 import blockchain from "../../assets/blockchain-icon 1.svg";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -132,9 +133,7 @@ export default function SpecificEventTickets() {
   );
   console.log("MY ticket data is", TicketData);
 
-  const userLoading = useAppSelector(
-    (state) => state?.getTicketByQR
-  );
+  const userLoading = useAppSelector((state) => state?.getTicketByQR);
   const ConvertDate = (originalDateStr: string): string => {
     const originalDate = new Date(originalDateStr);
 
@@ -235,7 +234,7 @@ export default function SpecificEventTickets() {
   ];
   return (
     <section className="min-h-screen py-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
-      {userLoading.loading && <ScreenLoader/>}
+      {userLoading.loading && <ScreenLoader />}
       <div className="max-w-screen-lg lg:gap-[0px]   mx-auto text-center lg:text-left">
         {/* Container for back button and title */}
         <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-8">
@@ -361,18 +360,26 @@ export default function SpecificEventTickets() {
               <Image src={info} alt="img" />
             </div> */}
             <div className="flex flex-col justify-center items-center">
-              <div>
+              <div className="flex items-center justify-center flex-col">
                 <Image
                   style={{ borderRadius: "12px" }}
                   width={144}
                   height={144}
-                  src={TicketData?.qrCode}
+                  // src={TicketData?.qrCode}
+                  src={blurqrcode}
                   alt="img"
                 />
+                <p className="text-center py-[16px] text-[14px] ">
+                  Please view the ticket QR code on<br></br> the Naitram Mobile
+                  App{" "}
+                </p>
               </div>
-              <Link href={`/wallet/specific-qr-code/${eventID}`}>
-                <button className="font-extrabold text-sm rounded-[100px] mb-[24px] mt-[16px] px-[16px] py-[10px] bg-[#00D059] text-black">
-                  Enlarge Code
+
+              {/* <Link href={`/wallet/specific-qr-code/${eventID}`}> */}
+              <Link href={`/download-app`}>
+
+                <button className="font-extrabold text-sm rounded-[100px] mb-[24px] px-[16px] py-[10px] bg-[#00D059] text-black">
+                  Download App
                 </button>
               </Link>
             </div>
@@ -393,7 +400,10 @@ export default function SpecificEventTickets() {
               </h3>
             </div>
             <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
-              <Link href={`https://sepolia.etherscan.io/tx/${TicketData?.txHash}`} target="_blank">
+              <Link
+                href={`https://sepolia.etherscan.io/tx/${TicketData?.txHash}`}
+                target="_blank"
+              >
                 <h2 className="font-normal text-sm text-start">
                   Transaction ID
                 </h2>
@@ -408,12 +418,9 @@ export default function SpecificEventTickets() {
 
                   {TicketData?.txHash
                     ? TicketData?.txHash.length > 20
-                      ? `${TicketData?.txHash.slice(
-                          0,
-                          19
-                        )}...`
+                      ? `${TicketData?.txHash.slice(0, 19)}...`
                       : TicketData?.txHash
-                    : "N/A"}
+                    : "0"}
                 </h3>
               </Link>
               <div>

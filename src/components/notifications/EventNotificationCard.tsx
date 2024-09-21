@@ -2,7 +2,7 @@ import { shimmer, toBase64 } from '@/lib/utils';
 import Image from 'next/image';
 import { useAppSelector } from '@/lib/hooks';
 
-const EventNotificationCard = ({msg,heading,notifyTime}:any) => {
+const EventNotificationCard = ({msg,heading,notifyTime, profileimg}:any) => {
   const Notify = useAppSelector(
     (state) => state?.getUserNotifications?.myNotifications?.data
   );
@@ -20,7 +20,7 @@ const EventNotificationCard = ({msg,heading,notifyTime}:any) => {
     <div className="gradient-slate border border-muted w-full rounded-lg p-3 flex gap-4">
       <div className="size-[60px] rounded-lg border border-white overflow-hidden">
         <Image
-          src={'/person3.jpg'}
+          src={profileimg ? profileimg : '/person3.jpg'}
           width={500}
           height={500}
           className="object-cover size-[60px]"

@@ -59,20 +59,20 @@ const options: Option[] = [
   { id: 7, label: "Solana" },
 ];
 
-const formSchema = z.object({
-  walletAddress: z
-    .string()
-    .min(1, { message: "Wallet Address cannot be empty." }),
-});
-
 // const formSchema = z.object({
 //   walletAddress: z
 //     .string()
-//     .min(1, { message: "Wallet Address cannot be empty." })
-//     .refine((value) => value !== "null" && value !== "Null", {
-//       message: "Wallet Address cannot be 'null'.",
-//     }),
+//     .min(1, { message: "Wallet Address cannot be empty." }),
 // });
+const formSchema = z.object({
+  walletAddress: z
+    .string()
+    .min(1, { message: "Wallet Address cannot be empty." })
+    .refine((value) => value !== "null" && value !== "Null", {
+      message: "Wallet Address cannot be 'null'.",
+    }),
+});
+
 
 type LunchModalProps = {
   onClose: () => void; // Function to close the dialog
@@ -99,6 +99,9 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
   const [userid, setUserid] = useState<any>("");
 
   console.log("my all event data", eventData);
+
+  
+
   const handleOptionToggle = (option: Option) => {
     if (selectedOption?.id === option.id) {
       setSelectedOption(null);

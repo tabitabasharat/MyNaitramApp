@@ -74,7 +74,8 @@ const ShareModal = ({ onClose, open, eventUrl }: any) => {
     navigator.clipboard
       .writeText(eventUrl)
       .then(() => {
-        SuccessToast("Link copied to clipboard!");
+        SuccessToast("Link copied");
+
       })
       .catch(() => {
         ErrorToast("Failed to copy the link.");

@@ -78,7 +78,7 @@ const Dashboard = () => {
         >
           <span className="text-[24px] text-[white] font-bold">$</span>
           {/* {data.reduce((acc, item) => acc + item.value, 0).toFixed(2)}{" "} */}
-          {mybalance?.currentBalance ? mybalance?.currentBalance : 0 }
+          {mybalance?.currentBalance ? mybalance?.currentBalance : "0.00"  }
           <span className="text-[16px] font-extrabold text-[#D9D9D9]">
             {" "}
             MRT{" "}

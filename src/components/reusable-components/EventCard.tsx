@@ -117,7 +117,7 @@ const EventCard = ({
       <Link
         href={
           eventId
-            ? `/specific-event/${eventId}?EventType=${Eventtype}`
+            ? `/event/${eventId}?EventType=${Eventtype}`
             : "/viewallevents"
         }
         className="w-full"

@@ -24,7 +24,7 @@ const Cards = ({
   return (
     <ScaleReveal extraStyle="w-full">
       <Link
-        href={eventId ? `/specific-event/${eventId}` : "/events"}
+        href={eventId ? `/event/${eventId}` : "/events"}
         className="w-full"
       >
         <div
