@@ -260,7 +260,7 @@ const LiveAccntSetting = ({
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(updateActivity)}
-                className=" w-full"
+                className=" w-full mb-[50px]"
               >
                 <FormField
                   control={form.control}
@@ -372,7 +372,7 @@ const LiveAccntSetting = ({
                   control={form.control}
                   name="telegram"
                   render={({ field }) => (
-                    <FormItem className="relative mb-[44px] md:mb-8 space-y-0">
+                    <FormItem className="relative mb-4 md:mb-8 space-y-0">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         TELEGRAM
                       </FormLabel>

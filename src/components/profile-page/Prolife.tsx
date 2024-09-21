@@ -70,7 +70,7 @@ const Profile = () => {
     : "/person3.jpg";
   console.log("image src is", imageUrl);
   return (
-    <div className="w-full ps-[0px] px-[24px] xl:ps-[172px] md:px-auto lg:w-full lg:mx-0">
+    <div className="w-full ps-[0px] mb-[230px] lg:mb-[0px] xl:ps-[172px] md:px-auto lg:w-full lg:mx-0">
       {userLoading?.loading && <ScreenLoader />}
       <div>
         <div className="flex mt-[45px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start lg:mt-[150px]">

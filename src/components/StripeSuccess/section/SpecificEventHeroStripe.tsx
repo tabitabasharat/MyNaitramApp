@@ -56,7 +56,11 @@ const CustomNextArrow = (props: any) => (
   </div>
 );
 
-const SpecificEventHeroStripe = ({ setShowTicket, eventAllData, backData }: any) => {
+const SpecificEventHeroStripe = ({
+  setShowTicket,
+  eventAllData,
+  backData,
+}: any) => {
   console.log("inside event new", eventAllData);
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [UserID, setUserID] = useState<any>("");
@@ -137,62 +141,114 @@ const SpecificEventHeroStripe = ({ setShowTicket, eventAllData, backData }: any)
         alt=""
       />
       <div>
-      <div className="main-abovee px-[24px] w-full md:px-[100px] lg:ps-[40px] lg:pe-[40px] xl:px-[216px] pt-[8rem] lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] gap-[32px] lg:gap-12 w-full md:w-[100%] xl:w-full relative">
-        <div className="flex gap-[40px] flex-col lg:flex-row">
-          <div className="">
-            <div className="lhs-hero w-full lg:w-[392px] flex items-center justify-center flex-col relative ">
-              <Image
-                src={eventAllData?.eventcoverimg}
-                alt="takeover"
-                width={392}
-                height={200}
-                className="img-center rounded-lg relative"
-              />
+        <div className="main-abovee px-[24px] w-full md:px-[100px] lg:ps-[40px] lg:pe-[40px] xl:px-[216px] pt-[8rem] lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] gap-[32px] lg:gap-12 w-full md:w-[100%] xl:w-full relative">
+          <div className="flex gap-[40px] flex-col">
+            <div className="flex gap-[24px] flex-col lg:flex-row">
+              <div>
+                <div className="lhs-hero w-full lg:w-[392px] flex items-center justify-center flex-col relative ">
+                  <Image
+                    src={eventAllData?.eventcoverimg}
+                    alt="takeover"
+                    width={392}
+                    height={200}
+                    className="img-center rounded-lg relative"
+                  />
 
-              {/* <div className="bg-white/20 p-[1rem] rounded-full backdrop-blur-lg webkit-header-blur w-fit absolute right-[24px] bottom-0">
+                  {/* <div className="bg-white/20 p-[1rem] rounded-full backdrop-blur-lg webkit-header-blur w-fit absolute right-[24px] bottom-0">
                 <Heart size={23} weight="fill" />
               </div> */}
 
-              {/* {eventAllData?.userId && ( */}
-              {/* )} */}
-            </div>
-          </div>
+                  {/* {eventAllData?.userId && ( */}
+                  {/* )} */}
+                </div>
+              </div>
 
-          <div className="main-div-takeoverr lg:mt-[0px] mt-[0px] ">
-            <div className="rhs-hero event-width-adjustment lg:mt-0  mt-0">
-              <StripeHero
-                instaUrl={eventAllData?.instaurl}
-                tiktokUrl={eventAllData?.tiktokurl}
-                event={eventAllData?.eventname}
-                title={eventAllData?.eventname}
-                eventCategory={eventAllData?.eventcategory}
-                eventDate={eventAllData?.eventstarttime}
-                endTime={eventAllData?.eventendtime}
-                startTime={eventAllData?.eventstarttime}
-                img={eventAllData?.eventcoverimg}
-                location={eventAllData?.eventlocation}
-                eventdescription={eventAllData?.eventdescription}
-                // activeIndex={activeIndex}
-                setShowTicket={setShowTicket}
-                // ticketStartPrice={
-                //   eventAllData?.ticketsdata?.length === 1
-                //     ? "0"
-                //     : eventAllData?.ticketsdata[0]?.price
-                // }
-                // ticketEndPrice={
-                //   eventAllData?.tickets[eventAllData?.ticketsdata.length - 1]?.price
-                // }
-                // handleBulletClick={() => handleBulletClick(event)}
-                AboutDrop={isAbout}
-                AboutToggle={() => setisAbout(!isAbout)}
-                ticketsdata={eventAllData?.ticketsdata}
-              />
+              <div className="main-div-takeoverr lg:mt-[0px] mt-[0px] ">
+                <div className="rhs-hero event-width-adjustment lg:mt-0  mt-0">
+                  <StripeHero
+                    instaUrl={eventAllData?.instaurl}
+                    tiktokUrl={eventAllData?.tiktokurl}
+                    event={eventAllData?.eventname}
+                    title={eventAllData?.eventname}
+                    eventCategory={eventAllData?.eventcategory}
+                    eventDate={eventAllData?.eventstarttime}
+                    endTime={eventAllData?.eventendtime}
+                    startTime={eventAllData?.eventstarttime}
+                    img={eventAllData?.eventcoverimg}
+                    location={eventAllData?.eventlocation}
+                    eventdescription={eventAllData?.eventdescription}
+                    // activeIndex={activeIndex}
+                    setShowTicket={setShowTicket}
+                    // ticketStartPrice={
+                    //   eventAllData?.ticketsdata?.length === 1
+                    //     ? "0"
+                    //     : eventAllData?.ticketsdata[0]?.price
+                    // }
+                    // ticketEndPrice={
+                    //   eventAllData?.tickets[eventAllData?.ticketsdata.length - 1]?.price
+                    // }
+                    // handleBulletClick={() => handleBulletClick(event)}
+                    AboutDrop={isAbout}
+                    AboutToggle={() => setisAbout(!isAbout)}
+                    ticketsdata={eventAllData?.ticketsdata}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="relative gradient-slate border border-[#262626] rounded-xl lg:p-8 p-[16px] w-full">
+            <div className="flex justify-between items center">
+              <div className="w-full">
+              <h2 className="text-[20px] font-bold">Download NAITRAM App</h2>
+              <div className="flex flex-col gap-2 mt-4">
+                <div className="flex gap-3">
+                  <UsersThree
+                    size={18}
+                    weight="fill"
+                    className="text-[#8F8F8F]"
+                  />
+                  <p className="text-[14px]">
+                    Keep up with the event with Live Activity Feature
+                  </p>
+                </div>
+                <div className="flex gap-3">
+                  <Ticket size={18} weight="fill" className="text-[#8F8F8F]" />
+                  <p className="text-[14px]">
+                    View and open your tickets easily
+                  </p>
+                </div>
+                <div className="flex gap-3">
+                  <DeviceMobile
+                    size={18}
+                    weight="fill"
+                    className="text-[#8F8F8F]"
+                  />
+                  <p className="text-[14px]">
+                    Browse any event anytime from your hand
+                  </p>
+                </div>
+              </div>
+                <div>
+                  <Button className="flex mt-[32px] w-full items-center sm:gap-[0.5rem] rounded-full mt-[32px]w-full lg:w-fit font-extrabold py-[8px] lg:py-[12px] px-[30px] lg:px-[49px] text-[14px] lg:text-[16px] xl:text-[16px] font-extrabold h-auto flex-nowrap">
+                    <DownloadSimple size={20} weight="fill" />
+                    <Link href="/download-app">
+                      Download App to Unlock Features
+                    </Link>
+                  </Button>
+                </div>
+                </div>
+                <div>
+                  <Image
+                    src={gift}
+                    width={230}
+                    height={230}
+                    className=" hidden lg:block"
+                    alt="gift"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
-        </div>
-        {/* <TicketPurchaseSuccess/> */}
       </div>
     </section>
   );

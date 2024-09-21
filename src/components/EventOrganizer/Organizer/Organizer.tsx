@@ -35,7 +35,7 @@ const Organizer = () => {
   const userLoading = useAppSelector((state) => state?.getOrgDetail);
 
   return (
-    <div className="w-full  xl:ps-[147.5px] md:px-auto lg:w-full lg:mx-0 md:h-[90vh] lg:h-fit px-[24px]">
+    <div className="w-full mb-[230px] lg:mb-[0px]  xl:ps-[147.5px] md:px-auto lg:w-full lg:mx-0 md:h-[90vh] lg:h-fit px-[24px]">
       {userLoading?.loading && <ScreenLoader />}
       <div>
         <div className="flex mt-[44px] md:mt-[49px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start lg:mt-[90px]">

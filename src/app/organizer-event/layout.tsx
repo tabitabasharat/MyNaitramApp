@@ -20,7 +20,7 @@ export default function RootLayout({
       style={
         isMobile
           ? { position: "relative" }
-          : { position: "relative", overflow: "hidden" }
+          : { position: "relative", overflow: "hidden"}
       }
       className={`flex main-box mx-2xl ${!isLunchEventRoute && 'lunch-event-stlying'} lg:min-h-[100vh]`}
     >

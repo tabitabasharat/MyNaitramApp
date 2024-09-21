@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import SpecificEventHeroStripe from "./section/SpecificEventHeroStripe";
 import TicketPurchaseSuccess from "../checkout/TicketPurchaseSuccess";
+import { DeviceMobile, DownloadSimple, Ticket, UsersThree } from "@phosphor-icons/react";
+import { Button } from "../ui/button";
+import Link from "next/link";
+import Image from "next/image";
+import gift from "@/assets/gift.png"
 
 const StripeSuccess = ()=>{
     const router = useRouter();
