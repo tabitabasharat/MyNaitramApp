@@ -141,8 +141,8 @@ const SpecificEventHeroStripe = ({
                 </div>
               </div>
 
-              <div className="main-div-takeoverr lg:mt-[0px] mt-[0px] ">
-                <div className="rhs-hero event-width-adjustment lg:mt-0  mt-0">
+              <div className="main-div-takeoverr w-full lg:mt-[0px] mt-[0px] ">
+                <div className="rhs-hero w-full lg:mt-0  mt-0">
                   <StripeHero
                     instaUrl={eventAllData?.instaurl}
                     tiktokUrl={eventAllData?.tiktokurl}

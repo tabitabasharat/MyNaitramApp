@@ -307,6 +307,10 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
               fontSize: "14px",
               fontWeight: "400",
             },
+            "& .MuiListItemText-root": {
+              marginBottom: "0px",
+              // fontWeight: "400",
+            },
           }}
         >
           <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px]">
@@ -338,6 +342,10 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
               fontSize: "14px",
               fontWeight: "400",
               fontFamily: "var(--font-base)",
+            },
+            "& .MuiListItemText-root": {
+              marginBottom: "0px",
+              // fontWeight: "400",
             },
           }}
           open

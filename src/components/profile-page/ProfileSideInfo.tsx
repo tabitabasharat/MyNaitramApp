@@ -349,6 +349,10 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               fontSize: "14px",
               fontFamily: "var(--font-base)",
             },
+            "& .MuiListItemText-root": {
+              marginBottom: "0px",
+              // fontWeight: "400",
+            },
           }}
           open
         >
