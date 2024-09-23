@@ -76,18 +76,17 @@ const FollowPromoter = ({ userId, eventName }: any) => {
           alt="promoter"
         />
         <div>
-          
-            <p className="font-bold text-[14px]  font-bold flex items-center gap-1 capitalize">
-              {myProfile?.userProfile?.fullname}
-              {/* { myEvents?.data?.data[0]?.user?.fullname} */}
-              {/* <Image src={verifiedimg} alt="img" width={10.5} height={10.5} /> */}
-              {/* <SealCheck
+          <p className="font-bold text-[14px]  font-bold flex items-center gap-1 capitalize">
+            {myProfile?.userProfile?.fullname}
+            {/* { myEvents?.data?.data[0]?.user?.fullname} */}
+            {/* <Image src={verifiedimg} alt="img" width={10.5} height={10.5} /> */}
+            {/* <SealCheck
                 className="text-[#FFC109] -translate-y-1"
                 size={17}
                 weight="fill"
               /> */}
-            </p>
-          
+          </p>
+
           <p className="text-[#FFFFFF3D] text-[12px]">
             <span className="text-[11px] text-[#E6E6E6]">
               {myProfile?.profile?.totalEvents} Events
@@ -183,7 +182,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
-                  ? window.open(myProfile?.profile?.twitterUrl, "_blank")
+                  ? window.open(myProfile?.profile?.youtubeUrl, "_blank")
                   : null;
               }}
               size={16}

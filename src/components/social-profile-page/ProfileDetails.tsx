@@ -105,7 +105,7 @@ const ProfileDetails = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center flex-wrap md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
+      <div className="flex justify-center flex-wrap lg:flex-nowrap md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
         <Link
           href={myProfile?.liveActivity?.instaUrl || "#"}
           passHref
@@ -159,10 +159,7 @@ const ProfileDetails = () => {
             />
           </div>
         </Link>
-        <Link
-          href={myProfile?.liveActivity?.linkedinUrl || "#"}
-          target="_blank"
-        >
+        <Link href={myProfile?.liveActivity?.youtubeUrl || "#"} target="_blank">
           <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
             <YoutubeLogo
               className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
@@ -170,10 +167,7 @@ const ProfileDetails = () => {
             />
           </div>
         </Link>
-        <Link
-          href={myProfile?.liveActivity?.linkedinUrl || "#"}
-          target="_blank"
-        >
+        <Link href={myProfile?.liveActivity?.twitterUrl || "#"} target="_blank">
           <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
             <TwitterLogo
               className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"

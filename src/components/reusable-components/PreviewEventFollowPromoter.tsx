@@ -177,7 +177,7 @@ const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 typeof window !== "undefined"
-                  ? window.open(eventDATA?.telegramurl, "_blank")
+                  ? window.open(eventDATA?.youtubeurl, "_blank")
                   : null;
               }}
               size={16}

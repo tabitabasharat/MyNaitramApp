@@ -13,7 +13,7 @@ import GoldGradientBorder from "../ui/gold-gradient-border";
 import { shimmer, toBase64 } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import sealnew from "@/assets/Wallet/Sealnew.svg"
+import sealnew from "@/assets/Wallet/Sealnew.svg";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getUserSocialProfile } from "@/lib/middleware/profile";
@@ -52,7 +52,11 @@ const ProfilePreview = () => {
         <GoldGradientBorder className="w-fit rounded-full p-[3px] h-fit">
           <div className="bg-black rounded-full p-[7px]">
             <Image
-              src={myProfile?.data?.profile?.profilePicture ? myProfile?.data?.profile?.profilePicture : "/person3.jpg"}
+              src={
+                myProfile?.data?.profile?.profilePicture
+                  ? myProfile?.data?.profile?.profilePicture
+                  : "/person3.jpg"
+              }
               width={136}
               height={136}
               className="h-[128px] w-[128px] sm:h-[136px] sm:w-[136px] object-cover object-top rounded-full"
@@ -66,7 +70,6 @@ const ProfilePreview = () => {
         <div className="w-full md:w-fit ">
           <p className="font-extrabold mt-[24px] mb-[8px] flex justify-center md:justify-start  gap-1 text-[24px]">
             {myProfile?.data?.userProfile?.fullname}{" "}
-          
             {/* <Image src={sealnew} alt="verified" /> */}
             {/* <SealCheck
               className="text-[#FFC109] w-[20px] h-[20px] sm::w-[20px] sm:h-[20px]  "
@@ -76,10 +79,9 @@ const ProfilePreview = () => {
           </p>
           <p className="text-primary font-extrabold text-sm sm:text-base text-center md:text-left">
             {myProfile?.data?.userProfile?.email}
-          
           </p>
           <p className="mt-1 font-bold text-center md:text-left hidden md:block">
-          <span className="text-[24px] sm:text-base">
+            <span className="text-[24px] sm:text-base">
               {myProfile?.data?.profile?.totalEvents}{" "}
               <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
                 {" "}
@@ -87,7 +89,6 @@ const ProfilePreview = () => {
               </span>
             </span>
             <span className="opacity-50 "> | </span>{" "}
-
             <span className="text-[24px] sm:text-base">
               {" "}
               {myProfile?.data?.profile?.totalAttendees}{" "}
@@ -96,11 +97,10 @@ const ProfilePreview = () => {
                 Attended
               </span>
             </span>{" "}
-            
           </p>
 
           <div className="md:hidden border border-[#0FFF7730] rounded-lg gradient-slate flex justify-evenly items-center w-full  mt-[20px]">
-          <div className="flex flex-col items-center py-[16px] justify-center font-bold text-center">
+            <div className="flex flex-col items-center py-[16px] justify-center font-bold text-center">
               <p className="text-[18px]">
                 {myProfile?.data?.profile?.totalEvents}
               </p>
@@ -115,7 +115,6 @@ const ProfilePreview = () => {
               </p>
               <p className="text-[12px] opacity-50">AedweaTTENDED</p>
             </div>
-           
           </div>
           <p className="font-normal text-center md:text-start text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
             {myProfile?.data?.profile?.bio}
@@ -152,7 +151,7 @@ const ProfilePreview = () => {
                 />
               </div>
             </Link>
-            <Link href={myProfile?.data?.profile?.fbUrl || "#"} target="_blank">
+            <Link href={myProfile?.data?.profile?.twitterUrl || "#"} target="_blank">
               <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
                 <TwitterLogo
                   className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
@@ -160,7 +159,10 @@ const ProfilePreview = () => {
                 />
               </div>
             </Link>
-            <Link href={myProfile?.data?.profile?.fbUrl || "#"} target="_blank">
+            <Link
+              href={myProfile?.data?.profile?.youtubeUrl || "#"}
+              target="_blank"
+            >
               <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
                 <YoutubeLogo
                   className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
