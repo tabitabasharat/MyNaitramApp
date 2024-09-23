@@ -54,6 +54,7 @@ const formSchema = z.object({
     .string()
     .min(2, { message: "Facebook Url name cannot be empty." }),
   linkedIn: z.string().min(2, { message: "linkedIn Url cannot be empty." }),
+  telegram: z.string().min(2, { message: "Telegram Url cannot be empty." }),
   insta: z.string().min(2, { message: "Instagram Url cannot be empty." }),
   twitter: z.string().min(1, { message: "Twitter Url cannot be empty." }),
   tiktok: z.string().min(1, { message: "Tiktok Url cannot be empty." }),
@@ -73,6 +74,7 @@ const OrganizerProfile = () => {
   const [fbUrl, setFbUrl] = useState("");
   const [instaUrl, setinstaUrl] = useState("");
   const [linkedinUrl, setlinkedinUrl] = useState("");
+  const [telegramUrl, settelegramUrl] = useState("");
   const [twitterUrl, settwitterUrl] = useState("");
   const [youtubeUrl, setyoutubeUrl] = useState("");
   const [tiktokUrl, settiktokUrl] = useState("");
@@ -83,6 +85,7 @@ const OrganizerProfile = () => {
       facebook: "https://www.facebook.com/",
       insta: "https://instagram.com/",
       linkedIn:  "https://linkedin.com/in/",
+      telegram:"https://www.telegram.com",
       twitter:  "https://www.x.com/",
       youtube:  "https://www.youtube.com/",
       tiktok:  "https://www.tiktok.com/@",
@@ -112,6 +115,7 @@ const OrganizerProfile = () => {
         facebook: myActivity?.fbUrl || currentValues.facebook,
         insta: myActivity?.instaUrl || currentValues.insta,
         linkedIn: myActivity?.linkedinUrl || currentValues.linkedIn,
+        telegram: myActivity?.telegramUrl || currentValues.telegram,
         twitter: myActivity?.twitterUrl || currentValues.twitter,
         tiktok: myActivity?.tiktokUrl || currentValues.tiktok,
         youtube: myActivity?.youtubeUrl || currentValues.youtube,
@@ -213,6 +217,7 @@ const OrganizerProfile = () => {
         profilePicture: imageSrc,
         profileUpdate: false,
         linkedinUrl: linkedinUrl || myActivity?.linkedinUrl || "",
+        telegramUrl: telegramUrl || myActivity?.telegramUrl || "",
         youtubeUrl: youtubeUrl || myActivity?.youtubeUrl || "",
         twitterUrl: twitterUrl || myActivity?.twitterUrl || "",
         fbUrl: fbUrl || myActivity?.fbUrl || "",
@@ -429,6 +434,41 @@ const OrganizerProfile = () => {
 
                             if (value.startsWith("https://linkedin.com/in/")) {
                               setlinkedinUrl(value);
+                              field.onChange(e);
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                                <FormField
+                  control={form.control}
+                  name="telegram"
+                  render={({ field }) => (
+                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                        TELEGRAM
+                      </FormLabel>
+                      <TelegramLogo
+                        className="absolute right-3 lg:top-[35%] top-[28%]"
+                        size={20}
+                      />
+                      <FormControl>
+                        <Input
+                          placeholder="Enter Fullname"
+                          className="pt-11 pb-5 text-base placeholder:font-extrabold"
+                          {...field}
+                          // onChange={(e) => {
+                          //   setlinkedinUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+                          onChange={(e) => {
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://Telegram.com/in/")) {
+                              settelegramUrl(value);
                               field.onChange(e);
                             }
                           }}
