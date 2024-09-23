@@ -105,6 +105,7 @@ const LiveAccntSetting = ({
     if (myliveActivity && myliveActivity.length > 0) {
       const currentValues = form.getValues();
 
+
       form.reset({
         facebook: myliveActivity[0]?.fbUrl || currentValues.facebook,
         insta: myliveActivity[0]?.instaUrl || currentValues.insta,
@@ -179,6 +180,7 @@ const LiveAccntSetting = ({
     setLoader(true);
     const userID =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+      console.log("my val",values)
     try {
       const data = {
         fbUrl: fbUrl || myliveActivity[0]?.fbUrl || "",

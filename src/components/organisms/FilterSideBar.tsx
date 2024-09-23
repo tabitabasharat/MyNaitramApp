@@ -15,18 +15,27 @@ import { useState, useEffect } from "react";
 import category from "@/assets/element-3.svg";
 import price from "@/assets/money.svg";
 import sortby from "@/assets/arrange-square-2.svg";
+import downarrow from "@/assets/Wallet/Caret Down.svg";
 
 type FilterDate = "Date" | null;
 
 const FilterSideBar = () => {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
+  const [toggleDrop, setToggleDrop] = useState<boolean>(false);
+
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
+  const [showEndDatePicker, setShowEndDatePicker] = useState<boolean>(false);
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   // const [chosenDate, setChosenDate] = useState<Date | null>(null);
-  const [chosenDate, setChosenDate] = useState<Date[]>([]);
+  const [chosenDate, setChosenDate] = useState<Date | null>(null);
+  const [chosenEndDate, setChosenEndDate] = useState<Date | null>(null);
+
   const [filterDate, setFilterDate] = useState<FilterDate>(null);
+  const [filterEndDate, setFilterEndDate] = useState<FilterDate>(null);
+
+
   const [isFree, setisFree] = useState<boolean>(false);
   const [showAllCategories, setShowAllCategories] = useState<boolean>(false);
 
@@ -61,8 +70,11 @@ const FilterSideBar = () => {
       page: 1,
       category: selectedCategories?.length > 0 ? selectedCategories : null,
       free: isFree ? true : null,
-      // chooseDate: chosenDate ? formatChosenDate(chosenDate) : null,
-      chooseDate: chosenDate.length > 0 ? chosenDate.map(formatChosenDate).join(",") : null, 
+      chooseDate: chosenDate ? formatChosenDate(chosenDate) : null,
+      // chooseDate:
+      //   chosenDate.length > 0
+      //     ? chosenDate.map(formatChosenDate).join(",")
+      //     : null,
       userId: userId,
     };
 
@@ -81,10 +93,14 @@ const FilterSideBar = () => {
 
   const handleResetFilters = () => {
     setSelectedCategories([]);
-    setChosenDate([]); 
+    setChosenDate(null);
+    setChosenEndDate(null);
     setisFree(false);
     setShowDatePicker(false);
+    setShowEndDatePicker(false);
     setFilterDate(null);
+    setFilterEndDate(null);
+
     dispatch(getViewAllEvent({ page: 1 }));
   };
 
@@ -96,16 +112,24 @@ const FilterSideBar = () => {
     );
   };
 
-  const handleDateChange = () => {
+ 
+  const handleStartDateChange = () => {
     setShowDatePicker((prev) => !prev);
     setFilterDate((prev) => (prev === "Date" ? null : "Date"));
+  };
+  const handleEndDateChange = () => {
+    setShowEndDatePicker((prev) => !prev);
+    setFilterEndDate((prev) => (prev === "Date" ? null : "Date"));
   };
 
   const toggleShowAllCategories = () => {
     setShowAllCategories((prev) => !prev);
   };
 
-  
+  const toggleDateDropdown = () => {
+    setToggleDrop((prev) => !prev);
+  };
+
   const categoriesToDisplay = showAllCategories
     ? categories
     : categories.slice(0, 6);
@@ -192,7 +216,7 @@ const FilterSideBar = () => {
           <p className="font-bold text-base">Sort By</p>
         </div>
 
-        <div className="flex items-center space-x-3">
+        {/* <div className="flex items-center space-x-3">
           <Checkbox
             id="date-filter"
             checked={filterDate === "Date"}
@@ -204,13 +228,46 @@ const FilterSideBar = () => {
           >
             Date
           </label>
-        </div>
+        </div> */}
 
+        <div
+          className="flex items-center justify-between cursor-pointer"
+          onClick={() => toggleDateDropdown()}
+        >
+          <p>Date</p>
+          <Image src={downarrow} alt="arrow"  className="cursor-pointer"/>
+        </div>
+        {toggleDrop && 
+        <div className="flex flex-col items-start gap-[12px]">
+          <Button className="gradient-slate text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border border-muted"
+          onClick={handleStartDateChange}>
+            Start Date
+          </Button>
+          <Button className="gradient-slate  text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border border-muted"
+          onClick={handleEndDateChange}>
+            End Date
+          </Button>
+        </div>
+}
         {showDatePicker && (
+          
           <DatePicker
-            setSelectedDates={(dates: Date[]) => {
-              setChosenDate(dates); // Update state with selected dates
-            }}
+          setSelectedDate={(date: Date | null) => {
+        
+           setChosenDate(date);
+            
+          }}
+          />
+        )}
+
+        {showEndDatePicker && (
+          <DatePicker
+          setSelectedDate={(date: Date | null) => {
+        
+           setChosenEndDate(date);
+            
+          }}
+            
           />
         )}
       </div>

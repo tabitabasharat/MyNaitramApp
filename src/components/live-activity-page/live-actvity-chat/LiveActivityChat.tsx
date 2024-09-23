@@ -139,6 +139,11 @@ const LiveActivityChat = ({ eventID }: any) => {
   const GetMessengerHistory = () => {
     dispatch(getChat(eventID));
   };
+  const myAttendees = useAppSelector(
+    (state) => state?.getAllAttend?.attend?.data
+  );
+
+  console.log("filtered attendees new", myAttendees);
 
   useEffect(() => {
     const userid =
@@ -320,66 +325,69 @@ const LiveActivityChat = ({ eventID }: any) => {
 
         <div className="space-y-2">
           {EventChat?.length > 0 &&
-            EventChat?.map((event: any, index: any) => (
-              <div key={event?.id} className="relative">
-                <div onClick={() => handleMessagePress(event?.id)}>
-                  <Chat
-                    key={event?.id}
-                    msgtext={event?.msg}
-                    username={event?.user?.fullname}
-                    img={event?.picture}
-                    userimg={event?.user?.profilePicture}
-                    time={formatTime(event?.createdAt)}
-                    reactions={event?.reactions}
-                    // reactionimg={event?.reactions
-                    //   ?.map((reaction: any) => reaction?.reactionType)
-                    //   .join(" ")}
-                    // reactioncount={event?.reactions
-                    //   ?.map((reaction: any) => reaction?.count)
-                    //  }
-                  />
-                </div>
-                {activeMessage === event?.id && (
-                  <div className="absolute top-0 right-0 flex flex-col items-center space-y-2 z-10">
-                    {emojis.map((emoji, index) => (
-                      <p
-                        key={index}
-                        onClick={() => setMessageReaction(event?.id, emoji)}
-                        className={`cursor-pointer bg-[#FFFFFF0F] h-[32px] w-[32px] pt-[7px] pb-[4px] pe-[3.5px] ps-[5.5px] rounded-full flex items-center justify-center text-xl ${
-                          messageReactions[event?.id] === emoji
-                            ? "border border-solid border-[#FFFFFF]"
-                            : ""
-                        }`}
-                      >
-                        {emoji}
-                      </p>
-                    ))}
-                    <Image
-                      src={addmore}
-                      alt="img"
-                      sizes="16px"
-                      onClick={() => handleMoreEmoji()}
-                      className="cursor-pointer"
+            EventChat?.map((event: any, index: any) => {
+              // Find the corresponding attendee from myAttendees
+              const attendee = myAttendees?.find(
+                (attendee: any) => attendee?.attendeeId === event?.userId
+              );
+
+              return (
+                <div key={event?.id} className="relative">
+                  <div onClick={() => handleMessagePress(event?.id)}>
+                    <Chat
+                      key={event?.id}
+                      msgtext={event?.msg}
+                      username={event?.user?.fullname}
+                      img={event?.picture}
+                      userimg={event?.user?.profilePicture}
+                      time={formatTime(event?.createdAt)}
+                      reactions={event?.reactions}
+                      attendeename={attendee?.isActive} 
                     />
-                    {activeMessage === event?.id && moreEmoji && (
-                      <div className="absolute top-0 right-[35px] p-2 gradient-slate rounded cursor-pointer">
-                        <EmojiPicker
-                          onEmojiClick={handleEmojiClick}
-                          theme={"dark" as Theme}
-                          height={"350px"}
-                          width={"100%"}
-                          lazyLoadEmojis={true}
-                          style={{
-                            background: "transparent",
-                          }}
-                        />
-                      </div>
-                    )}
                   </div>
-                )}
-              </div>
-            ))}
+                  {activeMessage === event?.id && (
+                    <div className="absolute top-0 right-0 flex flex-col items-center space-y-2 z-10">
+                      {emojis.map((emoji, index) => (
+                        <p
+                          key={index}
+                          onClick={() => setMessageReaction(event?.id, emoji)}
+                          className={`cursor-pointer bg-[#FFFFFF0F] h-[32px] w-[32px] pt-[7px] pb-[4px] pe-[3.5px] ps-[5.5px] rounded-full flex items-center justify-center text-xl ${
+                            messageReactions[event?.id] === emoji
+                              ? "border border-solid border-[#FFFFFF]"
+                              : ""
+                          }`}
+                        >
+                          {emoji}
+                        </p>
+                      ))}
+                      <Image
+                        src={addmore}
+                        alt="img"
+                        sizes="16px"
+                        onClick={() => handleMoreEmoji()}
+                        className="cursor-pointer"
+                      />
+                      {activeMessage === event?.id && moreEmoji && (
+                        <div className="absolute top-0 right-[35px] p-2 gradient-slate rounded cursor-pointer">
+                          <EmojiPicker
+                            onEmojiClick={handleEmojiClick}
+                            theme={"dark" as Theme}
+                            height={"350px"}
+                            width={"100%"}
+                            lazyLoadEmojis={true}
+                            style={{
+                              background: "transparent",
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
         </div>
+
         <div ref={chatEndRef} />
       </ScrollArea>
       <div className="flex absolute bottom-8 w-[90%] gap-[12px] z-[2]">

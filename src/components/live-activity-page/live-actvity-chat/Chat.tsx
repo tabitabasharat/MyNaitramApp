@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import { useAppSelector } from "@/lib/hooks";
 const Chat = ({
   img,
   msgtext,
@@ -9,7 +9,9 @@ const Chat = ({
   reactionimg,
   reactioncount,
   reactions,
+  attendeename
 }: any) => {
+  
   return (
     <div className="z-[2] relative flex items-end gap-4 ">
       <Image
@@ -21,7 +23,8 @@ const Chat = ({
       />
       <div className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg w-[248px] md:w-[420px] lg:w-[420px] ">
         <div className="flex flex-col gap-1 ">
-          <p className="text-primary">{username}</p>
+          <p className="text-primary">{attendeename == true ? username : ""}</p>
+         
           {img && (
             <Image
               src={img}

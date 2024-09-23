@@ -13,61 +13,37 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-// type DatePickerProps = {
-//   setSelectedDate: (date: Date | null) => void;
-// };
 type DatePickerProps = {
-  setSelectedDates: (dates: Date[]) => void; // Change to accept an array
+  setSelectedDate: (date: Date | null) => void;
 };
 
-// const FormSchema = z.object({
-//   dates: z.date({
-//     required_error: "A date of birth is required.",
-//   }),
-// });
-
 const FormSchema = z.object({
-  dates: z.array(z.date()).min(1, "At least one date is required."), 
+  date: z.date({
+    required_error: "A date of birth is required.",
+  }),
 });
 
-
-export function DatePicker({ setSelectedDates }: DatePickerProps) {
+export function DatePicker({ setSelectedDate }: DatePickerProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
-  // const handleSelectDate = (dates: Date[] | undefined) => {
-  //   if (!dates) return;
-  
-  //   form.setValue("dates", dates);
-  //   setSelectedDates(dates);
-  // };
-  const handleSelectDate = (dates: Date[] | undefined) => {
-    if (!dates) return;
 
-    // If the length exceeds 2, slice the array to keep only the first two
-    const updatedDates = dates.length > 2 ? dates.slice(0, 2) : dates;
-
-    // Update form values and parent state
-    form.setValue("dates", updatedDates);
-    setSelectedDates(updatedDates);
-  };
   return (
     <Form {...form}>
       <form className=" cursor-pointer">
         <FormField
           control={form.control}
-          name="dates"
+          name="date"
           render={({ field }) => (
             <FormItem>
               <Calendar
-                mode="multiple"
+                mode="single"
                 selected={field.value}
                 className="bg-black text-white border border-black"
-                // onSelect={(date: any) => {
-                //   field.onChange(date);
-                //   setSelectedDates(date);
-                // }}
-                onSelect={handleSelectDate}
+                onSelect={(date: any) => {
+                  field.onChange(date);
+                  setSelectedDate(date); // Call the parent state setter when the date is selected
+                }}
                 // disabled={(date: any) =>
                 //   date > new Date() || date < new Date('1900-01-01')
                 // }
