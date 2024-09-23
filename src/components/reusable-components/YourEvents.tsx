@@ -244,18 +244,18 @@ const YourEvents = ({
   
 
   return (
-    <ScaleReveal extraStyle="w-full">
+    <ScaleReveal extraStyle="sm:w-full w-auto">
       <Link
         href={
           eventId
             ? `/event/${eventId}?EventType=${Eventtype}`
             : "/viewallevents"
         }
-        className="w-full"
+        className="w-[100%] sm:w-full"
       >
         <div
-          style={{ height, width }}
-          className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242] "
+          style={{ height}}
+          className="relative overflow-hidden rounded-lg  w-[100%] sm:w-full h-fit border border-[#424242] "
         >
           <Image
             src={imageUrl}
@@ -270,7 +270,7 @@ const YourEvents = ({
 
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
 
-          <div className="absolute flex justify-between h-full items-end z-[2] p-4 top-0 w-full ">
+          <div className="absolute flex justify-between h-full items-end z-[2] p-4 top-0 sm:w-full w-[100%]">
             <div>
               <p className="font-bold text-white text-xl">{title}</p>
               <p className="font-bold text-[11px] text-[#FFFFFF]">

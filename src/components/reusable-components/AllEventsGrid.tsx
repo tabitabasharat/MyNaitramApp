@@ -78,7 +78,9 @@ const AllEventsGrid = ({ events, eventType }: any) => {
       {eventType === "All Events" &&
         (events && events?.length > 0 ? (
           <>
-            <div className="relative grid md:grid-cols-1 lg:grid-cols-3 gap-[1rem]">
+            <div className="relative sm:grid flex flex-col md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[1rem] w-[100%] ">
+            
+
               {events?.length > 0 &&
                 events?.map((event: any) => (
                   <YourEvents
@@ -124,7 +126,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
       {eventType === "Past Events" &&
         (events?.length > 0 ? (
           <>
-            <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+            <div className="relative sm:grid flex flex-col  md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[1rem]">
               {events?.length > 0 &&
                 events?.map((event: any) => (
                   <EventCard
@@ -165,7 +167,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
       {eventType === "Your Events" &&
         (events?.length > 0 ? (
           <>
-          <div className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+          <div className="relative  sm:grid flex flex-col  md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[1rem]">
             {events?.map((event: any) => (
               <EventCard
                 key={event?.id}

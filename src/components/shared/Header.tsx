@@ -138,9 +138,8 @@ const Header = () => {
         )}
       </AnimatePresence>
       <header
-        // style={{ position: }}
         className={cn(
-          "fixed w-full  pxpx py-[26px] pr-[24px] flex items-center justify-between z-50 duration-300",
+          "fixed w-full pxpx py-[26px] sm:pr-[24px] flex items-center justify-between z-50 duration-300",
           { "bg-black/50 backdrop-blur-lg webkit-header-blur": fixedBg }
         )}
       >

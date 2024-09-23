@@ -12,9 +12,9 @@ const About = () => {
           'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(/about-bg.png)',
         backgroundPosition: 'center',
       }}
-      className="bg-cover bg-no-repeat relative min-h-screen grid place-items-center"
+      className="bg-cover bg-no-repeat relative min-h-screen place-items-center"
     >
-      <div className="flex flex-col-reverse lg:flex-row justify-between items-center h-full pxpx mx-2xl relative gap-16">
+      <div className="flex flex-col-reverse px-[24px] lg:flex-row justify-between items-center h-full px-[0px] sm:pxpx mx-2xl relative gap-16">
         <FadeReveal>
           <div className="w-[450px] z-[6] hidden lg:block">
             <Image
@@ -28,7 +28,7 @@ const About = () => {
         </FadeReveal>
 
         <FadeReveal>
-          <div className="w-[350px] z-[6] lg:hidden">
+          <div className="sm:w-[350px] w-full z-[6] lg:hidden">
             <Image
               src={aboutMobile}
               width={1000}
