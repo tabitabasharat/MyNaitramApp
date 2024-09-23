@@ -342,7 +342,9 @@ const LiveActivityChat = ({ eventID }: any) => {
                       userimg={event?.user?.profilePicture}
                       time={formatTime(event?.createdAt)}
                       reactions={event?.reactions}
-                      attendeename={attendee?.isActive} 
+                      // attendeename={attendee?.isActive} 
+                      attendeename={event?.user?.liveActivity?.isActive} 
+
                     />
                   </div>
                   {activeMessage === event?.id && (
