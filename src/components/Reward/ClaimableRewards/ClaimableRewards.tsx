@@ -6,7 +6,7 @@ import leftimg from "@/assets/Wallet/Left.svg";
 import { Badge } from "@/components/ui/badge";
 import "../Reward.css";
 import { Button } from "../../ui/button";
-import claimbtn from "@/assets/Wallet/claim-btn.svg";
+import claimbtn from "@/assets/UploadButton.svg";
 import ClaimRewardPopUp from "../ClaimRewardPopUp";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -139,9 +139,9 @@ export default function ClaimableRewards() {
             <p className="font-normal lg:text-[16px] text-[13px] pt-[12px] lg:pt-[32px] textbr">
               {myData?.description}
             </p>
-            <div className="flex items-start gap-[12px] mt-[48px]">
+            <div className="flex w-full items-start gap-[12px] mt-[48px]">
               <Button
-                className="px-[78px] py-16px h-[52px] text-[14px] font-extrabold "
+                className="w-full sm:w-fit sm:px-[78px] py-16px h-[52px] text-[14px] font-extrabold "
                 // onClick={() => setisClaimOpen(true)}
                 onClick={() => ClaimCollectible()}
               >

@@ -21,6 +21,7 @@ import {
   getOrganizerSocialProfile,
 } from "@/lib/middleware/organizer";
 import { useRouter } from "next/navigation";
+import { YoutubeLogo } from "@phosphor-icons/react";
 
 const FollowPromoter = ({ userId, eventName }: any) => {
   const dispatch = useAppDispatch();
@@ -110,14 +111,14 @@ const FollowPromoter = ({ userId, eventName }: any) => {
         {
           <Button
             variant="secondary"
-            className="text-[14px] font-bold p-[10px]"
+            className="text-[14px] font-bold px-[16px] py-[10px]"
             onClick={() => handleFollow()}
           >
             Follow Promoter
           </Button>
         }
-        <div className="flex gap-3 flex-wrap h-full">
-          <div className="border border-white w-fit p-2 rounded-full">
+        <div className="flex gap-[8px] flex-wrap h-full">
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
             <InstagramLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -125,11 +126,11 @@ const FollowPromoter = ({ userId, eventName }: any) => {
                   ? window.open(myEvents?.data?.data[0]?.instaUrl, "_blank")
                   : null;
               }}
-              size={25}
+              size={16}
               weight="fill"
             />
           </div>
-          <div className="border border-white w-fit p-2 rounded-full">
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
             <TwitterLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -137,11 +138,11 @@ const FollowPromoter = ({ userId, eventName }: any) => {
                   ? window.open(myProfile?.profile?.twitterUrl, "_blank")
                   : null;
               }}
-              size={25}
+              size={16}
               weight="fill"
             />
           </div>
-          <div className="border border-white w-fit p-2 rounded-full">
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
             <FacebookLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -149,11 +150,11 @@ const FollowPromoter = ({ userId, eventName }: any) => {
                   ? window.open(myProfile?.profile?.fbUrl, "_blank")
                   : null;
               }}
-              size={25}
+              size={16}
               weight="fill"
             />
           </div>
-          <div className="border border-white w-fit p-2 rounded-full">
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
             <TiktokLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -161,11 +162,11 @@ const FollowPromoter = ({ userId, eventName }: any) => {
                   ? window.open(myProfile?.profile?.tiktokUrl, "_blank")
                   : null;
               }}
-              size={25}
+              size={16}
               weight="fill"
             />
           </div>
-          <div className="border border-white w-fit p-2 rounded-full">
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
             <LinkedinLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -173,11 +174,23 @@ const FollowPromoter = ({ userId, eventName }: any) => {
                   ? window.open(myProfile?.profile?.linkedinUrl, "_blank")
                   : null;
               }}
-              size={25}
+              size={16}
               weight="fill"
             />
           </div>
-          <div className="border border-white w-fit p-2 rounded-full">
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+            <YoutubeLogo
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                typeof window !== "undefined"
+                  ? window.open(myProfile?.profile?.twitterUrl, "_blank")
+                  : null;
+              }}
+              size={16}
+              weight="fill"
+            />
+          </div>
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
             <TelegramLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -185,7 +198,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
                   ? window.open(myProfile?.profile?.twitterUrl, "_blank")
                   : null;
               }}
-              size={25}
+              size={16}
               weight="fill"
             />
           </div>

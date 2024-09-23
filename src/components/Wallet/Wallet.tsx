@@ -118,7 +118,7 @@ export default function Wallet() {
             <div className="w-full relative mb-[16px] md:mb-[32px]">
               <Input
                 className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-[12px] md:text-sm font-normal"
-                placeholder="Search Tickets"
+                placeholder="Search event"
                 value={searchQuerytickets}
                 onChange={(event) => setSearchQuerytickets(event.target.value)}
               />

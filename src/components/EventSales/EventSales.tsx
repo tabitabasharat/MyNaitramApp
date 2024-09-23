@@ -408,7 +408,7 @@ function EventSales() {
         )}
       </div> */}
 
-      <div className=" mb-[32px] lg:mb-[46px] gradient-slate border rounded-lg border-muted px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
+      <div className=" mb-[32px] mt-[32px] lg:mb-[32px] gradient-slate border rounded-lg border-muted px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
         <div className="flex items-center mb-[17px] lg:mb-[24px] justify-between">
           <div>
             <p className="lg:text-[14px] text-[#D9D9D9] font-normal">

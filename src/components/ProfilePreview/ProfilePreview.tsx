@@ -18,6 +18,7 @@ import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getUserSocialProfile } from "@/lib/middleware/profile";
 import { getOrganizerSocialProfile } from "@/lib/middleware/organizer";
+import { YoutubeLogo } from "@phosphor-icons/react";
 
 const ProfilePreview = () => {
   const dispatch = useAppDispatch();
@@ -112,14 +113,14 @@ const ProfilePreview = () => {
                 {" "}
                 {myProfile?.data?.profile?.totalAttendees}
               </p>
-              <p className="text-[12px] opacity-50">ATTENDED</p>
+              <p className="text-[12px] opacity-50">AedweaTTENDED</p>
             </div>
            
           </div>
           <p className="font-normal text-center md:text-start text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
             {myProfile?.data?.profile?.bio}
           </p>
-          <div className="flex justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
+          <div className="flex flex-wrap justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
             <Link
               href={myProfile?.data?.profile?.instaUrl || "#"}
               passHref
@@ -137,6 +138,22 @@ const ProfilePreview = () => {
               target="_blank"
             >
               <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                <TelegramLogo
+                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                  weight="fill"
+                />
+              </div>
+            </Link>
+            <Link href={myProfile?.data?.profile?.fbUrl || "#"} target="_blank">
+              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] h-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                <FacebookLogo
+                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                  weight="fill"
+                />
+              </div>
+            </Link>
+            <Link href={myProfile?.data?.profile?.fbUrl || "#"} target="_blank">
+              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
                 <TwitterLogo
                   className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
                   weight="fill"
@@ -145,7 +162,15 @@ const ProfilePreview = () => {
             </Link>
             <Link href={myProfile?.data?.profile?.fbUrl || "#"} target="_blank">
               <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-                <FacebookLogo
+                <YoutubeLogo
+                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                  weight="fill"
+                />
+              </div>
+            </Link>
+            <Link href={myProfile?.data?.profile?.fbUrl || "#"} target="_blank">
+              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                <TiktokLogo
                   className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
                   weight="fill"
                 />

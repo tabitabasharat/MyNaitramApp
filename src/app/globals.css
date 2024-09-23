@@ -669,6 +669,11 @@ input[type="number"] {
     background: transparent;
   }
 }
+@media (min-width:1440px) {
+  .wid-adjustment{
+    width: 90% !important;
+  }
+}
 @media (max-width: 425px) {
   .gradient-border-rounded {
     position: relative;

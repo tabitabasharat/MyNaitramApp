@@ -20,6 +20,7 @@ import {
   getOrganizerByID,
   getOrganizerSocialProfile,
 } from "@/lib/middleware/organizer";
+import { YoutubeLogo } from "@phosphor-icons/react";
 
 const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
   const dispatch = useAppDispatch();
@@ -91,7 +92,7 @@ const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
         </div>
       </div>
       <hr className="border-white/10 my-[16px]" />
-      <div className="flex flex-col  gap-3 items-start justify-start wrapping-flex">
+      <div className="flex flex-col  gap-[8px] items-start justify-start wrapping-flex">
         {/* {
           userToken !=myEvents?.data?.data[0]?.id && 
         <Button variant="secondary" className="text-[14px] font-bold py-[10px]">
@@ -99,7 +100,7 @@ const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
         </Button>
         } */}
         <div className="flex gap-3 flex-wrap h-full">
-          <div className="border border-white w-fit p-2 rounded-full">
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
             <InstagramLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -107,7 +108,7 @@ const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
                   ? window.open(eventDATA?.instaurl, "_blank")
                   : null;
               }}
-              size={25}
+              size={16}
               weight="fill"
             />
           </div>
@@ -123,7 +124,7 @@ const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
               weight="fill"
             />
           </div> */}
-          <div className="border border-white w-fit p-2 rounded-full">
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
             <FacebookLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -131,11 +132,11 @@ const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
                   ? window.open(eventDATA?.fburl, "_blank")
                   : null;
               }}
-              size={25}
+              size={16}
               weight="fill"
             />
           </div>
-          <div className="border border-white w-fit p-2 rounded-full">
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
             <TiktokLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -143,11 +144,11 @@ const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
                   ? window.open(eventDATA?.tiktokurl, "_blank")
                   : null;
               }}
-              size={25}
+              size={16}
               weight="fill"
             />
           </div>
-          <div className="border border-white w-fit p-2 rounded-full">
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
             <LinkedinLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -155,11 +156,11 @@ const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
                   ? window.open(eventDATA?.linkedinurl, "_blank")
                   : null;
               }}
-              size={25}
+              size={16}
               weight="fill"
             />
           </div>
-          <div className="border border-white w-fit p-2 rounded-full">
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
             <TelegramLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -167,7 +168,19 @@ const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
                   ? window.open(eventDATA?.telegramurl, "_blank")
                   : null;
               }}
-              size={25}
+              size={16}
+              weight="fill"
+            />
+          </div>
+          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+            <YoutubeLogo
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                typeof window !== "undefined"
+                  ? window.open(eventDATA?.telegramurl, "_blank")
+                  : null;
+              }}
+              size={16}
               weight="fill"
             />
           </div>

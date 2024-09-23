@@ -120,7 +120,7 @@ const GetSponsored = () => {
     }
   }
   return (
-    <section className="min-h-screen bg-cover bg-no-repeat    bg-reward  ">
+    <section className="min-h-screen bg-cover bg-no-repeat bg-reward">
       <div className="lg:pt-[134px] lg:pb-[116px] pb-[74px] py-[139px] md:px-[100px] lg:px-[216px] px-[24px]">
         <h3 className="font-extrabold text-[32px] lg:text-[48px] mb-[24px] lg:mb-[32px]">
           Get Sponsored

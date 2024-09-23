@@ -10,6 +10,8 @@ import {
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useState, useEffect } from "react";
 import { getBalanceByID, getgraphByID } from "@/lib/middleware/wallet";
+import timelapicon from "@/assets/system-uicons_files-history.svg"
+import Image from "next/image";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -84,8 +86,10 @@ const Dashboard = () => {
             MRT{" "}
           </span>
         </div>
-        <div className="text-primary flex gap-[4px] font-bold text-[12px]">
-          <ArrowUpRight size={14} weight="bold" />{myGraphHistory?.percentageChange}%
+        <div className="text-primary items-center flex gap-[15px] font-bold text-[12px]">
+          <div className="flex gap-[4px]">
+          <ArrowUpRight size={14} weight="bold" /> <p>{myGraphHistory?.percentageChange}% </p> </div>
+          <Image src={timelapicon} alt="img" sizes="24px" className="h-[24px] w-[24px]"/>
         </div>
       </div>
       <ResponsiveContainer
