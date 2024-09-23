@@ -114,7 +114,7 @@ const SpecificEventHeroStripe = ({
         style={{ filter: "blur(30px)" }}
         width={1000}
         height={1000}
-        src={eventAllData?.coverEventImage}
+        src={eventAllData?.event?.coverEventImage}
         className="w-full h-screen absolute object-cover object-center z-0 opacity-30"
         alt=""
       />
@@ -125,7 +125,7 @@ const SpecificEventHeroStripe = ({
               <div>
                 <div className="lhs-hero w-full lg:w-[392px] flex items-center justify-center flex-col relative ">
                   <Image
-                   src={eventAllData?.coverEventImage}
+                   src={eventAllData?.event?.coverEventImage}
                     alt="img"
                     width={392}
                     height={200}
@@ -144,17 +144,17 @@ const SpecificEventHeroStripe = ({
               <div className="main-div-takeoverr w-full lg:mt-[0px] mt-[0px] ">
                 <div className="rhs-hero w-full lg:mt-0  mt-0">
                   <StripeHero
-                    instaUrl={eventAllData?.instaurl}
-                    tiktokUrl={eventAllData?.tiktokurl}
-                    event={eventAllData?.name}
-                    title={eventAllData?.name}
+                    instaUrl={eventAllData?.event?.instaurl}
+                    tiktokUrl={eventAllData?.event?.tiktokurl}
+                    event={eventAllData?.event?.name}
+                    title={eventAllData?.event?.name}
                     eventCategory={eventAllData?.eventcategory}
-                    eventDate={eventAllData?.startTime}
-                    endTime={eventAllData?.eventendtime}
-                    startTime={eventAllData?.startTime}
-                    img={eventAllData?.coverEventImage}
-                    location={eventAllData?.eventlocation}
-                    eventdescription={eventAllData?.eventdescription}
+                    eventDate={eventAllData?.event?.startTime}
+                    endTime={eventAllData?.event?.eventendtime}
+                    startTime={eventAllData?.event?.startTime}
+                    img={eventAllData?.event?.coverEventImage}
+                    location={eventAllData?.event?.eventlocation}
+                    eventdescription={eventAllData?.event?.eventdescription}
                     // activeIndex={activeIndex}
                     setShowTicket={setShowTicket}
                     // ticketStartPrice={
@@ -168,12 +168,13 @@ const SpecificEventHeroStripe = ({
                     // handleBulletClick={() => handleBulletClick(event)}
                     AboutDrop={isAbout}
                     AboutToggle={() => setisAbout(!isAbout)}
-                    ticketsdata={eventAllData?.ticketsdata}
+                    ticketsdata={eventAllData?.events?.ticketsdata}
+                    eventdataAll={eventAllData}
                   />
                 </div>
               </div>
             </div>
-            <div className="relative gradient-slate border border-[#262626] rounded-xl lg:p-8 p-[16px] w-full">
+            <div className="relative gradient-slate border border-[#262626] rounded-xl lg:p-8 p-[16px] xl:w-[80%]  lg:w-[1008px] w-full">
             <div className="flex justify-between items center">
               <div className="w-full">
               <h2 className="text-[20px] font-bold">Download NAITRAM App</h2>

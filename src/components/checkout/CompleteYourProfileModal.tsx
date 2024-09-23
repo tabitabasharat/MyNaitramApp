@@ -125,7 +125,7 @@ const CompleteYourProfileModal = ({
 
               <FormMessage />
             </FormItem> */}
-            <FormItem className="relative w-full">
+            <FormItem className="relative w-full  ">
               <FormLabel className="text-[11px] text-[#8F8F8F] absolute left-3 top-5">
                 EMAIL
               </FormLabel>
@@ -135,10 +135,11 @@ const CompleteYourProfileModal = ({
               />
               <FormControl className="">
                 <Input
-                  disabled
-                  placeholder={email}
-                  className="pt-10 pb-5 font-bold placeholder:font-normal overflow-x-auto whitespace-nowrap"
-                  style={{ width: "100%", paddingRight: "2.5rem" }}
+               disabled
+                  // placeholder={email}
+                  value={email}
+                  className="pt-10 pb-5 font-bold placeholder:font-normal  whitespace-nowrap w-full overflow-x-auto"
+                  style={{ paddingRight: "2.5rem" }}
                 />
               </FormControl>
 

@@ -341,8 +341,9 @@ const OrganizerProfile = () => {
                         FACEBOOK
                       </FormLabel>
                       <FacebookLogo
-                        className="absolute right-3 top-[35%]"
+                        className="absolute right-3 lg:top-[35%] top-[28%] "
                         size={20}
+                      
                       />
                       <FormControl>
                         <Input
@@ -376,7 +377,7 @@ const OrganizerProfile = () => {
                         INSTAGRAM
                       </FormLabel>
                       <InstagramLogo
-                        className="absolute right-3 top-[35%]"
+                        className="absolute right-3 lg:top-[35%] top-[28%]"
                         size={20}
                       />
                       <FormControl>
@@ -411,7 +412,7 @@ const OrganizerProfile = () => {
                         LINKEDIN
                       </FormLabel>
                       <LinkedinLogo
-                        className="absolute right-3 top-[35%]"
+                        className="absolute right-3 lg:top-[35%] top-[28%]"
                         size={20}
                       />
                       <FormControl>
@@ -446,7 +447,7 @@ const OrganizerProfile = () => {
                         TIKTOK
                       </FormLabel>
                       <TiktokLogo
-                        className="absolute right-3 top-[35%]"
+                        className="absolute right-3 lg:top-[35%] top-[28%]"
                         size={20}
                       />
                       <FormControl>
@@ -482,7 +483,7 @@ const OrganizerProfile = () => {
                         YOUTUBE
                       </FormLabel>
                       <YoutubeLogo
-                        className="absolute right-3 top-[35%]"
+                        className="absolute right-3 lg:top-[35%] top-[28%]"
                         size={20}
                       />
                       <FormControl>
@@ -517,7 +518,7 @@ const OrganizerProfile = () => {
                         TWITTER
                       </FormLabel>
                       <TwitterLogo
-                        className="absolute right-3 top-[30%]"
+                        className="absolute right-3 lg:top-[35%] top-[28%]"
                         size={20}
                       />
                       <FormControl>

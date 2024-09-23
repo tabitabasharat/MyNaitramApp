@@ -18,6 +18,7 @@ import Link from 'next/link';
 
 
 
+
 const TicketPurchaseSuccess = ({ setCurrentModal }: any) => {
 
  

@@ -115,10 +115,10 @@ const ShareModal = ({ onClose, open, eventUrl }: any) => {
             </p>
            
               
-              <div className="relative w-[416px]">
+              <div className="relative w-full md:w-[416px] ">
                 <Input
                   placeholder={eventUrl}
-                  className=" py-[12.5px] text-base placeholder:font-normal relative overflow-x-auto w-[419px] pr-[40px]"
+                  className=" py-[12.5px] text-base placeholder:font-normal relative overflow-x-auto  w-full md:w-[419px] pr-[40px]"
                   value={eventUrl}
                   style={{whiteSpace:"nowrap"}}
 

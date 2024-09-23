@@ -12,6 +12,7 @@ import Image from "next/image";
 import gift from "@/assets/gift.png"
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { getEventByEventId } from "@/lib/middleware/event";
+import { getTicketByQR } from "@/lib/middleware/wallet";
 
 const StripeSuccess = ()=>{
   const dispatch = useAppDispatch();
@@ -30,8 +31,11 @@ const StripeSuccess = ()=>{
       }
     }, [showTicket]);
   
+    // const EventData = useAppSelector(
+    //   (state) => state?.getEventByEventID?.eventIdEvents?.data
+    // );
     const EventData = useAppSelector(
-      (state) => state?.getEventByEventID?.eventIdEvents?.data
+      (state) => state?.getTicketByQR?.myQRTickets?.data
     );
     useEffect(() => {
       const currentUrl: any =
@@ -41,8 +45,11 @@ const StripeSuccess = ()=>{
       setEventId(value);
       console.log("my event id is", value);
       dispatch(getEventByEventId(34));
+      dispatch(getTicketByQR(34));
      
     }, []);
+   
+    console.log("MY ticket data enlarge qr is", EventData);
     return(
         <>
         <SpecificEventHeroStripe

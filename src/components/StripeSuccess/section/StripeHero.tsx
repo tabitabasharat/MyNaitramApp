@@ -54,6 +54,7 @@ const StripeHero = ({
   instaUrl,
   tiktokUrl,
   ticketsdata,
+  eventdataAll
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
@@ -167,7 +168,7 @@ const StripeHero = ({
       {" "}
       <div>
         <div>
-          <div className="ps-[20px] py-[16px] gap-[20px] flex-col lg:flex-row justify-center lg:justify-start items-center bg-transparent flex rounded-[12px] lg:bg-[#007A353D]">
+          <div className="xl:w-[72%] lg:w-[576px] w-full ps-[20px] py-[16px] gap-[20px] flex-col lg:flex-row justify-center lg:justify-start items-center bg-transparent flex rounded-[12px] lg:bg-[#007A353D]">
             <div className="rounded-full overflow-hidden">
               <Image
                 src={success}
@@ -177,7 +178,7 @@ const StripeHero = ({
                 alt="expired-icon"
               />
             </div>
-            <div className="text-start flex items-center">
+            <div className="text-start flex items-center ">
             <p className="text-base font-bold">
               Your ticket purchase is confirmed. <br />
               We can't wait to see you there!
@@ -225,7 +226,7 @@ const StripeHero = ({
               </div>
             </div>
           )}
-          <Browserexplore />
+          <Browserexplore TicketData={eventdataAll}/>
         </div>
       </div>
     </>
