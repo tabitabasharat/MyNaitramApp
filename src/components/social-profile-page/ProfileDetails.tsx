@@ -16,6 +16,7 @@ import JoinEventCard from "@/components/reusable-components/JoinEventCard";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getUserSocialProfile } from "@/lib/middleware/profile";
+import { YoutubeLogo } from "@phosphor-icons/react";
 
 const ProfileDetails = () => {
   const dispatch = useAppDispatch();
@@ -104,7 +105,7 @@ const ProfileDetails = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
+      <div className="flex justify-center flex-wrap md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
         <Link
           href={myProfile?.liveActivity?.instaUrl || "#"}
           passHref
@@ -142,6 +143,39 @@ const ProfileDetails = () => {
         >
           <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
             <LinkedinLogo
+              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+              weight="fill"
+            />
+          </div>
+        </Link>
+        <Link
+          href={myProfile?.liveActivity?.linkedinUrl || "#"}
+          target="_blank"
+        >
+          <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+            <TiktokLogo
+              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+              weight="fill"
+            />
+          </div>
+        </Link>
+        <Link
+          href={myProfile?.liveActivity?.linkedinUrl || "#"}
+          target="_blank"
+        >
+          <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+            <YoutubeLogo
+              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+              weight="fill"
+            />
+          </div>
+        </Link>
+        <Link
+          href={myProfile?.liveActivity?.linkedinUrl || "#"}
+          target="_blank"
+        >
+          <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+            <TwitterLogo
               className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
               weight="fill"
             />

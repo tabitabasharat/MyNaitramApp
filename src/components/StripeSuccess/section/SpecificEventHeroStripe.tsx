@@ -118,8 +118,8 @@ const SpecificEventHeroStripe = ({
         className="w-full h-screen absolute object-cover object-center z-0 opacity-30"
         alt=""
       />
-      <div>
-        <div className="main-abovee px-[24px] w-full md:px-[100px] lg:ps-[40px] lg:pe-[40px] xl:px-[216px] pt-[8rem] lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] gap-[32px] lg:gap-12 w-full md:w-[100%] xl:w-full relative">
+      <div className="w-full">
+        <div className="main-abovee px-[24px] w-full md:px-[100px] lg:ps-[40px] lg:pe-[40px] xl:px-[216px] pt-[8rem] lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] gap-[32px] lg:gap-12 lg:w-full wid-adjustment relative">
           <div className="flex gap-[40px] flex-col">
             <div className="flex gap-[24px] flex-col lg:flex-row">
               <div>
