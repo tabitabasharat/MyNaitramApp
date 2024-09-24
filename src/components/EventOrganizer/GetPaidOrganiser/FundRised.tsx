@@ -3,11 +3,8 @@ import React from "react";
 import Backward from "@/components/Backward/Backward";
 import larki from "@/assets/Images.svg";
 import Image from "next/image";
-import cardimg from "@/assets/card1.svg";
-import id from "@/assets/Launch your event.svg";
-import tick from "@/assets/tick-yello.svg";
-import profile from "@/assets/promoter-pic.svg"
-// import Walletbalancetable from "../Wallet/Wallet-balance-table/Walletbalancetable";
+import cardimg from "@/assets/Images.png";
+import profile from "@/assets/promoter-pic.svg";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -16,21 +13,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import filter from "@/assets/Favorite - Button.svg";
-import filter1 from "@/assets/Favorite - Buttonarrow.svg";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { showProfile } from "@/lib/middleware/profile";
-// import WalletChooseModal from "../Walletchoose/WalletChooseModal";
-import { useState } from "react";
 import location from "@/assets/Location.svg";
 import clander from "@/assets/calendar1.svg";
 import time from "@/assets/clock1.svg";
-import { Box } from "@mui/material";
-import { getSalesData } from "@/lib/middleware/organizer";
-// import ScreenLoader from "../loader/Screenloader";
-// import SalesChart from "../profile-page/SalesChart";
-// import SalesGraph from "../Wallet/SalesGraph/SalesGraph";
-import Stack from "@mui/material/Stack";
 
 function createData(name: number, calories: string, fat: number) {
   return { name, calories, fat };
@@ -50,48 +35,39 @@ const FUndRised = () => {
         <Backward />
       </div>
       <div className="gap-[32px] lg:w-[903px] w-full mb-[24px] lg:mb-[30px] flex lg:flex-row flex-col lg:gap-[42px]">
-        <div className="flex md:justify-center sm:justify-center">
+        <div className="flex md:w-[392px] md:h-[392px] md:justify-center sm:justify-center">
           <Image
             src={cardimg}
             alt="img"
             width={392}
             height={392}
-            className="rounded-[12px] w-[392px] h-[392px]"
+            className="h-full rounded-[12px] sm:w-[392px] w-full  sm:h-[392px]  "
           />
         </div>
         <div>
-          <div
-            className="bg-[#00A849] border border-solid border-[#757575] py-[8px] px-[12px] w-[124px] lg:w-[135px] rounded-[100px]"
-            // onClick={WalletModalhandler}
-          >
+          <div className="bg-[#00A849] border border-solid border-[#757575] py-[8px] px-[12px] w-[130px] lg:w-[135px] rounded-[100px]">
             <p className="text-[#030303] italic text-[11px] lg:font-extrabold font-[900] lg:text-[12px]">
               FEATURED EVENT
             </p>
-            {/* {isCreateModalOpen && (
-                  <WalletChooseModal
-                    onClose={() => setisCreateModalOpen(false)}
-                    open={() => setisCreateModalOpen(true)}
-                  />
-                )} */}
           </div>
           <p className="font-extrabold text-[32px] lg:text-[48px] mb-[12px] lg:mb-[24px] mt-[12px]">
-            {/* {eventSales?.salesData?.data?.event?.name} */}NAITRAM Launch
-            Party 2024
+            NAITRAM Launch Party 2024
           </p>
           <div className="flex items-center">
             <div className=" w-[40px] h-[40px] rounded-[8px]">
-                  <Image
-                    src={profile }
-                    width={40}
-                    height={40}
-                    sizes="40px"
-                    className="w-[40px] h-[40px] rounded-[8px]"
-                    alt="img"
-                  />
-                </div>
+              <Image
+                src={profile}
+                width={40}
+                height={40}
+                sizes="40px"
+                className="w-[40px] h-[40px] rounded-[8px]"
+                alt="img"
+              />
+            </div>
             <div>
               <p className="ps-[8px] pe-[4px] text-sm lg:font-bold font-[900]">
-                {/* {eventSales?.salesData?.data?.event?.user?.fullname} */}AKEMIWRLD
+                {/* {eventSales?.salesData?.data?.event?.user?.fullname} */}
+                AKEMIWRLD
               </p>
             </div>
           </div>
@@ -203,59 +179,63 @@ const FUndRised = () => {
               </TableRow>
             </TableHead>
             <TableBody className="border-0">
-                  <TableRow
+              {rows.map((row, index) => (
+                <TableRow
+                  key={index}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    borderBottom: "none",
+                    padding: "20px",
+                  }}
+                  className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                >
+                  <TableCell
                     sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
+                      borderBottom: "none",
+                      borderLeft: "none",
+                      padding: "20px",
+                      color: "white",
+                    }}
+                    align="center"
+                    component="th"
+                    scope="row"
+                    className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                  >
+                    {row.name}
+                  </TableCell>
+                  <TableCell
+                    sx={{
                       borderBottom: "none",
                       padding: "20px",
+                      color: "white",
                     }}
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
                   >
-                    <TableCell
-                      sx={{
-                        borderBottom: "none",
-                        borderLeft: "none",
-                        padding: "20px",
-                        color: "white",
-                      }}
-                      align="center"
-                      component="th"
-                      scope="row"
-                      className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                    >fcdf
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        borderBottom: "none",
-                        padding: "20px",
-                        color: "white",
-                      }}
-                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                      align="left"
-                    >
-                    fcd
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        borderBottom: "none",
-                        padding: "20px",
-                        color: "white",
-                      }}
-                      className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                      align="left"
-                    >
-                      {/* {rows?.userCount} */}£100,000
-                    </TableCell>
-                  </TableRow>
-                {/* )
-            //   )} */}
+                    {row.calories}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      borderBottom: "none",
+                      padding: "20px",
+                      color: "white",
+                    }}
+                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                    align="left"
+                  >
+                    £{row.fat.toLocaleString()}
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
       </div>
       <div className="flex mb-[32px] md:justify-end lg:w-[903px] w-full">
-        <button className="text-sm w-full md:w-fit lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]">Get Paid</button>
-        </div>
+        <button className="text-sm w-full md:w-fit lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]">
+          Get Paid
+        </button>
+      </div>
     </div>
   );
 };
