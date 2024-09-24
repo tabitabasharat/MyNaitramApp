@@ -402,7 +402,7 @@ function OganizerCreateEvent() {
       instaurl: "https://instagram.com/",
       youtubeurl: "https://www.youtube.com/",
       twitterurl: "https://www.x.com/",
-      telegramurl: "https://www.t.me/",
+      telegramurl: "https://t.me/",
       tiktokurl: "https://www.tiktok.com/@",
       linkedinurl: "https://linkedin.com/in/",
       tickets: [],
