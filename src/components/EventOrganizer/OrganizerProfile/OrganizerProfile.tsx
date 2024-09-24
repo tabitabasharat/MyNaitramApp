@@ -53,7 +53,7 @@ const formSchema = z.object({
   facebook: z
     .string()
     .min(2, { message: "Facebook Url name cannot be empty." }),
-  linkedIn: z.string().min(2, { message: "linkedIn Url cannot be empty." }),
+  linkedIn: z.string().min(2, { message: "linkedin Url cannot be empty." }),
   telegram: z.string().min(2, { message: "Telegram Url cannot be empty." }),
   insta: z.string().min(2, { message: "Instagram Url cannot be empty." }),
   twitter: z.string().min(1, { message: "Twitter Url cannot be empty." }),
@@ -84,11 +84,11 @@ const OrganizerProfile = () => {
     defaultValues: {
       facebook: "https://www.facebook.com/",
       insta: "https://instagram.com/",
-      linkedIn:  "https://linkedin.com/in/",
-      telegram:"https://www.telegram.com",
-      twitter:  "https://www.x.com/",
-      youtube:  "https://www.youtube.com/",
-      tiktok:  "https://www.tiktok.com/@",
+      linkedIn: "https://linkedin.com/in/",
+      telegram: "https://t.me/",
+      twitter: "https://www.x.com/",
+      youtube: "https://www.youtube.com/",
+      tiktok: "https://www.tiktok.com/@",
       BIO: "",
     },
   });
@@ -348,7 +348,6 @@ const OrganizerProfile = () => {
                       <FacebookLogo
                         className="absolute right-3 lg:top-[35%] top-[28%] "
                         size={20}
-                      
                       />
                       <FormControl>
                         <Input
@@ -443,7 +442,7 @@ const OrganizerProfile = () => {
                     </FormItem>
                   )}
                 />
-                                <FormField
+                <FormField
                   control={form.control}
                   name="telegram"
                   render={({ field }) => (
@@ -467,7 +466,7 @@ const OrganizerProfile = () => {
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://Telegram.com/in/")) {
+                            if (value.startsWith("https://t.me/")) {
                               settelegramUrl(value);
                               field.onChange(e);
                             }

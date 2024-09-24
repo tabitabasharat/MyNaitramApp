@@ -415,7 +415,7 @@ function EditeventOnBack() {
       fburl: "https://www.facebook.com/",
       instaurl: "https://instagram.com/",
       youtubeurl: "https://www.youtube.com/",
-      telegramurl: "https://www.telegram.com/",
+      telegramurl: "https://t.me/",
       twitterurl: "https://www.x.com/",
       tiktokurl: "https://www.tiktok.com/@",
       linkedinurl: "https://linkedin.com/in/",
@@ -2335,7 +2335,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                           onChange={(e) => {
                             const value = e.target.value;
                             // Prevent the user from modifying the base URL
-                            if (value.startsWith("https://www.telegram.com/")) {
+                            if (value.startsWith("https://t.me/")) {
                               setTelegramUrl(value);
                               field.onChange(value);
                             }

@@ -238,7 +238,7 @@ function Editevent() {
 
   const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
   const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
-  const [telegramUrl, settelegramUrl] = useState("https://www.telegram.com/in/");
+  const [telegramUrl, settelegramUrl] = useState("https://t.me/");
 
   const [twitterUrl, settwitterUrl] = useState("https://www.twitter.com/in/");
   const [eventsFiles, setEventsFile] = useState<any>([]);
@@ -2136,7 +2136,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://www.telegram.com/")) {
+                            if (value.startsWith("https://t.me/")) {
                               setTelegramUrl(value);
                               field.onChange(value);
                             }

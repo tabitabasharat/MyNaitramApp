@@ -133,7 +133,7 @@ const ProfilePreview = () => {
               </div>
             </Link>
             <Link
-              href={myProfile?.data?.profile?.twitterUrl || "#"}
+              href={myProfile?.data?.profile?.telegramUrl || "#"}
               target="_blank"
             >
               <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
@@ -151,7 +151,10 @@ const ProfilePreview = () => {
                 />
               </div>
             </Link>
-            <Link href={myProfile?.data?.profile?.twitterUrl || "#"} target="_blank">
+            <Link
+              href={myProfile?.data?.profile?.twitterUrl || "#"}
+              target="_blank"
+            >
               <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
                 <TwitterLogo
                   className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"

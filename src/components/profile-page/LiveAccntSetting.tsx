@@ -52,7 +52,7 @@ const formSchema = z.object({
   facebook: z
     .string()
     .min(2, { message: "Facebook Url name cannot be empty." }),
-  linkedIn: z.string().min(2, { message: "linkedIn Url cannot be empty." }),
+  linkedIn: z.string().min(2, { message: "linkedin Url cannot be empty." }),
   insta: z.string().min(2, { message: "Instagram Url cannot be empty." }),
   telegram: z.string().min(1, { message: "Telegram Url cannot be empty." }),
   twitter: z.string().min(1, { message: "Twitter Url cannot be empty." }),
@@ -91,7 +91,7 @@ const LiveAccntSetting = ({
       insta: "https://instagram.com/",
       linkedIn: "https://linkedin.com/in/",
       tiktok:  "https://www.tiktok.com/@",
-      telegram: "https://www.telegram.com/",
+      telegram: "https://t.me/",
       twitter: "https://www.x.com/",
       youtube: "https://www.youtube.com/",
 
@@ -400,7 +400,7 @@ const LiveAccntSetting = ({
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://www.telegram.com/")) {
+                            if (value.startsWith("https://t.me/")) {
                               settelegramUrl(e.target.value);
                               field.onChange(e);
                             }
@@ -470,7 +470,7 @@ const LiveAccntSetting = ({
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://www.tiktok.com/")) {
+                            if (value.startsWith("https://www.tiktok.com/@")) {
                               settiktokUrl(e.target.value);
                               field.onChange(e);
                             }
