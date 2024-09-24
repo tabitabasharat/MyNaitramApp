@@ -16,6 +16,9 @@ import filter from "@/assets/Favorite - Button.svg";
 import location from "@/assets/Location.svg";
 import clander from "@/assets/calendar1.svg";
 import time from "@/assets/clock1.svg";
+import { useAppDispatch } from "@/lib/hooks";
+import { useState } from "react";
+import ReceviePaymentModal from "./ReceivePaymentModal";
 
 function createData(name: number, calories: string, fat: number) {
   return { name, calories, fat };
@@ -28,6 +31,10 @@ const rows = [
 ];
 
 const FUndRised = () => {
+  const dispatch = useAppDispatch();
+  const [openModal, setOpenModal] = useState(false);
+  const eventAllData = "hello";
+
   return (
     <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] event-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
       {/* {eventSales.loading && <ScreenLoader />} */}
@@ -231,11 +238,22 @@ const FUndRised = () => {
           </Table>
         </TableContainer>
       </div>
+
       <div className="flex mb-[32px] md:justify-end lg:w-[903px] w-full">
-        <button className="text-sm w-full md:w-fit lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]">
+        <button
+          onClick={() => setOpenModal(true)}
+          className="text-sm w-full md:w-fit lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]"
+        >
           Get Paid
         </button>
       </div>
+      {openModal && (
+        <ReceviePaymentModal
+          onClose={() => setOpenModal(false)}
+          open={() => setOpenModal(true)}
+          eventData={eventAllData}
+        />
+      )}
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import ReceviePaymentModal from "../GetPaidOrganiser/ReceivePaymentModal";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import SubmitSucessModal from "../GetPaidOrganiser/SubmitSuccessModal";
+import Link from "next/link";
 const PayoutDetail = () => {
   const dispatch = useAppDispatch();
   const [openModal, setOpenModal] = useState(false);
@@ -25,27 +26,17 @@ const PayoutDetail = () => {
       <div className="flex mt-[30px] gap-[15px]  lg:mt-[38px]">
         <button
           className="text-sm font-extrabold w-full lg:w-[165px] table-gradient gradient-border-notify  rounded-[100px] py-[12px] text-[#00D059]"
-          onClick={() => setOpenModal(true)}
+
         >
           Crypto Wallet
         </button>
+        <Link href="/organizer-event/payout-detail/bankaccount">
         <button className="text-sm font-extrabold w-full lg:w-[165px] rounded-[100px] py-[12px] text-[black] bg-[#00D059]">
           Bank Account
         </button>
+        </Link>
       </div>
-      {openModal && (
-        <ReceviePaymentModal
-          onClose={() => setOpenModal(false)}
-          open={() => setOpenModal(true)}
-          eventData={eventAllData}
-        />
-      )}
-      {/* {openModal && (
-        <SubmitSucessModal
-          onClose={() => setOpenModal(false)}
-          open={() => setOpenModal(true)}
-        />
-      )} */}
+
     </div>
   );
 };
