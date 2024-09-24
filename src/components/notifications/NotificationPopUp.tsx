@@ -36,7 +36,7 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
     (state) => state?.getUserNotifications?.myNotifications?.data
   );
 
-  console.log("All USer Notifications are", Notify);
+  console.log("All User Notifications are", Notify);
   const NotifyOrg = useAppSelector(
     (state) => state?.getOrgNotifications?.myNotifications?.data
   );
