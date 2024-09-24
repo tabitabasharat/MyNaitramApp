@@ -528,7 +528,7 @@ function CreateEvent() {
             width={350}
             height={350}
             className="absolute right-[0] bottom-0"
-            alt="ufo"
+            alt="ufo-img"
           />
         </div>
         {/* <div className="flex flex-col items-center justify-center min-h-screen">
