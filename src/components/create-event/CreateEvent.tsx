@@ -170,7 +170,7 @@ console.log("SELECTED PLACE", selectedPlace)
   console.log("my ticket start date is", TicketStartDate);
 
   console.log("my event enddate is", EventEndTime);
-  console.log("my ticket endd date is", TicketEndDate);
+  console.log("my ticket endds date is", TicketEndDate);
 
   const [Eventdescription, setEventdescription] = useState("");
 
