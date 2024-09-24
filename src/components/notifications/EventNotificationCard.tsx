@@ -53,7 +53,9 @@ const EventNotificationCard = ({msg,heading,notifyTime, profileimg}:any) => {
           debuting our */}
           {msg}
         </p>
+        <p className='text-[#00D059] text-end text-[12px] cursor-pointer'>Mark as read</p>
       </div>
+     
     </div>
   );
 };

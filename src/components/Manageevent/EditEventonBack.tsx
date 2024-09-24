@@ -2284,37 +2284,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
               </div>
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
-                <FormField
-                  control={form.control}
-                  name="twitterurl"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Twitter
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter URL"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                          {...field}
-                          // onChange={(e) => {
-                          //   setTwitterUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            // Prevent the user from modifying the base URL
-                            if (value.startsWith("https://www.x.com/")) {
-                              setTwitterUrl(value);
-                              field.onChange(value);
-                            }
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+
                                 <FormField
                   control={form.control}
                   name="telegramurl"
@@ -2434,6 +2404,39 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                             // Prevent the user from modifying the base URL
                             if (value.startsWith("https://linkedin.com/in/")) {
                               setYoutubeUrl(value);
+                              field.onChange(value);
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] md:w-[49%] w-full mt-[24px] common-container ">
+              <FormField
+                  control={form.control}
+                  name="twitterurl"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Twitter
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter URL"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          {...field}
+                          // onChange={(e) => {
+                          //   setTwitterUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            // Prevent the user from modifying the base URL
+                            if (value.startsWith("https://www.x.com/")) {
+                              setTwitterUrl(value);
                               field.onChange(value);
                             }
                           }}

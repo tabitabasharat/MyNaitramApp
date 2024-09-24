@@ -90,11 +90,10 @@ const LiveAccntSetting = ({
       facebook: "https://www.facebook.com/",
       insta: "https://instagram.com/",
       linkedIn: "https://linkedin.com/in/",
-      tiktok:  "https://www.tiktok.com/@",
+      tiktok: "https://www.tiktok.com/@",
       telegram: "https://t.me/",
       twitter: "https://www.x.com/",
       youtube: "https://www.youtube.com/",
-
     },
   });
 
@@ -108,7 +107,6 @@ const LiveAccntSetting = ({
   useEffect(() => {
     if (myliveActivity && myliveActivity.length > 0) {
       const currentValues = form.getValues();
-
 
       form.reset({
         facebook: myliveActivity[0]?.fbUrl || currentValues.facebook,
@@ -185,7 +183,7 @@ const LiveAccntSetting = ({
     setLoader(true);
     const userID =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-      console.log("my val",values)
+    console.log("my val", values);
     try {
       const data = {
         fbUrl: fbUrl || myliveActivity[0]?.fbUrl || "",
@@ -365,7 +363,7 @@ const LiveAccntSetting = ({
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://www.linkedin.com/")) {
+                            if (value.startsWith("https://linkedin.com/in/")) {
                               setlinkedinUrl(e.target.value);
                               field.onChange(e);
                             }
@@ -446,9 +444,9 @@ const LiveAccntSetting = ({
                     </FormItem>
                   )}
                 />
-                                <FormField
+                <FormField
                   control={form.control}
-                  name="youtube"
+                  name="tiktok"
                   render={({ field }) => (
                     <FormItem className="relative mb-4 md:mb-6 space-y-0">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">

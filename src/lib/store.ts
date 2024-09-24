@@ -32,6 +32,9 @@ import getAllAttendy from "./reducer/getAllAttendy";
 import getEventChat from "./reducer/getEventChat";
 import getUserNotifications from "./reducer/getUserNotifications";
 import getFollowPromoters from "./reducer/getFollowPromoters";
+import getOrgNotifications from "./reducer/getOrgNotifications";
+import getUserReadNotify from "./reducer/getUserReadNotify";
+import getOrgReadNotify from "./reducer/getOrgReadNotify";
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -60,12 +63,15 @@ const appReducer = combineReducers({
   getOrgByID: getOrgByID,
   getOrgSocialProfile: getOrgSocialProfile,
   getOrgDetail: getOrgDetail,
-  getScannerbyEID:getScannerbyEID,
-  getSalesData:getSalesData,
-  getAllAttend:getAllAttendy,
-  getEventChat:getEventChat,
-  getUserNotifications:getUserNotifications,
-  getFollowPromoters:getFollowPromoters
+  getScannerbyEID: getScannerbyEID,
+  getSalesData: getSalesData,
+  getAllAttend: getAllAttendy,
+  getEventChat: getEventChat,
+  getUserNotifications: getUserNotifications,
+  getFollowPromoters: getFollowPromoters,
+  getOrgNotifications: getOrgNotifications,
+  getUserReadNotify:getUserReadNotify,
+  getOrgReadNotify:getOrgReadNotify
 });
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,

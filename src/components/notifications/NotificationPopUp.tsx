@@ -7,7 +7,11 @@ import api from "@/lib/apiInterceptor";
 import EventNotificationCard from "./EventNotificationCard";
 import MessgaeNotificationCard from "./MessgaeNotificationCard";
 import { useState, useEffect } from "react";
-import { getUserNotifications } from "@/lib/middleware/notification";
+import {
+  getUserNotifications,
+  getOrgNotifications,
+  getUserReadNotifications,getOrgReadNotifications
+} from "@/lib/middleware/notification";
 import profileimg from "@/assets/Avatar-1.svg";
 
 const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
@@ -21,6 +25,7 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     dispatch(getUserNotifications(userid));
+    dispatch(getOrgNotifications(userid));
   }, []);
   const handleClick = (period: string) => {
     setActive(period);
@@ -30,7 +35,11 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
     (state) => state?.getUserNotifications?.myNotifications?.data
   );
 
-  console.log("All Notifications are", Notify);
+  console.log("All USer Notifications are", Notify);
+  const NotifyOrg = useAppSelector(
+    (state) => state?.getOrgNotifications?.myNotifications?.data
+  );
+  console.log("All Org Notifications are", NotifyOrg);
 
   const getAllNotifications = () => {
     const userid =
@@ -173,8 +182,8 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
       </div>
 
       {/* Notifications List */}
-     
-      {activeTab === "USER" && (
+
+      {/* {activeTab === "USER" && (
         <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
           {Notify?.length > 0 &&
             Notify?.map((item: any, index: any) => {
@@ -198,13 +207,27 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
               return null;
             })}
         </div>
+      )} */}
+      {activeTab === "USER" && (
+        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
+          {Notify?.length > 0 &&
+            Notify?.map((item: any, index: any) => {
+              return (
+                <EventNotificationCard
+                  key={index}
+                  msg={item?.msg}
+                  heading={item?.action}
+                  notifyTime={item?.createdAt}
+                />
+              );
+            })}
+        </div>
       )}
 
       {activeTab === "ORGANISER" && (
         <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
           {Notify?.length > 0 &&
             Notify?.map((item: any, index: any) => {
-              
               if (
                 item?.action === "Event created" ||
                 item?.action === "Event updated" ||

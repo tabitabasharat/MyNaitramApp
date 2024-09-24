@@ -36,8 +36,7 @@ const AttendanceList = () => {
   const filteredattendees = myAttendees?.filter((item: any) =>
     item?.fullname?.toLowerCase().includes(searchAttendees.toLowerCase())
   );
-  console.log("filtered attendees", filteredattendees)
-
+  console.log("filtered attendees", filteredattendees);
 
   return (
     <div>
@@ -123,7 +122,12 @@ const AttendanceList = () => {
                       }
                       size="size-[55px]"
                     />
-                    <p className="font-bold text-[18px]">{attendee.fullname}</p>
+
+                    <p className="font-bold text-[18px]">
+                      {attendee?.liveActivity?.isActive
+                        ? attendee.fullname
+                        : ""}
+                    </p>
                   </div>
                 ))
               ) : (

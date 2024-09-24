@@ -180,10 +180,14 @@ const formSchema = z.object({
     .string()
     .url({ message: "Invalid Linkedin URL." })
     .min(1, { message: "Linkedin URL cannot be empty." }),
-  telegramurl: z
+  twitterurl: z
     .string()
     .url({ message: "Invalid Twitter URL." })
     .min(1, { message: "Twitter URL cannot be empty." }),
+    telegramurl: z
+    .string()
+    .url({ message: "Invalid Telegram URL." })
+    .min(1, { message: "Telegram URL cannot be empty." }),
   // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
@@ -256,7 +260,7 @@ function OganizerCreateEvent() {
   const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
   const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
   const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
-
+  const [TelegramUrl, setTelegramUrl] = useState("https://t.me/");
   const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
 
   const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
@@ -397,7 +401,8 @@ function OganizerCreateEvent() {
       fburl: "https://www.facebook.com/",
       instaurl: "https://instagram.com/",
       youtubeurl: "https://www.youtube.com/",
-      telegramurl: "https://www.x.com/",
+      twitterurl: "https://www.x.com/",
+      telegramurl: "https://www.t.me/",
       tiktokurl: "https://www.tiktok.com/@",
       linkedinurl: "https://linkedin.com/in/",
       tickets: [],
@@ -1160,96 +1165,6 @@ function OganizerCreateEvent() {
                     </FormItem>
                   )}
                 />
-
-                {/* <FormField
-                  control={form.control}
-                  name="eventcategory"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
-                        Event Category
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter Event Category"
-                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] mt-0"
-                          {...field}
-                          onChange={(e) => {
-                            setEventCategory(e.target.value);
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
-                {/* {categoryTypes.map((ticket, index) => (
-                  <FormField
-                    control={form.control}
-                 
-                    name="eventcategory"
-                    render={({ field }) => (
-                      <FormItem
-                        className="relative pb-[8px] w-full rounded-md border border-[#292929] 
-                      gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] 
-                      file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] 
-                      focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        <div
-                          className="flex items-center justify-between"
-                          onClick={() => handlecateDropdown(index)}
-                        >
-                          <div className="flex flex-col">
-                            <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase">
-                              EVENT category
-                            </p>
-                            <p>Select Event Category</p>
-                          </div>
-                          <Image
-                            src={ticket?.dropdown ? arrowdown : arrowdown}
-                            width={11}
-                            height={11}
-                            alt="arrow"
-                          />
-                        </div>
-                        {ticket?.dropdown && (
-                          <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929]  rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                            {optionscate?.map((option) => (
-                              <div
-                                key={option.id}
-                                className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                onClick={() =>
-                                  handleCateOptionToggle(index, option)
-                                }
-                              >
-                                <div className="flex items-center gap-[10px]">
-                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                    {option.label}
-                                  </p>
-                                </div>
-                                {ticket?.options?.some(
-                                  (o) => o?.id === option?.id
-                                ) && (
-                                  <Image
-                                    src={tick}
-                                    width={10}
-                                    height={10}
-                                    alt="tick"
-                                  />
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        {}
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                ))} */}
-
                 <FormField
                   control={form.control}
                   name="eventcategory"
@@ -1311,33 +1226,6 @@ function OganizerCreateEvent() {
                   )}
                 />
               </div>
-
-              {/* <div className="mt-[24px]">
-                <FormField
-                  control={form.control}
-                  name="eventdescription"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full  space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Event Description
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          value={Eventdescription}
-                          className="pt-11 create-txtarea-input "
-                          onChange={(e) => {
-                            setEventdescription(e.target.value);
-                            field.onChange(e);
-                          }}
-                          placeholder="Enter Event Description"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div> */}
               <div className="mt-[24px]">
                 <FormField
                   control={form.control}
@@ -1348,16 +1236,6 @@ function OganizerCreateEvent() {
                         Event Description
                       </FormLabel>
                       <FormControl className="relative">
-                        {/* <Textarea
-                          {...field}
-                          // value={Eventdescription}
-                          className="pt-11 create-txtarea-input "
-                          onChange={(e) => {
-                            setEventdescription(e.target.value);
-                            field.onChange(e);
-                          }}
-                          placeholder="Enter Event Description"
-                        /> */}
                         <div className=" absolute inset-0 pb-3 overflow-auto top-[28px] h-[200px]">
                           <Editor
                             // value={field.value}
@@ -1642,42 +1520,6 @@ function OganizerCreateEvent() {
                         alt="arrow"
                       />
                     </div>
-                    {/* {ticket?.dropdown && (
-                      <div>
-                        {options?.map((option) => (
-
-                          <div
-                            key={option.id}
-                            className="flex items-center justify-between pt-[8px] cursor-pointer"
-                            onClick={() => handleOptionToggle(index, option)}
-                          >
-                            <div className="flex items-center gap-[10px]">
-                              <Image
-                                src={option.image}
-                                width={16}
-                                height={16}
-                                alt="img"
-                              />
-                              <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                {option?.label}
-                              </p>
-                            </div>
-                            {ticket?.options.some(
-                              (o) => o.id === option.id
-                            ) && (
-                              <Image
-                                src={tick}
-                                width={10}
-                                height={10}
-                                alt="tick"
-                              />
-                            )}
-                          </div>
-                        ))}
-
-                       
-                      </div>
-                    )} */}
                     {ticket?.dropdown && (
                       <div className="grid-container">
                         {options?.map((option) => (
@@ -1853,7 +1695,7 @@ function OganizerCreateEvent() {
                   render={({ field }) => (
                     <FormItem className="relative w-full">
                       <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Twitter
+                        Telegram
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -1868,8 +1710,8 @@ function OganizerCreateEvent() {
                           onChange={(e) => {
                             const value = e.target.value;
                             // Prevent the user from modifying the base URL
-                            if (value.startsWith("https://www.x.com/")) {
-                              setTwitterUrl(value);
+                            if (value.startsWith("https://t.me/")) {
+                              setTelegramUrl(value);
                               field.onChange(value);
                             }
                           }}
@@ -1976,6 +1818,40 @@ function OganizerCreateEvent() {
                     </FormItem>
                   )}
                 />
+              </div>
+              <div className="flex items-start lg:gap-[24px] md:w-[49%] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
+              <FormField
+                  control={form.control}
+                  name="twitterurl"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Twitter
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter URL"
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                          {...field}
+                          // onChange={(e) => {
+                          //   settiktokUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+                          onChange={(e) => {
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.x.com")) {
+                              setTwitterUrl(value);
+                              field.onChange(value);
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
               </div>
               <div className="flex items-center justify-end lg:gap-[20px] gap-[12px] lg:flex-nowrap md:flex-nowrap wrap-btns mt-[36px]">
                 <div className="flex justify-end items-center  edit-btn">

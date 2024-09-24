@@ -154,7 +154,7 @@ const formSchema = z.object({
     .string()
     .url({ message: "Invalid Telegram URL." })
     .min(1, { message: "Telegram URL cannot be empty." }),
-    twitterurl: z
+  twitterurl: z
     .string()
     .url({ message: "Invalid Twitter URL." })
     .min(1, { message: "Twitter URL cannot be empty." }),
@@ -238,9 +238,8 @@ function Editevent() {
 
   const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
   const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
-  const [telegramUrl, settelegramUrl] = useState("https://t.me/");
+  const [telegramUrl, setTelegramUrl] = useState("https://t.me/");
 
-  const [twitterUrl, settwitterUrl] = useState("https://www.twitter.com/in/");
   const [eventsFiles, setEventsFile] = useState<any>([]);
   const router = useRouter();
 
@@ -879,7 +878,7 @@ function Editevent() {
         fburl: EventData?.fbUrl || form.getValues("fburl"),
         instaurl: EventData?.instaUrl || form.getValues("instaurl"),
         youtubeurl: EventData?.youtubeUrl || form.getValues("youtubeurl"),
-        telegramurl: EventData?.twitterUrl || form.getValues("telegramurl"),
+        telegramurl: EventData?.telegramUrl || form.getValues("telegramurl"),
         tiktokurl: EventData?.tiktokUrl || form.getValues("tiktokurl"),
         linkedinurl: EventData?.linkedinUrl || form.getValues("linkedinurl"),
         twitterurl: EventData?.twitterUrl || form.getValues("twitterurl"),
@@ -2115,8 +2114,8 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                   )}
                 />
               </div>
-              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] lg:w-[49%] w-full mt-[24px] common-container ">
-              <FormField
+              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] md:w-[49%] w-full mt-[24px] common-container ">
+                <FormField
                   control={form.control}
                   name="telegramurl"
                   render={({ field }) => (

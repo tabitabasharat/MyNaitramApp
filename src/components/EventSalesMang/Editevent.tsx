@@ -122,9 +122,13 @@ const formSchema = z.object({
     .string()
     .url({ message: "Invalid LinkedIn URL." })
     .min(1, { message: "LinkedIn URL cannot be empty." }),
-  telegramurl: z
+    twitterurl: z
     .string()
     .url({ message: "Invalid Twitter URL." })
+    .min(1, { message: "Twitter URL cannot be empty." }),
+  telegramurl: z
+    .string()
+    .url({ message: "Invalid Telegram URL." })
     .min(1, { message: "Twitter URL cannot be empty." }),
 
   // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
@@ -281,6 +285,7 @@ function Editevent() {
       youtubeurl: "",
       telegramurl: "",
       tiktokurl: "",
+      twitterurl:"",
       linkedinurl: "",
       tickets: [],
     },
@@ -1816,7 +1821,7 @@ function Editevent() {
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
                 <FormField
                   control={form.control}
-                  name="telegramurl"
+                  name="twitterurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
                       <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
