@@ -18,6 +18,7 @@ import { getRewardCollectibleByID } from "@/lib/middleware/reward";
 import StripeAccount from "@/components/popups/Stripe Account/StripeAccount";
 import Cryptowallet from "@/components/popups/cryptowallet/Cryptowallet";
 import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
+import Link from "next/link";
 
 const ReceviePaymentModal = ({ onClose, open, eventData }: any) => {
   const router = useRouter();
@@ -77,36 +78,24 @@ const ReceviePaymentModal = ({ onClose, open, eventData }: any) => {
                 Receive Payment in:
               </p>
               <div className="flex items-center gap-[20px] mt-[32px] ">
+                <Link href="/fund-rised/crypto-wallet">
                 <button
                   onClick={handleTogglewallet}
                   className="gradient-border-btn p-[12px] text-[#00D059] text-sm font-extrabold"
                 >
                   Crypto Wallet
                 </button>
-                {iswalletOpen && (
-              
-                  <WalletChooseModal
-                    onClose={() => setIsWalletOpen(false)}
-                    open={iswalletOpen}
-                    eventData={eventData}
-                  />
-                )}
+                </Link>
                 <div>
+                <Link href="/fund-rised/bank-account">
                   <button
                     onClick={handleTogglestripe}
                     className="bg-[#00D059] text-[black] p-[12px] text-sm font-extrabold rounded-[100px]"
                   >
                    Bank Account
                   </button>
+                  </Link>
                   {/* Conditionally render the popup component */}
-                  {isClaimOpen && (
-                    <StripeAccount
-                      onClose={() => setIsClaimOpen(false)} 
-                      open={isClaimOpen} 
-                      collectibleID={collectID} 
-                      eventData={eventData}
-                    />
-                  )}
                 </div>
               </div>
             </div>

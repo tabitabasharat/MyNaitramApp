@@ -3,30 +3,39 @@ import React from "react";
 import Image from "next/image";
 import backward from "@/assets/Back - Button.svg";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/lib/hooks";
+import SubmitSucessModal from "./SubmitSuccessModal";
 
 const CryptoWallets = () => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const [openModal, setOpenModal] = useState(false);
+  const eventAllData = "hello";
 
-    const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const handleClick = (index: number) => {
+    setActiveIndex(index);
+  };
 
-    const handleClick = (index: number) => {
-      setActiveIndex(index);
-    }
-
-    return (
-        <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] bank-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
-        <div className="mb-[32px] gap-[16px] w-full lg:w-[676px] items-center flex lg:w-[903px] w-full lg:mb-[24px]">
-          <Image
-            src={backward}
-            alt="back-btn"
-            className="w-[44px] h-[44px]"
-            sizes="44px"
-          />
-          <p className="lg:text-[24px] font-extrabold text-[15px]">
-            {" "}
-            Crypto Wallets
-          </p>
-        </div>
-        <div className="flex gap-[32px] lg:gap-[24px] flex-col">
+  return (
+    <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] bank-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
+      <div
+        onClick={() => router.back()}
+        className="mb-[32px] gap-[16px] w-full lg:w-[676px] items-center flex lg:w-[903px] w-full lg:mb-[24px]"
+      >
+        <Image
+          src={backward}
+          alt="back-btn"
+          className="w-[44px] h-[44px]"
+          sizes="44px"
+        />
+        <p className="lg:text-[24px] font-extrabold text-[15px]">
+          {" "}
+          Crypto Wallets
+        </p>
+      </div>
+      <div className="flex gap-[32px] lg:gap-[24px] flex-col">
         {[...Array(3)].map((_, index) => (
           <div
             key={index}
@@ -40,8 +49,12 @@ const CryptoWallets = () => {
               <p className="text-[#E6E6E6] text-base font-bold">Lloyd Bank</p>
             </div>
             <div className="flex justify-between items-center">
-              <p className="text-sm font-normal text-[#E6E6E6]">Wallet Address</p>
-              <p className="text-[#E6E6E6] text-base font-bold">0x9605.....6cBf</p>
+              <p className="text-sm font-normal text-[#E6E6E6]">
+                Wallet Address
+              </p>
+              <p className="text-[#E6E6E6] text-base font-bold">
+                0x9605.....6cBf
+              </p>
             </div>
             <div className="flex justify-between items-center">
               <p className="text-sm font-normal text-[#E6E6E6]">Chain</p>
@@ -50,13 +63,22 @@ const CryptoWallets = () => {
           </div>
         ))}
       </div>
-  
-        <div className="flex mb-[32px] w-full mt-[20px] lg:mt-[32px] md:w-[676px]">
-          <button className="text-sm w-full lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]">
-            Submmit
-          </button>
-        </div>
+
+      <div
+        onClick={() => setOpenModal(true)}
+        className="flex mb-[32px] lg:mb-[158px] w-full mt-[20px] lg:mt-[32px] md:w-[676px]"
+      >
+        <button className="text-sm w-full lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]">
+          Submmit
+        </button>
+        {openModal && (
+        <SubmitSucessModal
+          onClose={() => setOpenModal(false)}
+          open={() => setOpenModal(true)}
+        />
+      )}
       </div>
-    )
-}
-export default CryptoWallets
+    </div>
+  );
+};
+export default CryptoWallets;

@@ -58,6 +58,7 @@ const GetPaid = () => {
               </div>
             </Link>
           </ScaleReveal>
+          
         ))}
       </div>
     </div>

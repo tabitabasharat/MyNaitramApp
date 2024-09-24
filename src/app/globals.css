@@ -625,7 +625,7 @@ input[type="number"] {
 .bank-bg-effect{
   background-image: url("../assets/Blur-Green.png");
   background-repeat: no-repeat;
-  background-position: bottom;
+  background-position: right;
 }
 .webkit-blur {
   backdrop-filter: blur(30px);
