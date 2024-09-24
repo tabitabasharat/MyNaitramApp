@@ -88,4 +88,49 @@ export const getUserNotifications = createAsyncThunk(
     }
   );
   
+  export const notificationStatus = createAsyncThunk(
+    "notificationStatus",
+    async (data: any) => {
+      try {
+        console.log("inside the user read no");
+        const res = await api.post(`${API_URL}/help/markNotificationAsRead`, data);
+        console.log("inside the user read no", res);
   
+        // localStorage.setItem("token", res?.data?.token);
+        return {
+          status: res?.status,
+          data: res?.data?.data,
+          token: res?.data?.token,
+        };
+      } catch (error: any) {
+        return {
+          message: error?.response?.data?.error,
+          status: error?.response?.status,
+        };
+      }
+    }
+  );
+
+
+  export const notificationStatusOrg = createAsyncThunk(
+    "notificationStatusOrg",
+    async (data: any) => {
+      try {
+        console.log("inside the org read no");
+        const res = await api.post(`${API_URL}/help/getAndMarkOrganizerNotification`, data);
+        console.log("inside the org read no", res);
+  
+        // localStorage.setItem("token", res?.data?.token);
+        return {
+          status: res?.status,
+          data: res?.data?.data,
+          token: res?.data?.token,
+        };
+      } catch (error: any) {
+        return {
+          message: error?.response?.data?.error,
+          status: error?.response?.status,
+        };
+      }
+    }
+  );

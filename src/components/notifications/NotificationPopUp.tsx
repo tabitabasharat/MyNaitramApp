@@ -10,7 +10,8 @@ import { useState, useEffect } from "react";
 import {
   getUserNotifications,
   getOrgNotifications,
-  getUserReadNotifications,getOrgReadNotifications
+  getUserReadNotifications,
+  getOrgReadNotifications,
 } from "@/lib/middleware/notification";
 import profileimg from "@/assets/Avatar-1.svg";
 
@@ -218,13 +219,16 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
                   msg={item?.msg}
                   heading={item?.action}
                   notifyTime={item?.createdAt}
+                  readStatus={item?.NotifyRead}
+                  notificationId={item?.id}
+                  notifyType={"user"}
                 />
               );
             })}
         </div>
       )}
 
-      {activeTab === "ORGANISER" && (
+      {/* {activeTab === "ORGANISER" && (
         <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
           {Notify?.length > 0 &&
             Notify?.map((item: any, index: any) => {
@@ -244,6 +248,25 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
                 );
               }
               return null;
+            })}
+        </div>
+      )} */}
+      {activeTab === "ORGANISER" && (
+        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
+          {NotifyOrg?.length > 0 &&
+            NotifyOrg?.map((item: any, index: any) => {
+              return (
+                <EventNotificationCard
+                  key={index}
+                  msg={item?.msg}
+                  heading={item?.action}
+                  notifyTime={item?.createdAt}
+                  profileimg={profileimg}
+                  readStatus={item?.NotifyRead}
+                  notificationId={item?.id}
+                  notifyType={"organization"}
+                />
+              );
             })}
         </div>
       )}

@@ -49,7 +49,8 @@ const formSchema = z.object({
   cell: z
     .string()
     .min(1, { message: "Phone number cannot be empty." })
-    .regex(/^\d+$/, { message: "Phone number must be numeric." }), 
+    .regex(/^\d+$/, { message: "Phone number must be numeric." }) 
+    .length(12, { message: "Phone number must be exactly 12 digits." }),
   organization: z
     .string()
     .min(1, { message: "Organization name cannot be empty." }),

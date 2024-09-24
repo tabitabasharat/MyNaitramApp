@@ -1,7 +1,8 @@
-import StripeSuccess from "@/components/StripeSuccess/StripeSuccess"
-// import StripeSuccess from "@/components/checkout/TicketPurchaseSuccess"
 
-
+import dynamic from 'next/dynamic';
+const StripeSuccess = dynamic(()=>import("@/components/StripeSuccess/StripeSuccess"),{
+  ssr:false
+})
 const page =() =>{
     return(
         <StripeSuccess/>
