@@ -4,6 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import { ScaleReveal } from "@/components/animations/ScaleReveal";
 import coverEventImage from "@/assets/card2.svg";
+import Link from "next/link";
 
 const GetPaid = () => {
   const getpaid = [
@@ -39,26 +40,26 @@ const GetPaid = () => {
         Get Paid
       </h3>
       <div className="relative sm:grid flex flex-col md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 w-[100%] gap-[12px] lg:gap-[20px]">
-    {getpaid.map(({ id, img, title }) => (
-      <ScaleReveal extraStyle="w-full" key={id}>
-        <div
-          className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242]"
-        >
-          <Image
-            src={img}
-            width={1000}
-            height={1000}
-            className="w-full h-full rounded-lg object-cover relative mx-auto overflow-hidden"
-            alt="event-img"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-          <div className="absolute flex justify-between gap-[2rem] h-full items-end z-[2] p-4 top-0 w-full">
-            <p className="font-bold text-white text-xl">{title}</p>
-          </div>
-        </div>
-      </ScaleReveal>
-    ))}
-  </div>
+        {getpaid.map(({ id, img, title }) => (
+          <ScaleReveal extraStyle="w-full" key={id}>
+            <Link href="/fund-rised">
+              <div className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242]">
+                <Image
+                  src={img}
+                  width={1000}
+                  height={1000}
+                  className="w-full h-full rounded-lg object-cover relative mx-auto overflow-hidden"
+                  alt="event-img"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                <div className="absolute flex justify-between gap-[2rem] h-full items-end z-[2] p-4 top-0 w-full">
+                  <p className="font-bold text-white text-xl">{title}</p>
+                </div>
+              </div>
+            </Link>
+          </ScaleReveal>
+        ))}
+      </div>
     </div>
   );
 };
