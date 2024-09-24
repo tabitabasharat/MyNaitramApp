@@ -1,12 +1,27 @@
-import { useEffect, useRef } from 'react';
+// components/LocationAutocomplete.tsx
+import { useEffect, useRef, useState } from 'react';
 
 const LocationAutocomplete = () => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isApiLoaded, setIsApiLoaded] = useState(false);
 
   useEffect(() => {
-    // Ensure the Google Maps API is loaded and window is defined
-    if (typeof window !== 'undefined' && window.google) {
-      const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current!, {
+    // Load the Google Maps script dynamically
+    const loadGoogleMapsApi = () => {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyA78WzK8evJ7Vier7fUXAqjM5KDhDwyq88&libraries=places`;
+      script.async = true;
+      script.defer = true;
+      script.onload = () => setIsApiLoaded(true);
+      document.body.appendChild(script);
+    };
+
+    loadGoogleMapsApi();
+  }, []);
+
+  useEffect(() => {
+    if (isApiLoaded && inputRef.current) {
+      const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
         types: ['geocode'], // Restrict to geographical locations
       });
 
@@ -18,7 +33,7 @@ const LocationAutocomplete = () => {
         }
       });
     }
-  }, []);
+  }, [isApiLoaded]);
 
   return (
     <div className="flex flex-col items-center mt-5">

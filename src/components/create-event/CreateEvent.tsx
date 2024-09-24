@@ -12,6 +12,8 @@ import addicon from "@/assets/Wallet/Plus.svg";
 import Link from "next/link";
 import Head from "next/head";
 import LocationAutocomplete from "./Locationinput";
+import Autocomplete from "react-google-autocomplete";
+import { usePlacesWidget } from "react-google-autocomplete";
 import {
   Form,
   FormControl,
@@ -147,6 +149,8 @@ type Option = {
 function CreateEvent() {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
+  const [selectedPlace, setSelectedPlace] = useState<any>(null);
+console.log("SELECTED PLACE", selectedPlace)
   const fileInputRef = useRef(null);
   const fileInputRef2 = useRef(null);
   const [dropdown, setDropdown] = useState(true);
@@ -504,6 +508,9 @@ function CreateEvent() {
 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
+  // const locationAPIKEY="AIzaSyBvDU_PrmegdrMY46LXg-OMF7CqPgd1jUk"
+  const locationAPIKEY="AIzaSyA78WzK8evJ7Vier7fUXAqjM5KDhDwyq88"
+
   return (
     <section
       style={{
@@ -531,19 +538,29 @@ function CreateEvent() {
             alt="ufo-img"
           />
         </div>
-        {/* <div className="flex flex-col items-center justify-center min-h-screen">
-          <Head>
-            <title>Location Autocomplete</title>
-            <script
-              src={`https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`}
-              async
-              defer
-            />
-          </Head>
-          <h1 className="text-2xl mb-5">Location Autocomplete</h1>
-          <LocationAutocomplete />
-        </div> */}
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <p>Location check</p>
+        <Autocomplete
+          style={{ width: "90%" }}
+            apiKey={locationAPIKEY}
+            onPlaceSelected={(place) => {
+              console.log("selected", place?.formatted_address);
+              setSelectedPlace(place); 
+            }}
+          />
+        </div>
+
         <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
+          {/* <div className="flex flex-col items-center justify-center min-h-screen">
+            <Head>
+              <title>Location Autocomplete</title>
+
+            </Head>
+            <h1 className="text-2xl mb-5">Location Autocomplete</h1>
+            <LocationAutocomplete />
+          </div> */}
+          
+          
           <Form {...form}>
             <form
               className=" w-full"
