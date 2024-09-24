@@ -10,6 +10,8 @@ import { useState, useRef, useEffect } from "react";
 import Editicon from "@/assets/Editicon.svg";
 import addicon from "@/assets/Wallet/Plus.svg";
 import Link from "next/link";
+import Head from "next/head";
+import LocationAutocomplete from "./Locationinput";
 import {
   Form,
   FormControl,
@@ -407,7 +409,8 @@ function CreateEvent() {
   };
 
   useEffect(() => {
-    const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);
@@ -454,7 +457,7 @@ function CreateEvent() {
       dispatch(createevent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-        
+
           router.push("/viewallevents");
         } else {
           setLoader(false);
@@ -528,6 +531,18 @@ function CreateEvent() {
             alt="ufo"
           />
         </div>
+        {/* <div className="flex flex-col items-center justify-center min-h-screen">
+          <Head>
+            <title>Location Autocomplete</title>
+            <script
+              src={`https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`}
+              async
+              defer
+            />
+          </Head>
+          <h1 className="text-2xl mb-5">Location Autocomplete</h1>
+          <LocationAutocomplete />
+        </div> */}
         <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
           <Form {...form}>
             <form
@@ -853,14 +868,14 @@ function CreateEvent() {
                               >
                                 {isVideo ? (
                                   <video
-                                  src={window.URL.createObjectURL(file)}
-                                  className="w-full h-full object-cover relative rounded-[12px]"
-                                  width={80}
-                                  height={80}
-                                  controls
-                                >
-                                  Your browser does not support the video tag.
-                                </video>
+                                    src={window.URL.createObjectURL(file)}
+                                    className="w-full h-full object-cover relative rounded-[12px]"
+                                    width={80}
+                                    height={80}
+                                    controls
+                                  >
+                                    Your browser does not support the video tag.
+                                  </video>
                                 ) : isImage ? (
                                   <Image
                                     src={window.URL.createObjectURL(file)}
@@ -871,7 +886,7 @@ function CreateEvent() {
                                   />
                                 ) : (
                                   <p className="w-full h-full flex items-center justify-center text-red-500">
-                                  Unsupported media type
+                                    Unsupported media type
                                   </p>
                                 )}
                                 <button
@@ -1083,8 +1098,6 @@ function CreateEvent() {
                   Add Ticket Type
                 </Button>
               </div>
-
-              
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
