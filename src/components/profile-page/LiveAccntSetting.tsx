@@ -15,6 +15,7 @@ import {
   TwitchLogo,
   TwitterLogo,
   YoutubeLogo,
+  TiktokLogo,
 } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import AccountSidebarLink from "@/components/reusable-components/AccountSidebarLink";
@@ -55,7 +56,7 @@ const formSchema = z.object({
   insta: z.string().min(2, { message: "Instagram Url cannot be empty." }),
   telegram: z.string().min(1, { message: "Telegram Url cannot be empty." }),
   twitter: z.string().min(1, { message: "Twitter Url cannot be empty." }),
-  // tiktok: z.string().min(1, { message: "Tiktok Url cannot be empty." }),
+  tiktok: z.string().min(1, { message: "Tiktok Url cannot be empty." }),
   youtube: z.string().min(1, { message: "Youtube Url cannot be empty." }),
 });
 
@@ -75,6 +76,7 @@ const LiveAccntSetting = ({
   const [instaUrl, setinstaUrl] = useState("");
   const [linkedinUrl, setlinkedinUrl] = useState("");
   const [telegramUrl, settelegramUrl] = useState("");
+  const [tiktokUrl, settiktokUrl] = useState("");
 
   const myliveActivity = useAppSelector(
     (state) => state?.getProfileLiveActivity?.LiveActivity?.data
@@ -88,9 +90,11 @@ const LiveAccntSetting = ({
       facebook: "https://www.facebook.com/",
       insta: "https://instagram.com/",
       linkedIn: "https://linkedin.com/in/",
+      tiktok:  "https://www.tiktok.com/@",
       telegram: "https://www.telegram.com/",
       twitter: "https://www.x.com/",
       youtube: "https://www.youtube.com/",
+
     },
   });
 
@@ -110,6 +114,7 @@ const LiveAccntSetting = ({
         facebook: myliveActivity[0]?.fbUrl || currentValues.facebook,
         insta: myliveActivity[0]?.instaUrl || currentValues.insta,
         linkedIn: myliveActivity[0]?.linkedinUrl || currentValues.linkedIn,
+        tiktok: myliveActivity[0]?.tiktokUrl || currentValues.tiktok,
         telegram: myliveActivity[0]?.telegramUrl || currentValues.telegram,
         twitter: myliveActivity[0]?.twitterUrl || currentValues.twitter,
         youtube: myliveActivity[0]?.youtubeUrl || currentValues.youtube,
@@ -186,6 +191,7 @@ const LiveAccntSetting = ({
         fbUrl: fbUrl || myliveActivity[0]?.fbUrl || "",
         instaUrl: instaUrl || myliveActivity[0]?.instaUrl || "",
         linkedinUrl: linkedinUrl || myliveActivity[0]?.linkedinUrl || "",
+        tiktokUrl: tiktokUrl || myliveActivity[0]?.tiktokUrl || "",
         youtubeUrl: youtubeUrl || myliveActivity[0]?.youtubeUrl || "",
         twitterUrl: twitterUrl || myliveActivity[0]?.twitterUrl || "",
         telegramUrl: telegramUrl || myliveActivity[0]?.telegramUrl || "",
@@ -431,6 +437,41 @@ const LiveAccntSetting = ({
 
                             if (value.startsWith("https://www.youtube.com/")) {
                               setyoutubeUrl(e.target.value);
+                              field.onChange(e);
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                                <FormField
+                  control={form.control}
+                  name="youtube"
+                  render={({ field }) => (
+                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                        TIKTOK
+                      </FormLabel>
+                      <TiktokLogo
+                        className="absolute right-3 top-[35%]"
+                        size={20}
+                      />
+                      <FormControl>
+                        <Input
+                          placeholder="username12"
+                          className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                          {...field}
+                          // onChange={(e) => {
+                          //   setyoutubeUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+                          onChange={(e) => {
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.tiktok.com/")) {
+                              settiktokUrl(e.target.value);
                               field.onChange(e);
                             }
                           }}

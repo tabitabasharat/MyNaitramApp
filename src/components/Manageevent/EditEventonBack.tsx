@@ -156,6 +156,10 @@ const formSchema = z.object({
     .min(1, { message: "Linkedin URL cannot be empty." }),
   telegramurl: z
     .string()
+    .url({ message: "Invalid Telegram URL." })
+    .min(1, { message: "Telegram URL cannot be empty." }),
+    twitterurl: z
+    .string()
     .url({ message: "Invalid Twitter URL." })
     .min(1, { message: "Twitter URL cannot be empty." }),
   eventmainimg: z.string().optional(),
@@ -253,7 +257,7 @@ function EditeventOnBack() {
   const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
 
   const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
-
+  const [TelegramUrl, setTelegramUrl] = useState("https://www.x.com/");
   const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
 
   const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
@@ -411,7 +415,8 @@ function EditeventOnBack() {
       fburl: "https://www.facebook.com/",
       instaurl: "https://instagram.com/",
       youtubeurl: "https://www.youtube.com/",
-      telegramurl: "https://www.x.com/",
+      telegramurl: "https://www.telegram.com/",
+      twitterurl: "https://www.x.com/",
       tiktokurl: "https://www.tiktok.com/@",
       linkedinurl: "https://linkedin.com/in/",
 
@@ -965,6 +970,7 @@ function EditeventOnBack() {
         instaurl: Eventdata?.instaurl || form.getValues("instaurl"),
         youtubeurl: Eventdata?.youtubeurl || form.getValues("youtubeurl"),
         telegramurl: Eventdata?.telegramurl || form.getValues("telegramurl"),
+        twitterurl: Eventdata?.twitterurl || form.getValues("twitterurl"),
         tiktokurl: Eventdata?.tiktokurl || form.getValues("tiktokurl"),
         linkedinurl: Eventdata?.linkedinurl || form.getValues("linkedinurl"),
         tickets: ticketsWithCheckedOptions || form.getValues("tickets"),
@@ -2280,7 +2286,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
                 <FormField
                   control={form.control}
-                  name="telegramurl"
+                  name="twitterurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
                       <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
@@ -2300,6 +2306,37 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                             // Prevent the user from modifying the base URL
                             if (value.startsWith("https://www.x.com/")) {
                               setTwitterUrl(value);
+                              field.onChange(value);
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                                <FormField
+                  control={form.control}
+                  name="telegramurl"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Telegram
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter URL"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          {...field}
+                          // onChange={(e) => {
+                          //   setTwitterUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            // Prevent the user from modifying the base URL
+                            if (value.startsWith("https://www.telegram.com/")) {
+                              setTelegramUrl(value);
                               field.onChange(value);
                             }
                           }}

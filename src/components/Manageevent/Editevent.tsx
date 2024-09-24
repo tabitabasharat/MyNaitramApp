@@ -152,6 +152,10 @@ const formSchema = z.object({
     .min(1, { message: "LinkedIn URL cannot be empty." }),
   telegramurl: z
     .string()
+    .url({ message: "Invalid Telegram URL." })
+    .min(1, { message: "Telegram URL cannot be empty." }),
+    twitterurl: z
+    .string()
     .url({ message: "Invalid Twitter URL." })
     .min(1, { message: "Twitter URL cannot be empty." }),
 
@@ -234,6 +238,9 @@ function Editevent() {
 
   const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
   const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
+  const [telegramUrl, settelegramUrl] = useState("https://www.telegram.com/in/");
+
+  const [twitterUrl, settwitterUrl] = useState("https://www.twitter.com/in/");
   const [eventsFiles, setEventsFile] = useState<any>([]);
   const router = useRouter();
 
@@ -388,6 +395,7 @@ function Editevent() {
       telegramurl: "",
       tiktokurl: "",
       linkedinurl: "",
+      twitterurl: "",
       tickets: [],
     },
   });
@@ -741,6 +749,7 @@ function Editevent() {
         twitterUrl: TwitterUrl || EventData?.twitterUrl || "",
         tiktokUrl: tiktokUrl || EventData?.tiktokUrl || "",
         linkedinUrl: linkedinUrl || EventData?.linkedinUrl || "",
+        telegramUrl: telegramUrl || EventData?.telegramUrl || "",
         eventmedia: updatedEventMedia || EventData?.eventmedia || "",
       };
       dispatch(updateEvent(data)).then((res: any) => {
@@ -873,6 +882,7 @@ function Editevent() {
         telegramurl: EventData?.twitterUrl || form.getValues("telegramurl"),
         tiktokurl: EventData?.tiktokUrl || form.getValues("tiktokurl"),
         linkedinurl: EventData?.linkedinUrl || form.getValues("linkedinurl"),
+        twitterurl: EventData?.twitterUrl || form.getValues("twitterurl"),
         tickets: ticketsWithCheckedOptions || form.getValues("tickets"),
       });
     }
@@ -1980,7 +1990,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
                 <FormField
                   control={form.control}
-                  name="telegramurl"
+                  name="twitterurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
                       <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
@@ -2009,7 +2019,6 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="youtubeurl"
@@ -2096,6 +2105,39 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                             const value = e.target.value;
                             if (value.startsWith("https://linkedin.com/in/")) {
                               setlinkedinUrl(value);
+                              field.onChange(value);
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] lg:w-[49%] w-full mt-[24px] common-container ">
+              <FormField
+                  control={form.control}
+                  name="telegramurl"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full">
+                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Telegram
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter URL"
+                          className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                          {...field}
+                          // onChange={(e) => {
+                          //   setTwitterUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+                          onChange={(e) => {
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.telegram.com/")) {
+                              setTelegramUrl(value);
                               field.onChange(value);
                             }
                           }}
