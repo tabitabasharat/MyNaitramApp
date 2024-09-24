@@ -360,7 +360,9 @@ body {
   position: relative;
   border-radius: 44px; /* This controls the rounding of the corners */
 }
-
+.hide-text{
+  display: none;
+}
 .gradient-border-notify::before {
   content: "";
   position: absolute;
@@ -747,5 +749,10 @@ input[type="number"] {
 @media (min-width:1090px) {
   .event-width-adjustment{
 width: 576px !important; 
+  }
+}
+@media (min-width:1470px) {
+  .hide-text{
+    display: block;
   }
 }

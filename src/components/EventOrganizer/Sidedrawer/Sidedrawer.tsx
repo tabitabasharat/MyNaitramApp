@@ -27,6 +27,9 @@ import chats from "@/assets/Chats.svg";
 import heplcenter from "@/assets/Headset.svg";
 import faq from "@/assets/Question.svg";
 import scanner from "@/assets/Scan.svg";
+import history from"@/assets/empty-wallet-time.svg"
+import money from "@/assets/Money.svg"
+import paydetail from "@/assets/receipt-text.svg"
 import Link from "next/link";
 import { useAppDispatch } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
@@ -52,9 +55,8 @@ interface GradientListItemProps {
   activeItem: string | null;
 }
 const Sidedrawer: React.FC<Props> = ({ window, children }) => {
-  
   const container =
-  typeof window !== "undefined" ? window().document.body : null;
+    typeof window !== "undefined" ? window().document.body : null;
 
   const theme = useTheme();
 
@@ -63,7 +65,6 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
   const drawerWidth = 260;
   useEffect(() => {
     if (isSmallScreen) {
-
       setMobileOpen(false);
     }
   }, [isSmallScreen]);
@@ -99,6 +100,17 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
       url: "/organizer-event/sacnner-login",
     },
   ];
+  const payments = [
+
+    { text: "Get Paid", icon: money, url: "/organizer-event/get-paid" },
+    { text: "Payout Details", icon:paydetail, url: "/organizer-event/payout-detail" },
+    {
+      text: "Payout History",
+      icon: history,
+      url: "/organizer-event/sacnner-login",
+    },
+  ];
+
 
   const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
@@ -143,7 +155,10 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
                   onClick={() => handleItemClick("Edit Organiser Profile")}
                 >
                   <ListItemButton className="p-[10px]">
-                    <ListItemIcon style={{minWidth:"0px"}} className=" pr-[6px]">
+                    <ListItemIcon
+                      style={{ minWidth: "0px" }}
+                      className=" pr-[6px]"
+                    >
                       <Image
                         src={accnt}
                         alt="Delete Account"
@@ -174,7 +189,43 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
                   onClick={() => handleItemClick(item.text)}
                 >
                   <ListItemButton className="p-[10px] flex items-center">
-                    <ListItemIcon style={{minWidth:"0px"}} className="pr-[6px]">
+                    <ListItemIcon
+                      style={{ minWidth: "0px" }}
+                      className="pr-[6px]"
+                    >
+                      <Image
+                        src={item.icon}
+                        alt={item.text}
+                        width={16}
+                        height={16}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={item.text} />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            ))}
+          </div>
+        </List>
+        <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
+          <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">
+            PAYMENTS
+          </h3>
+          <div className="text-xl font-bold">
+            {payments.map((item) => (
+              <Link href={item.url} key={item.text}>
+                <ListItem
+                  className={`text-xl font-bold ${
+                    activeItem === item.text ? "gradient-border rounded-lg" : ""
+                  }`}
+                  disablePadding
+                  onClick={() => handleItemClick(item.text)}
+                >
+                  <ListItemButton className="p-[10px] flex items-center">
+                    <ListItemIcon
+                      style={{ minWidth: "0px" }}
+                      className="pr-[6px]"
+                    >
                       <Image
                         src={item.icon}
                         alt={item.text}
@@ -196,13 +247,15 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           <Link href="/salesmanage">
             <ListItem
               className={`text-xl font-bold ${
-                activeItem === "Event Analytics" ? "gradient-border rounded-lg" : ""
+                activeItem === "Event Analytics"
+                  ? "gradient-border rounded-lg"
+                  : ""
               }`}
               disablePadding
               onClick={() => handleItemClick("Event Analytics")}
             >
               <ListItemButton className="p-[10px]">
-                <ListItemIcon style={{minWidth:"0px"}} className=" pr-[6px]">
+                <ListItemIcon style={{ minWidth: "0px" }} className=" pr-[6px]">
                   <Image
                     src={faq}
                     alt="Delete Account"
@@ -228,7 +281,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
               onClick={() => handleItemClick("Help center")}
             >
               <ListItemButton className="p-[10px]">
-                <ListItemIcon style={{minWidth:"0px"}} className="pr-[6px]">
+                <ListItemIcon style={{ minWidth: "0px" }} className="pr-[6px]">
                   <Image
                     src={heplcenter}
                     alt="Delete Account"
@@ -253,7 +306,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
         sx={{
           // width: { sm: `calc(100% - ${drawerWidth}px)` },
           // ml: { sm: `${drawerWidth}px` },
-         
+
           // ml: { xs: 0, sm: `${drawerWidth}px`, md: 0 },
           background: "transparent",
           marginTop: "80px",
