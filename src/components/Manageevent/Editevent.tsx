@@ -238,7 +238,7 @@ function Editevent() {
 
   const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
   const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
-  const [telegramUrl, settelegramUrl] = useState("https://www.telegram.com/in/");
+  const [telegramUrl, setTelegramUrl] = useState("https://www.telegram.com/in/");
 
   const [twitterUrl, settwitterUrl] = useState("https://www.twitter.com/in/");
   const [eventsFiles, setEventsFile] = useState<any>([]);
@@ -2115,7 +2115,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                   )}
                 />
               </div>
-              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] lg:w-[49%] w-full mt-[24px] common-container ">
+              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] md:w-[49%] w-full mt-[24px] common-container ">
               <FormField
                   control={form.control}
                   name="telegramurl"
