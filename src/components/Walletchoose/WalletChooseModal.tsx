@@ -118,7 +118,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
     const userID =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
-    console.log("user ID logged in is", userID);
+    console.log("user ID logged in ", userID);
   }, []);
 
   async function EventCreation(values: z.infer<typeof formSchema>) {
