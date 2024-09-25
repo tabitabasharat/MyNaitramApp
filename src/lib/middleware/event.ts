@@ -328,6 +328,7 @@ export const updateEvent = createAsyncThunk(
         instaUrl: data?.instaUrl,
         youtubeUrl: data?.youtubeUrl,
         twitterUrl: data?.twitterUrl,
+        telegramUrl:data?.telegramUrl,
         tiktokUrl: data?.tiktokUrl,
         linkedinUrl: data?.linkedinUrl,
         eventmedia: data?.eventmedia,

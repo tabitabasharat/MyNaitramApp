@@ -199,6 +199,9 @@ type CateOption = {
 type GalleryFile = { type: "image" | "video"; url: string } | File;
 
 function Editevent() {
+  const EventData = useAppSelector(
+    (state) => state?.getEventByEventID?.eventIdEvents?.data
+  );
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const [removedImages, setRemovedImages] = useState<string[]>([]);
@@ -233,15 +236,15 @@ function Editevent() {
   const [CoverImg, setCoverImg] = useState("");
   const [CoverImgName, setCoverImgName] = useState<any>("");
 
-  const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
-  const [InstaUrl, setInstaUrl] = useState("https://www.instagram.com/");
-  const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
+  const [FBUrl, setFBUrl] = useState(EventData?.fbUrl || "https://www.facebook.com/");
+  const [InstaUrl, setInstaUrl] = useState(EventData?.instaUrl || "https://www.instagram.com/");
+  const [TwitterUrl, setTwitterUrl] = useState(EventData?.twitterUrl || "https://www.x.com/");
 
-  const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
+  const [YoutubeUrl, setYoutubeUrl] = useState(EventData?.youtubeUrl || "https://www.youtube.com/");
 
-  const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
-  const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
-  const [telegramUrl, setTelegramUrl] = useState("https://t.me/");
+  const [tiktokUrl, settiktokUrl] = useState(EventData?.tiktokUrl || "https://www.tiktok.com/@");
+  const [linkedinUrl, setlinkedinUrl] = useState(EventData?.linkedinUrl || "https://linkedin.com/in/");
+  const [telegramUrl, setTelegramUrl] = useState(EventData?.telegramUrl || "https://t.me/");
 
   const [eventsFiles, setEventsFile] = useState<any>([]);
   const router = useRouter();
@@ -315,9 +318,7 @@ function Editevent() {
     console.log("my event id is", value);
     dispatch(getEventByEventId(value));
   }, []);
-  const EventData = useAppSelector(
-    (state) => state?.getEventByEventID?.eventIdEvents?.data
-  );
+ 
 
   console.log("my event data ", EventData);
 
@@ -391,7 +392,7 @@ function Editevent() {
       eventcoverimg: "",
       eventdescription: "",
 
-      fburl: "",
+      fburl: "" ,
       instaurl: "",
       youtubeurl: "",
       telegramurl: "",
