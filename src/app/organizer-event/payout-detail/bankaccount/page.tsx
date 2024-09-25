@@ -1,6 +1,6 @@
 
 import dynamic from 'next/dynamic';
-const Bankaccount = dynamic(()=>import("@/components/EventOrganizer/payoutdetail/BankAccount"),{
+const Bankaccount = dynamic(()=>import("@/components/EventOrganizer/payoutdetail/Payoutbankaccount/BankAccount"),{
   ssr:false
 })
 const page =() =>{
