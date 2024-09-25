@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 // import "./CreateEvent.css";
+import LocationAutocomplete from "../create-event/Locationinput";
 import "@/components/create-event/CreateEvent.css";
 import deleteicon from "@/assets/Wallet/delete-icon.svg";
 
@@ -154,6 +155,7 @@ const formSchema = z.object({
     .string()
     .url({ message: "Invalid Telegram URL." })
     .min(1, { message: "Telegram URL cannot be empty." }),
+
   twitterurl: z
     .string()
     .url({ message: "Invalid Twitter URL." })
@@ -208,7 +210,8 @@ function Editevent() {
   const [userid, setUserid] = useState<any>("");
   const [Eventname, setEventname] = useState("");
   const [EventCategory, setEventCategory] = useState("");
-  const [EventLocation, setEventLocation] = useState("");
+  const [EventLocation, setEventLocation] = useState<string | null>(null);
+
   const [TicketStartDate, setTicketStartDate] = useState("");
   const [TicketEndDate, setTicketEndDate] = useState("");
 
@@ -1457,7 +1460,7 @@ function Editevent() {
               </div>
 
               <div className="mt-[24px]">
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="eventlocation"
                   render={({ field }) => (
@@ -1476,6 +1479,28 @@ function Editevent() {
                           }}
                         />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                /> */}
+                <FormField
+                  control={form.control}
+                  name="eventlocation"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                        Event Location
+                      </FormLabel>
+                      <FormControl>
+                        <LocationAutocomplete
+                          value={field.value || EventData?.location || ""}
+                          onLocationSelect={(location) => {
+                            setEventLocation(location);
+                            field.onChange(location);
+                          }}
+                        />
+                      </FormControl>
+
                       <FormMessage />
                     </FormItem>
                   )}

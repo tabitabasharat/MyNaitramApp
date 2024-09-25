@@ -1,4 +1,5 @@
 "use client";
+import LocationAutocomplete from "@/components/create-event/Locationinput";
 import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
 import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
 import React from "react";
@@ -184,7 +185,7 @@ const formSchema = z.object({
     .string()
     .url({ message: "Invalid Twitter URL." })
     .min(1, { message: "Twitter URL cannot be empty." }),
-    telegramurl: z
+  telegramurl: z
     .string()
     .url({ message: "Invalid Telegram URL." })
     .min(1, { message: "Telegram URL cannot be empty." }),
@@ -239,7 +240,14 @@ function OganizerCreateEvent() {
   const [userid, setUserid] = useState<any>("");
   const [Eventname, setEventname] = useState("");
   const [EventCategory, setEventCategory] = useState("");
-  const [EventLocation, setEventLocation] = useState("");
+  const [EventLocation, setEventLocation] = useState<string | null>(null);
+
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+
+  const handleLocationSelect = (location: any) => {
+    setEventLocation(location);
+  };
+
   const [TicketStartDate, setTicketStartDate] = useState("");
   const [TicketEndDate, setTicketEndDate] = useState("");
 
@@ -799,29 +807,30 @@ function OganizerCreateEvent() {
   const handleCateOptionToggle = (option: any) => {
     setCategoryTypes((prev: any) => {
       const isSelected = prev.some((o: any) => o.label === option.label);
-  
+
       if (isSelected) {
-        const updatedCategories = prev.filter((o: any) => o.label !== option.label);
-  
+        const updatedCategories = prev.filter(
+          (o: any) => o.label !== option.label
+        );
+
         // If removing a category and the total is now less than 4, reset the alert
         if (updatedCategories.length < 4) {
           setCategoryAlert(false);
         }
-  
+
         return updatedCategories;
       }
-  
+
       // If trying to add more than 4 categories, show the alert
       if (prev.length >= 4) {
         setCategoryAlert(true);
         return prev;
       }
-  
+
       setCategoryAlert(false); // Reset alert when a new category is added within the limit
       return [...prev, option];
     });
   };
-  
 
   console.log("my cat", categoryTypes);
 
@@ -1193,8 +1202,12 @@ function OganizerCreateEvent() {
                       {isCatDropdownOpen && (
                         <>
                           <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                      {categoryAlert == true && <p className="text-[red] text-[16px]">You can only select 4 categories at a time</p>}
-                           
+                            {categoryAlert == true && (
+                              <p className="text-[red] text-[16px]">
+                                You can only select 4 categories at a time
+                              </p>
+                            )}
+
                             {optionscate?.map((option) => (
                               <div
                                 key={option.label}
@@ -1248,14 +1261,16 @@ function OganizerCreateEvent() {
                           />
                         </div>
                       </FormControl>
-                      <FormMessage />
+                      <div className=" space-y-0 event-des-div">
+                        <FormMessage />
+                      </div>
                     </FormItem>
                   )}
                 />
               </div>
 
               <div className="mt-[24px]">
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="eventlocation"
                   render={({ field }) => (
@@ -1274,6 +1289,38 @@ function OganizerCreateEvent() {
                           }}
                         />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                /> */}
+                <FormField
+                  control={form.control}
+                  name="eventlocation"
+                  render={(
+                    { field } // Destructure field here
+                  ) => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                        Event Location
+                      </FormLabel>
+                      <FormControl>
+                        <LocationAutocomplete
+                          onLocationSelect={(location) => {
+                            setEventLocation(location);
+                            field.onChange(location);
+                          }}
+                          value={field.value}
+                        />
+                      </FormControl>
+                      {/* Optional display of the selected location */}
+                      {/* {selectedLocation && (
+        <div className="mt-4">
+          <p>
+            <strong>Selected Location:</strong>{" "}
+            {selectedLocation}
+          </p>
+        </div>
+      )} */}
                       <FormMessage />
                     </FormItem>
                   )}
@@ -1820,7 +1867,7 @@ function OganizerCreateEvent() {
                 />
               </div>
               <div className="flex items-start lg:gap-[24px] md:w-[49%] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
-              <FormField
+                <FormField
                   control={form.control}
                   name="twitterurl"
                   render={({ field }) => (
@@ -1851,7 +1898,6 @@ function OganizerCreateEvent() {
                     </FormItem>
                   )}
                 />
-
               </div>
               <div className="flex items-center justify-end lg:gap-[20px] gap-[12px] lg:flex-nowrap md:flex-nowrap wrap-btns mt-[36px]">
                 <div className="flex justify-end items-center  edit-btn">

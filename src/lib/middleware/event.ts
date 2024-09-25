@@ -158,7 +158,11 @@ export const getViewAllEvent = createAsyncThunk(
       const res = await api.get(
         `${API_URL}/event/getEventsAll?page=${
           data?.page ? data?.page : 1
-        }&limit=${data?.limit ? data?.limit : 12 }&category=${data?.category}&Free=${data?.free}&chooseDate=${data?.chooseDate}`
+        }&limit=${data?.limit ? data?.limit : 12}&category=${
+          data?.category
+        }&Free=${data?.free}&startDate=${data?.startDate}&endDate=${
+          data?.endDate
+        }`
       );
 
       // const res = await api.get(
@@ -221,7 +225,11 @@ export const getViewPastEvents = createAsyncThunk(
       const res = await api.get(
         `${API_URL}/event/getPastEvents?page=${
           data?.page ? data?.page : 1
-        }&limit=${data?.limit ? data?.limit : 12 }&category=${data?.category}&Free=${data?.free}&chooseDate=${data?.chooseDate}`
+        }&limit=${data?.limit ? data?.limit : 12}&category=${
+          data?.category
+        }&Free=${data?.free}&startDate=${data?.startDate}&endDate=${
+          data?.endDate
+        }`
       );
       console.log("inside get Past Events ", res);
       // localStorage.setItem("token", res?.data?.token);
@@ -268,7 +276,11 @@ export const getLiveEventById = createAsyncThunk(
       const res = await api.get(
         `${API_URL}/event/getLiveEvents/${data?.userId}?page=${
           data?.page ? data?.page : 1
-        }&limit=${data?.limit ? data?.limit : 12 }&category=${data?.category}&Free=${data?.free}&chooseDate=${data?.chooseDate}`
+        }&limit=${data?.limit ? data?.limit : 12}&category=${
+          data?.category
+        }&Free=${data?.free}&startDate=${data?.startDate}&endDate=${
+          data?.endDate
+        }`
       );
       // const res = await api.get(
       //   `${API_URL}/event/getLiveEvents/${data?.userId}?page=${
@@ -276,7 +288,7 @@ export const getLiveEventById = createAsyncThunk(
       //   }&startDate=${data?.startDate}&today=${data?.today}&location=${
       //     data?.location}&thisMonth=${data.thisMonth}&chooseDate=${data?.chooseDate}`
       // );
-      
+
       console.log("inside get specific user Live event", res);
       // localStorage.setItem("token", res?.data?.token);
       return {

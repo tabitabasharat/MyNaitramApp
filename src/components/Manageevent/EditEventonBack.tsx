@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import deleteicon from "@/assets/Wallet/delete-icon.svg";
-
+import LocationAutocomplete from "../create-event/Locationinput";
 import Editor from "../reusable-components/Editor";
 // import "./CreateEvent.css";
 import "@/components/create-event/CreateEvent.css";
@@ -158,7 +158,7 @@ const formSchema = z.object({
     .string()
     .url({ message: "Invalid Telegram URL." })
     .min(1, { message: "Telegram URL cannot be empty." }),
-    twitterurl: z
+  twitterurl: z
     .string()
     .url({ message: "Invalid Twitter URL." })
     .min(1, { message: "Twitter URL cannot be empty." }),
@@ -230,7 +230,13 @@ function EditeventOnBack() {
   const [userid, setUserid] = useState<any>("");
   const [Eventname, setEventname] = useState("");
   const [EventCategory, setEventCategory] = useState("");
-  const [EventLocation, setEventLocation] = useState("");
+  const [EventLocation, setEventLocation] = useState<string | null>(null);
+
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+
+  const handleLocationSelect = (location: any) => {
+    setEventLocation(location);
+  };
   const [TicketStartDate, setTicketStartDate] = useState("");
   const [TicketEndDate, setTicketEndDate] = useState("");
 
@@ -257,7 +263,7 @@ function EditeventOnBack() {
   const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
 
   const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
-  const [TelegramUrl, setTelegramUrl] = useState("https://www.x.com/");
+  const [TelegramUrl, setTelegramUrl] = useState("https://t.me/");
   const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
 
   const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
@@ -1211,8 +1217,7 @@ function EditeventOnBack() {
                         // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
                         className="hidden"
                         id="galleryUpload"
-                    disabled={galleryFiles?.length >= 10}
-
+                        disabled={galleryFiles?.length >= 10}
                         onChange={handleFileChange}
                       />
                     </label>
@@ -1440,7 +1445,7 @@ function EditeventOnBack() {
               </div>
 
               <div className="mt-[24px]">
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="eventlocation"
                   render={({ field }) => (
@@ -1459,6 +1464,36 @@ function EditeventOnBack() {
                           }}
                         />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                /> */}
+                <FormField
+                  control={form.control}
+                  name="eventlocation"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                        Event Location
+                      </FormLabel>
+                      <FormControl>
+                        <LocationAutocomplete
+                          onLocationSelect={(location) => {
+                            setEventLocation(location);
+                            field.onChange(location);
+                          }}
+                          value={field.value || Eventdata?.eventlocation || ""}
+                        />
+                      </FormControl>
+                      {/* Optional display of the selected location */}
+                      {/* {selectedLocation && (
+        <div className="mt-4">
+          <p>
+            <strong>Selected Location:</strong>{" "}
+            {selectedLocation}
+          </p>
+        </div>
+      )} */}
                       <FormMessage />
                     </FormItem>
                   )}
@@ -2284,8 +2319,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
               </div>
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
-
-                                <FormField
+                <FormField
                   control={form.control}
                   name="telegramurl"
                   render={({ field }) => (
@@ -2415,7 +2449,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                 />
               </div>
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] md:w-[49%] w-full mt-[24px] common-container ">
-              <FormField
+                <FormField
                   control={form.control}
                   name="twitterurl"
                   render={({ field }) => (

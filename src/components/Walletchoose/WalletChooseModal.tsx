@@ -147,7 +147,8 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
         fbUrl: eventData?.fburl,
         instaUrl: eventData?.instaurl,
         youtubeUrl: eventData?.youtubeurl,
-        twitterUrl: eventData?.telegramurl,
+        twitterUrl: eventData?.twitterurl,
+        telegramUrl: eventData?.telegramurl,
         tiktokUrl: eventData?.tiktokurl,
         linkedinUrl: eventData?.linkedinurl,
         eventmedia: eventData?.eventmedia,
@@ -187,7 +188,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
           <div className="w-full">
             <DialogHeader>
               <DialogTitle className="flex justify-between font-bold px-[24px] text-2xl mb-1">
-                <h2 className="font-extrabold text-[24px]">Crypto Wallet</h2>
+                <h2 className="font-extrabold text-[24px]">Cryptosss Wallets</h2>
                 <Image
                   src={close}
                   sizes="28px"

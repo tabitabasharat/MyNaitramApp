@@ -70,7 +70,9 @@ const FilterSideBar = () => {
       page: 1,
       category: selectedCategories?.length > 0 ? selectedCategories : null,
       free: isFree ? true : null,
-      chooseDate: chosenDate ? formatChosenDate(chosenDate) : null,
+      
+      startDate: chosenEndDate ? formatChosenDate(chosenDate) : null,
+      endDate: chosenEndDate ? formatChosenDate(chosenEndDate) : null,
       // chooseDate:
       //   chosenDate.length > 0
       //     ? chosenDate.map(formatChosenDate).join(",")
@@ -81,7 +83,7 @@ const FilterSideBar = () => {
     dispatch(getViewAllEvent(data));
     dispatch(getViewPastEvents(data));
     dispatch(getLiveEventById(data));
-  }, [dispatch, selectedCategories, chosenDate, isFree]);
+  }, [dispatch, selectedCategories, chosenEndDate, chosenEndDate, isFree]);
 
   const formatChosenDate = (date: Date | null): string => {
     if (!date) return "";

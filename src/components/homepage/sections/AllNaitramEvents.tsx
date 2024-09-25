@@ -59,7 +59,9 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
       page: 1,
       category: null,
       free: null,
-      chooseDate: null,
+
+      startDate: null,
+      endDate: null,
     };
 
     dispatch(getViewAllEvent(data));
@@ -71,7 +73,8 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
       page: 1,
       category: null,
       free: null,
-      chooseDate: null,
+      startDate: null,
+      endDate: null,
     };
     dispatch(getLiveEventById(dataLive));
   }, []);

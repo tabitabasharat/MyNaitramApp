@@ -127,6 +127,7 @@ const Cryptowallet = ({ onClose, open, eventData }: any) => {
         ticketEndDate: eventData?.eventenddate,
         startTime: eventData?.eventstarttime,
         endTime: eventData?.eventendtime,
+
         // mainEventImage: eventData?.eventmainimg,
         coverEventImage: eventData?.eventcoverimg,
         tickets: eventData?.ticketsdata,
@@ -134,9 +135,10 @@ const Cryptowallet = ({ onClose, open, eventData }: any) => {
         fbUrl: eventData?.fburl,
         instaUrl: eventData?.instaurl,
         youtubeUrl: eventData?.youtubeurl,
-        twitterUrl: eventData?.telegramurl,
+        twitterUrl: eventData?.twitterurl,
         tiktokUrl: eventData?.tiktokurl,
         linkedinUrl: eventData?.linkedinurl,
+        telegramUrl: eventData?.telegramurl,
         eventmedia: eventData?.eventmedia,
       };
       dispatch(createevent(data)).then((res: any) => {
@@ -172,7 +174,7 @@ const Cryptowallet = ({ onClose, open, eventData }: any) => {
           <div className="w-full">
             <DialogHeader>
               <DialogTitle className="flex justify-between font-bold px-[24px] text-2xl mb-1">
-                <h2 className="font-extrabold text-[24px]">Crypto Wallet</h2>
+                <h2 className="font-extrabold text-[24px]">Cryptos Wallet</h2>
                 <Image
                   src={close}
                   sizes="28px"

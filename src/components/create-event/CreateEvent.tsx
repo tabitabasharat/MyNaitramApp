@@ -1,4 +1,5 @@
 "use client";
+import LocationAutocompleteReact from "./reactLocation";
 import React from "react";
 import "./CreateEvent.css";
 import Image from "next/image";
@@ -72,6 +73,8 @@ type TicketType = {
 };
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
+  location: z.string().min(1, { message: "Event name cannot be empty." }),
+
   eventcategory: z
     .string()
     .min(1, { message: "Event category cannot be empty." }),
@@ -150,7 +153,7 @@ function CreateEvent() {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
-console.log("SELECTED PLACE", selectedPlace)
+  console.log("SELECTED PLACE", selectedPlace);
   const fileInputRef = useRef(null);
   const fileInputRef2 = useRef(null);
   const [dropdown, setDropdown] = useState(true);
@@ -160,6 +163,11 @@ console.log("SELECTED PLACE", selectedPlace)
   const [Eventname, setEventname] = useState("");
   const [EventCategory, setEventCategory] = useState("");
   const [EventLocation, setEventLocation] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+
+  const handleLocationSelect = (location: string | null) => {
+    setSelectedLocation(location);
+  };
   const [TicketStartDate, setTicketStartDate] = useState("");
   const [TicketEndDate, setTicketEndDate] = useState("");
 
@@ -509,7 +517,7 @@ console.log("SELECTED PLACE", selectedPlace)
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
   // const locationAPIKEY="AIzaSyBvDU_PrmegdrMY46LXg-OMF7CqPgd1jUk"
-  const locationAPIKEY="AIzaSyA78WzK8evJ7Vier7fUXAqjM5KDhDwyq88"
+  const locationAPIKEY = "AIzaSyA78WzK8evJ7Vier7fUXAqjM5KDhDwyq88";
 
   return (
     <section
@@ -538,7 +546,10 @@ console.log("SELECTED PLACE", selectedPlace)
             alt="ufo-img"
           />
         </div>
-        <div className="flex flex-col items-center justify-center min-h-screen">
+        {/* <div className="flex flex-col items-center justify-center min-h-screen w-full">
+          <LocationAutocompleteReact/>
+        </div> */}
+        {/* <div className="flex flex-col items-center justify-center min-h-screen">
           <p>Location check</p>
         <Autocomplete
           style={{ width: "90%" }}
@@ -548,19 +559,25 @@ console.log("SELECTED PLACE", selectedPlace)
               setSelectedPlace(place); 
             }}
           />
-        </div>
+        </div> */}
 
         <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
           {/* <div className="flex flex-col items-center justify-center min-h-screen">
-            <Head>
-              <title>Location Autocomplete</title>
-
-            </Head>
+            <p>Location Autocomplete</p>
             <h1 className="text-2xl mb-5">Location Autocomplete</h1>
-            <LocationAutocomplete />
+
+            <LocationAutocomplete onLocationSelect={handleLocationSelect} />
+
+          
+            {selectedLocation && (
+              <div className="mt-4">
+                <p>
+                  <strong>Selected Location:</strong> {selectedLocation}
+                </p>
+              </div>
+            )}
           </div> */}
-          
-          
+
           <Form {...form}>
             <form
               className=" w-full"
@@ -569,6 +586,33 @@ console.log("SELECTED PLACE", selectedPlace)
                 form.handleSubmit(EventCreation)(event);
               }}
             >
+              <div className="flex items-start gap-[24px] w-full common-container">
+                <FormField
+                  control={form.control}
+                  name="eventlocation"
+                  render={() => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
+                        Event Location
+                      </FormLabel>
+                      <FormControl>
+                        <LocationAutocomplete
+                          onLocationSelect={handleLocationSelect}
+                        />
+                      </FormControl>
+                      {/* {selectedLocation && (
+                        <div className="mt-4">
+                          <p>
+                            <strong>Selected Location:</strong>{" "}
+                            {selectedLocation}
+                          </p>
+                        </div>
+                      )} */}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <div className="flex items-start gap-[24px] w-full common-container">
                 <FormField
                   control={form.control}
