@@ -26,7 +26,7 @@ const BankAccount = () => {
         <Image
           src={backward}
           alt="back-btn"
-          className="w-[44px] h-[44px]"
+          className="md:w-[44px] md:h-[44px] h-[40px] w-[40px]"
           sizes="44px"
         />
         <p className="lg:text-[24px] font-extrabold text-[15px]">
