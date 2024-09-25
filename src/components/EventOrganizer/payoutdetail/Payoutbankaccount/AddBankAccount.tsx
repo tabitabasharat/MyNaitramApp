@@ -1,4 +1,5 @@
 "use client";
+import { createPayoutBank } from "@/lib/middleware/payout";
 import backward from "@/assets/Back - Button.svg";
 import Image from "next/image";
 import Iconpop from "@/assets/launchprofileicon.svg";
@@ -56,10 +57,24 @@ const bankinfo: BankOption[] = [
   { id: 2, label: "Checking" },
 ];
 const formSchema = z.object({
-  walletName: z.string().min(1, { message: "Wallet Name cannot be empty." }),
-  walletAddress: z
+  walletAddress: z.string().min(1, { message: " cannot be empty." }),
+  walletName: z.string().min(1, { message: " cannot be empty." }),
+
+  currencypaid: z.string().min(1, { message: "Currency cannot be empty." }),
+  country: z.string().min(1, { message: "Country cannot be empty." }),
+  companyname: z.string().min(1, { message: "Company cannot be empty." }),
+  companyaddress: z
     .string()
-    .min(1, { message: "Wallet Address cannot be empty." }),
+    .min(1, { message: "Company address cannot be empty." }),
+  companyanotheraddress: z
+    .string()
+    .min(1, { message: "Company address cannot be empty." }),
+  city: z.string().min(1, { message: "City cannot be empty." }),
+  zipcode: z.string().min(1, { message: "Zip Code cannot be empty." }),
+  bankname: z.string().min(1, { message: "Bank Name cannot be empty." }),
+  banktitle: z.string().min(1, { message: "Bank Title cannot be empty." }),
+  bankiban: z.string().min(1, { message: "IBAN cannot be empty." }),
+  bankswiftcode: z.string().min(1, { message: "Swift Code cannot be empty." }),
 });
 
 type LunchModalProps = {
@@ -77,11 +92,35 @@ const AddBankAccount = ({ eventData }: any) => {
     defaultValues: {
       walletAddress: "",
       walletName: "",
+      currencypaid: "",
+      country: "",
+      companyname:"",
+      companyaddress: "",
+      companyanotheraddress: "",
+      city: "",
+      zipcode: "",
+      bankname: "",
+      banktitle: "",
+      bankiban: "",
+      bankswiftcode: "",
     },
   });
   const userLoading = useAppSelector((state) => state?.getShowProfile);
-  const [walletaddress, setwalletaddress] = useState("");
+  const [walletAddress, setwalletaddress] = useState("");
   const [walletname, setwalletname] = useState("");
+
+  const [Paid, setPaidCurrency] = useState("");
+  const [Country, setCountry] = useState("");
+  const [Companyname, setCompanyname] = useState("");
+  const [CompanyAddress, setCompanyAddress] = useState("");
+  const [CompanyAddress2, setCompanyAddress2] = useState("");
+  const [City, setCity] = useState("");
+  const [Zipcode, setZipcode] = useState("");
+  const [bankname, setbankname] = useState("");
+  const [bankTitle, setbankTitle] = useState("");
+  const [bankIBAN, setbankIBAN] = useState("");
+  const [bankSwiftCode, setbankSwiftCode] = useState("");
+
   const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [selectedbankOption, setSelectedbankOption] =
@@ -124,55 +163,54 @@ const AddBankAccount = ({ eventData }: any) => {
     console.log("user ID logged in is", userID);
   }, []);
 
-  async function EventCreation(values: z.infer<typeof formSchema>) {
-    console.log(" Event Creation");
+  // async function EventCreation(values: z.infer<typeof formSchema>) {
+  //   console.log(" Event Creation");
 
-    setLoader(true);
+  //   setLoader(true);
 
-    console.log("my values", values);
-    try {
-      const data = {
-        userId: userid,
-        chain: selectedOption?.label || "",
-        BankAccountInformation: selectedbankOption?.label || "",
-        wallet: walletaddress,
-        walletname: walletname,
-        name: eventData?.eventname,
-        category: eventData?.eventcategory,
-        eventDescription: eventData?.eventdescription,
-        location: eventData?.eventlocation,
-        ticketStartDate: eventData?.eventstartdate,
-        ticketEndDate: eventData?.eventenddate,
-        startTime: eventData?.eventstarttime,
-        endTime: eventData?.eventendtime,
-        // mainEventImage: eventData?.eventmainimg,
-        coverEventImage: eventData?.eventcoverimg,
-        tickets: eventData?.ticketsdata,
-        totalComplemantaryTickets: eventData?.compticketno,
-        fbUrl: eventData?.fburl,
-        instaUrl: eventData?.instaurl,
-        youtubeUrl: eventData?.youtubeurl,
-        twitterUrl: eventData?.telegramurl,
-        tiktokUrl: eventData?.tiktokurl,
-        linkedinUrl: eventData?.linkedinurl,
-        eventmedia: eventData?.eventmedia,
-      };
-      dispatch(createevent(data)).then((res: any) => {
-        if (res?.payload?.status === 200) {
-          setLoader(false);
+  //   console.log("my values", values);
+  //   try {
+  //     const data = {
+  //       userId: userid,
+  //       chain: selectedOption?.label || "",
+  //       BankAccountInformation: selectedbankOption?.label || "",
+  //       wallet: walletaddress,
+  //       walletname: walletname,
+  //       name: eventData?.eventname,
+  //       category: eventData?.eventcategory,
+  //       eventDescription: eventData?.eventdescription,
+  //       location: eventData?.eventlocation,
+  //       ticketStartDate: eventData?.eventstartdate,
+  //       ticketEndDate: eventData?.eventenddate,
+  //       startTime: eventData?.eventstarttime,
+  //       endTime: eventData?.eventendtime,
+  //       coverEventImage: eventData?.eventcoverimg,
+  //       tickets: eventData?.ticketsdata,
+  //       totalComplemantaryTickets: eventData?.compticketno,
+  //       fbUrl: eventData?.fburl,
+  //       instaUrl: eventData?.instaurl,
+  //       youtubeUrl: eventData?.youtubeurl,
+  //       twitterUrl: eventData?.telegramurl,
+  //       tiktokUrl: eventData?.tiktokurl,
+  //       linkedinUrl: eventData?.linkedinurl,
+  //       eventmedia: eventData?.eventmedia,
+  //     };
+  //     dispatch(createevent(data)).then((res: any) => {
+  //       if (res?.payload?.status === 200) {
+  //         setLoader(false);
 
-          setisCreateModalOpen(true);
-          // router.push("/viewallevents");
-        } else {
-          setLoader(false);
-          ErrorToast(res?.payload?.message);
-        }
-      });
-    } catch (error) {
-      console.error("Error:", error);
-      ErrorToast(error);
-    }
-  }
+  //         setisCreateModalOpen(true);
+  //         // router.push("/viewallevents");
+  //       } else {
+  //         setLoader(false);
+  //         ErrorToast(res?.payload?.message);
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     ErrorToast(error);
+  //   }
+  // }
 
   const handleOptionChange = (option: Option) => {
     setSelectedOption(option);
@@ -209,12 +247,12 @@ const AddBankAccount = ({ eventData }: any) => {
               className="w-full my-[12px] mt-[5px]"
               onSubmit={(event) => {
                 console.log("Form submit triggered");
-                form.handleSubmit(EventCreation)(event);
+                // form.handleSubmit(EventCreation)(event);
               }}
             >
               <FormField
                 control={form.control}
-                name="walletName"
+                name="currencypaid"
                 render={({ field }) => (
                   <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
                     <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
@@ -228,7 +266,7 @@ const AddBankAccount = ({ eventData }: any) => {
                         onChange={(e) => {
                           field.onChange(e);
                           setValidationError("");
-                          setwalletname(e.target.value);
+                          setPaidCurrency(e.target.value);
                         }}
                       />
                     </FormControl>
@@ -238,7 +276,7 @@ const AddBankAccount = ({ eventData }: any) => {
               />
               <FormField
                 control={form.control}
-                name="walletAddress"
+                name="country"
                 render={({ field }) => (
                   <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
                     <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
@@ -252,7 +290,7 @@ const AddBankAccount = ({ eventData }: any) => {
                         onChange={(e) => {
                           field.onChange(e);
                           setValidationError("");
-                          setwalletaddress(e.target.value);
+                          setCountry(e.target.value);
                         }}
                       />
                     </FormControl>
@@ -300,7 +338,7 @@ const AddBankAccount = ({ eventData }: any) => {
                       render={({ field }) => (
                         <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
                           <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                            COMPANU NAME{" "}
+                            COMPANY NAME{" "}
                           </FormLabel>
                           {/* <Wallet className="absolute right-3 top-[30%]" size={20} /> */}
                           <Image

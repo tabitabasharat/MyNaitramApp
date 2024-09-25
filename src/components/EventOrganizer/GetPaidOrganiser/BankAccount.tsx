@@ -2,10 +2,11 @@
 import React from "react";
 import Image from "next/image";
 import backward from "@/assets/Back - Button.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import SubmitSucessModal from "./SubmitSuccessModal";
+import { getPayoutBankDetail } from "@/lib/middleware/payout";
 
 const BankAccount = () => {
   const router = useRouter();
@@ -17,6 +18,15 @@ const BankAccount = () => {
   const handleClick = (index: number) => {
     setActiveIndex(index);
   };
+  useEffect(() => {
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    dispatch(getPayoutBankDetail(2));
+  }, []);
+  const myBankDetail = useAppSelector(
+    (state) => state?.getPayoutBankDetail?.myHistory?.data
+  );
+  console.log("my payout bank history is", myBankDetail);
   return (
     <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] bank-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
       <div
@@ -45,7 +55,9 @@ const BankAccount = () => {
           >
             <div className="flex justify-between items-center">
               <p className="text-sm font-normal text-[#E6E6E6]">Bank Name</p>
-              <p className="text-[#E6E6E6] text-base font-bold text-end">Lloyd Bank</p>
+              <p className="text-[#E6E6E6] text-base font-bold text-end">
+                Lloyd Bank
+              </p>
             </div>
             <div className="flex justify-between items-center">
               <p className="text-sm font-normal text-[#E6E6E6]">
@@ -65,7 +77,9 @@ const BankAccount = () => {
             </div>
             <div className="flex justify-between items-center">
               <p className="text-sm font-normal text-[#E6E6E6]">Country/City</p>
-              <p className="text-[#E6E6E6] text-base font-bold text-end">USA/Texas</p>
+              <p className="text-[#E6E6E6] text-base font-bold text-end">
+                USA/Texas
+              </p>
             </div>
           </div>
         ))}

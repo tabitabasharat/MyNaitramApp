@@ -2,12 +2,13 @@
 // import SubmitSucessModal from "../GetPaidOrganiser/SubmitSuccessModal";
 import Image from "next/image";
 import backward from "@/assets/Back - Button.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import trash from "@/assets/trash.svg";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import add from "@/assets/Plus.svg";
 import Link from "next/link";
+import { getPayoutBankDetail } from "@/lib/middleware/payout";
 
 const BankAccountPayoutDetail = () => {
   const router = useRouter();
@@ -19,6 +20,15 @@ const BankAccountPayoutDetail = () => {
   const handleClick = (index: number) => {
     setActiveIndex(index);
   };
+  useEffect(() => {
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    dispatch(getPayoutBankDetail(1));
+  }, []);
+  const myBankDetail = useAppSelector(
+    (state) => state?.getPayoutBankDetail?.myHistory?.data
+  );
+  console.log("my payout bank history is", myBankDetail);
 
   return (
     // <section className="bank-bg-effect">
@@ -27,6 +37,8 @@ const BankAccountPayoutDetail = () => {
         <p className="block ms-[25px] mb-[32px] sm:mb-[0px] sm:hidden text-[24px] font-extrabold">
           Profile Menu
         </p>
+      
+
         <div
           onClick={() => router.back()}
           className="mb-[32px] gap-[16px] w-full lg:w-[676px] items-center flex lg:w-[903px] w-full "
@@ -43,16 +55,16 @@ const BankAccountPayoutDetail = () => {
           </p>
         </div>
         <div className="flex gap-[12px] btons-wrap-adjustment mb-[32px] w-full md:justify-end">
-        <Link href="/organizer-event/payout-detail/bankaccount/add-bank-account">
-          <button className="text-[#00D059] text-[11px] font-extrabold table-gradient w-full md:w-fit py-[10px] px-[0px] md:p-[20px] rounded-[100px] add-bank-account-border flex items-center justify-center gap-[8px]">
-            {" "}
-            <Image
-              src={add}
-              alt="add"
-              className="lg:h-[12px] lg:w-[12px] w-[16px] h-[16px]"
-            />{" "}
-            <p>Add Bank Account </p>
-          </button>
+          <Link href="/organizer-event/payout-detail/bankaccount/add-bank-account">
+            <button className="text-[#00D059] text-[11px] font-extrabold table-gradient w-full md:w-fit py-[10px] px-[0px] md:p-[20px] rounded-[100px] add-bank-account-border flex items-center justify-center gap-[8px]">
+              {" "}
+              <Image
+                src={add}
+                alt="add"
+                className="lg:h-[12px] lg:w-[12px] w-[16px] h-[16px]"
+              />{" "}
+              <p>Add Bank Account </p>
+            </button>
           </Link>
           <button className="bg-[#FF1717B2] text-[11px] font-extrabold w-full md:w-fit py-[10px] px-[0px] text-[white] md:p-[20px] rounded-[100px] flex items-center justify-center gap-[8px]">
             {" "}
@@ -65,7 +77,7 @@ const BankAccountPayoutDetail = () => {
           </button>
         </div>
         <div className="flex gap-[32px] lg:gap-[24px] flex-col">
-          {[...Array(3)].map((_, index) => (
+          {/* {[...Array(3)].map((_, index) => (
             <div
               key={index}
               className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] ${
@@ -104,7 +116,54 @@ const BankAccountPayoutDetail = () => {
                 </p>
               </div>
             </div>
-          ))}
+          ))} */}
+
+          {myBankDetail?.length > 0 ? (
+            myBankDetail?.map((item: any, index: any) => (
+              <div
+                key={index}
+                className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] ${
+                  activeIndex === index ? "gradient-border" : ""
+                }`} // Apply the gradient-border class only if the current div is active
+                onClick={() => handleClick(index)} // Set the clicked div as active
+              >
+                <div className="flex justify-between items-center">
+                  <p className="text-sm font-normal text-[#E6E6E6]">
+                    Bank Name
+                  </p>
+                  <p className="text-[#E6E6E6] text-base font-bold text-end">
+                    {item?.bankName}
+                  </p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="text-sm font-normal text-[#E6E6E6]">
+                    Title of Account
+                  </p>
+                  <p className="text-[#E6E6E6] text-base font-bold text-end">
+                    {item?.accountTitle}
+                  </p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="text-sm font-normal text-[#E6E6E6]">
+                    Account Number
+                  </p>
+                  <p className="text-[#E6E6E6] text-base font-bold text-end">
+                    {item?.IBAN}
+                  </p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="text-sm font-normal text-[#E6E6E6]">
+                    Country/City
+                  </p>
+                  <p className="text-[#E6E6E6] text-base font-bold text-end">
+                    {item?.country}
+                  </p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No Bank Detail Exist</p>
+          )}
         </div>
 
         <div

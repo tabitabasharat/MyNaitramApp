@@ -1,4 +1,8 @@
 "use client";
+import {
+  createPayoutCrypto,
+  getPayoutCryptoDetail,
+} from "@/lib/middleware/payout";
 import backward from "@/assets/Back - Button.svg";
 import Image from "next/image";
 import Iconpop from "@/assets/launchprofileicon.svg";
@@ -33,6 +37,7 @@ import ScreenLoader from "@/components/loader/Screenloader";
 import { Separator } from "@/components/ui/separator";
 import SubmitSucessModal from "../../GetPaidOrganiser/SubmitSuccessModal";
 import Addcryptopopup from "./Addcryptopopup";
+
 // import Eventsubmitted from "../eventsubmitted/Eventsubmitted";
 type Option = {
   id: number;
@@ -50,9 +55,13 @@ const options: Option[] = [
 
 const formSchema = z.object({
   walletName: z.string().min(1, { message: "Wallet Name cannot be empty." }),
+
   walletAddress: z
     .string()
-    .min(1, { message: "Wallet Address cannot be empty." }),
+    .min(1, { message: "Wallet Address cannot be empty." })
+    .refine((value) => value !== "null" && value !== "Null", {
+      message: "Wallet Address cannot be 'null'.",
+    }),
 });
 
 type LunchModalProps = {
@@ -60,7 +69,7 @@ type LunchModalProps = {
   open: () => void; // Boolean to control the dialog's visibility
 };
 
-const AddCryptowallet = ({eventData }: any) => {
+const AddCryptowallet = ({ eventData }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [loader, setLoader] = useState(false);
@@ -87,8 +96,12 @@ const AddCryptowallet = ({eventData }: any) => {
   const handleClick = (index: number) => {
     setActiveIndex(index);
   };
+  useEffect(() => {
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    dispatch(getPayoutCryptoDetail(userid));
+  }, []);
 
-  console.log("my all event data", eventData);
   const handleOptionToggle = (option: Option) => {
     if (selectedOption?.id === option.id) {
       setSelectedOption(null);
@@ -97,10 +110,6 @@ const AddCryptowallet = ({eventData }: any) => {
     }
   };
 
-  const WalletModalhandler = () => {
-    setisCreateModalOpen(true);
-    console.log("clicked");
-  };
   useEffect(() => {
     const userID =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -118,34 +127,18 @@ const AddCryptowallet = ({eventData }: any) => {
       const data = {
         userId: userid,
         chain: selectedOption?.label || "",
-        wallet: walletaddress,
-        walletname: walletname,
-        name: eventData?.eventname,
-        category: eventData?.eventcategory,
-        eventDescription: eventData?.eventdescription,
-        location: eventData?.eventlocation,
-        ticketStartDate: eventData?.eventstartdate,
-        ticketEndDate: eventData?.eventenddate,
-        startTime: eventData?.eventstarttime,
-        endTime: eventData?.eventendtime,
-        // mainEventImage: eventData?.eventmainimg,
-        coverEventImage: eventData?.eventcoverimg,
-        tickets: eventData?.ticketsdata,
-        totalComplemantaryTickets: eventData?.compticketno,
-        fbUrl: eventData?.fburl,
-        instaUrl: eventData?.instaurl,
-        youtubeUrl: eventData?.youtubeurl,
-        twitterUrl: eventData?.telegramurl,
-        tiktokUrl: eventData?.tiktokurl,
-        linkedinUrl: eventData?.linkedinurl,
-        eventmedia: eventData?.eventmedia,
+        walletAddress: walletaddress,
+        walletName: walletname,
       };
-      dispatch(createevent(data)).then((res: any) => {
+      dispatch(createPayoutCrypto(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
+          SuccessToast("Wallet Added Successfully");
+          // setisCreateModalOpen(true);
+          setOpenModal(true);
 
-          setisCreateModalOpen(true);
-          // router.push("/viewallevents");
+          dispatch(getPayoutCryptoDetail(userid));
+          router.push("/organizer-event/payout-detail/cryptowallet");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -272,7 +265,7 @@ const AddCryptowallet = ({eventData }: any) => {
                   <p className="text-red-500 text-sm mt-2">{validationError}</p>
                 )}
               </div>
-              <div className="w-full " onClick={() => setOpenModal(true)}>
+              <div className="w-full ">
                 <Button
                   type="submit"
                   className="w-full"
@@ -286,11 +279,11 @@ const AddCryptowallet = ({eventData }: any) => {
                 </Button>
               </div>
               {openModal && (
-                  <Addcryptopopup
-                    onClose={() => setOpenModal(false)}
-                    open={() => setOpenModal(true)}
-                  />
-                )}
+                <Addcryptopopup
+                  onClose={() => setOpenModal(false)}
+                  open={() => setOpenModal(true)}
+                />
+              )}
             </form>
           </Form>
         </div>

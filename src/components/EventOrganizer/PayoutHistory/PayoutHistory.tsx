@@ -68,7 +68,7 @@ const PayoutHistory = () => {
   }
 
   return (
-    <div className="pt-[32px] pb-[80px] lg:pb-[134px] px-[24px] bank-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[90px] mx-auto">
+    <div className="pt-[32px] pb-[80px] lg:pb-[134px] px-[24px]  lg:px-[100px] xl:px-[216px] md:pt-[90px] mx-auto">
       <div className="mb-[32px] gap-[16px] w-full lg:w-[676px] items-center flex lg:w-[903px] w-full lg:mb-[24px]">
         {" "}
         <p className="lg:text-[48px] ms-[26px] md:ms-[0px] font-extrabold text-[32px]">

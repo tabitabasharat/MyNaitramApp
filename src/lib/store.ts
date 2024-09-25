@@ -36,6 +36,8 @@ import getOrgNotifications from "./reducer/getOrgNotifications";
 import getUserReadNotify from "./reducer/getUserReadNotify";
 import getOrgReadNotify from "./reducer/getOrgReadNotify";
 import getPayoutHistory from "./reducer/getPayoutHistory";
+import getPayoutBankDetail from "./reducer/getPayoutBankDetail";
+import getPayoutCrypto from "./reducer/getPayoutCrypto";
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -71,9 +73,11 @@ const appReducer = combineReducers({
   getUserNotifications: getUserNotifications,
   getFollowPromoters: getFollowPromoters,
   getOrgNotifications: getOrgNotifications,
-  getUserReadNotify:getUserReadNotify,
-  getOrgReadNotify:getOrgReadNotify,
-  getPayoutHistory:getPayoutHistory
+  getUserReadNotify: getUserReadNotify,
+  getOrgReadNotify: getOrgReadNotify,
+  getPayoutHistory: getPayoutHistory,
+  getPayoutBankDetail: getPayoutBankDetail,
+  getPayoutCrypto: getPayoutCrypto,
 });
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,
