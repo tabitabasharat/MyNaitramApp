@@ -45,27 +45,27 @@ const BankAccount = () => {
           >
             <div className="flex justify-between items-center">
               <p className="text-sm font-normal text-[#E6E6E6]">Bank Name</p>
-              <p className="text-[#E6E6E6] text-base font-bold">Lloyd Bank</p>
+              <p className="text-[#E6E6E6] text-base font-bold text-end">Lloyd Bank</p>
             </div>
             <div className="flex justify-between items-center">
               <p className="text-sm font-normal text-[#E6E6E6]">
                 Title of Account
               </p>
-              <p className="text-[#E6E6E6] text-base font-bold">
+              <p className="text-[#E6E6E6] text-base font-bold text-end">
                 John Williams
               </p>
             </div>
             <div className="flex justify-between items-center">
-              <p className="text-sm font-normal text-[#E6E6E6]">
+              <p className="text-sm font-normal text-[#E6E6E6] ">
                 Account Number
               </p>
-              <p className="text-[#E6E6E6] text-base font-bold">
+              <p className="text-[#E6E6E6] text-base font-bold text-end">
                 126283399384039
               </p>
             </div>
             <div className="flex justify-between items-center">
               <p className="text-sm font-normal text-[#E6E6E6]">Country/City</p>
-              <p className="text-[#E6E6E6] text-base font-bold">USA/Texas</p>
+              <p className="text-[#E6E6E6] text-base font-bold text-end">USA/Texas</p>
             </div>
           </div>
         ))}
