@@ -60,19 +60,19 @@ const FUndRised = () => {
           <p className="font-extrabold text-[32px] lg:text-[48px] mb-[12px] lg:mb-[24px] mt-[12px]">
             NAITRAM Launch Party 2024
           </p>
-          <div className="flex items-center">
+          <div className="flex  items-center">
             <div className=" w-[40px] h-[40px] rounded-[8px]">
               <Image
                 src={profile}
                 width={40}
                 height={40}
                 sizes="40px"
-                className="w-[40px] h-[40px] rounded-[8px]"
+                className="w-[40px] h-[40px] object-fit rounded-[8px]"
                 alt="img"
               />
             </div>
             <div>
-              <p className="ps-[8px] pe-[4px] text-sm lg:font-bold font-[900]">
+              <p className="ps-[8px] text-sm lg:font-bold font-[900]">
                 {/* {eventSales?.salesData?.data?.event?.user?.fullname} */}
                 AKEMIWRLD
               </p>
