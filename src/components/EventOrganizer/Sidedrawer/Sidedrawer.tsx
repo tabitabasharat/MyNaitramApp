@@ -107,7 +107,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
     {
       text: "Payout History",
       icon: history,
-      url: "/organizer-event/sacnner-login",
+      url: "/organizer-event/payout-history",
     },
   ];
 

@@ -46,19 +46,19 @@ const CryptoWallets = () => {
           >
             <div className="flex justify-between items-center">
               <p className="text-sm font-normal text-[#E6E6E6]">Wallet Name</p>
-              <p className="text-[#E6E6E6] text-base font-bold">Lloyd Bank</p>
+              <p className="text-[#E6E6E6] text-base font-bold text-end">Lloyd Bank</p>
             </div>
             <div className="flex justify-between items-center">
               <p className="text-sm font-normal text-[#E6E6E6]">
                 Wallet Address
               </p>
-              <p className="text-[#E6E6E6] text-base font-bold">
+              <p className="text-[#E6E6E6] text-base font-bold text-end">
                 0x9605.....6cBf
               </p>
             </div>
             <div className="flex justify-between items-center">
               <p className="text-sm font-normal text-[#E6E6E6]">Chain</p>
-              <p className="text-[#E6E6E6] text-base font-bold">Ethereum</p>
+              <p className="text-[#E6E6E6] text-base font-bold text-end">Ethereum</p>
             </div>
           </div>
         ))}

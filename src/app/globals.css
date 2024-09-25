@@ -625,7 +625,7 @@ input[type="number"] {
 .bank-bg-effect{
   background-image: url("../assets/Blur-Green.png");
   background-repeat: no-repeat;
-  background-position: right;
+  background-position: bottom right;
 }
 .webkit-blur {
   backdrop-filter: blur(30px);
@@ -651,6 +651,30 @@ input[type="number"] {
   ) !important;
   border-bottom: 1px solid #292929 !important;
 }
+.btons-wrap-adjustment{
+  flex-wrap: nowrap;
+}
+.add-bank-account-border {
+  position: relative;
+  border-radius: 100px !important; /* This controls the rounding of the corners */
+}
+.add-bank-account-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 100px !important; /* Inherit the border-radius from the parent */
+  padding: 1px; /* Adjust this value to control the thickness of the border */
+  background: linear-gradient(
+    135deg,
+    #13ff7a 0.2%,
+    #002b12 50.2%,
+    #13ff7a 100.2%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
 .no-border-table {
   border-collapse: collapse; /* Ensures no spacing between cells */
 }
@@ -675,6 +699,9 @@ input[type="number"] {
   .event-bg-effect {
     background: transparent;
   }
+  .bank-bg-effect{
+    background: transparent;
+  }
 }
 @media (min-width:1440px) {
   .wid-adjustment{
@@ -685,12 +712,6 @@ input[type="number"] {
   .gradient-border-rounded {
     position: relative;
     border-radius: 44px !important; /* This controls the rounding of the corners */
-  }
-  .bg-lunchevent-img {
-    background-image: url("../assets/Image.svg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    padding: 24px;
   }
   .gradient-border-rounded::before {
     content: "";
@@ -712,6 +733,12 @@ input[type="number"] {
   .bg-effect2 {
     background-image: url("../assets/Blur2.svg") !important;
     background-repeat: no-repeat;
+  }
+  .bg-lunchevent-img {
+    background-image: url("../assets/Image.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 24px;
   }
 }
 @media (max-width: 768px) {
@@ -759,5 +786,10 @@ width: 576px !important;
 @media (min-width:1470px) {
   .hide-text{
     display: block;
+  }
+}
+@media (max-width:360px) {
+  .btons-wrap-adjustment{
+    flex-wrap: wrap;
   }
 }

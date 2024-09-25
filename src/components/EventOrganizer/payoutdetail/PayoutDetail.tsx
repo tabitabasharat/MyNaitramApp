@@ -23,17 +23,23 @@ const PayoutDetail = () => {
         neque. Pellentesque scelerisque
         <br className="hide-text" /> consectetur nisl ut hac id enim.
       </p>
-      <div className="flex mt-[30px] gap-[15px]  lg:mt-[38px]">
+      <div className="flex mt-[30px] w-full gap-[15px] lg:mt-[38px]">
+      <Link href="/organizer-event/payout-detail/cryptowallet" className="w-full sm:w-fit">
+      <div className="w-full">
         <button
-          className="text-sm font-extrabold w-full lg:w-[165px] table-gradient gradient-border-notify  rounded-[100px] py-[12px] text-[#00D059]"
+          className="text-sm font-extrabold w-full text-center sm:w-[165px] table-gradient gradient-border-notify  rounded-[100px] py-[12px] text-[#00D059]"
 
         >
           Crypto Wallet
         </button>
-        <Link href="/organizer-event/payout-detail/bankaccount">
-        <button className="text-sm font-extrabold w-full lg:w-[165px] rounded-[100px] py-[12px] text-[black] bg-[#00D059]">
+        </div>
+        </Link>
+        <Link href="/organizer-event/payout-detail/bankaccount" className="w-full sm:w-fit">
+        <div className="w-full">
+        <button className="text-sm font-extrabold text-center w-full sm:w-[165px] rounded-[100px] py-[12px] text-[black] bg-[#00D059]">
           Bank Account
         </button>
+        </div>
         </Link>
       </div>
 
