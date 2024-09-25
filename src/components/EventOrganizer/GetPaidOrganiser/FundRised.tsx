@@ -38,10 +38,10 @@ const FUndRised = () => {
   return (
     <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] event-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
       {/* {eventSales.loading && <ScreenLoader />} */}
-      <div className="mb-[12px] lg:w-[903px] w-full lg:mb-[24px]">
+      <div className="mb-[12px] w-full lg:mb-[24px]">
         <Backward />
       </div>
-      <div className="gap-[32px] lg:w-[903px] w-full mb-[24px] lg:mb-[30px] flex lg:flex-row flex-col lg:gap-[42px]">
+      <div className="gap-[32px] w-full mb-[24px] lg:mb-[30px] flex lg:flex-row flex-col lg:gap-[42px]">
         <div className="flex md:w-[392px] md:h-[392px] md:justify-center sm:justify-center">
           <Image
             src={cardimg}
@@ -114,7 +114,7 @@ const FUndRised = () => {
         </div>
       </div>
       {/* <SalesGraph /> */}
-      <div className=" mb-[32px] mt-[32px] lg:w-[903px] w-full lg:mb-[32px] gradient-slate border rounded-lg border-muted px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
+      <div className=" mb-[32px] mt-[32px] w-full lg:mb-[32px] gradient-slate border rounded-lg border-muted px-[16px] lg:px-[24px] pb-[26px] lg:pb-[24px] pt-[16px] lg:pt-[26px]">
         <div className="flex items-center mb-[17px] lg:mb-[24px] justify-between">
           <div>
             <p className="lg:text-[14px] text-[#D9D9D9] font-normal">
@@ -239,7 +239,7 @@ const FUndRised = () => {
         </TableContainer>
       </div>
 
-      <div className="flex mb-[32px] md:justify-end lg:w-[903px] w-full">
+      <div className="flex mb-[32px] md:justify-end w-full">
         <button
           onClick={() => setOpenModal(true)}
           className="text-sm w-full md:w-fit lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]"

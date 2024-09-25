@@ -34,7 +34,7 @@ const BankAccountPayoutDetail = () => {
           <Image
             src={backward}
             alt="back-btn"
-            className="w-[44px] h-[44px]"
+            className="lg:w-[44px] lg:h-[44px] h-[40px] w-[40px]"
             sizes="44px"
           />
           <p className="lg:text-[24px] font-extrabold text-[15px]">
@@ -43,7 +43,7 @@ const BankAccountPayoutDetail = () => {
           </p>
         </div>
         <div className="flex gap-[12px] btons-wrap-adjustment mb-[32px] w-full md:justify-end">
-        <Link href="/organizer-event/payout-detail/cryptowallet/add-bank-account">
+        <Link href="/organizer-event/payout-detail/bankaccount/add-bank-account">
           <button className="text-[#00D059] text-[11px] font-extrabold table-gradient w-full md:w-fit py-[10px] px-[0px] md:p-[20px] rounded-[100px] add-bank-account-border flex items-center justify-center gap-[8px]">
             {" "}
             <Image

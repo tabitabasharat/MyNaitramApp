@@ -60,7 +60,7 @@ type LunchModalProps = {
   open: () => void; // Boolean to control the dialog's visibility
 };
 
-const AddCryptowallet = ({ onClose, open, eventData }: any) => {
+const AddCryptowallet = ({eventData }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [loader, setLoader] = useState(false);
@@ -203,7 +203,7 @@ const AddCryptowallet = ({ onClose, open, eventData }: any) => {
                     <FormControl>
                       <Input
                         placeholder="Enter Wallet Name"
-                        className="pt-11 pb-5 text-base placeholder:font-normal"
+                        className="pt-11 pb-5 palceholder:text-base placeholder:text-[white] placeholder:font-normal"
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
@@ -228,7 +228,7 @@ const AddCryptowallet = ({ onClose, open, eventData }: any) => {
                     <FormControl>
                       <Input
                         placeholder="Enter Wallet Address"
-                        className="pt-11 pb-5 text-base placeholder:font-normal"
+                        className="pt-11 pb-5 palceholder:text-base placeholder:text-[white] placeholder:font-normal"
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
@@ -272,7 +272,7 @@ const AddCryptowallet = ({ onClose, open, eventData }: any) => {
                   <p className="text-red-500 text-sm mt-2">{validationError}</p>
                 )}
               </div>
-              <div className="w-full" onClick={() => setOpenModal(true)}>
+              <div className="w-full " onClick={() => setOpenModal(true)}>
                 <Button
                   type="submit"
                   className="w-full"
