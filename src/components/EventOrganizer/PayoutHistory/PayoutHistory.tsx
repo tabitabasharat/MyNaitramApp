@@ -196,7 +196,7 @@ const PayoutHistory = () => {
             </div>
           ))
         ) : (
-          <p>No History Exist</p>
+          <p>No Payout History Exist</p>
         )}
       </div>
     </div>
