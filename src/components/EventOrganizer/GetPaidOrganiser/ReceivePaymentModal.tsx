@@ -20,7 +20,7 @@ import Cryptowallet from "@/components/popups/cryptowallet/Cryptowallet";
 import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
 import Link from "next/link";
 
-const ReceviePaymentModal = ({ onClose, open, eventData }: any) => {
+const ReceviePaymentModal = ({ onClose, open, eventData, ticketSoldpp }: any) => {
   const router = useRouter();
   const [isClaimOpen, setIsClaimOpen] = useState(false);
   const [iswalletOpen, setIsWalletOpen] = useState(false);
@@ -87,7 +87,7 @@ const ReceviePaymentModal = ({ onClose, open, eventData }: any) => {
                 </button>
                 </Link>
                 <div>
-                <Link href="/fund-rised/bank-account">
+                <Link href={`/fund-rised/bank-account/${ticketSoldpp}`}>
                   <button
                     onClick={handleTogglestripe}
                     className="bg-[#00D059] text-[black] p-[12px] text-sm font-extrabold rounded-[100px]"

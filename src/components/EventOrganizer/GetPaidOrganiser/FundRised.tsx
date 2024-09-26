@@ -16,24 +16,143 @@ import filter from "@/assets/Favorite - Button.svg";
 import location from "@/assets/Location.svg";
 import clander from "@/assets/calendar1.svg";
 import time from "@/assets/clock1.svg";
-import { useAppDispatch } from "@/lib/hooks";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useState, useEffect } from "react";
 import ReceviePaymentModal from "./ReceivePaymentModal";
+import { getPaidDetail } from "@/lib/middleware/payout";
 
-function createData(name: number, calories: string, fat: number) {
+function createData(name: number, calories: any, fat: number) {
   return { name, calories, fat };
 }
-
-const rows = [
-  createData(1, "Tickets Sold", 100000),
-  createData(2, "Platform Fees", 10000),
-  createData(3, "Payout Available", 90000),
-];
 
 const FUndRised = () => {
   const dispatch = useAppDispatch();
   const [openModal, setOpenModal] = useState(false);
+  const [eventid, setEventid] = useState<any>();
+  const [ticketsSoldPrice, setticketsSoldPrice] = useState<any>("");
+
   const eventAllData = "hello";
+  useEffect(() => {
+    const currentUrl: any =
+      typeof window !== "undefined" ? window.location.href : null;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setEventid(value);
+    dispatch(getPaidDetail(value));
+    console.log("my event id is", value);
+  }, []);
+
+  const paidDetails = useAppSelector(
+    (state: any) => state.getPaidDetail?.paidData?.data
+  );
+  console.log("user paid data", paidDetails);
+
+  // const ticketSales = paidDetails?.ticketTypes?.map((ticket:any) => ticket?.price * ticket?.count);
+  // console.log("my sales", ticketSales)
+
+  const ticketSales = paidDetails?.ticketTypes?.map((ticket: any) => ({
+    price: ticket?.price,
+    count: ticket?.count,
+    total: ticket?.price * ticket?.count,
+  }));
+  console.log("Individual Ticket Sales:", ticketSales);
+  // const totalSales = ticketSales?.reduce(
+  //   (sales: any, ticket: any) => sales + ticket.total,
+  //   0
+  // );
+  // console.log("Total Sales:", totalSales);
+
+  let totalSales = 0;
+  if (ticketSales) {
+    for (let i = 0; i < ticketSales.length; i++) {
+      totalSales += ticketSales[i].total;
+    }
+  }
+  console.log("Total Saless:", totalSales);
+
+  const rows = [
+    createData(1, "Tickets Sold", totalSales || 0),
+    createData(2, "Platform Fees", 0),
+    createData(3, "Payout Available", 0),
+  ];
+
+  const ConvertDate = (originalDateStr: string): string => {
+    const originalDate = new Date(originalDateStr);
+
+    // Extract the day, date, month, and year
+    const dayOfWeek = originalDate.toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+    const date = originalDate.getDate();
+    const month = originalDate.toLocaleDateString("en-US", { month: "long" });
+    const year = originalDate.getFullYear();
+
+    // Function to get ordinal suffix
+    const getOrdinalSuffix = (date: number) => {
+      if (date > 3 && date < 21) return "th"; // covers 11th to 19th
+      switch (date % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+
+    const ordinalSuffix = getOrdinalSuffix(date);
+
+    // Construct the formatted date string
+    const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
+
+    return formattedDate;
+  };
+  const ConvertTime = (timeStr: string): string => {
+    // Ensure input is a string
+    if (typeof timeStr !== "string") {
+      console.error("Input must be a string");
+      return "";
+    }
+
+    // Extract the time part if the input includes a date and time
+    const timeOnly = timeStr.split("T")[1]?.split("Z")[0];
+
+    if (!timeOnly) {
+      console.error("Input must include a valid time");
+      return "";
+    }
+
+    const parts = timeOnly.split(":");
+
+    // Check if timeOnly is in HH:MM or HH:MM:SS format
+    if (parts.length < 2) {
+      console.error("Input time must be in HH:MM or HH:MM:SS format");
+      return "";
+    }
+
+    const [hours, minutes] = parts.map(Number);
+
+    // Ensure the hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      console.error("Invalid time format");
+      return "";
+    }
+
+    // Determine AM or PM
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert hours from 24-hour to 12-hour format
+    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+
+    // Combine hours and period
+    const formattedTime = `${formattedHours}:${
+      minutes < 10 ? "0" + minutes : minutes
+    } ${period}`;
+
+    return formattedTime;
+  };
 
   return (
     <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] event-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
@@ -44,7 +163,11 @@ const FUndRised = () => {
       <div className="gap-[32px] w-full mb-[24px] lg:mb-[30px] flex lg:flex-row flex-col lg:gap-[42px]">
         <div className="flex md:w-[392px] md:h-[392px] md:justify-center sm:justify-center">
           <Image
-            src={cardimg}
+            src={
+              paidDetails?.event?.coverEventImage
+                ? paidDetails?.event?.coverEventImage
+                : cardimg
+            }
             alt="img"
             width={392}
             height={392}
@@ -58,23 +181,26 @@ const FUndRised = () => {
             </p>
           </div>
           <p className="font-extrabold text-[32px] lg:text-[48px] mb-[12px] lg:mb-[24px] mt-[12px]">
-            NAITRAM Launch Party 2024
+            {paidDetails?.event?.name}
           </p>
-          <div className="flex items-center">
+          <div className="flex  items-center">
             <div className=" w-[40px] h-[40px] rounded-[8px]">
               <Image
-                src={profile}
+                src={
+                  paidDetails?.event?.user?.profilePicture
+                    ? paidDetails?.event?.user?.profilePicture
+                    : profile
+                }
                 width={40}
                 height={40}
                 sizes="40px"
-                className="w-[40px] h-[40px] rounded-[8px]"
+                className="w-[40px] h-[40px] object-fit rounded-[8px]"
                 alt="img"
               />
             </div>
             <div>
-              <p className="ps-[8px] pe-[4px] text-sm lg:font-bold font-[900]">
-                {/* {eventSales?.salesData?.data?.event?.user?.fullname} */}
-                AKEMIWRLD
+              <p className="ps-[8px] text-sm lg:font-bold font-[900]">
+                {paidDetails?.event?.user?.fullname}
               </p>
             </div>
           </div>
@@ -86,8 +212,7 @@ const FUndRised = () => {
                 className="pe-[8px] w-[30px] h-[30px]"
                 alt="location"
               />
-              {/* {eventSales?.salesData?.data?.event?.location} */}
-              DOMA PUB Main floor, Light Street, London
+              {paidDetails?.event?.location}
             </p>
             <p className="flex items-center text-base font-bold mb-[12px]]">
               {" "}
@@ -97,7 +222,9 @@ const FUndRised = () => {
                 className="pe-[8px] w-[30px] h-[30px]"
               />
               {/* {ConvertDate(eventSales?.salesData?.data?.event?.startTime)} */}
-              Saturday, 5th March, 2024 - 5 PM
+              {/* Saturday, 5th March, 2024 - 5 PM */}
+              {ConvertDate(paidDetails?.event?.startTime)} -{" "}
+              {ConvertTime(paidDetails?.event?.startTime)}
             </p>
             <p className="flex items-center text-base font-bold mb-[12px]]">
               {" "}
@@ -106,9 +233,9 @@ const FUndRised = () => {
                 alt="time"
                 className="pe-[8px] w-[30px] h-[30px]"
               />
-              Tuesday, 8th March, 2024 - 10 PM
-              {/* {ConvertTime(eventSales?.salesData?.data?.event?.startTime)} -{" "} */}
-              {/* {ConvertTime(eventSales?.salesData?.data?.event?.endTime)}{" "} */}
+              {/* Tuesday, 8th March, 2024 - 10 PM */}
+              {ConvertDate(paidDetails?.event?.endTime)} -{" "}
+              {ConvertTime(paidDetails?.event?.endTime)}
             </p>
           </div>
         </div>
@@ -186,7 +313,7 @@ const FUndRised = () => {
               </TableRow>
             </TableHead>
             <TableBody className="border-0">
-              {rows.map((row, index) => (
+              {rows?.map((row: any, index: any) => (
                 <TableRow
                   key={index}
                   sx={{
@@ -208,7 +335,7 @@ const FUndRised = () => {
                     scope="row"
                     className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
                   >
-                    {row.name}
+                    {row?.name}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -219,7 +346,7 @@ const FUndRised = () => {
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                     align="left"
                   >
-                    {row.calories}
+                    {row?.calories}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -230,7 +357,7 @@ const FUndRised = () => {
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                     align="left"
                   >
-                    £{row.fat.toLocaleString()}
+                    £{row?.fat.toLocaleString()}
                   </TableCell>
                 </TableRow>
               ))}
@@ -251,6 +378,8 @@ const FUndRised = () => {
         <ReceviePaymentModal
           onClose={() => setOpenModal(false)}
           open={() => setOpenModal(true)}
+          ticketSoldpp={totalSales}
+          
           eventData={eventAllData}
         />
       )}

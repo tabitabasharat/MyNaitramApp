@@ -8,27 +8,77 @@ import trash from "@/assets/trash.svg";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import add from "@/assets/Plus.svg";
 import Link from "next/link";
-import { getPayoutBankDetail } from "@/lib/middleware/payout";
+import {
+  getPayoutBankDetail,
+  deleteBankAccount,
+} from "@/lib/middleware/payout";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "@/components/reusable-components/Toaster/Toaster";
+import ScreenLoader from "@/components/loader/Screenloader";
 
 const BankAccountPayoutDetail = () => {
   const router = useRouter();
+  const [loader, setLoader] = useState(false);
   const dispatch = useAppDispatch();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [deletedID, setDeletedID] = useState<number | null>(null);
+
   const [openModal, setOpenModal] = useState(false);
   const eventAllData = "hello";
 
-  const handleClick = (index: number) => {
+  const handleClick = (index: number, deletedId:any) => {
     setActiveIndex(index);
+    setDeletedID( deletedId);
+
   };
   useEffect(() => {
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-    dispatch(getPayoutBankDetail(1));
+    dispatch(getPayoutBankDetail(userid));
   }, []);
+
   const myBankDetail = useAppSelector(
     (state) => state?.getPayoutBankDetail?.myHistory?.data
   );
   console.log("my payout bank history is", myBankDetail);
+
+  
+  async function deleteBank() {
+    setLoader(true);
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    console.log("my deleted id", deletedID);
+
+    try {
+      dispatch(deleteBankAccount(deletedID)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+
+          SuccessToast("Account Deleted Successfully");
+          dispatch(getPayoutBankDetail(userID));
+          // localStorage.clear();
+          // router.push("/");
+        } else {
+          setLoader(false);
+          console.log(res?.payload?.message);
+
+          ErrorToast(
+            res?.payload?.message || "An error occurred during deletion."
+          );
+        }
+      });
+    } catch (error: any) {
+      console.error("Error:", error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        "An unexpected error occurred.";
+      ErrorToast(errorMessage);
+    }
+  }
+  const userloading = useAppSelector((state) => state?.getPayoutBankDetail);
 
   return (
     // <section className="bank-bg-effect">
@@ -37,7 +87,7 @@ const BankAccountPayoutDetail = () => {
         <p className="block ms-[25px] mb-[32px] sm:mb-[0px] sm:hidden text-[24px] font-extrabold">
           Profile Menu
         </p>
-      
+        {userloading.loading && <ScreenLoader />}
 
         <div
           onClick={() => router.back()}
@@ -46,7 +96,7 @@ const BankAccountPayoutDetail = () => {
           <Image
             src={backward}
             alt="back-btn"
-            className="lg:w-[44px] lg:h-[44px] h-[40px] w-[40px]"
+            className="md:w-[44px] md:h-[44px] h-[40px] w-[40px]"
             sizes="44px"
           />
           <p className="lg:text-[24px] font-extrabold text-[15px]">
@@ -55,7 +105,10 @@ const BankAccountPayoutDetail = () => {
           </p>
         </div>
         <div className="flex gap-[12px] btons-wrap-adjustment mb-[32px] w-full md:justify-end">
-          <Link href="/organizer-event/payout-detail/bankaccount/add-bank-account">
+          <Link
+            href="/organizer-event/payout-detail/bankaccount/add-bank-account"
+            className="w-full md:w-fit"
+          >
             <button className="text-[#00D059] text-[11px] font-extrabold table-gradient w-full md:w-fit py-[10px] px-[0px] md:p-[20px] rounded-[100px] add-bank-account-border flex items-center justify-center gap-[8px]">
               {" "}
               <Image
@@ -66,7 +119,11 @@ const BankAccountPayoutDetail = () => {
               <p>Add Bank Account </p>
             </button>
           </Link>
-          <button className="bg-[#FF1717B2] text-[11px] font-extrabold w-full md:w-fit py-[10px] px-[0px] text-[white] md:p-[20px] rounded-[100px] flex items-center justify-center gap-[8px]">
+          <button
+            className="bg-[#FF1717B2] text-[11px] font-extrabold w-full md:w-fit py-[10px] px-[0px] text-[white]
+           md:p-[20px] rounded-[100px] flex items-center justify-center gap-[8px]"
+            onClick={() => deleteBank()}
+          >
             {" "}
             <Image
               src={trash}
@@ -80,7 +137,7 @@ const BankAccountPayoutDetail = () => {
           {/* {[...Array(3)].map((_, index) => (
             <div
               key={index}
-              className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] ${
+              className={`w-full flex flex-col gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] ${
                 activeIndex === index ? "gradient-border" : ""
               }`} // Apply the gradient-border class only if the current div is active
               onClick={() => handleClick(index)} // Set the clicked div as active
@@ -124,8 +181,8 @@ const BankAccountPayoutDetail = () => {
                 key={index}
                 className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] ${
                   activeIndex === index ? "gradient-border" : ""
-                }`} // Apply the gradient-border class only if the current div is active
-                onClick={() => handleClick(index)} // Set the clicked div as active
+                }`}
+                onClick={() => handleClick(index, item?.id)}
               >
                 <div className="flex justify-between items-center">
                   <p className="text-sm font-normal text-[#E6E6E6]">
@@ -166,20 +223,20 @@ const BankAccountPayoutDetail = () => {
           )}
         </div>
 
-        <div
-          // onClick={() => setOpenModal(true)}
+        {/* <div
+          onClick={() => setOpenModal(true)}
           className="flex lg:mb-[158px] mb-[32px] mt-[39px] md:mt-[32px] w-full mt-[20px] lg:mt-[32px] md:w-[676px]"
         >
           <button className="text-sm w-full lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]">
             Payout
           </button>
-          {/* {openModal && (
+          {openModal && (
           <SubmitSucessModal
             onClose={() => setOpenModal(false)}
             open={() => setOpenModal(true)}
           />
-        )} */}
-        </div>
+        )}
+        </div> */}
       </div>
     </div>
     // </section>

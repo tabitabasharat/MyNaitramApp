@@ -9,15 +9,25 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import add from "@/assets/Plus.svg";
 import Link from "next/link";
 import ScreenLoader from "@/components/loader/Screenloader";
-import { getPayoutCryptoDetail } from "@/lib/middleware/payout";
+import {
+  getPayoutCryptoDetail,
+  deleteCryptoAccount,
+} from "@/lib/middleware/payout";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "@/components/reusable-components/Toaster/Toaster";
 
 const Cryptowallet = () => {
   const router = useRouter();
+  const [loader, setLoader] = useState(false);
   const dispatch = useAppDispatch();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [deletedID, setDeletedID] = useState<number | null>(null);
 
-  const handleClick = (index: number) => {
+  const handleClick = (index: number, id:number) => {
     setActiveIndex(index);
+    setDeletedID(id);
   };
   useEffect(() => {
     const userid =
@@ -30,6 +40,40 @@ const Cryptowallet = () => {
   );
   const userloading = useAppSelector((state) => state?.getPayoutCrypto);
   console.log("my crypto payout history is", myCryptoHistory);
+
+  async function deleteBank() {
+    setLoader(true);
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    console.log("my deleted id", deletedID);
+
+    try {
+      dispatch(deleteCryptoAccount(deletedID)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+
+          SuccessToast("Account Deleted Successfully");
+          dispatch(getPayoutCryptoDetail(userID));
+          // localStorage.clear();
+          // router.push("/");
+        } else {
+          setLoader(false);
+          console.log(res?.payload?.message);
+
+          ErrorToast(
+            res?.payload?.message || "An error occurred during deletion."
+          );
+        }
+      });
+    } catch (error: any) {
+      console.error("Error:", error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        "An unexpected error occurred.";
+      ErrorToast(errorMessage);
+    }
+  }
   return (
     <div className="pt-[42px] pb-[59.12px] lg:pb-[26.25p] px-[24px] lg:px-[100px] xl:px-[216px] md:pt-[90px] mx-auto">
       {userloading.loading && <ScreenLoader />}
@@ -45,7 +89,7 @@ const Cryptowallet = () => {
           <Image
             src={backward}
             alt="back-btn"
-            className="w-[44px] h-[44px]"
+            className="md:w-[44px] md:h-[44px] h-[40px] w-[40px]"
             sizes="44px"
           />
           <p className="lg:text-[24px] font-extrabold text-[15px]">
@@ -53,8 +97,11 @@ const Cryptowallet = () => {
             Crypto Wallets
           </p>
         </div>
-        <div className="flex gap-[12px] btons-wrap-adjustment mb-[32px] w-full md:justify-end">
-          <Link href="/organizer-event/payout-detail/cryptowallet/addCryptowallet">
+        <div className="flex md:gap-[12px] gap-[10px] btons-wrap-adjustment mb-[32px] w-full md:justify-end">
+          <Link
+            href="/organizer-event/payout-detail/cryptowallet/addCryptowallet"
+            className="w-full md:w-fit"
+          >
             <button className="text-[#00D059] text-[11px] font-extrabold table-gradient w-full md:w-fit py-[10px] px-[0px] md:p-[20px] rounded-[100px] add-bank-account-border flex items-center justify-center gap-[8px]">
               {" "}
               <Image
@@ -65,7 +112,12 @@ const Cryptowallet = () => {
               <p>Add Crypto Wallet </p>
             </button>
           </Link>
-          <button className="bg-[#FF1717B2] text-[11px] font-extrabold w-full md:w-fit py-[10px] px-[0px] text-[white] md:p-[20px] rounded-[100px] flex items-center justify-center gap-[8px]">
+          <button
+            className="bg-[#FF1717B2] text-[11px] font-extrabold w-full 
+          md:w-fit py-[10px] px-[0px] text-[white] md:p-[20px]
+           rounded-[100px] flex items-center justify-center gap-[8px]"
+            onClick={() => deleteBank()}
+          >
             {" "}
             <Image
               src={trash}
@@ -82,8 +134,8 @@ const Cryptowallet = () => {
                 key={index}
                 className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] ${
                   activeIndex === index ? "gradient-border" : ""
-                }`} // Apply the gradient-border class only if the current div is active
-                onClick={() => handleClick(index)} // Set the clicked div as active
+                }`} 
+                onClick={() => handleClick(index, item?.id)} 
               >
                 <div className="flex justify-between items-center">
                   <p className="text-sm font-normal text-[#A6A6A6] ">
@@ -114,20 +166,20 @@ const Cryptowallet = () => {
           )}
         </div>
 
-        <div
-          // onClick={() => setOpenModal(true)}
+        {/* <div
+          onClick={() => setOpenModal(true)}
           className="flex lg:mb-[158px] mb-[32px] mt-[39px] md:mt-[32px] w-full mt-[20px] lg:mt-[32px] md:w-[676px]"
         >
           <button className="text-sm w-full lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]">
             Payout
           </button>
-          {/* {openModal && (
+          {openModal && (
           <SubmitSucessModal
             onClose={() => setOpenModal(false)}
             open={() => setOpenModal(true)}
           />
-        )} */}
-        </div>
+        )}
+        </div> */}
       </div>
     </div>
   );

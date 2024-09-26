@@ -6,7 +6,11 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import SubmitSucessModal from "./SubmitSuccessModal";
-import { getPayoutBankDetail } from "@/lib/middleware/payout";
+import ScreenLoader from "@/components/loader/Screenloader";
+import {
+  getPayoutBankDetail,
+  deleteBankAccount,
+} from "@/lib/middleware/payout";
 
 const BankAccount = () => {
   const router = useRouter();
@@ -21,14 +25,18 @@ const BankAccount = () => {
   useEffect(() => {
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-    dispatch(getPayoutBankDetail(2));
+    dispatch(getPayoutBankDetail(userid));
   }, []);
   const myBankDetail = useAppSelector(
     (state) => state?.getPayoutBankDetail?.myHistory?.data
   );
   console.log("my payout bank history is", myBankDetail);
+  const userloading = useAppSelector((state) => state?.getPayoutBankDetail);
+
   return (
     <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] bank-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
+        {userloading.loading && <ScreenLoader />}
+    
       <div
         onClick={() => router.back()}
         className="mb-[32px] gap-[16px] w-full lg:w-[676px] items-center flex lg:w-[903px] w-full lg:mb-[24px]"
@@ -36,7 +44,7 @@ const BankAccount = () => {
         <Image
           src={backward}
           alt="back-btn"
-          className="w-[44px] h-[44px]"
+          className="md:w-[44px] md:h-[44px] h-[40px] w-[40px]"
           sizes="44px"
         />
         <p className="lg:text-[24px] font-extrabold text-[15px]">
@@ -45,7 +53,7 @@ const BankAccount = () => {
         </p>
       </div>
       <div className="flex gap-[32px] lg:gap-[24px] flex-col">
-        {[...Array(3)].map((_, index) => (
+        {myBankDetail?.map((item: any, index: any) => (
           <div
             key={index}
             className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] ${
@@ -56,7 +64,7 @@ const BankAccount = () => {
             <div className="flex justify-between items-center">
               <p className="text-sm font-normal text-[#E6E6E6]">Bank Name</p>
               <p className="text-[#E6E6E6] text-base font-bold text-end">
-                Lloyd Bank
+                {item?.bankName}
               </p>
             </div>
             <div className="flex justify-between items-center">
@@ -64,7 +72,7 @@ const BankAccount = () => {
                 Title of Account
               </p>
               <p className="text-[#E6E6E6] text-base font-bold text-end">
-                John Williams
+                {item?.accountTitle}
               </p>
             </div>
             <div className="flex justify-between items-center">
@@ -72,13 +80,13 @@ const BankAccount = () => {
                 Account Number
               </p>
               <p className="text-[#E6E6E6] text-base font-bold text-end">
-                126283399384039
+                {item?.IBAN}
               </p>
             </div>
             <div className="flex justify-between items-center">
               <p className="text-sm font-normal text-[#E6E6E6]">Country/City</p>
               <p className="text-[#E6E6E6] text-base font-bold text-end">
-                USA/Texas
+                {item?.country}
               </p>
             </div>
           </div>
@@ -90,7 +98,7 @@ const BankAccount = () => {
         className="flex lg:mb-[158px] mb-[32px] w-full mt-[20px] lg:mt-[32px] md:w-[676px]"
       >
         <button className="text-sm w-full lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]">
-          Submmit
+          Submit
         </button>
         {openModal && (
           <SubmitSucessModal

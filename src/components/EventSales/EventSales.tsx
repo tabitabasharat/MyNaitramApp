@@ -154,6 +154,8 @@ function EventSales() {
     return formattedTime;
   };
 
+  console.log(eventSales?.salesData?.data?.totalSold,"this is total sold")
+
   return (
     <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] event-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
       {eventSales.loading && <ScreenLoader />}
@@ -235,6 +237,7 @@ function EventSales() {
                 alt="time"
                 className="pe-[8px] w-[30px] h-[30px]"
               />
+              
               {ConvertTime(eventSales?.salesData?.data?.event?.startTime)} -{" "}
               {ConvertTime(eventSales?.salesData?.data?.event?.endTime)}{" "}
             </p>
