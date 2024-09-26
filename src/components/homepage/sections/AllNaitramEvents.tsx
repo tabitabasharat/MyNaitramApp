@@ -59,7 +59,6 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
       page: 1,
       category: null,
       free: null,
-
       startDate: null,
       endDate: null,
     };

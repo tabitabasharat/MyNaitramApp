@@ -20,7 +20,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useState, useEffect } from "react";
 import ReceviePaymentModal from "./ReceivePaymentModal";
 import { getPaidDetail } from "@/lib/middleware/payout";
-
+import ScreenLoader from "@/components/loader/Screenloader";
 function createData(name: number, calories: any, fat: number) {
   return { name, calories, fat };
 }
@@ -46,34 +46,38 @@ const FUndRised = () => {
     (state: any) => state.getPaidDetail?.paidData?.data
   );
   console.log("user paid data", paidDetails);
+  const userLoading = useAppSelector(
+    (state: any) => state.getPaidDetail?.loading
+  );
 
   // const ticketSales = paidDetails?.ticketTypes?.map((ticket:any) => ticket?.price * ticket?.count);
   // console.log("my sales", ticketSales)
-
-  const ticketSales = paidDetails?.ticketTypes?.map((ticket: any) => ({
-    price: ticket?.price,
-    count: ticket?.count,
-    total: ticket?.price * ticket?.count,
-  }));
-  console.log("Individual Ticket Sales:", ticketSales);
   // const totalSales = ticketSales?.reduce(
   //   (sales: any, ticket: any) => sales + ticket.total,
   //   0
   // );
   // console.log("Total Sales:", totalSales);
 
+  const ticketSales = paidDetails?.ticketTypes?.map((ticket: any) => ({
+    // price: ticket?.price,
+    // count: ticket?.userCount,
+    total: ticket?.price * ticket?.userCount,
+  }));
+  console.log("Individual Ticket Sales:", ticketSales);
+
   let totalSales = 0;
   if (ticketSales) {
     for (let i = 0; i < ticketSales.length; i++) {
-      totalSales += ticketSales[i].total;
+      totalSales = totalSales + ticketSales[i].total;
     }
   }
   console.log("Total Saless:", totalSales);
-
+  const platformfee = paidDetails?.event?.funds?.platformFee;
+  const PayoutAmount = totalSales - platformfee;
   const rows = [
     createData(1, "Tickets Sold", totalSales || 0),
-    createData(2, "Platform Fees", 0),
-    createData(3, "Payout Available", 0),
+    createData(2, "Platform Fees", paidDetails?.event?.funds?.platformFee || 0),
+    createData(3, "Payout Available", PayoutAmount || 0),
   ];
 
   const ConvertDate = (originalDateStr: string): string => {
@@ -154,9 +158,15 @@ const FUndRised = () => {
     return formattedTime;
   };
 
+  const eventStartDate = new Date(paidDetails?.event?.startTime);
+  console.log("event start date ", eventStartDate )
+
+  const currentDate = new Date();
+  console.log("today date ", currentDate)
+  const isGetPaidDisabled =  currentDate >eventStartDate ;
   return (
     <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] event-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
-      {/* {eventSales.loading && <ScreenLoader />} */}
+      {userLoading.loading && <ScreenLoader />}
       <div className="mb-[12px] w-full lg:mb-[24px]">
         <Backward />
       </div>
@@ -357,7 +367,8 @@ const FUndRised = () => {
                     className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                     align="left"
                   >
-                    £{row?.fat.toLocaleString()}
+                    £{row?.fat}
+                    {/* £{row?.fat.toLocaleString()} */}
                   </TableCell>
                 </TableRow>
               ))}
@@ -368,8 +379,10 @@ const FUndRised = () => {
 
       <div className="flex mb-[32px] md:justify-end w-full">
         <button
+        disabled={isGetPaidDisabled}
           onClick={() => setOpenModal(true)}
-          className="text-sm w-full md:w-fit lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]"
+          className="text-sm w-full md:w-fit lg:text-base font-extrabold bg-[#00D059] 
+          text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px] disabled:opacity-50"
         >
           Get Paid
         </button>
@@ -378,9 +391,10 @@ const FUndRised = () => {
         <ReceviePaymentModal
           onClose={() => setOpenModal(false)}
           open={() => setOpenModal(true)}
-          ticketSoldpp={totalSales}
-          
-          eventData={eventAllData}
+          ticketSold={totalSales}
+          platformFee={platformfee}
+          payoutAvailable={PayoutAmount}
+          eventID={eventid}
         />
       )}
     </div>

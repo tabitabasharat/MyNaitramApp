@@ -27,6 +27,8 @@ const BankAccountPayoutDetail = () => {
 
   const [openModal, setOpenModal] = useState(false);
   const eventAllData = "hello";
+ 
+  
 
   const handleClick = (index: number, deletedId:any) => {
     setActiveIndex(index);
@@ -39,6 +41,7 @@ const BankAccountPayoutDetail = () => {
     dispatch(getPayoutBankDetail(userid));
   }, []);
 
+ 
   const myBankDetail = useAppSelector(
     (state) => state?.getPayoutBankDetail?.myHistory?.data
   );

@@ -25,23 +25,25 @@ const AllEventsGrid = ({ events, eventType }: any) => {
     console.log("user id ", userid);
     const data = {
       page: 1,
-
-      location: null,
-      today: null,
+      category: null,
+      free: null,
       startDate: null,
       endDate: null,
-      startMonth: null,
-      endMonth: null,
-      chooseDate: null,
+    };
+    const datalive = {
+      userId: userid,
+      page: 1,
+      category: null,
+      free: null,
+      startDate: null,
+      endDate: null,
     };
 
     dispatch(getViewAllEvent(data));
     dispatch(getViewPastEvents(data));
-    const dats = {
-      id: userid,
-    };
+    dispatch(getLiveEventById(datalive));
+
     // dispatch(getEventById(userid));
-    // dispatch(getLiveEventById(dats));
   }, []);
   const handlePageChange = (page: number) => {
     const data = {
@@ -50,7 +52,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
 
     dispatch(getViewAllEvent(data));
     dispatch(getViewPastEvents(data));
-    dispatch(getLiveEventById(data))
+    dispatch(getLiveEventById(data));
   };
 
   const EventsAllData = useAppSelector(
@@ -79,8 +81,6 @@ const AllEventsGrid = ({ events, eventType }: any) => {
         (events && events?.length > 0 ? (
           <>
             <div className="relative  sm:grid flex flex-col md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[1rem] w-[100%] ">
-            
-
               {events?.length > 0 &&
                 events?.map((event: any) => (
                   <YourEvents
@@ -167,27 +167,26 @@ const AllEventsGrid = ({ events, eventType }: any) => {
       {eventType === "Your Events" &&
         (events?.length > 0 ? (
           <>
-          <div className="relative  sm:grid flex flex-col  md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[1rem]">
-            {events?.map((event: any) => (
-              <EventCard
-                key={event?.id}
-                img={event?.coverEventImage}
-                title={event?.name}
-                eventId={event?.id}
-                eventType={eventType}
+            <div className="relative  sm:grid flex flex-col  md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[1rem]">
+              {events?.map((event: any) => (
+                <EventCard
+                  key={event?.id}
+                  img={event?.coverEventImage}
+                  title={event?.name}
+                  eventId={event?.id}
+                  eventType={eventType}
+                />
+              ))}
+              <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
+            </div>
+            <div className="container p-0">
+              <Pagination
+                currentPage={myEvents?.currentPage}
+                totalPages={myEvents?.totalPages}
+                onPageChange={handlePageChange}
               />
-            ))}
-            <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
-          </div>
-          <div className="container p-0">
-          <Pagination
-            currentPage={myEvents?.currentPage}
-            totalPages={myEvents?.totalPages}
-            onPageChange={handlePageChange}
-          />
-        
-        </div>
-        </>
+            </div>
+          </>
         ) : (
           <div className="relative gradient-slate py-[94.5px] border border-[#292929] flex items-center justify-center flex-col gap-[12px] rounded-[12px]">
             <p className="text-[16px] text-extrabold">There’s No Event</p>
