@@ -164,7 +164,8 @@ const FUndRised = () => {
 
   const currentDate = new Date();
   console.log("today date ", currentDate);
-  const isGetPaidDisabled = currentDate > eventendDate || paidDetails?.event?.paid;
+  const isGetPaidDisabled =
+    currentDate > eventendDate || paidDetails?.event?.paid || totalSales === 0;
 
   return (
     <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] event-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
@@ -172,8 +173,8 @@ const FUndRised = () => {
       <div className="mb-[12px] w-full lg:mb-[24px]">
         <Backward />
       </div>
-      <div className="gap-[32px] w-full mb-[24px] lg:mb-[30px] flex lg:flex-row flex-col lg:gap-[42px]">
-        <div className="flex md:w-[392px] md:h-[392px] md:justify-center sm:justify-center">
+      <div className="gap-[32px] w-full mb-[24px] lg:mb-[30px] flex lg:flex-row md:flex-col lg:gap-[42px]  flex-col">
+        <div className="flex lg:w-[392px] lg:h-[392px] md:w-full justify-center items-center">
           <Image
             src={
               paidDetails?.event?.coverEventImage
@@ -183,7 +184,7 @@ const FUndRised = () => {
             alt="img"
             width={392}
             height={392}
-            className="h-full rounded-[12px] sm:w-[392px] w-full  sm:h-[392px]  "
+            className="h-full rounded-[12px] sm:w-[392px] md:w-full w-full  sm:h-[392px]  flex  items-center justify-center  "
           />
         </div>
         <div>
