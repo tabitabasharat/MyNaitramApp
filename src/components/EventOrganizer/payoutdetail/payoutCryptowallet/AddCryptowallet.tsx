@@ -37,6 +37,7 @@ import ScreenLoader from "@/components/loader/Screenloader";
 import { Separator } from "@/components/ui/separator";
 import SubmitSucessModal from "../../GetPaidOrganiser/SubmitSuccessModal";
 import Addcryptopopup from "./Addcryptopopup";
+import WAValidator from "multicoin-address-validator";
 
 // import Eventsubmitted from "../eventsubmitted/Eventsubmitted";
 type Option = {
@@ -49,7 +50,7 @@ const options: Option[] = [
   { id: 3, label: "Tron" },
   { id: 4, label: "Polygon" },
   { id: 5, label: "Bitcoin" },
-  { id: 6, label: "Avalanch" },
+  { id: 6, label: "Avalanche" },
   { id: 7, label: "Solana" },
 ];
 
@@ -81,6 +82,8 @@ const AddCryptowallet = ({ eventData }: any) => {
       walletName: "",
     },
   });
+
+  const validate = WAValidator.validate;
   const userLoading = useAppSelector((state) => state?.getShowProfile);
   const [walletaddress, setwalletaddress] = useState("");
   const [walletname, setwalletname] = useState("");
@@ -102,12 +105,21 @@ const AddCryptowallet = ({ eventData }: any) => {
     dispatch(getPayoutCryptoDetail(userid));
   }, []);
 
+  // const handleOptionToggle = (option: Option) => {
+  //   if (selectedOption?.id === option.id) {
+  //     setSelectedOption(null);
+  //   } else {
+  //     setSelectedOption(option); // Select the new option
+  //   }
+  // };
+
   const handleOptionToggle = (option: Option) => {
     if (selectedOption?.id === option.id) {
       setSelectedOption(null);
     } else {
-      setSelectedOption(option); // Select the new option
+      setSelectedOption(option);
     }
+    setValidationError("");
   };
 
   useEffect(() => {
@@ -117,36 +129,151 @@ const AddCryptowallet = ({ eventData }: any) => {
     console.log("user ID logged in is", userID);
   }, []);
 
+  // async function EventCreation(values: z.infer<typeof formSchema>) {
+  //   console.log(" Event Creation");
+
+  //   setLoader(true);
+
+  //   console.log("my values", values);
+  //   try {
+  //     const data = {
+  //       userId: userid,
+  //       chain: selectedOption?.label || "",
+  //       walletAddress: walletaddress,
+  //       walletName: walletname,
+  //     };
+  //     dispatch(createPayoutCrypto(data)).then((res: any) => {
+  //       if (res?.payload?.status === 200) {
+  //         setLoader(false);
+  //         SuccessToast("Wallet Added Successfully");
+  //         // setisCreateModalOpen(true);
+  //         setOpenModal(true);
+
+  //         dispatch(getPayoutCryptoDetail(userid));
+  //         router.push("/organizer-event/payout-detail/cryptowallet");
+  //       } else {
+  //         setLoader(false);
+  //         ErrorToast(res?.payload?.message);
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     ErrorToast(error);
+  //   }
+  // }
+
+  const addressFormats: any = {
+    Ethereum: {
+      length: 42,
+      pattern: /^0x[a-fA-F0-9]{40}$/,
+      example: "0x1234567890abcdef1234567890abcdef12345678",
+    },
+    "Binance Smart Chain": {
+      length: 42,
+      pattern: /^0x[a-fA-F0-9]{40}$/,
+      example: "0x1234567890abcdef1234567890abcdef12345678",
+    },
+    Tron: {
+      length: 34,
+      pattern: /^[T][a-zA-Z0-9]{33}$/,
+      example: "T12345678901234567890",
+    },
+    Polygon: {
+      length: 42,
+      pattern: /^0x[a-fA-F0-9]{40}$/,
+      example: "0x1234567890abcdef1234567890abcdef12345678",
+    },
+    Bitcoin: {
+      length: 34,
+      pattern: /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/,
+      example: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+    },
+    Avalanche: {
+      length: 42,
+      pattern: /^0x[a-fA-F0-9]{40}$/,
+      example: "0x1234567890abcdef1234567890abcdef12345678",
+    },
+    Solana: {
+      length: 44,
+      pattern: /^[A-Za-z0-9]{44}$/,
+      example: "3N1JcJv2nXpB7o7dH1mN3kStZUt9T3tucX2kLgqTY2so",
+    },
+  };
+
   async function EventCreation(values: z.infer<typeof formSchema>) {
-    console.log(" Event Creation");
-
     setLoader(true);
+    setValidationError("");
 
-    console.log("my values", values);
+    if (!selectedOption) {
+      setValidationError("Please select a chain.");
+      setLoader(false);
+      return;
+    }
+
+    const selectedChain = selectedOption?.label.split(" ")[0];
+    const isValid = validate(walletaddress, selectedChain);
+    // const isValid = validate(walletaddress, selectedOption.label);
+    const format = addressFormats[selectedOption.label];
+
+    if (!format) {
+      setValidationError("Invalid chain selected.");
+      setLoader(false);
+      return;
+    }
+
+    const { length, pattern, example } = format;
+
+    let errorMessages = [];
+
+    if (!isValid) {
+      errorMessages.push(
+        `Invalid wallet address for the selected chain. eg:${example}`
+      );
+    }
+
+    // if (walletaddress.length !== length) {
+    //   errorMessages.push(
+    //     `Example: ${example}`
+    //   );
+    //   console.log("format length error", length);
+    // }
+
+    // if (pattern && !pattern.test(walletaddress)) {
+    //   errorMessages.push(
+    //     `Wallet address does not match the required format. Example: ${example}`
+    //   );
+    //   console.log("format error pattern ");
+    // }
+
+    if (errorMessages.length > 0) {
+      setValidationError(errorMessages.join(" "));
+      setLoader(false);
+      return;
+    }
+
     try {
       const data = {
         userId: userid,
-        chain: selectedOption?.label || "",
+        chain: selectedOption.label || "",
         walletAddress: walletaddress,
         walletName: walletname,
       };
-      dispatch(createPayoutCrypto(data)).then((res: any) => {
-        if (res?.payload?.status === 200) {
-          setLoader(false);
-          SuccessToast("Wallet Added Successfully");
-          // setisCreateModalOpen(true);
-          setOpenModal(true);
 
-          dispatch(getPayoutCryptoDetail(userid));
-          router.push("/organizer-event/payout-detail/cryptowallet");
-        } else {
-          setLoader(false);
-          ErrorToast(res?.payload?.message);
-        }
-      });
+      const res: any = await dispatch(createPayoutCrypto(data));
+      if (res?.payload?.status === 200) {
+        setLoader(false);
+        SuccessToast("Wallet Added Successfully");
+        setOpenModal(true);
+        dispatch(getPayoutCryptoDetail(userid));
+        router.push("/organizer-event/payout-detail/cryptowallet");
+      } else {
+        setLoader(false);
+        ErrorToast(res?.payload?.message);
+      }
     } catch (error) {
       console.error("Error:", error);
       ErrorToast(error);
+      setLoader(false);
     }
   }
 

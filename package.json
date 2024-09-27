@@ -42,6 +42,7 @@
     "hamburger-react": "^2.5.1",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.402.0",
+    "multicoin-address-validator": "^0.5.21",
     "next": "14.2.4",
     "pako": "^2.1.0",
     "react": "^18",
@@ -72,6 +73,7 @@
   },
   "devDependencies": {
     "@types/google.maps": "^3.58.1",
+    "@types/multicoin-address-validator": "^0.5.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

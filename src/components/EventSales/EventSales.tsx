@@ -154,7 +154,22 @@ function EventSales() {
     return formattedTime;
   };
 
-  console.log(eventSales?.salesData?.data?.totalSold,"this is total sold")
+  console.log(eventSales?.salesData?.data?.totalSold, "this is total sold");
+
+
+  const ticketSales =eventSales?.salesData?.data?.ticketTypes?.map((ticket: any) => ({
+    // price: ticket?.price,
+    // count: ticket?.userCount,
+    total: ticket?.price * ticket?.userCount,
+  }));
+  console.log("Individual Ticket Sales:", ticketSales);
+
+  let totalSales = 0;
+  if (ticketSales) {
+    for (let i = 0; i < ticketSales.length; i++) {
+      totalSales = totalSales + ticketSales[i].total;
+    }
+  }
 
   return (
     <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] event-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
@@ -173,19 +188,10 @@ function EventSales() {
           />
         </div>
         <div>
-          <div
-            className="bg-[#00A849] border border-solid border-[#757575] py-[8px] px-[12px] w-[124px] lg:w-[135px] rounded-[100px]"
-            onClick={WalletModalhandler}
-          >
+          <div className="bg-[#00A849] border border-solid border-[#757575] py-[8px] px-[12px] w-[124px] lg:w-[135px] rounded-[100px]">
             <p className="text-[#030303] italic text-[11px] lg:font-extrabold font-[900] lg:text-[12px]">
               FEATURED EVENT
             </p>
-            {isCreateModalOpen && (
-              <WalletChooseModal
-                onClose={() => setisCreateModalOpen(false)}
-                open={() => setisCreateModalOpen(true)}
-              />
-            )}
           </div>
           <p className="font-extrabold text-[32px] lg:text-[48px] mb-[12px] lg:mb-[24px] mt-[12px]">
             {eventSales?.salesData?.data?.event?.name}
@@ -237,7 +243,6 @@ function EventSales() {
                 alt="time"
                 className="pe-[8px] w-[30px] h-[30px]"
               />
-              
               {ConvertTime(eventSales?.salesData?.data?.event?.startTime)} -{" "}
               {ConvertTime(eventSales?.salesData?.data?.event?.endTime)}{" "}
             </p>
@@ -252,6 +257,7 @@ function EventSales() {
               Tickets Sold <br />
               <span className="text-[#00D059] text-[32px] font-bold pt-[2px]">
                 {eventSales?.salesData?.data?.totalSold}
+                {/* £{totalSales || 0} */}
               </span>
             </p>
           </div>
@@ -619,7 +625,7 @@ function EventSales() {
                     borderTop: "1px solid #292929",
                   }}
                 >
-                 Scanned
+                  Scanned
                 </TableCell>
                 <TableCell
                   className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[233px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
@@ -661,7 +667,7 @@ function EventSales() {
                       className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
                       // className="d-flex gap-3 align-items-center "
                     >
-                      {index}
+                     {index}
                     </TableCell>
                     <TableCell
                       sx={{

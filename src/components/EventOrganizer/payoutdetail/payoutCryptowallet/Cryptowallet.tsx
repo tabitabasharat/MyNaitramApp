@@ -25,7 +25,7 @@ const Cryptowallet = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [deletedID, setDeletedID] = useState<number | null>(null);
 
-  const handleClick = (index: number, id:number) => {
+  const handleClick = (index: number, id: number) => {
     setActiveIndex(index);
     setDeletedID(id);
   };
@@ -127,15 +127,15 @@ const Cryptowallet = () => {
             <p> Delete Crypto Account </p>
           </button>
         </div>
-        <div className="flex gap-[32px] lg:gap-[24px] flex-col">
+        <div className="flex gap-[32px] lg:gap-[24px] flex-col h-[500px] overflow-y-auto w-full scrollbar-hide">
           {myCryptoHistory?.length > 0 ? (
             myCryptoHistory?.map((item: any, index: any) => (
               <div
                 key={index}
                 className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] ${
                   activeIndex === index ? "gradient-border" : ""
-                }`} 
-                onClick={() => handleClick(index, item?.id)} 
+                }`}
+                onClick={() => handleClick(index, item?.id)}
               >
                 <div className="flex justify-between items-center">
                   <p className="text-sm font-normal text-[#A6A6A6] ">

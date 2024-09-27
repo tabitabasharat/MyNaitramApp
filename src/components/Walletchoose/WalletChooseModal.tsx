@@ -45,6 +45,8 @@ import {
   ErrorToast,
 } from "../reusable-components/Toaster/Toaster";
 import ScreenLoader from "../loader/Screenloader";
+import WAValidator from "multicoin-address-validator";
+
 type Option = {
   id: number;
   label: string;
@@ -97,6 +99,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
   const [Dropdown, setDropdown] = useState(true);
   const [validationError, setValidationError] = useState("");
   const [userid, setUserid] = useState<any>("");
+  const validate = WAValidator.validate;
 
   console.log("my all event data", eventData);
 
@@ -114,6 +117,45 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
     setisCreateModalOpen(true);
     console.log("clicked");
   };
+
+  const addressFormats: any = {
+    Ethereum: {
+      length: 42,
+      pattern: /^0x[a-fA-F0-9]{40}$/,
+      example: "0x1234567890abcdef1234567890abcdef12345678",
+    },
+    "Binance Smart Chain": {
+      length: 42,
+      pattern: /^0x[a-fA-F0-9]{40}$/,
+      example: "0x1234567890abcdef1234567890abcdef12345678",
+    },
+    Tron: {
+      length: 34,
+      pattern: /^[T][a-zA-Z0-9]{33}$/,
+      example: "T12345678901234567890",
+    },
+    Polygon: {
+      length: 42,
+      pattern: /^0x[a-fA-F0-9]{40}$/,
+      example: "0x1234567890abcdef1234567890abcdef12345678",
+    },
+    Bitcoin: {
+      length: 34,
+      pattern: /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/,
+      example: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+    },
+    Avalanche: {
+      length: 42,
+      pattern: /^0x[a-fA-F0-9]{40}$/,
+      example: "0x1234567890abcdef1234567890abcdef12345678",
+    },
+    Solana: {
+      length: 44,
+      pattern: /^[A-Za-z0-9]{44}$/,
+      example: "3N1JcJv2nXpB7o7dH1mN3kStZUt9T3tucX2kLgqTY2so",
+    },
+  };
+
   useEffect(() => {
     const userID =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -126,6 +168,37 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
 
     setLoader(true);
 
+ if (!selectedOption) {
+      setValidationError("Please select a chain.");
+      setLoader(false);
+      return;
+    }
+
+    const selectedChain = selectedOption?.label.split(" ")[0];
+    const isValid = validate(walletaddress, selectedChain);
+    // const isValid = validate(walletaddress, selectedOption.label);
+    const format = addressFormats[selectedOption.label];
+
+    if (!format) {
+      setValidationError("Invalid chain selected.");
+      setLoader(false);
+      return;
+    }
+
+    const { length, pattern, example } = format;
+
+    let errorMessages = [];
+
+    if (!isValid) {
+      errorMessages.push(
+        `Invalid wallet address for the selected chain. eg:${example}`
+      );
+    }
+    if (errorMessages.length > 0) {
+      setValidationError(errorMessages.join(" "));
+      setLoader(false);
+      return;
+    }
     console.log("my values", values);
     try {
       const data = {
@@ -188,7 +261,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
           <div className="w-full">
             <DialogHeader>
               <DialogTitle className="flex justify-between font-bold px-[24px] text-2xl mb-1">
-                <h2 className="font-extrabold text-[24px]">Cryptosss Wallets</h2>
+                <h2 className="font-extrabold text-[24px]">Crypto Wallet</h2>
                 <Image
                   src={close}
                   sizes="28px"

@@ -159,12 +159,12 @@ const FUndRised = () => {
     return formattedTime;
   };
 
-  const eventStartDate = new Date(paidDetails?.event?.startTime);
-  console.log("event start date ", eventStartDate )
+  const eventendDate = new Date(paidDetails?.event?.endTime);
+  console.log("event start date ", eventendDate);
 
   const currentDate = new Date();
-  console.log("today date ", currentDate)
-  const isGetPaidDisabled =  currentDate >eventStartDate ;
+  console.log("today date ", currentDate);
+  const isGetPaidDisabled = currentDate > eventendDate;
   return (
     <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] event-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
       {userLoading.loading && <ScreenLoader />}
@@ -258,7 +258,7 @@ const FUndRised = () => {
             <p className="lg:text-[14px] text-[#D9D9D9] font-normal">
               Fund Raised <br />
               <span className="text-[#00D059] text-[32px] font-bold pt-[2px]">
-                £120,000
+                £{totalSales || 0}
               </span>
             </p>
           </div>
@@ -380,7 +380,7 @@ const FUndRised = () => {
 
       <div className="flex mb-[32px] md:justify-end w-full">
         <button
-        disabled={isGetPaidDisabled}
+          disabled={isGetPaidDisabled}
           onClick={() => setOpenModal(true)}
           className="text-sm w-full md:w-fit lg:text-base font-extrabold bg-[#00D059] 
           text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px] disabled:opacity-50"
@@ -392,9 +392,9 @@ const FUndRised = () => {
         <ReceviePaymentModal
           onClose={() => setOpenModal(false)}
           open={() => setOpenModal(true)}
-          ticketSold={totalSales}
-          platformFee={platformfee}
-          payoutAvailable={PayoutAmount}
+          ticketSold={totalSales || 0}
+          platformFee={platformfee || 0}
+          payoutAvailable={PayoutAmount || 0}
           eventID={eventid}
         />
       )}

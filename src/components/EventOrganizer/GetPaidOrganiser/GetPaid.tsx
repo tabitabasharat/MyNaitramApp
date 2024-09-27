@@ -62,12 +62,12 @@ const GetPaid = () => {
           EventsData?.data?.map((event: any, index: any) => (
             <ScaleReveal extraStyle="w-full" key={index}>
               <Link href={`/fund-rised/${event?.id}`}>
-                <div className="relative overflow-hidden rounded-lg w-full h-fit xl:w-full  lg:w-[288px] lg:h-[288px] border border-[#424242]">
+                <div className="relative overflow-hidden rounded-lg w-full h-fit xl:w-full  lg:w-[288px] lg:h-[288px] xl:h-[400px] border border-[#424242]">
                   <Image
                     src={event?.coverEventImage}
                     width={288}
                     height={288}
-                    className="w-full h-full lg:w-[288px] lg:h-[288px] xl:w-full rounded-lg object-cover relative mx-auto overflow-hidden"
+                    className="w-full h-full lg:w-[288px] lg:h-[288px] xl:w-full xl:h-[400px] rounded-lg object-cover relative mx-auto overflow-hidden"
                     alt="event-img"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
