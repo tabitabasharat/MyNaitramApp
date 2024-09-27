@@ -164,7 +164,8 @@ const FUndRised = () => {
 
   const currentDate = new Date();
   console.log("today date ", currentDate);
-  const isGetPaidDisabled = currentDate > eventendDate;
+  const isGetPaidDisabled = currentDate > eventendDate || paidDetails?.event?.paid;
+
   return (
     <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] event-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
       {userLoading.loading && <ScreenLoader />}
@@ -262,9 +263,9 @@ const FUndRised = () => {
               </span>
             </p>
           </div>
-          <div>
+          {/* <div>
             <Image src={filter} alt="img" />
-          </div>
+          </div> */}
         </div>
         <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
           <Table

@@ -77,14 +77,14 @@ const Header = () => {
       ],
     },
     { id: 3, title: "Event", url: "/viewallevents" },
-    { id: 4, title: "Host", url: "/organizer-event/event-dashboard" },
+    // { id: 4, title: "Host", url: "/organizer-event/event-dashboard" },
     {
-      id: 5,
+      id: 4,
       title: "Rewards",
       url: "/reward",
       subLinks: [{ title: "Wallet", url: "/wallet" }],
     },
-    { id: 6, title: "Get Sponsored", url: "/get-sponsor" },
+    { id: 5, title: "Get Sponsored", url: "/get-sponsor" },
   ];
   useEffect(() => {
     const id =
@@ -113,6 +113,16 @@ const Header = () => {
     setOpenDropdown(openDropdown === id ? null : id);
   };
   console.log("my Profile is", myProfile);
+
+  const handleHostToggle = () => {
+    if (!token) {
+      console.log("Token host ",token)
+      setIsLoginDialogOpen(true);
+    } else {
+      console.log("No token ",token)
+      router.push("/organizer-event/event-dashboard");
+    }
+  };
 
   return (
     <>
@@ -199,15 +209,22 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center">
-          {token && (
+          {/* {token && (
             <Button
               className="hidden p-[12px] py-[8px] font- font-extrabold text-base lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
-              // onClick={() => router.push("/organizer-event/event-dashboard")}
               onClick={() => router.push("/organizer-event/event-dashboard")}
             >
               Host Event
             </Button>
-          )}
+          )} */}
+
+          <Button
+            className="hidden p-[12px] py-[8px] font- font-extrabold text-base lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
+            // onClick={() => router.push("/organizer-event/event-dashboard")}
+            onClick={() => handleHostToggle()}
+          >
+            Host Event
+          </Button>
 
           <>
             {!token && (
@@ -243,7 +260,10 @@ const Header = () => {
           {isLoggedIn && token && (
             <div className="relative mr-[12px] md:mr-[12px] lg:ms-0 lg:mr-[12px] xl:mr-- flex items-center lg:gap-[20px] gap-[10px] h-full cursor-pointer">
               <Popover open={notifPopupOpen} onOpenChange={setNotifPopupOpen}>
-                <PopoverTrigger asChild className="relative z-[1200] cursor-pointer">
+                <PopoverTrigger
+                  asChild
+                  className="relative z-[1200] cursor-pointer"
+                >
                   <Bell className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer" />
                 </PopoverTrigger>
                 <PopoverContent className="cursor-pointer relative z-[1200] text-white border border-muted shadow-custom bg-black w-[350px] lg:w-[400px] rounded-2xl  -translate-x-4 translate-y-6">
@@ -254,8 +274,7 @@ const Header = () => {
               </Popover>
 
               {/* <Popover open={popupOpen} onOpenChange={setPopupOpen}> */}
-              <Popover >
-
+              <Popover>
                 <PopoverTrigger asChild>
                   <div className="border  p-[6px] h-[44px] w-[44px] border-muted gradient-slate rounded-full lg:flex items-center  cursor-pointer">
                     {/* <div className="size-[44px] lg:size-[44px] gradient-slate p-[6px] rounded-full overflow-hidden  shadow-inner shadow-md border border-gray-700 rounded-full border-gradient bg-gradient-to-t from-transparent to-transparent"> */}

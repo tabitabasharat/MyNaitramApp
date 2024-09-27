@@ -27,13 +27,10 @@ const BankAccountPayoutDetail = () => {
 
   const [openModal, setOpenModal] = useState(false);
   const eventAllData = "hello";
- 
-  
 
-  const handleClick = (index: number, deletedId:any) => {
+  const handleClick = (index: number, deletedId: any) => {
     setActiveIndex(index);
-    setDeletedID( deletedId);
-
+    setDeletedID(deletedId);
   };
   useEffect(() => {
     const userid =
@@ -41,13 +38,11 @@ const BankAccountPayoutDetail = () => {
     dispatch(getPayoutBankDetail(userid));
   }, []);
 
- 
   const myBankDetail = useAppSelector(
     (state) => state?.getPayoutBankDetail?.myHistory?.data
   );
   console.log("my payout bank history is", myBankDetail);
 
-  
   async function deleteBank() {
     setLoader(true);
     const userID =
@@ -136,7 +131,7 @@ const BankAccountPayoutDetail = () => {
             <p> Delete Bank Account </p>
           </button>
         </div>
-        <div className="flex gap-[32px] lg:gap-[24px] flex-col">
+        <div className="flex gap-[32px] lg:gap-[24px] flex-col h-[500px] overflow-auto scrollbar-hide">
           {/* {[...Array(3)].map((_, index) => (
             <div
               key={index}
@@ -182,12 +177,15 @@ const BankAccountPayoutDetail = () => {
             myBankDetail?.map((item: any, index: any) => (
               <div
                 key={index}
-                className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] ${
+                className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] flex flex-col  ${
                   activeIndex === index ? "gradient-border" : ""
                 }`}
                 onClick={() => handleClick(index, item?.id)}
               >
-                <div className="flex justify-between items-center">
+                <div
+                  className="flex justify-between md:items-center
+                 lg:items-center items-start flex-col md:flex-row lg:flex-row"
+                >
                   <p className="text-sm font-normal text-[#E6E6E6]">
                     Bank Name
                   </p>
@@ -195,7 +193,10 @@ const BankAccountPayoutDetail = () => {
                     {item?.bankName}
                   </p>
                 </div>
-                <div className="flex justify-between items-center">
+                <div
+                  className="flex justify-between lg:items-center md:items-center
+                 items-start flex-col md:flex-row lg:flex-row"
+                >
                   <p className="text-sm font-normal text-[#E6E6E6]">
                     Title of Account
                   </p>
@@ -203,15 +204,22 @@ const BankAccountPayoutDetail = () => {
                     {item?.accountTitle}
                   </p>
                 </div>
-                <div className="flex justify-between items-center">
+                <div
+                  className="flex justify-between lg:items-center  md:items-center
+                items-start flex-col md:flex-row lg:flex-row"
+                >
                   <p className="text-sm font-normal text-[#E6E6E6]">
                     Account Number
                   </p>
-                  <p className="text-[#E6E6E6] text-base font-bold text-end">
+                  <p className="text-[#E6E6E6] text-base font-bold 
+                    md:text-end lg:text-end text-start truncate w-full lg:w-auto">
                     {item?.IBAN}
                   </p>
                 </div>
-                <div className="flex justify-between items-center">
+                <div
+                  className="flex justify-between lg:items-center md:items-center
+                 items-start flex-col lg:flex-row md:flex-row"
+                >
                   <p className="text-sm font-normal text-[#E6E6E6]">
                     Country/City
                   </p>

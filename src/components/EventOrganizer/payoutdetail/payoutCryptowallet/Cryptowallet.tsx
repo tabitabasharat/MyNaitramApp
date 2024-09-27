@@ -132,12 +132,12 @@ const Cryptowallet = () => {
             myCryptoHistory?.map((item: any, index: any) => (
               <div
                 key={index}
-                className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] ${
+                className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px]   flex flex-col  ${
                   activeIndex === index ? "gradient-border" : ""
                 }`}
                 onClick={() => handleClick(index, item?.id)}
               >
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between lg:items-center items-start flex-col lg:flex-row">
                   <p className="text-sm font-normal text-[#A6A6A6] ">
                     Wallet Name
                   </p>
@@ -145,15 +145,15 @@ const Cryptowallet = () => {
                     {item?.walletName}
                   </p>
                 </div>
-                <div className="flex justify-between items-center">
-                  <p className="text-sm font-normal text-[#A6A6A6] ">
+                <div className="flex justify-between lg:items-center items-start flex-col lg:flex-row  ">
+                  <p className="text-sm font-normal text-[#A6A6A6]  ">
                     Wallet Address
                   </p>
-                  <p className="text-[#E6E6E6] text-base font-bold text-end">
+                  <p className="text-[#E6E6E6] text-base font-bold lg:text-end text-start truncate w-full lg:w-auto">
                     {item?.walletAddress}
                   </p>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between lg:items-center items-start flex-col lg:flex-row">
                   <p className="text-sm font-normal text-[#A6A6A6]">Chain</p>
                   <p className="text-[#E6E6E6] text-base font-bold text-end">
                     {item?.chain}

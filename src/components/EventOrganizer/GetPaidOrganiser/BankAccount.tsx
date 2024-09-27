@@ -48,8 +48,6 @@ const BankAccount = () => {
   const platformFee = searchParams.get("PlatformFee");
   const payout = searchParams.get("Payout");
 
-
-
   useEffect(() => {
     const path = window.location.pathname;
     const accountId = path.split("/")[3];
@@ -57,8 +55,6 @@ const BankAccount = () => {
   }, []);
 
   async function handleSubmit() {
-   
-
     setLoader(true);
     const userID =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
