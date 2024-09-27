@@ -17,7 +17,7 @@ import Link from "next/link";
 
 interface ReceviePaymentModalProps {
   onClose: () => void;
-  open: boolean;
+  open: any;
   eventID: string;
   ticketSold: number;
   platformFee: number;
