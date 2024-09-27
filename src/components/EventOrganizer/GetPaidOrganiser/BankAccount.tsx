@@ -87,7 +87,8 @@ const BankAccount = () => {
   }
 
   return (
-    <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] bank-bg-effect lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
+    <div className="min-h-screen bg-cover bg-no-repeat lg:px-0 bg-reward bg-reward-outer">
+    <div className="pt-[120px] pb-[59.12px] lg:pb-[26.25px] px-[24px] lg:px-[100px] xl:px-[216px] md:pt-[132px] mx-auto">
       {userloading.loading && <ScreenLoader />}
 
       <div
@@ -160,6 +161,7 @@ const BankAccount = () => {
           />
         )}
       </div>
+    </div>
     </div>
   );
 };

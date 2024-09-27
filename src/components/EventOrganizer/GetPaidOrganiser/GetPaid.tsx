@@ -51,23 +51,23 @@ const GetPaid = () => {
   console.log("my events data", EventsData);
   const userLoading = useAppSelector((state) => state?.getEventsByUID);
   return (
-    <div className="w-full md:w-[70%] px-[24px] md:px-[0px] mb-[120px] lg:px-[114px] xl:ps-[114px] xl:pe-[200px] md:mx-auto lg:w-full mt-[38px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[auto]">
+    <div  className="w-full md:w-[70%] px-[24px] md:px-[0px] mb-[120px] lg:px-[114px] xl:ps-[114px] xl:pe-[200px] md:mx-auto lg:w-full mt-[38px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[auto]">
       {userLoading.loading && <ScreenLoader />}
 
       <h3 className=" font-bold lg:text-[48px] ms-[20px] lg:ms-[0px] mb-[24px] lg:mb-[32px] text-[32px]">
         Get Paid
       </h3>
-      <div className="relative sm:grid flex flex-col md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 w-[100%] gap-[12px] lg:gap-[20px]">
+      <div className="relative sm:grid flex flex-col sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 w-[100%] gap-[12px] lg:gap-[20px]">
         {EventsData?.data?.length > 0 &&
           EventsData?.data?.map((event: any, index: any) => (
             <ScaleReveal extraStyle="w-full" key={index}>
-              <Link href={`/fund-rised/${event?.id}`}>
-                <div className="relative overflow-hidden rounded-lg w-full h-fit xl:w-full  lg:w-[288px] lg:h-[288px] xl:h-[400px] border border-[#424242]">
+              <Link href={`/fund-rised/${event?.id}`} className="w-full">
+                <div className="relative overflow-hidden rounded-lg w-full h-full xl:w-full  g:w-[288px] lg:h-[288px] xl:h-[400px] border border-[#424242]">
                   <Image
                     src={event?.coverEventImage}
                     width={288}
                     height={288}
-                    className="w-full h-full lg:w-[288px] lg:h-[288px] xl:w-full xl:h-[400px] rounded-lg object-cover relative mx-auto overflow-hidden"
+                    className=" xl:h-[400px] w-full h-[345px] xl:w-full  g:w-[288px] sm:h-[288px] lg:h-[288px] xl:h-[400px] rounded-lg object-cover relative mx-auto overflow-hidden"
                     alt="event-img"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>

@@ -340,7 +340,6 @@ body {
   position: relative;
   border-radius: 44px; /* This controls the rounding of the corners */
 }
-
 .gradient-border-edit::before {
   content: "";
   position: absolute;
@@ -623,11 +622,6 @@ input[type="number"] {
   background-repeat: no-repeat;
   background-position: bottom;
 }
-.bank-bg-effect{
-  background-image: url("../assets/Blur-Green.png");
-  background-repeat: no-repeat;
-  background-position: bottom right;
-}
 .webkit-blur {
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
@@ -654,6 +648,14 @@ input[type="number"] {
 }
 .btons-wrap-adjustment{
   flex-wrap: nowrap;
+}
+.bg-img-blur{
+       /* width: 100%;
+       height: auto;
+       background:
+         "radial-gradient(circle at center, rgba(15, 255, 119, 0.32), rgba(0, 0, 0, 0))";
+       filter: blur(100px);
+       transform: "translate(125px, 125px)"; */
 }
 .add-bank-account-border {
   position: relative;
@@ -698,9 +700,6 @@ input[type="number"] {
     height: auto;
   }
   .event-bg-effect {
-    background: transparent;
-  }
-  .bank-bg-effect{
     background: transparent;
   }
 }
@@ -792,5 +791,11 @@ width: 576px !important;
 @media (max-width:360px) {
   .btons-wrap-adjustment{
     flex-wrap: wrap;
+  }
+}
+@media (max-width:769px) {
+  .width-card-ajustment-get-paid{
+    width: 345px;
+    height: 345px;
   }
 }

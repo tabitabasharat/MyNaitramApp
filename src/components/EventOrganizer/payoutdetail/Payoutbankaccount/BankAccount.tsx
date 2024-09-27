@@ -79,7 +79,6 @@ const BankAccountPayoutDetail = () => {
   const userloading = useAppSelector((state) => state?.getPayoutBankDetail);
 
   return (
-    // <section className="bank-bg-effect">
     <div className="pt-[42px] pb-[59.12px] lg:pb-[26.25px] px-[24px] lg:px-[100px] xl:px-[216px] md:pt-[90px] mx-auto">
       <div className="w-full md:w-[676px]">
         <p className="block ms-[25px] mb-[32px] sm:mb-[0px] sm:hidden text-[24px] font-extrabold">
