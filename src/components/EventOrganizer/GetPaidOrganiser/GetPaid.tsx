@@ -10,33 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useState, useEffect } from "react";
 import ScreenLoader from "@/components/loader/Screenloader";
 const GetPaid = () => {
-  const getpaid = [
-    {
-      id: 1,
-      img: coverEventImage,
-      title: "Amet est massa volutpat faucibus",
-    },
-    {
-      id: 2,
-      img: coverEventImage,
-      title: "Amet est massa volutpat faucibus",
-    },
-    {
-      id: 3,
-      img: coverEventImage,
-      title: "Amet est massa volutpat faucibus",
-    },
-    {
-      id: 4,
-      img: coverEventImage,
-      title: "Amet est massa volutpat faucibus",
-    },
-    {
-      id: 5,
-      img: coverEventImage,
-      title: "Amet est massa volutpat faucibus",
-    },
-  ];
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     const userid =

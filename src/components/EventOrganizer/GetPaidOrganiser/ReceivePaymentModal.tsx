@@ -43,24 +43,8 @@ const ReceviePaymentModal = ({
   const handleTogglewallet = () => {
     setIsWalletOpen(!iswalletOpen); // Toggle isClaimOpen to control the popup
   };
-  useEffect(() => {
-    const currentUrl: any =
-      typeof window !== "undefined" ? window.location.href : null;
-    const parts = currentUrl.split("/");
-    const value = parts[parts.length - 1];
-    setCollectID(value);
-    console.log("my event id is", value);
-    dispatch(getRewardCollectibleByID(value));
-  }, []);
-  useEffect(() => {
-    const currentUrl: any =
-      typeof window !== "undefined" ? window.location.href : null;
-    const parts = currentUrl.split("/");
-    const value = parts[parts.length - 1];
-    setCryptowalletID(value);
-    console.log("my event id is", value);
-    dispatch(getRewardCollectibleByID(value));
-  }, []);
+  
+  
   const value = "pop ups";
   return (
     <Dialog open={open} onOpenChange={onClose}>

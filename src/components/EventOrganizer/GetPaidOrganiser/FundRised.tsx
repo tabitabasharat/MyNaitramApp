@@ -73,12 +73,12 @@ const FUndRised = () => {
     }
   }
   console.log("Total Saless:", totalSales);
-  const platformfee = paidDetails?.event?.funds?.platformFee;
+  const platformfee = paidDetails?.event?.funds?.platformFee || 0;
   const PayoutAmount = totalSales - platformfee;
   const rows = [
     createData(1, "Tickets Sold", totalSales || 0),
     createData(2, "Platform Fees", paidDetails?.event?.funds?.platformFee || 0),
-    createData(3, "Payout Available", PayoutAmount || 0),
+    createData(3, "Payout Available", PayoutAmount),
   ];
 
   const ConvertDate = (originalDateStr: string): string => {
@@ -396,7 +396,7 @@ const FUndRised = () => {
           open={() => setOpenModal(true)}
           ticketSold={totalSales || 0}
           platformFee={platformfee || 0}
-          payoutAvailable={PayoutAmount || 0}
+          payoutAvailable={PayoutAmount}
           eventID={eventid}
         />
       )}

@@ -148,10 +148,12 @@ const BankAccount = () => {
       </div>
 
       <div
-        onClick={() => handleSubmit()}
+        
         className="flex lg:mb-[158px] mb-[32px] w-full mt-[20px] lg:mt-[32px] md:w-[676px]"
       >
-        <button className="text-sm w-full lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]">
+        <button className="text-sm w-full
+         lg:text-base font-extrabold bg-[#00D059] 
+         text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]" onClick={() => handleSubmit()}>
           Submit
         </button>
         {openModal && (

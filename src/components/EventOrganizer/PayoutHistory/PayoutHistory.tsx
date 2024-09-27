@@ -19,7 +19,7 @@ const PayoutHistory = () => {
   useEffect(() => {
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-    dispatch(getPayoutHistory(userid));
+    dispatch(getPayoutHistory(2));
   }, []);
   const myPayoutHistory = useAppSelector(
     (state) => state?.getPayoutHistory?.myHistory?.data
