@@ -105,7 +105,7 @@ const CryptoWallets = () => {
           </p>
         </div>
 
-        <div className="flex gap-[32px] lg:gap-[24px] flex-col">
+        <div className="flex gap-[32px] lg:gap-[24px] flex-col h-[500px] overflow-y-auto w-full scrollbar-hide" >
           {myCryptoHistory?.map((item: any, index: any) => (
             <div
               key={index}
@@ -114,25 +114,25 @@ const CryptoWallets = () => {
               }`} // Apply the gradient-border class only if the current div is active
               onClick={() => handleClick(index, item?.id)} // Set the clicked div as active
             >
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#E6E6E6]">
                   Wallet Name
                 </p>
-                <p className="text-[#E6E6E6] text-base font-bold text-end">
+                <p className="text-[#E6E6E6] text-base font-bold alignment-text">
                   {item?.walletName}
                 </p>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#E6E6E6]">
                   Wallet Address
                 </p>
-                <p className="text-[#E6E6E6] text-base font-bold text-end">
+                <p className="text-[#E6E6E6] text-base font-bold alignment-text truncate">
                   {item?.walletAddress}
                 </p>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#E6E6E6]">Chain</p>
-                <p className="text-[#E6E6E6] text-base font-bold text-end">
+                <p className="text-[#E6E6E6] text-base font-bold alignment-text">
                   {item?.chain}
                 </p>
               </div>
