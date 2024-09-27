@@ -126,7 +126,7 @@ const ScannerLogin = () => {
         <Separator className="scale--[1.12] bg-[#292929]" />
         {Dropdown && (
           <div className="pt-[16px] lg:pt-[12px]">
-            {EventsData?.length > 0 ? (
+            {EventsData?.data?.length > 0 ? (
               EventsData?.data?.map((option: any) => (
                 <div
                   key={option?.id}
@@ -154,7 +154,7 @@ const ScannerLogin = () => {
           <p className="text-red-500 text-sm mt-2">{validationError}</p>
         )}
       </div>
-      {EventsData?.length > 0 && 
+      {EventsData?.data?.length > 0 && 
       <Link
         href={
           EventsData?.length > 0
