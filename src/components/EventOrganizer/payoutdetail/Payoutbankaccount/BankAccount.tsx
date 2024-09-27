@@ -183,46 +183,48 @@ const BankAccountPayoutDetail = () => {
               >
                 <div
                   className="flex justify-between md:items-center
-                 lg:items-center items-start flex-col md:flex-row lg:flex-row"
+                 lg:items-center items-start wallet-div-content"
                 >
                   <p className="text-sm font-normal text-[#E6E6E6]">
                     Bank Name
                   </p>
-                  <p className="text-[#E6E6E6] text-base font-bold text-end">
+                  <p className="text-[#E6E6E6] text-base font-bold alignment-text">
                     {item?.bankName}
                   </p>
                 </div>
                 <div
                   className="flex justify-between lg:items-center md:items-center
-                 items-start flex-col md:flex-row lg:flex-row"
+                 items-start wallet-div-content"
                 >
                   <p className="text-sm font-normal text-[#E6E6E6]">
                     Title of Account
                   </p>
-                  <p className="text-[#E6E6E6] text-base font-bold text-end">
+                  <p className="text-[#E6E6E6] text-base font-bold alignment-text">
                     {item?.accountTitle}
                   </p>
                 </div>
                 <div
                   className="flex justify-between lg:items-center  md:items-center
-                items-start flex-col md:flex-row lg:flex-row"
+                items-start wallet-div-content"
                 >
                   <p className="text-sm font-normal text-[#E6E6E6]">
                     Account Number
                   </p>
-                  <p className="text-[#E6E6E6] text-base font-bold 
-                    md:text-end lg:text-end text-start truncate w-full lg:w-auto">
+                  <p
+                    className="text-[#E6E6E6] text-base font-bold 
+                    md:text-end lg:text-end alignment-text truncate w-full lg:w-auto"
+                  >
                     {item?.IBAN}
                   </p>
                 </div>
                 <div
                   className="flex justify-between lg:items-center md:items-center
-                 items-start flex-col lg:flex-row md:flex-row"
+                 items-start wallet-div-content"
                 >
                   <p className="text-sm font-normal text-[#E6E6E6]">
                     Country/City
                   </p>
-                  <p className="text-[#E6E6E6] text-base font-bold text-end">
+                  <p className="text-[#E6E6E6] alignment-text text-base alignment-text font-bold alignment-text">
                     {item?.country}
                   </p>
                 </div>

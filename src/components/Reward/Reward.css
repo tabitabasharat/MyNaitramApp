@@ -20,16 +20,7 @@
   display: flex;
   align-items: center;
   gap: 40px;
-  /* justify-content: space-between; */
 }
-/* @media (max-width: 1416px) {
-  .bg-reward-outer{
-    width: 100%;
-    display: block;
-
-    padding: 132px 216px 89px 216px;
-  }
-} */
 
 @media (max-width: 992px) {
   .bg-reward-outer{

@@ -140,7 +140,6 @@ body {
   /* width: 100%; */
   background-size: cover;
 }
-
 .text-dark {
   @apply text-[#030303];
 }
@@ -681,6 +680,10 @@ input[type="number"] {
 .no-border-table {
   border-collapse: collapse; /* Ensures no spacing between cells */
 }
+.alignment-text{
+  text-align: end;
+  width: 60%;
+}
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
@@ -797,5 +800,14 @@ width: 576px !important;
   .width-card-ajustment-get-paid{
     width: 345px;
     height: 345px;
+  }
+}
+@media (max-width:374px) {
+  .wallet-div-content{
+  display: flex;
+  flex-direction: column;
+  }
+  .alignment-text{
+    text-align: start;
   }
 }

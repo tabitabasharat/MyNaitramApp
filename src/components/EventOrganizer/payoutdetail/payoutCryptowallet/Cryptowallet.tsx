@@ -132,30 +132,30 @@ const Cryptowallet = () => {
             myCryptoHistory?.map((item: any, index: any) => (
               <div
                 key={index}
-                className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px]   flex flex-col  ${
+                className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] flex flex-col  ${
                   activeIndex === index ? "gradient-border" : ""
                 }`}
                 onClick={() => handleClick(index, item?.id)}
               >
-                <div className="flex justify-between lg:items-center items-start flex-col lg:flex-row">
+                <div className="flex justify-between lg:items-center items-start wallet-div-content">
                   <p className="text-sm font-normal text-[#A6A6A6] ">
                     Wallet Name
                   </p>
-                  <p className="text-[#E6E6E6] text-base font-bold text-end">
+                  <p className="text-[#E6E6E6] text-base font-bold alignment-text">
                     {item?.walletName}
                   </p>
                 </div>
-                <div className="flex justify-between lg:items-center items-start flex-col lg:flex-row  ">
+                <div className="flex justify-between lg:items-center items-start wallet-div-content">
                   <p className="text-sm font-normal text-[#A6A6A6]  ">
                     Wallet Address
                   </p>
-                  <p className="text-[#E6E6E6] text-base font-bold lg:text-end text-start truncate w-full lg:w-auto">
+                  <p className="text-[#E6E6E6] text-base font-bold lg:text-end alignment-text truncate w-full lg:w-auto">
                     {item?.walletAddress}
                   </p>
                 </div>
-                <div className="flex justify-between lg:items-center items-start flex-col lg:flex-row">
+                <div className="flex justify-between lg:items-center items-start wallet-div-content">
                   <p className="text-sm font-normal text-[#A6A6A6]">Chain</p>
-                  <p className="text-[#E6E6E6] text-base font-bold text-end">
+                  <p className="text-[#E6E6E6] text-base font-bold alignment-text">
                     {item?.chain}
                   </p>
                 </div>
