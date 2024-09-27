@@ -112,8 +112,8 @@ const BankAccount = () => {
             key={index}
             className={`w-full flex flex-col gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] ${
               activeIndex === index ? "gradient-border" : ""
-            }`} // Apply the gradient-border class only if the current div is active
-            onClick={() => handleClick(index, item?.id)} // Set the clicked div as active
+            }`} 
+            onClick={() => handleClick(index, item?.id)} 
           >
             <div className="flex justify-between md:items-center items-start wallet-div-content">
               <p className="text-sm font-normal text-[#E6E6E6]">Bank Name</p>
