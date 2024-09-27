@@ -19,7 +19,7 @@ const PayoutHistory = () => {
   useEffect(() => {
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-    dispatch(getPayoutHistory(2));
+    dispatch(getPayoutHistory(userid));
   }, []);
   const myPayoutHistory = useAppSelector(
     (state) => state?.getPayoutHistory?.myHistory?.data
@@ -121,7 +121,10 @@ const PayoutHistory = () => {
                   Amount Withdrawn
                 </p>
                 <p className="text-[#E6E6E6] text-base alignment-text font-bold">
-                  ${item?.amountWithdrawn != null ? item?.amountWithdrawn : "0.00"}
+                  $
+                  {item?.amountWithdrawn != null
+                    ? item?.amountWithdrawn
+                    : "0.00"}
                 </p>
               </div>
               <div className="flex justify-between lg:items-center items-start wallet-div-content">
