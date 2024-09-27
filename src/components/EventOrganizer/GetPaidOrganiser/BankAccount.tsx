@@ -115,13 +115,13 @@ const BankAccount = () => {
             }`} // Apply the gradient-border class only if the current div is active
             onClick={() => handleClick(index, item?.id)} // Set the clicked div as active
           >
-            <div className="flex justify-between items-start wallet-div-content">
+            <div className="flex justify-between md:items-center items-start wallet-div-content">
               <p className="text-sm font-normal text-[#E6E6E6]">Bank Name</p>
               <p className="text-[#E6E6E6] text-base font-bold alignment-text">
                 {item?.bankName}
               </p>
             </div>
-            <div className="flex justify-between items-start wallet-div-content">
+            <div className="flex justify-between md:items-center items-start wallet-div-content">
               <p className="text-sm font-normal text-[#E6E6E6]">
                 Title of Account
               </p>
@@ -129,7 +129,7 @@ const BankAccount = () => {
                 {item?.accountTitle}
               </p>
             </div>
-            <div className="flex justify-between items-start wallet-div-content">
+            <div className="flex justify-between md:items-center items-start wallet-div-content">
               <p className="text-sm font-normal text-[#E6E6E6] ">
                 Account Number
               </p>
@@ -137,7 +137,7 @@ const BankAccount = () => {
                 {item?.IBAN}
               </p>
             </div>
-            <div className="flex justify-between items-start wallet-div-content">
+            <div className="flex justify-between md:items-center items-start wallet-div-content">
               <p className="text-sm font-normal text-[#E6E6E6]">Country/City</p>
               <p className="text-[#E6E6E6] text-base font-bold alignment-text">
                 {item?.country}

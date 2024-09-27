@@ -114,7 +114,7 @@ const CryptoWallets = () => {
               }`} // Apply the gradient-border class only if the current div is active
               onClick={() => handleClick(index, item?.id)} // Set the clicked div as active
             >
-              <div className="flex justify-between items-start wallet-div-content">
+              <div className="flex justify-between md:items-center items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#E6E6E6]">
                   Wallet Name
                 </p>
@@ -122,7 +122,7 @@ const CryptoWallets = () => {
                   {item?.walletName}
                 </p>
               </div>
-              <div className="flex justify-between items-start wallet-div-content">
+              <div className="flex justify-between md:items-center items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#E6E6E6]">
                   Wallet Address
                 </p>
@@ -130,7 +130,7 @@ const CryptoWallets = () => {
                   {item?.walletAddress}
                 </p>
               </div>
-              <div className="flex justify-between items-start wallet-div-content">
+              <div className="flex justify-between md:items-center items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#E6E6E6]">Chain</p>
                 <p className="text-[#E6E6E6] text-base font-bold alignment-text">
                   {item?.chain}

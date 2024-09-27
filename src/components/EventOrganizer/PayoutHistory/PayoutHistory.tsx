@@ -84,61 +84,61 @@ const PayoutHistory = () => {
               className="w-full flex flex-col gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px]"
               onClick={() => handleClick(index)} // Set the clicked div as active
             >
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between lg:items-center items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#A6A6A6]">Event</p>
-                <p className="text-[#E6E6E6] text-base font-bold text-end">
+                <p className="text-[#E6E6E6] text-base font-bold alignment-text">
                   {item?.eventName}
                 </p>
               </div>
               {item?.category?.length > 0 && (
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between lg:items-center items-start wallet-div-content">
                   <p className="text-sm font-normal text-[#A6A6A6]">Category</p>
-                  <p className="text-[#E6E6E6] text-base text-end font-bold">
+                  <p className="text-[#E6E6E6] text-base alignment-text font-bold">
                     {item.category.join(", ")}
                   </p>
                 </div>
               )}
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between lg:items-center items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#A6A6A6]">Location</p>
-                <p className="text-[#E6E6E6] text-end text-base font-bold">
+                <p className="text-[#E6E6E6] alignment-text text-base font-bold">
                   {item?.location}
                 </p>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between lg:items-center items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#A6A6A6]">Start Date</p>
-                <p className="text-[#E6E6E6] text-base text-end font-bold">
+                <p className="text-[#E6E6E6] text-base alignment-text font-bold">
                   {formatDate(item?.startDate)}
                 </p>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between lg:items-center items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#A6A6A6]">End Date</p>
-                <p className="text-[#E6E6E6] text-base text-end font-bold">
+                <p className="text-[#E6E6E6] text-base alignment-text font-bold">
                   {formatDate(item?.endDate)}
                 </p>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between lg:items-center items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#A6A6A6]">
                   Amount Withdrawn
                 </p>
-                <p className="text-[#E6E6E6] text-base text-end font-bold">
+                <p className="text-[#E6E6E6] text-base alignment-text font-bold">
                   ${item?.amountWithdrawn != null ? item?.amountWithdrawn : "0.00"}
                 </p>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between lg:items-center items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#A6A6A6]">
                   Withdrawal Method
                 </p>
-                <p className="text-[#E6E6E6] text-base text-end font-bold">
+                <p className="text-[#E6E6E6] text-base alignment-text font-bold">
                   {item?.types === "bank_account"
                     ? "Bank Account"
                     : "Crypto Wallet"}
                 </p>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between lg:items-center items-start wallet-div-content">
                 <p className="text-sm font-normal text-[#A6A6A6]">
                   Account Name
                 </p>
-                <p className="text-[#E6E6E6] text-base text-end font-bold">
+                <p className="text-[#E6E6E6] text-base alignment-text font-bold">
                   {item?.accountTitle}
                 </p>
               </div>
