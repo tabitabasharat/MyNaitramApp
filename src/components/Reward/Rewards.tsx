@@ -33,7 +33,10 @@ function Rewards() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    dispatch(getClaimStatus());
+    const userid =
+    typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+
+    dispatch(getClaimStatus(userid));
     dispatch(getRewardCollectibles());
   }, []);
 
@@ -193,6 +196,7 @@ function Rewards() {
                           desc={reward?.claimText}
                           icon={Calendarnew}
                           claimID={reward?.id}
+                          claimed={reward?.claimed}
                         />
                       )
                     )}

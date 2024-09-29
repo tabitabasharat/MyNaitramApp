@@ -32,10 +32,10 @@ export const getHistoryByID = createAsyncThunk(
   
 export const getClaimStatus = createAsyncThunk(
   "getClaimStatus",
-  async () => {
+  async (data:any) => {
     try {
       console.log("inside get getClaimStatus");
-      const res = await api.get(`${API_URL}/reward/getClaimStatus`);
+      const res = await api.get(`${API_URL}/reward/getClaimStatus/${data}`);
       console.log("inside get getClaimStatus", res);
       // localStorage.setItem("token", res?.data?.token);
       return {
@@ -100,7 +100,7 @@ export const getRewardCollectibleByID = createAsyncThunk(
   async (data: any) => {
     try {
       console.log("inside getCollectibleByID");
-      const res = await api.get(`${API_URL}/reward/getCollectibleById/${data}`);
+      const res = await api.get(`${API_URL}/reward/getCollectibleById/${data?.rewradID}/${data?.userId}`);
       console.log("inside ggetCollectibleByID", res);
       // localStorage.setItem("token", res?.data?.token);
       return {

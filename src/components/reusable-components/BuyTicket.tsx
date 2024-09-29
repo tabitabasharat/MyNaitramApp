@@ -59,7 +59,7 @@ const BuyTicket = ({
               ? `£${startPrice > endPrice ? endPrice : startPrice} - £${
                   startPrice < endPrice ? endPrice : startPrice
                 }`
-              : "£10 - £1000"}
+              : "Free"}
           </p>
           {/* <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left text-[13px] lg:text-[14px]">
             Price may vary due to different ticket types

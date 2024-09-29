@@ -30,11 +30,18 @@ export default function ClaimableRewards() {
   useEffect(() => {
     const currentUrl: any =
       typeof window !== "undefined" ? window.location.href : null;
+
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setCollectID(value);
+    const dats = {
+      rewradID: value,
+      userId: userID,
+    };
     console.log("my event id is", value);
-    dispatch(getRewardCollectibleByID(value));
+    dispatch(getRewardCollectibleByID(dats));
   }, []);
 
   const myData = useAppSelector(
@@ -61,6 +68,17 @@ export default function ClaimableRewards() {
         if (res?.payload?.status === 201) {
           setLoader(false);
           SuccessToast("Collectible Claimed Successfully");
+          const currentUrl: any =
+            typeof window !== "undefined" ? window.location.href : null;
+          const parts = currentUrl.split("/");
+          const value = parts[parts.length - 1];
+          setCollectID(value);
+          const dats = {
+            rewradID: value,
+            userId: userID,
+          };
+          dispatch(getRewardCollectibleByID(dats));
+          console.log("my event id is", value);
           setisClaimOpen(true);
         } else {
           setLoader(false);
@@ -81,7 +99,7 @@ export default function ClaimableRewards() {
   //     } else {
   //       ErrorToast("Failed to copy URL.");
   //     }
-     
+
   //   }
   // };
 
@@ -89,7 +107,8 @@ export default function ClaimableRewards() {
     if (typeof window !== "undefined") {
       const currentUrl = window.location.href;
       if (currentUrl) {
-        navigator.clipboard.writeText(currentUrl)
+        navigator.clipboard
+          .writeText(currentUrl)
           .then(() => {
             SuccessToast("URL copied successfully");
             console.log("Your URL is", currentUrl);
@@ -141,6 +160,7 @@ export default function ClaimableRewards() {
             </p>
             <div className="flex w-full items-start gap-[12px] mt-[48px]">
               <Button
+                disabled={myData?.claimed}
                 className="w-full sm:w-fit sm:px-[78px] py-16px h-[52px] text-[14px] font-extrabold "
                 // onClick={() => setisClaimOpen(true)}
                 onClick={() => ClaimCollectible()}

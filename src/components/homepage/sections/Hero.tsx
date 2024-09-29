@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { getRewardCollectibleByID } from "@/lib/middleware/reward";
+
 
 const Hero = () => {
   const router = useRouter();
@@ -31,7 +31,6 @@ const Hero = () => {
   //   const value = parts[parts.length - 1];
   //   setCollectID(value);
   //   console.log("my event id is", value);
-  //   dispatch(getRewardCollectibleByID(value));
   // }, []);
 
   return (

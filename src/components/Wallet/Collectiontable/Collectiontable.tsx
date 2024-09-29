@@ -21,7 +21,7 @@ const Collectiontable = () => {
     const value = parts[parts.length - 1];
     setCollectID(value);
     console.log("my event id is", value);
-    dispatch(getRewardCollectibleByID(value));
+    // dispatch(getRewardCollectibleByID(value));
   }, []);
 
   const myData = useAppSelector(

@@ -42,7 +42,7 @@ const Receviepayment = ({ onClose, open, eventData }: any) => {
     const value = parts[parts.length - 1];
     setCollectID(value);
     console.log("my event id is", value);
-    dispatch(getRewardCollectibleByID(value));
+    // dispatch(getRewardCollectibleByID(value));
   }, []);
   useEffect(() => {
     const currentUrl: any =
@@ -51,7 +51,7 @@ const Receviepayment = ({ onClose, open, eventData }: any) => {
     const value = parts[parts.length - 1];
     setCryptowalletID(value);
     console.log("my event id is", value);
-    dispatch(getRewardCollectibleByID(value));
+    // dispatch(getRewardCollectibleByID(value));
   }, []);
   const value = "pop ups";
   return (

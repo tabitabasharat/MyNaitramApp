@@ -5,12 +5,12 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "../loader/Screenloader";
 import { SuccessToast, ErrorToast } from "./Toaster/Toaster";
 import { useState, useEffect } from "react";
-import { claimReward } from "@/lib/middleware/reward";
+import { claimReward, getClaimStatus } from "@/lib/middleware/reward";
 import ClaimRewardModal from "../Reward/ClaimRewardModal";
 
 
 
-const ClaimRewardCard = ({ heading, desc, icon, claimID }: any) => {
+const ClaimRewardCard = ({ heading, desc, icon, claimID,claimed }: any) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
@@ -31,6 +31,8 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID }: any) => {
         if (res?.payload?.status === 201) {
           setLoader(false);
           // SuccessToast("Reward Claimed Successfully");
+
+          dispatch(getClaimStatus(userID));
           setisClaimOpen(true);
         } else {
           setLoader(false);
@@ -53,6 +55,7 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID }: any) => {
         </div>
 
         <Button
+        disabled={claimed}
           size="sm"
           variant="secondary"
           className="py-[6px] font-extrabold w-fit text-[#030303] text-[14px]"
