@@ -37,6 +37,7 @@ function LunchEvent() {
             router.push("/organizer-create-event");
           } else {
             setisCreateModalOpen(true);
+            // router.push("/organizer-event/profile");
           }
         } else {
           setLoader(false);
@@ -57,7 +58,9 @@ function LunchEvent() {
         className="flex justify-center cursor-pointer items-center rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]"
         onClick={() => checkProfile()}
       >
-        <p className="text-[#00D059] text-sm font-extrabold cursor-pointer">Let’s Host</p>
+        <p className="text-[#00D059] text-sm font-extrabold cursor-pointer">
+          Let’s Host
+        </p>
       </div>
       {isCreateModalOpen && (
         <LunchModal

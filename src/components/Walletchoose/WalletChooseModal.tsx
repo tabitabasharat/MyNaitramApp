@@ -57,7 +57,7 @@ const options: Option[] = [
   { id: 3, label: "Tron" },
   { id: 4, label: "Polygon" },
   { id: 5, label: "Bitcoin" },
-  { id: 6, label: "Avalanch" },
+  { id: 6, label: "Avalanche" },
   { id: 7, label: "Solana" },
 ];
 
@@ -74,7 +74,6 @@ const formSchema = z.object({
       message: "Wallet Address cannot be 'null'.",
     }),
 });
-
 
 type LunchModalProps = {
   onClose: () => void; // Function to close the dialog
@@ -102,8 +101,6 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
   const validate = WAValidator.validate;
 
   console.log("my all event data", eventData);
-
-  
 
   const handleOptionToggle = (option: Option) => {
     if (selectedOption?.id === option.id) {
@@ -168,14 +165,21 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
 
     setLoader(true);
 
- if (!selectedOption) {
+    if (!selectedOption) {
       setValidationError("Please select a chain.");
       setLoader(false);
       return;
     }
 
     const selectedChain = selectedOption?.label.split(" ")[0];
-    const isValid = validate(walletaddress, selectedChain);
+
+    const normalizedChain =
+      selectedChain === "Polygon" ? "Matic" : selectedChain;
+    console.log("my vlid", walletaddress);
+    console.log("my vlssid", selectedChain);
+
+    const isValid = validate(walletaddress, normalizedChain);
+
     // const isValid = validate(walletaddress, selectedOption.label);
     const format = addressFormats[selectedOption.label];
 
@@ -319,7 +323,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
                             }}
                           />
                         </FormControl>
-                      
+
                         <FormMessage />
                       </FormItem>
                     )}

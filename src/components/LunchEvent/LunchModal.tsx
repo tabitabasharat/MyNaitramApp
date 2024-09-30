@@ -43,7 +43,15 @@ const LunchModal = ({ onClose, open }: any) => {
     ? myProfile?.profilePicture
     : "/person3.jpg";
   console.log("image src is", imageUrl);
+  useEffect(() => {
+    if (open) {
+      const timeout = setTimeout(() => {
+        router.push("/organizer-event/profile");
+      }, 3000);
 
+      return () => clearTimeout(timeout);
+    }
+  }, [open, router]);
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogPortal>

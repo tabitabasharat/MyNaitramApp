@@ -115,6 +115,25 @@ const categorySchema = z.object({
   dropdown: z.boolean().optional(),
 });
 
+const isValidDateTime = (dateTimeString: string) => {
+  const dateTimeRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+  if (!dateTimeRegex.test(dateTimeString)) return false;
+
+  const dateTimeParts = dateTimeString.split("T");
+  const [year, month, day] = dateTimeParts[0].split("-").map(Number);
+  const [hours, minutes] = dateTimeParts[1].split(":").map(Number);
+
+  const date = new Date(year, month - 1, day, hours, minutes);
+
+  return (
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day &&
+    date.getHours() === hours &&
+    date.getMinutes() === minutes
+  );
+};
+
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
 
@@ -142,14 +161,16 @@ const formSchema = z.object({
     .min(1, { message: "Event location cannot be empty." }),
   eventstartdate: z
     .string()
-    .min(1, { message: "Event start date cannot be empty." }),
+    .min(1, { message: "Ticket start date cannot be empty." }),
+
   eventenddate: z
     .string()
-    .min(1, { message: "Event end date cannot be empty." }),
+    .min(1, { message: "Ticket end date  cannot be empty." }),
 
   eventstarttime: z
     .string()
     .min(1, { message: "Event start time cannot be empty." }),
+
   eventendtime: z
     .string()
     .min(1, { message: "Event end time cannot be empty." }),
@@ -282,6 +303,11 @@ function OganizerCreateEvent() {
 
   const [categoryTypes, setCategoryTypes] = useState<any>([]);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
+
+  const isValidDate = (dateString: string): boolean => {
+    const date = new Date(dateString);
+    return !isNaN(date.getTime()); // Check if the date is valid
+  };
 
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
@@ -603,9 +629,46 @@ function OganizerCreateEvent() {
 
   async function EventCreation(values: z.infer<typeof formSchema>) {
     // setLoader(true);
-    console.log("my values", values);
-
+    const categorylabels = categoryTypes?.map(
+      (category: any) => category?.label
+    );
     const imagesOfGallery = await handleFileChangeapi();
+
+    const requiredFields = [
+      { value: values.eventname, name: "Event Name" },
+      {
+        value: values.eventcategory.length > 0 ? values.eventcategory : null,
+        name: "Event Category",
+      },
+      { value: values.eventlocation, name: "Event Location" },
+      { value: values.eventstartdate, name: "Event Start Date" },
+      { value: values.eventenddate, name: "Event End Date" },
+      { value: values.eventstarttime, name: "Event Start Time" },
+      { value: values.eventendtime, name: "Event End Time" },
+      { value: values.eventcoverimg, name: "Event Cover Image" },
+      { value: values.eventdescription, name: "Event Description" },
+      { value: values.compticketno, name: "Competition Ticket Number" },
+      {
+        value: imagesOfGallery.length > 0 ? imagesOfGallery : null,
+        name: "Event Gallery",
+      },
+    ];
+
+    // Check for empty required fields
+    const missingFields = requiredFields.filter((field) => !field.value);
+
+    if (missingFields.length > 0) {
+      const missingFieldNames = missingFields
+        .map((field) => field.name)
+        .join(", ");
+      console.log("Missing fields:", missingFieldNames); // Log missing fields to console
+      ErrorToast(
+        `Please fill out all the required fields: ${missingFieldNames}`
+      );
+      return;
+    }
+
+    console.log("my values", values);
 
     setisWalletModalOpen(true);
     const utcEventStartTime = convertToUTC(EventStartTime);
@@ -619,10 +682,6 @@ function OganizerCreateEvent() {
 
     const utcTicketEndTime = convertToUTC(TicketEndDate);
     setTicketEndDate(utcTicketEndTime);
-
-    const categorylabels = categoryTypes?.map(
-      (category: any) => category?.label
-    );
 
     const updatedValues = {
       ...values,
@@ -1224,8 +1283,8 @@ function OganizerCreateEvent() {
                                 ) && (
                                   <Image
                                     src={tick}
-                                    width={10}
-                                    height={10}
+                                    width={16}
+                                    height={16}
                                     alt="tick"
                                   />
                                 )}
@@ -1244,12 +1303,12 @@ function OganizerCreateEvent() {
                   control={form.control}
                   name="eventdescription"
                   render={({ field }) => (
-                    <FormItem className="relative w-full gradient-slate-input space-y-0  h-[260px]  pb-3">
+                    <FormItem className="relative w-full gradient-slate-input space-y-0  h-[280px]  pb-3">
                       <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event Description
                       </FormLabel>
-                      <FormControl className="relative">
-                        <div className=" absolute inset-0 pb-3 overflow-auto top-[28px] h-[200px]">
+                      <FormControl className="relative  ">
+                        <div className=" absolute inset-0 pb-3 overflow-y-auto top-[28px] h-[240px]">
                           <Editor
                             // value={field.value}
                             onChange={(content) => {
@@ -1353,6 +1412,7 @@ function OganizerCreateEvent() {
                             );
                             field.onChange(e);
                           }}
+                          onKeyDown={(e) => e.preventDefault()}
 
                           // max={extractDate(EventStartTime)}
                         />
@@ -1382,6 +1442,8 @@ function OganizerCreateEvent() {
                             field.onChange(e);
                           }}
                           min={TicketStartDate}
+                          onKeyDown={(e) => e.preventDefault()}
+
                           // max={extractDate(EventStartTime)}
                         />
                       </FormControl>
@@ -1403,17 +1465,13 @@ function OganizerCreateEvent() {
                       </FormLabel>
                       <FormControl>
                         <Input
+                          onKeyDown={(e) => e.preventDefault()}
                           type="datetime-local"
                           aria-label="Date and time"
                           placeholder="Enter Start Time"
                           className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                           {...field}
                           onChange={(e) => {
-                            // const utcTime = convertToUTC(e.target.value);
-
-                            // // // Update state and form field with UTC time
-                            // setEventStartTime(utcTime);
-                            // field.onChange(utcTime);
                             setEventStartTime(e.target.value);
                             field.onChange(e);
                           }}
@@ -1437,6 +1495,7 @@ function OganizerCreateEvent() {
                       </FormLabel>
                       <FormControl>
                         <Input
+                          onKeyDown={(e) => e.preventDefault()}
                           type="datetime-local"
                           aria-label="Date and time"
                           placeholder="Enter End Time"
@@ -1591,8 +1650,8 @@ function OganizerCreateEvent() {
                             ) && (
                               <Image
                                 src={tick}
-                                width={10}
-                                height={10}
+                                width={15}
+                                height={15}
                                 alt="tick"
                               />
                             )}

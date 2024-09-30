@@ -113,10 +113,11 @@ const ProfilePreview = () => {
                 {" "}
                 {myProfile?.data?.profile?.totalAttendees}
               </p>
-              <p className="text-[12px] opacity-50">AedweaTTENDED</p>
+              <p className="text-[12px] opacity-50">ATTENDED</p>
             </div>
           </div>
-          <p className="font-normal text-center md:text-start text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
+          <p className="font-normal text-center md:text-start text-sm mt-[24px] lg:mt-[8px] mb-[16px]
+           break-word  overflow-wrap lg:mb-[24px]  lg:w-[783px] w-full">
             {myProfile?.data?.profile?.bio}
           </p>
           <div className="flex flex-wrap justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
