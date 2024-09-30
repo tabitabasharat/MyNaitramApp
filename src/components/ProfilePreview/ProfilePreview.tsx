@@ -116,7 +116,7 @@ const ProfilePreview = () => {
               <p className="text-[12px] opacity-50">AedweaTTENDED</p>
             </div>
           </div>
-          <p className="font-normal text-center md:text-start text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
+          <p className="font-normal text-center md:text-start break-words overflow-hidden w-[70%] text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
             {myProfile?.data?.profile?.bio}
           </p>
           <div className="flex flex-wrap justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">

@@ -87,9 +87,10 @@ const ClaimRewardModal = ({ onClose, open,collectibleID }: any) => {
               <Image src={Iconpop} alt="icon" />
               <p className="mt-[16px] font-extrabold leading-[24px] whitelist-txt text-center">
               
-                You have Successfully Claimed of MRT Rewards
+              You have claimed <span className="#FFC300">1 Naitram</span> Membership Collectible
               </p>
-              {/* <div className="flex items-center gap-[20px] mt-[32px] ">
+              
+              <div className="flex items-center gap-[20px] mt-[32px] ">
                 <Button
                   className=" py-[12px] px-[25px] text-[14px] font-extrabold leading-[19.6px]
                  text-center  w-full text-[#030303] "
@@ -97,9 +98,9 @@ const ClaimRewardModal = ({ onClose, open,collectibleID }: any) => {
                 // onClick={() => ClaimCollectible()}
 
                 >
-                  View My Reward
+                  View My Collectible
                 </Button>
-              </div> */}
+              </div>
             </div>
           </div>
         </DialogContent>
