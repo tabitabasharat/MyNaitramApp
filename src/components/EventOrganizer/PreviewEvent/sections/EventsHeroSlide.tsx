@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Heart } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import { useState } from "react";
+import clander from "@/assets/startdate.svg";
+import time from "@/assets/endDate.svg";
 import { top5Events } from "@/lib/dummyData";
 import {
   DownloadSimple,
@@ -219,15 +221,18 @@ const EventsHeroSlide = ({
               </p>
             </div>
             <div className="flex items-center gap-[8px] mt-[12px] ">
-              <Image src={Calendar} alt="calendar" />
+              <Image src={clander} alt="calendar" />
               <p className=" text-[16px] font-bold leading-[24px]">
-                {ConvertDate(eventDate)}
+           
+                {ConvertDate(eventDate)} - {ConvertTime(startTime)}
               </p>
             </div>
             <div className="flex items-center gap-[8px] mt-[12px]">
-              <Image src={Clocktime} alt="time" />
+              <Image src={time} alt="time" />
               <p className=" text-[16px] font-bold leading-[24px]">
-                {ConvertTime(startTime)} - {ConvertTime(endTime)}{" "}
+                {/* {ConvertTime(startTime)} - {ConvertTime(endTime)}{" "} */}
+                {ConvertDate(endTime)} - {ConvertTime(startTime)}
+
               </p>
             </div>
           </div>

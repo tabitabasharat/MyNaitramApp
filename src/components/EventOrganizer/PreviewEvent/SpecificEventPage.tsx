@@ -4,6 +4,7 @@ import SpecificEventHero from "./sections/SpecificEventHero";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
+
 const SpecificEventPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();

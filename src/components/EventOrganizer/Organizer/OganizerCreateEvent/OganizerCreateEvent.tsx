@@ -1,4 +1,6 @@
 "use client";
+import whitefree from "@/assets/Wallet/white free.svg";
+import greenfree from "@/assets/Wallet/Green free.svg";
 import LocationAutocomplete from "@/components/create-event/Locationinput";
 import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
 import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
@@ -213,7 +215,7 @@ const formSchema = z.object({
   // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
-
+  // selected: z.string(),
   tickets: z
     .array(
       z.object({
@@ -228,8 +230,10 @@ const formSchema = z.object({
     )
     .refine((tickets) => tickets.length > 0, {
       message: "At least one ticket is required.",
-    }),
+    })
+    // .optional(),
 });
+
 type Option = {
   id: number;
   label: string;
@@ -243,8 +247,12 @@ interface EventData {
   // Add all other fields from your form schema
   eventmedia?: any[]; // Adjust the type based on what imagesOfGallery returns
 }
+type SelectedOption = "free" | "paid" | null;
+
 function OganizerCreateEvent() {
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [selected, setSelected] = useState<SelectedOption>("free");
+
   const [categoryAlert, setCategoryAlert] = useState<any>(false);
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [isPreviewModalOpen, setisPreviewModalOpen] = useState(false);
@@ -298,7 +306,7 @@ function OganizerCreateEvent() {
   const router = useRouter();
 
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
-    { type: "", price: 0, no: 0, options: [], dropdown: true },
+    { type: "free", price: 0, no: 0, options: [], dropdown: true },
   ]);
 
   const [categoryTypes, setCategoryTypes] = useState<any>([]);
@@ -590,6 +598,19 @@ function OganizerCreateEvent() {
     })),
   }));
 
+  const handleOptionChange = (option: SelectedOption) => {
+    setSelected(option);
+    if (option === "free") {
+      const filteredTicketTypes = ticketTypes.map((ticket) => ({
+        type: "free",
+        price: null,
+        no: null,
+        options: null,
+      }));
+      console.log("my free tickets", filteredTicketTypes);
+      return filteredTicketTypes;
+    }
+  };
   function extractDate(dateTime: string): string {
     // Create a new Date object from the input string
     const date = new Date(dateTime);
@@ -636,10 +657,10 @@ function OganizerCreateEvent() {
 
     const requiredFields = [
       { value: values.eventname, name: "Event Name" },
-      {
-        value: values.eventcategory.length > 0 ? values.eventcategory : null,
-        name: "Event Category",
-      },
+      // {
+      //   value: values.eventcategory.length > 0 ? values.eventcategory : null,
+      //   name: "Event Category",
+      // },
       { value: values.eventlocation, name: "Event Location" },
       { value: values.eventstartdate, name: "Event Start Date" },
       { value: values.eventenddate, name: "Event End Date" },
@@ -1514,190 +1535,255 @@ function OganizerCreateEvent() {
                   )}
                 />
               </div>
-              {ticketTypes.map((ticket, index) => (
-                <div
-                  className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
-                  key={index}
-                >
-                  <div className="flex items-center gap-[24px] common-container">
-                    {/* Event Ticket Type Field */}
-                    <FormField
-                      control={form.control}
-                      name={`tickets.${index}.type`}
-                      render={({ field }) => (
-                        <FormItem className="relative w-full space-y-0">
-                          <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                            Event Ticket Type
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Enter Type"
-                              className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                              {...field}
-                              onChange={(e) => {
-                                handleInputChange(
-                                  index,
-                                  "type",
-                                  e.target.value
-                                );
-                                field.onChange(e);
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Event Ticket Price Field */}
-                    <FormField
-                      control={form.control}
-                      name={`tickets.${index}.price`}
-                      render={({ field }) => (
-                        <FormItem className="relative w-full space-y-0">
-                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                            Event Ticket Price (£)
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="Enter Price"
-                              className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                              {...field}
-                              onChange={(e) => {
-                                handleInputChange(
-                                  index,
-                                  "price",
-                                  parseFloat(e.target.value)
-                                );
-                                field.onChange(e);
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Event Number of Tickets Field */}
-                    <FormField
-                      control={form.control}
-                      name={`tickets.${index}.no`}
-                      render={({ field }) => (
-                        <FormItem className="relative w-full space-y-0">
-                          <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                            Event Number of Tickets
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="Enter No. of Tickets"
-                              className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                              {...field}
-                              onChange={(e) => {
-                                handleInputChange(
-                                  index,
-                                  "no",
-                                  parseInt(e.target.value, 10)
-                                );
-                                field.onChange(e);
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  {/* What's Included Section */}
-                  <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                    <div
-                      className="flex items-center justify-between"
-                      onClick={() => handleDropdown(index)}
-                    >
-                      <p className="text-sm text-[#8F8F8F] uppercase">
-                        WHATS INCLUDED
-                      </p>
+              <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
+                <div className="flex w-full lg:w-[350px] gap-[12px]">
+                  <div
+                    className={`lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] w-full lg:w-[331px] flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
+                      selected === "free"
+                        ? "gradient-border-rounded text-[#00A849]"
+                        : ""
+                    }`}
+                    // onClick={() => setSelected("rewards")}
+                    onClick={() => handleOptionChange("free")}
+                  >
+                    {selected === "free" ? (
                       <Image
-                        src={ticket?.dropdown ? arrowdown : arrowdown}
-                        width={11}
-                        height={11}
-                        alt="arrow"
+                        src={greenfree}
+                        className="pb-[8px] hidden md:block"
+                        alt="Green Ticket"
+                      />
+                    ) : (
+                      <Image
+                        src={whitefree}
+                        className="pb-[8px] hidden md:block"
+                        alt="Default Ticket"
+                      />
+                    )}
+                    <p>Free</p>
+                  </div>
+                </div>
+
+                <div
+                  className={`  lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] lg:w-[350px] flex w-full 
+                    md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] 
+                    md:pt-[16px] md:pb-[12px] cursor-pointer  ${
+                      selected === "paid"
+                        ? "gradient-border-rounded text-[#00A849] "
+                        : ""
+                    }`}
+                  // onClick={() => setSelected("rewardcollectables")}
+                  onClick={() => handleOptionChange("paid")}
+                >
+                  {selected === "paid" ? (
+                    <Image
+                      src={greenfree}
+                      className="pb-[8px] hidden md:block"
+                      alt="Green Collectibles"
+                    />
+                  ) : (
+                    <Image
+                      src={whitefree}
+                      className="pb-[8px] hidden md:block"
+                      alt="Default Collectibles"
+                    />
+                  )}
+                  <p>Paid</p>
+                </div>
+              </div>
+
+              {selected === "paid" &&
+                ticketTypes.length > 0 &&
+                ticketTypes.map((ticket, index) => (
+                  <div
+                    className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
+                    key={index}
+                  >
+                    <div className="flex items-center gap-[24px] common-container">
+                      {/* Event Ticket Type Field */}
+                      <FormField
+                        control={form.control}
+                        name={`tickets.${index}.type`}
+                        render={({ field }) => (
+                          <FormItem className="relative w-full space-y-0">
+                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                              Event Ticket Type
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter Type"
+                                className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                                {...field}
+                                onChange={(e) => {
+                                  handleInputChange(
+                                    index,
+                                    "type",
+                                    e.target.value
+                                  );
+                                  field.onChange(e);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Event Ticket Price Field */}
+                      <FormField
+                        control={form.control}
+                        name={`tickets.${index}.price`}
+                        render={({ field }) => (
+                          <FormItem className="relative w-full space-y-0">
+                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                              Event Ticket Price (£)
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                placeholder="Enter Price"
+                                className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                                {...field}
+                                onChange={(e) => {
+                                  handleInputChange(
+                                    index,
+                                    "price",
+                                    parseFloat(e.target.value)
+                                  );
+                                  field.onChange(e);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Event Number of Tickets Field */}
+                      <FormField
+                        control={form.control}
+                        name={`tickets.${index}.no`}
+                        render={({ field }) => (
+                          <FormItem className="relative w-full space-y-0">
+                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                              Event Number of Tickets
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                placeholder="Enter No. of Tickets"
+                                className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                                {...field}
+                                onChange={(e) => {
+                                  handleInputChange(
+                                    index,
+                                    "no",
+                                    parseInt(e.target.value, 10)
+                                  );
+                                  field.onChange(e);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
                     </div>
-                    {ticket?.dropdown && (
-                      <div className="grid-container">
-                        {options?.map((option) => (
-                          <div
-                            key={option.id}
-                            className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
-                            onClick={() => handleOptionToggle(index, option)}
-                          >
-                            <div className="flex items-center gap-[10px]">
-                              <Image
-                                src={option?.image}
-                                width={16}
-                                height={16}
-                                alt="img"
-                              />
-                              <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                {option.label}
-                              </p>
+
+                    {/* What's Included Section */}
+                    <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                      <div
+                        className="flex items-center justify-between"
+                        onClick={() => handleDropdown(index)}
+                      >
+                        <p className="text-sm text-[#8F8F8F] uppercase">
+                          WHATS INCLUDED
+                        </p>
+                        <Image
+                          src={ticket?.dropdown ? arrowdown : arrowdown}
+                          width={11}
+                          height={11}
+                          alt="arrow"
+                        />
+                      </div>
+                      {ticket?.dropdown && (
+                        <div className="grid-container">
+                          {options?.map((option) => (
+                            <div
+                              key={option.id}
+                              className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
+                              onClick={() => handleOptionToggle(index, option)}
+                            >
+                              <div className="flex items-center gap-[10px]">
+                                <Image
+                                  src={option?.image}
+                                  width={16}
+                                  height={16}
+                                  alt="img"
+                                />
+                                <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                  {option.label}
+                                </p>
+                              </div>
+                              {ticket?.options?.some(
+                                (o) => o?.id === option?.id
+                              ) && (
+                                <Image
+                                  src={tick}
+                                  width={15}
+                                  height={15}
+                                  alt="tick"
+                                />
+                              )}
                             </div>
-                            {ticket?.options?.some(
-                              (o) => o?.id === option?.id
-                            ) && (
-                              <Image
-                                src={tick}
-                                width={15}
-                                height={15}
-                                alt="tick"
-                              />
-                            )}
-                          </div>
-                        ))}
-                        <div className="column-separator"></div>{" "}
-                        {/* Empty div to control the separator placement */}
-                        <div className="column-separator"></div>
+                          ))}
+                          <div className="column-separator"></div>{" "}
+                          {/* Empty div to control the separator placement */}
+                          <div className="column-separator"></div>
+                        </div>
+                      )}
+                    </div>
+                    {index != 0 && (
+                      <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
+                        <Button
+                          className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                          onClick={() => handleDeleteTicketType(index)}
+                        >
+                          <Image
+                            src={deleteicon}
+                            alt="delete-icon"
+                            height={12}
+                            width={12}
+                          />
+                          Delete Ticket Type
+                        </Button>
                       </div>
                     )}
                   </div>
-                  {index != 0 && (
-                    <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
-                      <Button
-                        className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
-                        onClick={() => handleDeleteTicketType(index)}
-                      >
-                        <Image
-                          src={deleteicon}
-                          alt="delete-icon"
-                          height={12}
-                          width={12}
-                        />
-                        Delete Ticket Type
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              ))}
+                ))}
 
               {/* Add Ticket Type Button */}
-              <div className="flex justify-end items-center mt-[12px] ticket-btn">
-                <Button
-                  style={{
-                    background:
-                      "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
-                  }}
-                  className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px]  rounded-full  
+              {selected === "paid" && (
+                <div className="flex justify-end items-center mt-[12px] ticket-btn">
+                  <Button
+                    style={{
+                      background:
+                        "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                    }}
+                    className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px]  rounded-full  
                border-[0.86px] border-transparent text-[11px] font-extrabold"
-                  // className=" font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
-                  onClick={handleAddTicketType}
-                >
-                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                  Add Ticket Type
-                </Button>
-              </div>
+                    // className=" font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                    onClick={handleAddTicketType}
+                  >
+                    <Image
+                      src={addicon}
+                      alt="Add-icon"
+                      height={12}
+                      width={12}
+                    />
+                    Add Ticket Type
+                  </Button>
+                </div>
+              )}
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
