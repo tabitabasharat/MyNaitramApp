@@ -42,7 +42,7 @@ const Followpromoter = ({ userId, eventName }: any) => {
   useEffect(() => {
     const myuserid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-
+setUid(myuserid)
     // dispatch(getEventCount(userId));
     dispatch(getOrganizerByID(userId));
     dispatch(getOrganizerSocialProfile(userId));
@@ -188,8 +188,10 @@ const Followpromoter = ({ userId, eventName }: any) => {
       <div className="flex flex-col  gap-3 items-start justify-start wrapping-flex">
         {
           <Button
+          disabled={ uId == userId }
             variant="secondary"
-            className="text-[14px] font-bold px-[16px] py-[10px]"
+            className="text-[14px] font-bold px-[16px] py-[10px] disabled:cursor-not-allowed disabled:opacity-50"
+            
             onClick={() => {
               if (followStatus) {
                 handleUnFollow();
@@ -198,7 +200,7 @@ const Followpromoter = ({ userId, eventName }: any) => {
               }
             }}
           >
-            {followStatus ? "Following" : "FollowPromoter"}
+            {followStatus ? "Following" : "Follow Promoter"}
           </Button>
         }
         <div className="flex gap-[8px] flex-wrap h-full">
