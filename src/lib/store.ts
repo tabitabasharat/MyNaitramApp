@@ -96,21 +96,6 @@ export const makeStore = () => {
     reducer: rootReducer,
   });
 };
-// export const makeStore = () => {
-//   return configureStore({
-//     reducer: {
-//       profileInfo: getUserInfo,
-//       getAllEvents: getAllEvents,
-//       // addBuyTicketPrice: addBuyTicketPriceReducer,
-//       getEventById:getEventById,
-//       getTicketStore:getTicket,
-//       signIn:sign
-//     },
-//   });
-// };
-
-// Infer the type of makeStore
 export type AppStore = ReturnType<typeof makeStore>;
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<AppStore["getState"]>;
 export type AppDispatch = AppStore["dispatch"];

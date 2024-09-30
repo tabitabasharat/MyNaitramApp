@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import api from "../apiInterceptor";
 import { API_URL } from "../client";
 

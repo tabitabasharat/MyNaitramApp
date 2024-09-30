@@ -75,7 +75,6 @@ const formSchema = z.object({
     }),
 });
 
-
 type LunchModalProps = {
   onClose: () => void; // Function to close the dialog
   open: () => void; // Boolean to control the dialog's visibility
@@ -102,8 +101,6 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
   const validate = WAValidator.validate;
 
   console.log("my all event data", eventData);
-
-  
 
   const handleOptionToggle = (option: Option) => {
     if (selectedOption?.id === option.id) {
@@ -168,7 +165,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
 
     setLoader(true);
 
- if (!selectedOption) {
+    if (!selectedOption) {
       setValidationError("Please select a chain.");
       setLoader(false);
       return;
@@ -275,11 +272,9 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
           </div>
           <div className="px-6">
             <p className="text-[#BFBFBF] pb-[20px] lg:pb-[24px] text-sm font-bold lg:font-normal">
-              Gosssem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero et velit interdum, ac aliquet odio mattis. Class
-              aptent taciti sociosqu ad litora torquent per conubia nostra, per
-              inceptos himenaeos. Curabitur tempus urna at turpis condimentum
-              lobortis.
+              Enter your cryptocurrency wallet address and select the correct
+              blockchain network for payouts. Payments are released 3 days after
+              the successful event.
             </p>
             <div>
               <h2 className="text-[20px] font-bold text-[#BFBFBF] lg:text-[14px] font-bold">
@@ -319,7 +314,7 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
                             }}
                           />
                         </FormControl>
-                      
+
                         <FormMessage />
                       </FormItem>
                     )}

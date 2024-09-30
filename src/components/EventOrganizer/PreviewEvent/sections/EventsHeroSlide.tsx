@@ -41,10 +41,10 @@ const EventsHeroSlide = ({
   eventDate,
   endTime,
   startTime,
-  setShowTicket,
+  setShowTicket, // const firstParagraph = getFirstParagraph(eventdescription);
   handleBulletClick,
-  AboutDrop,
-  AboutToggle,
+  // AboutDrop,
+  // AboutToggle,
   eventCategory,
   ticketStartPrice,
   ticketEndPrice,
@@ -52,7 +52,6 @@ const EventsHeroSlide = ({
   instaUrl,
   tiktokUrl,
   ticketsdata,
-  
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
@@ -85,8 +84,6 @@ const EventsHeroSlide = ({
     };
 
     const ordinalSuffix = getOrdinalSuffix(date);
-
-    // Construct the formatted date string
     const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
 
     return formattedDate;
@@ -160,6 +157,35 @@ const EventsHeroSlide = ({
     "VIP Lounge": vip,
     "Security and First Aid": security,
   };
+  const [AboutDrop, setAboutDrop] = useState(true);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+
+  // Toggle the dropdown visibility
+  const AboutToggle = () => {
+    setAboutDrop((prev) => !prev);
+    setShowFullDescription(false); // Close full description when toggling dropdown
+  };
+
+  // Toggle the full description visibility
+  const toggleDescription = () => {
+    setShowFullDescription((prev) => !prev);
+  };
+
+  const descriptionText = eventdescription || "";
+  const maxLines = 3;
+
+  // Function to strip HTML tags
+  const stripHtmlTags = (html: string) => {
+    return html.replace(/<\/?[^>]+(>|$)/g, ""); // Regular expression to remove HTML tags
+  };
+
+  // Get plain text version without HTML
+  const plainTextDescription = stripHtmlTags(descriptionText);
+  const firstParagraph = plainTextDescription
+    .split("\n")
+    .slice(0, maxLines)
+    .join("\n");
+
 
   return (
     <>
@@ -179,8 +205,8 @@ const EventsHeroSlide = ({
           </div>
 
           <div className="flex gap-[0.35rem] flex-wrap lg:w-[80%]">
-          {eventCategory?.length > 0 &&
-              eventCategory.map((category:any, index:any) => (
+            {eventCategory?.length > 0 &&
+              eventCategory.map((category: any, index: any) => (
                 <Badge key={index} className="lg:text-[12px]">
                   {category}
                 </Badge>
@@ -209,9 +235,6 @@ const EventsHeroSlide = ({
             {title}
           </h2>
           <div className="">
-            {/* <p className="text-[#E6E6E6] font-extrabold mt-[10px]">
-              {eventCategory ? eventCategory : " TAKEOVR Boat Party"}
-            </p> */}
             <div className="flex items-center gap-[8px] ">
               <Image src={Location} alt="location" />
               <p className=" text-[16px] font-bold leading-[24px]">
@@ -260,7 +283,7 @@ const EventsHeroSlide = ({
               ))}
             </div>
           </div> */}
-          <div
+          {/* <div
             className="flex items-center gap-[6px] cursor-pointer mt-[24px] lg:mt-[48px] mb-[12px]"
             onClick={() => AboutToggle()}
           >
@@ -270,13 +293,40 @@ const EventsHeroSlide = ({
           {AboutDrop && (
             <div>
               <div>
-                {/* <p className="text-[#E6E6E699] text-[13px] font-normal leading-[18px] mt-[5px]  w-[100%] mb-[12px]">
-                  {eventdescription}
-                  </p> */}
               <div dangerouslySetInnerHTML={{ __html: eventdescription }} className="text-white break-words overflow-hidden text-ellipsis" />
               </div>
             </div>
-          )}
+          )} */}
+          <div>
+            <div className="relative">
+              <div className="mb-4 md:mt-[48px] mt-[24px]">
+                <button onClick={AboutToggle} className="text-white flex items-center gap-[10px]">
+                  <p className="text-[#13FF7A] text-sm font-bold md:text-base">About this event </p>{" "}
+                  <Image src={Arrowdown} alt="arrow-down"  sizes="16px"/>
+                </button>
+              </div>
+
+              {AboutDrop && (
+                <div className="mb-[12px] text-white break-words overflow-hidden">
+                  {/* Show a limited number of lines if showFullDescription is false */}
+                  {showFullDescription ? (
+                    <div>{plainTextDescription}</div> // Display plain text when expanded
+                  ) : (
+                    <div className="line-clamp-3 overflow-hidden">
+                      {firstParagraph}
+                    </div>
+                  )}
+                  {/* Button to toggle between showing more or less */}
+                  <button
+                    onClick={toggleDescription}
+                    className="text-[#13FF7A]  text-sm font-bold md:text-base cursor-pointer mt-2"
+                  >
+                    {showFullDescription ? "Show Less" : "Read More"}
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
 
           {/* <p className="text-muted mt-4">Location: {location}</p> */}
 
