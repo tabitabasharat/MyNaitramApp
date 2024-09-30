@@ -168,7 +168,7 @@ const Followpromoter = ({ userId, eventName }: any) => {
         </Link>
         <div>
           <Link href="/profile-perview">
-            <p className="font-bold text-[14px]  font-bold flex items-center gap-1 capitalize">
+            <p className="font-bold text-[14px]  font-bold flex items-center gap-1 capitalize hover:underline">
               {myProfile?.userProfile?.fullname}
             </p>
           </Link>
