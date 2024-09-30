@@ -57,18 +57,38 @@ const EventsHeroSlide = ({
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
-  console.log("this is event price", ticketStartPrice, ticketEndPrice);
+  console.log("this is event price", endTime, startTime);
 
   const ConvertDate = (originalDateStr: string): string => {
-    const originalDate = new Date(originalDateStr);
+    // Convert the input UTC date string to a Date object
+    const utcDate = new Date(originalDateStr);
 
-    // Extract the day, date, month, and year
-    const dayOfWeek = originalDate.toLocaleDateString("en-US", {
+    // Check if the date is valid
+    if (isNaN(utcDate.getTime())) {
+      console.error("Invalid date format");
+      return "";
+    }
+
+    // Convert to local time zone using toLocaleString
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    // Extract the local time date part using toLocaleDateString
+    const dayOfWeek = utcDate.toLocaleDateString("en-US", {
       weekday: "long",
+      timeZone: timeZone,
     });
-    const date = originalDate.getDate();
-    const month = originalDate.toLocaleDateString("en-US", { month: "long" });
-    const year = originalDate.getFullYear();
+    const date = utcDate.toLocaleDateString("en-US", {
+      day: "numeric",
+      timeZone: timeZone,
+    });
+    const month = utcDate.toLocaleDateString("en-US", {
+      month: "long",
+      timeZone: timeZone,
+    });
+    const year = utcDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      timeZone: timeZone,
+    });
 
     // Function to get ordinal suffix
     const getOrdinalSuffix = (date: number) => {
@@ -85,8 +105,11 @@ const EventsHeroSlide = ({
       }
     };
 
-    const ordinalSuffix = getOrdinalSuffix(date);
-    const formattedDate = `${dayOfWeek}, ${date}${ordinalSuffix} ${month} ${year}`;
+    const numericDate = parseInt(date, 10); // Convert date string to number
+    const ordinalSuffix = getOrdinalSuffix(numericDate);
+
+    // Combine day, date with ordinal suffix, month, and year
+    const formattedDate = `${dayOfWeek}, ${numericDate}${ordinalSuffix} ${month} ${year}`;
 
     return formattedDate;
   };
@@ -98,8 +121,22 @@ const EventsHeroSlide = ({
       return "";
     }
 
-    // Extract the time part if the input includes a date and time
-    const timeOnly = timeStr.split("T")[1]?.split("Z")[0];
+    // Convert the input UTC time to a local time using the Date object
+    const utcDate = new Date(timeStr); // Parse input into a Date object
+    if (isNaN(utcDate.getTime())) {
+      console.error("Invalid date format");
+      return "";
+    }
+
+    // Convert to local time zone using toLocaleString
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const localDateStr = utcDate.toLocaleString("en-GB", {
+      timeZone: timeZone,
+      hour12: false,
+    });
+
+    // Extract the time part (from the local time)
+    const timeOnly = localDateStr.split(", ")[1]; // This gives you the local time part
 
     if (!timeOnly) {
       console.error("Input must include a valid time");
@@ -108,9 +145,9 @@ const EventsHeroSlide = ({
 
     const parts = timeOnly.split(":");
 
-    // Check if timeOnly is in HH:MM or HH:MM:SS format
+    // Check if timeOnly is in HH:MM format
     if (parts.length < 2) {
-      console.error("Input time must be in HH:MM or HH:MM:SS format");
+      console.error("Input time must be in HH:MM format");
       return "";
     }
 
@@ -128,14 +165,13 @@ const EventsHeroSlide = ({
     // Convert hours from 24-hour to 12-hour format
     const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
 
-    // Combine hours and period
+    // Combine hours, minutes and period
     const formattedTime = `${formattedHours}:${
       minutes < 10 ? "0" + minutes : minutes
     } ${period}`;
 
     return formattedTime;
   };
-
   interface Ticket {
     id: number;
     address: string;
@@ -187,7 +223,6 @@ const EventsHeroSlide = ({
     .split("\n")
     .slice(0, maxLines)
     .join("\n");
-
 
   return (
     <>
@@ -246,7 +281,6 @@ const EventsHeroSlide = ({
             <div className="flex items-center gap-[8px] mt-[12px] ">
               <Image src={clander} alt="calendar" />
               <p className=" text-[16px] font-bold leading-[24px]">
-           
                 {ConvertDate(eventDate)} - {ConvertTime(startTime)}
               </p>
             </div>
@@ -254,8 +288,7 @@ const EventsHeroSlide = ({
               <Image src={time} alt="time" />
               <p className=" text-[16px] font-bold leading-[24px]">
                 {/* {ConvertTime(startTime)} - {ConvertTime(endTime)}{" "} */}
-                {ConvertDate(endTime)} - {ConvertTime(startTime)}
-
+                {ConvertDate(endTime)} - {ConvertTime(endTime)}
               </p>
             </div>
           </div>
@@ -305,9 +338,14 @@ const EventsHeroSlide = ({
           <div>
             <div className="relative">
               <div className="mb-4 md:mt-[48px] mt-[24px]">
-                <button onClick={AboutToggle} className="text-white flex items-center gap-[10px]">
-                  <p className="text-[#13FF7A] text-sm font-bold md:text-base">About this event </p>{" "}
-                  <Image src={Arrowdown} alt="arrow-down"  sizes="16px"/>
+                <button
+                  onClick={AboutToggle}
+                  className="text-white flex items-center gap-[10px]"
+                >
+                  <p className="text-[#13FF7A] text-sm font-bold md:text-base">
+                    About this event{" "}
+                  </p>{" "}
+                  <Image src={Arrowdown} alt="arrow-down" sizes="16px" />
                 </button>
               </div>
 

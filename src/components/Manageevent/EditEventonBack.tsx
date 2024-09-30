@@ -212,8 +212,6 @@ type SelectedOption = "free" | "paid" | null;
 function EditeventOnBack() {
   const [eventAllData, setEventAllData] = useState<EventData | null>(null);
 
-
-
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
 
@@ -335,7 +333,7 @@ function EditeventOnBack() {
         try {
           // Parse the JSON data from localStorage
           const parsedData: any = JSON.parse(storedData);
-          setSelected(parsedData?.isFree?"free":"paid")
+          setSelected(parsedData?.isFree ? "free" : "paid");
           setEventData(parsedData);
           console.log("my parsed data", parsedData);
         } catch (error) {
@@ -767,7 +765,7 @@ function EditeventOnBack() {
     // }
   };
 
-  console.log("")
+  console.log("");
   async function EventCreation(values: z.infer<typeof formSchema>) {
     // setLoader(true);
 
@@ -948,6 +946,66 @@ function EditeventOnBack() {
     }
   }
   console.log("Form errors:", form.formState.errors);
+  function convertToLocalTimestamp(localDateTime: string): string {
+    // Create a Date object from the local date-time string
+    const localDate = new Date(localDateTime);
+
+    // If the input string is in a known format, ensure we are getting the correct local time
+    if (isNaN(localDate.getTime())) {
+      throw new Error("Invalid date format");
+    }
+
+    // Extract local time components
+    const localYear = localDate.getFullYear();
+    const localMonth = localDate.getMonth() + 1; // Months are 0-indexed
+    const localDateNum = localDate.getDate();
+    const localHours = localDate.getHours();
+    const localMinutes = localDate.getMinutes();
+
+    // Format the components to match the 'yyyy-MM-ddTHH:mm' format
+    const formattedLocal = `${localYear}-${String(localMonth).padStart(
+      2,
+      "0"
+    )}-${String(localDateNum).padStart(2, "0")}T${String(localHours).padStart(
+      2,
+      "0"
+    )}:${String(localMinutes).padStart(2, "0")}`;
+
+    return formattedLocal;
+  }
+
+  function convertUTCToLocalTime(datess: any) {
+    const utcDateStr = '2024-10-02T08:00'; // Initial date string without seconds and Z
+
+    // Add ":00" for seconds and "Z" to indicate UTC time
+    const utcDateWithSeconds = `${datess}:00Z`;
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log(utcDateStr,datess ,"this is timestamp");
+
+    // Create a Date object from the UTC date string
+    const utcDate = new Date(utcDateWithSeconds);
+
+    // Convert to local time zone
+    const localDateStr = utcDate.toLocaleString("en-GB", {
+      timeZone: timeZone,
+      hour12: false,
+    });
+
+
+    // Extract the date and time parts from the localDateStr
+    const [date, time] = localDateStr.split(", ");
+
+    // Convert the date from 'DD/MM/YYYY' to 'YYYY-MM-DD'
+    const [day, month, year] = date.split("/");
+    const formattedDate = `${year}-${month}-${day}`;
+
+    // Extract the hours and minutes from the time
+    const [hours, minutes] = time.split(":");
+
+    // Return the final string in 'YYYY-MM-DDTHH:MM' format
+    console.log("this is is", `${formattedDate}T${hours}:${minutes}`);
+    return `${formattedDate}T${hours}:${minutes}`;
+  }
 
   useEffect(() => {
     if (EventData || Eventdata) {
@@ -987,10 +1045,10 @@ function EditeventOnBack() {
       }
       let ticketsWithCheckedOptions;
 
-      if(Eventdata?.isFree == true && selected==="free"){
-        console.log("comming in  if")
+      if (Eventdata?.isFree == true && selected === "free") {
+        console.log("comming in  if");
 
-         ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
+        ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
           (ticket: any) => ({
             ...ticket,
             options: ticket?.options?.map((option: any) => ({
@@ -999,11 +1057,11 @@ function EditeventOnBack() {
             })),
           })
         );
-  
+
         setTicketTypes(ticketsWithCheckedOptions);
-      }else if(Eventdata?.isFree == false && selected==="paid"){
-        console.log("comming in else if")
-         ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
+      } else if (Eventdata?.isFree == false && selected === "paid") {
+        console.log("comming in else if");
+        ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
           (ticket: any) => ({
             ...ticket,
             options: ticket?.options?.map((option: any) => ({
@@ -1012,12 +1070,13 @@ function EditeventOnBack() {
             })),
           })
         );
-  
+
         setTicketTypes(ticketsWithCheckedOptions);
-         
-      }else{
-        console.log("comming in else")
-        setTicketTypes([ { type: "", price: 0, no: 0, options: [], dropdown: true },]);
+      } else {
+        console.log("comming in else");
+        setTicketTypes([
+          { type: "", price: 0, no: 0, options: [], dropdown: true },
+        ]);
       }
 
       // const updatedCategoryTypes = Eventdata?.eventcategory.map(
@@ -1041,6 +1100,30 @@ function EditeventOnBack() {
 
       // const updatedCategoryTypes = Eventdata?.eventcategory || [];
       // setCategoryTypes(updatedCategoryTypes);
+      // const now = new Date();
+      // const offset = -now.getTimezoneOffset(); // getTimezoneOffset returns the difference in minutes from UTC, so we negate it
+
+      // const hours = String(Math.floor(offset / 60)).padStart(2, '0');
+      // const minutes = String(offset % 60).padStart(2, '0');
+      // const sign = offset >= 0 ? '+' : '-';
+
+      // const timeZoneOffset = `${sign}${hours}:${minutes}`;
+      // console.log(timeZoneOffset);
+
+      // console.log("this is time stamp",timeZoneOffset,(Eventdata?.eventstartdate),Eventdata?.eventenddate,Eventdata?.eventendtime )
+      // const utcDateStr = '2024-10-02T08:00:00Z'; // UTC time
+
+      // // Create a Date object from the UTC date string
+      // const utcDate = new Date(utcDateStr);
+
+      // // Convert to local time zone
+      // const localDateStr = utcDate.toLocaleString('en-GB', { timeZone: 'Asia/Karachi', hour12: false });
+
+      // // Display the local date and time
+      // console.log("this is time stamp",localDateStr);
+
+      // const localTime = convertUTCToLocalTime();
+      // console.log("this is time stamp",localTime);
 
       form.reset({
         eventname: Eventdata?.eventname || form.getValues("eventname"),
@@ -1050,12 +1133,18 @@ function EditeventOnBack() {
         eventlocation:
           Eventdata?.eventlocation || form.getValues("eventlocation"),
         eventstartdate:
-          Eventdata?.eventstartdate || form.getValues("eventstartdate"),
-        eventenddate: Eventdata?.eventenddate || form.getValues("eventenddate"),
+          convertUTCToLocalTime(Eventdata?.eventstartdate) ||
+          form.getValues("eventstartdate"),
+        eventenddate:
+          convertUTCToLocalTime(Eventdata?.eventenddate) ||
+          form.getValues("eventenddate"),
 
         eventstarttime:
-          Eventdata?.eventstarttime || form.getValues("eventstarttime"),
-        eventendtime: Eventdata?.eventendtime || form.getValues("eventendtime"),
+          convertUTCToLocalTime(Eventdata?.eventstarttime) ||
+          form.getValues("eventstarttime"),
+        eventendtime:
+          convertUTCToLocalTime(Eventdata?.eventendtime) ||
+          form.getValues("eventendtime"),
         // eventmainimg: mainimgName || form.getValues("eventmainimg"),
         eventcoverimg:
           Eventdata?.eventcoverimg || form.getValues("eventcoverimg"),
@@ -1071,7 +1160,7 @@ function EditeventOnBack() {
         tickets: ticketsWithCheckedOptions || form.getValues("tickets"),
       });
     }
-  }, [EventData, Eventdata,selected]);
+  }, [EventData, Eventdata, selected]);
 
   function extractDate(dateTime: string): string {
     // Create a new Date object from the input string
@@ -2086,8 +2175,7 @@ function EditeventOnBack() {
                 </div>
               </div>
 
-              {
-                ticketTypes.length > 0 &&
+              {ticketTypes.length > 0 &&
                 ticketTypes?.map((ticket, index) => (
                   <div
                     className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
@@ -2124,37 +2212,36 @@ function EditeventOnBack() {
                       />
 
                       {/* Event Ticket Price Field */}
-                      {
-                        selected !=="free" &&
-                      <FormField
-                        control={form.control}
-                        name={`tickets.${index}.price`}
-                        render={({ field }) => (
-                          <FormItem className="relative w-full space-y-0">
-                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                              Event Ticket Price (£)
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Enter Price"
-                                className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                                {...field}
-                                onChange={(e) => {
-                                  handleInputChange(
-                                    index,
-                                    "price",
-                                    parseFloat(e.target.value)
-                                  );
-                                  field.onChange(e);
-                                }}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      }
+                      {selected !== "free" && (
+                        <FormField
+                          control={form.control}
+                          name={`tickets.${index}.price`}
+                          render={({ field }) => (
+                            <FormItem className="relative w-full space-y-0">
+                              <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                Event Ticket Price (£)
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="number"
+                                  placeholder="Enter Price"
+                                  className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                                  {...field}
+                                  onChange={(e) => {
+                                    handleInputChange(
+                                      index,
+                                      "price",
+                                      parseFloat(e.target.value)
+                                    );
+                                    field.onChange(e);
+                                  }}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
 
                       {/* Event Number of Tickets Field */}
                       <FormField
@@ -2358,27 +2445,21 @@ function EditeventOnBack() {
                   </div> */}
 
               {/* Add Ticket Type Button */}
-            
-                <div className="flex justify-end items-center mt-[12px] ticket-btn">
-                  <Button
-                    style={{
-                      background:
-                        "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
-                    }}
-                    className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px]  rounded-full  
+
+              <div className="flex justify-end items-center mt-[12px] ticket-btn">
+                <Button
+                  style={{
+                    background:
+                      "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                  }}
+                  className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px]  rounded-full  
 border-[0.86px] border-transparent text-[11px] font-extrabold"
-                    onClick={handleAddTicketType}
-                  >
-                    <Image
-                      src={addicon}
-                      alt="Add-icon"
-                      height={12}
-                      width={12}
-                    />
-                    Add Ticket Type
-                  </Button>
-                </div>
-             
+                  onClick={handleAddTicketType}
+                >
+                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                  Add Ticket Type
+                </Button>
+              </div>
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
