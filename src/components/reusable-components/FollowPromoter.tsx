@@ -22,16 +22,36 @@ import {
 } from "@/lib/middleware/organizer";
 import { useRouter } from "next/navigation";
 import { YoutubeLogo } from "@phosphor-icons/react";
+import {
+  FollowPromoter,
+  getFollowingPromoters,
+  UnFollowPromoter,
+} from "@/lib/middleware/liveactivity";
+import { SuccessToast, ErrorToast } from "./Toaster/Toaster";
 
-const FollowPromoter = ({ userId, eventName }: any) => {
+const Followpromoter = ({ userId, eventName }: any) => {
+  const [uId, setUid] = useState<any>("");
+  const [loading, setLoading] = useState(false);
+  const [followStatus, setFollowStatus] = useState(false);
+
+
+
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [userToken, setUserToken] = useState<any>();
   useEffect(() => {
+    const myuserid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+
     // dispatch(getEventCount(userId));
     dispatch(getOrganizerByID(userId));
     dispatch(getOrganizerSocialProfile(userId));
-  }, [userId]);
+    const data = {
+      followId: userId,
+      userId: myuserid,
+    };
+    dispatch(getFollowingPromoters(data));
+  }, []);
 
   const myEvents = useAppSelector(
     (state) => state?.getEventCount?.myEventsCount
@@ -57,13 +77,82 @@ const FollowPromoter = ({ userId, eventName }: any) => {
     setUserToken(token);
   }, []);
 
-  const handleFollow = () => {
-    router.push(
-      `/events/event-detail/promoter-profile?eventname=${eventName}&userId=${userId}`,
-      { scroll: false }
-    );
-  };
+  // const handleFollow = () => {
+  //   router.push(
+  //     `/events/event-detail/promoter-profile?eventname=${eventName}&userId=${userId}`,
+  //     { scroll: false }
+  //   );
+  // };
 
+  async function handleFollow() {
+    setLoading(true);
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    try {
+      const data = {
+        followId: userId,
+        userId: userID,
+      };
+      dispatch(FollowPromoter(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoading(false);
+          setFollowStatus(true);
+          console.log("org Activity res", res?.payload?.data);
+          SuccessToast("You are now Following ");
+          const datas = {
+            followId: userId,
+            userId: userID,
+          };
+          dispatch(getFollowingPromoters(datas));
+          
+        } else {
+          setLoading(false);
+          console.log(res?.payload?.message);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+  async function handleUnFollow() {
+    setLoading(true);
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    try {
+      const data = {
+        followId: userId,
+        userId: userID,
+      };
+      dispatch(UnFollowPromoter(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoading(false);
+          setFollowStatus(false);
+          console.log("org Activity res", res?.payload?.data);
+          // SuccessToast("You have unfollowed ");
+          const datas = {
+            followId: userId,
+            userId: userID,
+          };
+          dispatch(getFollowingPromoters(datas));
+        } else {
+          setLoading(false);
+          console.log(res?.payload?.message);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+  const myFollowers = useAppSelector(
+    (state) => state?.getFollowPromoters?.myFollowers?.data
+  );
+
+  console.log("my followers data", myFollowers);
+  const isFollowing = myFollowers?.some(
+    (item: any) => item?.followId == userId
+  );
   return (
     <div className="mt-[32px] bg-white/10 rounded-xl p-[16px] w-full">
       <div className="flex gap-4">
@@ -101,9 +190,15 @@ const FollowPromoter = ({ userId, eventName }: any) => {
           <Button
             variant="secondary"
             className="text-[14px] font-bold px-[16px] py-[10px]"
-            onClick={() => handleFollow()}
+            onClick={() => {
+              if (followStatus) {
+                handleUnFollow();
+              } else {
+                handleFollow();
+              }
+            }}
           >
-            Follow Promoter
+            {followStatus ? "Following" : "FollowPromoter"}
           </Button>
         }
         <div className="flex gap-[8px] flex-wrap h-full">
@@ -197,4 +292,4 @@ const FollowPromoter = ({ userId, eventName }: any) => {
   );
 };
 
-export default FollowPromoter;
+export default Followpromoter;

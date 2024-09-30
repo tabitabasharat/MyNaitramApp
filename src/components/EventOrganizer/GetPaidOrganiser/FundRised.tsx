@@ -1,4 +1,5 @@
 "use client";
+import NotPaidModal from "./NotPaidModal";
 import React from "react";
 import Backward from "@/components/Backward/Backward";
 import larki from "@/assets/Images.svg";
@@ -400,6 +401,11 @@ const FUndRised = () => {
           eventID={eventid}
         />
       )}
+
+      {/* <NotPaidModal
+        onClose={() => setOpenModal(false)}
+        open={() => setOpenModal(true)}
+      /> */}
     </div>
   );
 };

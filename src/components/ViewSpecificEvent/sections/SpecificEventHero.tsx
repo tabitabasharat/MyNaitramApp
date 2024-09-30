@@ -28,7 +28,7 @@ import leftarrow from "@/assets/left-arrow.svg";
 import shareicon from "@/assets/blackUpload Simple.svg";
 import { Button } from "@/components/ui/button";
 import GradientBorder from "@/components/ui/gradient-border";
-import FollowPromoter from "@/components/reusable-components/FollowPromoter";
+import Followpromoter from "@/components/reusable-components/FollowPromoter";
 import { useRouter } from "next/navigation";
 import {
   Lock,
@@ -266,7 +266,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
               </div> */}
 
                 {EventData?.userId && (
-                  <FollowPromoter
+                  <Followpromoter
                     userId={EventData?.userId}
                     eventName={EventData?.name}
                   />

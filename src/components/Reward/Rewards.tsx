@@ -197,6 +197,7 @@ function Rewards() {
                           icon={Calendarnew}
                           claimID={reward?.id}
                           claimed={reward?.claimed}
+                          claimedamount={reward?.claimAmount}
                         />
                       )
                     )}

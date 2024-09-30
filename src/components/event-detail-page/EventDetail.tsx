@@ -1,7 +1,7 @@
 "use client";
 
 import BuyTicket from "@/components/reusable-components/BuyTicket";
-import FollowPromoter from "@/components/reusable-components/FollowPromoter";
+import Followpromoter from "../reusable-components/FollowPromoter";
 import { Badge } from "@/components/ui/badge";
 import { events } from "@/lib/dummyData";
 import {
@@ -152,7 +152,7 @@ const EventDetail = () => {
               <Heart size={23} weight="fill" />
             </div>
           </div>
-          <FollowPromoter />
+          <Followpromoter />
         </div>
 
         {/* DIVISION */}

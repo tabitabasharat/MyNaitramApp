@@ -10,7 +10,7 @@ import ClaimRewardModal from "../Reward/ClaimRewardModal";
 
 
 
-const ClaimRewardCard = ({ heading, desc, icon, claimID,claimed }: any) => {
+const ClaimRewardCard = ({ heading, desc, icon, claimID,claimed, claimedamount }: any) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
@@ -74,6 +74,8 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID,claimed }: any) => {
         <ClaimRewardModal
           onClose={() => setisClaimOpen(false)}
           open={() => setisClaimOpen(true)}
+          MRTamount={claimedamount}
+          Name={heading}
          
         />
       )}

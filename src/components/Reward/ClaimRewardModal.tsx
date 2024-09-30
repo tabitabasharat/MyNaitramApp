@@ -29,14 +29,18 @@ import { useRouter } from "next/navigation";
 import { close } from "fs";
 import { claimRewardCollectible } from "@/lib/middleware/reward";
 
-
-const ClaimRewardModal = ({ onClose, open,collectibleID }: any) => {
+const ClaimRewardModal = ({
+  onClose,
+  open,
+  collectibleID,
+  MRTamount,
+  Name,
+}: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [loader, setLoader] = useState(false);
 
-
-  const value= "rewards"
+  const value = "rewards";
 
   // async function ClaimCollectible() {
   //   console.log("Collectible Claimed");
@@ -86,21 +90,22 @@ const ClaimRewardModal = ({ onClose, open,collectibleID }: any) => {
             <div className="flex items-center flex-col">
               <Image src={Iconpop} alt="icon" />
               <p className="mt-[16px] font-extrabold leading-[24px] whitelist-txt text-center">
-              
-              You have claimed <span className="#FFC300">1 Naitram</span> Membership Collectible
+                You have Successfully Claimed{" "}
+                <span className="#FFC300"> {MRTamount} MRT</span> Rewards for “
+                {Name} function”
               </p>
-              
-              <div className="flex items-center gap-[20px] mt-[32px] ">
+
+              {/* <div className="flex items-center gap-[20px] mt-[32px] ">
                 <Button
                   className=" py-[12px] px-[25px] text-[14px] font-extrabold leading-[19.6px]
                  text-center  w-full text-[#030303] "
-                 onClick={()=>{router.push(`/reward?option=${value}`)}}
-                // onClick={() => ClaimCollectible()}
-
+                  onClick={() => {
+                    router.push(`/reward?option=${value}`);
+                  }}
                 >
                   View My Collectible
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
         </DialogContent>
