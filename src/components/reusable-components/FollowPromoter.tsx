@@ -67,19 +67,22 @@ const FollowPromoter = ({ userId, eventName }: any) => {
   return (
     <div className="mt-[32px] bg-white/10 rounded-xl p-[16px] w-full">
       <div className="flex gap-4">
-        <Image
-          style={{ width: "40px", height: "40px" }}
-          src={imageUrl}
-          width={40}
-          height={40}
-          className="rounded-xl border-2 border-[#D9D9D9] shadow-2xl"
-          alt="promoter"
-        />
+        <Link href="/profile-perview">
+          <Image
+            style={{ width: "40px", height: "40px" }}
+            src={imageUrl}
+            width={40}
+            height={40}
+            className="rounded-xl border-2 border-[#D9D9D9] shadow-2xl"
+            alt="promoter"
+          />
+        </Link>
         <div>
-          <p className="font-bold text-[14px]  font-bold flex items-center gap-1 capitalize">
-            {myProfile?.userProfile?.fullname}
+          <Link href="/profile-perview">
+            <p className="font-bold text-[14px]  font-bold flex items-center gap-1 capitalize">
+              {myProfile?.userProfile?.fullname}
             </p>
-
+          </Link>
           <p className="text-[#FFFFFF3D] text-[12px]">
             <span className="text-[11px] text-[#E6E6E6]">
               {myProfile?.profile?.totalEvents} Events
