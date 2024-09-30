@@ -168,21 +168,7 @@ const formSchema = z.object({
   eventmainimg: z.string().optional(),
 
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
-  // tickets: z
-  //   .array(
-  //     z.object({
-  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //       price: z
-  //         .string()
-  //         .min(1, { message: "Ticket price must be greater than 0." }),
-  //       no: z
-  //         .string()
-  //         .min(1, { message: "Number of tickets must be greater than 0." }),
-  //     })
-  //   )
-  //   .refine((tickets) => tickets.length > 0, {
-  //     message: "At least one ticket is required.",
-  //   }),
+
   tickets: z.array(
     z.object({
       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
@@ -344,10 +330,12 @@ function EditeventOnBack() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedData = localStorage.getItem("eventData");
+
       if (storedData) {
         try {
           // Parse the JSON data from localStorage
           const parsedData: any = JSON.parse(storedData);
+          setSelected(parsedData?.isFree?"free":"paid")
           setEventData(parsedData);
           console.log("my parsed data", parsedData);
         } catch (error) {
@@ -766,19 +754,20 @@ function EditeventOnBack() {
   const handleOptionChange = (option: SelectedOption) => {
     setSelected(option);
 
-    if (option === "free") {
-      setTicketTypes((prevTickets) =>
-        prevTickets.map((ticket) => ({
-          ...ticket,
-          type: "free",
-          price: 0,
-          no: 0,
-          options: [],
-        }))
-      );
-    }
+    // if (option === "free") {
+    //   setTicketTypes((prevTickets) =>
+    //     prevTickets.map((ticket) => ({
+    //       ...ticket,
+    //       type: "free",
+    //       price: 0,
+    //       no: 0,
+    //       options: [],
+    //     }))
+    //   );
+    // }
   };
 
+  console.log("")
   async function EventCreation(values: z.infer<typeof formSchema>) {
     // setLoader(true);
 
@@ -996,18 +985,40 @@ function EditeventOnBack() {
 
         setGalleryFiles(files);
       }
+      let ticketsWithCheckedOptions;
 
-      const ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
-        (ticket: any) => ({
-          ...ticket,
-          options: ticket?.options?.map((option: any) => ({
-            ...option,
-            checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
-          })),
-        })
-      );
+      if(Eventdata?.isFree == true && selected==="free"){
+        console.log("comming in  if")
 
-      setTicketTypes(ticketsWithCheckedOptions);
+         ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
+          (ticket: any) => ({
+            ...ticket,
+            options: ticket?.options?.map((option: any) => ({
+              ...option,
+              checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
+            })),
+          })
+        );
+  
+        setTicketTypes(ticketsWithCheckedOptions);
+      }else if(Eventdata?.isFree == false && selected==="paid"){
+        console.log("comming in else if")
+         ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
+          (ticket: any) => ({
+            ...ticket,
+            options: ticket?.options?.map((option: any) => ({
+              ...option,
+              checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
+            })),
+          })
+        );
+  
+        setTicketTypes(ticketsWithCheckedOptions);
+         
+      }else{
+        console.log("comming in else")
+        setTicketTypes([ { type: "", price: 0, no: 0, options: [], dropdown: true },]);
+      }
 
       // const updatedCategoryTypes = Eventdata?.eventcategory.map(
       //   (category: string, index: number) => ({
@@ -1060,7 +1071,7 @@ function EditeventOnBack() {
         tickets: ticketsWithCheckedOptions || form.getValues("tickets"),
       });
     }
-  }, [EventData, Eventdata]);
+  }, [EventData, Eventdata,selected]);
 
   function extractDate(dateTime: string): string {
     // Create a new Date object from the input string
@@ -2075,7 +2086,7 @@ function EditeventOnBack() {
                 </div>
               </div>
 
-              {selected === "paid" &&
+              {
                 ticketTypes.length > 0 &&
                 ticketTypes?.map((ticket, index) => (
                   <div
@@ -2113,6 +2124,8 @@ function EditeventOnBack() {
                       />
 
                       {/* Event Ticket Price Field */}
+                      {
+                        selected !=="free" &&
                       <FormField
                         control={form.control}
                         name={`tickets.${index}.price`}
@@ -2141,6 +2154,7 @@ function EditeventOnBack() {
                           </FormItem>
                         )}
                       />
+                      }
 
                       {/* Event Number of Tickets Field */}
                       <FormField
@@ -2344,7 +2358,7 @@ function EditeventOnBack() {
                   </div> */}
 
               {/* Add Ticket Type Button */}
-              {selected === "paid" && (
+            
                 <div className="flex justify-end items-center mt-[12px] ticket-btn">
                   <Button
                     style={{
@@ -2364,7 +2378,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                     Add Ticket Type
                   </Button>
                 </div>
-              )}
+             
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField

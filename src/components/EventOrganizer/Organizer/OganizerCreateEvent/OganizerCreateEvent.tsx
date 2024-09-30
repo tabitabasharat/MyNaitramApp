@@ -140,8 +140,6 @@ const isValidDateTime = (dateTimeString: string) => {
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
 
-  // eventcategory: z.array(categorySchema).nonempty({ message: "At least one category is required." }),
-
   eventcategory: z.array(
     z.object({
       options: z
@@ -155,9 +153,6 @@ const formSchema = z.object({
     })
   ),
 
-  // eventcategory: z.array(z.any()).min(1, { message: "Event Category is required" }),
-
-  // Ensure at least one category is selected
 
   eventlocation: z
     .string()
@@ -229,10 +224,92 @@ const formSchema = z.object({
           .min(1, { message: "Number of tickets must be greater than 0." }),
       })
     )
-    // .refine((tickets) => tickets.length > 0, {
-    //   message: "At least one ticket is required.",
-    // }),
-  // .optional(),
+
+});
+const formSchema2 = z.object({
+  eventname: z.string().min(1, { message: "Event name cannot be empty." }),
+
+  eventcategory: z.array(
+    z.object({
+      options: z
+        .array(
+          z.object({
+            id: z.number(),
+            label: z.string(),
+          })
+        )
+        .min(1, { message: "Event Category is required" }),
+    })
+  ),
+
+
+  eventlocation: z
+    .string()
+    .min(1, { message: "Event location cannot be empty." }),
+  eventstartdate: z
+    .string()
+    .min(1, { message: "Ticket start date cannot be empty." }),
+
+  eventenddate: z
+    .string()
+    .min(1, { message: "Ticket end date  cannot be empty." }),
+
+  eventstarttime: z
+    .string()
+    .min(1, { message: "Event start time cannot be empty." }),
+
+  eventendtime: z
+    .string()
+    .min(1, { message: "Event end time cannot be empty." }),
+
+  eventdescription: z
+    .string()
+    .min(1, { message: "Event description cannot be empty." }),
+
+  compticketno: z
+    .string()
+    .min(1, { message: "Complimentary ticket number cannot be empty." }),
+  fburl: z
+    .string()
+    .url({ message: "Invalid Facebook URL." })
+    .min(1, { message: "Facebook URL cannot be empty." }),
+  instaurl: z
+    .string()
+    .url({ message: "Invalid Instagram URL." })
+    .min(1, { message: "Instagram URL cannot be empty." }),
+  youtubeurl: z
+    .string()
+    .url({ message: "Invalid YouTube URL." })
+    .min(1, { message: "YouTube URL cannot be empty." }),
+  tiktokurl: z
+    .string()
+    .url({ message: "Invalid TikTok URL." })
+    .min(1, { message: "TikTok URL cannot be empty." }),
+  linkedinurl: z
+    .string()
+    .url({ message: "Invalid Linkedin URL." })
+    .min(1, { message: "Linkedin URL cannot be empty." }),
+  twitterurl: z
+    .string()
+    .url({ message: "Invalid Twitter URL." })
+    .min(1, { message: "Twitter URL cannot be empty." }),
+  telegramurl: z
+    .string()
+    .url({ message: "Invalid Telegram URL." })
+    .min(1, { message: "Telegram URL cannot be empty." }),
+  // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+  eventmainimg: z.string().optional(),
+  eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+  // selected: z.string(),
+ tickets: z.array(
+    z.object({
+      type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+      // Price is optional for free events
+      price: z.string().optional(),
+      no: z.string().min(1, { message: "Number of tickets must be greater than 0." }),
+    })
+  )
+
 });
 
 type Option = {
@@ -424,8 +501,8 @@ function OganizerCreateEvent() {
     setIsCatDropdownOpen((prev) => !prev);
   };
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof formSchema | typeof formSchema2>>({
+    resolver: zodResolver(selected==="free"?formSchema2:formSchema),
     defaultValues: {
       eventname: "",
       eventcategory: [],
@@ -590,9 +667,13 @@ function OganizerCreateEvent() {
   }, []);
 
   const handleOptionChange = (option: SelectedOption) => {
+    console.log("this is the error ",option,selected)
   setSelected(option);
 
-    if (option === "free") {
+  };
+  useEffect(()=>{
+    console
+    if (selected === "free") {
       setTicketTypes((prevTickets) =>
         prevTickets.map((ticket) => ({
           ...ticket,
@@ -603,7 +684,7 @@ function OganizerCreateEvent() {
         }))
       );
     }
-  };
+  },[selected])
 
   const filteredTicketTypes = ticketTypes.map((ticket) => ({
     type: ticket.type,
@@ -652,7 +733,7 @@ function OganizerCreateEvent() {
 
   console.log("is cat", isCategorySelected);
 
-  async function EventCreation(values: z.infer<typeof formSchema>) {
+  async function EventCreation(values: z.infer<typeof formSchema | typeof formSchema2>) {
     setLoader(true);
     const categorylabels = categoryTypes?.map(
       (category: any) => category?.label
@@ -769,7 +850,7 @@ function OganizerCreateEvent() {
       ErrorToast(error);
     }
   }
-  async function handlePreviewClick(values: z.infer<typeof formSchema>) {
+  async function handlePreviewClick(values: z.infer<typeof formSchema | typeof formSchema2>) {
     // setLoader(true);
     setisWalletModalOpen(false);
     console.log("my values", values);
@@ -1635,7 +1716,7 @@ function OganizerCreateEvent() {
                 </div>
               </div>
 
-              {selected === "paid" &&
+              {
                 ticketTypes.length > 0 &&
                 ticketTypes.map((ticket, index) => (
                   <div
@@ -1673,6 +1754,7 @@ function OganizerCreateEvent() {
                       />
 
                       {/* Event Ticket Price Field */}
+                     { selected !== "free" && 
                       <FormField
                         control={form.control}
                         name={`tickets.${index}.price`}
@@ -1701,6 +1783,7 @@ function OganizerCreateEvent() {
                           </FormItem>
                         )}
                       />
+                     }
 
                       {/* Event Number of Tickets Field */}
                       <FormField
@@ -1806,7 +1889,7 @@ function OganizerCreateEvent() {
                 ))}
 
               {/* Add Ticket Type Button */}
-              {selected === "paid" && (
+             
                 <div className="flex justify-end items-center mt-[12px] ticket-btn">
                   <Button
                     style={{
@@ -1827,7 +1910,7 @@ function OganizerCreateEvent() {
                     Add Ticket Type
                   </Button>
                 </div>
-              )}
+              
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
