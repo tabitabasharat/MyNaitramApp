@@ -122,7 +122,7 @@ const ProfileSidebar = ({
           </div>
         </div>
        
-        <button className="bg-customRed w-full h-full border-none mb-[23.76px] rounded-full py-4 ">
+        <button className="bg-customRed w-full h-full border-none mb-[50px] rounded-full py-4 ">
           logout
         </button>
       </div>

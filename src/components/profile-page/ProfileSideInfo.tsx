@@ -106,7 +106,6 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
-   
   }));
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -128,7 +127,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
             </h3>
           </Link>
           <div>
-            <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[8px]">
+            <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[8px]">
               SETTINGS
             </h3>
             <div className="text-xl font-bold">
@@ -143,9 +142,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                     disablePadding
                     onClick={() => handleItemClick(item.text)}
                   >
-                    <ListItemButton
-                      
-                    >
+                    <ListItemButton>
                       <ListItemIcon
                         style={{ minWidth: "0pc" }}
                         className="pr-2"
@@ -167,7 +164,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
         </List>
         <Divider />
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">
+          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-bold mb-[8px]">
             SUPPORT
           </h3>
           <div className="text-xl font-bold">
@@ -180,7 +177,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                   disablePadding
                   onClick={() => handleItemClick(item.text)}
                 >
-                  <ListItemButton className="p-[10px] flex items-center">
+                  <ListItemButton className=" flex items-center">
                     <ListItemIcon style={{ minWidth: "0pc" }} className=" pr-2">
                       <Image
                         src={item.icon}
@@ -197,7 +194,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
           </div>
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">ABOUT</h3>
+          <h3 className="text-[#FFFFFF99] text-sm ps-[9px] font-bold mb-[8px]">ABOUT</h3>
           <Link href="/profile/Delete-account">
             <ListItem
               className={`text-xl font-bold ${
@@ -228,7 +225,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
       </div>
       <div className="">
         <button
-          className="text-[white] mb-[32px] md:mx-[21px] absolute bottom-[10%] mx-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
+          className="text-[white] mb-[50px] md:mx-[21px] absolute bottom-[10%] mx-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
           onClick={Logout}
         >
           <Image
@@ -243,7 +240,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
   );
 
   const container =
-  typeof window !== "undefined" ? window().document.body : null;
+    typeof window !== "undefined" ? window().document.body : null;
   const theme = useTheme();
 
   return (
@@ -256,8 +253,8 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
           marginTop: "80px",
           boxShadow: "none",
           "& .MuiToolbar-root": {
-              minHeight: isSmallScreen ? "56px" : "64px",
-            },
+            minHeight: isSmallScreen ? "56px" : "64px",
+          },
         }}
       >
         <Toolbar
@@ -277,7 +274,6 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               mr: 2,
               display: { sm: "block", md: "block", lg: "none" },
               boxShadow: "none",
-             
             }}
           >
             <MenuIcon />
@@ -310,6 +306,10 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               background: "black",
               marginTop: "87px",
               position: "relative",
+            },
+            "& .MuiListItemButton-root": {
+              paddingLeft: "0px",
+              marginLeft:"9px"
             },
             "& .MuiTypography-root": {
               fontSize: "14px",
@@ -344,6 +344,10 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               width: drawerWidth,
               marginTop: "87px",
               backgroundColor: "black",
+            },
+            "& .MuiListItemButton-root": {
+              marginLeft:"9px",
+              paddingLeft:"0px"
             },
             "& .MuiTypography-root": {
               fontSize: "14px",

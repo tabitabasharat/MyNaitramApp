@@ -27,9 +27,9 @@ import chats from "@/assets/Chats.svg";
 import heplcenter from "@/assets/Headset.svg";
 import faq from "@/assets/Question.svg";
 import scanner from "@/assets/Scan.svg";
-import history from"@/assets/empty-wallet-time.svg"
-import money from "@/assets/Money.svg"
-import paydetail from "@/assets/receipt-text.svg"
+import history from "@/assets/empty-wallet-time.svg";
+import money from "@/assets/Money.svg";
+import paydetail from "@/assets/receipt-text.svg";
 import Link from "next/link";
 import { useAppDispatch } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
@@ -62,7 +62,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
 
   // Use media query hook
   const isSmallScreen = useMediaQuery("(max-width:992px)");
-  const drawerWidth = 260;
+  const drawerWidth = 273;
   useEffect(() => {
     if (isSmallScreen) {
       setMobileOpen(false);
@@ -101,16 +101,18 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
     },
   ];
   const payments = [
-
     { text: "Get Paid", icon: money, url: "/organizer-event/get-paid" },
-    { text: "Payout Details", icon:paydetail, url: "/organizer-event/payout-detail" },
+    {
+      text: "Payout Details",
+      icon: paydetail,
+      url: "/organizer-event/payout-detail",
+    },
     {
       text: "Payout History",
       icon: history,
       url: "/organizer-event/payout-history",
     },
   ];
-
 
   const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
@@ -131,7 +133,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
 
   const drawer = (
     <>
-      <div className="ps-[24px] pe-[24px] bg-[black]">
+      <div className="ps-[24px] pe-[24px] bg-[black] overflow-Y-hidden">
         <List className="bg-[black] p-[0px] text-[white]">
           <Link href="/organizer-event/event-dashboard">
             <h3 className="text-[20px] font-bold pt-[0px] lg:pt-[32px]  mb-[24px]">
@@ -140,7 +142,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           </Link>
           <div>
             <List className="bg-[black] py-[0px] text-[white]">
-              <h3 className="text-[#FFFFFF99] text-sm font-extrabold mt-[2px] mb-[10px]">
+              <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mt-[2px] mb-[10px]">
                 {" "}
                 PROFILE
               </h3>
@@ -175,7 +177,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
         </List>
         <Divider />
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">
+          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">
             EVENTS
           </h3>
           <div className="text-xl font-bold">
@@ -208,7 +210,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           </div>
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">
+          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">
             PAYMENTS
           </h3>
           <div className="text-xl font-bold">
@@ -241,7 +243,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           </div>
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">
+          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">
             ANALYTICS
           </h3>
           <Link href="/salesmanage">
@@ -269,7 +271,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           </Link>
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[10px]">
+          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">
             HELP
           </h3>
           <Link href="/organizer-event/helpcenter">
@@ -360,6 +362,10 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
               fontSize: "14px",
               fontWeight: "400",
             },
+            "& .MuiListItemButton-root": {
+              paddingLeft: "0px",
+              marginLeft: "10px",
+            },
             "& .MuiListItemText-root": {
               marginBottom: "0px",
               // fontWeight: "400",
@@ -390,6 +396,10 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
               width: drawerWidth,
               marginTop: "87px",
               backgroundColor: "black",
+            },
+            "& .MuiListItemButton-root": {
+              paddingLeft: "0px",
+              marginLeft: "10px",
             },
             "& .MuiTypography-root": {
               fontSize: "14px",

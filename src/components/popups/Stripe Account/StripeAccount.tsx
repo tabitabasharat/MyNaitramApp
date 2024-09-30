@@ -139,7 +139,6 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
         tiktokUrl: eventData?.tiktokurl,
         linkedinUrl: eventData?.linkedinurl,
         eventmedia: eventData?.eventmedia,
-        
       };
       dispatch(createevent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
@@ -187,11 +186,9 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
           </div>
           <div className="px-6">
             <p className="text-[#BFBFBF] pb-[20px] lg:pb-[24px] text-sm font-bold lg:font-normal">
-              Gorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero et velit interdum, ac aliquet odio mattis. Class
-              aptent taciti sociosqu ad litora torquent per conubia nostra, per
-              inceptos himenaeos. Curabitur tempus urna at turpis condimentum
-              lobortis.
+              Enter your registered Stripe account email to set up your payout
+              method. Payments are processed through Stripe for card and bank
+              transactions. Payouts are sent 3 days after the successful event
             </p>
             <div>
               <Form {...form}>
@@ -238,9 +235,7 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
                       <Button
                         type="submit" // Change to "button" to prevent form submission
                         className="w-full font-extrabold text-base"
-                        disabled={
-                          !form.watch("walletAddress")
-                        }
+                        disabled={!form.watch("walletAddress")}
                         // onClick={() => {
                         //   if (
                         //     selectedOptions.length &&

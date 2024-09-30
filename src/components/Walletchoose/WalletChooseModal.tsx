@@ -279,11 +279,9 @@ const LunchModal = ({ onClose, open, eventData }: any) => {
           </div>
           <div className="px-6">
             <p className="text-[#BFBFBF] pb-[20px] lg:pb-[24px] text-sm font-bold lg:font-normal">
-              Gosssem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero et velit interdum, ac aliquet odio mattis. Class
-              aptent taciti sociosqu ad litora torquent per conubia nostra, per
-              inceptos himenaeos. Curabitur tempus urna at turpis condimentum
-              lobortis.
+              Enter your cryptocurrency wallet address and select the correct
+              blockchain network for payouts. Payments are released 3 days after
+              the successful event.
             </p>
             <div>
               <h2 className="text-[20px] font-bold text-[#BFBFBF] lg:text-[14px] font-bold">

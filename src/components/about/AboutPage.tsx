@@ -1,5 +1,5 @@
 import Image from "next/image";
-import aboutTri from "@/assets/aboutTri.png";
+import aboutTri from "@/assets/ticketpyramid.png";
 import Journy from "./ourJourny/Journy";
 import Vision from "./vision/Vision";
 import Card from "./vision/card/Card";

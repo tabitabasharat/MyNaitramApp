@@ -78,14 +78,7 @@ const FollowPromoter = ({ userId, eventName }: any) => {
         <div>
           <p className="font-bold text-[14px]  font-bold flex items-center gap-1 capitalize">
             {myProfile?.userProfile?.fullname}
-            {/* { myEvents?.data?.data[0]?.user?.fullname} */}
-            {/* <Image src={verifiedimg} alt="img" width={10.5} height={10.5} /> */}
-            {/* <SealCheck
-                className="text-[#FFC109] -translate-y-1"
-                size={17}
-                weight="fill"
-              /> */}
-          </p>
+            </p>
 
           <p className="text-[#FFFFFF3D] text-[12px]">
             <span className="text-[11px] text-[#E6E6E6]">
@@ -101,12 +94,6 @@ const FollowPromoter = ({ userId, eventName }: any) => {
       </div>
       <hr className="border-white/10 my-[16px]" />
       <div className="flex flex-col  gap-3 items-start justify-start wrapping-flex">
-        {/* {
-          userToken !=myEvents?.data?.data[0]?.id && 
-        <Button variant="secondary" className="text-[14px] font-bold py-[10px]">
-          Follow Promoter
-        </Button>
-        } */}
         {
           <Button
             variant="secondary"
