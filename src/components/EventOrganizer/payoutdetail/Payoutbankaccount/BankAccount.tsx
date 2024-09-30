@@ -116,19 +116,21 @@ const BankAccountPayoutDetail = () => {
               <p>Add Bank Account </p>
             </button>
           </Link>
-          <button
-            className="bg-[#FF1717B2] text-[11px] font-extrabold w-full md:w-fit py-[10px] px-[0px] text-[white]
+          {myBankDetail?.length > 0 && (
+            <button
+              className="bg-[#FF1717B2] text-[11px] font-extrabold w-full md:w-fit py-[10px] px-[0px] text-[white]
            md:p-[20px] rounded-[100px] flex items-center justify-center gap-[8px]"
-            onClick={() => deleteBank()}
-          >
-            {" "}
-            <Image
-              src={trash}
-              alt="trash-icon"
-              className=" lg:h-[12px] lg:w-[12px] w-[16px] h-[16px]"
-            />{" "}
-            <p> Delete Bank Account </p>
-          </button>
+              onClick={() => deleteBank()}
+            >
+              {" "}
+              <Image
+                src={trash}
+                alt="trash-icon"
+                className=" lg:h-[12px] lg:w-[12px] w-[16px] h-[16px]"
+              />{" "}
+              <p> Delete Bank Account </p>
+            </button>
+          )}
         </div>
         <div className="flex gap-[32px] lg:gap-[24px] flex-col h-[500px] overflow-auto scrollbar-hide">
           {/* {[...Array(3)].map((_, index) => (

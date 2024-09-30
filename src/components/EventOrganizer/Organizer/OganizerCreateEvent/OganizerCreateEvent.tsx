@@ -3,6 +3,7 @@ import whitefree from "@/assets/Wallet/white free.svg";
 import greenfree from "@/assets/Wallet/Green free.svg";
 import LocationAutocomplete from "@/components/create-event/Locationinput";
 import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
+import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
 import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
 import React from "react";
 import "@/components/create-event/CreateEvent.css";
@@ -228,10 +229,10 @@ const formSchema = z.object({
           .min(1, { message: "Number of tickets must be greater than 0." }),
       })
     )
-    .refine((tickets) => tickets.length > 0, {
-      message: "At least one ticket is required.",
-    })
-    // .optional(),
+    // .refine((tickets) => tickets.length > 0, {
+    //   message: "At least one ticket is required.",
+    // }),
+  // .optional(),
 });
 
 type Option = {
@@ -588,6 +589,22 @@ function OganizerCreateEvent() {
     setUserid(userID);
   }, []);
 
+  const handleOptionChange = (option: SelectedOption) => {
+  setSelected(option);
+
+    if (option === "free") {
+      setTicketTypes((prevTickets) =>
+        prevTickets.map((ticket) => ({
+          ...ticket,
+          type: "free",
+          price: 0,
+          no: 0,
+          options: [],
+        }))
+      );
+    }
+  };
+
   const filteredTicketTypes = ticketTypes.map((ticket) => ({
     type: ticket.type,
     price: ticket.price,
@@ -598,19 +615,6 @@ function OganizerCreateEvent() {
     })),
   }));
 
-  const handleOptionChange = (option: SelectedOption) => {
-    setSelected(option);
-    if (option === "free") {
-      const filteredTicketTypes = ticketTypes.map((ticket) => ({
-        type: "free",
-        price: null,
-        no: null,
-        options: null,
-      }));
-      console.log("my free tickets", filteredTicketTypes);
-      return filteredTicketTypes;
-    }
-  };
   function extractDate(dateTime: string): string {
     // Create a new Date object from the input string
     const date = new Date(dateTime);
@@ -649,49 +653,47 @@ function OganizerCreateEvent() {
   console.log("is cat", isCategorySelected);
 
   async function EventCreation(values: z.infer<typeof formSchema>) {
-    // setLoader(true);
+    setLoader(true);
     const categorylabels = categoryTypes?.map(
       (category: any) => category?.label
     );
     const imagesOfGallery = await handleFileChangeapi();
 
-    const requiredFields = [
-      { value: values.eventname, name: "Event Name" },
-      // {
-      //   value: values.eventcategory.length > 0 ? values.eventcategory : null,
-      //   name: "Event Category",
-      // },
-      { value: values.eventlocation, name: "Event Location" },
-      { value: values.eventstartdate, name: "Event Start Date" },
-      { value: values.eventenddate, name: "Event End Date" },
-      { value: values.eventstarttime, name: "Event Start Time" },
-      { value: values.eventendtime, name: "Event End Time" },
-      { value: values.eventcoverimg, name: "Event Cover Image" },
-      { value: values.eventdescription, name: "Event Description" },
-      { value: values.compticketno, name: "Competition Ticket Number" },
-      {
-        value: imagesOfGallery.length > 0 ? imagesOfGallery : null,
-        name: "Event Gallery",
-      },
-    ];
+    // const requiredFields = [
+    //   { value: values.eventname, name: "Event Name" },
+
+    //   { value: values.eventlocation, name: "Event Location" },
+    //   { value: values.eventstartdate, name: "Event Start Date" },
+    //   { value: values.eventenddate, name: "Event End Date" },
+    //   { value: values.eventstarttime, name: "Event Start Time" },
+    //   { value: values.eventendtime, name: "Event End Time" },
+    //   { value: values.eventcoverimg, name: "Event Cover Image" },
+    //   { value: values.eventdescription, name: "Event Description" },
+    //   { value: values.compticketno, name: "Competition Ticket Number" },
+    //   {
+    //     value: imagesOfGallery.length > 0 ? imagesOfGallery : null,
+    //     name: "Event Gallery",
+    //   },
+    // ];
 
     // Check for empty required fields
-    const missingFields = requiredFields.filter((field) => !field.value);
+    // const missingFields = requiredFields.filter((field) => !field.value);
 
-    if (missingFields.length > 0) {
-      const missingFieldNames = missingFields
-        .map((field) => field.name)
-        .join(", ");
-      console.log("Missing fields:", missingFieldNames); // Log missing fields to console
-      ErrorToast(
-        `Please fill out all the required fields: ${missingFieldNames}`
-      );
-      return;
-    }
+    // if (missingFields.length > 0) {
+    //   const missingFieldNames = missingFields
+    //     .map((field) => field.name)
+    //     .join(", ");
+    //   console.log("Missing fields:", missingFieldNames);
+    //   ErrorToast(
+    //     `Please fill out all the required fields: ${missingFieldNames}`
+    //   );
+    //   return;
+    // }
 
     console.log("my values", values);
 
-    setisWalletModalOpen(true);
+    // setisWalletModalOpen(true);
+
     const utcEventStartTime = convertToUTC(EventStartTime);
     setEventStartTime(utcEventStartTime);
 
@@ -725,6 +727,47 @@ function OganizerCreateEvent() {
     console.log("my updated values are", updatedValues);
 
     setEventAllData(updatedValues);
+
+    try {
+      const data = {
+        userId: userid,
+        isFree: selected === "free" ? true : false,
+        name: Eventname,
+        category: categorylabels,
+        eventDescription: Eventdescription,
+        location: EventLocation,
+        ticketStartDate: utcTicketStartTime,
+        ticketEndDate: utcTicketEndTime,
+        startTime: utcEventStartTime,
+        endTime: utcEventEndTime,
+        // mainEventImage: eventData?.eventmainimg,
+        coverEventImage: CoverImg,
+        tickets: filteredTicketTypes,
+        totalComplemantaryTickets: CompTicketNo,
+        fbUrl: FBUrl,
+        instaUrl: InstaUrl,
+        youtubeUrl: YoutubeUrl,
+        twitterUrl: TwitterUrl,
+        telegramUrl: TelegramUrl,
+        tiktokUrl: tiktokUrl,
+        linkedinUrl: linkedinUrl,
+        eventmedia: imagesOfGallery,
+      };
+      dispatch(createevent(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+
+          setisWalletModalOpen(true);
+          // localStorage.removeItem("eventData");
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      ErrorToast(error);
+    }
   }
   async function handlePreviewClick(values: z.infer<typeof formSchema>) {
     // setLoader(true);
@@ -759,6 +802,7 @@ function OganizerCreateEvent() {
       ...values,
       eventmedia: imagesOfGallery,
       ticketsdata: filteredTicketTypes,
+      isFree: selected === "free" ? true : false,
 
       eventcategory: categorylabels,
 
@@ -2071,16 +2115,18 @@ function OganizerCreateEvent() {
             </form>
           </Form>
         </div>
-        {isWalletModalOpen && (
-          // <WalletChooseModal
-          //   onClose={() => setisWalletModalOpen(false)}
-          //   open={() => setisWalletModalOpen(true)}
-          //   eventData={eventAllData}
-          // />
+        {/* {isWalletModalOpen && (
+       
           <Receviepayment
             onClose={() => setisWalletModalOpen(false)}
             open={() => setisWalletModalOpen(true)}
             eventData={eventAllData}
+          />
+        )} */}
+        {isWalletModalOpen && (
+          <EventSubmmitModal
+            onClose={() => setisWalletModalOpen(false)}
+            open={() => setisWalletModalOpen(true)}
           />
         )}
       </div>
