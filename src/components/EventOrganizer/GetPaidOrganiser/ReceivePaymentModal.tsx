@@ -10,10 +10,12 @@ import {
 } from "@/components/ui/newdialog";
 
 import Image from "next/image";
+import { useState,useEffect } from "react";
 import Iconpop from "@/assets/payment.svg";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { getPayoutCryptoDetail, getPayoutBankDetail, } from "@/lib/middleware/payout";
+import { useAppDispatch,useAppSelector } from "@/lib/hooks";
 
 interface ReceviePaymentModalProps {
   onClose: () => void;
@@ -32,6 +34,7 @@ const ReceviePaymentModal = ({
   platformFee,
   payoutAvailable,
 }: ReceviePaymentModalProps) => {
+  const dispatch = useAppDispatch();
   const [isClaimOpen, setIsClaimOpen] = useState(false);
   const [isWalletOpen, setIsWalletOpen] = useState(false);
 
@@ -42,6 +45,16 @@ const ReceviePaymentModal = ({
   const handleToggleWallet = () => {
     setIsWalletOpen(!isWalletOpen);
   };
+  useEffect(() => {
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    dispatch(getPayoutCryptoDetail(userid));
+  }, []);
+
+  const myCryptoHistory = useAppSelector(
+    (state) => state?.getPayoutCrypto?.myHistory?.data
+  );
+  console.log("my crypto payout history is", myCryptoHistory);
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
