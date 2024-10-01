@@ -128,16 +128,16 @@ const GetSponsored = () => {
         </h3>
         <h2 className="text-[18px] lg:text-[24px] font-extrabold mb-[16px] lg:mb-[28px]">
           Are you an event organiser or promoter looking to elevate your event
-          or just getting <br className="hidden xl:block" /> started?
+          or just getting <br className="hide-text" /> started?
         </h2>
         <p className="font-normal text-[13px] lg:text-[16px] mb-[24px] lg:mb-[32px]">
           At Naitram, we are dedicated to supporting and cultivating some of the
           best events worldwide, delivering exceptional experiences{" "}
-          <br className="hidden xl:block" />
-          to attendees. <br className="hidden sm:block" />
+          <br className="hide-text" />
+          to attendees. <br className="hidden lg:block" />
           Whether you're organising music festivals, sports events, or
           networking gatherings, let's discuss how we can take your event to the
-          <br className="hidden xl:block" />
+          <br className="hide-text" />
           next level with sponsorship opportunities.
         </p>
         <h2 className="text-[18px] lg:text-[24px] font-extrabold mb-[16px] lg:mb-[24px]">
@@ -154,7 +154,7 @@ const GetSponsored = () => {
         <div>
           <h3 className="font-extrabold text-[32px] lg:text-[48px] mb-[24px] lg:mb-[32px]">
             Let’s collaborate to create something
-            <br className="hidden xl:block" /> extraordinary for your audience!
+            <br className="hide-text" /> extraordinary for your audience!
           </h3>
           <Form {...form}>
             <form

@@ -22,6 +22,8 @@ import ScreenLoader from "../loader/Screenloader";
 import { getTicketByQR } from "@/lib/middleware/wallet";
 import { useRouter } from "next/navigation";
 import img1 from "@/assets/Handbag (1).svg";
+import blockchainblack from "@/assets/black blockchain-icon 2.svg"
+import arrow from "@/assets/arrow-right.svg"
 import img2 from "@/assets/Cake.svg";
 import img3 from "@/assets/Crown.svg";
 import img4 from "@/assets/Shield Star.svg";
@@ -249,10 +251,10 @@ export default function SpecificEventTickets() {
           </p>
         </div>
         {/* Main content container */}
-        <div className="flex flex-col-reverse gap-[62px] justify-between lg:items-start items-center lg:flex-row">
-          <div className="flex flex-col">
+        <div className="flex flex-col-reverse gap-[62px] justify-between items-center lg:flex-row">
+          <div className="flex w-full flex-col">
             <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
-              <div className="flex gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 flex-wrap w-full lg:w-[80%]">
+              <div className="flex gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 flex-wrap w-full lg:w-[100%]">
                 {TicketData?.event?.category?.length > 0 &&
                   TicketData?.event?.category?.map(
                     (category: any, index: any) => (
@@ -275,7 +277,7 @@ export default function SpecificEventTickets() {
               </div>
             </div>
             <div>
-              <h2 className="font-extrabold text-start pb-[12px] lg:pb-[24px] text-[32px] lg:text-[48px]">
+              <h2 className="font-extrabold text-start text-[32px] lg:text-[48px] mb-[24px]">
                 {TicketData?.event?.name}
               </h2>
               <div className="flex flex-col justify-center">
@@ -399,7 +401,30 @@ export default function SpecificEventTickets() {
                 {TicketData?.event?.tickets[TicketData?.isIndex]?.type}
               </h3>
             </div>
-            <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
+            <div className="pt-[24px]">
+              <h2 className="font-normal text-sm pb-[4px] text-start">
+              Ticket ID
+              </h2>
+              <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">
+                {TicketData?.id}
+              </h3>
+            </div>
+            {/* <div className="flex justify-center items center">
+              <Link href="/verifiy-ticket" className="w-full">
+            <div className="flex p-[12px] bg-[#00D059] rounded-[100px] items-center my-[24px] justify-between w-full ">
+              <div className="flex">
+              <Image src={blockchainblack} alt="block-chain"/>
+              <p className="font-extrabold text-start text-sm mt-[3px] text-black ms-[12px]">
+              Verify on Blockchain
+              </p>
+              </div>
+              <div>
+              <Image src={arrow} alt="arrow"/>
+              </div>
+            </div>
+            </Link>
+            </div> */}
+            {/* <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
               <Link
                 href={`https://sepolia.etherscan.io/tx/${TicketData?.txHash}`}
                 target="_blank"
@@ -408,14 +433,6 @@ export default function SpecificEventTickets() {
                   Transaction ID
                 </h2>
                 <h3 className="font-bold text-base text-start">
-                  {/* {TicketData?.txHash} */}
-                  {/* {TicketData?.txHash
-                    ? `${TicketData.txHash.slice(
-                        0,
-                        10
-                      )}...${TicketData.txHash.slice(-9)}`
-                    : "N/A"} */}
-
                   {TicketData?.txHash
                     ? TicketData?.txHash.length > 20
                       ? `${TicketData?.txHash.slice(0, 19)}...`
@@ -426,7 +443,7 @@ export default function SpecificEventTickets() {
               <div>
                 <Image src={blockchain} alt="img" />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

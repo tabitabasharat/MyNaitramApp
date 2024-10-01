@@ -98,7 +98,7 @@ export const getPayoutBankDetail = createAsyncThunk(
       try {
         console.log("Inside create Payout Bank");
         const res = await api.post(`${API_URL}/helpcenter/createBankAccount`, data);
-        console.log("Inside create Payout Bank", res);
+        console.log("Inside create Payout Bansk", res);
   
         // localStorage.setItem("token", res?.data?.token);
         return {

@@ -176,7 +176,7 @@ const Cryptowallet = () => {
             <div className="relative gradient-slate py-[94.5px] border border-[#292929] flex items-center justify-center flex-col gap-[12px] rounded-[12px] w-full">
               <p className="text-[16px] text-extrabold">There's no Crypto Wallet</p>
               <button
-                className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto "
+                className="text-[14px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto "
                 onClick={() => router.push("/organizer-event/payout-detail/cryptowallet/addCryptowallet")}
               >
                 <Image src={addicon} alt="add-icon" />
