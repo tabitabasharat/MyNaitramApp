@@ -847,19 +847,7 @@ function EditeventOnBack() {
     })),
   }));
 
-  const filteredParsedTicketTypes = Eventdata?.ticketsdata?.map(
-    (ticket: any) => ({
-      type: ticket?.type,
-      price: ticket?.price,
-      no: ticket?.no,
-      selected: ticket.selected,
 
-      options: ticket?.options?.map((option: any) => ({
-        id: option?.id,
-        label: option?.label,
-      })),
-    })
-  );
 
   const handleOptionChange = (index: number, type: string) => {
     setTicketTypes((prevTickets) => {
@@ -879,7 +867,7 @@ function EditeventOnBack() {
   };
 
   async function EventCreation(values: z.infer<typeof formSchema>) {
-    // setLoader(true);
+    setLoader(true);
 
     const EventMediaAlready = [...(Eventdata?.eventmedia || [])];
     const imagesOfGallery = await handleFileChangeapi();
@@ -1066,6 +1054,66 @@ function EditeventOnBack() {
     }
   }
   console.log("Form errors:", form.formState.errors);
+  function convertToLocalTimestamp(localDateTime: string): string {
+    // Create a Date object from the local date-time string
+    const localDate = new Date(localDateTime);
+
+    // If the input string is in a known format, ensure we are getting the correct local time
+    if (isNaN(localDate.getTime())) {
+      throw new Error("Invalid date format");
+    }
+
+    // Extract local time components
+    const localYear = localDate.getFullYear();
+    const localMonth = localDate.getMonth() + 1; // Months are 0-indexed
+    const localDateNum = localDate.getDate();
+    const localHours = localDate.getHours();
+    const localMinutes = localDate.getMinutes();
+
+    // Format the components to match the 'yyyy-MM-ddTHH:mm' format
+    const formattedLocal = `${localYear}-${String(localMonth).padStart(
+      2,
+      "0"
+    )}-${String(localDateNum).padStart(2, "0")}T${String(localHours).padStart(
+      2,
+      "0"
+    )}:${String(localMinutes).padStart(2, "0")}`;
+
+    return formattedLocal;
+  }
+
+  function convertUTCToLocalTime(datess: any) {
+    const utcDateStr = '2024-10-02T08:00'; // Initial date string without seconds and Z
+
+    // Add ":00" for seconds and "Z" to indicate UTC time
+    const utcDateWithSeconds = `${datess}:00Z`;
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log(utcDateStr,datess ,"this is timestamp");
+
+    // Create a Date object from the UTC date string
+    const utcDate = new Date(utcDateWithSeconds);
+
+    // Convert to local time zone
+    const localDateStr = utcDate.toLocaleString("en-GB", {
+      timeZone: timeZone,
+      hour12: false,
+    });
+
+
+    // Extract the date and time parts from the localDateStr
+    const [date, time] = localDateStr.split(", ");
+
+    // Convert the date from 'DD/MM/YYYY' to 'YYYY-MM-DD'
+    const [day, month, year] = date.split("/");
+    const formattedDate = `${year}-${month}-${day}`;
+
+    // Extract the hours and minutes from the time
+    const [hours, minutes] = time.split(":");
+
+    // Return the final string in 'YYYY-MM-DDTHH:MM' format
+    console.log("this is is", `${formattedDate}T${hours}:${minutes}`);
+    return `${formattedDate}T${hours}:${minutes}`;
+  }
 
   useEffect(() => {
     if (EventData || Eventdata) {
@@ -1167,6 +1215,30 @@ function EditeventOnBack() {
 
       // const updatedCategoryTypes = Eventdata?.eventcategory || [];
       // setCategoryTypes(updatedCategoryTypes);
+      // const now = new Date();
+      // const offset = -now.getTimezoneOffset(); // getTimezoneOffset returns the difference in minutes from UTC, so we negate it
+
+      // const hours = String(Math.floor(offset / 60)).padStart(2, '0');
+      // const minutes = String(offset % 60).padStart(2, '0');
+      // const sign = offset >= 0 ? '+' : '-';
+
+      // const timeZoneOffset = `${sign}${hours}:${minutes}`;
+      // console.log(timeZoneOffset);
+
+      // console.log("this is time stamp",timeZoneOffset,(Eventdata?.eventstartdate),Eventdata?.eventenddate,Eventdata?.eventendtime )
+      // const utcDateStr = '2024-10-02T08:00:00Z'; // UTC time
+
+      // // Create a Date object from the UTC date string
+      // const utcDate = new Date(utcDateStr);
+
+      // // Convert to local time zone
+      // const localDateStr = utcDate.toLocaleString('en-GB', { timeZone: 'Asia/Karachi', hour12: false });
+
+      // // Display the local date and time
+      // console.log("this is time stamp",localDateStr);
+
+      // const localTime = convertUTCToLocalTime();
+      // console.log("this is time stamp",localTime);
 
       form.reset({
         eventname: Eventdata?.eventname || form.getValues("eventname"),
@@ -1176,12 +1248,18 @@ function EditeventOnBack() {
         eventlocation:
           Eventdata?.eventlocation || form.getValues("eventlocation"),
         eventstartdate:
-          Eventdata?.eventstartdate || form.getValues("eventstartdate"),
-        eventenddate: Eventdata?.eventenddate || form.getValues("eventenddate"),
+          convertUTCToLocalTime(Eventdata?.eventstartdate) ||
+          form.getValues("eventstartdate"),
+        eventenddate:
+          convertUTCToLocalTime(Eventdata?.eventenddate) ||
+          form.getValues("eventenddate"),
 
         eventstarttime:
-          Eventdata?.eventstarttime || form.getValues("eventstarttime"),
-        eventendtime: Eventdata?.eventendtime || form.getValues("eventendtime"),
+          convertUTCToLocalTime(Eventdata?.eventstarttime) ||
+          form.getValues("eventstarttime"),
+        eventendtime:
+          convertUTCToLocalTime(Eventdata?.eventendtime) ||
+          form.getValues("eventendtime"),
         // eventmainimg: mainimgName || form.getValues("eventmainimg"),
         eventcoverimg:
           Eventdata?.eventcoverimg || form.getValues("eventcoverimg"),
