@@ -14,21 +14,24 @@ import Iconpop from "@/assets/payment.svg";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useEffect } from "react";
 
 interface ReceviePaymentModalProps {
   onClose: () => void;
   open: any;
-  
 }
 
-const NotPaidModal = ({
-  onClose,
-  open,
-  
-}: ReceviePaymentModalProps) => {
-  
+const NotPaidModal = ({ onClose, open }: ReceviePaymentModalProps) => {
+  const router = useRouter();
+  useEffect(() => {
+    if (open) {
+      const timeout = setTimeout(() => {
+        router.push("/organizer-event/payout-detail");
+      }, 1000);
 
-
+      return () => clearTimeout(timeout);
+    }
+  }, [open, router]);
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -45,9 +48,8 @@ const NotPaidModal = ({
           <div className="flex items-center flex-col">
             <Image src={walletimg} alt="Payment Icon" />
             <p className="mt-[16px] font-extrabold leading-[24px] whitelist-txt text-center">
-            Please update your Payout Details to Get Paid
+              Please update your Payout Details to Get Paid
             </p>
-           
           </div>
         </DialogContent>
       </DialogPortal>

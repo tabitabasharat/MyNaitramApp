@@ -39,6 +39,7 @@ const ReceviePaymentModal = ({
   payoutAvailable,
 }: ReceviePaymentModalProps) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const [isClaimOpen, setIsClaimOpen] = useState(false);
   const [isWalletOpen, setIsWalletOpen] = useState(false);
@@ -67,6 +68,48 @@ const ReceviePaymentModal = ({
   );
   console.log("my payout bank history is", myBankDetail);
 
+  async function handleCrypto() {
+    try {
+      const userid =
+        typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+
+      const res: any = await dispatch(getPayoutCryptoDetail(userid));
+      if (res?.payload?.status === 200) {
+        router.push(
+          `/fund-rised/crypto-wallet/${eventID}?ticketSold=${ticketSold}&PlatformFee=${platformFee}&Payout=${payoutAvailable}`
+        );
+      } else {
+        setIsWalletOpen(true);
+        // setLoader(false);
+        // ErrorToast(res?.payload?.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // setLoader(false);
+      // ErrorToast(error);
+    }
+  }
+  async function handleBank() {
+    try {
+      const userid =
+        typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+
+      const res: any = await dispatch(getPayoutBankDetail(userid));
+      if (res?.payload?.status === 200) {
+        router.push(
+          `/fund-rised/bank-account/${eventID}?ticketSold=${ticketSold}&PlatformFee=${platformFee}&Payout=${payoutAvailable}`
+        );
+      } else {
+        setIsWalletOpen(true);
+        // setLoader(false);
+        // ErrorToast(res?.payload?.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // setLoader(false);
+      // ErrorToast(error);
+    }
+  }
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogPortal>
@@ -85,28 +128,28 @@ const ReceviePaymentModal = ({
               Receive Payment in:
             </p>
             <div className="flex items-center gap-[20px] mt-[32px]">
-              <Link
+              {/* <Link
                 href={`/fund-rised/crypto-wallet/${eventID}?ticketSold=${ticketSold}&PlatformFee=${platformFee}&Payout=${payoutAvailable}`}
-              >
+              > */}
                 <button
                   type="button"
-                  // onClick={handleToggleWallet}
+                  onClick={handleCrypto}
                   className="gradient-border-btn p-[12px] text-[#00D059] text-sm font-extrabold"
                 >
                   Crypto Wallet
                 </button>
-              </Link>
-              <Link
+              {/* </Link> */}
+              {/* <Link
                 href={`/fund-rised/bank-account/${eventID}?ticketSold=${ticketSold}&PlatformFee=${platformFee}&Payout=${payoutAvailable}`}
-              >
+              > */}
                 <button
                   type="button"
-                  // onClick={handleToggleStripe}
+                  onClick={handleBank}
                   className="bg-[#00D059] text-[black] p-[12px] text-sm font-extrabold rounded-[100px]"
                 >
                   Bank Account
                 </button>
-              </Link>
+              {/* </Link> */}
             </div>
             {isWalletOpen && (
               <NotPaidModal

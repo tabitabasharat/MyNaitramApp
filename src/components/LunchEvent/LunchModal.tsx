@@ -47,7 +47,7 @@ const LunchModal = ({ onClose, open }: any) => {
     if (open) {
       const timeout = setTimeout(() => {
         router.push("/organizer-event/profile");
-      }, 3000);
+      }, 2000);
 
       return () => clearTimeout(timeout);
     }

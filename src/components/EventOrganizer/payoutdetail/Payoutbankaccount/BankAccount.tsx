@@ -17,6 +17,7 @@ import {
   ErrorToast,
 } from "@/components/reusable-components/Toaster/Toaster";
 import ScreenLoader from "@/components/loader/Screenloader";
+import addicon from "@/assets/Wallet/plus-black.svg";
 
 const BankAccountPayoutDetail = () => {
   const router = useRouter();
@@ -80,7 +81,11 @@ const BankAccountPayoutDetail = () => {
 
   return (
     <div className="pt-[42px] pb-[59.12px] lg:pb-[26.25px] px-[24px] lg:px-[100px] xl:px-[216px] md:pt-[90px] mx-auto">
-      <div className="w-full md:w-[676px]">
+      <div
+        className={`w-full  ${
+          myBankDetail?.length == null ? "w-full" : "md:w-[676px]"
+        }`}
+      >
         <p className="block ms-[25px] mb-[32px] sm:mb-[0px] sm:hidden text-[24px] font-extrabold">
           Profile Menu
         </p>
@@ -101,22 +106,23 @@ const BankAccountPayoutDetail = () => {
             Bank Accounts{" "}
           </p>
         </div>
-        <div className="flex gap-[12px] btons-wrap-adjustment mb-[32px] w-full md:justify-end">
-          <Link
-            href="/organizer-event/payout-detail/bankaccount/add-bank-account"
-            className="w-full md:w-fit"
-          >
-            <button className="text-[#00D059] text-[11px] font-extrabold table-gradient w-full md:w-fit py-[10px] px-[0px] md:p-[20px] rounded-[100px] add-bank-account-border flex items-center justify-center gap-[8px]">
-              {" "}
-              <Image
-                src={add}
-                alt="add"
-                className="lg:h-[12px] lg:w-[12px] w-[16px] h-[16px]"
-              />{" "}
-              <p>Add Bank Account </p>
-            </button>
-          </Link>
-          {myBankDetail?.length > 0 && (
+        {myBankDetail?.length > 0 && (
+          <div className="flex gap-[12px] btons-wrap-adjustment mb-[32px] w-full md:justify-end">
+            <Link
+              href="/organizer-event/payout-detail/bankaccount/add-bank-account"
+              className="w-full md:w-fit"
+            >
+              <button className="text-[#00D059] text-[11px] font-extrabold table-gradient w-full md:w-fit py-[10px] px-[0px] md:p-[20px] rounded-[100px] add-bank-account-border flex items-center justify-center gap-[8px]">
+                {" "}
+                <Image
+                  src={add}
+                  alt="add"
+                  className="lg:h-[12px] lg:w-[12px] w-[16px] h-[16px]"
+                />{" "}
+                <p>Add Bank Account </p>
+              </button>
+            </Link>
+
             <button
               className="bg-[#FF1717B2] text-[11px] font-extrabold w-full md:w-fit py-[10px] px-[0px] text-[white]
            md:p-[20px] rounded-[100px] flex items-center justify-center gap-[8px]"
@@ -130,8 +136,8 @@ const BankAccountPayoutDetail = () => {
               />{" "}
               <p> Delete Bank Account </p>
             </button>
-          )}
-        </div>
+          </div>
+        )}
         <div className="flex gap-[32px] lg:gap-[24px] flex-col h-[500px] overflow-auto scrollbar-hide">
           {/* {[...Array(3)].map((_, index) => (
             <div
@@ -233,7 +239,22 @@ const BankAccountPayoutDetail = () => {
               </div>
             ))
           ) : (
-            <p>No Bank Detail Exist</p>
+            <div className="relative gradient-slate py-[94.5px] border border-[#292929] flex items-center justify-center flex-col gap-[12px] rounded-[12px] w-full">
+              <p className="text-[16px] text-extrabold">
+                There's no Bank Account
+              </p>
+              <button
+                className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto "
+                onClick={() =>
+                  router.push(
+                    "/organizer-event/payout-detail/bankaccount/add-bank-account"
+                  )
+                }
+              >
+                <Image src={addicon} alt="add-icon" />
+                Add Bank Account
+              </button>
+            </div>
           )}
         </div>
 
