@@ -172,7 +172,7 @@ const Header = () => {
                   {link.title}
                 </Link>
 
-                {(link.id === 2 || link.id === 5) && (
+                {(link.id === 2 || link.id === 4) && (
                   <Image
                     src={arrowdown} // Specify your image path here
                     alt={`${link.title} Arrow`}

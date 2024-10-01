@@ -96,6 +96,7 @@ type TicketType = {
   no: any;
   options: TicketTypeOption[];
   dropdown: any;
+  selected: any;
 };
 type cateOption = {
   id: number;
@@ -153,7 +154,6 @@ const formSchema = z.object({
     })
   ),
 
-
   eventlocation: z
     .string()
     .min(1, { message: "Event location cannot be empty." }),
@@ -212,19 +212,34 @@ const formSchema = z.object({
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   // selected: z.string(),
-  tickets: z
-    .array(
-      z.object({
-        type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-        price: z
-          .string()
-          .min(1, { message: "Ticket price must be greater than 0." }),
-        no: z
-          .string()
-          .min(1, { message: "Number of tickets must be greater than 0." }),
-      })
-    )
+  // tickets: z.array(
+  //   z.object({
+  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //     price: z
+  //       .string()
+  //       .min(1, { message: "Ticket price must be greater than 0." }),
+  //     no: z
+  //       .string()
+  //       .min(1, { message: "Number of tickets must be greater than 0." }),
+  //   })
+  // ),
 
+  tickets: z.array(
+    z.object({
+      type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+      price: z.string().optional().refine((val) => {
+        // Check if the type is "paid" and ensure price is provided
+        if (val !== undefined && val.trim() === "") {
+          return false; // If price is empty, it should fail validation
+        }
+        return true; // Otherwise, it passes validation
+      }, {
+        message: "Price is required for paid tickets.",
+        path: ['price'] // Optional: Specify the path for the error
+      }),
+      no: z.string().min(1, { message: "Number of tickets must be greater than 0." }),
+    })
+  ),
 });
 const formSchema2 = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
@@ -242,7 +257,6 @@ const formSchema2 = z.object({
     })
   ),
 
-
   eventlocation: z
     .string()
     .min(1, { message: "Event location cannot be empty." }),
@@ -301,15 +315,33 @@ const formSchema2 = z.object({
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   // selected: z.string(),
- tickets: z.array(
+  // tickets: z.array(
+  //   z.object({
+  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //     price: z.string().min(1, { message: "Ticket price cannot be empty." }),
+  //     no: z
+  //       .string()
+  //       .min(1, { message: "Number of tickets must be greater than 0." }),
+  //   })
+  // ),
+  tickets: z.array(
     z.object({
       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-      // Price is optional for free events
-      price: z.string().optional(),
+      price: z.string().optional(), // Price is optional by default
       no: z.string().min(1, { message: "Number of tickets must be greater than 0." }),
+      selected: z.string().optional(), // Ensure `selected` has a value
+    }).refine((data) => {
+      // Check if the price is required based on the selected property
+      if (data.selected === "paid" && (!data.price || data.price.trim() === "")) {
+        return false; // Fail validation if price is required but empty
+      }
+      return true; // Otherwise, it passes validation
+    }, {
+      message: "Price is required .",
+      path: ['price'] // Specify the path for the error
     })
-  )
-
+  ),
+  
 });
 
 type Option = {
@@ -384,9 +416,25 @@ function OganizerCreateEvent() {
   const router = useRouter();
 
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
-    { type: "free", price: 0, no: 0, options: [], dropdown: true },
+    {
+      type: "",
+      price: "",
+      no: "",
+      options: [],
+      dropdown: true,
+      selected: "free",
+    },
   ]);
-
+  // const [ticketTypes, setTicketTypes] = useState([
+  //   {
+  //     type: "",
+  //     price: "",
+  //     no: "",
+  //     selected: "free",
+  //     dropdown: true,
+  //     options: [],
+  //   },
+  // ]);
   const [categoryTypes, setCategoryTypes] = useState<any>([]);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
 
@@ -502,7 +550,7 @@ function OganizerCreateEvent() {
   };
 
   const form = useForm<z.infer<typeof formSchema | typeof formSchema2>>({
-    resolver: zodResolver(selected==="free"?formSchema2:formSchema),
+    resolver: zodResolver(selected === "free" ? formSchema2 : formSchema),
     defaultValues: {
       eventname: "",
       eventcategory: [],
@@ -607,16 +655,38 @@ function OganizerCreateEvent() {
     e.preventDefault();
     setTicketTypes((prevTickets) => [
       ...prevTickets,
-      { type: "", price: 0, no: 0, options: [], dropdown: true },
+      {
+        type: "",
+        price: 0,
+        no: 0,
+        options: [],
+        dropdown: true,
+        selected: "free",
+      },
     ]);
   };
+
   const handleDeleteTicketType = (index: number) => {
     if (index === 0) {
       return;
     }
     const updatedTicketTypes = ticketTypes.filter((_, i) => i !== index);
     setTicketTypes(updatedTicketTypes);
+    form.setValue('tickets', updatedTicketTypes); // Update form state
+
   };
+
+
+
+  // const handleDeleteTicketType = (index: number) => {
+  //   // Prevent deleting the first ticket type
+  //   if (index === 0) return;
+
+  //   // Filter out the ticket at the specified index
+  //   setTicketTypes((prevTickets) =>
+  //     prevTickets.filter((_, i) => i !== index)
+  //   );
+  // };
 
   const handleCoverSingleFileChange = async (
     e: React.ChangeEvent<HTMLInputElement>
@@ -666,30 +736,60 @@ function OganizerCreateEvent() {
     setUserid(userID);
   }, []);
 
-  const handleOptionChange = (option: SelectedOption) => {
-    console.log("this is the error ",option,selected)
-  setSelected(option);
+  // const handleOptionChange = (option: SelectedOption) => {
+  //   console.log("this is the error ",option,selected)
+  // setSelected(option);
 
-  };
-  useEffect(()=>{
-    console
-    if (selected === "free") {
-      setTicketTypes((prevTickets) =>
-        prevTickets.map((ticket) => ({
-          ...ticket,
-          type: "free",
-          price: 0,
-          no: 0,
-          options: [],
-        }))
+  // };
+  // const handleOptionChange = (index: number, type: string) => {
+  //   setTicketTypes((prevTickets) =>
+  //     prevTickets.map((ticket, i) =>
+  //       i === index
+  //         ? { ...ticket, selected: type } 
+  //         : ticket
+  //     )
+  //   );
+    
+  // };
+
+  const handleOptionChange = (index: number, type: string) => {
+    setTicketTypes((prevTickets) => {
+      const updatedTickets = prevTickets.map((ticket, i) =>
+        i === index
+          ? { ...ticket, selected: type } // Update the selected type (free/paid)
+          : ticket
       );
-    }
-  },[selected])
+  
+      // Update form values for the tickets
+      updatedTickets.forEach((ticket, i) => {
+        form.setValue(`tickets.${i}.selected`, ticket.selected); // Update the selected value in form
+      });
+  
+      return updatedTickets; // Return the updated tickets
+    });
+  };
+  
+
+  // useEffect(()=>{
+  //   console
+  //   if (selected === "free") {
+  //     setTicketTypes((prevTickets) =>
+  //       prevTickets.map((ticket) => ({
+  //         ...ticket,
+  //         type: "free",
+  //         price: 0,
+  //         no: 0,
+  //         options: [],
+  //       }))
+  //     );
+  //   }
+  // },[selected])
 
   const filteredTicketTypes = ticketTypes.map((ticket) => ({
     type: ticket.type,
     price: ticket.price,
     no: ticket.no,
+    selected: ticket.selected, 
     options: ticket.options.map((option) => ({
       id: option.id,
       label: option.label,
@@ -733,7 +833,9 @@ function OganizerCreateEvent() {
 
   console.log("is cat", isCategorySelected);
 
-  async function EventCreation(values: z.infer<typeof formSchema | typeof formSchema2>) {
+  async function EventCreation(
+    values: z.infer<typeof formSchema | typeof formSchema2>
+  ) {
     setLoader(true);
     const categorylabels = categoryTypes?.map(
       (category: any) => category?.label
@@ -774,6 +876,7 @@ function OganizerCreateEvent() {
     console.log("my values", values);
 
     // setisWalletModalOpen(true);
+   
 
     const utcEventStartTime = convertToUTC(EventStartTime);
     setEventStartTime(utcEventStartTime);
@@ -808,11 +911,12 @@ function OganizerCreateEvent() {
     console.log("my updated values are", updatedValues);
 
     setEventAllData(updatedValues);
-
+    const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
+ 
     try {
       const data = {
         userId: userid,
-        isFree: selected === "free" ? true : false,
+        isFree: isFree,
         name: Eventname,
         category: categorylabels,
         eventDescription: Eventdescription,
@@ -850,7 +954,9 @@ function OganizerCreateEvent() {
       ErrorToast(error);
     }
   }
-  async function handlePreviewClick(values: z.infer<typeof formSchema | typeof formSchema2>) {
+  async function handlePreviewClick(
+    values: z.infer<typeof formSchema | typeof formSchema2>
+  ) {
     // setLoader(true);
     setisWalletModalOpen(false);
     console.log("my values", values);
@@ -879,11 +985,13 @@ function OganizerCreateEvent() {
       (category: any) => category?.label
     );
 
+    const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
+
     const updatedValues = {
       ...values,
       eventmedia: imagesOfGallery,
       ticketsdata: filteredTicketTypes,
-      isFree: selected === "free" ? true : false,
+      isFree: isFree,
 
       eventcategory: categorylabels,
 
@@ -1049,8 +1157,7 @@ function OganizerCreateEvent() {
       className="min-h-screen  bg-cover bg-no-repeat  pb-[80px] pt-[120px] lg:pt-[120px]"
     >
       {loader && <ScreenLoader />}
-      <div className="pxpx mx-2xl w-full   ">
-        <Backward />
+      <div className="pxpx mx-2xl w-full ">
 
         <div className="event-images-container w-full mt-[26px]">
           <div className=" w-full md:w-[440px] lg:w-[440px]">
@@ -1660,7 +1767,7 @@ function OganizerCreateEvent() {
                   )}
                 />
               </div>
-              <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
+              {/* <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
                 <div className="flex w-full lg:w-[350px] gap-[12px]">
                   <div
                     className={`lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] w-full lg:w-[331px] flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
@@ -1714,9 +1821,9 @@ function OganizerCreateEvent() {
                   )}
                   <p>Paid</p>
                 </div>
-              </div>
+              </div> */}
 
-              {
+              {/* {
                 ticketTypes.length > 0 &&
                 ticketTypes.map((ticket, index) => (
                   <div
@@ -1724,7 +1831,7 @@ function OganizerCreateEvent() {
                     key={index}
                   >
                     <div className="flex items-center gap-[24px] common-container">
-                      {/* Event Ticket Type Field */}
+                  
                       <FormField
                         control={form.control}
                         name={`tickets.${index}.type`}
@@ -1753,7 +1860,7 @@ function OganizerCreateEvent() {
                         )}
                       />
 
-                      {/* Event Ticket Price Field */}
+                   
                      { selected !== "free" && 
                       <FormField
                         control={form.control}
@@ -1785,7 +1892,7 @@ function OganizerCreateEvent() {
                       />
                      }
 
-                      {/* Event Number of Tickets Field */}
+                   
                       <FormField
                         control={form.control}
                         name={`tickets.${index}.no`}
@@ -1816,7 +1923,7 @@ function OganizerCreateEvent() {
                       />
                     </div>
 
-                    {/* What's Included Section */}
+                
                     <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                       <div
                         className="flex items-center justify-between"
@@ -1864,7 +1971,7 @@ function OganizerCreateEvent() {
                             </div>
                           ))}
                           <div className="column-separator"></div>{" "}
-                          {/* Empty div to control the separator placement */}
+                         
                           <div className="column-separator"></div>
                         </div>
                       )}
@@ -1886,11 +1993,9 @@ function OganizerCreateEvent() {
                       </div>
                     )}
                   </div>
-                ))}
+                ))} */}
 
-              {/* Add Ticket Type Button */}
-             
-                <div className="flex justify-end items-center mt-[12px] ticket-btn">
+              {/* <div className="flex justify-end items-center mt-[12px] ticket-btn">
                   <Button
                     style={{
                       background:
@@ -1898,7 +2003,249 @@ function OganizerCreateEvent() {
                     }}
                     className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px]  rounded-full  
                border-[0.86px] border-transparent text-[11px] font-extrabold"
-                    // className=" font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                    onClick={handleAddTicketType}
+                  >
+                    <Image
+                      src={addicon}
+                      alt="Add-icon"
+                      height={12}
+                      width={12}
+                    />
+                    Add Ticket Type
+                  </Button>
+                </div> */}
+              <div className="flex  flex-col w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
+                {ticketTypes?.length > 0 &&
+                  ticketTypes.map((ticket, index) => (
+                    <div
+                      className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
+                      key={index}
+                    >
+                      {/* Free and Paid Selection */}
+                      <div className="flex w-full gap-[12px]">
+                        <div
+                          className={`w-full lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] cursor-pointer ${
+                            ticket?.selected === "free"
+                              ? "gradient-border-rounded text-[#00A849]"
+                              : ""
+                          }`}
+                          onClick={() => handleOptionChange(index, "free")}
+                        >
+                          {ticket?.selected === "free" ? (
+                            <Image
+                              src={greenfree}
+                              className="pb-[8px] hidden md:block"
+                              alt="Green Ticket"
+                            />
+                          ) : (
+                            <Image
+                              src={whitefree}
+                              className="pb-[8px] hidden md:block"
+                              alt="Default Ticket"
+                            />
+                          )}
+                          <p>Free</p>
+                        </div>
+
+                        <div
+                          className={`w-full lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] cursor-pointer ${
+                            ticket.selected === "paid"
+                              ? "gradient-border-rounded text-[#00A849]"
+                              : ""
+                          }`}
+                          onClick={() => handleOptionChange(index, "paid")}
+                        >
+                          {ticket?.selected === "paid" ? (
+                            <Image
+                              src={greenfree}
+                              className="pb-[8px] hidden md:block"
+                              alt="Green Collectibles"
+                            />
+                          ) : (
+                            <Image
+                              src={whitefree}
+                              className="pb-[8px] hidden md:block"
+                              alt="Default Collectibles"
+                            />
+                          )}
+                          <p>Paid</p>
+                        </div>
+                      </div>
+
+                      {/* Ticket Form Fields */}
+                      <div className="flex items-center gap-[24px] common-container">
+                        {/* Event Ticket Type Field */}
+                        <FormField
+                          control={form.control}
+                          name={`tickets.${index}.type`}
+                          render={({ field }) => (
+                            <FormItem className="relative w-full space-y-0">
+                              <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                                Event Ticket Type
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Enter Type"
+                                  className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                                  {...field}
+                                  onChange={(e) => {
+                                    handleInputChange(
+                                      index,
+                                      "type",
+                                      e.target.value
+                                    );
+                                    field.onChange(e);
+                                  }}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Event Ticket Price Field - Show Only for Paid Tickets */}
+                        {ticket?.selected === "paid" && (
+                          <FormField
+                            control={form.control}
+                            name={`tickets.${index}.price`}
+                            render={({ field }) => (
+                              <FormItem className="relative w-full space-y-0">
+                                <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                  Event Ticket Price (£)
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    type="number"
+                                    placeholder="Enter Price"
+                                    className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                    {...field}
+                                    onChange={(e) => {
+                                      handleInputChange(
+                                        index,
+                                        "price",
+                                        parseFloat(e.target.value)
+                                      );
+                                      field.onChange(e);
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        )}
+
+                        {/* Event Number of Tickets Field */}
+                        <FormField
+                          control={form.control}
+                          name={`tickets.${index}.no`}
+                          render={({ field }) => (
+                            <FormItem className="relative w-full space-y-0">
+                              <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                                Event Number of Tickets
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="number"
+                                  placeholder="Enter No. of Tickets"
+                                  className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                  {...field}
+                                  onChange={(e) => {
+                                    handleInputChange(
+                                      index,
+                                      "no",
+                                      parseInt(e.target.value, 10)
+                                    );
+                                    field.onChange(e);
+                                  }}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      {/* What's Included Section */}
+                      <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                        <div
+                          className="flex items-center justify-between"
+                          onClick={() => handleDropdown(index)}
+                        >
+                          <p className="text-sm text-[#8F8F8F] uppercase">
+                            WHATS INCLUDED
+                          </p>
+                          <Image
+                            src={ticket?.dropdown ? arrowdown : arrowdown}
+                            width={11}
+                            height={11}
+                            alt="arrow"
+                          />
+                        </div>
+                        {ticket?.dropdown && (
+                          <div className="grid-container">
+                            {options?.map((option) => (
+                              <div
+                                key={option.id}
+                                className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
+                                onClick={() =>
+                                  handleOptionToggle(index, option)
+                                }
+                              >
+                                <div className="flex items-center gap-[10px]">
+                                  <Image
+                                    src={option?.image}
+                                    width={16}
+                                    height={16}
+                                    alt="img"
+                                  />
+                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p>
+                                </div>
+                                {ticket?.options?.some(
+                                  (o) => o?.id === option?.id
+                                ) && (
+                                  <Image
+                                    src={tick}
+                                    width={15}
+                                    height={15}
+                                    alt="tick"
+                                  />
+                                )}
+                              </div>
+                            ))}
+                            <div className="column-separator"></div>{" "}
+                            <div className="column-separator"></div>
+                          </div>
+                        )}
+                      </div>
+                      {index != 0 && (
+                        <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
+                          <Button
+                            className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                            onClick={() => handleDeleteTicketType(index)}
+                          >
+                            <Image
+                              src={deleteicon}
+                              alt="delete-icon"
+                              height={12}
+                              width={12}
+                            />
+                            Delete Ticket Type
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                <div className="flex justify-end items-center mt-[12px] ticket-btn">
+                  <Button
+                    style={{
+                      background:
+                        "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                    }}
+                    className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
                     onClick={handleAddTicketType}
                   >
                     <Image
@@ -1910,7 +2257,8 @@ function OganizerCreateEvent() {
                     Add Ticket Type
                   </Button>
                 </div>
-              
+              </div>
+              {/* Add Ticket Type Button */}
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
@@ -2217,3 +2565,5 @@ function OganizerCreateEvent() {
   );
 }
 export default OganizerCreateEvent;
+
+

@@ -100,6 +100,7 @@ type TicketType = {
   no: any;
   options: TicketTypeOption[];
   dropdown: any;
+  selected: any;
 };
 type cateOption = {
   id: number;
@@ -169,23 +170,78 @@ const formSchema = z.object({
 
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
 
+  // tickets: z.array(
+  //   z.object({
+  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //     price: z.any(),
+  //     no: z.any(),
+  //     options: z
+  //       .array(
+  //         z.object({
+  //           id: z.number(),
+  //           label: z.string(),
+  //         })
+  //       )
+  //       .optional(),
+  //   })
+  // ),
+  // tickets: z.array(
+  //   z.object({
+  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //     price: z.union([z.string(), z.number()]).optional(),
+  //     no: z.string().min(1, { message: "Number of tickets must be greater than 0." }),
+  //     selected: z.string().optional(),
+  //   }).refine((data) => {
+
+  //     if (data.selected === "paid") {
+  //       const priceIsValid =
+  //         data.price !== undefined &&
+  //         ((typeof data.price === "string" && data.price.trim() !== "") ||
+  //         (typeof data.price === "number" && data.price > 0));
+
+  //       return priceIsValid;
+  //     }
+  //     return true;
+  //   }, {
+  //     message: "Price is required.",
+  //     path: ['price'],
+  //   })
+  // ),
+
   tickets: z.array(
-    z.object({
-      type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-      price: z.any(),
-      // .min(1, { message: "Ticket price must be greater than 0." }),
-      no: z.any(),
-      // .min(1, { message: "Number of tickets must be greater than 0." }),
-      options: z
-        .array(
-          z.object({
-            id: z.number(),
-            label: z.string(),
-          })
-        )
-        .optional(),
-    })
+    z
+      .object({
+        type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+        price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
+        no: z
+          .union([z.string().transform((val) => parseFloat(val)), z.number()])
+          .refine((val) => !isNaN(val) && val > 0, {
+            // Ensure it's greater than 0 after parsing
+            message: "Number of tickets must be greater than 0.",
+            path: ["no"],
+          }),
+        selected: z.string().optional(),
+      })
+      .refine(
+        (data) => {
+          // Check if the price is required based on the selected property
+          if (data.selected === "paid") {
+            const priceIsValid =
+              data.price !== undefined &&
+              ((typeof data.price === "string" && data.price.trim() !== "") ||
+                (typeof data.price === "number" && data.price > 0));
+
+            return priceIsValid; // Validate if price is provided correctly
+          }
+          return true; // Otherwise, it passes validation
+        },
+        {
+          message: "Price is required.",
+          path: ["price"], // Specify the path for the error
+        }
+      )
   ),
+
   // .refine((tickets) => tickets.length > 0, {
   //   message: "At least one ticket is required.",
   // }),
@@ -211,8 +267,6 @@ type SelectedOption = "free" | "paid" | null;
 
 function EditeventOnBack() {
   const [eventAllData, setEventAllData] = useState<EventData | null>(null);
-
-
 
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
@@ -253,22 +307,61 @@ function EditeventOnBack() {
   const [CoverImg, setCoverImg] = useState("");
   const [CoverImgName, setCoverImgName] = useState<any>("");
 
-  const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
+  const [Eventdata, setEventData] = useState<any | null>(null);
 
-  const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
+  const [FBUrl, setFBUrl] = useState<any>("");
+  const [InstaUrl, setInstaUrl] = useState<any>("");
+  const [TwitterUrl, setTwitterUrl] = useState<any>("");
+  const [TelegramUrl, setTelegramUrl] = useState<any>("");
+  const [YoutubeUrl, setYoutubeUrl] = useState<any>("");
 
-  const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
-  const [TelegramUrl, setTelegramUrl] = useState("https://t.me/");
-  const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
+  const [tiktokUrl, settiktokUrl] = useState<any>("");
+  const [linkedinUrl, setlinkedinUrl] = useState<any>("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedData = localStorage.getItem("eventData");
 
-  const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
-  const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
+      if (storedData) {
+        try {
+          // Parse the JSON data from localStorage
+          const parsedData: any = JSON.parse(storedData);
+          setSelected(parsedData?.isFree ? "free" : "paid");
+          setEventData(parsedData);
+          setFBUrl(parsedData?.fburl || "https://www.facebook.com/");
+          setInstaUrl(parsedData?.insturl || "https://instagram.com/");
+          setTwitterUrl(parsedData?.twitterurl || "https://www.x.com/");
+          setlinkedinUrl(parsedData?.linkedinurl || "https://linkedin.com/in/");
+          setTelegramUrl(parsedData?.telegramurl || "https://t.me/");
+          setYoutubeUrl(parsedData?.youtubeurl || "https://www.youtube.com/");
+          settiktokUrl(parsedData?.tiktokurl || "https://www.tiktok.com/@");
+
+          console.log("my parsedd data", parsedData);
+        } catch (error) {
+          console.error("Error parsing event data from localStorage:", error);
+          setEventData(null); // Reset state in case of an error
+        }
+      } else {
+        setEventData(null); // No data found in localStorage
+      }
+    }
+  }, []);
+
   const [eventsFiles, setEventsFile] = useState<any>([]);
   console.log("iside eventalldata", eventAllData);
   const router = useRouter();
 
+  // const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
+  //   { type: "", price: 0, no: 0, options: [], dropdown: true },
+  // ]);
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
-    { type: "", price: 0, no: 0, options: [], dropdown: true },
+    {
+      type: "",
+      price: "",
+      no: "",
+      options: [],
+      dropdown: true,
+      selected: "free",
+    },
   ]);
   const [categoryTypes, setCategoryTypes] = useState<any>([]);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
@@ -323,30 +416,8 @@ function EditeventOnBack() {
 
   const [eventID, setEventId] = useState("");
   const searchParams = useSearchParams();
-  const [Eventdata, setEventData] = useState<any | null>(null);
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [removedImages, setRemovedImages] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedData = localStorage.getItem("eventData");
-
-      if (storedData) {
-        try {
-          // Parse the JSON data from localStorage
-          const parsedData: any = JSON.parse(storedData);
-          setSelected(parsedData?.isFree?"free":"paid")
-          setEventData(parsedData);
-          console.log("my parsed data", parsedData);
-        } catch (error) {
-          console.error("Error parsing event data from localStorage:", error);
-          setEventData(null); // Reset state in case of an error
-        }
-      } else {
-        setEventData(null); // No data found in localStorage
-      }
-    }
-  }, []);
 
   useEffect(() => {
     const currentUrl: any =
@@ -395,13 +466,13 @@ function EditeventOnBack() {
       )
     );
   };
-  const handleDeleteTicketType = (index: number) => {
-    if (index === 0) {
-      return;
-    }
-    const updatedTicketTypes = ticketTypes.filter((_, i) => i !== index);
-    setTicketTypes(updatedTicketTypes);
-  };
+  // const handleDeleteTicketType = (index: number) => {
+  //   if (index === 0) {
+  //     return;
+  //   }
+  //   const updatedTicketTypes = ticketTypes.filter((_, i) => i !== index);
+  //   setTicketTypes(updatedTicketTypes);
+  // };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -418,33 +489,33 @@ function EditeventOnBack() {
       eventcoverimg: "",
       eventdescription: "",
 
-      fburl: "https://www.facebook.com/",
-      instaurl: "https://instagram.com/",
-      youtubeurl: "https://www.youtube.com/",
-      telegramurl: "https://t.me/",
-      twitterurl: "https://www.x.com/",
-      tiktokurl: "https://www.tiktok.com/@",
-      linkedinurl: "https://linkedin.com/in/",
+      fburl: "",
+      instaurl: "",
+      youtubeurl: "",
+      telegramurl: "",
+      twitterurl: "",
+      tiktokurl: "",
+      linkedinurl: "",
 
       tickets: [],
     },
   });
 
-  useEffect(() => {
-    const eventDataParam = searchParams.get("eventData");
-    console.log("my data not stringfy", eventDataParam);
-    if (eventDataParam) {
-      try {
-        const decodedData = decodeURIComponent(eventDataParam);
-        const parsedData = JSON.parse(decodedData);
-        setEventData(parsedData);
+  // useEffect(() => {
+  //   const eventDataParam = searchParams.get("eventData");
+  //   console.log("my data not stringfy", eventDataParam);
+  //   if (eventDataParam) {
+  //     try {
+  //       const decodedData = decodeURIComponent(eventDataParam);
+  //       const parsedData = JSON.parse(decodedData);
+  //       setEventData(parsedData);
 
-        console.log("Parsed Event Data:", parsedData);
-      } catch (error) {
-        console.error("Failed to decode and parse event data", error);
-      }
-    }
-  }, [searchParams]);
+  //       console.log("Parsed Event Datas:", parsedData);
+  //     } catch (error) {
+  //       console.error("Failed to decode and parse event data", error);
+  //     }
+  //   }
+  // }, [searchParams]);
 
   // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   if (event.target.files) {
@@ -557,12 +628,35 @@ function EditeventOnBack() {
     );
   };
 
+  // const handleAddTicketType = (e: any) => {
+  //   e.preventDefault();
+  //   setTicketTypes((prevTickets) => [
+  //     ...prevTickets,
+  //     { type: "", price: 0, no: 0, options: [], dropdown: true },
+  //   ]);
+  // };
   const handleAddTicketType = (e: any) => {
     e.preventDefault();
     setTicketTypes((prevTickets) => [
       ...prevTickets,
-      { type: "", price: 0, no: 0, options: [], dropdown: true },
+      {
+        type: "",
+        price: 0,
+        no: 0,
+        options: [],
+        dropdown: true,
+        selected: "free",
+      },
     ]);
+  };
+
+  const handleDeleteTicketType = (index: number) => {
+    if (index === 0) {
+      return;
+    }
+    const updatedTicketTypes = ticketTypes.filter((_, i) => i !== index);
+    setTicketTypes(updatedTicketTypes);
+    form.setValue("tickets", updatedTicketTypes); // Update form state
   };
 
   const handleSingleFileChange = async (
@@ -745,29 +839,45 @@ function EditeventOnBack() {
     type: ticket?.type,
     price: ticket?.price,
     no: ticket?.no,
+    selected: ticket.selected,
+
     options: ticket?.options?.map((option) => ({
       id: option?.id,
       label: option?.label,
     })),
   }));
 
-  const handleOptionChange = (option: SelectedOption) => {
-    setSelected(option);
+  const filteredParsedTicketTypes = Eventdata?.ticketsdata?.map(
+    (ticket: any) => ({
+      type: ticket?.type,
+      price: ticket?.price,
+      no: ticket?.no,
+      selected: ticket.selected,
 
-    // if (option === "free") {
-    //   setTicketTypes((prevTickets) =>
-    //     prevTickets.map((ticket) => ({
-    //       ...ticket,
-    //       type: "free",
-    //       price: 0,
-    //       no: 0,
-    //       options: [],
-    //     }))
-    //   );
-    // }
+      options: ticket?.options?.map((option: any) => ({
+        id: option?.id,
+        label: option?.label,
+      })),
+    })
+  );
+
+  const handleOptionChange = (index: number, type: string) => {
+    setTicketTypes((prevTickets) => {
+      const updatedTickets = prevTickets.map((ticket, i) =>
+        i === index
+          ? { ...ticket, selected: type } // Update the selected type (free/paid)
+          : ticket
+      );
+
+      // Update form values for the tickets
+      updatedTickets.forEach((ticket, i) => {
+        form.setValue(`tickets.${i}.selected`, ticket.selected); // Update the selected value in form
+      });
+
+      return updatedTickets; // Return the updated tickets
+    });
   };
 
-  console.log("")
   async function EventCreation(values: z.infer<typeof formSchema>) {
     // setLoader(true);
 
@@ -846,37 +956,43 @@ function EditeventOnBack() {
     );
 
     setTicketTypes(ticketsWithCheckedOptions);
+    const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
     try {
       const data = {
         userId: userid,
-        isFree: selected === "free" ? true : false,
-        name: Eventdata?.eventname || Eventname,
+        isFree: Eventdata?.isFree || isFree,
+        name: Eventname || Eventdata?.eventname,
         category: updatedCategoryTypes,
-        eventDescription: Eventdata?.eventdescription || Eventdescription,
-        location: Eventdata?.eventlocation || EventLocation,
-        ticketStartDate: Eventdata?.eventstartdate || utcTicketStartTime,
-        ticketEndDate: Eventdata?.eventenddate || utcTicketEndTime,
-        startTime: Eventdata?.eventstarttime || utcEventStartTime,
-        endTime: Eventdata?.eventendtime || utcEventEndTime,
+        eventDescription: Eventdescription || Eventdata?.eventdescription,
+        location: EventLocation || Eventdata?.eventlocation,
+        ticketStartDate: utcTicketStartTime,
+        ticketEndDate: utcTicketEndTime,
+        startTime: utcEventStartTime,
+        endTime: utcEventEndTime,
         // mainEventImage: eventData?.eventmainimg,
-        coverEventImage: Eventdata?.eventcoverimg || CoverImg,
-        tickets: ticketsWithCheckedOptions || filteredTicketTypes,
-        totalComplemantaryTickets: Eventdata?.compticketno || CompTicketNo,
-        fbUrl: Eventdata?.fburl || FBUrl,
-        instaUrl: Eventdata?.instaurl || InstaUrl,
-        youtubeUrl: Eventdata?.youtubeurl || YoutubeUrl,
-        twitterUrl: Eventdata?.twitterurl || TwitterUrl,
-        telegramUrl: Eventdata?.telegramurl || TelegramUrl,
-        tiktokUrl: Eventdata?.tiktokurl || tiktokUrl,
-        linkedinUrl: Eventdata?.linkedinurl || linkedinUrl,
+        coverEventImage: CoverImg || Eventdata?.eventcoverimg,
+        tickets: filteredTicketTypes || Eventdata?.ticketsdata || "",
+        totalComplemantaryTickets:
+          CompTicketNo || Eventdata?.compticketno || "",
+        fbUrl: FBUrl || "",
+        instaUrl: InstaUrl || "",
+        youtubeUrl: YoutubeUrl || "",
+        twitterUrl: TwitterUrl || "",
+        telegramUrl: TelegramUrl || "",
+        tiktokUrl: tiktokUrl || "",
+        linkedinUrl: linkedinUrl || "",
         eventmedia: updatedEventMedia,
       };
+      console.log("my data", InstaUrl );
+      console.log("my datas", Eventdata?.instaurl);
+      console.log("my data full", data);
+
       dispatch(createevent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
 
           setisWalletModalOpen(true);
-          // localStorage.removeItem("eventData");
+          localStorage.removeItem("eventData");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -920,10 +1036,12 @@ function EditeventOnBack() {
     //   })
     // );
     // setCategoryTypes(updatedCategoryTypes);
+    const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
 
     const updatedCategoryTypes = categoryTypes;
     const updatedValues = {
       ...values,
+      isFree: isFree,
       eventmedia: updatedEventMedia,
       ticketsdata: filteredTicketTypes,
       eventcategory: updatedCategoryTypes,
@@ -987,10 +1105,10 @@ function EditeventOnBack() {
       }
       let ticketsWithCheckedOptions;
 
-      if(Eventdata?.isFree == true && selected==="free"){
-        console.log("comming in  if")
+      if (Eventdata?.isFree == true && selected === "free") {
+        console.log("comming in  if");
 
-         ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
+        ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
           (ticket: any) => ({
             ...ticket,
             options: ticket?.options?.map((option: any) => ({
@@ -999,11 +1117,11 @@ function EditeventOnBack() {
             })),
           })
         );
-  
+
         setTicketTypes(ticketsWithCheckedOptions);
-      }else if(Eventdata?.isFree == false && selected==="paid"){
-        console.log("comming in else if")
-         ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
+      } else if (Eventdata?.isFree == false && selected === "paid") {
+        console.log("comming in else if");
+        ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
           (ticket: any) => ({
             ...ticket,
             options: ticket?.options?.map((option: any) => ({
@@ -1012,12 +1130,20 @@ function EditeventOnBack() {
             })),
           })
         );
-  
+
         setTicketTypes(ticketsWithCheckedOptions);
-         
-      }else{
-        console.log("comming in else")
-        setTicketTypes([ { type: "", price: 0, no: 0, options: [], dropdown: true },]);
+      } else {
+        console.log("comming in else");
+        setTicketTypes([
+          {
+            type: "",
+            price: 0,
+            no: 0,
+            options: [],
+            dropdown: true,
+            selected: "free",
+          },
+        ]);
       }
 
       // const updatedCategoryTypes = Eventdata?.eventcategory.map(
@@ -1071,7 +1197,7 @@ function EditeventOnBack() {
         tickets: ticketsWithCheckedOptions || form.getValues("tickets"),
       });
     }
-  }, [EventData, Eventdata,selected]);
+  }, [EventData, Eventdata, selected]);
 
   function extractDate(dateTime: string): string {
     // Create a new Date object from the input string
@@ -1609,6 +1735,7 @@ function EditeventOnBack() {
                             setTicketStartDate(e.target.value);
                             field.onChange(e);
                           }}
+                          onKeyDown={(e) => e.preventDefault()}
 
                           // max={extractDate(EventStartTime)}
                         />
@@ -1637,6 +1764,7 @@ function EditeventOnBack() {
                             setTicketEndDate(e.target.value);
                             field.onChange(e);
                           }}
+                          onKeyDown={(e) => e.preventDefault()}
                           min={TicketStartDate}
                           // max={extractDate(EventStartTime)}
                         />
@@ -1668,6 +1796,7 @@ function EditeventOnBack() {
                             setEventStartTime(e.target.value);
                             field.onChange(e);
                           }}
+                          onKeyDown={(e) => e.preventDefault()}
                           // min={addTimeToDate(TicketEndDate, 0, 0)}
                           min={TicketEndDate}
                         />
@@ -1697,6 +1826,7 @@ function EditeventOnBack() {
                             setEventEndTime(e.target.value);
                             field.onChange(e);
                           }}
+                          onKeyDown={(e) => e.preventDefault()}
                           min={EventStartTime}
                         />
                       </FormControl>
@@ -2030,7 +2160,7 @@ function EditeventOnBack() {
         </FormControl>
       </FormItem>
     </div> */}
-              <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
+              {/* <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
                 <div className="flex w-full lg:w-[350px] gap-[12px]">
                   <div
                     className={`lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] w-full lg:w-[331px] flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
@@ -2038,7 +2168,6 @@ function EditeventOnBack() {
                         ? "gradient-border-rounded text-[#00A849]"
                         : ""
                     }`}
-                    // onClick={() => setSelected("rewards")}
                     onClick={() => handleOptionChange("free")}
                   >
                     {selected === "free" ? (
@@ -2084,9 +2213,9 @@ function EditeventOnBack() {
                   )}
                   <p>Paid</p>
                 </div>
-              </div>
+              </div> */}
 
-              {
+              {/* {
                 ticketTypes.length > 0 &&
                 ticketTypes?.map((ticket, index) => (
                   <div
@@ -2094,7 +2223,6 @@ function EditeventOnBack() {
                     key={index}
                   >
                     <div className="flex items-center gap-[24px] lg:flex-nowrap flex-wrap">
-                      {/* Event Ticket Type Field */}
                       <FormField
                         control={form.control}
                         name={`tickets.${index}.type`}
@@ -2123,7 +2251,6 @@ function EditeventOnBack() {
                         )}
                       />
 
-                      {/* Event Ticket Price Field */}
                       {
                         selected !=="free" &&
                       <FormField
@@ -2156,7 +2283,6 @@ function EditeventOnBack() {
                       />
                       }
 
-                      {/* Event Number of Tickets Field */}
                       <FormField
                         control={form.control}
                         name={`tickets.${index}.no`}
@@ -2187,7 +2313,6 @@ function EditeventOnBack() {
                       />
                     </div>
 
-                    {/* What's Included Section */}
                     <FormField
                       control={form.control}
                       name={`tickets.${index}.options`}
@@ -2207,43 +2332,7 @@ function EditeventOnBack() {
                               alt="arrow"
                             />
                           </div>
-                          {/* {ticket?.dropdown && (
-                          <div>
-                            {options?.map((option) => (
-                              <div
-                                key={option.id}
-                                className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                onClick={() =>
-                                  handleOptionToggle(index, option)
-                                }
-                              >
-                                <div className="flex items-center gap-[10px]">
-                                  <Image
-                                    src={option?.image}
-                                    width={16}
-                                    height={16}
-                                    alt="img"
-                                  />
-                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                    {option.label}
-                                  </p>
-                                </div>
-                                {ticket?.options?.some(
-                                  (o) => o?.id === option?.id
-                                ) && (
-                                  <Image
-                                    src={tick}
-                                    width={10}
-                                    height={10}
-                                    alt="tick"
-                                  />
-                                )}
-                              </div>
-                            ))}
-                          </div>
-
-                        
-                          )} */}
+               
                           {ticket?.dropdown && (
                             <div className="grid-container">
                               {options?.map((option) => (
@@ -2278,7 +2367,6 @@ function EditeventOnBack() {
                                 </div>
                               ))}
                               <div className="column-separator"></div>{" "}
-                              {/* Empty div to control the separator placement */}
                               <div className="column-separator"></div>
                             </div>
                           )}
@@ -2304,7 +2392,7 @@ function EditeventOnBack() {
                       </div>
                     )}
                   </div>
-                ))}
+                ))} */}
 
               {/* What's Included Section */}
               {/* <div className="pb-[8px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
@@ -2358,8 +2446,8 @@ function EditeventOnBack() {
                   </div> */}
 
               {/* Add Ticket Type Button */}
-            
-                <div className="flex justify-end items-center mt-[12px] ticket-btn">
+
+              {/* <div className="flex justify-end items-center mt-[12px] ticket-btn">
                   <Button
                     style={{
                       background:
@@ -2377,8 +2465,251 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                     />
                     Add Ticket Type
                   </Button>
+                </div> */}
+              <div className="flex  flex-col w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
+                {ticketTypes?.length > 0 &&
+                  ticketTypes.map((ticket, index) => (
+                    <div
+                      className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
+                      key={index}
+                    >
+                      {/* Free and Paid Selection */}
+                      <div className="flex w-full gap-[12px]">
+                        <div
+                          className={`w-full lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] cursor-pointer ${
+                            ticket?.selected === "free"
+                              ? "gradient-border-rounded text-[#00A849]"
+                              : ""
+                          }`}
+                          onClick={() => handleOptionChange(index, "free")}
+                        >
+                          {ticket?.selected === "free" ? (
+                            <Image
+                              src={greenfree}
+                              className="pb-[8px] hidden md:block"
+                              alt="Green Ticket"
+                            />
+                          ) : (
+                            <Image
+                              src={whitefree}
+                              className="pb-[8px] hidden md:block"
+                              alt="Default Ticket"
+                            />
+                          )}
+                          <p>Free</p>
+                        </div>
+
+                        <div
+                          className={`w-full lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] cursor-pointer ${
+                            ticket.selected === "paid"
+                              ? "gradient-border-rounded text-[#00A849]"
+                              : ""
+                          }`}
+                          onClick={() => handleOptionChange(index, "paid")}
+                        >
+                          {ticket?.selected === "paid" ? (
+                            <Image
+                              src={greenfree}
+                              className="pb-[8px] hidden md:block"
+                              alt="Green Collectibles"
+                            />
+                          ) : (
+                            <Image
+                              src={whitefree}
+                              className="pb-[8px] hidden md:block"
+                              alt="Default Collectibles"
+                            />
+                          )}
+                          <p>Paid</p>
+                        </div>
+                      </div>
+
+                      {/* Ticket Form Fields */}
+                      <div className="flex items-center gap-[24px] common-container">
+                        {/* Event Ticket Type Field */}
+                        <FormField
+                          control={form.control}
+                          name={`tickets.${index}.type`}
+                          render={({ field }) => (
+                            <FormItem className="relative w-full space-y-0">
+                              <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                                Event Ticket Type
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Enter Type"
+                                  className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                                  {...field}
+                                  onChange={(e) => {
+                                    handleInputChange(
+                                      index,
+                                      "type",
+                                      e.target.value
+                                    );
+                                    field.onChange(e);
+                                  }}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Event Ticket Price Field - Show Only for Paid Tickets */}
+                        {ticket?.selected === "paid" && (
+                          <FormField
+                            control={form.control}
+                            name={`tickets.${index}.price`}
+                            render={({ field }) => (
+                              <FormItem className="relative w-full space-y-0">
+                                <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                  Event Ticket Price (£)
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    type="number"
+                                    placeholder="Enter Price"
+                                    className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                    {...field}
+                                    onChange={(e) => {
+                                      handleInputChange(
+                                        index,
+                                        "price",
+                                        parseFloat(e.target.value)
+                                      );
+                                      field.onChange(e);
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        )}
+
+                        {/* Event Number of Tickets Field */}
+                        <FormField
+                          control={form.control}
+                          name={`tickets.${index}.no`}
+                          render={({ field }) => (
+                            <FormItem className="relative w-full space-y-0">
+                              <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                                Event Number of Tickets
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="number"
+                                  placeholder="Enter No. of Tickets"
+                                  className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                  {...field}
+                                  onChange={(e) => {
+                                    handleInputChange(
+                                      index,
+                                      "no",
+                                      parseInt(e.target.value, 10)
+                                    );
+                                    field.onChange(e);
+                                  }}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      {/* What's Included Section */}
+                      <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                        <div
+                          className="flex items-center justify-between"
+                          onClick={() => handleDropdown(index)}
+                        >
+                          <p className="text-sm text-[#8F8F8F] uppercase">
+                            WHATS INCLUDED
+                          </p>
+                          <Image
+                            src={ticket?.dropdown ? arrowdown : arrowdown}
+                            width={11}
+                            height={11}
+                            alt="arrow"
+                          />
+                        </div>
+                        {ticket?.dropdown && (
+                          <div className="grid-container">
+                            {options?.map((option) => (
+                              <div
+                                key={option.id}
+                                className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
+                                onClick={() =>
+                                  handleOptionToggle(index, option)
+                                }
+                              >
+                                <div className="flex items-center gap-[10px]">
+                                  <Image
+                                    src={option?.image}
+                                    width={16}
+                                    height={16}
+                                    alt="img"
+                                  />
+                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p>
+                                </div>
+                                {ticket?.options?.some(
+                                  (o) => o?.id === option?.id
+                                ) && (
+                                  <Image
+                                    src={tick}
+                                    width={15}
+                                    height={15}
+                                    alt="tick"
+                                  />
+                                )}
+                              </div>
+                            ))}
+                            <div className="column-separator"></div>{" "}
+                            <div className="column-separator"></div>
+                          </div>
+                        )}
+                      </div>
+                      {index != 0 && (
+                        <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
+                          <Button
+                            className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                            onClick={() => handleDeleteTicketType(index)}
+                          >
+                            <Image
+                              src={deleteicon}
+                              alt="delete-icon"
+                              height={12}
+                              width={12}
+                            />
+                            Delete Ticket Type
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                <div className="flex justify-end items-center mt-[12px] ticket-btn">
+                  <Button
+                    style={{
+                      background:
+                        "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                    }}
+                    className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
+                    onClick={handleAddTicketType}
+                  >
+                    <Image
+                      src={addicon}
+                      alt="Add-icon"
+                      height={12}
+                      width={12}
+                    />
+                    Add Ticket Type
+                  </Button>
                 </div>
-             
+              </div>
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField

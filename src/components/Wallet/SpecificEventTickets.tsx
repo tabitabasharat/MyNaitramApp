@@ -365,21 +365,21 @@ export default function SpecificEventTickets() {
                   style={{ borderRadius: "12px" }}
                   width={144}
                   height={144}
-                  // src={TicketData?.qrCode}
-                  src={blurqrcode}
+                  src={TicketData?.qrCode}
+                  // src={blurqrcode}
                   alt="img"
                 />
-                <p className="text-center py-[16px] text-[14px] ">
+                {/* <p className="text-center py-[16px] text-[14px] ">
                   Please view the ticket QR code on<br></br> the Naitram Mobile
                   App{" "}
-                </p>
+                </p> */}
               </div>
 
-              {/* <Link href={`/wallet/specific-qr-code/${eventID}`}> */}
-              <Link href={`/download-app`}>
+              <Link href={`/wallet/specific-qr-code/${eventID}`} className="py-[16px]">
+              {/* <Link href={`/download-app`}> */}
 
                 <button className="font-extrabold text-sm rounded-[100px] mb-[24px] px-[16px] py-[10px] bg-[#00D059] text-black">
-                  Download App
+                 Enlarge Code
                 </button>
               </Link>
             </div>

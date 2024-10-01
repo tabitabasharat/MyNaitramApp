@@ -57,10 +57,10 @@ const bankinfo: BankOption[] = [
   { id: 2, label: "Current" },
 ];
 const formSchema = z.object({
-  // currencypaid: z.number().min(1, { message: "Currency cannot be empty." }),
-  currencypaid: z.coerce
-    .number()
-    .min(1, { message: "Currency cannot be empty." }),
+  currencypaid: z.string().min(1, { message: "Currency cannot be empty." }),
+  // currencypaid: z.coerce
+  //   .number()
+  //   .min(1, { message: "Currency cannot be empty." }),
   country: z.string().min(1, { message: "Country cannot be empty." }),
   companyname: z.string().optional(),
   companyaddress: z.string().optional(),
@@ -125,7 +125,7 @@ const AddBankAccount = ({ eventData }: any) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      currencypaid: undefined,
+      currencypaid:"",
       country: "",
       companyname: "",
       companyaddress: "",
@@ -358,7 +358,7 @@ const AddBankAccount = ({ eventData }: any) => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
+                        // type="number"
                         placeholder="U.S. Dollars $"
                         className="pt-11 pb-5 palceholder:text-base placeholder:text-[white] placeholder:font-normal"
                         {...field}
