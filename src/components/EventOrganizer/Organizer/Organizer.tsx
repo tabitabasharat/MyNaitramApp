@@ -4,13 +4,7 @@ import Image from "next/image";
 // import GradientBorder from "../ui/gradient-border";
 import GradientBorder from "@/components/ui/gradient-border";
 import { shimmer, toBase64 } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { showProfile } from "@/lib/middleware/profile";
-
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import ScreenLoader from "@/components/loader/Screenloader";
 import { getOrganizerDetail } from "@/lib/middleware/organizer";
 import { useRouter } from "next/navigation";
