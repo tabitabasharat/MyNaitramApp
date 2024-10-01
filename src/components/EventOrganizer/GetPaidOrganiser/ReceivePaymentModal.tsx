@@ -10,12 +10,16 @@ import {
 } from "@/components/ui/newdialog";
 
 import Image from "next/image";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Iconpop from "@/assets/payment.svg";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getPayoutCryptoDetail, getPayoutBankDetail, } from "@/lib/middleware/payout";
-import { useAppDispatch,useAppSelector } from "@/lib/hooks";
+import {
+  getPayoutCryptoDetail,
+  getPayoutBankDetail,
+} from "@/lib/middleware/payout";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import NotPaidModal from "./NotPaidModal";
 
 interface ReceviePaymentModalProps {
   onClose: () => void;
@@ -35,6 +39,7 @@ const ReceviePaymentModal = ({
   payoutAvailable,
 }: ReceviePaymentModalProps) => {
   const dispatch = useAppDispatch();
+
   const [isClaimOpen, setIsClaimOpen] = useState(false);
   const [isWalletOpen, setIsWalletOpen] = useState(false);
 
@@ -49,12 +54,18 @@ const ReceviePaymentModal = ({
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     dispatch(getPayoutCryptoDetail(userid));
+    dispatch(getPayoutBankDetail(userid));
   }, []);
 
   const myCryptoHistory = useAppSelector(
     (state) => state?.getPayoutCrypto?.myHistory?.data
   );
   console.log("my crypto payout history is", myCryptoHistory);
+
+  const myBankDetail = useAppSelector(
+    (state) => state?.getPayoutBankDetail?.myHistory?.data
+  );
+  console.log("my payout bank history is", myBankDetail);
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -78,8 +89,8 @@ const ReceviePaymentModal = ({
                 href={`/fund-rised/crypto-wallet/${eventID}?ticketSold=${ticketSold}&PlatformFee=${platformFee}&Payout=${payoutAvailable}`}
               >
                 <button
-                 type="button"
-                  onClick={handleToggleWallet}
+                  type="button"
+                  // onClick={handleToggleWallet}
                   className="gradient-border-btn p-[12px] text-[#00D059] text-sm font-extrabold"
                 >
                   Crypto Wallet
@@ -89,14 +100,20 @@ const ReceviePaymentModal = ({
                 href={`/fund-rised/bank-account/${eventID}?ticketSold=${ticketSold}&PlatformFee=${platformFee}&Payout=${payoutAvailable}`}
               >
                 <button
-                 type="button"
-                  onClick={handleToggleStripe}
+                  type="button"
+                  // onClick={handleToggleStripe}
                   className="bg-[#00D059] text-[black] p-[12px] text-sm font-extrabold rounded-[100px]"
                 >
                   Bank Account
                 </button>
               </Link>
             </div>
+            {isWalletOpen && (
+              <NotPaidModal
+                onClose={() => setIsWalletOpen(false)}
+                open={() => setIsWalletOpen(true)}
+              />
+            )}
           </div>
         </DialogContent>
       </DialogPortal>
