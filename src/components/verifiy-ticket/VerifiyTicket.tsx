@@ -2,6 +2,10 @@
 import React from "react";
 import backward from "@/assets/Back - Button.svg";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { getUserSocialProfile } from "@/lib/middleware/profile";
+import { useEffect } from "react";
 import { z } from "zod";
 // import { Image } from "next/image";
 import Image from "next/image";
@@ -44,16 +48,33 @@ function VerifiyTicket() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userid = localStorage.getItem("_id");
+      console.log("user id ", userid);
+      dispatch(getUserSocialProfile(userid));
+    }
+  }, []);
+  const myProfile = useAppSelector(
+    (state) => state?.getUserSocialProfile?.myProfile?.data
+  );
+
+  console.log("my Social Profile info is", myProfile);
   return (
     <div>
       <section className="min-h-screen bg-cover bg-no-repeat bg-reward">
         <div className="lg:pt-[134px] lg:pb-[116px] w-full pb-[74px] py-[139px] md:px-[100px] lg:px-[216px] px-[24px]">
           <div className="flex gap-[16px] mb-[25px] md:mb-[32px] items-center ">
-            <Image
-              src={backward}
-              alt="backward-btn"
-              className="md:w-[44px] md:h-[44px] h-[28px] w-[28px]"
-            />
+            <button onClick={() => router.back()}>
+              <Image
+                src={backward}
+                alt="backward-btn"
+                className="md:w-[44px] md:h-[44px] h-[28px] w-[28px]"
+              />
+            </button>
             <h3 className="font-extrabold text-[20px] lg:text-[24px] ">
               Verify Ticket
             </h3>
@@ -114,7 +135,8 @@ function VerifiyTicket() {
           </p>
           <p className="md:mt-[32px] mt-[24px]">
             Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum
-            lorem. <br className="hide-text"/>Morbi convallis convallis diam sit amet lacinia. Aliquam in
+            lorem. <br className="hide-text" />
+            Morbi convallis convallis diam sit amet lacinia. Aliquam in
             elementum tellus.
           </p>
         </div>

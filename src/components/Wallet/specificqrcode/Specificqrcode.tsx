@@ -254,9 +254,9 @@ export default function Specificqrcode() {
         </div>
         {/* Main content container */}
         <div className="flex flex-col-reverse justify-between items-center gap-[62px]  lg:flex-row">
-          <div className="flex flex-col">
+          <div className="flex w-full flex-col">
             <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
-              <div className="flex w-full gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 w-full lg:w-[80%] flex-wrap">
+              <div className="flex w-full gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 w-full lg:w-[100%] flex-wrap">
                 {TicketData?.event?.category?.length > 0 &&
                   TicketData?.event?.category?.map(
                     (category: any, index: any) => (
@@ -293,6 +293,20 @@ export default function Specificqrcode() {
                     </p>
                   </div>
                 ))}
+              </div>
+              <div className="">
+              <div>
+                <p className="text-[#00D059] text-[13px] text-start font-bold mt-[12px] mb-[12px] md:mb-[8px]">Ticket ID</p>
+                <p className="font-bold text-start text-[24px]">1234567890</p>
+              </div>
+              <div>
+                <p className="text-[#00D059] text-start text-[13px] font-bold mt-[12px] mb-[12px] md:mb-[8px]">Ticket Type</p>
+                <p className="font-bold text-start text-[24px]">Premium</p>
+              </div>
+              <div>
+                <p className="text-[#00D059] text-start text-[13px] font-bold mt-[12px] mb-[12px] md:mb-[8px]">Ticket Price</p>
+                <p className="font-bold text-start text-[24px]">£30.00</p>
+              </div>
               </div>
               <div className="flex flex-col justify-center">
                 <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
