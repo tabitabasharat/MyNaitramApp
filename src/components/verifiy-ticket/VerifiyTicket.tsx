@@ -133,7 +133,7 @@ function VerifiyTicket() {
             <br className="hide-text" /> sem sollicitudin lacus, ut interdum
             tellus elit sed risus.
           </p>
-          <p className="md:mt-[32px] mt-[24px]">
+          <p className="md:mt-[32px] text-sm lg:text-base text-[#BFBFBF] font-bold mt-[24px]">
             Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum
             lorem. <br className="hide-text" />
             Morbi convallis convallis diam sit amet lacinia. Aliquam in

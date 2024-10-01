@@ -252,7 +252,7 @@ export default function SpecificEventTickets() {
         </div>
         {/* Main content container */}
         <div className="flex flex-col-reverse gap-[62px] justify-between items-center lg:flex-row">
-          <div className="flex flex-col">
+          <div className="flex w-full flex-col">
             <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
               <div className="flex gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 flex-wrap w-full lg:w-[100%]">
                 {TicketData?.event?.category?.length > 0 &&
