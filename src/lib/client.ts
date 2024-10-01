@@ -7,4 +7,4 @@
 // export const API_URL = "http://localhost:3001" 
 
 // export const API_URL = "https://backend.dotskulls.com"
-export const API_URL = "http://stagingbe.dotskulls.com/"
+export const API_URL = "https://stagingbe.dotskulls.com"
