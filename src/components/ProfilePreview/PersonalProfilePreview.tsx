@@ -16,11 +16,23 @@ import { getOrganizerSocialProfile } from "@/lib/middleware/organizer";
 const PersonalSocialProfile = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [userId, setUserId] = useState<any>("");
+
+  // useEffect(() => {
+  //   const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+  //   console.log("user id ", userid);
+  //   dispatch(getOrganizerSocialProfile(userid));
+  // }, []);
 
   useEffect(() => {
-    const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
-    console.log("user id ", userid);
-    dispatch(getOrganizerSocialProfile(userid));
+    const currentUrl: any =
+      typeof window !== "undefined" ? window.location.href : null;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setUserId(value);
+    console.log("my user id is", value);
+    dispatch(getOrganizerSocialProfile(value));
+    // dispatch(getEventById(value));
   }, []);
 
   const myProfile = useAppSelector(
@@ -38,8 +50,11 @@ const PersonalSocialProfile = () => {
         className="w-full object-cover absolute top-0 object-top z-0 opacity-[0.22]  h-screen"
         alt=""
       />
-      <div className="pb-[72px] px-[24px] lg:px-[0px] mx-2xl pt-[108px] pb-12 lg:pt-[132px] lg:pb-36 relative z-[2]" >
-        <div className="flex gap-[12px] md:gap-[16px] sm:mb-[44px] mb-[52px] " onClick={() => router.back()}>
+      <div className="pb-[72px] px-[24px] lg:px-[0px] mx-2xl pt-[108px] pb-12 lg:pt-[132px] lg:pb-36 relative z-[2]">
+        <div
+          className="flex gap-[12px] md:gap-[16px] sm:mb-[44px] mb-[52px] "
+          onClick={() => router.back()}
+        >
           <button onClick={() => router.back()}>
             <ArrowLeft size={20} />
           </button>

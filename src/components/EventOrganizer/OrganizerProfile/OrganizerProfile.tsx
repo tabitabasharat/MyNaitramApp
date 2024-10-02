@@ -70,6 +70,7 @@ const OrganizerProfile = () => {
 
   const [imageSrc, setImageSrc] = useState("");
   const [bio, setBIO] = useState("");
+  const [userid,setUserId] = useState<any>("");
 
   const [fbUrl, setFbUrl] = useState("");
   const [instaUrl, setinstaUrl] = useState("");
@@ -104,7 +105,9 @@ const OrganizerProfile = () => {
     const id =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", id);
+  
     dispatch(getOrganizerByID(id));
+    setUserId(id);
   }, []);
 
   useEffect(() => {
@@ -292,7 +295,7 @@ const OrganizerProfile = () => {
         </div>
         <div className="flex w-full  md:w-full lg:w-[428px] flex-col lg:flex-col gap-6 md:gap-8">
           <Link
-            href="/profile-perview"
+            href={`/profile-perview/${userid}`}
             className={cn(
               "gradient-slate gradient-border w-full flex justify-between rounded-lg items-center lg:px-[12px] lg:py-[20px] p-[16px] md:py-5 hover:border-[#13FF7A] duration-300 cursor-pointer relative",
               {

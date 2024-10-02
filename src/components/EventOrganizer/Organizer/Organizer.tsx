@@ -8,10 +8,11 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "@/components/loader/Screenloader";
 import { getOrganizerDetail } from "@/lib/middleware/organizer";
 import { useRouter } from "next/navigation";
-
+import { useSearchParams } from "next/navigation";
 const Organizer = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+const [userid,setUserid] = useState<any>("");
   useEffect(() => {
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -19,6 +20,13 @@ const Organizer = () => {
 
     dispatch(getOrganizerDetail(userid));
   }, []);
+
+  // useEffect(() => {
+  //   const path = window.location.pathname;
+  //   const accountId = path.split("/")[3];
+  //   setUserid(accountId);
+  //   dispatch(getOrganizerDetail(accountId));
+  // }, []);
 
   const myOrgData = useAppSelector(
     (state) => state?.getOrgDetail?.orgDetail?.data?.data

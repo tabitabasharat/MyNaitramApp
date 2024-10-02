@@ -119,6 +119,8 @@ const Header = () => {
       console.log("Token host ",token)
       setIsLoginDialogOpen(true);
     } else {
+      const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
       console.log("No token ",token)
       router.push("/organizer-event/event-dashboard");
     }

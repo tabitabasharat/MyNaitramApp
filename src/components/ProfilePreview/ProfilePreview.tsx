@@ -24,6 +24,8 @@ const ProfilePreview = () => {
   const dispatch = useAppDispatch();
   const [userEmail, setUserEmail] = useState<any>("");
   const [userName, setUsername] = useState<any>("");
+  const [userId, setUserId] = useState<any>("");
+
 
   useEffect(() => {
     const userid =
@@ -37,7 +39,17 @@ const ProfilePreview = () => {
     setUsername(username);
 
     console.log("user id ", userid);
-    dispatch(getOrganizerSocialProfile(userid));
+ 
+  }, []);
+
+  useEffect(() => {
+    const currentUrl:any = typeof window !== "undefined" ? window.location.href:null;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setUserId(value);
+    console.log("my user id is", value);
+    dispatch(getOrganizerSocialProfile(value));
+    // dispatch(getEventById(value));
   }, []);
 
   const myProfile = useAppSelector(

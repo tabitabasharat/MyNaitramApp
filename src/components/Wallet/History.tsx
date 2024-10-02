@@ -95,7 +95,7 @@ function History() {
             </h3>
           </div>
          
-         
+       
           {Object.entries(groupedHistory).map(([monthYear, entries]:any) => (
             <div key={monthYear}>
               <p className="font-bold text-sm mb-[10px] md:mb-[8px] md:text-base text-[#E6E6E6]">

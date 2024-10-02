@@ -45,12 +45,13 @@ const Followpromoter = ({ userId, eventName }: any) => {
 setUid(myuserid)
     // dispatch(getEventCount(userId));
     dispatch(getOrganizerByID(userId));
-    dispatch(getOrganizerSocialProfile(userId));
+   
     const data = {
       followId: userId,
       userId: myuserid,
     };
     dispatch(getFollowingPromoters(data));
+    dispatch(getOrganizerSocialProfile(userId));
   }, []);
 
   const myEvents = useAppSelector(
@@ -156,7 +157,7 @@ setUid(myuserid)
   return (
     <div className="mt-[32px] bg-white/10 rounded-xl p-[16px] w-full">
       <div className="flex gap-4">
-        <Link href="/profile-perview">
+        <Link href={`/profile-perview/${userId}`}>
           <Image
             style={{ width: "40px", height: "40px" }}
             src={imageUrl}
@@ -167,7 +168,7 @@ setUid(myuserid)
           />
         </Link>
         <div>
-          <Link href="/profile-perview">
+        <Link href={`/profile-perview/${userId}`}>
             <p className="font-bold text-[14px]  font-bold flex items-center gap-1 capitalize hover:underline">
               {myProfile?.userProfile?.fullname}
             </p>

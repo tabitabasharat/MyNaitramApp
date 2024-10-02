@@ -71,6 +71,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState<string | null>(null);
+  const [Userid, setUserId] = React.useState<any>("");
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -130,12 +131,18 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
     dispatch({ type: "LOGOUT" });
     router.push("/");
   };
+  useEffect(() => {
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+
+    setUserId(userid);
+  }, []);
 
   const drawer = (
     <>
       <div className="ps-[24px] pe-[24px] bg-[black] overflow-Y-hidden">
         <List className="bg-[black] p-[0px] text-[white]">
-          <Link href="/organizer-event/event-dashboard">
+          <Link href={`/organizer-event/event-dashboard`}>
             <h3 className="text-[20px] font-bold pt-[0px] lg:pt-[32px]  mb-[24px]">
               Organiser
             </h3>
