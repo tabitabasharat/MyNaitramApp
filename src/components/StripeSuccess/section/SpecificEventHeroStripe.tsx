@@ -174,7 +174,7 @@ const SpecificEventHeroStripe = ({
                 </div>
               </div>
             </div>
-            <div className="relative gradient-slate border border-[#262626] rounded-xl lg:p-8 p-[16px] xl:w-[80%]  lg:w-[1008px] w-full">
+            {/* <div className="relative gradient-slate border border-[#262626] rounded-xl lg:p-8 p-[16px] xl:w-[80%]  lg:w-[1008px] w-full">
             <div className="flex justify-between items center">
               <div className="w-full">
               <h2 className="text-[20px] font-bold">Download NAITRAM App</h2>
@@ -225,7 +225,7 @@ const SpecificEventHeroStripe = ({
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

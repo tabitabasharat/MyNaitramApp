@@ -13,7 +13,7 @@ import "./MobileAppQr.css"
 const MobileAppQRCode = () => {
   const dispatch = useAppDispatch();
   const EventDetail = useAppSelector(
-    (state: any) => state?.getTicketStore?.specificEvent?.data
+    (state: any) => state?.getTicket?.specificEvent?.data
   );
   console.log(EventDetail, "this is the events detail");
   useEffect(() => {

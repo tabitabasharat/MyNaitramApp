@@ -410,3 +410,27 @@ export const getEventAttend = createAsyncThunk(
     }
   }
 );
+
+export const ticketStatus = createAsyncThunk(
+  "ticketStatus",
+  async (data: any) => {
+    try {
+      console.log("inside ticket status");
+
+      const res = await api.post(`${API_URL}/buying/checkTicketExists`, data);
+
+      console.log("inside ticket statu", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
+

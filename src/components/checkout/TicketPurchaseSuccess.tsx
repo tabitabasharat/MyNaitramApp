@@ -92,7 +92,7 @@ const TicketPurchaseSuccess = ({ setCurrentModal }: any) => {
               </Button>
             </DialogClose>
           </div>
-          <div className="relative bg-[#002912] border border-[#262626] mt-12 rounded-b-xl p-8 overflow-hidden">
+          {/* <div className="relative bg-[#002912] border border-[#262626] mt-12 rounded-b-xl p-8 overflow-hidden">
             <h2 className="text-2xl">Download NAITRAM App</h2>
             <div className="flex flex-col gap-2 mt-4">
               <div className="flex gap-3">
@@ -129,7 +129,7 @@ const TicketPurchaseSuccess = ({ setCurrentModal }: any) => {
               className="absolute right-0 bottom-0 scale-[1.5]"
               alt=""
             />
-          </div>
+          </div> */}
         </div>
       </ScrollArea>
     </DialogContent>

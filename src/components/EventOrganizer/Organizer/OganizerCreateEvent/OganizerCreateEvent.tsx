@@ -1694,7 +1694,7 @@ function OganizerCreateEvent() {
                             field.onChange(e);
                           }}
                           onKeyDown={(e) => e.preventDefault()}
-
+                          min={new Date().toISOString().slice(0, 16)}
                           // max={extractDate(EventStartTime)}
                         />
                       </FormControl>

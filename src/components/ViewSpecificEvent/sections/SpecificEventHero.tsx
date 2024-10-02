@@ -425,7 +425,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                 </GradientBorder>
 
                 {/* DOWNLOAD NAITRAM */}
-                <div className="relative gradient-slate border border-[#262626] mt-12 rounded-xl lg:p-8 p-[16px] w-full">
+                {/* <div className="relative gradient-slate border border-[#262626] mt-12 rounded-xl lg:p-8 p-[16px] w-full">
                   <h2 className="text-[20px] font-bold">
                     Download NAITRAM App
                   </h2>
@@ -477,7 +477,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                     className="absolute top-[-10%] lg:right-0 xl:right-[-8%] hidden lg:block"
                     alt="gift"
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

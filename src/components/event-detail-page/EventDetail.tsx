@@ -267,7 +267,7 @@ const EventDetail = () => {
             </div>
           </GradientBorder>
           {/* DOWNLOAD NAITRAM */}
-          <div className="relative gradient-slate border border-[#262626] mt-12 rounded-xl p-8">
+          {/* <div className="relative gradient-slate border border-[#262626] mt-12 rounded-xl p-8">
             <h2 className="text-2xl">Download NAITRAM App</h2>
             <div className="flex flex-col gap-2 mt-4">
               <div className="flex gap-3">
@@ -304,7 +304,7 @@ const EventDetail = () => {
               className="absolute top-[-10%] lg:right-0 xl:right-[-10%] hidden lg:block"
               alt="gift"
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

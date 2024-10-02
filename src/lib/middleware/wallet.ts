@@ -112,3 +112,25 @@ export const getWalletCollectByUserID = createAsyncThunk(
     }
   }
 );
+
+
+export const getwallethistory = createAsyncThunk(
+  "getwallethistory ",
+  async (data: any) => {
+    try {
+      console.log("inside get wallet history");
+      const res = await api.get(`${API_URL}/reward/getHistory/${data}`);
+      console.log("inside get wallet history", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);

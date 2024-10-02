@@ -9,6 +9,9 @@ import { AuthMode } from "@/types/types";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { whitelistcheck } from "@/lib/middleware/event";
 import { useRouter } from "next/navigation";
+import { getTicketsById } from "@/lib/middleware/event";
+import { ticketStatus } from "@/lib/middleware/event";
+import { useParams } from "next/navigation";
 const BuyTicket = ({
   eventid,
   event,
@@ -20,16 +23,31 @@ const BuyTicket = ({
 }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const params = useParams<any>();
+
   const [token, setToken] = useState<any>();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
   const [Useremail, setUserEmail] = useState<any>();
   const [userIds, setUserIds] = useState<any>("");
   const [canBuyTicket, setCanBuyTicket] = useState<any>();
+  const [myid, setMyid] = useState<any>("");
+  const [viewTicket, setViewTicket] = useState<any>(false);
+  const [myEventId, setMyEventId] = useState<any>(false);
+
+  console.log("my event id  in", event);
+  useEffect(() => {
+    const id =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setMyid(id);
+    dispatch(getTicketsById(id));
+    TicketHandle();
+  }, []);
+
   const EventDetail = useAppSelector(
-    (state: any) => state?.getTicketStore?.specificEvent?.data
+    (state: any) => state?.getTicket?.specificEvent?.data
   );
-  console.log("this is the events detail", startPrice, endPrice);
+  console.log("this is the events detail", EventDetail);
   useEffect(() => {
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -47,7 +65,58 @@ const BuyTicket = ({
     console.log("user login email", useremail);
   }, []);
 
-  console.log(userId, userIds);
+  console.log("my id", userId, userIds);
+
+  useEffect(() => {
+    const currentUrl =
+      typeof window !== "undefined" ? window.location.href : null;
+    if (currentUrl) {
+      const url = new URL(currentUrl);
+      const pathParts = url.pathname.split("/");
+      const eventId = pathParts[pathParts.length - 1];
+      setMyEventId(eventId);
+      console.log("My event ID sis", eventId);
+      // dispatch(getEventById(eventId));
+    }
+  }, []);
+
+  async function TicketHandle() {
+    const id =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    console.log("my event ID ", myEventId);
+
+    const currentUrl: any =
+      typeof window !== "undefined" ? window.location.href : null;
+
+    const url = new URL(currentUrl);
+    const pathParts = url.pathname.split("/");
+    const eventId = pathParts[pathParts.length - 1];
+    setMyEventId(eventId);
+    console.log("My event IDs", eventId);
+   
+
+    try {
+      const data = {
+        eventId: eventId,
+        userId: id,
+      };
+      dispatch(ticketStatus(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          if(res?.payload?.data?.exists == true)
+          {
+            setViewTicket(true);
+
+          }
+          else{
+          setViewTicket(false);
+
+          }
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
   return (
     <Dialog>
@@ -68,11 +137,12 @@ const BuyTicket = ({
             One ticket per person
           </p>
         </div>
-        {EventDetail?.data?.data ? (
+        {viewTicket ? (
           <div>
             <Button
               onClick={() => {
                 setShowTicket(true);
+                router.push("/wallet");
               }}
             >
               View Ticket
@@ -94,26 +164,19 @@ const BuyTicket = ({
                   </Button>
                 ) : (
                   <Button
-                  // disabled={ userId != userIds ? false:true}
+                    // disabled={ userId != userIds ? false:true}
                     onClick={() => {
-                      
                       // BuyTicket();
-                      if(userId == userIds)
-                      {
-                        router.push("/management")
+                      if (userId == userIds) {
+                        router.push("/management");
                         console.log(token);
-
-                      }
-                      else{
+                      } else {
                         console.log(token);
                       }
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
                   >
-                    {
-                      userId != userIds ?  "Buy Tickets": "Manage Event"
-                    }
-                   
+                    {userId != userIds ? "Buy Tickets" : "Manage Event"}
                   </Button>
                 )}
               </DialogTrigger>
@@ -156,20 +219,10 @@ const BuyTicket = ({
             )}
           </div>
         )}
-    
-   { userId != userIds && 
-        <CheckOutModal event={event} />
-   }
-  
+
+        {userId != userIds && <CheckOutModal event={event} />}
       </div>
     </Dialog>
   );
 };
 export default BuyTicket;
-
-
-
-
-
-
-
