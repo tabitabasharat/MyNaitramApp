@@ -94,7 +94,7 @@ const ProfilePreview = () => {
           </p>
           <p className="mt-1 font-bold text-center md:text-left hidden md:block">
             <span className="text-[24px] sm:text-base">
-              {myProfile?.data?.profile?.totalEvents}{" "}
+              {myProfile?.data?.events?.length}{" "}
               <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
                 {" "}
                 Events{" "}
