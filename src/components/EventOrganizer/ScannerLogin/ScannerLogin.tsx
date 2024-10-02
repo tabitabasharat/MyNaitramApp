@@ -100,6 +100,8 @@ const ScannerLogin = () => {
   const handleOptionToggle = (option: Option) => {
     if (selectedOptions.some((o: any) => o.id === option.id)) {
       setSelectedOptions([]);
+      
+
     } else {
       setSelectedOptions([option]);
       dispatch(getScannerByEventID(option?.id));
@@ -108,6 +110,8 @@ const ScannerLogin = () => {
   };
 
   console.log("my selected options", selectedOptions);
+  console.log("selected event id", selectedEventID);
+
 
   return (
     <div className="w-full lg:w-[600px] md:ps-[90px] lg:ps-[100px] xl:ps-[172px] md:mx-auto mt-[44px] px-[24px] lg:px-[0px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
@@ -154,34 +158,33 @@ const ScannerLogin = () => {
           <p className="text-red-500 text-sm mt-2">{validationError}</p>
         )}
       </div>
-      {EventsData?.data?.length > 0 && 
-      <Link
-        href={
-          EventsData?.length > 0
-            ? `/organizer-event/add-scanner/${selectedEventID}`
-            : "#"
-        }
-        onClick={(e) => EventsData?.length <= 0 && e.preventDefault()} >
-        <div className="flex mb-[24px] lg:mb-[32px] justify-end">
-          <Button
-            disabled={EventsData?.length <= 0}
-            type="submit"
-            className="max-w-fit gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
+      {EventsData?.data?.length > 0 && (
+        <Link
+          href={
+            EventsData?.data?.length > 0
+              ? `/organizer-event/add-scanner/${selectedEventID}`
+              : "#"
+          }
+          onClick={(e) => EventsData?.length <= 0 && e.preventDefault()}
+        >
+          <div className="flex mb-[24px] lg:mb-[32px] justify-end">
+            <Button
+              disabled={EventsData?.length <= 0}
+              type="submit"
+              className="max-w-fit gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
             py-[8px] lg:py-[16px] lg:px-[24px] px-[12px] text-sm md:text-base md:w-fit
             disabled:cursor-not-allowed disabled:opacity-50"
-
-           
-          >
-            <Image
-              src={add}
-              alt="add"
-              className="me-[8px] w-[12px] h-[12px] lg:w-[20px] lg:h-[20px]"
-            />{" "}
-            New Scanner
-          </Button>
-        </div>
-      </Link>
-}
+            >
+              <Image
+                src={add}
+                alt="add"
+                className="me-[8px] w-[12px] h-[12px] lg:w-[20px] lg:h-[20px]"
+              />{" "}
+              New Scanner
+            </Button>
+          </div>
+        </Link>
+      )}
       <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[60px] mt-[34px]  lg:mt-[32px]">
         <div className="flex w-full  md:w-full lg:w-[600px] flex-col lg:flex-col gap-6 md:gap-8 mt-[0px] lg:mt-[32px]">
           <div className="w-full md:w-full lg:w-[428px]">

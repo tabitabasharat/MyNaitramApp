@@ -213,7 +213,7 @@ const OrganizerHelpcenter = ({
   }
 
   return (
-    <div className="w-full xl:w-[700px] lg:w-[600px] lg:ps-[170px]  mt-[45px] md:mx-auto  lg:mt-[92px] lg:mx-0 relative lg:h-[90vh] h-[90vh] overflow-y-auto">
+    <div className="w-full xl:w-[700px] lg:w-[600px] lg:ps-[170px]  mt-[45px] md:mx-auto  lg:mt-[92px] lg:mx-0 relative lg:h-[90vh] h-[90vh] overflow-y-auto scrollbar-hide">
       <h2 className="font-bold ms-[24px] lg:ms-[0px] text-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] lg:text-[16px]">
         Help Center
       </h2>

@@ -108,12 +108,13 @@ const SignInModal = ({
   //   setIsPasswordActive(value !== "" || document.activeElement === e.target);
   // };
 
-  async function login(alues: z.infer<typeof formSchema>) {
+  async function login(values: z.infer<typeof formSchema>) {
     setLoader(true);
     try {
       const data = {
         email: email,
         password: password,
+        isGoogleSignIn: false,
       };
       dispatch(signin(data)).then((res: any) => {
         console.log("inside the login", res);
@@ -179,24 +180,24 @@ const SignInModal = ({
 
             localStorage.setItem("_id", res?.payload?.data?.id);
             localStorage.setItem("token", res?.payload?.token);
+            localStorage.setItem("name", res?.payload?.data?.fullname);
+            localStorage.setItem("email", res?.payload?.data?.email);
             localStorage.setItem(
               "profileupdate",
               res?.payload?.data?.profileUpdate
             );
+           
 
-            localStorage.setItem("name", res?.payload?.data?.fullname);
 
             setSigninModal();
             router.push(redirectRoute);
           // router.push("/viewallevents");
 
-            if (res?.payload?.data?.profileUpdate) {
-              // navigate("/Dashboard");
-              console.log("dashboard");
-            } else {
-              // navigate("/Profile");
-              console.log("profile");
-            }
+            // if (res?.payload?.data?.profileUpdate) {
+            //   console.log("dashboard");
+            // } else {
+            //   console.log("profile");
+            // }
           } else {
             console.log("this is the response of signin", res);
             setLoader(false);
