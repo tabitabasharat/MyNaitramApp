@@ -101,7 +101,7 @@ export const  updateOrganizerProfile = createAsyncThunk(
 //   }
 // );
 
-export const getOrganizerByID = createAsyncThunk(
+export const  getOrganizerByID = createAsyncThunk(
   "getOrganizerByID",
   async (data: any) => {
     try {

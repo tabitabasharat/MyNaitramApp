@@ -52,10 +52,6 @@ const Menu = ({
       href: "/viewallevents",
     },
     {
-      name: "Host",
-      href: "/organizer-event/event-dashboard",
-    },
-    {
       title: "Rewards",
       href: "/reward",
       id: 4,
