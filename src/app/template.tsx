@@ -26,7 +26,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/organizer-event/scanner-credentials",
     "/organizer-event/helpcenter",
     "/profile-perview",
-    " /organizer-event/get-paid",
+    // " /organizer-event/get-paid",
     // "/preview-event",
     "/events/event-detail/live-activity",
     "/organizer-event/payout-detail",
@@ -35,7 +35,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/organizer-event/payout-detail/bankaccount/add-bank-account",
     "/organizer-event/payout-detail/cryptowallet/addCryptowallet",
     "/organizer-event/payout-history",
-   " /organizer-event/get-paid",
+   "/organizer-event/get-paid",
   
     
 
