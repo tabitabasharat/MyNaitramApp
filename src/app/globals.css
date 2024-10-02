@@ -11,7 +11,12 @@
     background-size: cover;
   }
 
- 
+ .input-custom-container{
+  min-height: 95px; 
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between;  
+ }
 ::-webkit-calendar-picker-indicator {
   position: absolute;
   right: 12px;
@@ -259,7 +264,11 @@ body {
   white-space: pre-wrap;
   word-wrap: break-word;
   height: 200px !important;
+
  
+}
+.ql-editor::-webkit-scrollbar {
+  display: none !important; /* Hide scrollbar in Chrome, Safari, Edge */
 }
 
 .ql-snow .ql-picker.ql-expanded .ql-picker-options {
@@ -686,15 +695,16 @@ input[type="number"] {
   width: 60%;
 }
 @layer utilities {
-  /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none !important;
   }
-  /* Hide scrollbar for IE, Edge and Firefox */
+  
   .no-scrollbar {
-    -ms-overflow-style: none !important; /* IE and Edge */
-    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; 
+    scrollbar-width: none !important; 
   }
+  
+  
 }
 @media (max-width: 992px) {
   .dialog-custom {

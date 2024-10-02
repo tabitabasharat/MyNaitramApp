@@ -2609,7 +2609,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                           control={form.control}
                           name={`tickets.${index}.type`}
                           render={({ field }) => (
-                            <FormItem className="relative w-full space-y-0">
+                            <FormItem className="relative w-full space-y-0  input-custom-container">
                               <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                                 Event Ticket Type
                               </FormLabel>
@@ -2639,7 +2639,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                             control={form.control}
                             name={`tickets.${index}.price`}
                             render={({ field }) => (
-                              <FormItem className="relative w-full space-y-0">
+                              <FormItem className="relative w-full space-y-0  input-custom-container">
                                 <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
                                   Event Ticket Price (£)
                                 </FormLabel>
@@ -2670,7 +2670,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                           control={form.control}
                           name={`tickets.${index}.no`}
                           render={({ field }) => (
-                            <FormItem className="relative w-full space-y-0">
+                            <FormItem className="relative w-full space-y-0  input-custom-container">
                               <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                                 Event Number of Tickets
                               </FormLabel>

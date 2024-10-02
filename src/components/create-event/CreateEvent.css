@@ -75,12 +75,20 @@
   margin-top: 38px !important;
   
 }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none !important; /* Hide scrollbar in Chrome, Safari, Edge */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none !important; /* Hide scrollbar in IE and Edge */
+  scrollbar-width: none !important; /* Hide scrollbar in Firefox */
+}
 .create-inner {
   padding-top: 180px;
 }
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: none;
-}
+} */
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Creates 3 equal columns */

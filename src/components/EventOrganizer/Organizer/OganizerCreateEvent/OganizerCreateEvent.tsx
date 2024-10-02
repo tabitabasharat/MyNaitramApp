@@ -225,20 +225,39 @@ const formSchema = z.object({
   // ),
 
   tickets: z.array(
-    z.object({
-      type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-      price: z.string().optional().refine((val) => {
-        // Check if the type is "paid" and ensure price is provided
-        if (val !== undefined && val.trim() === "") {
-          return false; // If price is empty, it should fail validation
+    z
+      .object({
+        type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+        // price: z.union([z.string(), z.number()]).optional(),
+        price: z.string().min(1, { message: "Ticket price cannot be empty." }),
+        no: z
+          .union([z.string(), z.number()])
+          .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+            message: "Number of tickets must be greater than 0.",
+            path: ["no"],
+          }),
+        selected: z.string().optional(),
+      })
+      .refine(
+        (data) => {
+          if (data.selected === "paid") {
+            const priceIsValid =
+              data.price !== undefined &&
+              ((typeof data.price === "string" && data.price.trim() !== "") ||
+                (typeof data.price === "number" && data.price > 0));
+
+            return priceIsValid;
+          } else if (data.selected === "free") {
+            return data.price === undefined; // Price must be undefined for free tickets
+          }
+          return true; // If neither selected, pass validation
+        },
+        {
+          message:
+            "Price is required for paid tickets and should not be present for free tickets.",
+          path: ["price"],
         }
-        return true; // Otherwise, it passes validation
-      }, {
-        message: "Price is required for paid tickets.",
-        path: ['price'] // Optional: Specify the path for the error
-      }),
-      no: z.string().min(1, { message: "Number of tickets must be greater than 0." }),
-    })
+      )
   ),
 });
 const formSchema2 = z.object({
@@ -324,24 +343,58 @@ const formSchema2 = z.object({
   //       .min(1, { message: "Number of tickets must be greater than 0." }),
   //   })
   // ),
+  // tickets: z.array(
+  //   z.object({
+  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //     price: z.string().optional(),
+  //     no: z.string().min(1, { message: "Number of tickets must be greater than 0." }),
+  //     selected: z.string().optional(),
+  //   }).refine((data) => {
+
+  //     if (data.selected === "paid" && (!data.price || data.price.trim() === "")) {
+  //       return false;
+  //     }
+  //     return true;
+  //   }, {
+  //     message: "Price is required .",
+  //     path: ['price']
+  //   })
+  // ),
+
   tickets: z.array(
-    z.object({
-      type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-      price: z.string().optional(), // Price is optional by default
-      no: z.string().min(1, { message: "Number of tickets must be greater than 0." }),
-      selected: z.string().optional(), // Ensure `selected` has a value
-    }).refine((data) => {
-      // Check if the price is required based on the selected property
-      if (data.selected === "paid" && (!data.price || data.price.trim() === "")) {
-        return false; // Fail validation if price is required but empty
-      }
-      return true; // Otherwise, it passes validation
-    }, {
-      message: "Price is required .",
-      path: ['price'] // Specify the path for the error
-    })
+    z
+      .object({
+        type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+        price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
+        no: z.union([
+          z.string().refine((val) => Number(val) > 0, {
+            message: "Number of tickets must be greater than 0.",
+          }),
+          z
+            .number()
+            .min(1, { message: "Number of tickets must be greater than 0." }),
+        ]),
+        selected: z.string().optional(),
+      })
+      .refine(
+        (data) => {
+          // Validate price based on selection
+          if (data.selected === "paid") {
+            const priceIsValid =
+              data.price !== undefined &&
+              ((typeof data.price === "string" && data.price.trim() !== "") ||
+                (typeof data.price === "number" && data.price > 0));
+
+            return priceIsValid;
+          }
+          return true; // Skip price validation for free tickets
+        },
+        {
+          message: "Price is required for paid tickets.",
+          path: ["price"], // Specify the path for the error
+        }
+      )
   ),
-  
 });
 
 type Option = {
@@ -672,11 +725,8 @@ function OganizerCreateEvent() {
     }
     const updatedTicketTypes = ticketTypes.filter((_, i) => i !== index);
     setTicketTypes(updatedTicketTypes);
-    form.setValue('tickets', updatedTicketTypes); // Update form state
-
+    form.setValue("tickets", updatedTicketTypes); // Update form state
   };
-
-
 
   // const handleDeleteTicketType = (index: number) => {
   //   // Prevent deleting the first ticket type
@@ -736,39 +786,19 @@ function OganizerCreateEvent() {
     setUserid(userID);
   }, []);
 
-  // const handleOptionChange = (option: SelectedOption) => {
-  //   console.log("this is the error ",option,selected)
-  // setSelected(option);
-
-  // };
-  // const handleOptionChange = (index: number, type: string) => {
-  //   setTicketTypes((prevTickets) =>
-  //     prevTickets.map((ticket, i) =>
-  //       i === index
-  //         ? { ...ticket, selected: type } 
-  //         : ticket
-  //     )
-  //   );
-    
-  // };
-
   const handleOptionChange = (index: number, type: string) => {
     setTicketTypes((prevTickets) => {
       const updatedTickets = prevTickets.map((ticket, i) =>
-        i === index
-          ? { ...ticket, selected: type } // Update the selected type (free/paid)
-          : ticket
+        i === index ? { ...ticket, selected: type } : ticket
       );
-  
-      // Update form values for the tickets
+
       updatedTickets.forEach((ticket, i) => {
-        form.setValue(`tickets.${i}.selected`, ticket.selected); // Update the selected value in form
+        form.setValue(`tickets.${i}.selected`, ticket.selected);
       });
-  
-      return updatedTickets; // Return the updated tickets
+
+      return updatedTickets;
     });
   };
-  
 
   // useEffect(()=>{
   //   console
@@ -789,7 +819,7 @@ function OganizerCreateEvent() {
     type: ticket.type,
     price: ticket.price,
     no: ticket.no,
-    selected: ticket.selected, 
+    selected: ticket.selected,
     options: ticket.options.map((option) => ({
       id: option.id,
       label: option.label,
@@ -876,7 +906,6 @@ function OganizerCreateEvent() {
     console.log("my values", values);
 
     // setisWalletModalOpen(true);
-   
 
     const utcEventStartTime = convertToUTC(EventStartTime);
     setEventStartTime(utcEventStartTime);
@@ -912,7 +941,7 @@ function OganizerCreateEvent() {
 
     setEventAllData(updatedValues);
     const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
- 
+
     try {
       const data = {
         userId: userid,
@@ -1154,11 +1183,10 @@ function OganizerCreateEvent() {
           "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
         backgroundPosition: "center",
       }}
-      className="min-h-screen  bg-cover bg-no-repeat  pb-[80px] pt-[120px] lg:pt-[120px]"
+      className="min-h-screen  bg-cover bg-no-repeat  pb-[80px] pt-[120px] lg:pt-[120px] "
     >
       {loader && <ScreenLoader />}
       <div className="pxpx mx-2xl w-full ">
-
         <div className="event-images-container w-full mt-[26px]">
           <div className=" w-full md:w-[440px] lg:w-[440px]">
             <div className="px-[24px] py-[16px] relative create-container w-full  lg:w-[440px]">
@@ -1241,7 +1269,7 @@ function OganizerCreateEvent() {
               {galleryFiles?.length > 0 ? (
                 <>
                   <div className="mt-4 pb-4 relative">
-                    <div className="flex flex-wrap gap-[24px] lg:gap-[13px] max-h-[148px] lg:max-h-[264px] pt-[9px] overflow-auto">
+                    <div className="flex flex-wrap gap-[24px] lg:gap-[13px] max-h-[148px] lg:max-h-[264px] pt-[9px] overflow-auto scrollbar-hide">
                       {galleryFiles?.map((file, index) => {
                         const isVideo = file.type.startsWith("video/");
                         const isImage = file.type.startsWith("image/");
@@ -1513,7 +1541,7 @@ function OganizerCreateEvent() {
 
                       {isCatDropdownOpen && (
                         <>
-                          <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                          <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
                             {categoryAlert == true && (
                               <p className="text-[red] text-[16px]">
                                 You can only select 4 categories at a time
@@ -1561,7 +1589,7 @@ function OganizerCreateEvent() {
                         Event Description
                       </FormLabel>
                       <FormControl className="relative  ">
-                        <div className=" absolute inset-0 pb-3 overflow-y-auto top-[28px] h-[240px]">
+                        <div className=" absolute inset-0 pb-3 overflow-y-auto scrollbar-hide top-[28px] h-[240px] no-scrollbar">
                           <Editor
                             // value={field.value}
                             onChange={(content) => {
@@ -2079,7 +2107,7 @@ function OganizerCreateEvent() {
                           control={form.control}
                           name={`tickets.${index}.type`}
                           render={({ field }) => (
-                            <FormItem className="relative w-full space-y-0">
+                            <FormItem className="relative w-full space-y-0 input-custom-container">
                               <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                                 Event Ticket Type
                               </FormLabel>
@@ -2109,17 +2137,31 @@ function OganizerCreateEvent() {
                             control={form.control}
                             name={`tickets.${index}.price`}
                             render={({ field }) => (
-                              <FormItem className="relative w-full space-y-0">
+                              <FormItem className="relative w-full space-y-0 input-custom-container">
                                 <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
                                   Event Ticket Price (£)
                                 </FormLabel>
                                 <FormControl>
                                   <Input
                                     type="number"
+                                  
                                     placeholder="Enter Price"
                                     className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                     {...field}
                                     onChange={(e) => {
+                                      const value = e.target.value;
+
+                                      if (value.startsWith("-")) {
+                                        e.target.value = value.replace("-", ""); // Remove negative sign
+                                      }
+
+                                      if (!/^\d*\.?\d*$/.test(value)) {
+                                        e.target.value = value.replace(
+                                          /[^\d.]/g,
+                                          ""
+                                        );
+                                      }
+
                                       handleInputChange(
                                         index,
                                         "price",
@@ -2127,6 +2169,16 @@ function OganizerCreateEvent() {
                                       );
                                       field.onChange(e);
                                     }}
+
+                                    // onChange={(e) => {
+
+                                    //   handleInputChange(
+                                    //     index,
+                                    //     "price",
+                                    //     parseFloat(e.target.value)
+                                    //   );
+                                    //   field.onChange(e);
+                                    // }}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -2140,7 +2192,7 @@ function OganizerCreateEvent() {
                           control={form.control}
                           name={`tickets.${index}.no`}
                           render={({ field }) => (
-                            <FormItem className="relative w-full space-y-0">
+                            <FormItem className="relative w-full space-y-0 input-custom-container">
                               <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                                 Event Number of Tickets
                               </FormLabel>
@@ -2565,5 +2617,3 @@ function OganizerCreateEvent() {
   );
 }
 export default OganizerCreateEvent;
-
-
