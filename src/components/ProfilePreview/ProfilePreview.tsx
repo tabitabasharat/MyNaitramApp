@@ -59,7 +59,7 @@ const ProfilePreview = () => {
   console.log("my Social Profile infooo is", myProfile);
 
   return (
-    <div className="flex flex-col md:flex-row w-full items-center justify-between">
+    <div className="flex flex-col w-full md:flex-row w-full items-center justify-between">
       <div className="flex flex-col w-[100%] md:flex-row gap-[24] md:gap-[32px] justify-center items-center md:justify-start md:items-start">
         <GoldGradientBorder className="w-fit rounded-full p-[3px] h-fit">
           <div className="bg-black rounded-full p-[7px]">

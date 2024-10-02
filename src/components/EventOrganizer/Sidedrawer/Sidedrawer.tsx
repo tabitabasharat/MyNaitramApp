@@ -71,7 +71,6 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState<string | null>(null);
-  const [Userid, setUserId] = React.useState<any>("");
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -131,22 +130,38 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
     dispatch({ type: "LOGOUT" });
     router.push("/");
   };
-  useEffect(() => {
-    const userid =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-
-    setUserId(userid);
-  }, []);
 
   const drawer = (
     <>
-      <div className="ps-[24px] pe-[24px] bg-[black] overflow-Y-hidden">
+      <div className="ps-[24px] pe-[24px] bg-[black] scrolling-issue">
         <List className="bg-[black] p-[0px] text-[white]">
-          <Link href={`/organizer-event/event-dashboard`}>
-            <h3 className="text-[20px] font-bold pt-[0px] lg:pt-[32px]  mb-[24px]">
-              Organiser
-            </h3>
-          </Link>
+          <div className="flex justify-left items-center  mb-[24px] lg:pt-[32px]">
+            {mobileOpen && (
+              <Image
+                src={backwardicon}
+                alt="icon"
+                onClick={handleDrawerClose}
+              />
+            )}
+            <Link href="/organizer-event/event-dashboard">
+              <h3 className="text-[20px] ps-[6px] font-bold pt-[0px]  ">
+                Organiser
+              </h3>
+            </Link>
+          </div>
+
+          {/* <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px]">
+            <IconButton
+              className="p-0 h-[30px] w-[30px]"
+              onClick={handleDrawerClose}
+            >
+              {theme.direction === "ltr" ? (
+                <Image src={backwardicon} alt="icon" />
+              ) : (
+                <ChevronRightIcon />
+              )}
+            </IconButton>
+          </DrawerHeader> */}
           <div>
             <List className="bg-[black] py-[0px] text-[white]">
               <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mt-[2px] mb-[10px]">
@@ -277,7 +292,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
             </ListItem>
           </Link>
         </List>
-        <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
+        <List className="bg-[black] pt-[24px] h-[30%] pb-[0px] text-[white]">
           <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">
             HELP
           </h3>
@@ -357,6 +372,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           onClose={handleDrawerClose}
           ModalProps={{ keepMounted: true }}
           sx={{
+            flexShrink: 0,
             display: { xs: "block", sm: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
@@ -364,6 +380,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
               background: "black",
               marginTop: "87px",
               position: "relative",
+              overflowY: "auto",
             },
             "& .MuiTypography-root": {
               fontSize: "14px",
@@ -379,18 +396,6 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
             },
           }}
         >
-          <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px]">
-            <IconButton
-              className="p-0 h-[30px] w-[30px]"
-              onClick={handleDrawerClose}
-            >
-              {theme.direction === "ltr" ? (
-                <Image src={backwardicon} alt="icon" />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </DrawerHeader>
           {drawer}
         </Drawer>
         <Drawer

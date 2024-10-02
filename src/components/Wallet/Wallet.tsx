@@ -54,7 +54,7 @@ export default function Wallet() {
 
   return (
     <section className="min-h-screen pt-[7rem] lg:pt-[8rem] pb-[8rem] bg-cover bg-no-repeat md:px-[100px]   bg-reward  ">
-      <div className="min-h-screen flex items-start justify-center px-[24px]">
+      <div className="min-h-screen flex items-start justify-center md:px-[0px] px-[24px]">
         <div className="flex flex-col w-full max-w-[1200px] justify-center items-start">
           <h3 className="pb-[16px] md:pb-[20px] md:text-[32px] font-extrabold text-[20px]">
             Wallet
@@ -66,7 +66,7 @@ export default function Wallet() {
           <div className="flex pt-[32px] w-full pb-[28px] md:pb-[32px] gap-[12px]">
             <div className="flex gap-[12px] w-full">
               <div
-                className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
+                className={`gradient-slate rounded-stlying px-[12px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
                   selected === "tickets"
                     ? "gradient-border-rounded text-[#00A849]"
                     : ""
@@ -91,7 +91,7 @@ export default function Wallet() {
             </div>
 
             <div
-              className={`gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
+              className={`gradient-slate rounded-stlying px-[12px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
                 selected === "collectables"
                   ? "gradient-border-rounded text-[#00A849]"
                   : ""

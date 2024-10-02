@@ -66,7 +66,6 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
   const [activeItem, setActiveItem] = React.useState<string | null>(null);
   // const isActive = activeItem === item.text;
 
- 
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
@@ -122,11 +121,20 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
     <>
       <div className="ps-[32px] bg-[black]">
         <List className="bg-[black] p-[0px] text-[white]">
-          <Link href="/profile/profile-main">
-            <h3 className="text-[20px] font-extrabold pt-[0px] lg:pt-[32px]  mb-[24px]">
-              Profile
-            </h3>
-          </Link>
+          <div className="flex  lg:pt-[32px]  mb-[24px] items-center">
+            {mobileOpen && (
+              <Image
+                src={backwardicon}
+                alt="icon"
+                onClick={handleDrawerClose}
+              />
+            )}
+            <Link href="/profile/profile-main">
+              <h3 className="text-[20px] ps-[6px] font-extrabold pt-[0px]">
+                Profile
+              </h3>
+            </Link>
+          </div>
           <div>
             <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[8px]">
               SETTINGS
@@ -195,7 +203,9 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
           </div>
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm ps-[9px] font-bold mb-[8px]">ABOUT</h3>
+          <h3 className="text-[#FFFFFF99] text-sm ps-[9px] font-bold mb-[8px]">
+            ABOUT
+          </h3>
           <Link href="/profile/Delete-account">
             <ListItem
               className={`text-xl font-bold ${
@@ -310,7 +320,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
             },
             "& .MuiListItemButton-root": {
               paddingLeft: "0px",
-              marginLeft:"9px"
+              marginLeft: "9px",
             },
             "& .MuiTypography-root": {
               fontSize: "14px",
@@ -322,7 +332,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
             },
           }}
         >
-          <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px] pe-[24px] md:pe-[0px]">
+          {/* <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px] pe-[24px] md:pe-[0px]">
             <IconButton
               className="p-0 h-[30px] w-[30px]"
               onClick={handleDrawerClose}
@@ -333,7 +343,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                 <ChevronRightIcon />
               )}
             </IconButton>
-          </DrawerHeader>
+          </DrawerHeader> */}
           {drawer}
         </Drawer>
         <Drawer
@@ -347,8 +357,8 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               backgroundColor: "black",
             },
             "& .MuiListItemButton-root": {
-              marginLeft:"9px",
-              paddingLeft:"0px"
+              marginLeft: "9px",
+              paddingLeft: "0px",
             },
             "& .MuiTypography-root": {
               fontSize: "14px",

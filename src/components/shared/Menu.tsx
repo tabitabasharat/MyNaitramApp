@@ -51,7 +51,7 @@ const Menu = ({
       name: "Event",
       href: "/viewallevents",
     },
-   
+
     {
       title: "Rewards",
       href: "/reward",
@@ -97,6 +97,18 @@ const Menu = ({
     setToken(id);
   }, [token, count]);
 
+  const handleHostToggle = () => {
+    setMenuIsOpen(false);
+    if (!token) {
+      console.log("Token host ", token);
+      setIsLoginDialogOpen(true);
+    } else {
+      const userid =
+        typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+      console.log("No token ", token);
+      router.push("/organizer-event/event-dashboard");
+    }
+  };
 
   return (
     <>
@@ -191,13 +203,57 @@ const Menu = ({
               </motion.div>
             ))}
 
-            <Button
-              variant="secondary"
-              className="bg-[#13FF7A] p-[12px] py-[8px] font- font-extrabold text-base lg:mr-[12px]"
-              onClick={() => router.push("/organizer-event/event-dashboard")}
+            {/* <Dialog>
+              <DialogTrigger asChild> */}
+            <motion.div
+              // onClick={() => {
+              //   setMenuIsOpen(false);
+              // }}
+              custom={links.length + 1}
+              variants={slide}
+              animate="enter"
+              exit="exit"
+              initial="initial"
+              className="h-fit w-fit mt-[1.5rem] lg:mt-[2rem] z-[1]"
             >
-              Host Event
-            </Button>
+              <Button
+                variant="secondary"
+                className="bg-[#13FF7A] p-[12px] py-[8px] font- font-extrabold text-base lg:mr-[12px]"
+                // onClick={() => router.push("/organizer-event/event-dashboard")}
+                onClick={()=>{handleHostToggle()}}
+              >
+                Host Event
+              </Button>
+            </motion.div>
+
+            {!token && (
+              <Dialog
+                open={isLoginDialogOpen}
+                onOpenChange={setIsLoginDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    className="hidden pb-[6px] lg:block"
+                  >
+                    Sign In
+                  </Button>
+                </DialogTrigger>
+                {authMode === "SIGNIN" && isLoginDialogOpen && (
+                  <SignInModal
+                    redirectRoute={`/viewallevents`}
+                    setAuthMode={setAuthMode}
+                    setSigninModal={() => setIsLoginDialogOpen(false)}
+                  />
+                )}
+                {authMode === "SIGNUP" && (
+                  <SignUpModal
+                    setAuthMode={setAuthMode}
+                    setSigninModal={() => setIsLoginDialogOpen(false)}
+                  />
+                )}
+              </Dialog>
+            )}
           </div>
 
           {token || count?.signIn?.data?.id ? (
