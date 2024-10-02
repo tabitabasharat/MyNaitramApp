@@ -641,6 +641,12 @@ input[type="number"] {
 .no-border-table .MuiTableCell-root {
   border: none; /* Removes borders from all table cells */
 }
+.rounded-stlying{
+  border-radius: 12px;
+}
+.scrolling-issue{
+  overflow-y: auto !important;
+}
 .event-width-adjustment{
   width:100% !important;
     }
@@ -759,6 +765,9 @@ input[type="number"] {
   .gradient-border-rounded {
     position: relative;
     border-radius: 44px !important; /* This controls the rounding of the corners */
+  }
+  .rounded-stlying{
+    border-radius: 44px;
   }
   .gradient-border-rounded::before {
     content: "";

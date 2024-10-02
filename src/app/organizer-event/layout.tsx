@@ -19,7 +19,7 @@ export default function RootLayout({
     <div
       style={
         isMobile
-          ? { position: "relative" }
+          ? { position: "relative"}
           : { position: "relative", overflow: "hidden"}
       }
       className={`flex main-box mx-2xl ${!isLunchEventRoute && 'lunch-event-stlying'} lg:min-h-[100vh]`}

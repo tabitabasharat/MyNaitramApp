@@ -123,7 +123,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
       <div className="ps-[32px] bg-[black]">
         <List className="bg-[black] p-[0px] text-[white]">
           <Link href="/profile/profile-main">
-            <h3 className="text-[20px] font-extrabold pt-[0px] lg:pt-[32px]  mb-[24px]">
+            <h3 className="text-[20px] ps-[6px] font-extrabold pt-[0px] lg:pt-[32px]  mb-[24px]">
               Profile
             </h3>
           </Link>
