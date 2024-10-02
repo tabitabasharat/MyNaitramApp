@@ -1739,31 +1739,44 @@ function OganizerCreateEvent() {
                 <FormField
                   control={form.control}
                   name="eventstarttime"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Event Start Date & time
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          onKeyDown={(e) => e.preventDefault()}
-                          type="datetime-local"
-                          aria-label="Date and time"
-                          placeholder="Enter Start Time"
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                          {...field}
-                          onChange={(e) => {
-                            setEventStartTime(e.target.value);
-                            field.onChange(e);
-                          }}
-                          // min={addTimeToDate(TicketEndDate, 0, 0)}
-                          min={TicketEndDate}
-                        />
-                      </FormControl>
+                  render={({ field }) => {
+                    // const currentDateTime = new Date()
+                    //   .toISOString()
+                    //   .slice(0, 16);
+                    // const ticketEndDate = TicketEndDate;
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                    // const minDateTime =
+                    //   currentDateTime > ticketEndDate
+                    //     ? currentDateTime
+                    //     : ticketEndDate;
+                    return (
+                      <FormItem className="relative w-full space-y-0">
+                        <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                          Event Start Date & time
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            onKeyDown={(e) => e.preventDefault()}
+                            type="datetime-local"
+                            aria-label="Date and time"
+                            placeholder="Enter Start Time"
+                            className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                            {...field}
+                            onChange={(e) => {
+                              setEventStartTime(e.target.value);
+                              field.onChange(e);
+                            }}
+                            // min={addTimeToDate(TicketEndDate, 0, 0)}
+                            // min={minDateTime}
+                            min={TicketEndDate}
+
+                          />
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
 
                 <FormField
@@ -2144,7 +2157,6 @@ function OganizerCreateEvent() {
                                 <FormControl>
                                   <Input
                                     type="number"
-                                  
                                     placeholder="Enter Price"
                                     className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                     {...field}
