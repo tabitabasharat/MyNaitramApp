@@ -60,24 +60,25 @@ const EventsHeroSlide = ({
   console.log("this is event price", endTime, startTime);
 
   const ConvertDate = (originalDateStr: string): string => {
-    // Convert the input UTC date string to a Date object
-    const utcDate = new Date(originalDateStr);
-
+    // Ensure the input UTC date string is treated as UTC by appending 'Z'
+    const utcDate = new Date(`${originalDateStr}Z`);
+    console.log("Converted UTC time:", utcDate);
+  
     // Check if the date is valid
     if (isNaN(utcDate.getTime())) {
       console.error("Invalid date format");
       return "";
     }
-
-    // Convert to local time zone using toLocaleString
+  
+    // Detect local time zone
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-    // Extract the local time date part using toLocaleDateString
+  
+    // Extract local time parts using toLocaleDateString with time zone adjustment
     const dayOfWeek = utcDate.toLocaleDateString("en-US", {
       weekday: "long",
       timeZone: timeZone,
     });
-    const date = utcDate.toLocaleDateString("en-US", {
+    const dayOfMonth = utcDate.toLocaleDateString("en-US", {
       day: "numeric",
       timeZone: timeZone,
     });
@@ -89,7 +90,7 @@ const EventsHeroSlide = ({
       year: "numeric",
       timeZone: timeZone,
     });
-
+  
     // Function to get ordinal suffix
     const getOrdinalSuffix = (date: number) => {
       if (date > 3 && date < 21) return "th"; // covers 11th to 19th
@@ -104,13 +105,14 @@ const EventsHeroSlide = ({
           return "th";
       }
     };
-
-    const numericDate = parseInt(date, 10); // Convert date string to number
-    const ordinalSuffix = getOrdinalSuffix(numericDate);
-
-    // Combine day, date with ordinal suffix, month, and year
-    const formattedDate = `${dayOfWeek}, ${numericDate}${ordinalSuffix} ${month} ${year}`;
-
+  
+    // Convert day string to a number and calculate ordinal suffix
+    const numericDay = parseInt(dayOfMonth, 10); // Convert day string to number
+    const ordinalSuffix = getOrdinalSuffix(numericDay);
+  
+    // Combine all parts into a properly formatted date string
+    const formattedDate = `${dayOfWeek}, ${numericDay}${ordinalSuffix} ${month} ${year}`;
+  
     return formattedDate;
   };
 
@@ -120,56 +122,48 @@ const EventsHeroSlide = ({
       console.error("Input must be a string");
       return "";
     }
-
+  
     // Convert the input UTC time to a local time using the Date object
-    const utcDate = new Date(timeStr); // Parse input into a Date object
+    const utcDate = new Date(`${timeStr}Z`); // Appending 'Z' to ensure UTC parsing
     if (isNaN(utcDate.getTime())) {
-      console.error("Invalid date format");
+      console.error("Invalid time format");
       return "";
     }
-
-    // Convert to local time zone using toLocaleString
+  
+    // Detect local time zone
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const localDateStr = utcDate.toLocaleString("en-GB", {
+  
+    // Convert UTC date to local time string in "HH:MM" format
+    const localTime = utcDate.toLocaleTimeString("en-GB", {
       timeZone: timeZone,
       hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
     });
-
-    // Extract the time part (from the local time)
-    const timeOnly = localDateStr.split(", ")[1]; // This gives you the local time part
-
-    if (!timeOnly) {
-      console.error("Input must include a valid time");
-      return "";
-    }
-
-    const parts = timeOnly.split(":");
-
-    // Check if timeOnly is in HH:MM format
-    if (parts.length < 2) {
-      console.error("Input time must be in HH:MM format");
-      return "";
-    }
-
-    const [hours, minutes] = parts.map(Number);
-
+  
+    // Split the time into hours and minutes
+    const [hoursStr, minutesStr] = localTime.split(":");
+    const hours = parseInt(hoursStr, 10);
+    const minutes = parseInt(minutesStr, 10);
+  
     // Ensure the hours and minutes are valid numbers
     if (isNaN(hours) || isNaN(minutes)) {
       console.error("Invalid time format");
       return "";
     }
-
+  
     // Determine AM or PM
     const period = hours >= 12 ? "PM" : "AM";
-
+  
     // Convert hours from 24-hour to 12-hour format
-    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
-
-    // Combine hours, minutes and period
-    const formattedTime = `${formattedHours}:${
-      minutes < 10 ? "0" + minutes : minutes
-    } ${period}`;
-
+    const formattedHours = hours % 12 || 12; // Handle 0 as 12 for midnight
+  
+    // Format minutes with leading zero if necessary
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  
+    // Combine hours, minutes, and period
+    const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
+  
     return formattedTime;
   };
   interface Ticket {

@@ -175,7 +175,7 @@ setUid(myuserid)
           </Link>
           <p className="text-[#FFFFFF3D] text-[12px]">
             <span className="text-[11px] text-[#E6E6E6]">
-              {myProfile?.profile?.totalEvents} Events
+              {myProfile?.events?.length} Events
             </span>{" "}
             |{" "}
             <span className="text-[11px] text-[#E6E6E6]">
