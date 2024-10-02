@@ -188,6 +188,8 @@ const SignInModal = ({
 
             setSigninModal();
             router.push(redirectRoute);
+          // router.push("/viewallevents");
+
             if (res?.payload?.data?.profileUpdate) {
               // navigate("/Dashboard");
               console.log("dashboard");

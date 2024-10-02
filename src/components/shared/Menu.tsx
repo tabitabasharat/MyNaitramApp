@@ -219,7 +219,7 @@ const Menu = ({
               </DialogTrigger>
               {authMode === "SIGNIN" && (
                 <SignInModal
-                  redirectRoute="/events"
+                  redirectRoute="/viewallevents"
                   setAuthMode={setAuthMode}
                   setSigninModal={() => setIsLoginDialogOpen(false)}
                 />
@@ -250,7 +250,7 @@ const Menu = ({
               </DialogTrigger>
               {authMode === "SIGNIN" && (
                 <SignInModal
-                  redirectRoute="/events"
+                  redirectRoute="/viewallevents"
                   setAuthMode={setAuthMode}
                   setSigninModal={() => setIsLoginDialogOpen(false)}
                 />

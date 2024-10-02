@@ -26,7 +26,7 @@ const HomePage = () => {
       <Dialog open={showmodal} onOpenChange={setShowModal}>
         {authMode === "SIGNIN" && (
           <SignInModal
-            redirectRoute={`/events`}
+            redirectRoute={`/viewallevents`}
             setAuthMode={setAuthMode}
             setSigninModal={() => setShowModal(false)}
           />

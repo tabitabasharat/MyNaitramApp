@@ -1706,7 +1706,17 @@ function OganizerCreateEvent() {
                 <FormField
                   control={form.control}
                   name="eventenddate"
-                  render={({ field }) => (
+                  render={({ field }) => {
+                    const currentDateTime = new Date()
+                    .toISOString()
+                    .slice(0, 16);
+                  const ticketstartDate = TicketStartDate;
+
+                  const minDateTime =
+                    currentDateTime > ticketstartDate
+                      ? currentDateTime
+                      : ticketstartDate;
+                  return(
                     <FormItem className="relative w-full space-y-0">
                       <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Ticketing End Date & time
@@ -1723,6 +1733,8 @@ function OganizerCreateEvent() {
                             field.onChange(e);
                           }}
                           min={TicketStartDate}
+                          // min={minDateTime}
+
                           onKeyDown={(e) => e.preventDefault()}
 
                           // max={extractDate(EventStartTime)}
@@ -1731,7 +1743,7 @@ function OganizerCreateEvent() {
 
                       <FormMessage />
                     </FormItem>
-                  )}
+  )}}
                 />
               </div>
 
@@ -1740,15 +1752,15 @@ function OganizerCreateEvent() {
                   control={form.control}
                   name="eventstarttime"
                   render={({ field }) => {
-                    // const currentDateTime = new Date()
-                    //   .toISOString()
-                    //   .slice(0, 16);
-                    // const ticketEndDate = TicketEndDate;
+                    const currentDateTime = new Date()
+                      .toISOString()
+                      .slice(0, 16);
+                    const ticketEndDate = TicketEndDate;
 
-                    // const minDateTime =
-                    //   currentDateTime > ticketEndDate
-                    //     ? currentDateTime
-                    //     : ticketEndDate;
+                    const minDateTime =
+                      currentDateTime > ticketEndDate
+                        ? currentDateTime
+                        : ticketEndDate;
                     return (
                       <FormItem className="relative w-full space-y-0">
                         <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
@@ -1782,7 +1794,18 @@ function OganizerCreateEvent() {
                 <FormField
                   control={form.control}
                   name="eventendtime"
-                  render={({ field }) => (
+                  render={({ field }) => {
+                    const currentDateTime = new Date()
+                      .toISOString()
+                      .slice(0, 16);
+                    const eventstartDate = EventStartTime;
+  
+                    const minDateTime =
+                      currentDateTime > eventstartDate
+                        ? currentDateTime
+                        : eventstartDate;
+                    return(
+                      
                     <FormItem className="relative w-full space-y-0">
                       <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                         Event End Date & time
@@ -1800,12 +1823,14 @@ function OganizerCreateEvent() {
                             field.onChange(e);
                           }}
                           min={EventStartTime}
+                          // min={minDateTime}
+
                         />
                       </FormControl>
 
                       <FormMessage />
                     </FormItem>
-                  )}
+  )}}
                 />
               </div>
               {/* <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
