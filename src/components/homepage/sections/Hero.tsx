@@ -80,7 +80,7 @@ const Hero = () => {
               </Button>
               <Button
                 onClick={() => {
-                  router.push("/verifiy-ticket");
+                  router.push("/verify-ticket");
                 }}
                 className="flex items-center add-bank-account-border bg-black gap-[4px] p-[12px]"
               >

@@ -36,6 +36,8 @@ import img17 from "@/assets/Whats-Included/option17.svg";
 import img18 from "@/assets/Whats-Included/option18.svg";
 import img19 from "@/assets/Whats-Included/option19.svg";
 import img20 from "@/assets/Whats-Included/option20.svg";
+import blurqrcode from "@/assets/Wallet/BlurQrGreen.svg";
+
 
 interface Location {
   id: number;
@@ -173,7 +175,7 @@ export default function Specificqrcode() {
     return formattedDate;
   };
 
-  const ConvertTime = (timeStr: string): string => {
+  const ConvertTimeold = (timeStr: string): string => {
     // Ensure input is a string
     if (typeof timeStr !== "string") {
       console.error("Input must be a string");
@@ -217,6 +219,62 @@ export default function Specificqrcode() {
 
     return formattedTime;
   };
+
+  const ConvertTime = (timeStr: string): string => {
+    // Ensure input is a string
+    if (typeof timeStr !== "string") {
+      console.error("Input must be a string");
+      return "";
+    }
+    const isUTC = timeStr.endsWith("Z") ;
+    const utcDate = new Date(isUTC ? timeStr : `${timeStr}Z`);
+  
+    // Convert the input UTC time to a local time using the Date object
+
+    // const utcDate = new Date(`${timeStr}Z`); 
+    // Appending 'Z' to ensure UTC parsing
+    if (isNaN(utcDate.getTime())) {
+      console.error("Invalid time format");
+      return "";
+    }
+  
+    // Detect local time zone
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  
+    // Convert UTC date to local time string in "HH:MM" format
+    const localTime = utcDate.toLocaleTimeString("en-GB", {
+      timeZone: timeZone,
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  
+    // Split the time into hours and minutes
+    const [hoursStr, minutesStr] = localTime.split(":");
+    const hours = parseInt(hoursStr, 10);
+    const minutes = parseInt(minutesStr, 10);
+  
+    // Ensure the hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      console.error("Invalid time format");
+      return "";
+    }
+  
+    // Determine AM or PM
+    const period = hours >= 12 ? "PM" : "AM";
+  
+    // Convert hours from 24-hour to 12-hour format
+    const formattedHours = hours % 12 || 12; // Handle 0 as 12 for midnight
+  
+    // Format minutes with leading zero if necessary
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  
+    // Combine hours, minutes, and period
+    const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
+  
+    return formattedTime;
+  };
+  
   const locations: Location[] = [
     {
       id: 1,
@@ -316,7 +374,7 @@ export default function Specificqrcode() {
                     Ticket Price
                   </p>
                   <p className="font-bold text-start text-[24px]">£
-                  {TicketData?.event?.tickets[TicketData?.isIndex]?.price}
+                  {TicketData?.event?.tickets[TicketData?.isIndex]?.price ? TicketData?.event?.tickets[TicketData?.isIndex]?.price : '0' }
 
                   </p>
                 </div>
@@ -385,7 +443,10 @@ export default function Specificqrcode() {
             style={{ borderRadius: "12px" }}
             width={320}
             height={320}
-            src={TicketData?.qrCode}
+            // src={TicketData?.qrCode}
+             src={blurqrcode}
+
+
             alt="rhs"
             className="pt-[0px]"
           />

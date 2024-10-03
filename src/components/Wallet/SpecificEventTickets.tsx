@@ -22,8 +22,8 @@ import ScreenLoader from "../loader/Screenloader";
 import { getTicketByQR } from "@/lib/middleware/wallet";
 import { useRouter } from "next/navigation";
 import img1 from "@/assets/Handbag (1).svg";
-import blockchainblack from "@/assets/black blockchain-icon 2.svg"
-import arrow from "@/assets/arrow-right.svg"
+import blockchainblack from "@/assets/black blockchain-icon 2.svg";
+import arrow from "@/assets/arrow-right.svg";
 import img2 from "@/assets/Cake.svg";
 import img3 from "@/assets/Crown.svg";
 import img4 from "@/assets/Shield Star.svg";
@@ -43,6 +43,7 @@ import img17 from "@/assets/Whats-Included/option17.svg";
 import img18 from "@/assets/Whats-Included/option18.svg";
 import img19 from "@/assets/Whats-Included/option19.svg";
 import img20 from "@/assets/Whats-Included/option20.svg";
+import { ErrorToast } from "../reusable-components/Toaster/Toaster";
 interface Location {
   id: number;
   address: any;
@@ -130,6 +131,7 @@ export default function SpecificEventTickets() {
     dispatch(getTicketByQR(value));
   }, []);
 
+ 
   const TicketData = useAppSelector(
     (state) => state?.getTicketByQR?.myQRTickets?.data
   );
@@ -377,11 +379,11 @@ export default function SpecificEventTickets() {
                 </p> */}
               </div>
 
-              <Link href={`/wallet/enlare/${eventID}`} className="py-[16px]">
-              {/* <Link href={`/download-app`}> */}
+              <Link href={`/wallet/enlarge/${eventID}`} className="py-[16px]">
+                {/* <Link href={`/download-app`}> */}
 
                 <button className="font-extrabold text-sm rounded-[100px] mb-[24px] px-[16px] py-[10px] bg-[#00D059] text-black">
-                 Enlarge Code
+                  Enlarge Code
                 </button>
               </Link>
             </div>
@@ -403,27 +405,30 @@ export default function SpecificEventTickets() {
             </div>
             <div className="pt-[24px]">
               <h2 className="font-normal text-sm pb-[4px] text-start">
-              Ticket ID
+                Ticket ID
               </h2>
               <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">
                 {TicketData?.id}
               </h3>
             </div>
-            {/* <div className="flex justify-center items center">
-              <Link href="/verifiy-ticket" className="w-full">
-            <div className="flex p-[12px] bg-[#00D059] rounded-[100px] items-center my-[24px] justify-between w-full ">
-              <div className="flex">
-              <Image src={blockchainblack} alt="block-chain"/>
-              <p className="font-extrabold text-start text-sm mt-[3px] text-black ms-[12px]">
-              Verify on Blockchain
-              </p>
+            <div className="flex justify-center items center">
+              <Link href={`/verifiy-ticket/${eventID}`} className="w-full">
+              <div
+                className="flex p-[12px] bg-[#00D059] rounded-[100px] items-center my-[24px] justify-between w-full "
+                // onClick={() => verifyBlockchain()}
+              >
+                <div className="flex">
+                  <Image src={blockchainblack} alt="block-chain" />
+                  <p className="font-extrabold text-start text-sm mt-[3px] text-black ms-[12px]">
+                    Verify on Blockchain
+                  </p>
+                </div>
+                <div>
+                  <Image src={arrow} alt="arrow" />
+                </div>
               </div>
-              <div>
-              <Image src={arrow} alt="arrow"/>
-              </div>
+              </Link>
             </div>
-            </Link>
-            </div> */}
             {/* <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
               <Link
                 href={`https://sepolia.etherscan.io/tx/${TicketData?.txHash}`}

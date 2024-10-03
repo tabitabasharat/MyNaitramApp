@@ -28,6 +28,7 @@ import {
   ErrorToast,
 } from "../reusable-components/Toaster/Toaster";
 import ScreenLoader from "../loader/Screenloader";
+
 // const formSchema = z.object({
 //   subject: z.string().min(1, { message: "Subject cannot be empty." }),
 // });
@@ -36,7 +37,7 @@ const formSchema = z.object({
   subject: z.string().min(1, { message: "Ticket Id cannot be empty." }),
 });
 
-function VerifiyTicket() {
+function VerifiyTicketHome() {
   //   const form = useForm<z.infer<typeof formSchema>>({
   //     resolver: zodResolver(formSchema),
   //     defaultValues: {
@@ -69,12 +70,13 @@ function VerifiyTicket() {
   }, []);
 
   async function verifyBlockchain() {
-    // if(!ticketid)
-    //   {
-    //    ErrorToast("Ticket Id cannot be empty")
-    //    return;
-    //   }
     setLoader(true);
+    if(!ticketid)
+      {
+       ErrorToast("Ticket Id cannot be empty")
+       return;
+      }
+   
 
     try {
       const currentUrl: any =
@@ -87,29 +89,28 @@ function VerifiyTicket() {
         ticketInput: ticketid,
       };
 
-      dispatch(getTicketByQR(value)).then((res: any) => {
+      dispatch(getTicketByQR(ticketid)).then((res: any) => {
         console.log("inside the login", res);
         if (res?.payload?.status === 200) {
           setLoader(false);
           console.log("ticket res", res?.payload?.data);
-          localStorage.setItem("ticketId", value);
-          router.push(`/wallet/specific-qr-code/${value}`);
+          localStorage.setItem("ticketId", ticketid);
+          router.push(`/wallet/specific-qr-code/${ticketid}`);
         } else {
-          setLoader(false);
+        setLoader(false);
 
           ErrorToast("Ticket Not Found");
         }
       });
     } catch (error) {
-      setLoader(false);
+        setLoader(false);
       console.error("Error:", error);
     }
   }
 
   return (
     <div>
-      {loader && <ScreenLoader />}
-
+        {loader && <ScreenLoader/>}
       <section className="min-h-screen bg-cover bg-no-repeat bg-reward">
         <div className="lg:pt-[134px] lg:pb-[116px] w-full pb-[74px] py-[139px] md:px-[100px] lg:px-[216px] px-[24px]">
           <div className="flex gap-[16px] mb-[25px] md:mb-[32px] items-center ">
@@ -159,12 +160,13 @@ function VerifiyTicket() {
                     <FormControl>
                       <Input
                         placeholder="1234567890"
-                        value={eventId}
+                        // value={eventId}
+                        {...field}
                         className="pt-11 pb-5 ps-[45px] placeholder:text-white placeholder:text-base placeholder:font-normal"
-                        // onChange={(e) => {
-                        //   setTicketId(e.target.value);
-                        //   field.onChange(e);
-                        // }}
+                        onChange={(e) => {
+                          setTicketId(e.target.value);
+                          field.onChange(e);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -196,4 +198,4 @@ function VerifiyTicket() {
   );
 }
 
-export default VerifiyTicket;
+export default VerifiyTicketHome;
