@@ -434,7 +434,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                         </div>
                       )} */}
 
-                      {eventAttend?.length > 0 &&
+                      {eventAttendy?.length > 0 &&
                         eventAttend?.data?.some(
                           (attendee:any) => attendee?.profilePicture
                         ) && (
