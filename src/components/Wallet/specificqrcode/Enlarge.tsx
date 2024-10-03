@@ -3,27 +3,20 @@ import React from "react";
 import Image from "next/image";
 import Backbtn from "@/assets/Wallet/Back - Button.svg";
 import { Badge } from "@/components/ui/badge";
-import rhsimg from "@/assets/Wallet/Tickets.svg";
-import location from "../../assets/Location.svg";
-import candendar from "../../assets/calendar1.svg";
-import time from "../../assets/clock1.svg";
-import stall from "../../assets/stall1.svg";
-import food from "../../assets/dob1.svg";
-import vip from "../../assets/crown1.svg";
-import security from "../../assets/security.svg";
-// import info from "../../assets/Info.svg";
-import qrcode from "../../assets/QR Code.svg";
-import blurqrcode from "@/assets/Wallet/blure qr-code.svg";
-import blockchain from "../../assets/blockchain-icon 1.svg";
-import Link from "next/link";
+import rhsimg from "@/assets/qr.svg";
+import location from "@/assets/Location.svg";
+import candendar from "@/assets/calendar1.svg";
+import time from "@/assets/clock1.svg";
+import stall from "@/assets/stall1.svg";
+import food from "@/assets/dob1.svg";
+import vip from "@/assets/crown1.svg";
+import security from "@/assets/security.svg";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import ScreenLoader from "../loader/Screenloader";
+import ScreenLoader from "@/components/loader/Screenloader";
 import { getTicketByQR } from "@/lib/middleware/wallet";
 import { useRouter } from "next/navigation";
 import img1 from "@/assets/Handbag (1).svg";
-import blockchainblack from "@/assets/black blockchain-icon 2.svg"
-import arrow from "@/assets/arrow-right.svg"
 import img2 from "@/assets/Cake.svg";
 import img3 from "@/assets/Crown.svg";
 import img4 from "@/assets/Shield Star.svg";
@@ -43,6 +36,7 @@ import img17 from "@/assets/Whats-Included/option17.svg";
 import img18 from "@/assets/Whats-Included/option18.svg";
 import img19 from "@/assets/Whats-Included/option19.svg";
 import img20 from "@/assets/Whats-Included/option20.svg";
+
 interface Location {
   id: number;
   address: any;
@@ -50,7 +44,7 @@ interface Location {
 }
 interface Ticket {
   id: number;
-  address: string;
+  address: any;
   image: any;
 }
 
@@ -86,12 +80,13 @@ const Ticket: Ticket[] = [
   { id: 20, address: "Ticketing & Registration", image: img20 },
 ];
 
-// const imageMap: any = {
+// const imageMap:any = {
 //   "Merchandise Stalls": stall,
 //   "Food and Beverages": food,
 //   "VIP Lounge": vip,
 //   "Security and First Aid": security,
 // };
+
 const imageMap: any = {
   "Merchandise Stalls": img1,
   "Food and Beverages": img2,
@@ -114,8 +109,18 @@ const imageMap: any = {
   "Water Stations": img19,
   "Ticketing & Registration": img20,
 };
+const locations: Location[] = [
+  {
+    id: 1,
+    image: location,
 
-export default function SpecificEventTickets() {
+    address: "DOMA PUB Main floor, Light Street, London",
+  },
+  { id: 2, image: candendar, address: "Saturday, 5th March 2024" },
+  { id: 3, image: time, address: "5 PM - 12 AM" },
+];
+
+export default function Enlarge() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [eventID, setEventId] = useState("");
@@ -133,9 +138,7 @@ export default function SpecificEventTickets() {
   const TicketData = useAppSelector(
     (state) => state?.getTicketByQR?.myQRTickets?.data
   );
-  console.log("MY ticket data is", TicketData);
-
-  const userLoading = useAppSelector((state) => state?.getTicketByQR);
+  console.log("MY ticket data enlarge qr is", TicketData);
   const ConvertDate = (originalDateStr: string): string => {
     const originalDate = new Date(originalDateStr);
 
@@ -236,25 +239,24 @@ export default function SpecificEventTickets() {
   ];
   return (
     <section className="min-h-screen py-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
-      {userLoading.loading && <ScreenLoader />}
-      <div className="max-w-screen-lg lg:gap-[0px]   mx-auto text-center lg:text-left">
+      <div className="max-w-screen-lg lg:gap-[0px]  mx-auto text-center lg:text-left">
         {/* Container for back button and title */}
-        <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-8">
+        <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-[52px] lg:mb-[34px]">
           <Image
             src={Backbtn}
             alt="back"
-            className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]"
             onClick={() => router.back()}
+            className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]"
           />
           <p className="text-[20px] lg:text-[24px] font-bold">
             {TicketData?.event?.name}
           </p>
         </div>
         {/* Main content container */}
-        <div className="flex flex-col-reverse gap-[62px] justify-between items-center lg:flex-row">
+        <div className="flex flex-col-reverse justify-between items-center gap-[62px]  lg:flex-row">
           <div className="flex w-full flex-col">
             <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
-              <div className="flex gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 flex-wrap w-full lg:w-[100%]">
+              <div className="flex w-full gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 w-full lg:w-[100%] flex-wrap">
                 {TicketData?.event?.category?.length > 0 &&
                   TicketData?.event?.category?.map(
                     (category: any, index: any) => (
@@ -266,39 +268,59 @@ export default function SpecificEventTickets() {
                       </Badge>
                     )
                   )}
-
-                {/* <Badge className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]">
-                  Party
-                </Badge>
-                
-                <Badge className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]">
-                  TAKEOVR
-                </Badge> */}
               </div>
             </div>
             <div>
-              <h2 className="font-extrabold text-start text-[32px] lg:text-[48px] mb-[24px]">
+              <h2 className="font-extrabold text-start pb-[12px] lg:pb-[24px] text-[32px] lg:text-[48px]">
                 {TicketData?.event?.name}
               </h2>
               <div className="flex flex-col justify-center">
-                {locations?.map((location) => (
+                {locations.map((location) => (
                   <div
-                    key={location?.id}
+                    key={location.id}
                     className="flex items-center mb-[12px] gap-[8px]"
                   >
                     <Image
-                      src={location?.image}
+                      src={location.image}
                       width={30}
                       height={30}
                       // className=" "
                       alt="Location Icon"
                     />
                     <p className="font-bold text-start text-[16px]">
-                      {location?.address}
+                      {location.address}
                     </p>
                   </div>
                 ))}
               </div>
+              {/* <div className="">
+                <div>
+                  <p className="text-[#00D059] text-[13px] text-start font-bold mt-[12px] mb-[12px] md:mb-[8px]">
+                    Ticket ID
+                  </p>
+                  <p className="font-bold text-start text-[24px]">
+                    {TicketData?.id}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[#00D059] text-start text-[13px] font-bold mt-[12px] mb-[12px] md:mb-[8px]">
+                    Ticket Type
+                  </p>
+                  <p className="font-bold text-start text-[24px]">
+                    {" "}
+                    {TicketData?.event?.tickets[TicketData?.isIndex]?.type}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[#00D059] text-start text-[13px] font-bold mt-[12px] mb-[12px] md:mb-[8px]">
+                    Ticket Price
+                  </p>
+                  <p className="font-bold text-start text-[24px]">£
+                  {TicketData?.event?.tickets[TicketData?.isIndex]?.price}
+
+                  </p>
+                </div>
+              </div> */}
               <div className="flex flex-col justify-center">
                 <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
                   Included in this ticket type
@@ -313,7 +335,7 @@ export default function SpecificEventTickets() {
                         src={imageMap[Ticket?.label]}
                         width={20}
                         height={20}
-                        alt="Location Icon"
+                        alt={`${Ticket.label} icon`}
                         className=" me-[8px]"
                       />
                       <p className="font-bold text-start text-[16px]">
@@ -323,7 +345,6 @@ export default function SpecificEventTickets() {
                   )
                 )}
               </div>
-
               {/* <div className="flex flex-col justify-center">
                 <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
                   Included in this ticket type
@@ -344,7 +365,7 @@ export default function SpecificEventTickets() {
                             width={20}
                             height={20}
                             alt={`${option.label} icon`}
-                            className="me-[8px]"
+                            className=" me-[8px]"
                           />
                           <p className="font-bold text-start text-[16px] ">
                             {option?.label}
@@ -357,95 +378,19 @@ export default function SpecificEventTickets() {
               </div> */}
             </div>
           </div>
-          <div className="bg-ticket-img sm:w-[408px] md:w-[408px] lg:w-[408px] w-full rounded-[12px] pt-[32px] px-[20px] pb-[2px]">
-            {/* <div className="flex justify-end">
-              <Image src={info} alt="img" />
-            </div> */}
-            <div className="flex flex-col justify-center items-center">
-              <div className="flex items-center justify-center flex-col">
-                <Image
-                  style={{ borderRadius: "12px" }}
-                  width={144}
-                  height={144}
-                  src={TicketData?.qrCode}
-                  // src={blurqrcode}
-                  alt="img"
-                />
-                {/* <p className="text-center py-[16px] text-[14px] ">
-                  Please view the ticket QR code on<br></br> the Naitram Mobile
-                  App{" "}
-                </p> */}
-              </div>
+          {/* <div style={{background:"#00A849",borderRadius:"12px"}}  */}
+          {/* > */}
 
-              <Link href={`/wallet/enlare/${eventID}`} className="py-[16px]">
-              {/* <Link href={`/download-app`}> */}
-
-                <button className="font-extrabold text-sm rounded-[100px] mb-[24px] px-[16px] py-[10px] bg-[#00D059] text-black">
-                 Enlarge Code
-                </button>
-              </Link>
-            </div>
-            <div>
-              <h2 className="font-normal text-sm pb-[4px] text-start">
-                Event Name
-              </h2>
-              <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">
-                {TicketData?.event?.name}
-              </h3>
-            </div>
-            <div className="pt-[24px]">
-              <h2 className="font-normal text-sm pb-[4px] text-start">
-                Ticket Type
-              </h2>
-              <h3 className="font-extrabold text-base pb-[24px] border-b border-dashed border-[#00D059] text-start">
-                {TicketData?.event?.tickets[TicketData?.isIndex]?.type}
-              </h3>
-            </div>
-            <div className="pt-[24px]">
-              <h2 className="font-normal text-sm pb-[4px] text-start">
-              Ticket ID
-              </h2>
-              <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">
-                {TicketData?.id}
-              </h3>
-            </div>
-            {/* <div className="flex justify-center items center">
-              <Link href="/verifiy-ticket" className="w-full">
-            <div className="flex p-[12px] bg-[#00D059] rounded-[100px] items-center my-[24px] justify-between w-full ">
-              <div className="flex">
-              <Image src={blockchainblack} alt="block-chain"/>
-              <p className="font-extrabold text-start text-sm mt-[3px] text-black ms-[12px]">
-              Verify on Blockchain
-              </p>
-              </div>
-              <div>
-              <Image src={arrow} alt="arrow"/>
-              </div>
-            </div>
-            </Link>
-            </div> */}
-            {/* <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
-              <Link
-                href={`https://sepolia.etherscan.io/tx/${TicketData?.txHash}`}
-                target="_blank"
-              >
-                <h2 className="font-normal text-sm text-start">
-                  Transaction ID
-                </h2>
-                <h3 className="font-bold text-base text-start">
-                  {TicketData?.txHash
-                    ? TicketData?.txHash.length > 20
-                      ? `${TicketData?.txHash.slice(0, 19)}...`
-                      : TicketData?.txHash
-                    : "0"}
-                </h3>
-              </Link>
-              <div>
-                <Image src={blockchain} alt="img" />
-              </div>
-            </div> */}
-          </div>
+          <Image
+            style={{ borderRadius: "12px" }}
+            width={320}
+            height={320}
+            src={TicketData?.qrCode}
+            alt="rhs"
+            className="pt-[0px]"
+          />
         </div>
+        {/* </div> */}
       </div>
     </section>
   );

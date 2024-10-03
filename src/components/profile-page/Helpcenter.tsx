@@ -211,7 +211,7 @@ const Helpcenter = ({
   }
 
   return (
-    <div className="w-full xl:w-[700px] lg:w-[600px] lg:ps-[170px]  mt-[45px] md:mx-auto  lg:mt-[92px] lg:mx-0 relative lg:h-[100vh] h-[90vh] overflow-y-auto">
+    <div className="w-full xl:w-[700px] lg:w-[600px] lg:ps-[170px]  mt-[45px] md:mx-auto  lg:mt-[92px] lg:mx-0 relative h-[100vh] md:overflow-y-hidden overflow-y-auto">
       <h2 className="font-bold ms-[24px] lg:ms-[0px] text-[24px] lg:text-[32px] mb-[24px] sm:mb-[53px] lg:text-[16px]">
         Help Center
       </h2>
@@ -430,7 +430,7 @@ const Helpcenter = ({
                     </>
                   ) : (
                     <div className="flex items-center justify-center h-full">
-                      <div className="py-[24px] flex items-center flex-col gap-[14px] justify-center w-[300px] rounded-[12px] gradient-slate box-shadow-inset-empty border-gradient-emptyF">
+                      <div className="py-[24px] flex items-center flex-col gap-[14px] justify-center w-[230px] sm:w-[300px] rounded-[12px] gradient-slate box-shadow-inset-empty border-gradient-emptyF">
                         <p className="text-[16px] text-extrabold">
                           There's No Attachment
                         </p>
@@ -474,7 +474,7 @@ const Helpcenter = ({
                 </p>
               )}
 
-              <div className="flex justify-start md:relative absolute bottom-[0px] mb-[70px] w-[100%] sm:w-[200px] mt-[50px]">
+              <div className="flex justify-start md:relative mt-[176px] md:mt-[50px] absolute bottom-[0px] mb-[70px] w-[100%] lg:w-[200px]">
                 <Button
                   type="submit"
                   className="w-full p-[12px] font-extrabold py-[12px] text-sm md:text-base "

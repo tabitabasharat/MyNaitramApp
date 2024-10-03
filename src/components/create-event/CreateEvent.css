@@ -76,12 +76,12 @@
   
 }
 .scrollbar-hide::-webkit-scrollbar {
-  display: none !important; /* Hide scrollbar in Chrome, Safari, Edge */
+  display: none !important;
 }
 
 .scrollbar-hide {
-  -ms-overflow-style: none !important; /* Hide scrollbar in IE and Edge */
-  scrollbar-width: none !important; /* Hide scrollbar in Firefox */
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important; 
 }
 .create-inner {
   padding-top: 180px;

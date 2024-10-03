@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-
+import greenticket from "@/assets/greenTicket.svg"
 
 const Hero = () => {
   const router = useRouter();
@@ -77,6 +77,15 @@ const Hero = () => {
               >
                 <DownloadSimple size={20} weight="bold" />
                 <p className=" font-extrabold text-sm"> Download App</p>
+              </Button>
+              <Button
+                onClick={() => {
+                  router.push("/verifiy-ticket");
+                }}
+                className="flex items-center add-bank-account-border bg-black gap-[4px] p-[12px]"
+              >
+                <Image src={greenticket} alt="greenticket"/>
+                <p className=" font-extrabold text-base text-[#00D059]"> Verify Ticket</p>
               </Button>
               {/* <div>
                 <Button

@@ -119,7 +119,7 @@ const ScannerCredentials = () => {
     }
   }
   return (
-    <div className="w-full md:w-[70%] px-[24px] xl:ps-[172px] md:mx-auto lg:w-full mt-[50px] md:mt-[90px] lg:mx-0 lg:h-[auto]">
+    <div className="w-full md:w-[70%] px-[24px] xl:ps-[172px] md:mx-auto lg:w-full mt-[80px] md:mt-[90px] lg:mx-0 lg:h-[auto]">
       {loader && <ScreenLoader />}
 
       <h2 className="font-bold ms-[24px] md:ms-[0px]  text-[15px] lg:font-extrabold lg:text-[24px]">

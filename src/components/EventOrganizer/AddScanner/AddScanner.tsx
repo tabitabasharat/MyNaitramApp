@@ -201,7 +201,7 @@ const AddScanner = () => {
   }
 
   return (
-    <div className="w-full md:w-[70%] px-[24px] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
+    <div className="w-full md:w-[70%] px-[24px] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative h-[100vh]">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
@@ -209,7 +209,7 @@ const AddScanner = () => {
         Add Scanner
       </h2>
       <div className="flex flex-col lg:flex-row mt-[32px]">
-        <div className="w-full md:w-full relative h-[85vh] lg:h-[auto] lg:w-[600px]">
+        <div className="w-full md:w-full relative h-[100vh] lg:h-[auto] lg:w-[600px]">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(updateActivity)}
@@ -323,7 +323,7 @@ const AddScanner = () => {
                 )}
               </div>
 
-              <div className="flex justify-start w-full md:relative absolute bottom-[0px] mb-[49px] lg:justify-end">
+              <div className="flex justify-start w-full relative absolute bottom-[0px] mb-[50px] lg:justify-end">
                 <Button
                   type="submit"
                   className="w-full lg:font-bold font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base"

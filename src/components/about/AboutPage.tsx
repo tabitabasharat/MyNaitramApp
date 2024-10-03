@@ -65,17 +65,17 @@ export default function AboutPage ()  {
             </div>
           </Reveal>
 
-          <div className="max-w-[1140px] mx-auto flex items-center  p-10px flex-wrap">
+          <div className="max-w-[1140px] mx-auto flex flex-col md:flex-row items-center  p-10px flex-wrap">
             <button className="text-lg bg-[#61CE7000] py-[12px] px-[55px] color-[#009540] border-[#009540] rounded-[34px] w-auto border-2">
               Blockchain
             </button>
-            <p className="text-[41px] text-[#009540] font-[600] px-[20px] text-center py-[12px]  h-[73px]">
+            <p className="text-[41px] text-[#009540] font-[600] px-[20px] text-center md:py-[12px] md:h-[73px]">
               +
             </p>
             <button className="text-lg bg-[#61CE7000] py-[12px] px-[55px] color-[#009540] border-[#009540] rounded-[34px] w-auto border-2">
               Events
             </button>
-            <p className="text-[41px] text-[#009540] font-[600] px-[20px] py-[12px] h-[73px]">
+            <p className="text-[41px] text-[#009540] font-[600] px-[20px] md:py-[12px] md:h-[73px]">
               =
             </p>
             <button className="text-lg bg-[#61CE7000] py-[12px] px-[55px] color-[#009540] border-[#009540] rounded-[34px] w-auto border-2">
