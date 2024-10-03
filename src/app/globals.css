@@ -644,9 +644,7 @@ input[type="number"] {
 .rounded-stlying{
   border-radius: 12px;
 }
-.scrolling-issue{
-  overflow-y: auto !important;
-}
+
 .event-width-adjustment{
   width:100% !important;
     }
@@ -792,6 +790,7 @@ input[type="number"] {
     background-image: url("../assets/Blur.svg");
     background-repeat: no-repeat;
   }
+
 }
 @media (min-width: 1023px) and (max-width: 1090px) {
   .event-width-adjustment {
@@ -820,6 +819,9 @@ width: 576px !important;
   .width-card-ajustment-get-paid{
     width: 345px;
     height: 345px;
+  }
+  .scrolling-issue{
+    overflow-y: auto !important;
   }
 }
 @media (max-width:374px) {
