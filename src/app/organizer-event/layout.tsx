@@ -22,7 +22,7 @@ export default function RootLayout({
           ? { position: "relative"}
           : { position: "relative", overflow: "hidden"}
       }
-      className={`flex main-box mx-2xl ${!isLunchEventRoute && 'lunch-event-stlying'} min-h-[100vh] lg:min-h-5vh] lg:min-h-[100vh]`}
+      className={`flex main-box mx-2xl ${!isLunchEventRoute && 'lunch-event-stlying'} lg:min-h-[100vh]`}
     >
       <div
         style={
