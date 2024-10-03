@@ -120,21 +120,19 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
       typeof window !== "undefined" ? window.location.href : null;
 
     if (currentUrl) {
-        const url = new URL(currentUrl);
-        const pathname = url.pathname;
-        const parts = pathname.split("/");
-        const eventId = parts[parts.length - 1];
+      const url = new URL(currentUrl);
+      const pathname = url.pathname;
+      const parts = pathname.split("/");
+      const eventId = parts[parts.length - 1];
 
-        console.log("my event id is", eventId);
-        setEventId(eventId); 
+      console.log("my event id is", eventId);
+      setEventId(eventId);
 
-        
-        dispatch(getEventByEventId(eventId));
-        dispatch(getEventAttend(eventId));
-        dispatch(getOrganizerSocialProfile(EventData?.userId));
+      dispatch(getEventByEventId(eventId));
+      dispatch(getEventAttend(eventId));
+      dispatch(getOrganizerSocialProfile(EventData?.userId));
     }
-}, []);
-
+  }, []);
 
   useEffect(() => {
     dispatch(getEventCount(EventData?.userId));
@@ -227,7 +225,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   useEffect(() => {
     const myuserid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-   
+
     // dispatch(getEventCount(userId));
     // dispatch(getOrganizerByID(EventData?.userId));
 
@@ -236,7 +234,6 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     //   userId: myuserid,
     // };
     // dispatch(getFollowingPromoters(data));
-   
   }, []);
   return (
     <section className="bg-img ">
@@ -436,36 +433,56 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
                       {eventAttendy?.length > 0 &&
                         eventAttend?.data?.some(
-                          (attendee:any) => attendee?.profilePicture
+                          (attendee: any) => attendee?.profilePicture
                         ) && (
                           <div className="flex -space-x-3">
-                            {eventAttend.data.map((attendee:any, index :any) =>
-                              attendee?.profilePicture  ? (
-                                <Image
-                                  key={index}
-                                  src={attendee?.profilePicture}
-                                  width={48}
-                                  height={48}
-                                  alt="avatar"
-                                  className="rounded-full border border-[#034C22] z-[1] size-[48px]"
-                                />
-                              ) : (
-                                <Image
-                                  key={index}
-                                  src={
-                                    index === 0
-                                      ? Avatar1
-                                      : index === 1
-                                      ? Avatar2
-                                      : Avatar3
-                                  }
-                                  width={48}
-                                  height={48}
-                                  alt="default avatar"
-                                  className="rounded-full border border-[#034C22] z-[1] size-[48px]"
-                                />
-                              )
-                            )}
+                            {(() => {
+                              // Function to randomly select one of the three avatars
+                              const getRandomAvatar = () => {
+                                const avatars = [Avatar1, Avatar2, Avatar3];
+                                return avatars[
+                                  Math.floor(Math.random() * avatars.length)
+                                ];
+                              };
+
+                              // Filter to get attendees with profile pictures
+                              const attendeesWithPictures =
+                                eventAttend.data.filter(
+                                  (attendee: any) => attendee?.profilePicture
+                                );
+
+                              // Shuffle the array of attendees with profile pictures
+                              const shuffledAttendees =
+                                attendeesWithPictures.sort(
+                                  () => 0.5 - Math.random()
+                                );
+
+                              // Slice the shuffled array to get up to 3 random attendees
+                              const selectedAttendees = shuffledAttendees.slice(
+                                0,
+                                3
+                              );
+
+                              // If there are fewer than 3 attendees with pictures, fill with random avatars
+                              while (selectedAttendees.length < 3) {
+                                selectedAttendees.push({
+                                  profilePicture: getRandomAvatar(),
+                                });
+                              }
+
+                              return selectedAttendees.map(
+                                (attendee: any, index: any) => (
+                                  <Image
+                                    key={index}
+                                    src={attendee?.profilePicture}
+                                    width={48}
+                                    height={48}
+                                    alt="avatar"
+                                    className="rounded-full border border-[#034C22] z-[1] size-[48px]"
+                                  />
+                                )
+                              );
+                            })()}
                           </div>
                         )}
 
@@ -482,9 +499,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                             {eventAttendy[0]?.fullname} and{" "}
                             {eventAttendy.length - 1} others going
                           </>
-                        ) : (
-                          null
-                        )}
+                        ) : null}
                       </h3>
                       <p className="text-[#BFBFBF] text-[12px] pt-[4px]">
                         Tap to see the live activities
