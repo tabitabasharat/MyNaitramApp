@@ -188,7 +188,7 @@ function EventSales() {
           />
         </div>
         <div>
-          <div className="bg-[#00A849] border border-solid border-[#757575] py-[8px] px-[12px] w-[124px] lg:w-[135px] rounded-[100px]">
+          <div className="bg-[#00A849] border border-solid border-[#757575] py-[8px] px-[12px] w-[135px] lg:w-[135px] rounded-[100px]">
             <p className="text-[#030303] italic text-[11px] lg:font-extrabold font-[900] lg:text-[12px]">
               FEATURED EVENT
             </p>

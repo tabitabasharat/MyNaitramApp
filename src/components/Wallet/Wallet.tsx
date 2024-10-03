@@ -39,7 +39,7 @@ export default function Wallet() {
       .includes(searchQueryCollectibles.toLowerCase())
   );
 
-  console.log("my filtered collectibles are ", filteredCollectibles);
+  console.log("my filtered scollectibles are ", filteredCollectibles);
   console.log("my wallet collectibles are ", myWalletCollect);
 
   const mytickets = useAppSelector(

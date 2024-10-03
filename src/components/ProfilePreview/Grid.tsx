@@ -13,7 +13,7 @@ const Grid = () => {
         Upcoming Events
       </h2>
       {myProfile?.data?.events ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-[12px] lg:gap-[20px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-[12px] lg:gap-[20px]">
           {myProfile?.data?.events &&
             myProfile?.data?.events.map((post: any) => (
               <Cards

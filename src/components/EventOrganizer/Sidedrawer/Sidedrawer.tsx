@@ -18,6 +18,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import sponser from "@/assets/sponser.svg"
 import { styled, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -100,6 +101,14 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
       url: "/organizer-event/sacnner-login",
     },
   ];
+  const help = [
+    {
+      text:"Get Sponsored", icon :sponser , url:"/get-sponsor"
+    },
+    {
+      text:"Help Center", icon :heplcenter , url:"/organizer-event/helpcenter"
+    },
+  ]
   const payments = [
     { text: "Get Paid", icon: money, url: "/organizer-event/get-paid" },
     {
@@ -133,7 +142,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
 
   const drawer = (
     <>
-      <div className="ps-[24px] pe-[24px] bg-[black] scrolling-issue">
+      <div className="ps-[24px] pe-[24px] bg-[black] scrolling-issue overflow-y-auto scrollbar-hide">
         <List className="bg-[black] p-[0px] text-[white]">
           <div className="flex justify-left items-center  mb-[24px] lg:pt-[32px]">
             {mobileOpen && (
@@ -296,27 +305,29 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">
             HELP
           </h3>
-          <Link href="/organizer-event/helpcenter">
-            <ListItem
-              className={`text-xl font-bold ${
-                activeItem === "Help center" ? "gradient-border rounded-lg" : ""
-              }`}
-              disablePadding
-              onClick={() => handleItemClick("Help center")}
-            >
-              <ListItemButton className="p-[10px]">
-                <ListItemIcon style={{ minWidth: "0px" }} className="pr-[6px]">
-                  <Image
-                    src={heplcenter}
-                    alt="Delete Account"
-                    width={16}
-                    height={16}
-                  />
-                </ListItemIcon>
-                <ListItemText primary="Help center" />
-              </ListItemButton>
-            </ListItem>
-          </Link>
+          {help.map((item)=>(
+          <Link href={item.url} key={item.text}>
+          <ListItem
+            className={`text-xl font-bold ${
+              activeItem === item.text ? "gradient-border rounded-lg" : ""
+            }`}
+            disablePadding
+            onClick={() => handleItemClick(item.text)}
+          >
+            <ListItemButton className="p-[10px]">
+              <ListItemIcon style={{ minWidth: "0px" }} className="pr-[6px]">
+                <Image
+                  src={item.icon}
+                  alt={item.text}
+                  width={16}
+                  height={16}
+                />
+              </ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+          ))}
         </List>
       </div>
     </>
@@ -380,7 +391,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
               background: "black",
               marginTop: "87px",
               position: "relative",
-              overflowY: "auto",
+              overflowY:"auto"
             },
             "& .MuiTypography-root": {
               fontSize: "14px",

@@ -367,7 +367,7 @@ body {
 }
 .gradient-border-notify {
   position: relative;
-  border-radius: 44px; /* This controls the rounding of the corners */
+  border-radius: 44px !important; /* This controls the rounding of the corners */
 }
 .hide-text{
   display: none;
@@ -376,7 +376,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: inherit; /* Inherit the border-radius from the parent */
+  border-radius: 44px !important; /* Inherit the border-radius from the parent */
   padding: 1px; /* Adjust this value to control the thickness of the border */
   background: linear-gradient(
     135deg,
@@ -693,6 +693,10 @@ input[type="number"] {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+.scrolling-issue{
+  overflow-y: auto !important;
+  scroll-behavior: none;
+}
 .no-border-table {
   border-collapse: collapse; /* Ensures no spacing between cells */
 }
@@ -792,6 +796,7 @@ input[type="number"] {
     background-image: url("../assets/Blur.svg");
     background-repeat: no-repeat;
   }
+
 }
 @media (min-width: 1023px) and (max-width: 1090px) {
   .event-width-adjustment {
@@ -829,5 +834,11 @@ width: 576px !important;
   }
   .alignment-text{
     text-align: start;
+  }
+}
+@media (max-width:600px) {
+  .scrolling-issue{
+    overflow-y: auto !important;
+    scroll-behavior: none;
   }
 }

@@ -60,8 +60,8 @@ const ProfilePreview = () => {
   return (
     <div className="flex flex-col w-full md:flex-row w-full items-center justify-between">
       <div className="flex flex-col w-[100%] md:flex-row gap-[24] md:gap-[32px] justify-center items-center md:justify-start md:items-start">
-        <GoldGradientBorder className="w-fit rounded-full p-[3px] h-fit">
-          <div className="bg-black rounded-full p-[7px]">
+        <GoldGradientBorder className="w-fit md:w-[160px] rounded-full p-[3px] h-fit">
+          <div className="bg-black h-[136px] rounded-full p-[7px]">
             <Image
               src={
                 myProfile?.data?.profile?.profilePicture
@@ -70,7 +70,7 @@ const ProfilePreview = () => {
               }
               width={136}
               height={136}
-              className="h-[128px] w-[128px] sm:h-[136px] sm:w-[136px] object-cover object-top rounded-full"
+              className="h-[128px] w-[128px] sm:h-[120px] sm:w-[120px] object-cover object-top rounded-full"
               placeholder={`data:image/svg+xml;base64,${toBase64(
                 shimmer(1200, 1800)
               )}`}
@@ -125,7 +125,7 @@ const ProfilePreview = () => {
               <p className="text-[12px] opacity-50">ATTENDED</p>
             </div>
           </div>
-          <p className="font-normal text-center md:text-start break-words overflow-hidden lg:w-[70%] w-full text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
+          <p className="font-normal text-center md:text-start break-words overflow-hidden w-full lg:w-[70%] text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
             {myProfile?.data?.profile?.bio}
           </p>
           <div className="flex flex-wrap justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">

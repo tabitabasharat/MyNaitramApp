@@ -199,7 +199,7 @@ const SignInModal = ({
             //   console.log("profile");
             // }
           } else {
-            console.log("this is the response of signin", res);
+            console.log("this is the response of sign in", res);
             setLoader(false);
             ErrorToast(res?.payload?.message);
           }
