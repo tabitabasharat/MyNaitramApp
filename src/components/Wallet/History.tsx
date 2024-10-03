@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getUserSocialProfile } from "@/lib/middleware/profile";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 // import { Image } from "next/image";
 import Image from "next/image";
@@ -22,18 +22,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "../ui/textarea";
+import rocket from "@/assets/Wallet/rocket-empty.svg";
+
 import { getwallethistory } from "@/lib/middleware/wallet";
-
-
 
 const formSchema = z.object({
   subject: z.string().min(1, { message: "Subject cannot be empty." }),
 });
 
 function History() {
-
-
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth()); 
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,12 +58,15 @@ function History() {
 
   console.log("my wallet history is", myHistory);
 
-  const groupByMonth = (history:any) => {
-    const grouped :any = {};
+  const groupByMonth = (history: any) => {
+    const grouped: any = {};
 
-    history.forEach((item:any) => {
+    history.forEach((item: any) => {
       const date = new Date(item.date);
-      const monthYear = date.toLocaleString("default", { year: "numeric", month: "long" });
+      const monthYear = date.toLocaleString("default", {
+        year: "numeric",
+        month: "long",
+      });
 
       if (!grouped[monthYear]) {
         grouped[monthYear] = [];
@@ -76,8 +77,10 @@ function History() {
     return grouped;
   };
 
-  const groupedHistory = myHistory?.history ? groupByMonth(myHistory.history) : {};
-  console.log("my history is", groupedHistory)
+  const groupedHistory = myHistory?.history
+    ? groupByMonth(myHistory.history)
+    : {};
+  console.log("my history is", groupedHistory);
   return (
     <div>
       <section className="min-h-screen bg-cover bg-no-repeat bg-reward">
@@ -94,30 +97,43 @@ function History() {
               History
             </h3>
           </div>
-         
-       
-          {Object.entries(groupedHistory).map(([monthYear, entries]:any) => (
-            <div key={monthYear}>
-              <p className="font-bold text-sm mb-[10px] md:mb-[8px] md:text-base text-[#E6E6E6]">
-                {monthYear}
-              </p>
-              <div className="flex gap-[12px] mb-[28px] lg:mb-[40px] flex-col">
-                {entries.map((item:any, index:any) => (
-                  <div
-                    className="gradient-slate rounded-[8px] py-[24px] px-[38px] lg:px-[24px] lg:pt-[24px] lg:pb-[32px]"
-                    key={index}
-                  >
-                    <p className="text-base md:text-8 font-extrabold">
-                      {item.amount} MRT
-                    </p>
-                    <p className="text-[#8F8F8F] text-[12px] font-normal">
-                      {item.type}
-                    </p>
-                  </div>
-                ))}
+
+          {myHistory?.history?.length > 0 ? (
+            Object.entries(groupedHistory)?.map(([monthYear, entries]: any) => (
+              <div key={monthYear}>
+                <p className="font-bold text-sm mb-[10px] md:mb-[8px] md:text-base text-[#E6E6E6]">
+                  {monthYear}
+                </p>
+                <div className="flex gap-[12px] mb-[28px] lg:mb-[40px] flex-col">
+                  {entries.map((item: any, index: any) => (
+                    <div
+                      className="gradient-slate rounded-[8px] py-[24px] px-[38px] lg:px-[24px] lg:pt-[24px] lg:pb-[32px]"
+                      key={index}
+                    >
+                      <p className="text-base md:text-8 font-extrabold">
+                        {item.amount} MRT
+                      </p>
+                      <p className="text-[#8F8F8F] text-[12px] font-normal">
+                        {item.type}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="relative gradient-slate py-[94.5px] border border-[#292929] flex items-center justify-center flex-col gap-[12px] rounded-[12px] w-full">
+              <p className="text-[16px] text-extrabold">There's no History</p>
+              <button
+                className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto "
+                onClick={() => router.push("/wallet")}
+              >
+                <Image src={rocket} alt="add-icon" />
+                See What's On
+              </button>
             </div>
-          ))}
+          )}
+
           {/* <div className="flex gap-[12px] mb-[28px] lg:mb-[40px] flex-col">
             {filteredHistory?.length > 0 &&
               filteredHistory?.map((item: any, index: any) => {

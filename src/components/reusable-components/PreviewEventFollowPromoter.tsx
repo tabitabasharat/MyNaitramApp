@@ -22,7 +22,7 @@ import {
 } from "@/lib/middleware/organizer";
 import { YoutubeLogo } from "@phosphor-icons/react";
 
-const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
+const PreviewEventFollowPromoter = ({ userId, eventName, eventDATA }: any) => {
   const dispatch = useAppDispatch();
   const [userToken, setUserToken] = useState<any>();
   useEffect(() => {
@@ -67,18 +67,17 @@ const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
           alt="promoter"
         />
         <div>
-         
-            <p className="font-bold text-[14px]  font-bold flex items-center gap-1  capitalize">
-              {myProfile?.userProfile?.fullname}
-              {/* { myEvents?.data?.data[0]?.user?.fullname} */}
-              {/* <Image src={verifiedimg} alt="img" width={10.5} height={10.5} /> */}
-              {/* <SealCheck
+          <p className="font-bold text-[14px]  font-bold flex items-center gap-1  capitalize">
+            {myProfile?.userProfile?.fullname}
+            {/* { myEvents?.data?.data[0]?.user?.fullname} */}
+            {/* <Image src={verifiedimg} alt="img" width={10.5} height={10.5} /> */}
+            {/* <SealCheck
                 className="text-[#FFC109] -translate-y-1"
                 size={17}
                 weight="fill"
               /> */}
-            </p>
-      
+          </p>
+
           <p className="text-[#FFFFFF3D] text-[12px]">
             <span className="text-[11px] text-[#E6E6E6]">
               {myProfile?.profile?.totalEvents} Events
@@ -100,18 +99,20 @@ const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
         </Button>
         } */}
         <div className="flex gap-3 flex-wrap h-full">
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
-            <InstagramLogo
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                typeof window !== "undefined"
-                  ? window.open(eventDATA?.instaurl, "_blank")
-                  : null;
-              }}
-              size={16}
-              weight="fill"
-            />
-          </div>
+          {eventDATA?.instaurl !== "https://instagram.com/" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <InstagramLogo
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(eventDATA?.instaurl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
           {/* <div className="border border-white w-fit p-2 rounded-full">
             <TwitterLogo
               style={{ cursor: "pointer" }}
@@ -123,67 +124,78 @@ const PreviewEventFollowPromoter = ({ userId, eventName,  eventDATA }: any) => {
               size={25}
               weight="fill"
             />
+          
           </div> */}
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
-            <FacebookLogo
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                typeof window !== "undefined"
-                  ? window.open(eventDATA?.fburl, "_blank")
-                  : null;
-              }}
-              size={16}
-              weight="fill"
-            />
-          </div>
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
-            <TiktokLogo
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                typeof window !== "undefined"
-                  ? window.open(eventDATA?.tiktokurl, "_blank")
-                  : null;
-              }}
-              size={16}
-              weight="fill"
-            />
-          </div>
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
-            <LinkedinLogo
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                typeof window !== "undefined"
-                  ? window.open(eventDATA?.linkedinurl, "_blank")
-                  : null;
-              }}
-              size={16}
-              weight="fill"
-            />
-          </div>
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
-            <TelegramLogo
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                typeof window !== "undefined"
-                  ? window.open(eventDATA?.telegramurl, "_blank")
-                  : null;
-              }}
-              size={16}
-              weight="fill"
-            />
-          </div>
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
-            <YoutubeLogo
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                typeof window !== "undefined"
-                  ? window.open(eventDATA?.youtubeurl, "_blank")
-                  : null;
-              }}
-              size={16}
-              weight="fill"
-            />
-          </div>
+          {eventDATA?.fburl !== "https://www.facebook.com/" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <FacebookLogo
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(eventDATA?.fburl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
+          {eventDATA?.tiktokurl !== "https://www.tiktok.com/@" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <TiktokLogo
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(eventDATA?.tiktokurl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
+          {eventDATA?.linkedinurl !== "https://linkedin.com/in/" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <LinkedinLogo
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(eventDATA?.linkedinurl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
+          {eventDATA?.telegramurl !== "https://t.me/" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <TelegramLogo
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(eventDATA?.telegramurl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
+          {eventDATA?.youtubeurl !== "https://www.youtube.com/" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <YoutubeLogo
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(eventDATA?.youtubeurl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

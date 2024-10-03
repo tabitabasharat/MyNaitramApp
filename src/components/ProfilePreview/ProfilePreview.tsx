@@ -26,7 +26,6 @@ const ProfilePreview = () => {
   const [userName, setUsername] = useState<any>("");
   const [userId, setUserId] = useState<any>("");
 
-
   useEffect(() => {
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -39,11 +38,11 @@ const ProfilePreview = () => {
     setUsername(username);
 
     console.log("user id ", userid);
- 
   }, []);
 
   useEffect(() => {
-    const currentUrl:any = typeof window !== "undefined" ? window.location.href:null;
+    const currentUrl: any =
+      typeof window !== "undefined" ? window.location.href : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setUserId(value);
@@ -113,9 +112,7 @@ const ProfilePreview = () => {
 
           <div className="md:hidden border border-[#0FFF7730] rounded-lg gradient-slate flex justify-evenly items-center w-full  mt-[20px]">
             <div className="flex flex-col items-center py-[16px] justify-center font-bold text-center">
-              <p className="text-[18px]">
-                {myProfile?.data?.profile?.totalEvents}
-              </p>
+              <p className="text-[18px]">{myProfile?.data?.events?.length}</p>
               <p className="text-[12px] opacity-50">EVENTS</p>
             </div>
             <div className="w-px h-8 bg-white/20"></div>
@@ -128,82 +125,119 @@ const ProfilePreview = () => {
               <p className="text-[12px] opacity-50">ATTENDED</p>
             </div>
           </div>
-          <p className="font-normal text-center md:text-start break-words overflow-hidden w-[70%] text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
+          <p className="font-normal text-center md:text-start break-words overflow-hidden lg:w-[70%] w-full text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
             {myProfile?.data?.profile?.bio}
           </p>
           <div className="flex flex-wrap justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
-            <Link
-              href={myProfile?.data?.profile?.instaUrl || "#"}
-              passHref
-              target="_blank"
-            >
-              <div className="border border-white w-fit h-fit sm:p-3 p-[10px] flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-                <InstagramLogo
-                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-                  weight="fill"
-                />
-              </div>
-            </Link>
-            <Link
-              href={myProfile?.data?.profile?.telegramUrl || "#"}
-              target="_blank"
-            >
-              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-                <TelegramLogo
-                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-                  weight="fill"
-                />
-              </div>
-            </Link>
-            <Link href={myProfile?.data?.profile?.fbUrl || "#"} target="_blank">
-              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] h-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-                <FacebookLogo
-                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-                  weight="fill"
-                />
-              </div>
-            </Link>
-            <Link
-              href={myProfile?.data?.profile?.twitterUrl || "#"}
-              target="_blank"
-            >
-              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-                <TwitterLogo
-                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-                  weight="fill"
-                />
-              </div>
-            </Link>
-            <Link
-              href={myProfile?.data?.profile?.youtubeUrl || "#"}
-              target="_blank"
-            >
-              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-                <YoutubeLogo
-                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-                  weight="fill"
-                />
-              </div>
-            </Link>
-            <Link href={myProfile?.data?.profile?.fbUrl || "#"} target="_blank">
-              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-                <TiktokLogo
-                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-                  weight="fill"
-                />
-              </div>
-            </Link>
-            <Link
-              href={myProfile?.data?.profile?.linkedinUrl || "#"}
-              target="_blank"
-            >
-              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-                <LinkedinLogo
-                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-                  weight="fill"
-                />
-              </div>
-            </Link>
+            {myProfile?.data?.profile?.instaUrl &&
+              myProfile?.data?.profile?.instaUrl !==
+                "https://instagram.com/" && (
+                <Link
+                  href={myProfile?.data?.profile?.instaUrl || "#"}
+                  passHref
+                  target="_blank"
+                >
+                  <div className="border border-white w-fit h-fit sm:p-3 p-[10px] flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                    <InstagramLogo
+                      className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                      weight="fill"
+                    />
+                  </div>
+                </Link>
+              )}
+
+            {myProfile?.data?.profile?.telegramUrl &&
+              myProfile?.data?.profile?.telegramUrl !== "https://t.me/" && (
+                <Link
+                  href={myProfile?.data?.profile?.telegramUrl || "#"}
+                  target="_blank"
+                >
+                  <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                    <TelegramLogo
+                      className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                      weight="fill"
+                    />
+                  </div>
+                </Link>
+              )}
+
+            {myProfile?.data?.profile?.fbUrl &&
+              myProfile?.data?.profile?.fbUrl !==
+                "https://www.facebook.com/" && (
+                <Link
+                  href={myProfile?.data?.profile?.fbUrl || "#"}
+                  target="_blank"
+                >
+                  <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] h-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                    <FacebookLogo
+                      className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                      weight="fill"
+                    />
+                  </div>
+                </Link>
+              )}
+            {myProfile?.data?.profile?.twitterUrl &&
+              myProfile?.data?.profile?.twitterUrl !== "https://www.x.com/" && (
+                <Link
+                  href={myProfile?.data?.profile?.twitterUrl || "#"}
+                  target="_blank"
+                >
+                  <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                    <TwitterLogo
+                      className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                      weight="fill"
+                    />
+                  </div>
+                </Link>
+              )}
+
+            {myProfile?.data?.profile?.youtubeUrl &&
+              myProfile?.data?.profile?.youtubeUrl !==
+                "https://www.youtube.com/" && (
+                <Link
+                  href={myProfile?.data?.profile?.youtubeUrl || "#"}
+                  target="_blank"
+                >
+                  <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                    <YoutubeLogo
+                      className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                      weight="fill"
+                    />
+                  </div>
+                </Link>
+              )}
+
+            {myProfile?.data?.profile?.tiktokUrl &&
+              myProfile?.data?.profile?.tiktokrl !==
+                "https://www.tiktok.com/@" && (
+                <Link
+                  href={myProfile?.data?.profile?.tiktokUrl || "#"}
+                  target="_blank"
+                >
+                  <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                    <TiktokLogo
+                      className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                      weight="fill"
+                    />
+                  </div>
+                </Link>
+              )}
+
+            {myProfile?.data?.profile?.linkedinUrl &&
+              myProfile?.data?.profile?.linkedinUrl !==
+                "https://linkedin.com/in/" && (
+                <Link
+                  href={myProfile?.data?.profile?.linkedinUrl || "#"}
+                  target="_blank"
+                >
+                  <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                    <LinkedinLogo
+                      className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                      weight="fill"
+                    />
+                  </div>
+                </Link>
+              )}
           </div>
         </div>
       </div>

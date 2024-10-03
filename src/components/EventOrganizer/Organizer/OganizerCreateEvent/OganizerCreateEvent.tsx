@@ -863,6 +863,10 @@ function OganizerCreateEvent() {
 
   console.log("is cat", isCategorySelected);
 
+  const utcEventStartTime = convertToUTC(EventStartTime);
+  console.log("my utc event start time is", utcEventStartTime);
+  console.log("my  event start time is", EventStartTime);
+
   async function EventCreation(
     values: z.infer<typeof formSchema | typeof formSchema2>
   ) {
@@ -1708,42 +1712,43 @@ function OganizerCreateEvent() {
                   name="eventenddate"
                   render={({ field }) => {
                     const currentDateTime = new Date()
-                    .toISOString()
-                    .slice(0, 16);
-                  const ticketstartDate = TicketStartDate;
+                      .toISOString()
+                      .slice(0, 16);
+                    const ticketstartDate = TicketStartDate;
 
-                  const minDateTime =
-                    currentDateTime > ticketstartDate
-                      ? currentDateTime
-                      : ticketstartDate;
-                  return(
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Ticketing End Date & time
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="datetime-local"
-                          aria-label="Date and time"
-                          placeholder="Enter End Date"
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                          {...field}
-                          onChange={(e) => {
-                            setTicketEndDate(e.target.value);
-                            field.onChange(e);
-                          }}
-                          min={TicketStartDate}
-                          // min={minDateTime}
+                    const minDateTime =
+                      currentDateTime > ticketstartDate
+                        ? currentDateTime
+                        : ticketstartDate;
+                    return (
+                      <FormItem className="relative w-full space-y-0">
+                        <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                          Ticketing End Date & time
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="datetime-local"
+                            aria-label="Date and time"
+                            placeholder="Enter End Date"
+                            className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                            {...field}
+                            onChange={(e) => {
+                              setTicketEndDate(e.target.value);
+                              field.onChange(e);
+                            }}
+                            min={TicketStartDate}
+                            // min={minDateTime}
 
-                          onKeyDown={(e) => e.preventDefault()}
+                            onKeyDown={(e) => e.preventDefault()}
 
-                          // max={extractDate(EventStartTime)}
-                        />
-                      </FormControl>
+                            // max={extractDate(EventStartTime)}
+                          />
+                        </FormControl>
 
-                      <FormMessage />
-                    </FormItem>
-  )}}
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
               </div>
 
@@ -1777,11 +1782,14 @@ function OganizerCreateEvent() {
                             onChange={(e) => {
                               setEventStartTime(e.target.value);
                               field.onChange(e);
+                              console.log(
+                                "event start time inside",
+                                e.target.value
+                              );
                             }}
                             // min={addTimeToDate(TicketEndDate, 0, 0)}
                             // min={minDateTime}
                             min={TicketEndDate}
-
                           />
                         </FormControl>
 
@@ -1795,42 +1803,55 @@ function OganizerCreateEvent() {
                   control={form.control}
                   name="eventendtime"
                   render={({ field }) => {
-                    const currentDateTime = new Date()
-                      .toISOString()
-                      .slice(0, 16);
-                    const eventstartDate = EventStartTime;
-  
-                    const minDateTime =
-                      currentDateTime > eventstartDate
-                        ? currentDateTime
-                        : eventstartDate;
-                    return(
-                      
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Event End Date & time
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          onKeyDown={(e) => e.preventDefault()}
-                          type="datetime-local"
-                          aria-label="Date and time"
-                          placeholder="Enter End Time"
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                          {...field}
-                          onChange={(e) => {
-                            setEventEndTime(e.target.value);
-                            field.onChange(e);
-                          }}
-                          min={EventStartTime}
-                          // min={minDateTime}
+                    console.log("Raw Event Start Time:", EventStartTime);
+                    const eventStartDate = EventStartTime
+                      ? new Date(EventStartTime)
+                      : null;
 
-                        />
-                      </FormControl>
+                    // Calculate the minimum end date by adding 5 hours
+                    const minEndDate = eventStartDate
+                      ? new Date(eventStartDate.getTime() + 5 * 60 * 60 * 1000) // 5 hours in milliseconds
+                      : null;
 
-                      <FormMessage />
-                    </FormItem>
-  )}}
+                    // Format the minimum end date to 'YYYY-MM-DDTHH:MM'
+                    const minEndDateString = minEndDate
+                      ? minEndDate.toISOString().slice(0, 16)
+                      : undefined;
+
+                    // Logging for debugging
+                    console.log("Event Start Date:", eventStartDate);
+                    console.log("Calculated Min End Date:", minEndDate);
+                    console.log("Min End Date String:", minEndDateString);
+                    return (
+                      <FormItem className="relative w-full space-y-0">
+                        <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                          Event End Date & time
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            onKeyDown={(e) => e.preventDefault()}
+                            type="datetime-local"
+                            aria-label="Date and time"
+                            placeholder="Enter End Time"
+                            className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                            {...field}
+                            onChange={(e) => {
+                              setEventEndTime(e.target.value);
+                              field.onChange(e);
+                              console.log(
+                                "event end time inside",
+                                e.target.value
+                              );
+                            }}
+                            min={EventStartTime}
+                            // min={minEndDateString}
+                          />
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
               </div>
               {/* <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">

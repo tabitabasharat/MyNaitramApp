@@ -328,7 +328,7 @@ const OrganizerProfile = () => {
                       <FormControl>
                         <Textarea
                           placeholder="Enter Bio"
-                          className="pt-[36px] pb-5 h-[136px] text-[#D9D9D9] text-base placeholder:font-normal resize-none"
+                          className="pt-[36px] pb-5 h-[136px] text-[#D9D9D9] text-base placeholder:font-normal resize-none scrollbar-hide"
                           {...field}
                           onChange={(e) => {
                             setBIO(e.target.value);

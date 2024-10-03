@@ -34,18 +34,16 @@ const Followpromoter = ({ userId, eventName }: any) => {
   const [loading, setLoading] = useState(false);
   const [followStatus, setFollowStatus] = useState(false);
 
-
-
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [userToken, setUserToken] = useState<any>();
   useEffect(() => {
     const myuserid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-setUid(myuserid)
+    setUid(myuserid);
     // dispatch(getEventCount(userId));
     dispatch(getOrganizerByID(userId));
-   
+
     const data = {
       followId: userId,
       userId: myuserid,
@@ -105,7 +103,6 @@ setUid(myuserid)
             userId: userID,
           };
           dispatch(getFollowingPromoters(datas));
-          
         } else {
           setLoading(false);
           console.log(res?.payload?.message);
@@ -154,6 +151,7 @@ setUid(myuserid)
   const isFollowing = myFollowers?.some(
     (item: any) => item?.followId == userId
   );
+
   return (
     <div className="mt-[32px] bg-white/10 rounded-xl p-[16px] w-full">
       <div className="flex gap-4">
@@ -168,7 +166,7 @@ setUid(myuserid)
           />
         </Link>
         <div>
-        <Link href={`/profile-perview/${userId}`}>
+          <Link href={`/profile-perview/${userId}`}>
             <p className="font-bold text-[14px]  font-bold flex items-center gap-1 capitalize hover:underline">
               {myProfile?.userProfile?.fullname}
             </p>
@@ -189,10 +187,9 @@ setUid(myuserid)
       <div className="flex flex-col  gap-3 items-start justify-start wrapping-flex">
         {
           <Button
-          disabled={ uId == userId }
+            disabled={uId == userId}
             variant="secondary"
             className="text-[14px] font-bold px-[16px] py-[10px] disabled:cursor-not-allowed disabled:opacity-50"
-            
             onClick={() => {
               if (followStatus) {
                 handleUnFollow();
@@ -205,31 +202,54 @@ setUid(myuserid)
           </Button>
         }
         <div className="flex gap-[8px] flex-wrap h-full">
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
-            <InstagramLogo
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                typeof window !== "undefined"
-                  ? window.open(myEvents?.data?.data[0]?.instaUrl, "_blank")
-                  : null;
-              }}
-              size={16}
-              weight="fill"
-            />
-          </div>
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
-            <TwitterLogo
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                typeof window !== "undefined"
-                  ? window.open(myProfile?.profile?.twitterUrl, "_blank")
-                  : null;
-              }}
-              size={16}
-              weight="fill"
-            />
-          </div>
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+          {myProfile?.events[0]?.instaUrl !== "https://instagram.com/" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <InstagramLogo
+                style={{ cursor: "pointer" }}
+                // onClick={() => {
+                //   typeof window !== "undefined"
+                //     ? window.open(myEvents?.data?.data[0]?.instaUrl, "_blank")
+                //     : null;
+                // }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(myProfile?.events[0]?.instaUrl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
+          {myProfile?.events[0]?.twitterUrl !== "https://www.x.com/" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <TwitterLogo
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(myProfile?.events[0]?.twitterUrl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
+          {myProfile?.events[0]?.fbUrl !== "https://www.facebook.com/" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <FacebookLogo
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(myProfile?.events[0]?.fbUrl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
+          {/* <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
             <FacebookLogo
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -240,55 +260,65 @@ setUid(myuserid)
               size={16}
               weight="fill"
             />
-          </div>
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
-            <TiktokLogo
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                typeof window !== "undefined"
-                  ? window.open(myProfile?.profile?.tiktokUrl, "_blank")
-                  : null;
-              }}
-              size={16}
-              weight="fill"
-            />
-          </div>
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
-            <LinkedinLogo
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                typeof window !== "undefined"
-                  ? window.open(myProfile?.profile?.linkedinUrl, "_blank")
-                  : null;
-              }}
-              size={16}
-              weight="fill"
-            />
-          </div>
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
-            <YoutubeLogo
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                typeof window !== "undefined"
-                  ? window.open(myProfile?.profile?.youtubeUrl, "_blank")
-                  : null;
-              }}
-              size={16}
-              weight="fill"
-            />
-          </div>
-          <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
-            <TelegramLogo
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                typeof window !== "undefined"
-                  ? window.open(myProfile?.profile?.twitterUrl, "_blank")
-                  : null;
-              }}
-              size={16}
-              weight="fill"
-            />
-          </div>
+          </div> */}
+          {myProfile?.events[0]?.tiktokUrl !== "https://www.tiktok.com/@" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <TiktokLogo
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(myProfile?.events[0]?.tiktokUrl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
+
+          {myProfile?.events[0]?.linkedinUrl !== "https://linkedin.com/in/" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <LinkedinLogo
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(myProfile?.events[0]?.linkedinUrl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
+          {myProfile?.events[0]?.youtubeUrl !== "https://www.youtube.com/" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <YoutubeLogo
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(myProfile?.events[0]?.youtubeUrl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
+
+          {myProfile?.events[0]?.telegramUrl !== "https://t.me/" && (
+            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+              <TelegramLogo
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  typeof window !== "undefined"
+                    ? window.open(myProfile?.events[0]?.telegramUrl, "_blank")
+                    : null;
+                }}
+                size={16}
+                weight="fill"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

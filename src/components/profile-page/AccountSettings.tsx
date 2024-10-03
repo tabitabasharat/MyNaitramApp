@@ -107,7 +107,7 @@ const AccountSettings = () => {
           console.log("Profile image uploaded");
           setImageSrc(res?.data?.data);
           console.log(res?.data?.data, "this is the Profile");
-          SuccessToast("Profile Image Updated Successfully");
+          // SuccessToast("Profile Image Updated Successfully");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message || "Error uploading image");
@@ -132,7 +132,7 @@ const AccountSettings = () => {
         if (res?.payload?.status === 200) {
           setLoader(false);
           console.log("Profile res", res?.payload?.data);
-          // SuccessToast("Profile Updated Successfully");
+          SuccessToast("Profile Updated Successfully");
           dispatch(getUserByID(userID));
         } else {
           setLoader(false);

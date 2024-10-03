@@ -106,75 +106,104 @@ const ProfileDetails = () => {
         </div>
       </div>
       <div className="flex justify-center flex-wrap lg:flex-nowrap md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
-        <Link
-          href={myProfile?.liveActivity?.instaUrl || "#"}
-          passHref
-          target="_blank"
-        >
-          <div className="border border-white w-fit h-fit sm:p-3 p-[10px] flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-            <InstagramLogo
-              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-              weight="fill"
-            />
-          </div>
-        </Link>
-        <Link
-          href={myProfile?.liveActivity?.telegramUrl || "#"}
-          target="_blank"
-        >
-          <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-            <TelegramLogo
-              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-              weight="fill"
-            />
-          </div>
-        </Link>
-        <Link href={myProfile?.liveActivity?.fbUrl || "#"} target="_blank">
-          <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-            <FacebookLogo
-              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-              weight="fill"
-            />
-          </div>
-        </Link>
-        <Link
-          href={myProfile?.liveActivity?.linkedinUrl || "#"}
-          target="_blank"
-        >
-          <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-            <LinkedinLogo
-              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-              weight="fill"
-            />
-          </div>
-        </Link>
-        <Link
-          href={myProfile?.liveActivity?.linkedinUrl || "#"}
-          target="_blank"
-        >
-          <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-            <TiktokLogo
-              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-              weight="fill"
-            />
-          </div>
-        </Link>
-        <Link href={myProfile?.liveActivity?.youtubeUrl || "#"} target="_blank">
-          <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-            <YoutubeLogo
-              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-              weight="fill"
-            />
-          </div>
-        </Link>
-        <Link href={myProfile?.liveActivity?.twitterUrl || "#"} target="_blank">
-          <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
-            <TwitterLogo
-              className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
-              weight="fill"
-            />
-          </div>
-        </Link>
+        {myProfile?.liveActivity?.instaUrl &&
+          myProfile?.liveActivity?.instaUrl !== "https://instagram.com/" && (
+            <Link
+              href={myProfile?.liveActivity?.instaUrl || "#"}
+              passHref
+              target="_blank"
+            >
+              <div className="border border-white w-fit h-fit sm:p-3 p-[10px] flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                <InstagramLogo
+                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                  weight="fill"
+                />
+              </div>
+            </Link>
+          )}
+        {myProfile?.liveActivity?.telegramUrl &&
+          myProfile?.liveActivity?.telegramUrl !== "https://t.me/" && (
+            <Link
+              href={myProfile?.liveActivity?.telegramUrl || "#"}
+              target="_blank"
+            >
+              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                <TelegramLogo
+                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                  weight="fill"
+                />
+              </div>
+            </Link>
+          )}
+        {myProfile?.liveActivity?.fbUrl &&
+          myProfile?.liveActivity?.fbUrl !== "https://www.facebook.com/" && (
+            <Link href={myProfile?.liveActivity?.fbUrl || "#"} target="_blank">
+              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                <FacebookLogo
+                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                  weight="fill"
+                />
+              </div>
+            </Link>
+          )}
+        {myProfile?.liveActivity?.linkedinUrl &&
+          myProfile?.liveActivity?.linkedinUrl !==
+            "https://linkedin.com/in/" && (
+            <Link
+              href={myProfile?.liveActivity?.linkedinUrl || "#"}
+              target="_blank"
+            >
+              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                <LinkedinLogo
+                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                  weight="fill"
+                />
+              </div>
+            </Link>
+          )}
+        {myProfile?.liveActivity?.tiktokUrl &&
+          myProfile?.liveActivity?.tiktokrl !== "https://www.tiktok.com/@" && (
+            <Link
+              href={myProfile?.liveActivity?.tiktokUrl || "#"}
+              target="_blank"
+            >
+              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                <TiktokLogo
+                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                  weight="fill"
+                />
+              </div>
+            </Link>
+          )}
+        {myProfile?.liveActivity?.youtubeUrl &&
+          myProfile?.liveActivity?.youtubeUrl !==
+            "https://www.youtube.com/" && (
+            <Link
+              href={myProfile?.liveActivity?.youtubeUrl || "#"}
+              target="_blank"
+            >
+              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                <YoutubeLogo
+                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                  weight="fill"
+                />
+              </div>
+            </Link>
+          )}
+        {myProfile?.liveActivity?.twitterUrl &&
+          myProfile?.liveActivity?.twitterUrl !== "https://www.x.com/" && (
+            <Link
+              href={myProfile?.liveActivity?.twitterUrl || "#"}
+              target="_blank"
+            >
+              <div className="border border-white w-fit sm:p-3 p-[10px] h-fit flex items-center justify-center rounded-full h-[36px] w-[36px] sm:h-[44px] sm:w-[44px] hover:bg-white hover:text-black duration-300">
+                <TwitterLogo
+                  className="w-[16px] h-[16px] sm:w-[20px] sm:h-[20px]"
+                  weight="fill"
+                />
+              </div>
+            </Link>
+          )}
       </div>
     </div>
   );

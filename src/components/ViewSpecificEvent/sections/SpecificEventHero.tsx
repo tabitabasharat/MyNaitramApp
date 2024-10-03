@@ -45,6 +45,15 @@ import {
   ErrorToast,
 } from "@/components/reusable-components/Toaster/Toaster";
 import { checkEventTicketStatus } from "@/lib/middleware/liveactivity";
+import {
+  FollowPromoter,
+  getFollowingPromoters,
+  UnFollowPromoter,
+} from "@/lib/middleware/liveactivity";
+import {
+  getOrganizerByID,
+  getOrganizerSocialProfile,
+} from "@/lib/middleware/organizer";
 
 const CustomPrevArrow = (props: any) => (
   <div
@@ -109,13 +118,23 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   useEffect(() => {
     const currentUrl: any =
       typeof window !== "undefined" ? window.location.href : null;
-    const parts = currentUrl.split("/");
-    const value = parts[parts.length - 1];
-    setEventId(value);
-    console.log("my event id is", value);
-    dispatch(getEventByEventId(value));
-    dispatch(getEventAttend(value));
-  }, []);
+
+    if (currentUrl) {
+        const url = new URL(currentUrl);
+        const pathname = url.pathname;
+        const parts = pathname.split("/");
+        const eventId = parts[parts.length - 1];
+
+        console.log("my event id is", eventId);
+        setEventId(eventId); 
+
+        
+        dispatch(getEventByEventId(eventId));
+        dispatch(getEventAttend(eventId));
+        dispatch(getOrganizerSocialProfile(EventData?.userId));
+    }
+}, []);
+
 
   useEffect(() => {
     dispatch(getEventCount(EventData?.userId));
@@ -137,21 +156,17 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     if (typeof window !== "undefined") {
       let currentUrl = window.location.href;
       if (currentUrl) {
-       
-        currentUrl = currentUrl.split('?')[0];
-        
-       
+        currentUrl = currentUrl.split("?")[0];
+
         setCopiedUrl(currentUrl);
         console.log("Your URL is", currentUrl);
-        
-     
+
         setShareModal(true);
       } else {
         ErrorToast("Failed to store URL.");
       }
     }
   };
-  
 
   const handleShare = () => {
     setShareModal(true);
@@ -180,7 +195,9 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
           if (res?.payload?.data?.statusCode === false) {
             console.log("status success", res?.payload?.data);
-            ErrorToast("You can't access Live Activity before buying a ticket for this event");
+            ErrorToast(
+              "You can't access Live Activity before buying a ticket for this event"
+            );
           } else {
             router.push(
               `/events/event-detail/live-activity/${EventData?.id}?eventName=${EventData?.name}`
@@ -206,6 +223,21 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   );
 
   console.log("this is event attendees", eventAttendy);
+
+  useEffect(() => {
+    const myuserid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+   
+    // dispatch(getEventCount(userId));
+    // dispatch(getOrganizerByID(EventData?.userId));
+
+    // const data = {
+    //   followId: EventData?.userId,
+    //   userId: myuserid,
+    // };
+    // dispatch(getFollowingPromoters(data));
+   
+  }, []);
   return (
     <section className="bg-img ">
       {userLoading?.loading && <ScreenLoader />}
@@ -246,7 +278,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
               <ShareModal
                 onClose={() => setShareModal(false)}
                 open={() => setShareModal(true)}
-               eventUrl={copiedUrl}
+                eventUrl={copiedUrl}
               />
             )}
           </div>
@@ -369,43 +401,89 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                     className="bg-cover bg-no-repeat w-full h-full rounded-lg relative overflow-hidden py-10"
                   >
                     <div className="w-full flex flex-col justify-center items-center">
-                      <div className="flex -space-x-3">
-                        <Image
-                          src={
-                            eventAttend?.data?.[0]?.profilePicture || Avatar1
-                          }
-                          width={48}
-                          height={48}
-                          alt="avatar"
-                          className="rounded-full border border-[#034C22] z-[1] size-[48px]"
-                        />
-                        <Image
-                          // src={Avatar2}
-                          src={
-                            eventAttend?.data?.[1]?.profilePicture || Avatar2
-                          }
-                          width={48}
-                          height={48}
-                          alt="avatar"
-                          className="rounded-full border border-[#034C22] z-[2] size-[48px]"
-                        />
-                        <Image
-                          src={
-                            eventAttend?.data?.[2]?.profilePicture || Avatar3
-                          }
-                          width={48}
-                          height={48}
-                          alt="avatar"
-                          className="rounded-full border border-[#034C22] z-[3] size-[48px]"
-                        />
-                      </div>
+                      {/* {eventAttendy?.length > 0 && (
+                        <div className="flex -space-x-3">
+                          <Image
+                            src={
+                              eventAttend?.data?.[0]?.profilePicture || Avatar1
+                            }
+                            width={48}
+                            height={48}
+                            alt="avatar"
+                            className="rounded-full border border-[#034C22] z-[1] size-[48px]"
+                          />
+                          <Image
+                            // src={Avatar2}
+                            src={
+                              eventAttend?.data?.[1]?.profilePicture || Avatar2
+                            }
+                            width={48}
+                            height={48}
+                            alt="avatar"
+                            className="rounded-full border border-[#034C22] z-[2] size-[48px]"
+                          />
+                          <Image
+                            src={
+                              eventAttend?.data?.[2]?.profilePicture || Avatar3
+                            }
+                            width={48}
+                            height={48}
+                            alt="avatar"
+                            className="rounded-full border border-[#034C22] z-[3] size-[48px]"
+                          />
+                        </div>
+                      )} */}
+
+                      {eventAttend?.length > 0 &&
+                        eventAttend?.data?.some(
+                          (attendee:any) => attendee?.profilePicture
+                        ) && (
+                          <div className="flex -space-x-3">
+                            {eventAttend.data.map((attendee:any, index :any) =>
+                              attendee?.profilePicture  ? (
+                                <Image
+                                  key={index}
+                                  src={attendee?.profilePicture}
+                                  width={48}
+                                  height={48}
+                                  alt="avatar"
+                                  className="rounded-full border border-[#034C22] z-[1] size-[48px]"
+                                />
+                              ) : (
+                                <Image
+                                  key={index}
+                                  src={
+                                    index === 0
+                                      ? Avatar1
+                                      : index === 1
+                                      ? Avatar2
+                                      : Avatar3
+                                  }
+                                  width={48}
+                                  height={48}
+                                  alt="default avatar"
+                                  className="rounded-full border border-[#034C22] z-[1] size-[48px]"
+                                />
+                              )
+                            )}
+                          </div>
+                        )}
 
                       <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
-                        {eventAttendy?.length > 0 && (
+                        {/* {eventAttendy?.length > 0 && (
                           <>
                             {eventAttendy[0]?.fullname} and{" "}
                             {eventAttendy?.length - 1} others going
                           </>
+                        )} */}
+                        {new Date() >= new Date(EventData?.startTime) &&
+                        eventAttendy?.length > 0 ? (
+                          <>
+                            {eventAttendy[0]?.fullname} and{" "}
+                            {eventAttendy.length - 1} others going
+                          </>
+                        ) : (
+                          null
                         )}
                       </h3>
                       <p className="text-[#BFBFBF] text-[12px] pt-[4px]">

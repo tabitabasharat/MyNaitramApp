@@ -17,6 +17,8 @@ import {
 import { deleteAccount, showProfile } from "@/lib/middleware/profile";
 import { useRouter } from "next/navigation";
 import DeleteAccountPopup from "./DeleteAccountPopup";
+import DeleteAccountPasswordPopup from "./DeleteAccountPasswordPopUp";
+
 
 const DeleteAccnt = () => {
   const dispatch = useAppDispatch();
@@ -126,10 +128,15 @@ const DeleteAccnt = () => {
       </div>
 
       {isDeleteModalOpen && (
-        <DeleteAccountPopup
+        // <DeleteAccountPopup
+        //   onClose={() => setDeleteModalOpen(false)}
+        //   open={() => setDeleteModalOpen(true)}
+        // />
+        <DeleteAccountPasswordPopup
           onClose={() => setDeleteModalOpen(false)}
           open={() => setDeleteModalOpen(true)}
         />
+
       )}
     </>
   );

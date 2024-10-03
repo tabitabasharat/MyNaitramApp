@@ -56,9 +56,74 @@ const EventsHeroSlide = ({
 
   console.log("this is event price", ticketStartPrice, ticketEndPrice);
 
-  const ConvertDate = (originalDateStr: string): string => {
-    // Ensure the input UTC date string is treated as UTC by appending 'Z'
-    const utcDate = new Date(`${originalDateStr}Z`);
+  // const ConvertDate = (originalDateStr: string): string => {
+  //   const utcDate = new Date(`${originalDateStr}Z`);
+  //   console.log("Converted UTC time:", utcDate);
+  
+  //   if (isNaN(utcDate.getTime())) {
+  //     console.error("Invalid date format");
+  //     return "";
+  //   }
+  
+  //   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  
+  //   const dayOfWeek = utcDate.toLocaleDateString("en-US", {
+  //     weekday: "long",
+  //     timeZone: timeZone,
+  //   });
+  //   const dayOfMonth = utcDate.toLocaleDateString("en-US", {
+  //     day: "numeric",
+  //     timeZone: timeZone,
+  //   });
+  //   const month = utcDate.toLocaleDateString("en-US", {
+  //     month: "long",
+  //     timeZone: timeZone,
+  //   });
+  //   const year = utcDate.toLocaleDateString("en-US", {
+  //     year: "numeric",
+  //     timeZone: timeZone,
+  //   });
+  
+  //   const getOrdinalSuffix = (date: number) => {
+  //     if (date > 3 && date < 21) return "th"; 
+  //     switch (date % 10) {
+  //       case 1:
+  //         return "st";
+  //       case 2:
+  //         return "nd";
+  //       case 3:
+  //         return "rd";
+  //       default:
+  //         return "th";
+  //     }
+  //   };
+  
+  //   const numericDay = parseInt(dayOfMonth, 10); // Convert day string to number
+  //   const ordinalSuffix = getOrdinalSuffix(numericDay);
+  
+  //   const formattedDate = `${dayOfWeek}, ${numericDay}${ordinalSuffix} ${month} ${year}`;
+  
+  //   return formattedDate;
+  // };
+  
+  const ConvertDate = (originalDateStr: string | undefined): string => {
+    // Ensure input is a valid string
+    if (typeof originalDateStr !== "string") {
+      console.error("Input must be a string");
+      return "";
+    }
+  
+    // Check if the input has a timezone indicator (e.g., "Z" or "+/-HH:mm")
+    let utcDate: Date;
+  
+    if (originalDateStr.endsWith("Z") || originalDateStr.includes("+") || originalDateStr.includes("-")) {
+      // If it already has a timezone indicator, treat it as UTC
+      utcDate = new Date(originalDateStr);
+    } else {
+      // Otherwise, treat it as a local time and convert to UTC
+      utcDate = new Date(`${originalDateStr}Z`);
+    }
+  
     console.log("Converted UTC time:", utcDate);
   
     // Check if the date is valid
@@ -113,15 +178,20 @@ const EventsHeroSlide = ({
     return formattedDate;
   };
   
+  
   const ConvertTime = (timeStr: string): string => {
     // Ensure input is a string
     if (typeof timeStr !== "string") {
       console.error("Input must be a string");
       return "";
     }
+    const isUTC = timeStr.endsWith("Z") ;
+    const utcDate = new Date(isUTC ? timeStr : `${timeStr}Z`);
   
     // Convert the input UTC time to a local time using the Date object
-    const utcDate = new Date(`${timeStr}Z`); // Appending 'Z' to ensure UTC parsing
+
+    // const utcDate = new Date(`${timeStr}Z`); 
+    // Appending 'Z' to ensure UTC parsing
     if (isNaN(utcDate.getTime())) {
       console.error("Invalid time format");
       return "";
@@ -163,6 +233,9 @@ const EventsHeroSlide = ({
   
     return formattedTime;
   };
+  
+
+
   
 
   const [AboutDrop, setAboutDrop] = useState(true);
