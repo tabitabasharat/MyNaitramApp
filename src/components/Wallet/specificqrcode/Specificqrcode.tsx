@@ -36,8 +36,6 @@ import img17 from "@/assets/Whats-Included/option17.svg";
 import img18 from "@/assets/Whats-Included/option18.svg";
 import img19 from "@/assets/Whats-Included/option19.svg";
 import img20 from "@/assets/Whats-Included/option20.svg";
-import blurqrcode from "@/assets/Wallet/BlurQrGreen.svg";
-
 
 interface Location {
   id: number;
@@ -374,7 +372,7 @@ export default function Specificqrcode() {
                     Ticket Price
                   </p>
                   <p className="font-bold text-start text-[24px]">£
-                  {TicketData?.event?.tickets[TicketData?.isIndex]?.price ? TicketData?.event?.tickets[TicketData?.isIndex]?.price : '0' }
+                  {TicketData?.event?.tickets[TicketData?.isIndex]?.price}
 
                   </p>
                 </div>
@@ -450,6 +448,30 @@ export default function Specificqrcode() {
             alt="rhs"
             className="pt-[0px]"
           />
+          <p className="py-[24px] font-normal text-[18px]">
+            Please view the ticket QR code on the Naitram Mobile App{" "}
+          </p>
+          <div>
+            <Button
+              onClick={() => {
+                router.push("/download-app");
+              }}
+              className="flex items-center add-bank-account-border bg-black gap-[4px] p-[12px]"
+            >
+              <p className=" font-extrabold text-base text-[#00D059]">
+                {" "}
+                Download App
+              </p>
+            </Button>
+            <Button
+              onClick={() => {
+                // router.push("/download-app");
+              }}
+              className="flex items-center gap-[4px] p-[12px]"
+            >
+              <p className=" font-extrabold text-sm"> View on Blockchain</p>
+            </Button>
+          </div>
         </div>
         {/* </div> */}
       </div>

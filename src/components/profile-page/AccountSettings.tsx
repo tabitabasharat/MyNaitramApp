@@ -204,7 +204,7 @@ const AccountSettings = () => {
             variant="secondary"
             className="w-[100%] py-[8px] px-[12px] md:py-[12px] md:px-[21px] font-bold text-base  text-[#030303] "
           >
-            Change Photo Profile
+            Change Profile Photo
           </Button>
         </div>
         <div className="w-full lg:w-[428px]">

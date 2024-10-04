@@ -125,13 +125,19 @@ function VerifiyTicket() {
             </h3>
           </div>
           <h2 className="text-sm lg:text-base text-[#BFBFBF] font-bold mb-[31px] lg:mb-[32px]">
-            Dorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu
-            turpis molestie,
-            <br className="hide-text" /> dictum est a, mattis tellus. Sed
-            dignissim, metus nec fringilla accumsan, risus
-            <br className="hide-text" /> sem sollicitudin lacus, ut interdum
-            tellus elit sed risus.
+            Ensure the authenticity of your event ticket by verifying it on the
+            blockchain.
+            <br className="hide-text" /> Each ticket is securely minted and
+            recorded on the blockchain, guaranteeing
+            <br className="hide-text" /> its legitimate and tamper-proof.{" "}
           </h2>
+          <p className="text-sm lg:text-base text-[#BFBFBF] font-bold mb-[31px] lg:mb-[32px]">
+            {" "}
+            Simply click the button below to confirm the
+             ownership and details of your<br className="hide-text" /> ticket
+            directly on the blockchain.
+          </p>
+
           <Form {...form}>
             <form
               // onSubmit={form.handleSubmit(verifyBlockchain)}
@@ -177,18 +183,19 @@ function VerifiyTicket() {
             TERMS & CONDITIONS
           </p>
           <p className="text-sm lg:text-base text-[#BFBFBF] font-bold">
-            Dorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu
-            turpis molestie,
-            <br className="hide-text" /> dictum est a, mattis tellus. Sed
-            dignissim, metus nec fringilla accumsan, risus
-            <br className="hide-text" /> sem sollicitudin lacus, ut interdum
-            tellus elit sed risus.
+            By using the "Verify Your Ticket on the Blockchain" service, you
+            agree to these<br className="hide-text" /> terms. This feature ensures the authenticity of your
+            ticket by confirming its<br className="hide-text" /> validity and ownership directly on the
+            blockchain. It applies only to tickets<br className="hide-text" /> purchased through our
+            platform or authorized channels, and does not allow for <br className="hide-text" />ticket
+            transfer or resale.
           </p>
           <p className="md:mt-[32px] text-sm lg:text-base text-[#BFBFBF] font-bold mt-[24px]">
-            Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum
-            lorem. <br className="hide-text" />
-            Morbi convallis convallis diam sit amet lacinia. Aliquam in
-            elementum tellus.
+            This service is provided as-is and may experience interruptions or
+            downtime due <br className="hide-text" />to maintenance or network issues; while we aim for
+            accurate and reliable<br className="hide-text" /> verification, we are not liable for any issues
+            related to technical delays,<br className="hide-text" /> unauthorized ticket purchases, or
+            disputes.
           </p>
         </div>
       </section>

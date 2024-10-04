@@ -113,12 +113,12 @@ const Menu = ({
   return (
     <>
       <motion.div
-        className="fixed z-[1200] right-0 h-full w-full md:w-[450px] gradient-slate border-l border-l-[#282828] z-[80] px-[2.5rem] lg:hidden"
+        className="fixed z-[1200] right-0 h-full w-full md:w-[450px] gradient-slate border-l border-l-[#282828] px-[2.5rem] lg:hidden"
         initial={{ x: "120%" }}
         animate={{ x: menuIsOpen ? 0 : "120%" }}
         transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
       >
-        <div className="overflow-y-scroll overflow-x-clip h-full scrollbar-hidden">
+        <div className="overflow-y-scroll  overflow-x-clip h-full scrollbar-hidden">
           <div className="mt-[1.6rem] flex justify-between items-center w-full">
             <Link href="/" className="">
               <div className="">
