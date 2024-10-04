@@ -377,7 +377,7 @@ export default function SpecificEventTickets() {
                 </p> */}
               </div>
 
-              <Link href={`/wallet/enlare/${eventID}`} className="py-[16px]">
+              <Link href={`/wallet/enlarge/${eventID}`} className="py-[16px]">
               {/* <Link href={`/download-app`}> */}
 
                 <button className="font-extrabold text-sm rounded-[100px] mb-[24px] px-[16px] py-[10px] bg-[#00D059] text-black">

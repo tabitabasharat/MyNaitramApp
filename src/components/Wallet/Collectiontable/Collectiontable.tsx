@@ -58,7 +58,7 @@ const Collectiontable = () => {
               <Image
                 src={imageUrl}
                 alt="img"
-                className="size-[393px] bg-[red] flex items-center justify-center"
+                className="size-[393px] flex items-center justify-center"
                 width={393}
                 height={393}
               />

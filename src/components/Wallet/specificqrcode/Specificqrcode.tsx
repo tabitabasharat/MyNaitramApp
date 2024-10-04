@@ -36,6 +36,7 @@ import img17 from "@/assets/Whats-Included/option17.svg";
 import img18 from "@/assets/Whats-Included/option18.svg";
 import img19 from "@/assets/Whats-Included/option19.svg";
 import img20 from "@/assets/Whats-Included/option20.svg";
+import { Button } from "react-day-picker";
 
 interface Location {
   id: number;
@@ -315,9 +316,8 @@ export default function Specificqrcode() {
                   <p className="text-[#00D059] text-start text-[13px] font-bold mt-[12px] mb-[12px] md:mb-[8px]">
                     Ticket Price
                   </p>
-                  <p className="font-bold text-start text-[24px]">£
-                  {TicketData?.event?.tickets[TicketData?.isIndex]?.price}
-
+                  <p className="font-bold text-start text-[24px]">
+                    £{TicketData?.event?.tickets[TicketData?.isIndex]?.price}
                   </p>
                 </div>
               </div>
@@ -389,6 +389,30 @@ export default function Specificqrcode() {
             alt="rhs"
             className="pt-[0px]"
           />
+          <p className="py-[24px] font-normal text-[18px]">
+            Please view the ticket QR code on the Naitram Mobile App{" "}
+          </p>
+          <div>
+            <Button
+              onClick={() => {
+                router.push("/download-app");
+              }}
+              className="flex items-center add-bank-account-border bg-black gap-[4px] p-[12px]"
+            >
+              <p className=" font-extrabold text-base text-[#00D059]">
+                {" "}
+                Download App
+              </p>
+            </Button>
+            <Button
+              onClick={() => {
+                // router.push("/download-app");
+              }}
+              className="flex items-center gap-[4px] p-[12px]"
+            >
+              <p className=" font-extrabold text-sm"> View on Blockchain</p>
+            </Button>
+          </div>
         </div>
         {/* </div> */}
       </div>
