@@ -12,6 +12,10 @@ import {
   FacebookLogo,
   Chats,
   UserGear,
+  TwitchLogo,
+  TwitterLogo,
+  YoutubeLogo,
+  TiktokLogo,
 } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import AccountSidebarLink from "@/components/reusable-components/AccountSidebarLink";
@@ -48,9 +52,12 @@ const formSchema = z.object({
   facebook: z
     .string()
     .min(2, { message: "Facebook Url name cannot be empty." }),
-  linkedIn: z.string().min(2, { message: "linkedIn Url cannot be empty." }),
+  linkedIn: z.string().min(2, { message: "linkedin Url cannot be empty." }),
   insta: z.string().min(2, { message: "Instagram Url cannot be empty." }),
   telegram: z.string().min(1, { message: "Telegram Url cannot be empty." }),
+  twitter: z.string().min(1, { message: "Twitter Url cannot be empty." }),
+  tiktok: z.string().min(1, { message: "Tiktok Url cannot be empty." }),
+  youtube: z.string().min(1, { message: "Youtube Url cannot be empty." }),
 });
 
 const LiveAccntSetting = ({
@@ -64,9 +71,12 @@ const LiveAccntSetting = ({
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const [fbUrl, setFbUrl] = useState("");
+  const [twitterUrl, settwitterUrl] = useState("");
+  const [youtubeUrl, setyoutubeUrl] = useState("");
   const [instaUrl, setinstaUrl] = useState("");
   const [linkedinUrl, setlinkedinUrl] = useState("");
   const [telegramUrl, settelegramUrl] = useState("");
+  const [tiktokUrl, settiktokUrl] = useState("");
 
   const myliveActivity = useAppSelector(
     (state) => state?.getProfileLiveActivity?.LiveActivity?.data
@@ -77,15 +87,19 @@ const LiveAccntSetting = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      facebook: "",
-      insta: "",
-      linkedIn: "",
-      telegram: "",
+      facebook: "https://www.facebook.com/",
+      insta: "https://instagram.com/",
+      linkedIn: "https://linkedin.com/in/",
+      tiktok: "https://www.tiktok.com/@",
+      telegram: "https://t.me/",
+      twitter: "https://www.x.com/",
+      youtube: "https://www.youtube.com/",
     },
   });
 
   useEffect(() => {
-    const id = localStorage.getItem("_id");
+    const id =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", id);
     dispatch(showLiveActivity(id));
   }, []);
@@ -98,8 +112,12 @@ const LiveAccntSetting = ({
         facebook: myliveActivity[0]?.fbUrl || currentValues.facebook,
         insta: myliveActivity[0]?.instaUrl || currentValues.insta,
         linkedIn: myliveActivity[0]?.linkedinUrl || currentValues.linkedIn,
+        tiktok: myliveActivity[0]?.tiktokUrl || currentValues.tiktok,
         telegram: myliveActivity[0]?.telegramUrl || currentValues.telegram,
+        twitter: myliveActivity[0]?.twitterUrl || currentValues.twitter,
+        youtube: myliveActivity[0]?.youtubeUrl || currentValues.youtube,
       });
+      setChecked(myliveActivity[0]?.isActive);
     }
   }, [myliveActivity]);
 
@@ -163,12 +181,17 @@ const LiveAccntSetting = ({
 
   async function updateActivity(values: z.infer<typeof formSchema>) {
     setLoader(true);
-    const userID = localStorage.getItem("_id");
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    console.log("my val", values);
     try {
       const data = {
         fbUrl: fbUrl || myliveActivity[0]?.fbUrl || "",
         instaUrl: instaUrl || myliveActivity[0]?.instaUrl || "",
         linkedinUrl: linkedinUrl || myliveActivity[0]?.linkedinUrl || "",
+        tiktokUrl: tiktokUrl || myliveActivity[0]?.tiktokUrl || "",
+        youtubeUrl: youtubeUrl || myliveActivity[0]?.youtubeUrl || "",
+        twitterUrl: twitterUrl || myliveActivity[0]?.twitterUrl || "",
         telegramUrl: telegramUrl || myliveActivity[0]?.telegramUrl || "",
         isActive: checked,
         userID: userID,
@@ -193,8 +216,8 @@ const LiveAccntSetting = ({
     <>
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
       {loader && <ScreenLoader />}
-      <div className="w-full md:w-[70%] md:ps-[0px] lg:pe-[20px] mt-[48px] lg:ps-[90px] xl:ps-[172px] md:mx-auto lg:w-full  lg:mx-[0] relative">
-        <h2 className="font-bold text-[20px] ms-[24px] md:ms-[0px] lg:text-[32px]">
+      <div className="w-full lg:w-[70%] md:ps-[0px] lg:pe-[20px] mt-[48px] lg:ps-[90px] xl:ps-[172px] md:mx-auto lg:w-full  lg:mx-[0] relative h-[90vh] overflow-y-auto scrollbar-hide">
+        <h2 className="font-bold text-[20px] ms-[24px] lg:ms-[0px] lg:text-[32px]">
           Live Activity Settings
         </h2>
         <div className="flex w-full md:w-full lg:w-[600px] flex-col lg:flex-col gap-6 md:gap-8 mt-[50px] lg:mt-[32px]">
@@ -243,7 +266,7 @@ const LiveAccntSetting = ({
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(updateActivity)}
-                className=" w-full"
+                className=" w-full mb-[50px]"
               >
                 <FormField
                   control={form.control}
@@ -254,17 +277,26 @@ const LiveAccntSetting = ({
                         FACEBOOK
                       </FormLabel>
                       <FacebookLogo
-                        className="absolute right-3 top-[30%]"
-                        size={28}
+                        className="absolute right-3 top-[35%]"
+                        size={20}
                       />
                       <FormControl>
                         <Input
                           placeholder="Enter Fullname"
                           className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   setFbUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+
                           onChange={(e) => {
-                            setFbUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.facebook.com/")) {
+                              setFbUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
@@ -281,17 +313,25 @@ const LiveAccntSetting = ({
                         INSTAGRAM
                       </FormLabel>
                       <InstagramLogo
-                        className="absolute right-3 top-[30%]"
-                        size={28}
+                        className="absolute right-3 top-[35%]"
+                        size={20}
                       />
                       <FormControl>
                         <Input
                           placeholder="Enter Fullname"
                           className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   setinstaUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setinstaUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://instagram.com/")) {
+                              setinstaUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
@@ -308,17 +348,25 @@ const LiveAccntSetting = ({
                         LINKEDIN
                       </FormLabel>
                       <LinkedinLogo
-                        className="absolute right-3 top-[30%]"
-                        size={28}
+                        className="absolute right-3 top-[35%]"
+                        size={20}
                       />
                       <FormControl>
                         <Input
                           placeholder="Enter Fullname"
                           className="pt-11 pb-5 text-base placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   setlinkedinUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            setlinkedinUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://linkedin.com/in/")) {
+                              setlinkedinUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
@@ -330,22 +378,136 @@ const LiveAccntSetting = ({
                   control={form.control}
                   name="telegram"
                   render={({ field }) => (
-                    <FormItem className="relative mb-[44px] md:mb-8 space-y-0">
+                    <FormItem className="relative mb-4 md:mb-8 space-y-0">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         TELEGRAM
                       </FormLabel>
                       <TelegramLogo
-                        className="absolute right-3 top-[30%]"
-                        size={28}
+                        className="absolute right-3 top-[35%]"
+                        size={20}
                       />
                       <FormControl>
                         <Input
                           placeholder="youremail@example.com"
                           className="pt-11 pb-5 text-base  placeholder:font-extrabold"
                           {...field}
+                          // onChange={(e) => {
+                          //   settelegramUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
-                            settelegramUrl(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://t.me/")) {
+                              settelegramUrl(e.target.value);
+                              field.onChange(e);
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="youtube"
+                  render={({ field }) => (
+                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                        YOUTUBE
+                      </FormLabel>
+                      <YoutubeLogo
+                        className="absolute right-3 top-[35%]"
+                        size={20}
+                      />
+                      <FormControl>
+                        <Input
+                          placeholder="username12"
+                          className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                          {...field}
+                          // onChange={(e) => {
+                          //   setyoutubeUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+                          onChange={(e) => {
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.youtube.com/")) {
+                              setyoutubeUrl(e.target.value);
+                              field.onChange(e);
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="tiktok"
+                  render={({ field }) => (
+                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                        TIKTOK
+                      </FormLabel>
+                      <TiktokLogo
+                        className="absolute right-3 top-[35%]"
+                        size={20}
+                      />
+                      <FormControl>
+                        <Input
+                          placeholder="username12"
+                          className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                          {...field}
+                          // onChange={(e) => {
+                          //   setyoutubeUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+                          onChange={(e) => {
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.tiktok.com/@")) {
+                              settiktokUrl(e.target.value);
+                              field.onChange(e);
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="twitter"
+                  render={({ field }) => (
+                    <FormItem className="relative mb-[48px] md:mb-6 space-y-0">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                        TWITTER
+                      </FormLabel>
+                      <TwitterLogo
+                        className="absolute right-3 top-[30%]"
+                        size={20}
+                      />
+                      <FormControl>
+                        <Input
+                          placeholder="username12"
+                          className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                          {...field}
+                          // onChange={(e) => {
+                          //   settwitterUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+
+                          onChange={(e) => {
+                            const value = e.target.value;
+
+                            if (value.startsWith("https://www.x.com/")) {
+                              settwitterUrl(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>

@@ -3,7 +3,7 @@
 import { Reveal } from "@/components/animations/Reveal";
 import { Input } from "../../../ui/input";
 
-const Card = () => {
+export default function Card()  {
   return (
     // <section className="py-[120px]">
     //   <div className="max-w-[1140px] flex mx-auto justify-center">
@@ -63,4 +63,4 @@ const Card = () => {
   );
 };
 
-export default Card;
+

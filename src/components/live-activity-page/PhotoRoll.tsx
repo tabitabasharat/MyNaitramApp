@@ -13,13 +13,14 @@ import {
 } from '@/components/ui/dialog';
 import { Separator } from '../ui/separator';
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
+import Thumbnillive from '../ui/Thumbnillive';
 
 const PhotoRoll = () => {
   return (
     <div>
       <Dialog>
         <div className="flex justify-between">
-          <p>Photo Roll</p>
+          <p className='lg:font-bold lg:text-[16px] font-extrabold text-sm'>Photo Roll</p>
           <DialogTrigger asChild>
             <button className="text-[#8F8F8F] flex hover:text-white duration-300">
               View All <CaretRight size={20} weight="bold" />
@@ -28,15 +29,15 @@ const PhotoRoll = () => {
         </div>
 
         {/* LARGE SCREEN VIEW */}
-        <div className="hidden md:flex flex-wrap gap-4 justifybetween justify-center items-center mt-6">
-          {photorolls.map((photoroll) => (
-            <Thumbnail key={photoroll.id} img={photoroll.img} />
-          ))}
-        </div>
+        <div className="flex hidden md:flex flex-wrap  space-e-[16px] justify-between items-center mt-[16px]">
+  {photorolls.map((photoroll) => (
+    <Thumbnillive key={photoroll.id} img={photoroll.img} />
+  ))}
+</div>
 
         {/* SMALL SCREEN VIEW */}
         <ScrollArea className="block md:hidden w-full whitespace-nowrap ">
-          <div className="flex gap-4 mt-6">
+          <div className="flex gap-[8px] mt-6">
             {photorolls.map((photoroll) => (
               <Thumbnail key={photoroll.id} img={photoroll.img} />
             ))}
@@ -46,7 +47,7 @@ const PhotoRoll = () => {
 
         <DialogContent className="sm:max-w-md lg:max-w-[600px] pb-0">
           <DialogHeader>
-            <DialogTitle className="font-bold text-2xl">Photo Roll</DialogTitle>
+            <DialogTitle className="font-extrabold lg:text-base text-sm">Photo Roll</DialogTitle>
             <Separator className="scale-x-[1.09] bg-[#292929]" />
           </DialogHeader>
 

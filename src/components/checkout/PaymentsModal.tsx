@@ -22,6 +22,8 @@ import { useEffect, useState } from "react";
 import ScreenLoader from "../loader/Screenloader";
 import { ErrorToast } from "../reusable-components/Toaster/Toaster";
 import { useAppSelector } from "@/lib/hooks";
+import { useParams } from 'next/navigation'
+
 const PaymentsModal = ({
   onNext,
   handleNext,
@@ -46,8 +48,10 @@ const PaymentsModal = ({
   const [userIds, setUserId] = useState<any>();
   const [eventid, setEventid] = useState<any>();
   const [email,setEmail]=useState<any>()
+  const params = useParams<any>()
+  console.log("this is params",params)
   async function OnclickSubmit() {
-    console.log(userIds,eventid,profileInformation,ticketType,ticketIndex)
+    console.log(userIds,eventid,profileInformation,ticketType,ticketIndex,ticketPrice,ticketIndex,"this is ticket type")
     try{
       setLoader(true);
   
@@ -58,7 +62,7 @@ const PaymentsModal = ({
         fullName: profileInformation?.full_name,
         email: email,
         phoneNo:profileInformation?.phone,
-        eventId: eventid,
+        eventId: params?.id,
         ismobile:false,
         isindex:ticketIndex
       });
@@ -67,7 +71,7 @@ const PaymentsModal = ({
       
 
       if (data?.data?.url) {
-        window.location.href =data?.data?.url
+        typeof window !== "undefined"?  window.location.href =data?.data?.url :null
       } else {
         console.error("No URL received");
       }
@@ -131,7 +135,7 @@ const PaymentsModal = ({
 
 
   useEffect(() => {
-    const currentUrl = window.location.href;
+    const currentUrl:any =  typeof window !== "undefined" ? window.location.href:null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventid(value);

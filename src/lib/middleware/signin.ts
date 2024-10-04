@@ -24,8 +24,8 @@ export const signup = createAsyncThunk("signup", async (data:any) => {
 
   export const signin = createAsyncThunk("signin", async (data:any) => {
     try {
-      console.log("inside the Login modal");
       const res = await api.post(`${API_URL}/auth/login`, data);
+      console.log("inside the Login modal",res);
       // localStorage.setItem("token", res?.data?.token);
       return {
         status: res?.status,

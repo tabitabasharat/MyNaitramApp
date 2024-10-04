@@ -40,6 +40,7 @@ const PopularEvents = () => {
               img={event?.eventPicture}
               title={event?.name}
               eventId={event?.id}
+              eventType={"test"}
             />
           ))}
       </div>
@@ -63,6 +64,7 @@ const PopularEvents = () => {
                 img={event.img}
                 title={event.title}
               eventId={event?.id}
+              eventType={"test"}
 
                 // eventid={event.id}
               />

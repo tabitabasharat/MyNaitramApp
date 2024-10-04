@@ -122,7 +122,10 @@ export const updateLiveActivity = createAsyncThunk(
         fbUrl:data?.fbUrl,
         instaUrl:data?.instaUrl,
         telegramUrl:data?.telegramUrl,
-        isActive:data?.isActive
+        isActive:data?.isActive,
+        youtubeUrl:data?.youtubeUrl,
+        twitterUrl:data?.twitterUrl,
+        tiktokUrl:data?.tiktokUrl
       });
       console.log("inside updateLiveActivity", res);
       // localStorage.setItem("token", res?.data?.token);

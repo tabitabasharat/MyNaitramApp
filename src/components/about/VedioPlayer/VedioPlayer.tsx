@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 
-const VideoPlayer = () => {
+export default function VideoPlayer() {
   const videoRef = useRef<any>(null);
   const overlayRef = useRef<any>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -68,4 +68,4 @@ const VideoPlayer = () => {
   );
 };
 
-export default VideoPlayer;
+

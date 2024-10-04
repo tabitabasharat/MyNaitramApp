@@ -1,35 +1,43 @@
-import EventCard from '@/components/reusable-components/EventCard';
-import { Button } from '@/components/ui/button';
-import { events } from '@/lib/dummyData';
-import { Envelope } from '@phosphor-icons/react/dist/ssr';
-import Image from 'next/image';
-import ufo from '@/assets/ufo.png';
-import GradientBorder from '@/components/ui/gradient-border';
+import EventCard from "@/components/reusable-components/EventCard";
+import { Button } from "@/components/ui/button";
+import { events } from "@/lib/dummyData";
+import { Envelope } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
+import ufo from "@/assets/ufo.png";
+import GradientBorder from "@/components/ui/gradient-border";
 
 const StayInformed = () => {
   return (
     <div
-      style={{ height: '' }}
+      style={{ height: "" }}
       className="pxpx mx-2xl flex gap-4 h-[1180px] md:h-[600px] md:mt-10 md:mb-20  "
     >
       <div className="w-1/2 hidden lg:block h-full">
-        <EventCard height="600px" img={events[12].img} title={events[12].title}  eventId={events[12].id} />
+        <EventCard
+          eventType={"test"}
+          height="600px"
+          img={events[12].img}
+          title={events[12].title}
+          eventId={events[12].id}
+        />
       </div>
 
       <div className="flex-col w-full lg:w-1/2 ">
         <div className="flex flex-col md:flex-row h-[60.5%] md:h-[58%] gap-4">
           <EventCard
             height="350px"
-            img={events[13].img}
-            title={events[13].title}
-            eventId={events[13].id} 
+            img={events[13]?.img}
+            title={events[13]?.title}
+            eventId={events[13]?.id}
+            eventType={"test"}
           />
           {/* <EventCard height="600px" img={events[12].img} title={events[12].title} /> */}
           <EventCard
             height="350px"
-            img={events[14].img}
-            title={events[14].title}
-            eventId={events[14].id} 
+            img={events[14]?.img}
+            title={events[14]?.title}
+            eventId={events[14]?.id}
+            eventType={"test"}
           />
         </div>
 

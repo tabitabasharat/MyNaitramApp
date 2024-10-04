@@ -1,7 +1,7 @@
 import Image from "next/image";
 import triImage from '@/assets/triVision.png'
 
-const Vision = () => {
+export default function Vision ()  {
   return (
     <div
       style={{
@@ -28,4 +28,4 @@ const Vision = () => {
   );
 };
 
-export default Vision;
+

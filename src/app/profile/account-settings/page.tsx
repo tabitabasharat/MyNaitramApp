@@ -1,7 +1,10 @@
-import AccountSettings from '@/components/profile-page/AccountSettings';
 
-const page = () => {
+import dynamic from 'next/dynamic'
+const AccountSettings = dynamic(() => import('@/components/profile-page/AccountSettings'))
+
+
+export default function page ()  {
   return <AccountSettings />;
 };
 
-export default page;
+

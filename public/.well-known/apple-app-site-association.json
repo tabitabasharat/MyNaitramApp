@@ -1,0 +1,18 @@
+{
+    "applinks": {
+      "apps": [],
+      "details": [
+        {
+          "appID": "282CQ66PD5.com.naitram",
+          "paths": [
+              "/bottom-tab",                
+              "/paymentsuccess",            
+              "/paymentfailure",             
+              "/EventsPage/*",               
+              "/PersonalSocialProfile/*",    
+              "/EventOrganizerPreview/*"    
+            ]
+        }
+      ]
+    }
+  }

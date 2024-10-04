@@ -1,7 +1,7 @@
 "use client";
 
 import BuyTicket from "@/components/reusable-components/BuyTicket";
-import FollowPromoter from "@/components/reusable-components/FollowPromoter";
+import Followpromoter from "../reusable-components/FollowPromoter";
 import { Badge } from "@/components/ui/badge";
 import { events } from "@/lib/dummyData";
 import {
@@ -37,7 +37,7 @@ const EventDetail = () => {
   const [eventid, setEventid] = useState<any>();
 
   useEffect(() => {
-    const currentUrl = window.location.href;
+    const currentUrl:any = typeof window !== "undefined"?window.location.href:null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventid(value);
@@ -152,7 +152,7 @@ const EventDetail = () => {
               <Heart size={23} weight="fill" />
             </div>
           </div>
-          <FollowPromoter />
+          <Followpromoter />
         </div>
 
         {/* DIVISION */}
@@ -267,7 +267,7 @@ const EventDetail = () => {
             </div>
           </GradientBorder>
           {/* DOWNLOAD NAITRAM */}
-          <div className="relative gradient-slate border border-[#262626] mt-12 rounded-xl p-8">
+          {/* <div className="relative gradient-slate border border-[#262626] mt-12 rounded-xl p-8">
             <h2 className="text-2xl">Download NAITRAM App</h2>
             <div className="flex flex-col gap-2 mt-4">
               <div className="flex gap-3">
@@ -293,7 +293,9 @@ const EventDetail = () => {
             </div>
             <Button className="flex items-center gap-[0.5rem] rounded-full mt-6 w-full">
               <DownloadSimple size={20} weight="fill" />
+              <Link href="/download-app">
               Download App to Unlock Features
+              </Link>
             </Button>
             <Image
               src={gift}
@@ -302,7 +304,7 @@ const EventDetail = () => {
               className="absolute top-[-10%] lg:right-0 xl:right-[-10%] hidden lg:block"
               alt="gift"
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

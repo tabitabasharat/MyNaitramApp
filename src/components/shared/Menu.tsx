@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Hamburger from "hamburger-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-
 import { motion } from "framer-motion";
 import {
   LinkedinLogo,
@@ -16,6 +15,8 @@ import Image from "next/image";
 import SignInModal from "@/components/auth/SignInModal";
 import SignUpModal from "@/components/auth/SignUpModal";
 import { AuthMode } from "@/types/types";
+import arrowdown from "@/assets/aboutdropdown.svg";
+import dropdown from "@/assets/aboutdropdown.svg";
 import naitramLogo from "@/assets/naitram-logo-white.svg";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
@@ -32,38 +33,57 @@ const Menu = ({
   setMenuIsOpen: Dispatch<SetStateAction<boolean>>;
   toggleMenu: () => void;
 }) => {
- 
   const links = [
     {
       name: "Home",
       href: "/",
     },
     {
-      name: "Events",
-      href: "/events",
-    },
-    {
-      name: "About",
+      title: "About",
       href: "/about",
+      id: 2,
+      subLinks: [
+        { title: "Gallery", href: "/gallery" },
+        { title: "Download App", href: "/download-app" },
+      ],
     },
     {
-      name: "Gallery",
-      href: "/gallery",
+      name: "Event",
+      href: "/viewallevents",
     },
+
     {
-      name: "Contact Us",
-      href: "/contactus",
+      title: "Rewards",
+      href: "/reward",
+      id: 4,
+      subLinks: [
+        { title: "Wallet", href: "/wallet" },
+        // { title: "Download App", href: "/download-app" },
+      ],
     },
+    // {
+    //   name: "Rewards",
+    //   href: "/reward",
+    // },
     {
-      name: "Download App",
-      href: "/download-app",
-    }
+      name: "Get Sponsored",
+      href: "/get-sponsor",
+    },
   ];
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [token, setToken] = useState<any>();
   const dispatch = useAppDispatch();
   const router = useRouter();
   const count = useAppSelector((state) => state?.signIn);
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+
+  const handleDropdownToggle = (id: number) => {
+    if (activeDropdown === id) {
+      setActiveDropdown(null); // Close if already open
+    } else {
+      setActiveDropdown(id); // Open the clicked dropdown
+    }
+  };
 
   const logout = () => {
     localStorage.clear();
@@ -71,22 +91,34 @@ const Menu = ({
     dispatch({ type: "LOGOUT" });
     router.push("/");
   };
-
   useEffect(() => {
     const id =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setToken(id);
   }, [token, count]);
 
+  const handleHostToggle = () => {
+    setMenuIsOpen(false);
+    if (!token) {
+      console.log("Token host ", token);
+      setIsLoginDialogOpen(true);
+    } else {
+      const userid =
+        typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+      console.log("No token ", token);
+      router.push("/organizer-event/event-dashboard");
+    }
+  };
+
   return (
     <>
       <motion.div
-        className="fixed right-0 h-full w-full md:w-[450px] gradient-slate border-l border-l-[#282828] z-[80] px-[2.5rem] lg:hidden"
+        className="fixed z-[1200] right-0 h-full w-full md:w-[450px] gradient-slate border-l border-l-[#282828] px-[2.5rem] lg:hidden"
         initial={{ x: "120%" }}
         animate={{ x: menuIsOpen ? 0 : "120%" }}
         transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
       >
-        <div className="overflow-y-scroll overflow-x-clip h-full scrollbar-hidden">
+        <div className="overflow-y-scroll  overflow-x-clip h-full scrollbar-hidden">
           <div className="mt-[1.6rem] flex justify-between items-center w-full">
             <Link href="/" className="">
               <div className="">
@@ -95,9 +127,9 @@ const Menu = ({
             </Link>
             <button
               onClick={toggleMenu}
-              className="flex items-center gap-[0.1rem] translate-x-[0.6rem]"
+              className="flex items-center w-[40px] h-[40px] gap-[0.1rem] translate-x-[0.6rem]"
             >
-              <div className="text-white ">
+              <div className="text-white w-[40px] h-[40px]">
                 <Hamburger toggled={menuIsOpen} size={22} />
               </div>
             </button>
@@ -109,28 +141,119 @@ const Menu = ({
                 custom={i}
                 variants={slide}
                 animate="enter"
-                exit="exit"
                 initial="initial"
                 className="relative w-fit group"
-                onClick={() => {
-                  setMenuIsOpen(false);
-                }}
               >
-                <Link key={i} href={link.href}>
-                  {link.name}{" "}
-                </Link>
-                <div
-                  className={`absolute h-[1px] bottom-[0.15rem] scale-x-0 w-full group-hover:scale-x-100 bg-white duration-300 origin-left`}
-                ></div>
+                {link.subLinks ? (
+                  <div className="relative flex items-center">
+                    {/* Main link (e.g., "Rewards", "About") */}
+                    <Link
+                      href={link.href}
+                      onClick={() => setMenuIsOpen(false)} // Close menu when clicked
+                      className="relative cursor-pointer"
+                    >
+                      {link.name || link.title}
+                      <div className="absolute h-[1px] bottom-[0.15rem] scale-x-0 w-full group-hover:scale-x-100 bg-white duration-300 origin-left"></div>
+                    </Link>
+
+                    {/* Arrow for dropdown toggle (works independently) */}
+                    {(link.id === 2 || link.id === 4) && (
+                      <div
+                        className="ml-2 cursor-pointer"
+                        onClick={() => handleDropdownToggle(link.id)} // Toggle dropdown
+                      >
+                        <Image
+                          src={arrowdown}
+                          alt="Arrow Down"
+                          className="ml-[5px]"
+                          sizes="12px"
+                        />
+                      </div>
+                    )}
+
+                    {/* Dropdown Menu (conditionally rendered on click) */}
+                    {activeDropdown === link.id && (
+                      <motion.div
+                        className="absolute top-[25px] left-0 mt-2 w-[200px] bg-white gradient-slate shadow-lg rounded-md z-10"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                      >
+                        {link.subLinks.map((subLink, j) => (
+                          <Link
+                            key={j}
+                            href={subLink.href}
+                            className="block px-4 py-2 hover:gradient-slate active:text-[#00D059] active:gradient-slate"
+                          >
+                            {subLink.title}
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    href={link.href || "#"}
+                    onClick={() => setMenuIsOpen(false)} // Close menu when clicked
+                    className="relative"
+                  >
+                    {link.name || link.title}
+                    <div className="absolute h-[1px] bottom-[0.15rem] scale-x-0 w-full group-hover:scale-x-100 bg-white duration-300 origin-left"></div>
+                  </Link>
+                )}
               </motion.div>
             ))}
-             <Button
+
+            {/* <Dialog>
+              <DialogTrigger asChild> */}
+            <motion.div
+              // onClick={() => {
+              //   setMenuIsOpen(false);
+              // }}
+              custom={links.length + 1}
+              variants={slide}
+              animate="enter"
+              exit="exit"
+              initial="initial"
+              className="h-fit w-fit mt-[1.5rem] lg:mt-[2rem] z-[1]"
+            >
+              <Button
+                variant="secondary"
+                className="bg-[#13FF7A] p-[12px] py-[8px] font- font-extrabold text-base lg:mr-[12px]"
+                // onClick={() => router.push("/organizer-event/event-dashboard")}
+                onClick={()=>{handleHostToggle()}}
+              >
+                Host Event
+              </Button>
+            </motion.div>
+
+            {!token && (
+              <Dialog
+                open={isLoginDialogOpen}
+                onOpenChange={setIsLoginDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <Button
                     variant="secondary"
-                    className=" lg:mr-[12px]"
-                    onClick={() => router.push("/create-event")}
+                    className="hidden pb-[6px] lg:block"
                   >
-                    Create Event
+                    Sign In
                   </Button>
+                </DialogTrigger>
+                {authMode === "SIGNIN" && isLoginDialogOpen && (
+                  <SignInModal
+                    redirectRoute={`/viewallevents`}
+                    setAuthMode={setAuthMode}
+                    setSigninModal={() => setIsLoginDialogOpen(false)}
+                  />
+                )}
+                {authMode === "SIGNUP" && (
+                  <SignUpModal
+                    setAuthMode={setAuthMode}
+                    setSigninModal={() => setIsLoginDialogOpen(false)}
+                  />
+                )}
+              </Dialog>
+            )}
           </div>
 
           {token || count?.signIn?.data?.id ? (
@@ -148,14 +271,12 @@ const Menu = ({
                   initial="initial"
                   className="h-fit w-fit mt-[1.5rem] lg:mt-[2rem] z-[1]"
                 >
-                  <Button className="px-[3rem]">Logout</Button>
+                  <Button className="px-[3rem] bg-[#13FF7A]">Logout</Button>
                 </motion.div>
-               
-                
               </DialogTrigger>
               {authMode === "SIGNIN" && (
                 <SignInModal
-                  redirectRoute="/events"
+                  redirectRoute="/viewallevents"
                   setAuthMode={setAuthMode}
                   setSigninModal={() => setIsLoginDialogOpen(false)}
                 />
@@ -186,7 +307,7 @@ const Menu = ({
               </DialogTrigger>
               {authMode === "SIGNIN" && (
                 <SignInModal
-                  redirectRoute="/events"
+                  redirectRoute="/viewallevents"
                   setAuthMode={setAuthMode}
                   setSigninModal={() => setIsLoginDialogOpen(false)}
                 />

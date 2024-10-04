@@ -1,12 +1,12 @@
 import Image from "next/image";
-import aboutTri from "@/assets/aboutTri.png";
+import aboutTri from "@/assets/ticketpyramid.png";
 import Journy from "./ourJourny/Journy";
 import Vision from "./vision/Vision";
 import Card from "./vision/card/Card";
 import { Reveal } from "@/components/animations/Reveal";
 import VideoPlayer from "./VedioPlayer/VedioPlayer";
 
-const page = () => {
+export default function AboutPage ()  {
   return (
     <>
       <section
@@ -45,11 +45,11 @@ const page = () => {
         </div>
         <div className="flex flex-col items-center justify-center py-[100px]">
           <Reveal y={100} width="100%">
-            <div className="flex flex-col items-center justify-center py-[100px]">
+            <div className="flex flex-col items-center justify-center lg:py-[100px] pb-[100px]">
               <h2 className=" md:text-6xl text-[30px] font-[600] text-center text-white mb-[20px]">
                 Why are we doing this?
               </h2>
-              <p className=" md:max-w-[47.891%] text-center md:text-xl text-[17px] text-white mb-[1.6em]">
+              <p className=" md:max-w-[47.891%] text-center md:text-xl text-[16px] text-white mb-[1.6em]">
                 we’re driven by the belief that live events are foundational to
                 creating lasting memories and building communities. We’ve seen
                 how ticket fraud and scalping can tarnish these experiences.{" "}
@@ -65,17 +65,17 @@ const page = () => {
             </div>
           </Reveal>
 
-          <div className="max-w-[1140px] mx-auto flex items-center  p-10px flex-wrap">
+          <div className="max-w-[1140px] mx-auto flex flex-col md:flex-row items-center  p-10px flex-wrap">
             <button className="text-lg bg-[#61CE7000] py-[12px] px-[55px] color-[#009540] border-[#009540] rounded-[34px] w-auto border-2">
               Blockchain
             </button>
-            <p className="text-[41px] text-[#009540] font-[600] px-[20px] text-center py-[12px]  h-[73px]">
+            <p className="text-[41px] text-[#009540] font-[600] px-[20px] text-center md:py-[12px] md:h-[73px]">
               +
             </p>
             <button className="text-lg bg-[#61CE7000] py-[12px] px-[55px] color-[#009540] border-[#009540] rounded-[34px] w-auto border-2">
               Events
             </button>
-            <p className="text-[41px] text-[#009540] font-[600] px-[20px] py-[12px] h-[73px]">
+            <p className="text-[41px] text-[#009540] font-[600] px-[20px] md:py-[12px] md:h-[73px]">
               =
             </p>
             <button className="text-lg bg-[#61CE7000] py-[12px] px-[55px] color-[#009540] border-[#009540] rounded-[34px] w-auto border-2">
@@ -91,13 +91,13 @@ const page = () => {
           </Reveal>
           <Reveal y={100} width="100%">
             <div className=" items-center  flex flex-col ">
-              <p className=" md:max-w-[55.338%] text-[17px] text-center md:text-xl  text-white mb-[1.6em]">
+              <p className=" md:max-w-[55.338%] text-[16px] text-center md:text-xl  text-white mb-[1.6em]">
                 The ticketing industry’s structure often places fans at the
                 bottom, undervaluing their importance and failing to incentivise
                 their loyalty. To solve this, our structure prioritises fans at
                 the top, recognising their significance.
               </p>
-              <p className=" md:max-w-[55.338%] text-center md:text-xl text-[17px] text-white mb-[1.6em]">
+              <p className=" md:max-w-[55.338%] text-center md:text-xl text-[16px] text-white mb-[1.6em]">
                 The ticketing system, positioned at the bottom, serves as a
                 foundation for connecting fans, artists, and organisers,
                 emphasising the importance of addressing fans’ needs and
@@ -118,4 +118,4 @@ const page = () => {
   );
 };
 
-export default page;
+

@@ -1,4 +1,5 @@
 "use client";
+import LocationAutocompleteReact from "./reactLocation";
 import React from "react";
 import "./CreateEvent.css";
 import Image from "next/image";
@@ -8,8 +9,12 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { useState, useRef, useEffect } from "react";
 import Editicon from "@/assets/Editicon.svg";
-import addicon from "@/assets/add-icon.svg";
+import addicon from "@/assets/Wallet/Plus.svg";
 import Link from "next/link";
+import Head from "next/head";
+import LocationAutocomplete from "./Locationinput";
+import Autocomplete from "react-google-autocomplete";
+import { usePlacesWidget } from "react-google-autocomplete";
 import {
   Form,
   FormControl,
@@ -47,15 +52,26 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "../loader/Screenloader";
 import { createevent } from "@/lib/middleware/event";
 import api from "@/lib/apiInterceptor";
-import DenseMenu from "./Dropdown";
 import arrowdown from "../../assets/arrow-down-drop.svg";
 import img1 from "../../assets/Handbag (1).svg";
 import img2 from "../../assets/Cake.svg";
 import img3 from "../../assets/Crown.svg";
 import img4 from "../../assets/Shield Star.svg";
 import tick from "../../assets/fi-rr-check.svg";
-
+import { updateEvent } from "@/lib/middleware/event";
 import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
+import ResponsiveDateTimePickers from "./DateTimePickerMui";
+
+import dayjs from "dayjs";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import calendaricon from "@/assets/calender.svg";
+import styled from "styled-components";
+import { useTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
 type TicketTypeOption = {
   id: number;
   label: string;
@@ -65,9 +81,158 @@ type TicketType = {
   price: any;
   no: any;
   options: TicketTypeOption[];
+  dropdown: any;
 };
+
+const themeMui: any = createTheme({
+  // typography: {
+  //   fontFamily: '"ClashGrotesk"',
+  // },
+  components: {
+    MuiDialog: {
+      styleOverrides: {
+        root: {
+          color: "#ffffff", // Text color for the dialog root
+        },
+        paper: {
+          backgroundColor: "#505050", // Dark background for the dialog
+          color: "#ffffff", // Default text color
+          borderRadius: "12px", // Rounded corners
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#505050", // Dark background for the dialog
+          // width: "90%",
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          color: "#ffffff", // Default text color for Typography
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          // Default styles for all tabs
+          color: "#ffffff", // Color for unselected tabs
+        },
+        selected: {
+          color: "#1976d2", // Color for selected tab
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          color: "#ffffff", // Default text color for buttons
+          backgroundColor: "transparent", // Default background color
+          borderRadius: "8px", // Rounded corners
+          "&:hover": {
+            backgroundColor: "#155a8a", // Darker color on hover
+          },
+          "&.Mui-disabled": {
+            backgroundColor: "#303f9f", // Color for disabled state
+            color: "#a0a0a0", // Text color for disabled state
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          // Apply styles to the root of the TextField
+          "&.MuiFormControl-root": {
+            // Styles specific to FormControl root
+            margin: "10px 0",
+            width: "100%",
+            border: "none",
+            outline: "0",
+          },
+          "& .MuiInputBase-root": {
+            // Customize the input area
+            backgroundColor: "transparent", // Dark background
+            color: "#fff", // Text color
+            borderRadius: "8px",
+            border: "none",
+            width: "99%",
+            outline: "0",
+            // Rounded corners
+          },
+          "& .MuiInputLabel-root": {
+            // Customize the label
+            color: "#aaa", // Label color
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            // Focused label color
+            color: "#fff",
+          },
+        },
+      },
+    },
+  },
+});
+
+const StyledDateTimePicker: any = styled(DateTimePicker)`
+  & .MuiButton-root {
+    // color: #8980f6;
+    color: #ffffff;
+  }
+  & .MuiPaper-root {
+    background-color: #eaea87;
+    color: #ffffff;
+  }
+  &. MuiTypography-root {
+    color: #ffffff;
+  }
+  //  & .MuiDialog-paper {
+  //  background-color: #eaea87;
+  //  }
+
+  & .MuiIconButton-root {
+    color: #808080;
+    color: #ffffff;
+  }
+
+  & .MuiInputBase-root {
+    border: 1px solid transparent;
+    // border-radius: 8px;
+    border: none;
+
+    // background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a);
+    color: #ffffff;
+    width: 100%;
+  }
+  & input {
+    color: #ffffff; /* Text color inside the input */
+  }
+
+  // & .MuiSvgIcon-root {
+  //   color: #ff0000; /* Set your desired icon color here */
+  // }
+  & MuiPickersDay-root {
+    color: #ffffff;
+  }
+  & MuiPickersDay-dayOutsideMonth {
+    color: #ffffff;
+  }
+  & .MuiPickersDay-today {
+    color: #ffffff;
+    border-color: #ffffff;
+  }
+  & .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
+`;
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
+  location: z.string().min(1, { message: "Event name cannot be empty." }),
+
   eventcategory: z
     .string()
     .min(1, { message: "Event category cannot be empty." }),
@@ -117,7 +282,7 @@ const formSchema = z.object({
     .min(1, { message: "Linkedin URL cannot be empty." }),
   telegramurl: z
     .string()
-    .url({ message: "Invalid Telegram URL." })
+    .url({ message: "Invalid Twitter URL." })
     .min(1, { message: "Telegram URL cannot be empty." }),
   eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
@@ -143,28 +308,44 @@ type Option = {
   image: string;
 };
 function CreateEvent() {
+  const theme = useTheme();
+
+  function MuiIcon() {
+    return (
+      <Image src={calendaricon} alt="Date picker opening icon" width={32} />
+    );
+  }
+
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
+  const [selectedPlace, setSelectedPlace] = useState<any>(null);
+  console.log("SELECTED PLACE", selectedPlace);
   const fileInputRef = useRef(null);
   const fileInputRef2 = useRef(null);
-  const [Dropdown, setDropdown] = useState(true);
+  const [dropdown, setDropdown] = useState(true);
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
 
-  const [userid, setUserid] = useState("");
+  const [userid, setUserid] = useState<any>("");
   const [Eventname, setEventname] = useState("");
   const [EventCategory, setEventCategory] = useState("");
   const [EventLocation, setEventLocation] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+
+  const handleLocationSelect = (location: string | null) => {
+    setSelectedLocation(location);
+  };
   const [TicketStartDate, setTicketStartDate] = useState("");
   const [TicketEndDate, setTicketEndDate] = useState("");
 
   const [EventStartTime, setEventStartTime] = useState("");
-  const [EventEndTime, setEventEndTime] = useState("");
+  const [EventEndTime, setEventEndTime] = useState<any>("");
+  // const [EventEndTime, setEventEndTime] = useState<dayjs.Dayjs | null>(null);
 
   console.log("my event start date is", EventStartTime);
   console.log("my ticket start date is", TicketStartDate);
 
   console.log("my event enddate is", EventEndTime);
-  console.log("my ticket endd date is", TicketEndDate);
+  console.log("my ticket endds date is", TicketEndDate);
 
   const [Eventdescription, setEventdescription] = useState("");
 
@@ -185,9 +366,11 @@ function CreateEvent() {
   const [linkedinUrl, setlinkedinUrl] = useState("");
   const [eventsFiles, setEventsFile] = useState<any>([]);
   const router = useRouter();
+
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
-    { type: "", price: 0, no: 0, options: [] },
+    { type: "", price: 0, no: 0, options: [], dropdown: true },
   ]);
+
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
     { id: 2, label: "Food and Beverages", image: img2 },
@@ -196,18 +379,27 @@ function CreateEvent() {
   ];
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
 
-  const handleDropdown = () => {
-    setDropdown(!Dropdown);
+  const handleDropdown = (index: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket, i) =>
+        i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
+      )
+    );
   };
-  const handleOptionToggle = (option: Option) => {
-    setSelectedOptions((prev) => {
-      const isSelected = prev.some((o) => o.id === option.id);
-      if (isSelected) {
-        return prev.filter((o) => o.id !== option.id);
-      } else {
-        return [...prev, option];
-      }
-    });
+
+  const handleOptionToggle = (index: number, option: TicketTypeOption) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket, i) =>
+        i === index
+          ? {
+              ...ticket,
+              options: ticket.options.some((o) => o.id === option.id)
+                ? ticket.options.filter((o) => o.id !== option.id)
+                : [...ticket.options, option],
+            }
+          : ticket
+      )
+    );
   };
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -293,20 +485,16 @@ function CreateEvent() {
     );
   };
 
-  // const handleAddTicketType = (e: any) => {
-  //   e.preventDefault();
-  //   setTicketTypes((prevTickets) => [
-  //     ...prevTickets,
-  //     { type: "", price: 0, no: 0 },
-  //   ]);
-  // };
-
   const handleAddTicketType = (e: any) => {
     e.preventDefault();
     setTicketTypes((prevTickets) => [
       ...prevTickets,
-      { type: "", price: 0, no: 0, options: [] },
+      { type: "", price: 0, no: 0, options: [], dropdown: true },
     ]);
+  };
+
+  const handleDeleteTicketType = (index: number) => {
+    setTicketTypes((prevTickets) => prevTickets.filter((_, i) => i !== index));
   };
 
   const handleSingleFileChange = async (
@@ -400,23 +588,17 @@ function CreateEvent() {
   };
 
   useEffect(() => {
-    const userID: any = localStorage.getItem("_id");
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);
 
-  const combinedArray = [
-    ...ticketTypes.map((ticket) => ({ ...ticket, source: "ticketTypes" })),
-    ...selectedOptions.map((option) => ({
-      id: option.id,
-      label: option.label,
-      source: "selectedOptions",
-    })), // Only id and label for options
-  ];
-
-  const enrichedTicketTypes = ticketTypes.map((ticket) => ({
-    ...ticket,
-    options: selectedOptions.map((option) => ({
+  const filteredTicketTypes = ticketTypes.map((ticket) => ({
+    type: ticket.type,
+    price: ticket.price,
+    no: ticket.no,
+    options: ticket.options.map((option) => ({
       id: option.id,
       label: option.label,
     })),
@@ -441,7 +623,7 @@ function CreateEvent() {
         mainEventImage: MainImg,
         coverEventImage: CoverImg,
 
-        tickets: enrichedTicketTypes,
+        tickets: filteredTicketTypes,
         totalComplemantaryTickets: CompTicketNo,
         fbUrl: FBUrl,
         instaUrl: InstaUrl,
@@ -454,7 +636,7 @@ function CreateEvent() {
       dispatch(createevent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          SuccessToast("Event Created Successfully");
+
           router.push("/viewallevents");
         } else {
           setLoader(false);
@@ -501,6 +683,9 @@ function CreateEvent() {
 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
+  // const locationAPIKEY="AIzaSyBvDU_PrmegdrMY46LXg-OMF7CqPgd1jUk"
+  const locationAPIKEY = "AIzaSyA78WzK8evJ7Vier7fUXAqjM5KDhDwyq88";
+
   return (
     <section
       style={{
@@ -518,7 +703,6 @@ function CreateEvent() {
               {" "}
               Create <span className="text-primary">Event</span>
             </h1>
-            <Image src={Editicon} alt="Edit-icon" />
           </div>
 
           <Image
@@ -526,19 +710,76 @@ function CreateEvent() {
             width={350}
             height={350}
             className="absolute right-[0] bottom-0"
-            alt="ufo"
+            alt="ufo-img"
           />
         </div>
+        {/* <div className="flex flex-col items-center justify-center min-h-screen w-full">
+          <LocationAutocompleteReact/>
+        </div> */}
+        {/* <div className="flex flex-col items-center justify-center min-h-screen">
+          <p>Location check</p>
+        <Autocomplete
+          style={{ width: "90%" }}
+            apiKey={locationAPIKEY}
+            onPlaceSelected={(place) => {
+              console.log("selected", place?.formatted_address);
+              setSelectedPlace(place); 
+            }}
+          />
+        </div> */}
+
         <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
+          {/* <div className="flex flex-col items-center justify-center min-h-screen">
+            <p>Location Autocomplete</p>
+            <h1 className="text-2xl mb-5">Location Autocomplete</h1>
+
+            <LocationAutocomplete onLocationSelect={handleLocationSelect} />
+
+          
+            {selectedLocation && (
+              <div className="mt-4">
+                <p>
+                  <strong>Selected Location:</strong> {selectedLocation}
+                </p>
+              </div>
+            )}
+          </div> */}
+
           <Form {...form}>
             <form
               className=" w-full"
-              // onSubmit={form.handleSubmit(verificationCode)}
               onSubmit={(event) => {
                 console.log("Form submit triggered");
                 form.handleSubmit(EventCreation)(event);
               }}
             >
+              <div className="flex items-start gap-[24px] w-full common-container">
+                <FormField
+                  control={form.control}
+                  name="eventlocation"
+                  render={() => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
+                        Event Location
+                      </FormLabel>
+                      <FormControl>
+                        <LocationAutocomplete
+                          onLocationSelect={handleLocationSelect}
+                        />
+                      </FormControl>
+                      {/* {selectedLocation && (
+                        <div className="mt-4">
+                          <p>
+                            <strong>Selected Location:</strong>{" "}
+                            {selectedLocation}
+                          </p>
+                        </div>
+                      )} */}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <div className="flex items-start gap-[24px] w-full common-container">
                 <FormField
                   control={form.control}
@@ -665,27 +906,7 @@ function CreateEvent() {
 
                           // max={extractDate(EventStartTime)}
                         />
-                        {/* <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
-                          <DatePicker datelabel={"Enter Event Date"}/>
-                          <DatePicker
-                            selected={EventStartDate}
-                            onChange={(date) => setEventStartDate(date)}
-                            autoFocus={false}
-                            className="custom-datepicker text-[#ffffff]"
-                            placeholderText="Enter Event Date"
-                          />
-                        </div> */}
                       </FormControl>
-
-                      {/* <Input
-                          placeholder="Enter Event Date"
-                          className="pt-11 pb-5 font-bold placeholder:font-normal"
-                          {...field}
-                          onChange={(e) => {
-                            setEventDate(e.target.value);
-                            field.onChange(e);
-                          }}
-                        /> */}
 
                       <FormMessage />
                     </FormItem>
@@ -713,27 +934,7 @@ function CreateEvent() {
                           min={TicketStartDate}
                           // max={extractDate(EventStartTime)}
                         />
-                        {/* <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
-                          <DatePicker datelabel={"Enter Event Date"}/>
-                          <DatePicker
-                            selected={EventEndDate}
-                            onChange={(date) => setEventEndDate(date)}
-                            autoFocus={false}
-                            className="custom-datepicker text-[#ffffff]"
-                            placeholderText="Enter Event Date"
-                          />
-                        </div> */}
                       </FormControl>
-
-                      {/* <Input
-                          placeholder="Enter Event Date"
-                          className="pt-11 pb-5 font-bold placeholder:font-normal"
-                          {...field}
-                          onChange={(e) => {
-                            setEventDate(e.target.value);
-                            field.onChange(e);
-                          }}
-                        /> */}
 
                       <FormMessage />
                     </FormItem>
@@ -751,23 +952,6 @@ function CreateEvent() {
                         Event Start Date & time
                       </FormLabel>
                       <FormControl>
-                        {/* <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
-                           <TimePicker
-                            onChange={setEventStartTime}
-                            value={EventStartTime}
-                            clockAriaLabel={false}
-                            disableClock={true}
-                            
-                          /> 
-                          <DateTimePicker
-                            onChange={setEventStartTime}
-                            value={EventStartTime}
-                            disableClock={true}
-                            calendarIcon={false}
-                            clearIcon={false}
-                            className="text-[#000000]"
-                          />
-                        </div> */}
                         <Input
                           type="datetime-local"
                           aria-label="Date and time"
@@ -787,7 +971,7 @@ function CreateEvent() {
                   )}
                 />
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="eventendtime"
                   render={({ field }) => (
@@ -808,31 +992,92 @@ function CreateEvent() {
                           }}
                           min={EventStartTime}
                         />
-                        {/* <div className="pt-9 pb-3 gradient-slate pl-[0.75rem] border border-[#292929]   rounded-md cursor-pointer flex justify-between items-center ">
-                          <TimePicker
-                            onChange={setEventStartTime}
-                            value={EventStartTime}
-                            clockAriaLabel={false}
-                            disableClock={true}
-                            
-                          /> 
-                        <DateTimePicker
-                            onChange={setEventEndTime}
-                            value={EventEndTime}
-                            disableClock={true}
-                            calendarIcon={false}
-                            clearIcon={false}
-                            className="text-[#000000]"
-                          />
-                          
-                        </div> */}
                       </FormControl>
 
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
               </div>
+              <>
+                <ThemeProvider theme={themeMui}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={["DateTimePicker"]}>
+                      <FormField
+                        control={form.control}
+                        name="eventendtime"
+                        render={({ field }) => (
+                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929]">
+                            <FormLabel className="text-sm text-gray-500  uppercase pt-[16px] pb-[4px]  ">
+                              Event End Date & Time
+                            </FormLabel>
+                            <FormControl>
+                              <div className=" w-full">
+                                <StyledDateTimePicker
+                                  //  {...field}
+                                  onChange={(e: any) => {
+                                    setEventEndTime(e); // Update local state
+                                    field.onChange(e); // Update form control
+                                  }}
+                                  //  label="Event End Date & Time"
+                                  minDateTime={dayjs("2024-10-15T08:30")}
+                                  // slots={{ openPickerIcon: MuiIcon }} // Custom icon
+                                  slotProps={{
+                                    tabs: {
+                                      hidden: false,
+                                    },
+                                    toolbar: {
+                                      toolbarFormat: "YYYY",
+                                      hidden: false,
+                                    },
+                                    calendarHeader: {
+                                      sx: { color: "white" },
+                                    },
+                                  }}
+                                />
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </ThemeProvider>
+              </>
+              {/* <ResponsiveDateTimePickers /> */}
+
+              {/* <ThemeProvider theme={themeMui}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DateTimePicker"]}>
+                    <StyledDateTimePicker
+                      minDateTime={dayjs("2024-10-15T08:30")}
+                      onChange={(e) => {
+                        setEventEndTime(e);
+                        console.log("my start time new", e);
+                      }}
+                      slots={{ openPickerIcon: MuiIcon }}
+                      slotProps={{
+                        tabs: {
+                          hidden: false,
+                        },
+                        toolbar: {
+                          // color:"white",
+                          // Customize value display
+                          toolbarFormat: "YYYY",
+                          // Change what is displayed given an empty value
+                          // toolbarPlaceholder: '??',
+                          // Show the toolbar
+                          hidden: false,
+                        },
+                        calendarHeader: {
+                          sx: { color: "white" },
+                        },
+                      }}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </ThemeProvider> */}
 
               <div className="flex items-start gap-[24px] w-full mt-[24px] common-container ">
                 <FormField
@@ -866,7 +1111,6 @@ function CreateEvent() {
                               className="hidden"
                               id="upload"
                               onChange={handleSingleFileChange}
-                              //   onChange={(e) => handleInputChangeForUploadMedia(e)}
                             />
                           </label>
                         </div>
@@ -895,18 +1139,9 @@ function CreateEvent() {
                             htmlFor="upload2"
                             className="pt-9 pb-3 font-bold   border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-between items-center "
                           >
-                            {/* <span>{field.value?.name || "Upload Image"}</span> */}
                             <span className="pl-[0.75rem]">
                               {CoverImgName || "Upload Image"}
                             </span>
-                            {/* {CoverImgName  &&  CoverImg ? (
-                              <span className="pl-[0.75rem]">
-                                {CoverImgName}
-                              </span>
-                            ) : (
-                              <span>Upload Image</span>
-                            )} */}
-
                             <input
                               ref={fileInputRef2}
                               type="file"
@@ -914,8 +1149,6 @@ function CreateEvent() {
                               className="hidden"
                               id="upload2"
                               onChange={handleCoverSingleFileChange}
-
-                              //   onChange={(e) => handleInputChangeForUploadMedia(e)}
                             />
                           </label>
                         </div>
@@ -925,28 +1158,44 @@ function CreateEvent() {
                   )}
                 />
               </div>
-
               <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
                 <FormItem className="relative w-full space-y-0">
                   <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                     Gallery media
                     {galleryFiles?.length > 0 && (
                       <div className="mt-4 pb-4 relative">
-                        <div className="flex flex-wrap gap-[12px] ">
-                          {galleryFiles?.map((file, index) => (
-                            <>
+                        <div className="flex flex-wrap gap-[12px]">
+                          {galleryFiles?.map((file, index) => {
+                            const isVideo = file.type.startsWith("video/");
+                            const isImage = file.type.startsWith("image/");
+                            return (
                               <div
                                 key={index}
-                                className="relative w-[80px] h-[80px] bg-gray-200  rounded-[12px]"
+                                className="relative w-[80px] h-[80px] bg-gray-200 rounded-[12px]"
                               >
-                                <Image
-                                  src={window.URL.createObjectURL(file)}
-                                  alt={`Gallery Image ${index + 1}`}
-                                  className="w-full h-full object-cover relative rounded-[12px]"
-                                  width={80}
-                                  height={80}
-                                />
-
+                                {isVideo ? (
+                                  <video
+                                    src={window.URL.createObjectURL(file)}
+                                    className="w-full h-full object-cover relative rounded-[12px]"
+                                    width={80}
+                                    height={80}
+                                    controls
+                                  >
+                                    Your browser does not support the video tag.
+                                  </video>
+                                ) : isImage ? (
+                                  <Image
+                                    src={window.URL.createObjectURL(file)}
+                                    alt={`Gallery Image ${index + 1}`}
+                                    className="w-full h-full object-cover relative rounded-[12px]"
+                                    width={80}
+                                    height={80}
+                                  />
+                                ) : (
+                                  <p className="w-full h-full flex items-center justify-center text-red-500">
+                                    Unsupported media type
+                                  </p>
+                                )}
                                 <button
                                   type="button"
                                   onClick={() => removeImage(index)}
@@ -960,8 +1209,8 @@ function CreateEvent() {
                                   />
                                 </button>
                               </div>
-                            </>
-                          ))}
+                            );
+                          })}
                         </div>
                       </div>
                     )}
@@ -970,7 +1219,7 @@ function CreateEvent() {
                     <div>
                       <label
                         htmlFor="galleryUpload"
-                        className={` pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px]  ${
+                        className={`pb-3 gallery-box-same font-bold border border-[#292929] placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end pr-[40px] ${
                           galleryFiles.length > 0
                             ? "h-[200px] gallery-box"
                             : "pt-9 gallery-top"
@@ -982,7 +1231,7 @@ function CreateEvent() {
                         <input
                           type="file"
                           multiple
-                          accept="image/png, image/jpg, image/jpeg, image/svg"
+                          accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
                           className="hidden"
                           id="galleryUpload"
                           onChange={handleFileChange}
@@ -992,205 +1241,164 @@ function CreateEvent() {
                   </FormControl>
                 </FormItem>
               </div>
-
               {ticketTypes.map((ticket, index) => (
                 <div
-                  className="flex items-start gap-[24px] w-full mt-[24px] common-container"
+                  className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
                   key={index}
                 >
-                  <FormField
-                    control={form.control}
-                    name={`tickets.${index}.type`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                          Event Ticket Type
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter Type"
-                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                            {...field}
-                            onChange={(e) => {
-                              handleInputChange(index, "type", e.target.value);
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <div className="flex items-center gap-[24px] common-container">
+                    {/* Event Ticket Type Field */}
+                    <FormField
+                      control={form.control}
+                      name={`tickets.${index}.type`}
+                      render={({ field }) => (
+                        <FormItem className="relative w-full space-y-0">
+                          <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                            Event Ticket Type
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter Type"
+                              className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                              {...field}
+                              onChange={(e) => {
+                                handleInputChange(
+                                  index,
+                                  "type",
+                                  e.target.value
+                                );
+                                field.onChange(e);
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField
-                    control={form.control}
-                    name={`tickets.${index}.price`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                          Event Ticket Price
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Enter Price"
-                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                            {...field}
-                            onChange={(e) => {
-                              handleInputChange(
-                                index,
-                                "price",
-                                parseFloat(e.target.value)
-                              );
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                    {/* Event Ticket Price Field */}
+                    <FormField
+                      control={form.control}
+                      name={`tickets.${index}.price`}
+                      render={({ field }) => (
+                        <FormItem className="relative w-full space-y-0">
+                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                            Event Ticket Price
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="Enter Price"
+                              className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                              {...field}
+                              onChange={(e) => {
+                                handleInputChange(
+                                  index,
+                                  "price",
+                                  parseFloat(e.target.value)
+                                );
+                                field.onChange(e);
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField
-                    control={form.control}
-                    name={`tickets.${index}.no`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                          Event Number of Tickets
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Enter No. of Tickets"
-                            className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
-                            {...field}
-                            onChange={(e) => {
-                              handleInputChange(
-                                index,
-                                "no",
-                                parseInt(e.target.value, 10)
-                              );
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                    {/* Event Number of Tickets Field */}
+                    <FormField
+                      control={form.control}
+                      name={`tickets.${index}.no`}
+                      render={({ field }) => (
+                        <FormItem className="relative w-full space-y-0">
+                          <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                            Event Number of Tickets
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="Enter No. of Tickets"
+                              className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
+                              {...field}
+                              onChange={(e) => {
+                                handleInputChange(
+                                  index,
+                                  "no",
+                                  parseInt(e.target.value, 10)
+                                );
+                                field.onChange(e);
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  {/* What's Included Section */}
+                  <div className="pb-[8px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                    <div
+                      className="flex items-center justify-between"
+                      onClick={() => handleDropdown(index)}
+                    >
+                      <p className="text-sm text-gray-500 uppercase">
+                        WHATS INCLUDED
+                      </p>
+                      <Image
+                        src={ticket?.dropdown ? arrowdown : arrowdown}
+                        width={11}
+                        height={11}
+                        alt="arrow"
+                      />
+                    </div>
+                    {ticket?.dropdown && (
+                      <div>
+                        {options?.map((option) => (
+                          <div
+                            key={option.id}
+                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                            onClick={() => handleOptionToggle(index, option)}
+                          >
+                            <div className="flex items-center gap-[10px]">
+                              <Image
+                                src={option.image}
+                                width={16}
+                                height={16}
+                                alt="img"
+                              />
+                              <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                {option?.label}
+                              </p>
+                            </div>
+                            {ticket?.options.some(
+                              (o) => o.id === option.id
+                            ) && (
+                              <Image
+                                src={tick}
+                                width={10}
+                                height={10}
+                                alt="tick"
+                              />
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     )}
-                  />
+                  </div>
                 </div>
               ))}
 
-              {/* <div className="pb-[20px] mt-[12px] w-full rounded-md border border-[#292929] gradient-slate px-3 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 ">
-                <div
-                  className="flex items-center justify-between pt-[16px]"
-                  onClick={handleDropdown}
-                >
-                  <p className="text-sm text-gray-500 uppercase ">
-                    WHATS INCLUDED
-                  </p>
-                  <Image
-                    src={arrowdown}
-                    width={11}
-                    height={11}
-                    alt="arrow-down"
-                  />
-                </div>
-                {Dropdown && (
-                  <div>
-                    <div className="flex items-center justify-between  pt-[8px] ">
-                      <div className="flex items-center gap-[10px]  pt-[8px]">
-                        <Image src={img1} width={16} height={16} alt="img" />
-                        <p className="text-[14px] text-gray-500 ">
-                          Merchandise Stalls
-                        </p>
-                      </div>
-
-                      <Image src={tick} width={10} height={10} alt="img" />
-                    </div>
-                    <div className="flex items-center justify-between   pt-[8px]">
-                      <div className="flex items-center gap-[10px]  pt-[8px]">
-                        <Image src={img2} width={16} height={16} alt="img" />
-                        <p className="text-[14px] text-gray-500  ">
-                          Food and Beverages
-                        </p>
-                      </div>
-                      <Image src={tick} width={10} height={10} alt="img" />
-                    </div>
-                    <div className="flex items-center justify-between   pt-[8px]">
-                      <div className="flex items-center gap-[10px]  pt-[8px]">
-                        <Image src={img3} width={16} height={16} alt="img" />
-                        <p className="text-[14px] text-gray-500  ">
-                          VIP Lounge
-                        </p>
-                      </div>
-                      <Image src={tick} width={10} height={10} alt="img" />
-                    </div>
-                    <div className="flex items-center justify-between   pt-[8px]">
-                      <div className="flex items-center gap-[10px]  pt-[8px]">
-                        <Image src={img4} width={16} height={16} alt="img" />
-                        <p className="text-[14px] text-gray-500  ">
-                          Security and First Aid
-                        </p>
-                      </div>
-                      <Image src={tick} width={10} height={10} alt="img" />
-                    </div>
-                  </div>
-                )}
-              </div> */}
-
-              <div className="pb-[8px] mt-[12px] w-full rounded-md border border-[#292929] gradient-slate  pt-[16px] px-[12px]  text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                <div
-                  className="flex items-center justify-between "
-                  onClick={handleDropdown}
-                >
-                  <p className="text-sm text-gray-500 uppercase">
-                    WHATS INCLUDED
-                  </p>
-                  <Image
-                    src={Dropdown ? arrowdown : arrowdown}
-                    width={11}
-                    height={11}
-                    alt="arrow"
-                  />
-                </div>
-                {Dropdown && (
-                  <div>
-                    {options?.map((option) => (
-                      <div
-                        key={option?.id}
-                        className="flex items-center justify-between pt-[8px] cursor-pointer"
-                        onClick={() => handleOptionToggle(option)}
-                      >
-                        <div className="flex items-center gap-[10px]  ">
-                          <Image
-                            src={option.image}
-                            width={16}
-                            height={16}
-                            alt="img"
-                          />
-                          <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                            {option.label}
-                          </p>
-                        </div>
-                        {selectedOptions.some((o) => o.id === option.id) && (
-                          <Image src={tick} width={10} height={10} alt="tick" />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {/* To use the selected options elsewhere */}
-                {/* <div>
-                  Selected Options:{" "}
-                  {selectedOptions.map((o) => o.label).join(", ")}
-                </div> */}
-              </div>
-
+              {/* Add Ticket Type Button */}
               <div className="flex justify-end items-center mt-[12px] ticket-btn">
                 <Button
-                  className="font-bold h-[32px] py-[8px] px-[12px] gap-[9.75px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold "
+                  style={{
+                    background:
+                      "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                  }}
+                  className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px]  rounded-full  
+               border-[0.86px] border-transparent text-[11px] font-extrabold"
                   onClick={handleAddTicketType}
                 >
                   <Image src={addicon} alt="Add-icon" height={12} width={12} />
@@ -1224,40 +1432,6 @@ function CreateEvent() {
                   )}
                 />
               </div>
-
-              {/* <div className="flex items-center gap-[24px] w-full mt-[24px]">
-                <FormField
-                  control={form.control}
-                  name="eventname"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Gallery media
-                      </FormLabel>
-                      <div>
-                        <label
-                          htmlFor="upload"
-                          className="pt-9 pb-3 font-bold 
-                            border border-[#292929]  placeholder:font-normal gradient-slate rounded-md cursor-pointer flex justify-end items-end  pr-[40px]"
-                        >
-                          <span className="pl-[0.75rem] uploadImageButton">
-                            {"Upload Image"}
-                          </span>
-
-                          <input
-                            type="file"
-                            multiple="multiple"
-                            accept="image/png image/jpg image/jpeg image/svg"
-                            className="hidden"
-                            id="upload"
-                            //   onChange={(e) => handleInputChangeForUploadMedia(e)}
-                          />
-                        </label>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-              </div> */}
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
@@ -1412,7 +1586,7 @@ function CreateEvent() {
                   type="submit"
                   className="font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                 >
-                  Create Event
+                  Host Event
                 </Button>
               </div>
             </form>

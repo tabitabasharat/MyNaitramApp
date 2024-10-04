@@ -1,18 +1,26 @@
+.main-above {
+  padding: 144px 24px !important;
+}
 .main-div-takeover {
-  padding: 100px 24px !important;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 40px;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
+}
+@media (max-width:992px) {
+  .main-div-takeover{
+    justify-content: center;
+  }
+  
 }
 .takeover {
   height: 100% !important;
 }
-.bg-img {
+/* .bg-img {
   background-repeat: no-repeat;
   background-size: cover;
   background-image: url("../../../assets/Hero\ Banner.png");
-}
+} */
 .custom-prev-arrow {
   position: absolute;
   top: 40%;
@@ -32,16 +40,54 @@
   border-radius: 12px !important;
 }
 
-@media(max-width:992px)
-{
+
+@media (max-width:400px) {
   .lhs-hero{
     width: 100%;
+  }  
+}
+
+.img-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 392px;
+  height: 392px;
+}
+@media(max-width:1414px){
+  .img-center{
+    height: 275px !important;
   }
+}
+@media (max-width:1021px) {
+  .img-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 392px !important;
+    height: 392px !important;
+  }
+}
+
+@media(max-width:992px)
+{
+
   .main-div-takeover{
     width: 100%;
+    flex-wrap: wrap;
+  }
+  .img-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 392px !important;
+    height: 392px !important;
   }
 }
 @media (max-width: 768px) {
+  .main-above {
+    padding: 128px 24px !important;
+  }
   .rhs-hero {
     width: 100%;
   }
@@ -58,9 +104,7 @@
     width: 40px;
     height: 40px;
   }
-  .lhs-hero{
-    width: 100%;
-  }
+
   .main-div-takeover{
     width: 100%;
   }

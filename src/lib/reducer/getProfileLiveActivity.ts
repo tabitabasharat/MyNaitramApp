@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { showLiveActivity } from "../middleware/profile";
-import LiveActivity from "@/components/live-activity-page/LiveActivity";
 
 const initialState:any = {
   loading: false,
