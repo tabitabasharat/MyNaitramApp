@@ -1,3 +1,77 @@
+/* .css-3dah0e-MuiModal-root-MuiDialog-root .MuiDialog-paper{
+  background: linear-gradient(
+    to top,
+    #0f0f0f,
+    #0f0f0f,
+    #0f0f0f,
+    #1a1a1a
+  ) !important;
+  color: white !important;
+} */
+
+.MuiDatePickerToolbar-root{
+  color: white !important;
+}
+.MuiDatePickerToolbar-title{
+  color: white !important;
+
+}
+.MuiTypography-root{
+  color: white !important;
+}
+.MuiButtonBase-root-MuiTab-root
+{
+  color: white !important;
+
+}
+/* .css-57ss0r-MuiButtonBase-root-MuiTab-root.Mui-selected {
+  color: #1976d2;
+} */
+
+.css-12mkn7b-MuiButtonBase-root-MuiIconButton-root-MuiPickersCalendarHeader-switchViewButton {
+  color: white !important;
+}
+.css-1nkg345-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button 
+{
+  color: white !important;
+}
+.css-kg9q0s-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button.Mui-disabled {
+  color: white !important;
+}
+
+.css-kg9q0s-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button {
+  color: #343434 !important;
+
+}
+
+
+.MuiPickersDay-root{
+color: #ffffff !important;
+}
+.MuiPickersDay-today{
+  border-color: white !important;
+color: #ffffff !important;
+
+}
+.MuiClockNumber-root{
+color: #ffffff !important;
+
+}
+.css-zddqwy-MuiClockNumber-root {
+  color: #ffffff !important; /* Use !important cautiously */
+}
+
+.Mui-disabled{
+  color: #343434 !important;
+}
+.MuiMultiSectionDigitalClockSection-item {
+  color: white !important;
+
+}
+
+/* .css-1507ge4-MuiClockNumber-root.Mui-disabled {
+  color: white !important;
+} */
 .pac-container {
   border: none !important;
   background: linear-gradient(

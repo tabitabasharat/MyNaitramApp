@@ -86,6 +86,18 @@ import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
 import { AnyAaaaRecord } from "dns";
 import Editor from "@/components/reusable-components/Editor";
 
+import dayjs from "dayjs";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import calendaricon from "@/assets/calender.svg";
+import styled from "styled-components";
+import { useTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { addHours } from 'date-fns';
+
 type TicketTypeOption = {
   id: number;
   label: string;
@@ -412,7 +424,192 @@ interface EventData {
 }
 type SelectedOption = "free" | "paid" | null;
 
+const themeMui: any = createTheme({
+  // typography: {
+  //   fontFamily: '"ClashGrotesk"',
+  // },
+  components: {
+    MuiDialog: {
+      styleOverrides: {
+        root: {
+          color: "#ffffff", // Text color for the dialog root
+        },
+        paper: {
+          backgroundColor: "#505050", // Dark background for the dialog
+          color: "#ffffff", // Default text color
+          borderRadius: "12px",
+          // width:"100%" // Rounded corners
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#505050", // Dark background for the dialog
+          // width: "90%",
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          color: "#ffffff", // Default text color for Typography
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          // Default styles for all tabs
+          color: "#ffffff", // Color for unselected tabs
+        },
+        selected: {
+          color: "#1976d2", // Color for selected tab
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          color: "#ffffff", // Default text color for buttons
+          backgroundColor: "transparent", // Default background color
+          borderRadius: "8px", // Rounded corners
+          "&:hover": {
+            backgroundColor: "#155a8a", // Darker color on hover
+          },
+          "&.Mui-disabled": {
+            backgroundColor: "#303f9f", // Color for disabled state
+            color: "#a0a0a0", // Text color for disabled state
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          // Apply styles to the root of the TextField
+          "&.MuiFormControl-root": {
+            // Styles specific to FormControl root
+            margin: "0px 0",
+            width: "100%",
+            border: "none",
+            outline: "0",
+            color: "#fff",
+          },
+          "& .MuiInputBase-root": {
+            // Customize the input area
+            backgroundColor: "transparent", // Dark background
+            color: "#fff", // Text color
+            borderRadius: "8px",
+            border: "none",
+            width: "99%",
+            outline: "0",
+            // Rounded corners
+          },
+          "& .MuiInputLabel-root": {
+            color: "#fff",
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            // Focused label color
+            color: "#fff",
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        input: {
+          color: "#fff", // Text color
+          padding: "7.5px 0px  16.5px 0px ", // Example padding
+          "&::placeholder": {
+            color: "#ffffff", // Change to your desired placeholder color
+            opacity: 1, // Make sure the opacity is set to 1
+          },
+        },
+        notchedOutline: {
+          border: "none",
+        },
+      },
+    },
+
+   
+   
+
+
+    
+  },
+});
+
+const StyledDateTimePicker: any = styled(DateTimePicker)`
+  & .MuiButton-root {
+    // color: #8980f6;
+    color: #ffffff;
+  }
+  & .MuiPaper-root {
+    background-color: #eaea87;
+    color: #ffffff;
+  }
+  &. MuiTypography-root {
+    color: #ffffff;
+  }
+  //  & .MuiDialog-paper {
+  //  background-color: #eaea87;
+  //  }
+
+  & .MuiIconButton-root {
+    // color: #808080;
+    color: #ffffff;
+  }
+
+  & .MuiInputBase-root {
+    border: 1px solid transparent;
+    // border-radius: 8px;
+    border: none;
+
+    // background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a);
+    color: #ffffff;
+    width: 100%;
+  }
+  & input {
+    color: #ffffff; /* Text color inside the input */
+  }
+
+  // & .MuiSvgIcon-root {
+  //   color: #ff0000; /* Set your desired icon color here */
+  // }
+  & MuiPickersDay-root {
+    color: #ffffff;
+  }
+  & MuiPickersDay-dayOutsideMonth {
+    color: #ffffff;
+  }
+  & .MuiPickersDay-today {
+    color: #ffffff;
+    border-color: #ffffff;
+  }
+  & .MuiOutlinedInput-notchedOutline {
+    border: none;
+    color: #ffffff;
+  }
+  & .MuiClockNumber-root {
+    color: #ffffff;
+  }
+`;
+
 function OganizerCreateEvent() {
+  const theme = useTheme();
+
+  function MuiIcon() {
+    return (
+      <Image
+        src={calendaricon}
+        alt="Date picker opening icon"
+        width={20}
+        className="opacity-90"
+      />
+    );
+  }
+
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<SelectedOption>("free");
 
@@ -448,7 +645,7 @@ function OganizerCreateEvent() {
   const [EventEndTime, setEventEndTime] = useState("");
 
   const [Eventdescription, setEventdescription] = useState("");
-  console.log("event des", Eventdescription);
+  console.log("event des", EventEndTime);
 
   const [CompTicketNo, setCompTicketNo] = useState("");
   const [MainImg, setMainImg] = useState("");
@@ -1799,7 +1996,7 @@ function OganizerCreateEvent() {
                   }}
                 />
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="eventendtime"
                   render={({ field }) => {
@@ -1843,8 +2040,9 @@ function OganizerCreateEvent() {
                                 e.target.value
                               );
                             }}
-                            min={EventStartTime}
-                            // min={minEndDateString}
+                            // min={EventStartTime}
+                            // min="2024-10-15T08:30"
+                            min={minEndDateString}
                           />
                         </FormControl>
 
@@ -1852,8 +2050,79 @@ function OganizerCreateEvent() {
                       </FormItem>
                     );
                   }}
-                />
+                /> */}
               </div>
+              <>
+                <ThemeProvider theme={themeMui}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={["DateTimePicker"]}>
+                      <FormField
+                        control={form.control}
+                        name="eventendtime"
+                        render={({ field }) => {
+                          const adjustedEventStartTime = dayjs(EventStartTime).add(5, 'hour');
+                          return(
+                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[14px]">
+                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                              Event End Date & Time
+                            </FormLabel>
+                            <FormControl>
+                              <div className=" w-full">
+                                <StyledDateTimePicker
+                                  //  {...field}
+                                  // onChange={(e: any) => {
+                                  //   setEventEndTime(e);
+                                  //   field.onChange(e);
+                                  // }}
+
+                                  onChange={(e:any) => {
+                                    if (e && e.isValid()) {
+                                      const formattedDate = e.format('YYYY-MM-DDTHH:mm');
+                                      setEventEndTime(formattedDate);
+                                      field.onChange(formattedDate);
+                                    }
+                                  }}
+                                  //  label="Event End Date & Time"
+                                  // minDateTime={dayjs("2024-10-15T08:30")}
+                                  minDateTime={adjustedEventStartTime}
+
+                                  // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                  slots={{
+                                    openPickerIcon: () => (
+                                      <CalendarTodayIcon
+                                        style={{
+                                          color: "#5e5e5e",
+                                          fontSize: "15px",
+                                          position: "absolute",
+                                          top: "-17px",
+                                          right: "5px",
+                                        }}
+                                      />
+                                    ),
+                                  }}
+                                  slotProps={{
+                                    tabs: {
+                                      hidden: false,
+                                    },
+                                    toolbar: {
+                                      toolbarFormat: "YYYY",
+                                      hidden: false,
+                                    },
+                                    calendarHeader: {
+                                      sx: { color: "white" },
+                                    },
+                                  }}
+                                />
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}}
+                      />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </ThemeProvider>
+              </>
               {/* <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
                 <div className="flex w-full lg:w-[350px] gap-[12px]">
                   <div

@@ -235,6 +235,11 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     // };
     // dispatch(getFollowingPromoters(data));
   }, []);
+
+
+ 
+
+ 
   return (
     <section className="bg-img ">
       {userLoading?.loading && <ScreenLoader />}
@@ -486,6 +491,8 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                           </div>
                         )}
 
+
+
                       <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
                         {/* {eventAttendy?.length > 0 && (
                           <>
@@ -500,6 +507,8 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                             {eventAttendy.length - 1} others going
                           </>
                         ) : null}
+
+
                       </h3>
                       <p className="text-[#BFBFBF] text-[12px] pt-[4px]">
                         Tap to see the live activities

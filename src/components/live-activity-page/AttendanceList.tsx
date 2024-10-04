@@ -23,6 +23,8 @@ import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import Link from "next/link";
 import { useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "../loader/Screenloader";
+import Avatrimg from "@/assets/Wallet/Avatar new.svg"
+
 
 const AttendanceList = () => {
   const eventAttendy = useAppSelector((state: any) => state?.getAllAttend);
@@ -59,7 +61,7 @@ const AttendanceList = () => {
             <Avatar
               size="size-[64px]"
               key={attendee?.id}
-              img={attendee?.profilePicture ? attendee?.profilePicture : ""}
+              img={attendee?.profilePicture ? attendee?.profilePicture : Avatrimg}
             />
           ))}
         </div>
@@ -81,7 +83,7 @@ const AttendanceList = () => {
               <SwiperSlide key={attendee.id}>
                 <Avatar
                   size="size-[64px]"
-                  img={attendee?.profilePicture ? attendee?.profilePicture : ""}
+                  img={attendee?.profilePicture ? attendee?.profilePicture : Avatrimg}
                 />
               </SwiperSlide>
             ))}
@@ -118,7 +120,7 @@ const AttendanceList = () => {
                     <Avatar
                       key={attendee?.id}
                       img={
-                        attendee?.profilePicture ? attendee?.profilePicture : ""
+                        attendee?.profilePicture ? attendee?.profilePicture : Avatrimg
                       }
                       size="size-[55px]"
                     />

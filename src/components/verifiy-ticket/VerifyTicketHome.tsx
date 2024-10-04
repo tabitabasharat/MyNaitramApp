@@ -70,14 +70,12 @@ function VerifiyTicketHome() {
   }, []);
 
   async function verifyBlockchain() {
-    setLoader(true);
-    if(!ticketid)
-      {
-       ErrorToast("Ticket Id cannot be empty")
-       return;
-      }
-   
+    if (!ticketid) {
+      ErrorToast("Ticket Id cannot be empty");
+      return;
+    }
 
+    setLoader(true);
     try {
       const currentUrl: any =
         typeof window !== "undefined" ? window.location.href : null;
@@ -97,20 +95,20 @@ function VerifiyTicketHome() {
           localStorage.setItem("ticketId", ticketid);
           router.push(`/wallet/specific-qr-code/${ticketid}`);
         } else {
-        setLoader(false);
+          setLoader(false);
 
           ErrorToast("Ticket Not Found");
         }
       });
     } catch (error) {
-        setLoader(false);
+      setLoader(false);
       console.error("Error:", error);
     }
   }
 
   return (
     <div>
-        {loader && <ScreenLoader/>}
+      {loader && <ScreenLoader />}
       <section className="min-h-screen bg-cover bg-no-repeat bg-reward">
         <div className="lg:pt-[134px] lg:pb-[116px] w-full pb-[74px] py-[139px] md:px-[100px] lg:px-[216px] px-[24px]">
           <div className="flex gap-[16px] mb-[25px] md:mb-[32px] items-center ">
