@@ -22,20 +22,32 @@ const GalleryPage = () => {
     return () => clearTimeout(timer); // Clean up the timer
   }, []);
 
-  const handleNavigation = (event:any) => {
+  const handleNavigation = (event: any) => {
     if (event === "NAITRAM LAUNCH PARTY") {
-      typeof window !== "undefined" ? window.location.href = "/gallery/naitramlaunch" :null;
+      typeof window !== "undefined"
+        ? (window.location.href = "/gallery/naitramlaunch")
+        : null;
     } else if (event === "NAITRAM ROOFTOP EVENT") {
-      typeof window !== "undefined" ? window.location.href = "/gallery/rooftop":null;
+      typeof window !== "undefined"
+        ? (window.location.href = "/gallery/rooftop")
+        : null;
     } else if (event === "THE TAKEOVER EVENT") {
-      typeof window !== "undefined" ?  window.location.href = "/gallery/takeover":null;
+      typeof window !== "undefined"
+        ? (window.location.href = "/gallery/takeover")
+        : null;
+    }  else if (event === "NAITRAM VERIFIED FAMILY AND FRIENDS PARTY") {
+      typeof window !== "undefined"
+        ? (window.location.href = "/gallery/friends")
+        : null;
     }
   };
-  
+
   const eventBackgrounds: { [key: string]: string } = {
     "NAITRAM LAUNCH PARTY": "/Images/gallery/bgcard.png",
     "NAITRAM ROOFTOP EVENT": "/Images/gallery/NAITRAMROOFTOPEVENT.png",
     "THE TAKEOVER EVENT": "/Images/gallery/TheTakeoverFlyer.png",
+    "NAITRAM VERIFIED FAMILY AND FRIENDS PARTY":
+      "/Images/gallery/Family&Friends.png",
   };
 
   return (
@@ -57,12 +69,13 @@ const GalleryPage = () => {
             vanguard of the events and entertainment industry’s transformation.
           </p>
         </div>
-        <div className="mt-10 flex flex-wrap justify-center gap-3 mb-10">
+        <div className="mt-10 flex flex-wrap md:justify-start justify-center gap-3 mb-10">
           {[
             "NAITRAM LAUNCH PARTY",
             "NAITRAM ROOFTOP EVENT",
             "THE TAKEOVER EVENT",
-          ].map((event) => (
+            "NAITRAM VERIFIED FAMILY AND FRIENDS PARTY",
+          ].map((event, index) => (
             <div
               key={event}
               className="group relative flex flex-col min-h-[360px] justify-center items-center gap-4 w-full sm:w-[300px] lg:w-[400px] overflow-hidden"
@@ -71,7 +84,11 @@ const GalleryPage = () => {
                 className="absolute inset-0 bg-no-repeat bg-center bg-contain transition-transform duration-300 group-hover:scale-110 opacity-70"
                 style={{ backgroundImage: `url(${eventBackgrounds[event]})` }}
               ></div>
-              <h2 className="relative text-[18px] sm:text-[20px] lg:text-[24px] font-bold">
+              <h2
+                className={`relative text-[18px] sm:text-[20px] lg:text-[24px] font-bold text-center ${
+                  index === 3 ? "max-w-[314px]" : ""
+                } `}
+              >
                 {event}
               </h2>
               <button

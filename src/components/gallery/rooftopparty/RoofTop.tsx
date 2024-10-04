@@ -1,9 +1,10 @@
 import Image from "next/image";
-import takeImage1 from "../../../assets/roof1.svg";
-import takeImage2 from "../../../assets/roof2.svg";
-import takeImage3 from "../../../assets/roof3.svg";
-import takeImage4 from "../../../assets/roof4.svg";
-import takeImage5 from "../../../assets/roof5.svg";
+import back from "../../../assets/naitramgallery/back.svg"
+import takeImage1 from "../../../assets/naitramgallery/Rooftop/naitram_rooftop_party_set1.webp";
+import takeImage2 from "../../../assets/naitramgallery/Rooftop/naitram_rooftop_party_set2.webp";
+import takeImage3 from "../../../assets/naitramgallery/Rooftop/naitram_rooftop_party_set3.webp";
+import takeImage4 from "../../../assets/naitramgallery/Rooftop/naitram_rooftop_party_set4.webp";
+import takeImage5 from "../../../assets/naitramgallery/Rooftop/naitram_rooftop_party_set5.webp";
 
 const TakeOverEvent = () => {
   return (
@@ -17,6 +18,14 @@ const TakeOverEvent = () => {
         opacity: "1",
       }}
     >
+     <a
+        href="/gallery"
+      >
+        <div className="pb-[40px] flex items-center gap-[16px] cursor-pointer ">
+          <Image src={back} alt="/" />
+          <p className=" text-[16px] font-[700] pt-[4px] ">Gallery</p>
+        </div>
+      </a>
       <h1 className="md:text-start text-center text-[32px] font-[800] pb-[25px] ">
         NAITRAM ROOFTOP PARTY
       </h1>
