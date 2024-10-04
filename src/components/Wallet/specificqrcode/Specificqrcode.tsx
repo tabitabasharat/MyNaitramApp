@@ -36,7 +36,8 @@ import img17 from "@/assets/Whats-Included/option17.svg";
 import img18 from "@/assets/Whats-Included/option18.svg";
 import img19 from "@/assets/Whats-Included/option19.svg";
 import img20 from "@/assets/Whats-Included/option20.svg";
-import { Button } from "react-day-picker";
+import { Button } from "@/components/ui/button";
+
 
 interface Location {
   id: number;
