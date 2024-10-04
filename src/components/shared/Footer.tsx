@@ -14,6 +14,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import twitter from "@/assets/prime_twitter.svg";
 import NaitramLogo from "@/assets/N UFO TEXT LOGO.svg";
+import { YoutubeLogo } from "@phosphor-icons/react";
 
 const Footer = () => {
   return (
@@ -76,31 +77,56 @@ const Footer = () => {
               target="_blank"
               href="https://www.linkedin.com/company/naitramlive/"
             >
-              <LinkedinLogo  className="w-[32px] h-[32px]" weight="fill" />
+              <LinkedinLogo className="w-[32px] h-[32px]" weight="fill" />
             </Link>
             <Link
               target="_blank"
-              href="https://www.instagram.com/naitram.live?igsh=MXhjcXI1bjlydG16Mw=="
+              href="https://www.instagram.com/naitram.developments?igsh=OGRxd2RuYmMzazFp"
             >
-              <InstagramLogo  className="w-[32px] h-[32px]" weight="fill" />
+              <InstagramLogo className="w-[32px] h-[32px]" weight="fill" />
             </Link>
-            <Link target="_blank" href="">
+            <Link
+              target="_blank"
+              href="https://www.instagram.com/naitram.live?igsh=MXh0amo4YWFyemF4aA=="
+            >
+              <InstagramLogo className="w-[32px] h-[32px]" weight="fill" />
+            </Link>
+            {/* <Link target="_blank" href="">
               <FacebookLogo  className="w-[32px] h-[32px]" weight="fill" />
+            </Link> */}
+            <Link
+              target="_blank"
+              href="https://www.tiktok.com/@naitram.verified?_t=8qCgj42cequ&_r=1"
+            >
+              <TiktokLogo className="w-[32px] h-[32px]" weight="fill" />
             </Link>
             <Link
               target="_blank"
-              href="https://www.tiktok.com/@naitram.live?_t=8oczYiZWsN6&_r=1"
+              href="https://www.tiktok.com/@naitram.entertainment?_t=8qCgbmu3oB7&_r=1"
             >
-              <TiktokLogo  className="w-[32px] h-[32px]" weight="fill" />
+              <TiktokLogo className="w-[32px] h-[32px]" weight="fill" />
             </Link>
 
-            <Link target="_blank" href="">
+            <Link
+              target="_blank"
+              href="https://x.com/naitramlive?s=21&t=GGj-Zie78PovWf6riV3N1A"
+            >
               {/* <TwitterLogo size={30} weight="fill" /> */}
-              <Image src={twitter} className="w-[30px] h-[30px]" alt="twitter" />
+              <Image
+                src={twitter}
+                className="w-[30px] h-[30px]"
+                alt="twitter"
+              />
             </Link>
-            <Link target="_blank" href="">
-              <TelegramLogo  className="w-[32px] h-[32px]" weight="fill" />
-            </Link>
+            {/* <Link target="_blank" href="">
+              <TelegramLogo className="w-[32px] h-[32px]" weight="fill" />
+            </Link> */}
+            <Link target="_blank" href="https://youtube.com/@naitramlive?si=PQqyX_n8DcQ_H1nc">
+              <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
+            </Link> 
+            <Link target="_blank" href="https://youtube.com/@naitram.entertainment?si=rYyYuGCajrn2v3TM">
+              <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
+            </Link> 
           </div>
           <p>© Naitram {new Date().getFullYear()}. All rights reserved.</p>
         </div>

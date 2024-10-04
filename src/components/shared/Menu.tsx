@@ -4,9 +4,11 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
 import {
   LinkedinLogo,
+  TiktokLogo,
   InstagramLogo,
-  FacebookLogo,
+  YoutubeLogo,
 } from "@phosphor-icons/react/dist/ssr";
+import twitter from "@/assets/prime_twitter.svg";
 import logo from "@/assets/logo.svg";
 import { slide } from "@/components/animations/variants";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -329,27 +331,60 @@ const Menu = ({
             className="mt-[2.6rem] text-white flex items-center gap-[1.3rem] pb-[2rem]"
           >
             <div className="flex gap-[0.5rem] mt-[0.8rem]">
-              <Link href={""}>
-                <LinkedinLogo
-                  size={30}
-                  weight="fill"
-                  className="hover:opacity-60 duration-300"
-                />
-              </Link>
-              <Link href={""}>
-                <InstagramLogo
-                  size={30}
-                  weight="fill"
-                  className="hover:opacity-60 duration-300"
-                />
-              </Link>
-              <Link href={""}>
-                <FacebookLogo
-                  size={30}
-                  weight="fill"
-                  className="hover:opacity-60 duration-300"
-                />
-              </Link>
+            <Link
+              target="_blank"
+              href="https://www.linkedin.com/company/naitramlive/"
+            >
+              <LinkedinLogo className="w-[32px] h-[32px]" weight="fill" />
+            </Link>
+            <Link
+              target="_blank"
+              href="https://www.instagram.com/naitram.developments?igsh=OGRxd2RuYmMzazFp"
+            >
+              <InstagramLogo className="w-[32px] h-[32px]" weight="fill" />
+            </Link>
+            <Link
+              target="_blank"
+              href="https://www.instagram.com/naitram.live?igsh=MXh0amo4YWFyemF4aA=="
+            >
+              <InstagramLogo className="w-[32px] h-[32px]" weight="fill" />
+            </Link>
+            {/* <Link target="_blank" href="">
+              <FacebookLogo  className="w-[32px] h-[32px]" weight="fill" />
+            </Link> */}
+            <Link
+              target="_blank"
+              href="https://www.tiktok.com/@naitram.verified?_t=8qCgj42cequ&_r=1"
+            >
+              <TiktokLogo className="w-[32px] h-[32px]" weight="fill" />
+            </Link>
+            <Link
+              target="_blank"
+              href="https://www.tiktok.com/@naitram.entertainment?_t=8qCgbmu3oB7&_r=1"
+            >
+              <TiktokLogo className="w-[32px] h-[32px]" weight="fill" />
+            </Link>
+
+            <Link
+              target="_blank"
+              href="https://x.com/naitramlive?s=21&t=GGj-Zie78PovWf6riV3N1A"
+            >
+              {/* <TwitterLogo size={30} weight="fill" /> */}
+              <Image
+                src={twitter}
+                className="w-[30px] h-[30px]"
+                alt="twitter"
+              />
+            </Link>
+            {/* <Link target="_blank" href="">
+              <TelegramLogo className="w-[32px] h-[32px]" weight="fill" />
+            </Link> */}
+            <Link target="_blank" href="https://youtube.com/@naitramlive?si=PQqyX_n8DcQ_H1nc">
+              <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
+            </Link> 
+            <Link target="_blank" href="https://youtube.com/@naitram.entertainment?si=rYyYuGCajrn2v3TM">
+              <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
+            </Link> 
             </div>
           </motion.div>
         </div>
