@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import blurqrcode from "@/assets/Wallet/BlurQrGreen.svg";
+
 import Backbtn from "@/assets/Wallet/Back - Button.svg";
 import { Badge } from "@/components/ui/badge";
 import rhsimg from "@/assets/qr.svg";
@@ -36,6 +38,8 @@ import img17 from "@/assets/Whats-Included/option17.svg";
 import img18 from "@/assets/Whats-Included/option18.svg";
 import img19 from "@/assets/Whats-Included/option19.svg";
 import img20 from "@/assets/Whats-Included/option20.svg";
+import { Button } from "@/components/ui/button";
+
 
 interface Location {
   id: number;
@@ -173,7 +177,7 @@ export default function Enlarge() {
     return formattedDate;
   };
 
-  const ConvertTime = (timeStr: string): string => {
+  const ConvertTimeold = (timeStr: string): string => {
     // Ensure input is a string
     if (typeof timeStr !== "string") {
       console.error("Input must be a string");
@@ -214,6 +218,60 @@ export default function Enlarge() {
     const formattedTime = `${formattedHours}:${
       minutes < 10 ? "0" + minutes : minutes
     } ${period}`;
+
+    return formattedTime;
+  };
+  const ConvertTime = (timeStr: string): string => {
+    // Ensure input is a string
+    if (typeof timeStr !== "string") {
+      console.error("Input must be a string");
+      return "";
+    }
+    const isUTC = timeStr.endsWith("Z");
+    const utcDate = new Date(isUTC ? timeStr : `${timeStr}Z`);
+
+    // Convert the input UTC time to a local time using the Date object
+
+    // const utcDate = new Date(`${timeStr}Z`);
+    // Appending 'Z' to ensure UTC parsing
+    if (isNaN(utcDate.getTime())) {
+      console.error("Invalid time format");
+      return "";
+    }
+
+    // Detect local time zone
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    // Convert UTC date to local time string in "HH:MM" format
+    const localTime = utcDate.toLocaleTimeString("en-GB", {
+      timeZone: timeZone,
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    // Split the time into hours and minutes
+    const [hoursStr, minutesStr] = localTime.split(":");
+    const hours = parseInt(hoursStr, 10);
+    const minutes = parseInt(minutesStr, 10);
+
+    // Ensure the hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      console.error("Invalid time format");
+      return "";
+    }
+
+    // Determine AM or PM
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert hours from 24-hour to 12-hour format
+    const formattedHours = hours % 12 || 12; // Handle 0 as 12 for midnight
+
+    // Format minutes with leading zero if necessary
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+    // Combine hours, minutes, and period
+    const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
 
     return formattedTime;
   };
@@ -381,14 +439,42 @@ export default function Enlarge() {
           {/* <div style={{background:"#00A849",borderRadius:"12px"}}  */}
           {/* > */}
 
-          <Image
+         
+             <div>
+             <Image
             style={{ borderRadius: "12px" }}
             width={320}
             height={320}
-            src={TicketData?.qrCode}
+            // src={TicketData?.qrCode}
+            src={blurqrcode}
             alt="rhs"
             className="pt-[0px]"
           />
+            <p className="py-[24px] text-center w-[320px] font-normal text-[18px]">
+              Please view the ticket QR code on the Naitram Mobile App{" "}
+            </p>
+            <div className="flex gap-[16px] ">
+            <Button
+              onClick={() => {
+                router.push("/download-app");
+              }}
+              className="flex items-center add-bank-account-border bg-black gap-[4px] p-[12px]"
+            >
+              <p className=" font-extrabold text-base text-[#00D059]">
+                {" "}
+                Download App
+              </p>
+            </Button>
+            <Button
+              onClick={() => {
+                window.open(`https://sepolia.etherscan.io/tx/${TicketData?.txHash}`, '_blank', 'noopener,noreferrer');
+              }}
+              className="flex items-center gap-[4px] p-[12px]"
+            >
+              <p className=" font-extrabold text-sm"> View on Blockchain</p>
+            </Button>
+          </div>
+          </div>
         </div>
         {/* </div> */}
       </div>

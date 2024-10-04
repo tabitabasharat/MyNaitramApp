@@ -7,6 +7,7 @@ import rhsimg from "@/assets/qr.svg";
 import location from "@/assets/Location.svg";
 import candendar from "@/assets/calendar1.svg";
 import time from "@/assets/clock1.svg";
+import blurqrcode from "@/assets/Wallet/BlurQrGreen.svg";
 import stall from "@/assets/stall1.svg";
 import food from "@/assets/dob1.svg";
 import vip from "@/assets/crown1.svg";
@@ -37,7 +38,6 @@ import img18 from "@/assets/Whats-Included/option18.svg";
 import img19 from "@/assets/Whats-Included/option19.svg";
 import img20 from "@/assets/Whats-Included/option20.svg";
 import { Button } from "@/components/ui/button";
-
 
 interface Location {
   id: number;
@@ -175,30 +175,84 @@ export default function Specificqrcode() {
     return formattedDate;
   };
 
+  // const ConvertTime = (timeStr: string): string => {
+  //   // Ensure input is a string
+  //   if (typeof timeStr !== "string") {
+  //     console.error("Input must be a string");
+  //     return "";
+  //   }
+
+  //   // Extract the time part if the input includes a date and time
+  //   const timeOnly = timeStr.split("T")[1]?.split("Z")[0];
+
+  //   if (!timeOnly) {
+  //     console.error("Input must include a valid time");
+  //     return "";
+  //   }
+
+  //   const parts = timeOnly.split(":");
+
+  //   // Check if timeOnly is in HH:MM or HH:MM:SS format
+  //   if (parts.length < 2) {
+  //     console.error("Input time must be in HH:MM or HH:MM:SS format");
+  //     return "";
+  //   }
+
+  //   const [hours, minutes] = parts.map(Number);
+
+  //   // Ensure the hours and minutes are valid numbers
+  //   if (isNaN(hours) || isNaN(minutes)) {
+  //     console.error("Invalid time format");
+  //     return "";
+  //   }
+
+  //   // Determine AM or PM
+  //   const period = hours >= 12 ? "PM" : "AM";
+
+  //   // Convert hours from 24-hour to 12-hour format
+  //   const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+
+  //   // Combine hours and period
+  //   const formattedTime = `${formattedHours}:${
+  //     minutes < 10 ? "0" + minutes : minutes
+  //   } ${period}`;
+
+  //   return formattedTime;
+  // };
+
   const ConvertTime = (timeStr: string): string => {
     // Ensure input is a string
     if (typeof timeStr !== "string") {
       console.error("Input must be a string");
       return "";
     }
+    const isUTC = timeStr.endsWith("Z");
+    const utcDate = new Date(isUTC ? timeStr : `${timeStr}Z`);
 
-    // Extract the time part if the input includes a date and time
-    const timeOnly = timeStr.split("T")[1]?.split("Z")[0];
+    // Convert the input UTC time to a local time using the Date object
 
-    if (!timeOnly) {
-      console.error("Input must include a valid time");
+    // const utcDate = new Date(`${timeStr}Z`);
+    // Appending 'Z' to ensure UTC parsing
+    if (isNaN(utcDate.getTime())) {
+      console.error("Invalid time format");
       return "";
     }
 
-    const parts = timeOnly.split(":");
+    // Detect local time zone
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    // Check if timeOnly is in HH:MM or HH:MM:SS format
-    if (parts.length < 2) {
-      console.error("Input time must be in HH:MM or HH:MM:SS format");
-      return "";
-    }
+    // Convert UTC date to local time string in "HH:MM" format
+    const localTime = utcDate.toLocaleTimeString("en-GB", {
+      timeZone: timeZone,
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
-    const [hours, minutes] = parts.map(Number);
+    // Split the time into hours and minutes
+    const [hoursStr, minutesStr] = localTime.split(":");
+    const hours = parseInt(hoursStr, 10);
+    const minutes = parseInt(minutesStr, 10);
 
     // Ensure the hours and minutes are valid numbers
     if (isNaN(hours) || isNaN(minutes)) {
@@ -210,15 +264,17 @@ export default function Specificqrcode() {
     const period = hours >= 12 ? "PM" : "AM";
 
     // Convert hours from 24-hour to 12-hour format
-    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+    const formattedHours = hours % 12 || 12; // Handle 0 as 12 for midnight
 
-    // Combine hours and period
-    const formattedTime = `${formattedHours}:${
-      minutes < 10 ? "0" + minutes : minutes
-    } ${period}`;
+    // Format minutes with leading zero if necessary
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+    // Combine hours, minutes, and period
+    const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
 
     return formattedTime;
   };
+
   const locations: Location[] = [
     {
       id: 1,
@@ -318,7 +374,7 @@ export default function Specificqrcode() {
                     Ticket Price
                   </p>
                   <p className="font-bold text-start text-[24px]">
-                    £{TicketData?.event?.tickets[TicketData?.isIndex]?.price}
+                    £{TicketData?.event?.tickets[TicketData?.isIndex]?.price }
                   </p>
                 </div>
               </div>
@@ -381,19 +437,20 @@ export default function Specificqrcode() {
           </div>
           {/* <div style={{background:"#00A849",borderRadius:"12px"}}  */}
           {/* > */}
-
-          <Image
-            style={{ borderRadius: "12px" }}
-            width={320}
-            height={320}
-            src={TicketData?.qrCode}
-            alt="rhs-img"
-            className="pt-[0px]"
-          />
-          <p className="py-[24px] font-normal text-[18px]">
-            Please view the ticket QR code on the Naitram Mobile App{" "}
-          </p>
           <div>
+            <Image
+              style={{ borderRadius: "12px" }}
+              width={320}
+              height={320}
+              // src={TicketData?.qrCode}
+              src={blurqrcode}
+              alt="rhs"
+              className="pt-[0px]  w-[100%] md:w-[320px]"
+            />
+            <p className="py-[24px] text-center w-[320px] font-normal text-[18px]">
+              Please view the ticket QR code on the Naitram Mobile App{" "}
+            </p>
+            <div className="flex gap-[16px] ">
             <Button
               onClick={() => {
                 router.push("/download-app");
@@ -407,12 +464,13 @@ export default function Specificqrcode() {
             </Button>
             <Button
               onClick={() => {
-                // router.push("/download-app");
+                window.open(`https://sepolia.etherscan.io/tx/${TicketData?.txHash}`, '_blank', 'noopener,noreferrer');
               }}
               className="flex items-center gap-[4px] p-[12px]"
             >
               <p className=" font-extrabold text-sm"> View on Blockchain</p>
             </Button>
+          </div>
           </div>
         </div>
         {/* </div> */}

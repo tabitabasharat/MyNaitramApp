@@ -222,6 +222,7 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
                   readStatus={item?.NotifyRead}
                   notificationId={item?.id}
                   notifyType={"user"}
+                 profileimg={item?.picture}
                 />
               );
             })}
@@ -261,10 +262,11 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
                   msg={item?.msg}
                   heading={item?.action}
                   notifyTime={item?.createdAt}
-                  profileimg={profileimg}
+                  
                   readStatus={item?.NotifyRead}
                   notificationId={item?.id}
                   notifyType={"organization"}
+                  profileimg={item?.picture}
                 />
               );
             })}
