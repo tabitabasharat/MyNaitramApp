@@ -1,4 +1,6 @@
 "use client";
+import TextField from "@mui/material/TextField";
+
 import whitefree from "@/assets/Wallet/white free.svg";
 import greenfree from "@/assets/Wallet/Green free.svg";
 import LocationAutocomplete from "@/components/create-event/Locationinput";
@@ -96,7 +98,7 @@ import styled from "styled-components";
 import { useTheme } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import { addHours } from 'date-fns';
+import { addHours } from "date-fns";
 
 type TicketTypeOption = {
   id: number;
@@ -432,20 +434,19 @@ const themeMui: any = createTheme({
     MuiDialog: {
       styleOverrides: {
         root: {
-          color: "#ffffff", // Text color for the dialog root
+          color: "#ffffff",
         },
         paper: {
-          backgroundColor: "#505050", // Dark background for the dialog
-          color: "#ffffff", // Default text color
+          backgroundColor: "#505050",
+          color: "#ffffff",
           borderRadius: "12px",
-          // width:"100%" // Rounded corners
         },
       },
     },
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: "#505050", // Dark background for the dialog
+          backgroundColor: "#505050",
           // width: "90%",
         },
       },
@@ -453,14 +454,13 @@ const themeMui: any = createTheme({
     MuiTypography: {
       styleOverrides: {
         root: {
-          color: "#ffffff", // Default text color for Typography
+          color: "#ffffff",
         },
       },
     },
     MuiTab: {
       styleOverrides: {
         root: {
-          // Default styles for all tabs
           color: "#ffffff", // Color for unselected tabs
         },
         selected: {
@@ -471,11 +471,11 @@ const themeMui: any = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          color: "#ffffff", // Default text color for buttons
-          backgroundColor: "transparent", // Default background color
-          borderRadius: "8px", // Rounded corners
+          color: "#ffffff",
+          backgroundColor: "transparent",
+          borderRadius: "8px",
           "&:hover": {
-            backgroundColor: "#155a8a", // Darker color on hover
+            backgroundColor: "#155a8a",
           },
           "&.Mui-disabled": {
             backgroundColor: "#303f9f", // Color for disabled state
@@ -487,9 +487,7 @@ const themeMui: any = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
-          // Apply styles to the root of the TextField
           "&.MuiFormControl-root": {
-            // Styles specific to FormControl root
             margin: "0px 0",
             width: "100%",
             border: "none",
@@ -520,7 +518,7 @@ const themeMui: any = createTheme({
       styleOverrides: {
         input: {
           color: "#fff", // Text color
-          padding: "7.5px 0px  16.5px 0px ", // Example padding
+          padding: "0px 0px  10.5px 0px ", // Example padding
           "&::placeholder": {
             color: "#ffffff", // Change to your desired placeholder color
             opacity: 1, // Make sure the opacity is set to 1
@@ -531,12 +529,6 @@ const themeMui: any = createTheme({
         },
       },
     },
-
-   
-   
-
-
-    
   },
 });
 
@@ -586,6 +578,7 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
   & .MuiPickersDay-today {
     color: #ffffff;
     border-color: #ffffff;
+   
   }
   & .MuiOutlinedInput-notchedOutline {
     border: none;
@@ -609,6 +602,9 @@ function OganizerCreateEvent() {
       />
     );
   }
+  const onKeyDown = (e: any) => {
+    e.preventDefault();
+  };
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<SelectedOption>("free");
@@ -1013,10 +1009,11 @@ function OganizerCreateEvent() {
   // },[selected])
 
   const filteredTicketTypes = ticketTypes.map((ticket) => ({
-    type: ticket.type,
-    price: ticket.price,
-    no: ticket.no,
     selected: ticket.selected,
+
+    type: ticket.type,
+    price: ticket.selected === "free" ? "0" : ticket.price,
+    no: ticket.no,
     options: ticket.options.map((option) => ({
       id: option.id,
       label: option.label,
@@ -1270,7 +1267,7 @@ function OganizerCreateEvent() {
     // }
     if (updatedValues !== null) {
       localStorage.setItem("eventData", JSON.stringify(updatedValues));
-      router.push("/preview-event");
+      // router.push("/preview-event");
     } else {
       console.log("error");
     }
@@ -1869,7 +1866,7 @@ function OganizerCreateEvent() {
               </div>
 
               <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="eventstartdate"
                   render={({ field }) => (
@@ -1903,8 +1900,156 @@ function OganizerCreateEvent() {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
-                <FormField
+                /> */}
+                <div className="w-full">
+                  <ThemeProvider theme={themeMui}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={["DateTimePicker"]}>
+                        <FormField
+                          control={form.control}
+                          name="eventstartdate"
+                          render={({ field }) => {
+                            //  const adjustedEventStartTime = dayjs(EventStartTime).add(5, 'hour');
+                            return (
+                              <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                  Ticket Start Date & Time
+                                </FormLabel>
+                                <FormControl>
+                                  <div className=" w-full">
+                                    <StyledDateTimePicker
+                                      //  {...field}
+                                      // onChange={(e: any) => {
+                                      //   setEventEndTime(e);
+                                      //   field.onChange(e);
+                                      // }}
+                                      onKeyDown={(e: any) => e.preventDefault()}
+                                      onChange={(e: any) => {
+                                        if (e && e.isValid()) {
+                                          const formattedDate =
+                                            e.format("YYYY-MM-DDTHH:mm");
+                                          setTicketStartDate(formattedDate);
+                                          field.onChange(formattedDate);
+                                        }
+                                      }}
+                                      //  label="Event End Date & Time"
+                                      minDateTime={dayjs().startOf("day")}
+                                      // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                      slots={{
+                                        openPickerIcon: () => (
+                                          <CalendarTodayIcon
+                                            style={{
+                                              color: "#5e5e5e",
+                                              fontSize: "15px",
+                                              position: "absolute",
+                                              top: "-17px",
+                                              right: "5px",
+                                            }}
+                                          />
+                                        ),
+                                      }}
+                                      slotProps={{
+                                        tabs: {
+                                          hidden: false,
+                                        },
+                                        toolbar: {
+                                          toolbarFormat: "YYYY",
+                                          hidden: false,
+                                        },
+                                        calendarHeader: {
+                                          sx: { color: "white" },
+                                        },
+                                        textField: {
+                                          inputProps: { readOnly: true },
+                                        },
+                                      }}
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            );
+                          }}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </ThemeProvider>
+                </div>
+                <div className="w-full">
+                  <ThemeProvider theme={themeMui}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={["DateTimePicker"]}>
+                        <FormField
+                          control={form.control}
+                          name="eventenddate"
+                          render={({ field }) => {
+                            //  const adjustedEventStartTime = dayjs(EventStartTime).add(5, 'hour');
+                            return (
+                              <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                  Ticket End Date & Time
+                                </FormLabel>
+                                <FormControl>
+                                  <div className=" w-full">
+                                    <StyledDateTimePicker
+                                      //  {...field}
+                                      // onChange={(e: any) => {
+                                      //   setEventEndTime(e);
+                                      //   field.onChange(e);
+                                      // }}
+                                      onKeyDown={(e: any) => e.preventDefault()}
+                                      onChange={(e: any) => {
+                                        if (e && e.isValid()) {
+                                          const formattedDate =
+                                            e.format("YYYY-MM-DDTHH:mm");
+                                          setTicketEndDate(formattedDate);
+                                          field.onChange(formattedDate);
+                                        }
+                                      }}
+                                      //  label="Event End Date & Time"
+                                      minDateTime={dayjs(TicketStartDate)}
+                                      // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                      slots={{
+                                        openPickerIcon: () => (
+                                          <CalendarTodayIcon
+                                            style={{
+                                              color: "#5e5e5e",
+                                              fontSize: "15px",
+                                              position: "absolute",
+                                              top: "-17px",
+                                              right: "5px",
+                                            }}
+                                          />
+                                        ),
+                                      }}
+                                      slotProps={{
+                                        tabs: {
+                                          hidden: false,
+                                        },
+                                        toolbar: {
+                                          toolbarFormat: "YYYY",
+                                          hidden: false,
+                                        },
+                                        calendarHeader: {
+                                          sx: { color: "white" },
+                                        },
+                                        textField: {
+                                          inputProps: { readOnly: true },
+                                        },
+                                      }}
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            );
+                          }}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </ThemeProvider>
+                </div>
+                {/* <FormField
                   control={form.control}
                   name="eventenddate"
                   render={({ field }) => {
@@ -1946,11 +2091,11 @@ function OganizerCreateEvent() {
                       </FormItem>
                     );
                   }}
-                />
+                /> */}
               </div>
 
               <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="eventstarttime"
                   render={({ field }) => {
@@ -1994,7 +2139,149 @@ function OganizerCreateEvent() {
                       </FormItem>
                     );
                   }}
-                />
+                /> */}
+                <div className="w-full">
+                  <ThemeProvider theme={themeMui}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={["DateTimePicker"]}>
+                        <FormField
+                          control={form.control}
+                          name="eventstarttime"
+                          render={({ field }) => {
+                            //  const adjustedEventStartTime = dayjs(EventStartTime).add(5, 'hour');
+                            return (
+                              <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                  Event Start Date & Time
+                                </FormLabel>
+                                <FormControl>
+                                  <div className=" w-full">
+                                    <StyledDateTimePicker
+                                      onKeyDown={(e: any) => e.preventDefault()}
+                                      onChange={(e: any) => {
+                                        if (e && e.isValid()) {
+                                          const formattedDate =
+                                            e.format("YYYY-MM-DDTHH:mm");
+                                          setEventStartTime(formattedDate);
+                                          field.onChange(formattedDate);
+                                        }
+                                      }}
+                                      //  label="Event End Date & Time"
+                                      minDateTime={dayjs(TicketEndDate)}
+                                      // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                      slots={{
+                                        openPickerIcon: () => (
+                                          <CalendarTodayIcon
+                                            style={{
+                                              color: "#5e5e5e",
+                                              fontSize: "15px",
+                                              position: "absolute",
+                                              top: "-17px",
+                                              right: "5px",
+                                            }}
+                                          />
+                                        ),
+                                      }}
+                                      slotProps={{
+                                        tabs: {
+                                          hidden: false,
+                                        },
+                                        toolbar: {
+                                          toolbarFormat: "YYYY",
+                                          hidden: false,
+                                        },
+                                        calendarHeader: {
+                                          sx: { color: "white" },
+                                        },
+                                        textField: {
+                                          inputProps: { readOnly: true },
+                                        },
+                                      }}
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            );
+                          }}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </ThemeProvider>
+                </div>
+
+                <div className="w-full">
+                  <ThemeProvider theme={themeMui}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={["DateTimePicker"]}>
+                        <FormField
+                          control={form.control}
+                          name="eventendtime"
+                          render={({ field }) => {
+                            const adjustedEventStartTime = dayjs(
+                              EventStartTime
+                            ).add(5, "hour");
+                            return (
+                              <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                  Event End Date & Time
+                                </FormLabel>
+                                <FormControl>
+                                  <div className=" w-full">
+                                    <StyledDateTimePicker
+                                      onKeyDown={(e: any) => e.preventDefault()}
+                                      onChange={(e: any) => {
+                                        if (e && e.isValid()) {
+                                          const formattedDate =
+                                            e.format("YYYY-MM-DDTHH:mm");
+                                          setEventEndTime(formattedDate);
+                                          field.onChange(formattedDate);
+                                        }
+                                      }}
+                                      //  label="Event End Date & Time"
+                                      // minDateTime={dayjs("2024-10-15T08:30")}
+                                      minDateTime={adjustedEventStartTime}
+                                      // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                      slots={{
+                                        openPickerIcon: () => (
+                                          <CalendarTodayIcon
+                                            style={{
+                                              color: "#5e5e5e",
+                                              fontSize: "15px",
+                                              position: "absolute",
+                                              top: "-17px",
+                                              right: "5px",
+                                            }}
+                                          />
+                                        ),
+                                      }}
+                                      slotProps={{
+                                        tabs: {
+                                          hidden: false,
+                                        },
+                                        toolbar: {
+                                          toolbarFormat: "YYYY",
+                                          hidden: false,
+                                        },
+                                        calendarHeader: {
+                                          sx: { color: "white" },
+                                        },
+                                        textField: {
+                                          inputProps: { readOnly: true },
+                                        },
+                                      }}
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            );
+                          }}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </ThemeProvider>
+                </div>
 
                 {/* <FormField
                   control={form.control}
@@ -2052,7 +2339,7 @@ function OganizerCreateEvent() {
                   }}
                 /> */}
               </div>
-              <>
+              {/* <>
                 <ThemeProvider theme={themeMui}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DateTimePicker"]}>
@@ -2122,7 +2409,7 @@ function OganizerCreateEvent() {
                     </DemoContainer>
                   </LocalizationProvider>
                 </ThemeProvider>
-              </>
+              </> */}
               {/* <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
                 <div className="flex w-full lg:w-[350px] gap-[12px]">
                   <div

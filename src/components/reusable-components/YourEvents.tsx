@@ -178,24 +178,33 @@ const YourEvents = ({
       console.error("Input must be a string");
       return "";
     }
+    const isUTC = timeStr.endsWith("Z");
+    const utcDate = new Date(isUTC ? timeStr : `${timeStr}Z`);
 
-    // Extract the time part if the input includes a date and time
-    const timeOnly = timeStr.split("T")[1]?.split("Z")[0];
+    // Convert the input UTC time to a local time using the Date object
 
-    if (!timeOnly) {
-      console.error("Input must include a valid time");
+    // const utcDate = new Date(`${timeStr}Z`);
+    // Appending 'Z' to ensure UTC parsing
+    if (isNaN(utcDate.getTime())) {
+      console.error("Invalid time format");
       return "";
     }
 
-    const parts = timeOnly.split(":");
+    // Detect local time zone
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    // Check if timeOnly is in HH:MM or HH:MM:SS format
-    if (parts.length < 2) {
-      console.error("Input time must be in HH:MM or HH:MM:SS format");
-      return "";
-    }
+    // Convert UTC date to local time string in "HH:MM" format
+    const localTime = utcDate.toLocaleTimeString("en-GB", {
+      timeZone: timeZone,
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
-    const [hours, minutes] = parts.map(Number);
+    // Split the time into hours and minutes
+    const [hoursStr, minutesStr] = localTime.split(":");
+    const hours = parseInt(hoursStr, 10);
+    const minutes = parseInt(minutesStr, 10);
 
     // Ensure the hours and minutes are valid numbers
     if (isNaN(hours) || isNaN(minutes)) {
@@ -207,12 +216,13 @@ const YourEvents = ({
     const period = hours >= 12 ? "PM" : "AM";
 
     // Convert hours from 24-hour to 12-hour format
-    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+    const formattedHours = hours % 12 || 12; // Handle 0 as 12 for midnight
 
-    // Combine hours and period
-    const formattedTime = `${formattedHours}:${
-      minutes < 10 ? "0" + minutes : minutes
-    } ${period}`;
+    // Format minutes with leading zero if necessary
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+    // Combine hours, minutes, and period
+    const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
 
     return formattedTime;
   };

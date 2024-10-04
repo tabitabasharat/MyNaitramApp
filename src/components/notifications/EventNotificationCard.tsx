@@ -20,6 +20,7 @@ const EventNotificationCard = ({
   readStatus,
   notificationId,
   notifyType,
+
 }: any) => {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
@@ -101,7 +102,7 @@ const EventNotificationCard = ({
     <div className="gradient-slate border border-muted w-full rounded-lg p-3 flex gap-4">
       <div className="size-[60px] rounded-lg border border-white overflow-hidden">
         <Image
-          src={profileimg ? profileimg : "/person3.jpg"}
+          src={profileimg !== null ? profileimg : "/person3.jpg"}
           width={500}
           height={500}
           className="object-cover size-[60px]"
