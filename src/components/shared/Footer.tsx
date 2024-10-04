@@ -80,7 +80,7 @@ const Footer = () => {
             </Link>
             <Link
               target="_blank"
-              href="https://www.instagram.com/naitram.live?igsh=MXhjcXI1bjlydG16Mw=="
+              href="https://www.instagram.com/naitram.developments?igsh=OGRxd2RuYmMzazFp"
             >
               <InstagramLogo  className="w-[32px] h-[32px]" weight="fill" />
             </Link>
