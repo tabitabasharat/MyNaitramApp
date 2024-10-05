@@ -116,19 +116,24 @@ const EventsHeroSlide = ({
     // Check if the input has a timezone indicator (e.g., "Z" or "+/-HH:mm")
     let utcDate: Date;
 
-    if (
-      originalDateStr.endsWith("Z") ||
-      originalDateStr.includes("+") ||
-      originalDateStr.includes("-")
-    ) {
-      // If it already has a timezone indicator, treat it as UTC
-      utcDate = new Date(originalDateStr);
-    } else {
-      // Otherwise, treat it as a local time and convert to UTC
-      utcDate = new Date(`${originalDateStr}Z`);
-    }
+    console.log("Converted UTC time:", originalDateStr);
 
-    console.log("Converted UTC time:", utcDate);
+    // if (
+    //   originalDateStr.endsWith("Z") ||
+    //   originalDateStr.includes("+") ||
+    //   originalDateStr.includes("-")
+    // ) {
+    //   // If it already has a timezone indicator, treat it as UTC
+    //   utcDate = new Date(originalDateStr);
+    // } else {
+     
+    //   // Otherwise, treat it as a local time and convert to UTC
+    //   utcDate = new Date(`${originalDateStr}Z`);
+    // }
+
+    utcDate = new Date(`${originalDateStr}Z`);
+
+
 
     // Check if the date is valid
     if (isNaN(utcDate.getTime())) {
@@ -157,6 +162,7 @@ const EventsHeroSlide = ({
       timeZone: timeZone,
     });
 
+
     // Function to get ordinal suffix
     const getOrdinalSuffix = (date: number) => {
       if (date > 3 && date < 21) return "th"; // covers 11th to 19th
@@ -178,6 +184,8 @@ const EventsHeroSlide = ({
 
     // Combine all parts into a properly formatted date string
     const formattedDate = `${dayOfWeek}, ${numericDay}${ordinalSuffix} ${month} ${year}`;
+
+
 
     return formattedDate;
   };
