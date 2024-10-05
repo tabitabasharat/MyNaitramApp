@@ -29,7 +29,7 @@ import {
 } from "@/lib/middleware/liveactivity";
 import { SuccessToast, ErrorToast } from "./Toaster/Toaster";
 
-const Followpromoter = ({ userId, eventName }: any) => {
+const Followpromoter = ({ userId, eventName,EventData }: any) => {
   const [uId, setUid] = useState<any>("");
   const [loading, setLoading] = useState(false);
   const [followStatus, setFollowStatus] = useState(false);
@@ -49,7 +49,7 @@ const Followpromoter = ({ userId, eventName }: any) => {
       userId: myuserid,
     };
     dispatch(getFollowingPromoters(data));
-    dispatch(getOrganizerSocialProfile(userId));
+    // dispatch(getOrganizerSocialProfile(userId));
   }, []);
 
   const myEvents = useAppSelector(
@@ -202,7 +202,7 @@ const Followpromoter = ({ userId, eventName }: any) => {
           </Button>
         }
         <div className="flex gap-[8px] flex-wrap h-full">
-          {myProfile?.events[0]?.instaUrl !== "https://instagram.com/" && (
+          {EventData?.instaUrl !== "https://instagram.com/" && (
             <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
               <InstagramLogo
                 style={{ cursor: "pointer" }}
@@ -213,7 +213,7 @@ const Followpromoter = ({ userId, eventName }: any) => {
                 // }}
                 onClick={() => {
                   typeof window !== "undefined"
-                    ? window.open(myProfile?.events[0]?.instaUrl, "_blank")
+                    ? window.open(EventData?.instaUrl, "_blank")
                     : null;
                 }}
                 size={16}
@@ -221,13 +221,13 @@ const Followpromoter = ({ userId, eventName }: any) => {
               />
             </div>
           )}
-          {myProfile?.events[0]?.twitterUrl !== "https://www.x.com/" && (
+          {EventData?.twitterUrl !== "https://www.x.com/" && (
             <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
               <TwitterLogo
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   typeof window !== "undefined"
-                    ? window.open(myProfile?.events[0]?.twitterUrl, "_blank")
+                    ? window.open(EventData?.twitterUrl, "_blank")
                     : null;
                 }}
                 size={16}
@@ -235,13 +235,13 @@ const Followpromoter = ({ userId, eventName }: any) => {
               />
             </div>
           )}
-          {myProfile?.events[0]?.fbUrl !== "https://www.facebook.com/" && (
+          {EventData?.fbUrl !== "https://www.facebook.com/" && (
             <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
               <FacebookLogo
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   typeof window !== "undefined"
-                    ? window.open(myProfile?.events[0]?.fbUrl, "_blank")
+                    ? window.open(EventData?.fbUrl, "_blank")
                     : null;
                 }}
                 size={16}
@@ -261,13 +261,13 @@ const Followpromoter = ({ userId, eventName }: any) => {
               weight="fill"
             />
           </div> */}
-          {myProfile?.events[0]?.tiktokUrl !== "https://www.tiktok.com/@" && (
+          {EventData?.tiktokUrl !== "https://www.tiktok.com/@" && (
             <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
               <TiktokLogo
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   typeof window !== "undefined"
-                    ? window.open(myProfile?.events[0]?.tiktokUrl, "_blank")
+                    ? window.open(EventData?.tiktokUrl, "_blank")
                     : null;
                 }}
                 size={16}
@@ -276,13 +276,13 @@ const Followpromoter = ({ userId, eventName }: any) => {
             </div>
           )}
 
-          {myProfile?.events[0]?.linkedinUrl !== "https://linkedin.com/in/" && (
+          {EventData?.linkedinUrl !== "https://linkedin.com/in/" && (
             <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
               <LinkedinLogo
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   typeof window !== "undefined"
-                    ? window.open(myProfile?.events[0]?.linkedinUrl, "_blank")
+                    ? window.open(EventData?.linkedinUrl, "_blank")
                     : null;
                 }}
                 size={16}
@@ -290,13 +290,13 @@ const Followpromoter = ({ userId, eventName }: any) => {
               />
             </div>
           )}
-          {myProfile?.events[0]?.youtubeUrl !== "https://www.youtube.com/" && (
+          {EventData?.youtubeUrl !== "https://www.youtube.com/" && (
             <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
               <YoutubeLogo
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   typeof window !== "undefined"
-                    ? window.open(myProfile?.events[0]?.youtubeUrl, "_blank")
+                    ? window.open(EventData?.youtubeUrl, "_blank")
                     : null;
                 }}
                 size={16}
@@ -305,13 +305,13 @@ const Followpromoter = ({ userId, eventName }: any) => {
             </div>
           )}
 
-          {myProfile?.events[0]?.telegramUrl !== "https://t.me/" && (
+          {EventData?.telegramUrl !== "https://t.me/" && (
             <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
               <TelegramLogo
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   typeof window !== "undefined"
-                    ? window.open(myProfile?.events[0]?.telegramUrl, "_blank")
+                    ? window.open(EventData?.telegramUrl, "_blank")
                     : null;
                 }}
                 size={16}

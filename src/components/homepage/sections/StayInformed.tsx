@@ -5,40 +5,64 @@ import { Envelope } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import ufo from "@/assets/ufo.png";
 import GradientBorder from "@/components/ui/gradient-border";
+import { useAppSelector } from "@/lib/hooks";
 
 const StayInformed = () => {
+  const EventsPastData = useAppSelector(
+    (state: any) => state?.getPastEvents?.ViewPastEvents?.data
+  );
+  const filteredEvent = EventsPastData?.events?.filter(
+    (event: any) => event.name === "TAKEOVR Boat Party"
+  );
+
+  const filteredEventRoof = EventsPastData?.events?.filter(
+    (event: any) => event.name === "Rooftop Event"
+  );
+
+  const filteredEventVerified = EventsPastData?.events?.filter(
+    (event: any) => event.name === "Naitram Verified"
+  );
+
+  console.log("tgis paste event", filteredEvent, EventsPastData);
   return (
     <div
       style={{ height: "" }}
       className="pxpx mx-2xl flex gap-4 h-[1180px] md:h-[600px] md:mt-10 md:mb-20  "
     >
-      <div className="w-1/2 hidden lg:block h-full">
-        <EventCard
-          eventType={"test"}
-          height="600px"
-          img={events[12].img}
-          title={events[12].title}
-          eventId={events[12].id}
-        />
-      </div>
+      {filteredEvent && (
+        <div className="w-1/2 hidden lg:block h-full">
+          <EventCard
+            eventType={"Past Events"}
+            height="600px"
+            img={filteredEvent[0]?.coverEventImage}
+            title={filteredEvent[0]?.name}
+            eventId={filteredEvent[0]?.id}
+          />
+        </div>
+      )}
 
       <div className="flex-col w-full lg:w-1/2 ">
         <div className="flex flex-col md:flex-row h-[60.5%] md:h-[58%] gap-4">
-          <EventCard
-            height="350px"
-            img={events[13]?.img}
-            title={events[13]?.title}
-            eventId={events[13]?.id}
-            eventType={"test"}
-          />
+          {filteredEventRoof && (
+            <EventCard
+              eventType={"Past Events"}
+              height="350px"
+              img={filteredEventRoof[0]?.coverEventImage}
+              title={filteredEventRoof[0]?.name}
+              eventId={filteredEventRoof[0]?.id}
+            />
+          )}
           {/* <EventCard height="600px" img={events[12].img} title={events[12].title} /> */}
-          <EventCard
-            height="350px"
-            img={events[14]?.img}
-            title={events[14]?.title}
-            eventId={events[14]?.id}
-            eventType={"test"}
-          />
+
+          {filteredEventVerified && (
+            <EventCard
+              eventType={"Past Events"}
+              height="350px"
+              img={filteredEventVerified[0]?.coverEventImage}
+              title={filteredEventVerified[0]?.name}
+              eventId={filteredEventVerified[0]?.id}
+            />
+          )}
         </div>
 
         <div className="h-[42%] w-full pt-4">

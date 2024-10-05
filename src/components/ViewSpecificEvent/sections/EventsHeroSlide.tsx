@@ -59,14 +59,14 @@ const EventsHeroSlide = ({
   // const ConvertDate = (originalDateStr: string): string => {
   //   const utcDate = new Date(`${originalDateStr}Z`);
   //   console.log("Converted UTC time:", utcDate);
-  
+
   //   if (isNaN(utcDate.getTime())) {
   //     console.error("Invalid date format");
   //     return "";
   //   }
-  
+
   //   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  
+
   //   const dayOfWeek = utcDate.toLocaleDateString("en-US", {
   //     weekday: "long",
   //     timeZone: timeZone,
@@ -83,9 +83,9 @@ const EventsHeroSlide = ({
   //     year: "numeric",
   //     timeZone: timeZone,
   //   });
-  
+
   //   const getOrdinalSuffix = (date: number) => {
-  //     if (date > 3 && date < 21) return "th"; 
+  //     if (date > 3 && date < 21) return "th";
   //     switch (date % 10) {
   //       case 1:
   //         return "st";
@@ -97,44 +97,48 @@ const EventsHeroSlide = ({
   //         return "th";
   //     }
   //   };
-  
+
   //   const numericDay = parseInt(dayOfMonth, 10); // Convert day string to number
   //   const ordinalSuffix = getOrdinalSuffix(numericDay);
-  
+
   //   const formattedDate = `${dayOfWeek}, ${numericDay}${ordinalSuffix} ${month} ${year}`;
-  
+
   //   return formattedDate;
   // };
-  
+
   const ConvertDate = (originalDateStr: string | undefined): string => {
     // Ensure input is a valid string
     if (typeof originalDateStr !== "string") {
       console.error("Input must be a string");
       return "";
     }
-  
+
     // Check if the input has a timezone indicator (e.g., "Z" or "+/-HH:mm")
     let utcDate: Date;
-  
-    if (originalDateStr.endsWith("Z") || originalDateStr.includes("+") || originalDateStr.includes("-")) {
+
+    if (
+      originalDateStr.endsWith("Z") ||
+      originalDateStr.includes("+") ||
+      originalDateStr.includes("-")
+    ) {
       // If it already has a timezone indicator, treat it as UTC
       utcDate = new Date(originalDateStr);
     } else {
       // Otherwise, treat it as a local time and convert to UTC
       utcDate = new Date(`${originalDateStr}Z`);
     }
-  
+
     console.log("Converted UTC time:", utcDate);
-  
+
     // Check if the date is valid
     if (isNaN(utcDate.getTime())) {
       console.error("Invalid date format");
       return "";
     }
-  
+
     // Detect local time zone
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  
+
     // Extract local time parts using toLocaleDateString with time zone adjustment
     const dayOfWeek = utcDate.toLocaleDateString("en-US", {
       weekday: "long",
@@ -152,7 +156,7 @@ const EventsHeroSlide = ({
       year: "numeric",
       timeZone: timeZone,
     });
-  
+
     // Function to get ordinal suffix
     const getOrdinalSuffix = (date: number) => {
       if (date > 3 && date < 21) return "th"; // covers 11th to 19th
@@ -167,39 +171,38 @@ const EventsHeroSlide = ({
           return "th";
       }
     };
-  
+
     // Convert day string to a number and calculate ordinal suffix
     const numericDay = parseInt(dayOfMonth, 10); // Convert day string to number
     const ordinalSuffix = getOrdinalSuffix(numericDay);
-  
+
     // Combine all parts into a properly formatted date string
     const formattedDate = `${dayOfWeek}, ${numericDay}${ordinalSuffix} ${month} ${year}`;
-  
+
     return formattedDate;
   };
-  
-  
+
   const ConvertTime = (timeStr: string): string => {
     // Ensure input is a string
     if (typeof timeStr !== "string") {
       console.error("Input must be a string");
       return "";
     }
-    const isUTC = timeStr.endsWith("Z") ;
+    const isUTC = timeStr.endsWith("Z");
     const utcDate = new Date(isUTC ? timeStr : `${timeStr}Z`);
-  
+
     // Convert the input UTC time to a local time using the Date object
 
-    // const utcDate = new Date(`${timeStr}Z`); 
+    // const utcDate = new Date(`${timeStr}Z`);
     // Appending 'Z' to ensure UTC parsing
     if (isNaN(utcDate.getTime())) {
       console.error("Invalid time format");
       return "";
     }
-  
+
     // Detect local time zone
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  
+
     // Convert UTC date to local time string in "HH:MM" format
     const localTime = utcDate.toLocaleTimeString("en-GB", {
       timeZone: timeZone,
@@ -207,36 +210,32 @@ const EventsHeroSlide = ({
       hour: "2-digit",
       minute: "2-digit",
     });
-  
+
     // Split the time into hours and minutes
     const [hoursStr, minutesStr] = localTime.split(":");
     const hours = parseInt(hoursStr, 10);
     const minutes = parseInt(minutesStr, 10);
-  
+
     // Ensure the hours and minutes are valid numbers
     if (isNaN(hours) || isNaN(minutes)) {
       console.error("Invalid time format");
       return "";
     }
-  
+
     // Determine AM or PM
     const period = hours >= 12 ? "PM" : "AM";
-  
+
     // Convert hours from 24-hour to 12-hour format
     const formattedHours = hours % 12 || 12; // Handle 0 as 12 for midnight
-  
+
     // Format minutes with leading zero if necessary
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  
+
     // Combine hours, minutes, and period
     const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
-  
+
     return formattedTime;
   };
-  
-
-
-  
 
   const [AboutDrop, setAboutDrop] = useState(true);
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -260,12 +259,11 @@ const EventsHeroSlide = ({
     return html.replace(/<\/?[^>]+(>|$)/g, ""); // Regular expression to remove HTML tags
   };
 
-  // Get plain text version without HTML
-  const plainTextDescription = stripHtmlTags(descriptionText);
-  const firstParagraph = plainTextDescription
+  // Get HTML content directly without stripping
+  const firstParagraphHtml = descriptionText
     .split("\n")
     .slice(0, maxLines)
-    .join("\n");
+    .join("\n"); // You don't need to remove the HTML tags here anymore
 
   return (
     <>
@@ -328,9 +326,7 @@ const EventsHeroSlide = ({
               <Image src={time} alt="time" />
               <p className=" text-[16px] font-bold leading-[24px]">
                 {/* {ConvertTime(startTime)} - {ConvertTime(endTime)}{" "} */}
-
                 {ConvertDate(endTime)} - {ConvertTime(endTime)}
-
               </p>
             </div>
           </div>
@@ -368,12 +364,16 @@ const EventsHeroSlide = ({
                 <div className="mb-[12px] text-white break-words overflow-hidden">
                   {/* Show a limited number of lines if showFullDescription is false */}
                   {showFullDescription ? (
-                    <div>{plainTextDescription}</div> // Display plain text when expanded
+                    <div
+                      dangerouslySetInnerHTML={{ __html: descriptionText }}
+                    /> // Render full HTML when expanded
                   ) : (
-                    <div className="line-clamp-3 overflow-hidden">
-                      {firstParagraph}
-                    </div>
+                    <div
+                      className="line-clamp-3 overflow-hidden"
+                      dangerouslySetInnerHTML={{ __html: firstParagraphHtml }}
+                    />
                   )}
+
                   {/* Button to toggle between showing more or less */}
                   <button
                     onClick={toggleDescription}

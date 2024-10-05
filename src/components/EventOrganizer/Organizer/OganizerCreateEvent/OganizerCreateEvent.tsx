@@ -1381,7 +1381,7 @@ function OganizerCreateEvent() {
   //       const formattedEndTime = adjustedEventStartTime.format("YYYY-MM-DDTHH:mm");
   //       setEventEndTime(formattedEndTime);
   //       form.setValue("eventendtime", formattedEndTime);
-  //     } 
+  //     }
   //   };
 
   //   updateEventEndTime();
@@ -1920,40 +1920,53 @@ function OganizerCreateEvent() {
                           control={form.control}
                           name="eventstartdate"
                           render={({ field }) => {
-                            const currentDateTime = dayjs();
-                            const minDateTime =
-                              currentDateTime.startOf("minute");
+                            const currentDateTime = dayjs(); // Get current date and time
                             return (
-                              <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                              <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
+                                <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
                                   Ticket Start Date & Time
                                 </FormLabel>
                                 <FormControl>
-                                  <div className=" w-full">
+                                  <div className="w-full">
                                     <StyledDateTimePicker
-                                      // value={
-                                      //   field.value
-                                      //     ? dayjs(field.value)
-                                      //     : currentDateTime
-                                      // }
                                       referenceDate={currentDateTime}
                                       formatDensity="spacious"
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       autoOk={false}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
-                                          const formattedDate =
-                                            e.format("YYYY-MM-DDTHH:mm");
-                                          setTicketStartDate(formattedDate);
-                                          field.onChange(formattedDate);
+                                          const selectedDate = dayjs(
+                                            e.format("YYYY-MM-DD")
+                                          );
+                                          const today =
+                                            currentDateTime.startOf("day");
+
+                                          if (
+                                            selectedDate.isSame(today, "day")
+                                          ) {
+                                            const formattedDate =
+                                              e.format("YYYY-MM-DDTHH:mm");
+                                            setTicketStartDate(formattedDate);
+                                            field.onChange(formattedDate);
+                                          } else {
+                                            const formattedDate =
+                                              e.format("YYYY-MM-DDTHH:mm");
+                                            setTicketStartDate(formattedDate);
+                                            field.onChange(formattedDate);
+                                          }
                                         }
                                       }}
-                                      //  label="Event End Date & Time"
-                                      minDateTime={minDateTime}
-                                      minTime={minDateTime}
-                                      // minDateTime={dayjs().startOf("day")}
+                                      // Set minDateTime only if the selected date is today
+                                      minDateTime={
+                                        field.value &&
+                                        dayjs(field.value).isSame(
+                                          currentDateTime,
+                                          "day"
+                                        )
+                                          ? currentDateTime
+                                          : null
+                                      }
                                       disablePast
-                                      // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                       slots={{
                                         openPickerIcon: () => (
                                           <CalendarTodayIcon
@@ -1968,9 +1981,7 @@ function OganizerCreateEvent() {
                                         ),
                                       }}
                                       slotProps={{
-                                        tabs: {
-                                          hidden: false,
-                                        },
+                                        tabs: { hidden: false },
                                         toolbar: {
                                           toolbarFormat: "YYYY",
                                           hidden: false,
@@ -2002,19 +2013,29 @@ function OganizerCreateEvent() {
                           control={form.control}
                           name="eventenddate"
                           render={({ field }) => {
-                            const minStartTime = dayjs(TicketStartDate || new Date());
-
+                            const minStartTime = dayjs(
+                              TicketStartDate || new Date()
+                            );
 
                             const defaultStartTime = field.value
                               ? dayjs(field.value)
                               : minStartTime;
 
-                            const validStartTime = defaultStartTime.isBefore(
-                              minStartTime
-                            )
-                              ? minStartTime
-                              : defaultStartTime;
-                              const referenceTicketDate = validStartTime.add(2, 'minute');
+                            const isSameDay = minStartTime.isSame(
+                              defaultStartTime,
+                              "day"
+                            );
+
+                            const validStartTime = isSameDay
+                              ? minStartTime // Only allow times greater than TicketStartDate
+                              : null;
+                              let referenceTicketDate;
+                            if (validStartTime) {
+                             referenceTicketDate = validStartTime.add(
+                                2,
+                                "minute"
+                              );
+                            }
 
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
@@ -2025,7 +2046,7 @@ function OganizerCreateEvent() {
                                   <div className=" w-full">
                                     <StyledDateTimePicker
                                       // value={validStartTime}
-                                       formatDensity="spacious"
+                                      formatDensity="spacious"
                                       referenceDate={referenceTicketDate}
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
@@ -2179,7 +2200,9 @@ function OganizerCreateEvent() {
                           control={form.control}
                           name="eventstarttime"
                           render={({ field }) => {
-                            const minStartTime = dayjs(TicketEndDate || new Date());
+                            const minStartTime = dayjs(
+                              TicketEndDate || new Date()
+                            );
 
                             const defaultStartTime = field.value
                               ? dayjs(field.value)
@@ -2191,8 +2214,10 @@ function OganizerCreateEvent() {
                               ? minStartTime
                               : defaultStartTime;
 
-                              const referenceEventDate = validStartTime.add(2, 'minute');
-
+                            const referenceEventDate = validStartTime.add(
+                              2,
+                              "minute"
+                            );
 
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
@@ -2203,7 +2228,7 @@ function OganizerCreateEvent() {
                                   <div className=" w-full">
                                     <StyledDateTimePicker
                                       //  value={validStartTime}
-                                       formatDensity="spacious"
+                                      formatDensity="spacious"
                                       referenceDate={referenceEventDate}
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
@@ -2215,7 +2240,7 @@ function OganizerCreateEvent() {
                                         }
                                       }}
                                       //  label="Event End Date & Time"
-                                      minDateTime={minStartTime }
+                                      minDateTime={minStartTime}
                                       // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                       slots={{
                                         openPickerIcon: () => (
@@ -2290,7 +2315,7 @@ function OganizerCreateEvent() {
                                       //     ? dayjs(field.value)
                                       //     : defaultEndTime
                                       // }
-                                       formatDensity="spacious"
+                                      formatDensity="spacious"
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {

@@ -236,6 +236,10 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     // dispatch(getFollowingPromoters(data));
   }, []);
 
+  useEffect(()=>{
+    dispatch(getOrganizerSocialProfile(EventData?.userId));
+  },[EventData])
+
 
  
 
@@ -301,6 +305,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
                 {EventData?.userId && (
                   <Followpromoter
+                  EventData={EventData}
                     userId={EventData?.userId}
                     eventName={EventData?.name}
                   />
@@ -518,6 +523,8 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                         className="flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full 
                         mt-[12px] w-fit ps-[0] pe-[16px] py-[10px]"
                         onClick={() => handleLiveActivity()}
+                        disabled={eventType === "Past Events"? true:false}
+
                       >
                         <Lock size={20} weight="fill" className="ms-[10px]" />
                         Live Activity
