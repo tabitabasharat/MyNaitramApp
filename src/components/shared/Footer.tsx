@@ -72,7 +72,7 @@ const Footer = () => {
         </div>
         <Separator className="mb-8 mt-28" />
         <div className="flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-start gap-8 lg:gap-0 pb-4 lg:pb-0">
-          <div className=" flex gap-4">
+          <div className=" flex flex-wrap gap-4">
             <Link
               target="_blank"
               href="https://www.linkedin.com/company/naitramlive/"

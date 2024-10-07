@@ -653,6 +653,9 @@ input[type="number"] {
 .no-border-table .MuiTableRow-root {
   border: none; /* Removes any potential border on table rows */
 }
+.live-chat{
+  width:420px !important;
+}
 .table-gradient {
   background: linear-gradient(
     360deg,
@@ -660,6 +663,9 @@ input[type="number"] {
     rgba(255, 255, 255, 0.06) 100%
   ) !important;
   border-bottom: 1px solid #292929 !important;
+}
+.slider-wid{
+  width: fit-content !important;
 }
 .btons-wrap-adjustment{
   flex-wrap: nowrap;
@@ -802,9 +808,17 @@ input[type="number"] {
   .event-width-adjustment {
     width: 500px !important;
   }
-}
-@media (min-width:1023px) {
 
+}
+@media (max-width:1023px) {
+  .live-chat{
+    width:475px !important;
+  }
+}
+@media (max-width:890px) {
+  .live-chat{
+    width:475px !important;
+  }
 }
 @media (min-width:1090px) {
   .event-width-adjustment{
@@ -834,6 +848,9 @@ width: 576px !important;
   }
   .alignment-text{
     text-align: start;
+  }
+  .live-chat{
+    width:235px !important;
   }
 }
 @media (max-width:600px) {

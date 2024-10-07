@@ -21,7 +21,7 @@ export default function RootLayout({
     >
       <div
         style={isMobile?{ position: "relative" }:{ position: "relative", zIndex: "9" }}
-        className="w-full"
+        className="w-full h-[100%]"
       >
         <ProfileSideInfo />
         {children}

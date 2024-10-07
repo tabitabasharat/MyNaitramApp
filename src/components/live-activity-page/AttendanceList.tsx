@@ -80,7 +80,7 @@ const AttendanceList = () => {
             style={{ overflow: "visible" }}
           >
             {eventAttendy?.attend?.data?.map((attendee: any) => (
-              <SwiperSlide key={attendee.id}>
+              <SwiperSlide key={attendee.id} className="slider-wid">
                 <Avatar
                   size="size-[64px]"
                   img={attendee?.profilePicture ? attendee?.profilePicture : Avatrimg}
