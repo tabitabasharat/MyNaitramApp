@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import api from "../apiInterceptor";
 import { API_URL } from "../client";
 
@@ -199,7 +198,6 @@ export const getOrganizerDetail = createAsyncThunk(
         `${API_URL}/event/getUserorganizationEventss/${data}`
       );
       console.log("inside get org details by id", res);
-
       return {
         status: res?.status,
         data: res?.data,

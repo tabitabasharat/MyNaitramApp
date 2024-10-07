@@ -60,7 +60,7 @@ const ProfilePreview = () => {
   return (
     <div className="flex flex-col w-full md:flex-row w-full items-center justify-between">
       <div className="flex flex-col w-[100%] md:flex-row gap-[24] md:gap-[32px] justify-center items-center md:justify-start md:items-start">
-        <GoldGradientBorder className="w-fit md:w-[160px] rounded-full p-[3px] h-fit">
+        <GoldGradientBorder className="w-fit md:w-[136px] rounded-full p-[3px] h-fit">
           <div className="bg-black h-[136px] rounded-full p-[7px]">
             <Image
               src={

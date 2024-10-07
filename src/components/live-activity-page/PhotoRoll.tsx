@@ -36,7 +36,7 @@ const PhotoRoll = () => {
 </div>
 
         {/* SMALL SCREEN VIEW */}
-        <ScrollArea className="block md:hidden w-full whitespace-nowrap ">
+        <ScrollArea className="block md:hidden w-full  whitespace-nowrap ">
           <div className="flex gap-[8px] mt-6">
             {photorolls.map((photoroll) => (
               <Thumbnail key={photoroll.id} img={photoroll.img} />
