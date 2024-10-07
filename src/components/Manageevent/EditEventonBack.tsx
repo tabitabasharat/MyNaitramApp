@@ -625,7 +625,7 @@ function EditeventOnBack() {
     Eventdata?.isFree ? "free" : "paid"
   );
 
-  const imageUrl = Eventdata?.eventcoverimg.startsWith("http" || "https")
+  const imageUrl = Eventdata?.eventcoverimg.startsWith("http") || Eventdata?.eventcoverimg.startsWith("https")
     ? Eventdata?.eventcoverimg
     : bgframe;
   console.log("image src is", imageUrl);

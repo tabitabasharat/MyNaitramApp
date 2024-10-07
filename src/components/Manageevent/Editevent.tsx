@@ -206,11 +206,9 @@ const formSchema = z.object({
         type: z.string().min(1, { message: "Ticket type cannot be empty." }),
         price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
         no: z.union([
-          z
-            .string()
-            .refine((val) => Number(val) > 0, {
-              message: "Number of tickets must be greater than 0.",
-            }),
+          z.string().refine((val) => Number(val) > 0, {
+            message: "Number of tickets must be greater than 0.",
+          }),
           z
             .number()
             .min(1, { message: "Number of tickets must be greater than 0." }),
@@ -253,7 +251,7 @@ type GalleryFile = { type: "image" | "video"; url: string } | File;
 const themeMui: any = createTheme({
   typography: {
     // fontFamily: '"--font-base"',
-     fontFamily: 'var(--font-base), "Helvetica", "ui-sans-serif"'
+    fontFamily: 'var(--font-base), "Helvetica", "ui-sans-serif"',
   },
   components: {
     MuiDialog: {
@@ -327,7 +325,7 @@ const themeMui: any = createTheme({
             border: "none",
             width: "99%",
             outline: "0",
-            
+
             // Rounded corners
           },
           "& .MuiInputLabel-root": {
@@ -350,7 +348,7 @@ const themeMui: any = createTheme({
             opacity: 1, // Make sure the opacity is set to 1
           },
           fontSize: "16px",
-          fontWeight:"700"
+          fontWeight: "700",
         },
         notchedOutline: {
           border: "none",
@@ -406,7 +404,7 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
   & .MuiPickersDay-today {
     color: #ffffff;
     border-color: #ffffff;
-     background-color:"red";
+    background-color: "red";
   }
   & .MuiOutlinedInput-notchedOutline {
     border: none;
@@ -576,9 +574,9 @@ function Editevent() {
 
   console.log("my event data ", EventData);
 
-  const imageUrl = EventData?.coverEventImage.startsWith("http" || "https")
-    ? EventData?.coverEventImage
-    : bgframe;
+  const imageUrl = EventData?.coverEventImage?.startsWith("http") || EventData?.coverEventImage?.startsWith("https")
+  ? EventData.coverEventImage
+  : bgframe;
   console.log("image src is", imageUrl);
   const userLoading = useAppSelector((state) => state?.getEventByEventID);
   const handleDropdown = (index: number) => {

@@ -59,7 +59,7 @@ const EventsHeroSlide = ({
 
   console.log("this is event price", endTime, startTime);
 
-  const ConvertDate = (originalDateStr: string): string => {
+  const ConvertDateold = (originalDateStr: string): string => {
     // Ensure the input UTC date string is treated as UTC by appending 'Z'
     const utcDate = new Date(`${originalDateStr}Z`);
     console.log("Converted UTC time:", utcDate);
@@ -115,6 +115,76 @@ const EventsHeroSlide = ({
   
     return formattedDate;
   };
+
+    
+  const ConvertDate = (originalDateStr: string | undefined): string => {
+    // Ensure input is a valid string
+    if (typeof originalDateStr !== "string") {
+      console.error("Input must be a string");
+      return "";
+    }
+  
+  
+
+  
+    console.log("Converted UTC time:", originalDateStr);
+    const isUTC = originalDateStr.endsWith("Z");
+    const utcDate = new Date(isUTC ? originalDateStr : `${originalDateStr}Z`);
+  
+    // Check if the input already has a timezone indicator
+    
+    // Check if the date is valid
+    if (isNaN(utcDate.getTime())) {
+      console.error("Invalid date format");
+      return "";
+    }
+  
+    // Detect local time zone
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  
+    // Extract local time parts using toLocaleDateString with time zone adjustment
+    const dayOfWeek = utcDate.toLocaleDateString("en-US", {
+      weekday: "long",
+      timeZone: timeZone,
+    });
+    const dayOfMonth = utcDate.toLocaleDateString("en-US", {
+      day: "numeric",
+      timeZone: timeZone,
+    });
+    const month = utcDate.toLocaleDateString("en-US", {
+      month: "long",
+      timeZone: timeZone,
+    });
+    const year = utcDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      timeZone: timeZone,
+    });
+  
+    // Function to get ordinal suffix
+    const getOrdinalSuffix = (date: number) => {
+      if (date > 3 && date < 21) return "th"; // covers 11th to 19th
+      switch (date % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+  
+    // Convert day string to a number and calculate ordinal suffix
+    const numericDay = parseInt(dayOfMonth, 10); // Convert day string to number
+    const ordinalSuffix = getOrdinalSuffix(numericDay);
+  
+    // Combine all parts into a properly formatted date string
+    const formattedDate = `${dayOfWeek}, ${numericDay}${ordinalSuffix} ${month} ${year}`;
+  
+    return formattedDate;
+  };
+  
 
   const ConvertTime = (timeStr: string): string => {
     // Ensure input is a string

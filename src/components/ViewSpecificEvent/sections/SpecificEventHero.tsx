@@ -329,6 +329,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   eventdescription={EventData?.eventDescription}
                   // activeIndex={activeIndex}
                   setShowTicket={setShowTicket}
+                  ticketLength={EventData?.tickets?.length}
                   ticketStartPrice={
                     EventData?.tickets?.length === 1
                       ? "0"

@@ -17,7 +17,7 @@ import Image from "next/image";
 import Iconpop from "@/assets/delete-icon.svg";
 import { Button } from "../ui/button";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "../loader/Screenloader";
 import {
@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation";
 import { close } from "fs";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Envelope, GoogleLogo, Lock } from "@phosphor-icons/react/dist/ssr";
+import { deleteUser,ResendDeletCode } from "@/lib/middleware/signin";
 
 import { useForm } from "react-hook-form";
 import {
@@ -45,8 +46,34 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import DeleteAccountPopup from "./DeleteAccountPopup";
 import { signin } from "@/lib/middleware/signin";
 
+
 const formSchema = z.object({
   password: z.string().min(1, { message: "Password cannot be empty." }),
+  textbox: z
+    .string()
+    .min(1, { message: "Input cannot be empty." })
+    .max(1, { message: "Only one character or number is allowed." })
+    .regex(/^[a-zA-Z0-9]$/, {
+      message: "Invalid input. Only letters and numbers are allowed.",
+    }),
+  textbox1: z
+    .string()
+    .min(1, { message: "Input cannot be empty." })
+    .regex(/^[a-zA-Z0-9]+$/, {
+      message: "Invalid input. Only letters and numbers are allowed.",
+    }),
+  textbox2: z
+    .string()
+    .min(1, { message: "Input cannot be empty." })
+    .regex(/^[a-zA-Z0-9]+$/, {
+      message: "Invalid input. Only letters and numbers are allowed.",
+    }),
+  textbox3: z
+    .string()
+    .min(1, { message: "Input cannot be empty." })
+    .regex(/^[a-zA-Z0-9]+$/, {
+      message: "Invalid input. Only letters and numbers are allowed.",
+    }),
 });
 
 const DeleteAccountPasswordPopup = ({ onClose, open }: any) => {
@@ -54,6 +81,10 @@ const DeleteAccountPasswordPopup = ({ onClose, open }: any) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       password: "",
+      textbox: "",
+      textbox1: "",
+      textbox2: "",
+      textbox3: "",
     },
   });
 
@@ -62,14 +93,41 @@ const DeleteAccountPasswordPopup = ({ onClose, open }: any) => {
   const [loader, setLoader] = useState(false);
   const [isDeleteModal, setDeleteModal] = useState(false);
   const [Password, setPassword] = useState<any>("");
+  const [otpInputValues, setOtpInputValues] = useState(["", "", "", ""]);
+
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const inputRefs = [
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+  ];
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (e.key === "ArrowRight" || e.key === "Tab") {
+      e.preventDefault();
+      const nextInput = inputRefs[index + 1];
+      if (nextInput && nextInput.current) {
+        nextInput.current.focus();
+      }
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      const prevInput = inputRefs[index - 1];
+      if (prevInput && prevInput.current) {
+        prevInput.current.focus();
+      }
+    }
+  };
+
 
   const myProfile = useAppSelector(
     (state) => state?.getShowProfile?.myProfile?.data
   );
   const userLoading = useAppSelector((state) => state?.getShowProfile);
 
-  const imageUrl = myProfile?.profilePicture?.startsWith("http" || "https")
+  const imageUrl = myProfile?.profilePicture?.startsWith("http") || myProfile?.profilePicture?.startsWith("https")
     ? myProfile?.profilePicture
     : "/person3.jpg";
   console.log("image src is", imageUrl);
@@ -114,6 +172,62 @@ const DeleteAccountPasswordPopup = ({ onClose, open }: any) => {
     }
   }
 
+  async function VerifySignUp(values: z.infer<typeof formSchema>) {
+    console.log("Signup Verification");
+    const useremail =
+    typeof window !== "undefined" ? localStorage.getItem("email") : null;
+    setLoader(true);
+    try {
+      const data = {
+        // google: false,
+        email: useremail,
+        code: otpInputValues.join(""),
+      };
+      dispatch(deleteUser(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          console.log(res,"this is verify delete")
+          console.log(data);
+          setDeleteModal(true);
+
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+
+  async function ResentCode() {
+    console.log("Again Signup Verification");
+    const useremail =
+      typeof window !== "undefined" ? localStorage.getItem("email") : null;
+   
+    setLoader(true);
+    try {
+      const data = {
+        email: useremail,
+      };
+      dispatch(ResendDeletCode(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          console.log(data);
+          SuccessToast("Code Send Successfully");
+          // navigate("/");
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      ErrorToast(error);
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       {/* <DialogTrigger>Open Dialog</DialogTrigger> */}
@@ -138,7 +252,7 @@ const DeleteAccountPasswordPopup = ({ onClose, open }: any) => {
                 Enter your password to<br></br> delete your account
               </p>
 
-              <Form {...form}>
+              {/* <Form {...form}>
                 <form
                   className=" mt-[16px]  flex items-center  flex-col w-full"
                   onSubmit={form.handleSubmit(handledeleteUser)}
@@ -179,7 +293,65 @@ const DeleteAccountPasswordPopup = ({ onClose, open }: any) => {
                     Delete Account
                   </Button>
                 </form>
-              </Form>
+              </Form> */}
+
+              <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(VerifySignUp)}
+            className=""
+          >
+            <div className="input-stlying">
+              {["textbox", "textbox1", "textbox2", "textbox3"].map(
+                (name, index) => (
+                  <FormField
+                    key={name}
+                    control={form.control}
+                    name={name as keyof z.infer<typeof formSchema>}
+                    render={({ field }) => (
+                      <FormItem className="relative">
+                        <FormControl>
+                          <Input
+                            placeholder=""
+                            className="accnt-verification-input text-center font-bold placeholder:font-normal"
+                            {...field}
+                            ref={inputRefs[index]}
+                            onChange={(e) => {
+                              if (e.target.value.length <= 1) {
+                                field.onChange(e);
+                                const newValues = [...otpInputValues];
+                                newValues[index] = e.target.value;
+                                setOtpInputValues(newValues);
+                              }
+                              if (e.target.value.length === 1) {
+                                const nextInput = inputRefs[index + 1];
+                                if (nextInput && nextInput.current) {
+                                  nextInput.current.focus();
+                                }
+                              }
+                            }}
+                            onKeyDown={(e) => handleKeyDown(e, index)}
+                          />
+                        </FormControl>
+                        {/* <FormMessage /> */}
+                      </FormItem>
+                    )}
+                  />
+                )
+              )}
+            </div>
+            <button
+              className="opacity-70 font-normal mb-[50px] hover:opacity-100 "
+              onClick={()=>{ResentCode()}}
+            >
+              Didn't receive the code? <span className="font-extrabold underline"> Request again</span>
+            </button>
+            <DialogFooter className="w-full pt-4 bg-[#101010] border-t border-muted">
+              <Button type="submit" className="font-extrabold text-base w-full">
+                Verify
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
             </div>
             {isDeleteModal && (
               <DeleteAccountPopup

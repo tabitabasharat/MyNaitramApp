@@ -20,6 +20,7 @@ const BuyTicket = ({
   endPrice,
   userId,
   eventType,
+  ticketlength
 }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -124,11 +125,16 @@ const BuyTicket = ({
         <div>
           <p className="font-bold text-[24px] text-center lg:text-left">
             {/* £10 - £1000 */}
-            {startPrice && endPrice
-              ? `£${startPrice > endPrice ? endPrice : startPrice} - £${
-                  startPrice < endPrice ? endPrice : startPrice
-                }`
-              : "£0"}
+            
+              {ticketlength === 1 ?
+               `£${endPrice}` :
+               (
+                startPrice && endPrice
+                  ? `£${startPrice > endPrice ? endPrice : startPrice} - £${
+                      startPrice < endPrice ? endPrice : startPrice
+                    }`
+                  : "£0"
+               ) }
           </p>
           {/* <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left text-[13px] lg:text-[14px]">
             Price may vary due to different ticket types

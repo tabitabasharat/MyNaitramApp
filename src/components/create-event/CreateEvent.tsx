@@ -1017,7 +1017,8 @@ function CreateEvent() {
                                   //  {...field}
                                   onChange={(e: any) => {
                                     setEventEndTime(e); // Update local state
-                                    field.onChange(e); // Update form control
+                                    field.onChange(e);
+                                    console.log("my end date new", e) // Update form control
                                   }}
                                   //  label="Event End Date & Time"
                                   minDateTime={dayjs("2024-10-15T08:30")}
