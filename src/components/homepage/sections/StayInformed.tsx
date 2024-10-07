@@ -32,6 +32,7 @@ const StayInformed = () => {
       {filteredEvent && (
         <div className="w-1/2 hidden lg:block h-full">
           <EventCard
+           likedEvents={[]}
             eventType={"Past Events"}
             height="600px"
             img={filteredEvent[0]?.coverEventImage}
@@ -45,6 +46,7 @@ const StayInformed = () => {
         <div className="flex flex-col md:flex-row h-[60.5%] md:h-[58%] gap-4">
           {filteredEventRoof && (
             <EventCard
+            likedEvents={[]}
               eventType={"Past Events"}
               height="350px"
               img={filteredEventRoof[0]?.coverEventImage}
@@ -56,6 +58,7 @@ const StayInformed = () => {
 
           {filteredEventVerified && (
             <EventCard
+            likedEvents={[]}
               eventType={"Past Events"}
               height="350px"
               img={filteredEventVerified[0]?.coverEventImage}
