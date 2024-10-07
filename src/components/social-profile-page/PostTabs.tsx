@@ -15,7 +15,11 @@ const PostTabs = () => {
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
 
-    dispatch(getWalletCollectByUserID(userid));
+      const currentUrl: any =
+      typeof window !== "undefined" ? window.location.href : null;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    dispatch(getWalletCollectByUserID(value));
   }, []);
   const myWalletCollect = useAppSelector(
     (state) =>

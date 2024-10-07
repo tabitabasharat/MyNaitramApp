@@ -17,7 +17,11 @@ const PersonalSocialProfile = () => {
   useEffect(() => {
     const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("user id ", userid);
-    dispatch(getUserSocialProfile(userid));
+    const currentUrl: any =
+      typeof window !== "undefined" ? window.location.href : null;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    dispatch(getUserSocialProfile(value));
   }, []);
 
   const myProfile = useAppSelector(

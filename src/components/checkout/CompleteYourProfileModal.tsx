@@ -29,9 +29,13 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 
 const formSchema = z.object({
-  phone: z.number().min(1, {
-    message: "Phone Number cannot be empty.",
-  }),
+  phone: z
+    .string()
+    .min(1, { message: "Phone Number cannot be empty." })
+    .length(15, { message: "Phone number must be exactly 15 digits." })
+    .regex(/^\d{15}$/, { message: "Phone number must be numeric and exactly 15 digits." }),
+
+
 });
 
 const CompleteYourProfileModal = ({
@@ -50,7 +54,7 @@ const CompleteYourProfileModal = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      phone:undefined,
+      phone: undefined,
     },
   });
 
@@ -135,7 +139,7 @@ const CompleteYourProfileModal = ({
               />
               <FormControl className="">
                 <Input
-               disabled
+                  disabled
                   // placeholder={email}
                   value={email}
                   className="pt-10 pb-5 font-bold placeholder:font-normal  whitespace-nowrap w-full overflow-x-auto"
@@ -160,16 +164,20 @@ const CompleteYourProfileModal = ({
                   />
                   <FormControl>
                     <Input
-                      type="number"
+                      type="text" 
                       placeholder="+00 000-000"
                       className="pt-10 pb-5 font-bold placeholder:font-normal"
                       {...field}
+                      // onChange={(event) => {
+                      //   const value = event.target.value;
+                      //   field.onChange(value ? +value : undefined);
+                      // }}
+
                       onChange={(event) => {
                         const value = event.target.value;
-                        field.onChange(value ? +value : undefined);
+                        field.onChange(value); // Keep it as a string
                       }}
-                      // onChange={(event) => field.onChange(+event.target.value)} 
-                    
+                      // onChange={(event) => field.onChange(+event.target.value)}
                     />
                   </FormControl>
 

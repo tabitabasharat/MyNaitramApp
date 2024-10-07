@@ -18,7 +18,7 @@ import { deleteAccount, showProfile } from "@/lib/middleware/profile";
 import { useRouter } from "next/navigation";
 import DeleteAccountPopup from "./DeleteAccountPopup";
 import DeleteAccountPasswordPopup from "./DeleteAccountPasswordPopUp";
-
+import { deleteUser, ResendDeletCode } from "@/lib/middleware/signin";
 
 const DeleteAccnt = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +27,8 @@ const DeleteAccnt = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
   useEffect(() => {
-    const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     dispatch(showProfile(userid));
   }, []);
@@ -36,26 +37,30 @@ const DeleteAccnt = () => {
   );
   const userLoading = useAppSelector((state) => state?.getShowProfile);
 
-  const imageUrl = myProfile?.profilePicture?.startsWith("http" ) || myProfile?.profilePicture?.startsWith("https")
-    ? myProfile?.profilePicture
-    : "/person3.jpg";
+  const imageUrl =
+    myProfile?.profilePicture?.startsWith("http") ||
+    myProfile?.profilePicture?.startsWith("https")
+      ? myProfile?.profilePicture
+      : "/person3.jpg";
 
-   
   console.log("image src is", imageUrl);
 
   async function deleteUser() {
     setLoader(true);
-    const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("my user id", userID);
+    const data = {
+      userId: userID,
+    };
 
     try {
-      dispatch(deleteAccount(userID)).then((res: any) => {
+      dispatch(ResendDeletCode(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
 
-          SuccessToast("Account Deleted Successfully");
-          localStorage.clear();
-          router.push("/");
+          // SuccessToast("Account Deleted Successfully");
+          setDeleteModalOpen(true);
         } else {
           setLoader(false);
           console.log(res?.payload?.message);
@@ -76,10 +81,10 @@ const DeleteAccnt = () => {
   }
   return (
     <>
+      {" "}
+      {loader && <ScreenLoader />}
+      {/* {userLoading.loading && <ScreenLoader />} */}
       <div className="w-full lg:ps-[119px] mt-[45px] lg:w-[70%] md:mx-auto flex flex-col justify-start lg:w-full lg:mt-[150px] lg:mx-0">
-        {loader && <ScreenLoader />}
-        {userLoading.loading && <ScreenLoader />}
-
         <h2 className="font-bold text-[24px] ms-[24px] lg:ms-[0px] lg:text-[32px]">
           Delete Account
         </h2>
@@ -114,7 +119,7 @@ const DeleteAccnt = () => {
               <button
                 className="lg:my-[32px] my-[24px] bg-[#FF1717] text-white w-full lg:w-full xl:w-[428px] p-[12px] rounded-[200px] lg:text-[base] text-sm font-extrabold"
                 // onClick={() => deleteUser()}
-                onClick={() => setDeleteModalOpen(true)}
+                onClick={() => deleteUser()}
               >
                 Delete Account
               </button>
@@ -128,7 +133,6 @@ const DeleteAccnt = () => {
           </div>
         </div>
       </div>
-
       {isDeleteModalOpen && (
         // <DeleteAccountPopup
         //   onClose={() => setDeleteModalOpen(false)}
@@ -138,7 +142,6 @@ const DeleteAccnt = () => {
           onClose={() => setDeleteModalOpen(false)}
           open={() => setDeleteModalOpen(true)}
         />
-
       )}
     </>
   );

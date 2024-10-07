@@ -63,27 +63,70 @@ const FilterSideBar = () => {
     "Other",
   ];
 
+  // useEffect(() => {
+  //   const userId =
+  //     typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+  //     const formattedCategories = selectedCategories.map(cat => 
+  //       cat === "Food & Drink" ? "Food" : cat
+  //     );
+  //   const data: any = {
+  //     page: 1,
+  //     // category: selectedCategories?.length > 0 ? selectedCategories : null,
+  //     category: formattedCategories.length > 0 ? formattedCategories : null,
+  //     free: isFree ? true : null,
+      
+  //     startDate: chosenEndDate ? formatChosenDate(chosenDate) : null,
+  //     endDate: chosenEndDate ? formatChosenDate(chosenEndDate) : null,
+  //     // chooseDate:
+  //     //   chosenDate.length > 0
+  //     //     ? chosenDate.map(formatChosenDate).join(",")
+  //     //     : null,
+  //     userId: userId,
+  //   };
+  //   if (data.category) {
+  //     data.category = JSON.stringify(data.category);
+  //   }
+    
+
+  //   dispatch(getViewAllEvent(data));
+  //   dispatch(getViewPastEvents(data));
+  //   dispatch(getLiveEventById(data));
+  // }, [dispatch, selectedCategories, chosenEndDate, chosenEndDate, isFree]);
+
+
   useEffect(() => {
     const userId =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+  
+    // Function to transform categories
+    const formatCategory = (category: string) => {
+      // Split the category by spaces and return the first word
+      return category.split(" ")[0];
+    };
+  
+    // Transform categories: apply the formatting to all
+    const formattedCategories = selectedCategories.map(cat => 
+      formatCategory(cat)
+    );
+  
     const data: any = {
       page: 1,
-      category: selectedCategories?.length > 0 ? selectedCategories : null,
+      category: formattedCategories.length > 0 ? formattedCategories : null,
       free: isFree ? true : null,
-      
-      startDate: chosenEndDate ? formatChosenDate(chosenDate) : null,
+      startDate: chosenDate ? formatChosenDate(chosenDate) : null,
       endDate: chosenEndDate ? formatChosenDate(chosenEndDate) : null,
-      // chooseDate:
-      //   chosenDate.length > 0
-      //     ? chosenDate.map(formatChosenDate).join(",")
-      //     : null,
       userId: userId,
     };
-
+  
+    if (data.category) {
+      data.category = JSON.stringify(data.category);
+    }
+  
     dispatch(getViewAllEvent(data));
     dispatch(getViewPastEvents(data));
     dispatch(getLiveEventById(data));
-  }, [dispatch, selectedCategories, chosenEndDate, chosenEndDate, isFree]);
+  }, [dispatch, selectedCategories, chosenEndDate, chosenDate, isFree]);
+  
 
   const formatChosenDate = (date: Date | null): string => {
     if (!date) return "";
@@ -113,6 +156,8 @@ const FilterSideBar = () => {
         : [...prev, category]
     );
   };
+
+  
 
  
   const handleStartDateChange = () => {

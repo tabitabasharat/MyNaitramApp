@@ -198,7 +198,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
             );
           } else {
             router.push(
-              `/events/event-detail/live-activity/${EventData?.id}?eventName=${EventData?.name}`
+              `/events/event-detail/live-activity/${EventData?.id}?eventName=${EventData?.name}&userId=${EventData?.userId}`
             );
           }
         } else {

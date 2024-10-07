@@ -69,6 +69,7 @@ const LiveAccntSetting = ({
 }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [useriD,setuserId] = useState<any>("");
   const [loader, setLoader] = useState(false);
   const [fbUrl, setFbUrl] = useState("");
   const [twitterUrl, settwitterUrl] = useState("");
@@ -101,6 +102,7 @@ const LiveAccntSetting = ({
     const id =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", id);
+    setuserId(id)
     dispatch(showLiveActivity(id));
   }, []);
 
@@ -222,7 +224,7 @@ const LiveAccntSetting = ({
         </h2>
         <div className="flex w-full md:w-full lg:w-[600px] flex-col lg:flex-col gap-6 md:gap-8 mt-[50px] lg:mt-[32px]">
           <Link
-            href="/social-profile"
+            href={`/social-profile/${useriD}`}
             className={cn(
               "gradient-slate border border-muted w-full flex justify-between rounded-lg items-center  px-4 md:px-3 py-2.5 md:py-5 hover:border-[#13FF7A] duration-300 cursor-pointer relative",
               {

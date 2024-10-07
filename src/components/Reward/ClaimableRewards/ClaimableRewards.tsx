@@ -50,9 +50,15 @@ export default function ClaimableRewards() {
   );
 
   console.log("my data", myData);
-  const imageUrl = myData?.image?.startsWith("http" || "https")
+  const imageUrl = myData?.image?.startsWith("http" ) || myData?.image?.startsWith("https")
     ? myData?.image
     : leftimg;
+
+
+    const myDataloading = useAppSelector(
+      (state) =>
+        state?.getRewardCollectibleID
+    );
 
   async function ClaimCollectible() {
     console.log("Collectible Claimed");
@@ -124,6 +130,7 @@ export default function ClaimableRewards() {
   return (
     <section className="min-h-screen pt-[8rem] lg:pt-[136px] pb-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
       <div className="mx-auto max-w-screen-lg ">
+        {myDataloading.loading && <ScreenLoader/>}
         <div className="flex items-center lg:gap-[16px] gap-[12px]">
           <Image
             src={Backbtn}

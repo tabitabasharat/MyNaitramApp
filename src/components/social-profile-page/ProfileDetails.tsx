@@ -20,12 +20,19 @@ import { YoutubeLogo } from "@phosphor-icons/react";
 
 const ProfileDetails = () => {
   const dispatch = useAppDispatch();
+  const [userId, setUserId] = useState<any>("");
 
   useEffect(() => {
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+
+    const currentUrl: any =
+      typeof window !== "undefined" ? window.location.href : null;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setUserId(value);
     console.log("user id ", userid);
-    dispatch(getUserSocialProfile(userid));
+    dispatch(getUserSocialProfile(value));
   }, []);
 
   const myProfile = useAppSelector(

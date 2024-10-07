@@ -20,7 +20,8 @@ const BuyTicket = ({
   endPrice,
   userId,
   eventType,
-  ticketlength
+  ticketlength,
+  endTime,
 }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -94,7 +95,6 @@ const BuyTicket = ({
     const eventId = pathParts[pathParts.length - 1];
     setMyEventId(eventId);
     console.log("My event IDs", eventId);
-   
 
     try {
       const data = {
@@ -103,14 +103,10 @@ const BuyTicket = ({
       };
       dispatch(ticketStatus(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
-          if(res?.payload?.data?.exists == true)
-          {
+          if (res?.payload?.data?.exists == true) {
             setViewTicket(true);
-
-          }
-          else{
-          setViewTicket(false);
-
+          } else {
+            setViewTicket(false);
           }
         }
       });
@@ -125,16 +121,14 @@ const BuyTicket = ({
         <div>
           <p className="font-bold text-[24px] text-center lg:text-left">
             {/* £10 - £1000 */}
-            
-              {ticketlength === 1 ?
-               `£${endPrice}` :
-               (
-                startPrice && endPrice
-                  ? `£${startPrice > endPrice ? endPrice : startPrice} - £${
-                      startPrice < endPrice ? endPrice : startPrice
-                    }`
-                  : "£0"
-               ) }
+
+            {ticketlength === 1
+              ? `£${endPrice}`
+              : startPrice && endPrice
+              ? `£${startPrice > endPrice ? endPrice : startPrice} - £${
+                  startPrice < endPrice ? endPrice : startPrice
+                }`
+              : "£0"}
           </p>
           {/* <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left text-[13px] lg:text-[14px]">
             Price may vary due to different ticket types
@@ -158,7 +152,7 @@ const BuyTicket = ({
           <div className="w-full lg:w-auto">
             {token ? (
               <DialogTrigger asChild>
-                {eventType === "Past Events" ? (
+                {new Date() > new Date(endTime) ? (
                   <Button
                     disabled
                     onClick={() => {

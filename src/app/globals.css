@@ -4,6 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.del-verification-input{
+  width: 67px;
+  height: 68px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* padding: 29px 35px; */
+  /* padding: 29px, 35px, 29px, 35px; */
+}
   .bg-enlarge-img{
     background-image: url("../assets/Wallet/enlarge-qr-bg.svg");
     background-repeat: no-repeat;
@@ -81,6 +91,11 @@ body {
   padding: 0px 0px 0px 250px !important;
 }
 @media (max-width: 768px) {
+  .del-verification-input{
+    padding: 19px 22px;
+    height: auto;
+    width: 100% !important;
+}
   .main-box {
     width: 100% !important;
     padding: 80px 24px 0px 24px !important;

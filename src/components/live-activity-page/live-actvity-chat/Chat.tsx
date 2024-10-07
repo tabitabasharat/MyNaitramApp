@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useAppSelector } from "@/lib/hooks";
+import Link from "next/link";
 const Chat = ({
   img,
   msgtext,
@@ -9,22 +10,31 @@ const Chat = ({
   reactionimg,
   reactioncount,
   reactions,
-  attendeename
+  attendeename,
+  userid,
+  localUserId,
 }: any) => {
+
+  console.log("my local userid ",  localUserId )
+
   
   return (
-    <div className="z-[2] relative flex items-end gap-4 ">
-      <Image
-        src={userimg || "/person1.png"}
-        width={200}
-        height={200}
-        className="size-[40px] object-cover object-top rounded-full"
-        alt="chat-profile-pic"
-      />
+    // <div className="z-[2] relative flex items-end gap-4 ">
+       <div className={`z-[2] relative flex ${ localUserId == true ? 'flex-row-reverse' : 'flex-row'} items-end gap-4`}>
+   
+      <Link href={`/social-profile/${userid}`}>
+        <Image
+          src={userimg || "/person1.png"}
+          width={200}
+          height={200}
+          className="size-[40px] object-cover object-top rounded-full"
+          alt="chat-profile-pic"
+        />
+      </Link>
       <div className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg w-[248px] md:w-[420px] lg:w-[420px] ">
         <div className="flex flex-col gap-1 ">
           <p className="text-primary">{attendeename == true ? username : ""}</p>
-         
+
           {img && (
             <Image
               src={img}
@@ -34,9 +44,13 @@ const Chat = ({
               alt="message-img"
             />
           )}
+
+         
           {/* <p className="mt-1">{msgtext}</p> */}
           <p className="mt-1 break-words overflow-hidden text-ellipsis">
             {msgtext}
+            
+          
           </p>
         </div>
         {reactions?.length > 0 && (

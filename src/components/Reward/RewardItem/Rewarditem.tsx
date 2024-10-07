@@ -32,7 +32,7 @@ export default function Rewarditem() {
         state?.getRewardCollectibleID?.mySpecificCollectible?.data?.collectible
     );
     console.log("my data inside item",myData)
-    const imageUrl = myData?.image?.startsWith("http" || "https")
+    const imageUrl = myData?.image?.startsWith("http") || myData?.image?.startsWith("https")
     ? myData?.image
     : leftimg;
   return (

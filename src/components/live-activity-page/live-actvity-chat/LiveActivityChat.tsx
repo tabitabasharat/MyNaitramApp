@@ -33,7 +33,7 @@ const formatTime = (dateString: string) => {
   });
 };
 
-const LiveActivityChat = ({ eventID }: any) => {
+const LiveActivityChat = ({ eventID, userID }: any) => {
   const dispatch = useAppDispatch();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [userid, setUserid] = useState<string | null>(null);
@@ -275,6 +275,9 @@ const LiveActivityChat = ({ eventID }: any) => {
     }
   };
 
+  const userIDlocal =
+    typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+
   return (
     <div
       className="w-full lg:w-[576px] h-[600px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
@@ -330,10 +333,16 @@ const LiveActivityChat = ({ eventID }: any) => {
               const attendee = myAttendees?.find(
                 (attendee: any) => attendee?.attendeeId === event?.userId
               );
-
+              const isLocalUser = event?.userId === userIDlocal;
+              console.log("my event user id", event?.userId)
               return (
                 <div key={event?.id} className="relative">
-                  <div onClick={() => handleMessagePress(event?.id)}>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleMessagePress(event?.id);
+                    }}
+                  >
                     <Chat
                       key={event?.id}
                       msgtext={event?.msg}
@@ -342,9 +351,10 @@ const LiveActivityChat = ({ eventID }: any) => {
                       userimg={event?.user?.profilePicture}
                       time={formatTime(event?.createdAt)}
                       reactions={event?.reactions}
-                      // attendeename={attendee?.isActive} 
-                      attendeename={event?.user?.liveActivity?.isActive} 
-
+                      // attendeename={attendee?.isActive}
+                      attendeename={event?.user?.liveActivity?.isActive}
+                      userid={event?.userId}
+                      localUserId={event?.userId == userIDlocal ? true : false}
                     />
                   </div>
                   {activeMessage === event?.id && (
@@ -404,12 +414,13 @@ const LiveActivityChat = ({ eventID }: any) => {
             value={msgs}
             onKeyDown={handleKeyDown}
           />
+          {userID === userIDlocal && (
           <Image
             src={link}
             alt="link-img"
             sizes="16px"
             className="absolute top-[16px] right-[60px]"
-          />
+          />)}
         </label>
         <input
           ref={fileInputRef}
@@ -422,7 +433,9 @@ const LiveActivityChat = ({ eventID }: any) => {
           className="rounded-full w-[36px] p-[0px] mt-[6px] px-[10px] h-[36px]"
           onClick={() => SendMsg()}
         >
-          <PaperPlaneTilt size={16} className="h-full " weight="bold" />
+          
+            <PaperPlaneTilt size={16} className="h-full " weight="bold" />
+        
         </Button>
       </div>
       {/* <div className="absolute top-[-3rem] md:top-8 bg-[#0A0D0B] px-3 py-2 translate-x-1/2 right-1/2 rounded-full z-[2]">

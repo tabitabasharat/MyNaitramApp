@@ -19,6 +19,7 @@ const LiveActivity = () => {
   const [evantName,setEventName]=useState<any>("")
   const dispatch: any = useAppDispatch();
   const searchParams = useSearchParams();
+  const userId = searchParams.get('userId');
 
   // useEffect(() => {
   //   const currentUrl: any =
@@ -104,7 +105,7 @@ const LiveActivity = () => {
         </div>
 
         <div className="w-full event-width-adjustment">
-          <LiveActivityChat  eventID={eventID}/>
+          <LiveActivityChat  eventID={eventID} userID={userId}/>
         </div>
       </div>
     </section>

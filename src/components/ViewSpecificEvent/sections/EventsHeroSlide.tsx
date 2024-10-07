@@ -191,7 +191,7 @@ const EventsHeroSlide = ({
     return formattedDate;
   };
 
-  
+
   const ConvertDate = (originalDateStr: string | undefined): string => {
     // Ensure input is a valid string
     if (typeof originalDateStr !== "string") {
@@ -475,6 +475,7 @@ const EventsHeroSlide = ({
             endPrice={ticketEndPrice}
             userId={userId}
             ticketlength={ticketLength}
+            endTime={endTime}
           />
         </div>
       </div>

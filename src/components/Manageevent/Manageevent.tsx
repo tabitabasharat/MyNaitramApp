@@ -64,11 +64,11 @@ function Manageevent({
         Manage Event
       </h3>
 
-      {EventsData?.data?.length > 0 ? (
+      {EventsData?.data?.events?.length > 0 ? (
         <>
           <div className="relative grid md:grid-cols-1 lg:grid-cols-4 gap-[12px] lg:gap-[20px]">
-            {EventsData?.data?.length > 0 &&
-              EventsData?.data?.map((event: any) => (
+            {EventsData?.data?.events?.length > 0 &&
+              EventsData?.data?.events?.map((event: any) => (
                 <ScaleReveal extraStyle="w-full">
                   {/* <Link href={`/events`} className="w-full"> */}
                   <Link

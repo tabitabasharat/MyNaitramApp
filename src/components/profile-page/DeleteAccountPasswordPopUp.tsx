@@ -12,12 +12,13 @@ import {
   DialogFooter,
   DialogPortal,
 } from "@/components/ui/newdialog";
+import "../auth/AccountVerificationModal.css";
 
 import Image from "next/image";
 import Iconpop from "@/assets/delete-icon.svg";
 import { Button } from "../ui/button";
 
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "../loader/Screenloader";
 import {
@@ -29,7 +30,7 @@ import { useRouter } from "next/navigation";
 import { close } from "fs";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Envelope, GoogleLogo, Lock } from "@phosphor-icons/react/dist/ssr";
-import { deleteUser,ResendDeletCode } from "@/lib/middleware/signin";
+import { deleteUser, ResendDeletCode } from "@/lib/middleware/signin";
 
 import { useForm } from "react-hook-form";
 import {
@@ -46,9 +47,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import DeleteAccountPopup from "./DeleteAccountPopup";
 import { signin } from "@/lib/middleware/signin";
 
-
 const formSchema = z.object({
-  password: z.string().min(1, { message: "Password cannot be empty." }),
   textbox: z
     .string()
     .min(1, { message: "Input cannot be empty." })
@@ -80,7 +79,6 @@ const DeleteAccountPasswordPopup = ({ onClose, open }: any) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      password: "",
       textbox: "",
       textbox1: "",
       textbox2: "",
@@ -121,75 +119,38 @@ const DeleteAccountPasswordPopup = ({ onClose, open }: any) => {
     }
   };
 
-
   const myProfile = useAppSelector(
     (state) => state?.getShowProfile?.myProfile?.data
   );
   const userLoading = useAppSelector((state) => state?.getShowProfile);
 
-  const imageUrl = myProfile?.profilePicture?.startsWith("http") || myProfile?.profilePicture?.startsWith("https")
-    ? myProfile?.profilePicture
-    : "/person3.jpg";
+  const imageUrl =
+    myProfile?.profilePicture?.startsWith("http") ||
+    myProfile?.profilePicture?.startsWith("https")
+      ? myProfile?.profilePicture
+      : "/person3.jpg";
   console.log("image src is", imageUrl);
-
-  async function handledeleteUser(values: z.infer<typeof formSchema>) {
-    setLoader(true);
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-    const useremail =
-      typeof window !== "undefined" ? localStorage.getItem("email") : null;
-    console.log("my user id", userID);
-    const data = {
-      email: useremail,
-      password: Password,
-    };
-
-    try {
-      dispatch(signin(data)).then((res: any) => {
-        if (res?.payload?.status === 200) {
-          setLoader(false);
-
-          //   SuccessToast("Account Deleted Successfully");
-          setDeleteModal(true);
-          //   localStorage.clear();
-          //   router.push("/");
-        } else {
-          setLoader(false);
-          console.log(res?.payload?.message);
-
-          ErrorToast(
-            res?.payload?.message || "An error occurred during deletion."
-          );
-        }
-      });
-    } catch (error: any) {
-      console.error("Error:", error);
-      const errorMessage =
-        error?.response?.data?.message ||
-        error?.message ||
-        "An unexpected error occurred.";
-      ErrorToast(errorMessage);
-    }
-  }
 
   async function VerifySignUp(values: z.infer<typeof formSchema>) {
     console.log("Signup Verification");
-    const useremail =
-    typeof window !== "undefined" ? localStorage.getItem("email") : null;
+  
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setLoader(true);
     try {
       const data = {
         // google: false,
-        email: useremail,
-        code: otpInputValues.join(""),
+        userId: userID,
+        verificationCode: otpInputValues.join(""),
       };
       dispatch(deleteUser(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          console.log(res,"this is verify delete")
+          console.log(res, "this is verify delete");
           console.log(data);
-          setDeleteModal(true);
-
+          // SuccessToast("Deleted Successfully");
+          localStorage.clear();
+          router.push("/");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -200,16 +161,15 @@ const DeleteAccountPasswordPopup = ({ onClose, open }: any) => {
     }
   }
 
-
   async function ResentCode() {
     console.log("Again Signup Verification");
-    const useremail =
-      typeof window !== "undefined" ? localStorage.getItem("email") : null;
-   
+    const userID =
+    typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+
     setLoader(true);
     try {
       const data = {
-        email: useremail,
+        userId:  userID,
       };
       dispatch(ResendDeletCode(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
@@ -227,7 +187,10 @@ const DeleteAccountPasswordPopup = ({ onClose, open }: any) => {
       ErrorToast(error);
     }
   }
-
+  const {
+    formState: { errors },
+  } = form;
+  console.log("form errors", errors);
   return (
     <Dialog open={open} onOpenChange={onClose}>
       {/* <DialogTrigger>Open Dialog</DialogTrigger> */}
@@ -246,10 +209,11 @@ const DeleteAccountPasswordPopup = ({ onClose, open }: any) => {
               <DialogTitle className="font-bold text-2xl mb-1"></DialogTitle>
             </DialogHeader>
 
-            <div className="flex items-center flex-col ">
+            <div className="flex items-center flex-col  ">
               {/* <Image src={Iconpop} alt="icon" /> */}
               <p className="mt-[16px] font-weight[700] leading-[24px] whitelist-txt text-center">
-                Enter your password to<br></br> delete your account
+                You have received a code on your email for the <br></br>reset
+                password request. Please enter below.
               </p>
 
               {/* <Form {...form}>
@@ -296,62 +260,74 @@ const DeleteAccountPasswordPopup = ({ onClose, open }: any) => {
               </Form> */}
 
               <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(VerifySignUp)}
-            className=""
-          >
-            <div className="input-stlying">
-              {["textbox", "textbox1", "textbox2", "textbox3"].map(
-                (name, index) => (
-                  <FormField
-                    key={name}
-                    control={form.control}
-                    name={name as keyof z.infer<typeof formSchema>}
-                    render={({ field }) => (
-                      <FormItem className="relative">
-                        <FormControl>
-                          <Input
-                            placeholder=""
-                            className="accnt-verification-input text-center font-bold placeholder:font-normal"
-                            {...field}
-                            ref={inputRefs[index]}
-                            onChange={(e) => {
-                              if (e.target.value.length <= 1) {
-                                field.onChange(e);
-                                const newValues = [...otpInputValues];
-                                newValues[index] = e.target.value;
-                                setOtpInputValues(newValues);
-                              }
-                              if (e.target.value.length === 1) {
-                                const nextInput = inputRefs[index + 1];
-                                if (nextInput && nextInput.current) {
-                                  nextInput.current.focus();
-                                }
-                              }
-                            }}
-                            onKeyDown={(e) => handleKeyDown(e, index)}
-                          />
-                        </FormControl>
-                        {/* <FormMessage /> */}
-                      </FormItem>
+                <form onSubmit={form.handleSubmit(VerifySignUp)}>
+                  <div className="input-stlying">
+                    {["textbox", "textbox1", "textbox2", "textbox3"].map(
+                      (name, index) => (
+                        <FormField
+                          key={name}
+                          control={form.control}
+                          name={name as keyof z.infer<typeof formSchema>}
+                          render={({ field }) => (
+                            <FormItem className="relative">
+                              <FormControl>
+                                <Input
+                                  placeholder=""
+                                  className="del-verification-input text-center font-bold placeholder:font-normal placeholder:text-white text-white"
+                                  {...field}
+                                  ref={inputRefs[index]}
+                                  onChange={(e) => {
+                                    if (e.target.value.length <= 1) {
+                                      field.onChange(e);
+                                      const newValues = [...otpInputValues];
+                                      newValues[index] = e.target.value;
+                                      setOtpInputValues(newValues);
+                                    }
+                                    if (e.target.value.length === 1) {
+                                      const nextInput = inputRefs[index + 1];
+                                      if (nextInput && nextInput.current) {
+                                        nextInput.current.focus();
+                                      }
+                                    }
+                                  }}
+                                  onKeyDown={(e) => handleKeyDown(e, index)}
+                                />
+                              </FormControl>
+                              {/* <FormMessage /> */}
+                            </FormItem>
+                          )}
+                        />
+                      )
                     )}
-                  />
-                )
-              )}
-            </div>
-            <button
-              className="opacity-70 font-normal mb-[50px] hover:opacity-100 "
-              onClick={()=>{ResentCode()}}
-            >
-              Didn't receive the code? <span className="font-extrabold underline"> Request again</span>
-            </button>
-            <DialogFooter className="w-full pt-4 bg-[#101010] border-t border-muted">
-              <Button type="submit" className="font-extrabold text-base w-full">
-                Verify
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
+                  </div>
+                  {/* <button
+                    className=" font-normal  hover:opacity-100  flex items-center justify-center  text-center w-full"
+                    onClick={() => {
+                      ResentCode();
+                    }}
+                  >
+                    Didn't receive the code?{" "}
+                    <span className="font-extrabold underline ps-[3px]">
+                      Request again
+                    </span>
+                  </button> */}
+                  <p className="text-center text-[#BFBFBF]  text-[14px]">
+                    Didn't receive the code?{" "}
+                    <span
+                      className="font-extrabold underline ps-[3px]"
+                      onClick={() => {
+                        ResentCode();
+                      }}
+                    >
+                      Request again
+                    </span>
+                  </p>
+
+                  <Button className="font-extrabold text-base w-full bg-[#FF1717]  text-white mt-[32px]">
+                    Delete Account
+                  </Button>
+                </form>
+              </Form>
             </div>
             {isDeleteModal && (
               <DeleteAccountPopup

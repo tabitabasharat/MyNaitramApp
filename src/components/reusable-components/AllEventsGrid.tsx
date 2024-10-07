@@ -1,4 +1,5 @@
 import { FadeReveal } from "../animations/FadeReveal";
+import EventCardPast from "./YourEventPast";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import EventCard from "./EventCard";
@@ -13,6 +14,7 @@ import rocket from "@/assets/Wallet/rocket-empty.svg";
 import YourEvents from "./YourEvents";
 import { useRouter } from "next/navigation";
 import getPastEvents from "@/lib/reducer/getPastEvents";
+
 
 const AllEventsGrid = ({ events, eventType }: any) => {
   const dispatch = useAppDispatch();
@@ -129,12 +131,17 @@ const AllEventsGrid = ({ events, eventType }: any) => {
             <div className="relative sm:grid flex flex-col  md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[1rem]">
               {events?.length > 0 &&
                 events?.map((event: any) => (
-                  <EventCard
+                  <EventCardPast
                     key={event?.id}
                     img={event?.coverEventImage}
                     title={event?.name}
                     eventId={event?.id}
                     eventType={eventType}
+                    eventDate={event?.startTime}
+                    endTime={event?.endTime}
+                    startTime={event?.startTime}
+                    likedEvents={event?.likes}
+
                   />
                 ))}
 
@@ -175,6 +182,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
                   title={event?.name}
                   eventId={event?.id}
                   eventType={eventType}
+                  likedEvents={event?.likes}
                 />
               ))}
               <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
