@@ -34,8 +34,8 @@ import { useRouter } from "next/navigation";
 import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
-  subsets: ["latin"], // Specify the subsets you need
-  weight: ["400", "700"], // Specify the weights you need
+  subsets: ["latin"],
+  weight: ["400", "700"],
   variable: "--font-poppins",
   display: "swap",
 });
@@ -64,7 +64,6 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState<string | null>(null);
-  // const isActive = activeItem === item.text;
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -105,7 +104,6 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
   const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
-    // minHeight:isSmallScreen ? "56px" : "64px",
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
@@ -283,7 +281,6 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            // sx={{ mr: 2, display: { sm: "none" }, boxShadow: "none" }}
             sx={{
               mr: 2,
               display: { sm: "block", md: "block", lg: "none" },
@@ -331,22 +328,9 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
             },
             "& .MuiListItemText-root": {
               marginBottom: "0px",
-              // fontWeight: "400",
             },
           }}
         >
-          {/* <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px] pe-[24px] md:pe-[0px]">
-            <IconButton
-              className="p-0 h-[30px] w-[30px]"
-              onClick={handleDrawerClose}
-            >
-              {theme.direction === "ltr" ? (
-                <Image src={backwardicon} alt="icon" />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </DrawerHeader> */}
           {drawer}
         </Drawer>
         <Drawer
@@ -369,7 +353,6 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
             },
             "& .MuiListItemText-root": {
               marginBottom: "0px",
-              // fontWeight: "400",
             },
           }}
           open

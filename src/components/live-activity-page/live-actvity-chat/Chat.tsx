@@ -20,7 +20,7 @@ const Chat = ({
   
   return (
     // <div className="z-[2] relative flex items-end gap-4 ">
-       <div className={`z-[2] relative flex ${ localUserId == true ? 'flex-row-reverse pr-[37px] ' : 'flex-row me-[44px] sm:me-[55px]'} items-end gap-4`}>
+       <div className={`z-[2] flex ${ localUserId == true ? 'flex-row-reverse pr-[37px] ' : 'flex-row me-[44px] sm:me-[55px]'} items-end gap-4`}>
    
       <Link href={`/social-profile/${userid}`}>
         <Image
@@ -32,7 +32,7 @@ const Chat = ({
         />
       </Link>
       {/* <div className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg w-full me-[44px] sm:me-[55px] "> */}
-      <div className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg w-full me-0  lg:w-[400px]">
+      <div className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg me-0 chat-wid ">
 
         <div className="flex flex-col gap-1 ">
           <p className="text-primary">{attendeename == true ? username : ""}</p>

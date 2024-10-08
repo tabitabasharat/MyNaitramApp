@@ -187,7 +187,7 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
     background-color: #eaea87;
     color: #ffffff;
   }
-  &. MuiTypography-root {
+  & .MuiTypography-root {
     color: #ffffff;
   }
   //  & .MuiDialog-paper {

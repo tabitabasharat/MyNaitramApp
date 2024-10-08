@@ -16,7 +16,7 @@ const RewardProgram = () => {
       id: 2,
       img: award2,
       title: 'Earn $MRT Token',
-      desc: 'Participate in our activities and earn $MRT Tokens as you engage. From completing tasks to joining events, every action you take brings you closer to more rewards',
+      desc: 'Participate in our activities and earn $MRT Tokens as you engage. From completing tasks to joining events, every action you take brings you closer to more rewards.',
     },
     {
       id: 3,
@@ -37,7 +37,7 @@ const RewardProgram = () => {
       <div className="z-[8] relative pxpx mx-2xl py-28">
         <div className="lg:w-[50%]">
           <Reveal y={100}>
-            <h2 className="font-bold text-[32px] lg:text-[48px] leading-[1.15]">
+            <h2 className="font-bold text-center sm:text-start text-[32px] lg:text-[48px] leading-[1.15]">
               Unlock Your Potential with Our Reward Program
             </h2>
           </Reveal>
