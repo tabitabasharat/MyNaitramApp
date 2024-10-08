@@ -13,7 +13,7 @@ import {
   SuccessToast,
 } from "@/components/reusable-components/Toaster/Toaster";
 
-const StayInformed = (data: { email: any; }) => {
+const StayInformed = () => {
   const [Email, setEmail] = useState<any>("");
   const [loader,setLoader] = useState(false);
   const dispatch = useAppDispatch();
