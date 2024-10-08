@@ -60,11 +60,23 @@ const Dashboard = () => {
   );
   console.log("my graph history ", myGraphHistory);
   
-  const chartData =
-    myGraphHistory?.remainingDaysAmounts?.map((item: any) => ({
-      name: item?.day.slice(0, 3).toUpperCase(), // Abbreviate day names
-      value: item?.amount,
-    })) || [];
+  // const chartData =
+  //   myGraphHistory?.remainingDaysAmounts?.map((item: any) => ({
+  //     name: item?.day.slice(0, 3).toUpperCase(), 
+  //     value: item?.amount,
+  //   })) || [];
+
+
+    const allDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+const chartData = allDays.map((day) => {
+  const foundDay = myGraphHistory?.remainingDaysAmounts?.find((item:any) => item.day === day);
+  
+  return {
+    name: day.slice(0, 3).toUpperCase(), // Abbreviate day names
+    value: foundDay ? foundDay.amount : 0, // Use the amount if found, otherwise 0
+  };
+}) || [];
   return (
     <div
       style={{

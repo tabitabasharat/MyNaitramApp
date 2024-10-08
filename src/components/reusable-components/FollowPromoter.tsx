@@ -65,7 +65,7 @@ const Followpromoter = ({ userId, eventName,EventData }: any) => {
   console.log("my  infooo is", myProfile);
 
   const imageUrl = myProfile?.profile?.profilePicture?.startsWith(
-    "http" || "https"
+    "http") ||  myProfile?.profile?.profilePicture?.startsWith("https"
   )
     ? myProfile?.profile?.profilePicture
     : promoter;
@@ -198,7 +198,7 @@ const Followpromoter = ({ userId, eventName,EventData }: any) => {
               }
             }}
           >
-            {followStatus ? "Following" : "Follow Promoter"}
+            {followStatus ? "Following" : "Follow Organiser"}
           </Button>
         }
         <div className="flex gap-[8px] flex-wrap h-full">

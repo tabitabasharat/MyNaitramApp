@@ -117,8 +117,8 @@ const EventCard = ({
     setUserToken(userID);
    
     if (userID ) {
-      const userHasLiked = likedEvents.some(
-        (likedEvent: any) =>  likedEvent.userId == userID
+      const userHasLiked = likedEvents?.some(
+        (likedEvent: any) =>  likedEvent?.userId == userID
       );
       console.log("user has" , userHasLiked)
       setLiked(userHasLiked);

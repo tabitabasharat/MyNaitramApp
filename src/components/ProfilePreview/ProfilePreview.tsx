@@ -17,7 +17,7 @@ import sealnew from "@/assets/Wallet/Sealnew.svg";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getUserSocialProfile } from "@/lib/middleware/profile";
-import { getOrganizerSocialProfile } from "@/lib/middleware/organizer";
+import { getOrganizerSocialProfile, getOrganizerLiveSocialProfile } from "@/lib/middleware/organizer";
 import { YoutubeLogo } from "@phosphor-icons/react";
 
 const ProfilePreview = () => {
@@ -47,14 +47,20 @@ const ProfilePreview = () => {
     const value = parts[parts.length - 1];
     setUserId(value);
     console.log("my user id is", value);
-    dispatch(getOrganizerSocialProfile(value));
+    // dispatch(getOrganizerSocialProfile(value));
+    dispatch(getOrganizerLiveSocialProfile(value));
+
     // dispatch(getEventById(value));
   }, []);
 
-  const myProfile = useAppSelector(
-    (state) => state?.getOrgSocialProfile?.mySocialData?.data
-  );
+  // const myProfile = useAppSelector(
+  //   (state) => state?.getOrgSocialProfile?.mySocialData?.data
+  // );
 
+
+  const myProfile = useAppSelector(
+    (state) => state?.getOrgLiveSocialProfile?.mySocialData?.data
+  );
   console.log("my Social Profile infooo is", myProfile);
 
   return (

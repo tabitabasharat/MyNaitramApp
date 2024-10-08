@@ -29,11 +29,14 @@ function Manageevent({
   const dispatch = useAppDispatch();
 
   const handlePageChange = (page: number) => {
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     const data = {
       page: page,
+      userId:userid
     };
 
-    dispatch(getViewAllEvent(data));
+    dispatch(getEventsByUID(data));
   };
   // console.log("All Events are", EventsAllData);
 
@@ -43,8 +46,9 @@ function Manageevent({
     console.log("user id ", userid);
     const data = {
       page: 1,
+      userId:userid
     };
-    dispatch(getEventsByUID(userid));
+    dispatch(getEventsByUID(data));
 
     dispatch(getViewAllEvent(data));
   }, []);
@@ -119,13 +123,13 @@ function Manageevent({
 
             <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
           </div>
-          {/* <div className="container p-0">
+          <div className="p-0 w-full ">
             <Pagination
-              currentPage={EventsData?.pagination?.currentPage}
-              totalPages={EventsData?.pagination?.totalPages}
+              currentPage={EventsData?.data?.currentPage}
+              totalPages={EventsData?.data?.totalPages}
               onPageChange={handlePageChange}
             />
-          </div> */}
+          </div>
         </>
       ) : (
         <div className="relative grid md:grid-cols-3 lg:grid-cols-4 gap-[1rem]">

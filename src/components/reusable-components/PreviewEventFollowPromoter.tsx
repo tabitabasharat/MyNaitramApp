@@ -43,11 +43,11 @@ const PreviewEventFollowPromoter = ({ userId, eventName, eventDATA }: any) => {
 
   console.log("my  infooo is", myProfile);
 
-  const imageUrl = myProfile?.profile?.profilePicture?.startsWith(
-    "http" || "https"
-  )
-    ? myProfile?.profile?.profilePicture
-    : promoter;
+  const imageUrl =
+    myProfile?.profile?.profilePicture?.startsWith("http") ||
+    myProfile?.profile?.profilePicture?.startsWith("https")
+      ? myProfile?.profile?.profilePicture
+      : promoter;
 
   useEffect(() => {
     const token =
@@ -95,7 +95,7 @@ const PreviewEventFollowPromoter = ({ userId, eventName, eventDATA }: any) => {
         {/* {
           userToken !=myEvents?.data?.data[0]?.id && 
         <Button variant="secondary" className="text-[14px] font-bold py-[10px]">
-          Follow Promoter
+          Follow Organiser
         </Button>
         } */}
         <div className="flex gap-3 flex-wrap h-full">

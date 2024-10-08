@@ -1,13 +1,22 @@
 import EventCard from "@/components/reusable-components/EventCard";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 import { events } from "@/lib/dummyData";
 import { Envelope } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import ufo from "@/assets/ufo.png";
 import GradientBorder from "@/components/ui/gradient-border";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+import { StayInformedEmail } from "@/lib/middleware/signin";
+import {
+  ErrorToast,
+  SuccessToast,
+} from "@/components/reusable-components/Toaster/Toaster";
 
-const StayInformed = () => {
+const StayInformed = (data: { email: any; }) => {
+  const [Email, setEmail] = useState<any>("");
+  const [loader,setLoader] = useState(false);
+  const dispatch = useAppDispatch();
   const EventsPastData = useAppSelector(
     (state: any) => state?.getPastEvents?.ViewPastEvents?.data
   );
@@ -24,6 +33,31 @@ const StayInformed = () => {
   );
 
   console.log("tgis paste event", filteredEvent, EventsPastData);
+
+ 
+  async function handleEmail() {
+  
+    setLoader(true);
+    try {
+      const data = {
+        email: Email,
+
+      };
+      dispatch(StayInformedEmail(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          SuccessToast("Email Sent Successfully");
+          setEmail("");
+
+        }  else {
+          ErrorToast(res?.payload?.message || "Something went wrong");
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      ErrorToast(error);
+    }
+  }
   return (
     <div
       style={{ height: "" }}
@@ -32,7 +66,7 @@ const StayInformed = () => {
       {filteredEvent && (
         <div className="w-1/2 hidden lg:block h-full">
           <EventCard
-           likedEvents={[]}
+            likedEvents={[]}
             eventType={"Past Events"}
             height="600px"
             img={filteredEvent[0]?.coverEventImage}
@@ -46,7 +80,7 @@ const StayInformed = () => {
         <div className="flex flex-col md:flex-row h-[60.5%] md:h-[58%] gap-4">
           {filteredEventRoof && (
             <EventCard
-            likedEvents={[]}
+              likedEvents={[]}
               eventType={"Past Events"}
               height="350px"
               img={filteredEventRoof[0]?.coverEventImage}
@@ -58,7 +92,7 @@ const StayInformed = () => {
 
           {filteredEventVerified && (
             <EventCard
-            likedEvents={[]}
+              likedEvents={[]}
               eventType={"Past Events"}
               height="350px"
               img={filteredEventVerified[0]?.coverEventImage}
@@ -87,11 +121,13 @@ const StayInformed = () => {
                 <input
                   type="text"
                   placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full h-full rounded-full bg-white/10 mt-4 border border-[#3C3C3C] outline-none focus:border-[#087336] px-[3.2rem] placeholder:text-muted"
                 />
                 <Button
                   variant="secondary"
                   className="absolute right-0 h-[45px] top-4 hidden md:block"
+                  onClick={handleEmail}
                 >
                   Join Now
                 </Button>

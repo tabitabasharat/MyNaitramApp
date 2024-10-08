@@ -69,8 +69,11 @@ const ScannerLogin = () => {
     const userid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
-
-    dispatch(getEventsByUID(userid));
+    const data = {
+      page: 1,
+      userId: userid,
+    };
+    dispatch(getEventsByUID(data));
   }, []);
 
   const EventsData = useAppSelector(
@@ -100,8 +103,6 @@ const ScannerLogin = () => {
   const handleOptionToggle = (option: Option) => {
     if (selectedOptions.some((o: any) => o.id === option.id)) {
       setSelectedOptions([]);
-      
-
     } else {
       setSelectedOptions([option]);
       dispatch(getScannerByEventID(option?.id));
@@ -111,7 +112,6 @@ const ScannerLogin = () => {
 
   console.log("my selected options", selectedOptions);
   console.log("selected event id", selectedEventID);
-
 
   return (
     <div className="w-full lg:w-[600px] md:ps-[90px] lg:ps-[100px] xl:ps-[172px] md:mx-auto mt-[44px] px-[24px] lg:px-[0px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[90vh]">
@@ -130,8 +130,8 @@ const ScannerLogin = () => {
         <Separator className="scale--[1.12] bg-[#292929]" />
         {Dropdown && (
           <div className="pt-[16px] lg:pt-[12px]">
-            {EventsData?.data?.length > 0 ? (
-              EventsData?.data?.map((option: any) => (
+            {EventsData?.data?.events?.length > 0 ? (
+              EventsData?.data?.events?.map((option: any) => (
                 <div
                   key={option?.id}
                   className="flex items-center justify-between pt-[2px] cursor-pointer"

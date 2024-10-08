@@ -280,7 +280,8 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
 
   return (
     <div
-      className="w-full lg:w-[576px] h-[600px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
+      className="w-full lg:w-[576px] h-[600px] md:border md:border-[#292929]
+       md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
   bg-effect2 bg-effect"
     >
       {" "}
@@ -323,10 +324,9 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
           </div>
         </div>
       </ScrollArea> */}
-      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[6rem]">
-        {/* {userLoading.loading && <ScreenLoader />} */}
+      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[6rem] block">
 
-        <div className="space-y-2">
+        <div className="space-y-2 block">
           {EventChat?.length > 0 &&
             EventChat?.map((event: any, index: any) => {
               // Find the corresponding attendee from myAttendees

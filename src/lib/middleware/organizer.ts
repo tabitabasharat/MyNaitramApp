@@ -7,7 +7,11 @@ export const getEventsByUID = createAsyncThunk(
   async (data: any) => {
     try {
       console.log("inside get events by user id");
-      const res = await api.get(`${API_URL}/event/getUserEvents/${data}`);
+      const res = await api.get(
+        `${API_URL}/event/getUserEvents/${data?.userId}?page=${
+          data?.page ? data?.page : 1
+        }`
+      );
       console.log("inside get events by user id", res);
 
       return {
@@ -53,15 +57,17 @@ export const getEventsByUID = createAsyncThunk(
 //     }
 //   }
 // );
-export const  updateOrganizerProfile = createAsyncThunk(
+export const updateOrganizerProfile = createAsyncThunk(
   "updateOrganizerProfile",
   async (data: any) => {
     try {
       console.log("inside update Organizer Profile");
 
-      const res = await api.post(`${API_URL}/auth/createOrUpdateOrganizerProfile`, data);
+      const res = await api.post(
+        `${API_URL}/auth/createOrUpdateOrganizerProfile`,
+        data
+      );
       console.log("inside update Organizer Profile", res);
-
 
       // localStorage.setItem("token", res?.data?.token);
       return {
@@ -77,7 +83,6 @@ export const  updateOrganizerProfile = createAsyncThunk(
     }
   }
 );
-
 
 // export const getOrganizerByID = createAsyncThunk(
 //   "getOrganizerByID",
@@ -100,7 +105,7 @@ export const  updateOrganizerProfile = createAsyncThunk(
 //   }
 // );
 
-export const  getOrganizerByID = createAsyncThunk(
+export const getOrganizerByID = createAsyncThunk(
   "getOrganizerByID",
   async (data: any) => {
     try {
@@ -148,10 +153,31 @@ export const getOrganizerSocialProfile = createAsyncThunk(
   async (data: any) => {
     try {
       console.log("inside get social org by id");
-      const res = await api.get(
-        `${API_URL}/auth/getOrganizerProfile/${data}`
-      );
+      const res = await api.get(`${API_URL}/auth/getOrganizerProfile/${data}`);
       console.log("inside get social org by id", res);
+
+      return {
+        status: res?.status,
+        data: res?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
+
+export const getOrganizerLiveSocialProfile = createAsyncThunk(
+  "getOrganizerLiveSocialProfile",
+  async (data: any) => {
+    try {
+      console.log("inside get social except past org by id");
+      const res = await api.get(
+        `${API_URL}/auth/getOrganizerProfileFuture/${data}`
+      );
+      console.log("inside get social except past  by id", res);
 
       return {
         status: res?.status,

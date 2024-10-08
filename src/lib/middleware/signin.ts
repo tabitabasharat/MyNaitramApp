@@ -178,5 +178,26 @@ export const signup = createAsyncThunk("signup", async (data:any) => {
       };
     }
   });
+
+
+  export const StayInformedEmail = createAsyncThunk("StayInformedEmail", async (data:any) => {
+    try {
+      console.log("inside stay inform ");
+      const res = await api.post(`${API_URL}/auth/sendStayInformedRequest`, data);
+      // localStorage.setItem("token", res?.data?.token);
+      console.log("inside stay inform", res);
+
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+        token: res?.data?.token,
+      };
+    } catch (error:any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  });
   
   

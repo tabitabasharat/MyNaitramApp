@@ -44,17 +44,30 @@ const formSchema = z.object({
     .min(1, { message: "Email cannot be empty." })
     .email({ message: "Invalid email address." }),
 
-  firstname: z.string().min(1, { message: "Full Name cannot be empty." }),
-  role: z.string().min(2, { message: "Role cannot be empty." }),
+  firstname: z
+    .string()
+    .min(1, { message: "Full Name cannot be empty." })
+    .regex(/^[A-Za-z\s]+$/, {
+      message: "First name must contain only letters.",
+    }),
+  role: z
+    .string()
+    .min(2, { message: "Role cannot be empty." })
+    .regex(/^[A-Za-z\s]+$/, { message: "Role must contain only letters." }),
   cell: z
     .string()
     .min(1, { message: "Phone number cannot be empty." })
-    .regex(/^\d+$/, { message: "Phone number must be numeric." }) 
+    .regex(/^\d+$/, { message: "Phone number must be numeric." })
     .length(15, { message: "Phone number must be exactly 15 digits." }),
   organization: z
     .string()
     .min(1, { message: "Organization name cannot be empty." }),
-  lastname: z.string().min(1, { message: "Last name cannot be empty." }),
+  lastname: z
+    .string()
+    .min(1, { message: "Last name cannot be empty." })
+    .regex(/^[A-Za-z\s]+$/, {
+      message: "Last name must contain only letters.",
+    }),
   BIO: z.string().min(1, { message: "Description cannot be empty." }),
 });
 
@@ -85,10 +98,6 @@ const GetSponsored = () => {
     },
   });
 
-
-
- 
-
   async function updateActivity(values: z.infer<typeof formSchema>) {
     console.log("my values", values);
     setLoader(true);
@@ -109,7 +118,6 @@ const GetSponsored = () => {
           setLoader(false);
           console.log("Sponsored", res?.payload?.data);
           SuccessToast("Submitted Successfully");
-         
         } else {
           setLoader(false);
           console.log(res?.payload?.message);
@@ -189,6 +197,12 @@ const GetSponsored = () => {
                               setName(e.target.value);
                               field.onChange(e);
                             }}
+                            onKeyDown={(e) => {
+                              // Allow only letters and spaces
+                              if (!/^[A-Za-z\s]*$/.test(e.key) && e.key !== "Backspace" && e.key !== "Tab") {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -219,6 +233,12 @@ const GetSponsored = () => {
                             onChange={(e) => {
                               setLastName(e.target.value);
                               field.onChange(e);
+                            }}
+                            onKeyDown={(e) => {
+                              // Allow only letters and spaces
+                              if (!/^[A-Za-z\s]*$/.test(e.key) && e.key !== "Backspace" && e.key !== "Tab") {
+                                e.preventDefault();
+                              }
                             }}
                           />
                         </FormControl>
@@ -313,6 +333,12 @@ const GetSponsored = () => {
                               setRole(e.target.value);
                               field.onChange(e);
                             }}
+                            onKeyDown={(e) => {
+                              // Allow only letters and spaces
+                              if (!/^[A-Za-z\s]*$/.test(e.key) && e.key !== "Backspace" && e.key !== "Tab") {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -347,7 +373,14 @@ const GetSponsored = () => {
                               field.onChange(e);
                             }}
                             onKeyDown={(e) => {
-                              if (e.key.match(/[^0-9]/) && !['Backspace', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                              if (
+                                e.key.match(/[^0-9]/) &&
+                                ![
+                                  "Backspace",
+                                  "ArrowLeft",
+                                  "ArrowRight",
+                                ].includes(e.key)
+                              ) {
                                 e.preventDefault();
                               }
                             }}

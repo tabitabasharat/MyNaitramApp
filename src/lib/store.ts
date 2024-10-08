@@ -39,7 +39,10 @@ import getPayoutHistory from "./reducer/getPayoutHistory";
 import getPayoutBankDetail from "./reducer/getPayoutBankDetail";
 import getPayoutCrypto from "./reducer/getPayoutCrypto";
 import getPaidDetail from "./reducer/getPaidDetail";
+
 import getWalletHistory from "./reducer/getWalletHistory";
+
+import  getOrgLiveSocialProfile  from "./reducer/getOrgLiveSocialProfile";
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -82,6 +85,8 @@ const appReducer = combineReducers({
   getPayoutCrypto: getPayoutCrypto,
   getPaidDetail: getPaidDetail,
   getWalletHistory: getWalletHistory,
+  getOrgLiveSocialProfile:getOrgLiveSocialProfile
+
 });
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,

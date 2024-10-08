@@ -27,13 +27,13 @@ function Manageevent({
 }: any) {
   const dispatch = useAppDispatch();
 
-  const handlePageChange = (page: number) => {
-    const data = {
-      page: page,
-    };
+  // const handlePageChange = (page: number) => {
+  //   const data = {
+  //     page: page,
+  //   };
 
-    dispatch(getViewAllEvent(data));
-  };
+  //   dispatch(getViewAllEvent(data));
+  // };
   // console.log("All Events are", EventsAllData);
 
   useEffect(() => {
@@ -42,8 +42,9 @@ function Manageevent({
     console.log("user id ", userid);
     const data = {
       page: 1,
+      userId: userid,
     };
-    dispatch(getEventsByUID(userid));
+    dispatch(getEventsByUID(data));
 
     // dispatch(getViewAllEvent(data));
   }, []);
@@ -56,6 +57,17 @@ function Manageevent({
     img?.startsWith("http") || img?.startsWith("https") ? img : event12;
   console.log("image src is", imageUrl);
   // const title = selectedEvent ? selectedEvent.title : "All Events";
+
+  const handlePageChange = (page: number) => {
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const data = {
+      page: page,
+      userId: userid,
+    };
+
+    dispatch(getEventsByUID(data));
+  };
   return (
     <div className="w-full lg:w-[70%] lg:pe-[88px] px-[24px] lg:ps-[80px] md:px-[50px] lg:w-full pt-[120px] pb-[57px] lg:pb-[170px] md:pt-[136px] lg:mx-0 relative  ">
       <Backward />
@@ -63,17 +75,15 @@ function Manageevent({
         Get event sales
       </h3>
 
-      {EventsData?.data?.length > 0 ? (
+      {EventsData?.data?.events?.length > 0 ? (
         <>
           <div className="relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[12px] lg:gap-[20px]">
-            {EventsData?.data?.length > 0 &&
-              EventsData?.data?.map((event: any) => (
+            {EventsData?.data?.events?.length > 0 &&
+              EventsData?.data?.events?.map((event: any) => (
                 <ScaleReveal extraStyle="w-full">
                   {/* <Link href={`/events`} className="w-full"> */}
                   <Link
-                    href={
-                      event?.id ? `/eventsales/${event?.id}` : "/events"
-                    }
+                    href={event?.id ? `/eventsales/${event?.id}` : "/events"}
                     className="w-full"
                   >
                     <div
@@ -111,6 +121,14 @@ function Manageevent({
               onPageChange={handlePageChange}
             />
           </div> */}
+
+          <div className="p-0 w-full  ">
+            <Pagination
+              currentPage={EventsData?.data?.currentPage}
+              totalPages={EventsData?.data?.totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </>
       ) : (
         <div className="relative grid md:grid-cols-3 lg:grid-cols-4 gap-[1rem]">

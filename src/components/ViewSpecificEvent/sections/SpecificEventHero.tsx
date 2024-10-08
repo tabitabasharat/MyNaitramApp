@@ -236,14 +236,10 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     // dispatch(getFollowingPromoters(data));
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getOrganizerSocialProfile(EventData?.userId));
-  },[EventData])
+  }, [EventData]);
 
-
- 
-
- 
   return (
     <section className="bg-img ">
       {userLoading?.loading && <ScreenLoader />}
@@ -305,7 +301,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
                 {EventData?.userId && (
                   <Followpromoter
-                  EventData={EventData}
+                    EventData={EventData}
                     userId={EventData?.userId}
                     eventName={EventData?.name}
                   />
@@ -497,8 +493,6 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                           </div>
                         )}
 
-
-
                       <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
                         {/* {eventAttendy?.length > 0 && (
                           <>
@@ -513,19 +507,17 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                             {eventAttendy.length - 1} others going
                           </>
                         ) : null}
-
-
                       </h3>
                       <p className="text-[#BFBFBF] text-[12px] pt-[4px]">
                         Tap to see the live activities
                       </p>
 
                       <Button
-                        className="flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full 
-                        mt-[12px] w-fit ps-[0] pe-[16px] py-[10px]"
+                        className={`flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full 
+    mt-[12px] w-fit ps-[0] pe-[16px] py-[10px] 
+    ${new Date() > new Date(EventData?.endTime) ? "opacity-50" : ""}`}
                         onClick={() => handleLiveActivity()}
-                        disabled={eventType === "Past Events"? true:false}
-
+                        disabled={eventType === "Past Events" ? true : false}
                       >
                         <Lock size={20} weight="fill" className="ms-[10px]" />
                         Live Activity

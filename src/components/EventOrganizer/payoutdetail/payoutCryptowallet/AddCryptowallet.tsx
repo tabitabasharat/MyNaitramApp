@@ -211,7 +211,9 @@ const AddCryptowallet = ({ eventData }: any) => {
     }
 
     const selectedChain = selectedOption?.label.split(" ")[0];
-    const isValid = validate(walletaddress, selectedChain);
+    const normalizedChain =
+    selectedChain === "Polygon" ? "Matic" : selectedChain;
+    const isValid = validate(walletaddress, normalizedChain);
     // const isValid = validate(walletaddress, selectedOption.label);
     const format = addressFormats[selectedOption.label];
 
