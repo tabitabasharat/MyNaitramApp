@@ -280,56 +280,15 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
 
   return (
     <div
-      className="w-full lg:w-[576px] h-[600px] md:border md:border-[#292929]
-       md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
+      className="md:w-[576px] h-[600px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
   bg-effect2 bg-effect"
     >
-      {" "}
-      {/* <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[6rem]">
-        userLoading.loading && <ScreenLoader />
-
-        <div className="space-y-2">
-          {EventChat?.length > 0 &&
-            EventChat?.map((event: any) => (
-              <Chat
-                key={event?.id}
-                msgtext={event?.msg}
-                username={event?.user?.fullname}
-                img={event?.picture}
-                userimg={event?.user?.profilePicture}
-                time={formatTime(event?.createdAt)}
-                reactionimg={"🔥"}
-              />
-            ))}
-          <div ref={chatEndRef} />
-        </div>
-        <div className="absolute top-[340px] md:top[225px] sm:right-[30px] md:right-[35px] sm:right-[50px] lg:top-[225px] flex flex-col items-center justify-center space-y-[4px] z-[2] right-[1px] lg:right-[20px]">
-          {emojis.map((emoji, index) => (
-            <p
-              key={index}
-              onClick={() => setActiveIndex(index)}
-              className={`cursor-pointer bg-[#FFFFFF0F] h-[32px] w-[32px] pt-[7px] pb-[4px] pe-[3.5px] ps-[5.5px] rounded-full flex items-center justify-center
-          ${activeIndex === index ? "border border-[#FFFFFF]" : ""}`} // Show border when active
-            >
-              {emoji}
-            </p>
-          ))}
-
-          <div
-            onClick={() => setActiveIndex(emojis.length)} // Use length to track image as the last item
-            className={`cursor-pointer bg-[#FFFFFF0F] h-[32px] w-[32px] rounded-full flex items-center justify-center 
-        ${activeIndex === emojis.length ? "border border-[#FFFFFF]" : ""}`} // Show border when active
-          >
-            <Image src={addmore} alt="img" sizes="16px" />
-          </div>
-        </div>
-      </ScrollArea> */}
-      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[6rem] block">
+      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[6rem]">
 
         <div className="space-y-2 block">
           {EventChat?.length > 0 &&
             EventChat?.map((event: any, index: any) => {
-              // Find the corresponding attendee from myAttendees
+
               const attendee = myAttendees?.find(
                 (attendee: any) => attendee?.attendeeId === event?.userId
               );

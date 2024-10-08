@@ -62,7 +62,7 @@ function Manageevent({
   console.log("image src is", imageUrl);
   // const title = selectedEvent ? selectedEvent.title : "All Events";
   return (
-    <div className="w-full md:w-[70%] lg:pe-[88px] px-[24px] lg:ps-[80px] md:mx-auto lg:w-full pt-[120px] pb-[57px] lg:pb-[170px] md:pt-[136px] lg:mx-0 relative  ">
+    <div className="w-full md:w-[100%] lg:pe-[88px] px-[24px] lg:ps-[80px] md:px-[75px] lg:w-full pt-[120px] pb-[57px] lg:pb-[170px] md:pt-[136px] lg:mx-0 relative  ">
       <Backward />
       <h3 className=" font-bold lg:text-[48px] text-[32px] my-[24px] lg:my-[32px]">
         Manage Event
@@ -70,7 +70,7 @@ function Manageevent({
 
       {EventsData?.data?.events?.length > 0 ? (
         <>
-          <div className="relative grid md:grid-cols-1 lg:grid-cols-4 gap-[12px] lg:gap-[20px]">
+          <div className="relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[12px] lg:gap-[20px]">
             {EventsData?.data?.events?.length > 0 &&
               EventsData?.data?.events?.map((event: any) => (
                 <ScaleReveal extraStyle="w-full">

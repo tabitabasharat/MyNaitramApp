@@ -608,7 +608,9 @@ body {
   width: 2px;
   background-color: white;
 }
-
+.custom-viewport-style {
+  display: block !important; /* Override all other styles */
+}
 .swiper-custom-bullet.swiper-custom-bullet-active {
   height: 2px;
   width: 2px;
@@ -632,7 +634,9 @@ body {
 .scrollbar-hidden::-webkit-scrollbar {
   display: none !important;
 }
-
+.chat-wid{
+  width: 400px !important;
+}
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -665,6 +669,9 @@ input[type="number"] {
 .event-width-adjustment{
   width:100% !important;
     }
+    .event-width-adjustments{
+      width:100% !important;
+        }
 .no-border-table .MuiTableRow-root {
   border: none; /* Removes any potential border on table rows */
 }
@@ -819,8 +826,26 @@ input[type="number"] {
   }
 
 }
+@media (max-width: 558px) {
+.chat-wid{
+  width: 300px !important;
+}
+}
+@media (max-width: 447px) {
+  .chat-wid{
+    width: 250px !important;
+  }
+  }
+  @media (max-width: 376px) {
+    .chat-wid{
+      width: 200px !important;
+    }
+    }
 @media (min-width: 1023px) and (max-width: 1090px) {
   .event-width-adjustment {
+    width: 500px !important;
+  }
+  .event-width-adjustments {
     width: 500px !important;
   }
 
@@ -839,6 +864,9 @@ input[type="number"] {
   .event-width-adjustment{
 width: 576px !important; 
   }
+  .event-width-adjustments{
+    width: 576px !important; 
+      }
 }
 @media (min-width:1470px) {
   .hide-text{
@@ -867,10 +895,21 @@ width: 576px !important;
   .live-chat{
     width:235px !important;
   }
+  .chat-wid{
+    width: 200px !important;
+  }
 }
 @media (max-width:600px) {
   .scrolling-issue{
     overflow-y: auto !important;
     scroll-behavior: none;
+  }
+  .chat-wid{
+    /* width: 250px !important; */
+  }
+}
+@media (max-width:320px) {
+  .chat-wid{
+    width: 150px !important;
   }
 }

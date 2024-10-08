@@ -40,14 +40,14 @@ const Footer = () => {
               </Link>
             </Button>
           </div>
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-24 xl:gap-32 mt-16 lg:mt-0 px-4 lg:px-0 md:w-[60%] lg:w-full md:mx-auto lg:mx-0 lg:mr-0 lg:justify-end">
-            <div className="flex justify-between lg:justify-start lg:gap-24 xl:gap-28">
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-24 xl:gap-32 mt-16 lg:mt-0 px-4 lg:px-0 md:w-[60%] lg:w-full md:mx-auto lg:mx-0 lg:mr-0 lg:justify-end">
+            <div className="flex flex-col items-center md:flex-row md:justify-between lg:justify-start lg:gap-24 xl:gap-28">
               <div className="flex flex-col tems-start gap-6 lg:gap-8">
                 <Link href={"/"}>Home</Link>
-                <Link href={"/viewallevents"}>Event</Link>
+                <Link href={"/viewallevents"} >Event</Link>
                 <Link href={"/about"}>About</Link>
               </div>
-              <div className="flex items-end lg:items-start flex-col gap-6 lg:gap-8">
+              <div className="flex items-center mt-6 md:mt-0 md:items-end lg:items-start flex-col gap-6 lg:gap-8">
                 <Link href={"/wallet"}>Wallet</Link>
                 <Link href={"/reward"}>Rewards</Link>
                 <Link href={"/get-sponsor"}>Get Sponsored</Link>
@@ -55,11 +55,11 @@ const Footer = () => {
                 <Link href={''}>Resource</Link> */}
               </div>
             </div>
-            <div className="flex justify-between lg:justify-start gap-16 lg:gap-24 xl:gap-32">
+            <div className="flex justify-center text-center md:justify-between lg:justify-start gap-16 lg:gap-24 xl:gap-32">
               <div className="flex items-start flex-col gap-6 lg:gap-8">
-                <Link href={"/organizer-event/helpcenter"}>Help Center</Link>
-                <Link href={"/termsandcondition"}>Terms of Service</Link>
-                <Link href={"/privacypolicy"}>Privacy Policy</Link>
+                <Link href={"/organizer-event/helpcenter"} className="text-center w-full md:text-start">Help Center</Link>
+                <Link href={"/termsandcondition"} className="text-center w-full md:text-start">Terms of Service</Link>
+                <Link href={"/privacypolicy"} className="text-center w-full md:text-start">Privacy Policy</Link>
               </div>
               {/* <div className="flex items-end lg:items-start flex-col gap-6 lg:gap-8">
                 <Link href={''}>Help</Link>

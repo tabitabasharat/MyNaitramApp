@@ -18,7 +18,7 @@ export default function AboutPage ()  {
           backgroundSize: "contain",
           opacity: "1",
         }}
-        className="pt-[200px] pb-[100px] md:px-0 px-[20px] "
+        className="pt-[150px] md:pt-[200px] pb-[100px] md:px-0 px-[20px] "
       >
         <div style={{}} className="flex flex-col justify-center items-center">
           <Reveal y={100} width="100%">
@@ -43,14 +43,14 @@ export default function AboutPage ()  {
             <img src="" alt="/" className=" absolute top-[50%]" />
           </div> */}
         </div>
-        <div className="flex flex-col items-center justify-center py-[100px]">
+        <div className="flex flex-col items-center justify-center pb-[50px] md:pb-[100px] pt-[100px]">
           <Reveal y={100} width="100%">
-            <div className="flex flex-col items-center justify-center lg:py-[100px] pb-[100px]">
+            <div className="flex flex-col items-center justify-center lg:py-[100px] pb-[50px] md:pb-[100px]">
               <h2 className=" md:text-6xl text-[30px] font-[600] text-center text-white mb-[20px]">
                 Why are we doing this?
               </h2>
-              <p className=" md:max-w-[47.891%] text-center md:text-xl text-[16px] text-white mb-[1.6em]">
-                we’re driven by the belief that live events are foundational to
+              <p className=" md:max-w-[47.891%] text-center md:text-xl text-[16px] text-white md:mb-[1.6em]">
+                We’re driven by the belief that live events are foundational to
                 creating lasting memories and building communities. We’ve seen
                 how ticket fraud and scalping can tarnish these experiences.{" "}
                 <br />
@@ -69,13 +69,13 @@ export default function AboutPage ()  {
             <button className="text-lg bg-[#61CE7000] py-[12px] px-[55px] color-[#009540] border-[#009540] rounded-[34px] w-auto border-2">
               Blockchain
             </button>
-            <p className="text-[41px] text-[#009540] font-[600] px-[20px] text-center md:py-[12px] md:h-[73px]">
+            <p className="text-[41px] mb-[2px] lg:mb-[0px] text-center text-[#009540] font-[600] px-[20px] text-center md:py-[12px] h-[50px] md:h-[73px]">
               +
             </p>
             <button className="text-lg bg-[#61CE7000] py-[12px] px-[55px] color-[#009540] border-[#009540] rounded-[34px] w-auto border-2">
               Events
             </button>
-            <p className="text-[41px] text-[#009540] font-[600] px-[20px] md:py-[12px] md:h-[73px]">
+            <p className="text-[41px] mb-[2px] lg:mb-[0px] text-center text-[#009540] font-[600] px-[20px] md:py-[12px] h-[50px] md:h-[73px]">
               =
             </p>
             <button className="text-lg bg-[#61CE7000] py-[12px] px-[55px] color-[#009540] border-[#009540] rounded-[34px] w-auto border-2">
@@ -86,7 +86,7 @@ export default function AboutPage ()  {
         <div>
           <Reveal y={100} width="100%">
             <h2 className="md:text-6xl text-[30px] font-[600] text-center text-white mb-[20px]">
-              The revolution starts at the top
+              The revolution starts <br className="block sm:hidden"/> at the top
             </h2>
           </Reveal>
           <Reveal y={100} width="100%">

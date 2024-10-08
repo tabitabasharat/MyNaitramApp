@@ -54,7 +54,7 @@ const Hero = () => {
               <p className="mt-[12px] text-muted text-base text-center lg:text-start md:w-[60%] lg:w-full md:mx-auto lg:mx-0">
                 Discover a new way to engage with events through Naitram,
                 enhance your experience from start to finish. Whether you're
-                attending a conference, festival, or corporate gathering
+                attending a conference, festival, or corporate gathering.
               </p>
             </Reveal>
           </div>
