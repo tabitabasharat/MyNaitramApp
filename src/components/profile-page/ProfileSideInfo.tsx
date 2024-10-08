@@ -83,6 +83,9 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
 
   const handleItemClick = (itemText: string) => {
     setActiveItem(itemText);
+    if (isSmallScreen) {
+      handleDrawerClose(); 
+    }
   };
 
   const menuItems = [

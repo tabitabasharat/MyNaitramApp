@@ -22,7 +22,7 @@ import {
 } from "@/components/reusable-components/Toaster/Toaster";
 import api from "@/lib/apiInterceptor";
 import { styled } from "@mui/material/styles";
-import { API_URL } from "@/lib/client";
+
 import { usePathname } from "next/navigation";
 
 import {
@@ -49,8 +49,8 @@ const formSchema = z.object({
   cell: z
     .string()
     .min(1, { message: "Phone number cannot be empty." })
-    .regex(/^\d+$/, { message: "Phone number must be numeric." }) ,
-    // .length(12, { message: "Phone number must be exactly 12 digits." }),
+    .regex(/^\d+$/, { message: "Phone number must be numeric." }) 
+    .length(15, { message: "Phone number must be exactly 15 digits." }),
   organization: z
     .string()
     .min(1, { message: "Organization name cannot be empty." }),
