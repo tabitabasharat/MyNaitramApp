@@ -434,3 +434,31 @@ export const ticketStatus = createAsyncThunk(
   }
 );
 
+
+
+
+export const FollowPromoterStatus = createAsyncThunk(
+  "FollowPromoterStatus",
+  async (data: any) => {
+    try {
+      console.log("inside get FollowPromoterStatus ");
+
+      const res = await api.get(`${API_URL}/reward/checkFollowStatus/${data?.userId}/${data?.followId}`);
+
+      // const res = await api.post(`${API_URL}/reward/checkFollowStatus`, data);
+      console.log("inside get FollowPromoterStatus", res);
+
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data,
+        token: res?.data?.token,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);

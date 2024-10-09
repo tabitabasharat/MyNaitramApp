@@ -43,6 +43,7 @@ import getPaidDetail from "./reducer/getPaidDetail";
 import getWalletHistory from "./reducer/getWalletHistory";
 
 import  getOrgLiveSocialProfile  from "./reducer/getOrgLiveSocialProfile";
+import getFollowStatus from "./reducer/getFollowStatus";
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -85,7 +86,8 @@ const appReducer = combineReducers({
   getPayoutCrypto: getPayoutCrypto,
   getPaidDetail: getPaidDetail,
   getWalletHistory: getWalletHistory,
-  getOrgLiveSocialProfile:getOrgLiveSocialProfile
+  getOrgLiveSocialProfile:getOrgLiveSocialProfile,
+  getFollowStatus:getFollowStatus,
 
 });
 const rootReducer = (

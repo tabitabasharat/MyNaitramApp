@@ -164,7 +164,7 @@ const AccountVerificationModal = ({
         if (res?.payload?.status === 200) {
           setLoader(false);
           console.log(data);
-          SuccessToast("Again Code Sent Successfully");
+          SuccessToast("Code resent Successfully");
           // navigate("/");
         } else {
           setLoader(false);

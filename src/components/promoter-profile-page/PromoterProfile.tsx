@@ -148,7 +148,7 @@ const PromoterProfile = () => {
         if (res?.payload?.status === 200) {
           setLoading(false);
           console.log("org Activity res", res?.payload?.data);
-          SuccessToast("You have unfollowed ");
+          SuccessToast("Unfollowed Successfully ");
           const datas = {
             followId: userSpecificId,
             userId: userID,

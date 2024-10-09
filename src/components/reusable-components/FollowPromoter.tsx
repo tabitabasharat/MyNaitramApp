@@ -28,11 +28,14 @@ import {
   UnFollowPromoter,
 } from "@/lib/middleware/liveactivity";
 import { SuccessToast, ErrorToast } from "./Toaster/Toaster";
+import { FollowPromoterStatus } from "@/lib/middleware/event";
 
-const Followpromoter = ({ userId, eventName,EventData }: any) => {
+const Followpromoter = ({ userId, eventName, EventData }: any) => {
   const [uId, setUid] = useState<any>("");
   const [loading, setLoading] = useState(false);
   const [followStatus, setFollowStatus] = useState(false);
+
+  console.log("my follow status", followStatus);
 
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -49,6 +52,9 @@ const Followpromoter = ({ userId, eventName,EventData }: any) => {
       userId: myuserid,
     };
     dispatch(getFollowingPromoters(data));
+    dispatch(FollowPromoterStatus(data));
+
+  
     // dispatch(getOrganizerSocialProfile(userId));
   }, []);
 
@@ -64,11 +70,17 @@ const Followpromoter = ({ userId, eventName,EventData }: any) => {
 
   console.log("my  infooo is", myProfile);
 
-  const imageUrl = myProfile?.profile?.profilePicture?.startsWith(
-    "http") ||  myProfile?.profile?.profilePicture?.startsWith("https"
-  )
-    ? myProfile?.profile?.profilePicture
-    : promoter;
+  const myFollowStatus = useAppSelector(
+    (state) => state?.getFollowStatus?.myStatus?.data
+  );
+  console.log("my  status is", myFollowStatus );
+
+  
+  const imageUrl =
+    myProfile?.profile?.profilePicture?.startsWith("http") ||
+    myProfile?.profile?.profilePicture?.startsWith("https")
+      ? myProfile?.profile?.profilePicture
+      : promoter;
 
   useEffect(() => {
     const token =
@@ -96,6 +108,8 @@ const Followpromoter = ({ userId, eventName,EventData }: any) => {
         if (res?.payload?.status === 200) {
           setLoading(false);
           setFollowStatus(true);
+         
+
           console.log("org Activity res", res?.payload?.data);
           SuccessToast("You are now Following ");
           const datas = {
@@ -103,6 +117,10 @@ const Followpromoter = ({ userId, eventName,EventData }: any) => {
             userId: userID,
           };
           dispatch(getFollowingPromoters(datas));
+          dispatch(FollowPromoterStatus(datas));
+
+          
+        
         } else {
           setLoading(false);
           console.log(res?.payload?.message);
@@ -125,14 +143,18 @@ const Followpromoter = ({ userId, eventName,EventData }: any) => {
       dispatch(UnFollowPromoter(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoading(false);
+         
+
           setFollowStatus(false);
           console.log("org Activity res", res?.payload?.data);
-          // SuccessToast("You have unfollowed ");
+          SuccessToast("Unfollowed Successfully");
           const datas = {
             followId: userId,
             userId: userID,
           };
           dispatch(getFollowingPromoters(datas));
+          dispatch(FollowPromoterStatus(datas));
+        
         } else {
           setLoading(false);
           console.log(res?.payload?.message);
@@ -143,6 +165,39 @@ const Followpromoter = ({ userId, eventName,EventData }: any) => {
       console.error("Error:", error);
     }
   }
+
+
+  // async function handleStatus() {
+  //   setLoading(true);
+  //   const userID =
+  //     typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+  //   try {
+  //     const data = {
+  //       followId: userId,
+  //       userId: userID,
+  //     };
+  //     dispatch(FollowPromoterStatus(data)).then((res: any) => {
+  //       if (res?.payload?.status === 200) {
+  //         setLoading(false);
+
+  //         setFollowStatus(res?.payload?.data?.status);
+       
+  //         const datas = {
+  //           followId: userId,
+  //           userId: userID,
+  //         };
+  //         // dispatch(getFollowingPromoters(datas));
+       
+  //       } else {
+  //         setLoading(false);
+  //         console.log(res?.payload?.message);
+  //         ErrorToast(res?.payload?.message);
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // }
   const myFollowers = useAppSelector(
     (state) => state?.getFollowPromoters?.myFollowers?.data
   );
@@ -151,6 +206,8 @@ const Followpromoter = ({ userId, eventName,EventData }: any) => {
   const isFollowing = myFollowers?.some(
     (item: any) => item?.followId == userId
   );
+
+  console.log("my follow statys ,", followStatus)
 
   return (
     <div className="mt-[32px] bg-white/10 rounded-xl p-[16px] w-full">
@@ -191,14 +248,14 @@ const Followpromoter = ({ userId, eventName,EventData }: any) => {
             variant="secondary"
             className="text-[14px] font-bold px-[16px] py-[10px] disabled:cursor-not-allowed disabled:opacity-50"
             onClick={() => {
-              if (followStatus) {
+              if (followStatus  || myFollowStatus?.status) {
                 handleUnFollow();
               } else {
                 handleFollow();
               }
             }}
           >
-            {followStatus ? "Following" : "Follow Organiser"}
+            {followStatus  || myFollowStatus?.status ? "Following" : "Follow Organiser"}
           </Button>
         }
         <div className="flex gap-[8px] flex-wrap h-full">

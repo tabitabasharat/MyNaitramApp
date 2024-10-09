@@ -28,14 +28,22 @@ import {
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 
+// const formSchema = z.object({
+//   phone: z
+//     .string()
+//     .min(1, { message: "Phone Number cannot be empty." })
+//     .length(15, { message: "Phone number must be exactly 15 digits." })
+//     .regex(/^\d{15}$/, { message: "Phone number cannot be more than 15 digits." }),
+
+
+// });
+
 const formSchema = z.object({
   phone: z
     .string()
     .min(1, { message: "Phone Number cannot be empty." })
-    .length(15, { message: "Phone number must be exactly 15 digits." })
-    .regex(/^\d{15}$/, { message: "Phone number must be numeric and exactly 15 digits." }),
-
-
+    .max(15, { message: "Phone number cannot be more than 15 digits." })
+    .regex(/^\d{15}$/, { message: "Phone number cannot be more than 15 digits." }),
 });
 
 const CompleteYourProfileModal = ({

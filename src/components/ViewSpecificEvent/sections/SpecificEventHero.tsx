@@ -240,6 +240,22 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     dispatch(getOrganizerSocialProfile(EventData?.userId));
   }, [EventData]);
 
+  useEffect(() => {
+    const myuserid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+   
+    // dispatch(getEventCount(userId));
+   
+
+    const data = {
+      followId: EventData?.userId,
+      userId: myuserid,
+    };
+    dispatch(getFollowingPromoters(data));
+   
+    // dispatch(getOrganizerSocialProfile(userId));
+  }, []);
+
   return (
     <section className="bg-img ">
       {userLoading?.loading && <ScreenLoader />}
@@ -326,13 +342,37 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   // activeIndex={activeIndex}
                   setShowTicket={setShowTicket}
                   ticketLength={EventData?.tickets?.length}
-                  ticketStartPrice={
+                  // ticketStartPrice={
+                  //   EventData?.tickets?.length === 1
+                  //     ? "0"
+                  //     : EventData?.tickets[0]?.price
+                  // }
+
+                  ticketStartPrice = {
                     EventData?.tickets?.length === 1
-                      ? "0"
-                      : EventData?.tickets[0]?.price
+                      ? Number(EventData?.tickets[0]?.price) // Return the price of the single ticket as a number
+                      : EventData?.tickets && EventData?.tickets.length > 0
+                        ? Math.min(
+                            ...EventData?.tickets.map((ticket: any) => {
+                              const price = Number(ticket.price); // Convert price to number
+                              return isNaN(price) ? Infinity : price; // Return Infinity if price is NaN
+                            })
+                          ).toString() // Find the lowest price and convert to string
+                        : "0" // Default to "0" if there are no tickets
                   }
+
+                 
+                  // ticketEndPrice={
+                  //   EventData?.tickets[EventData?.tickets.length - 1]?.price
+                  // }
+                 
+
                   ticketEndPrice={
-                    EventData?.tickets[EventData?.tickets.length - 1]?.price
+                    EventData?.tickets && EventData?.tickets?.length > 0
+                      ? Math.max(
+                          ...EventData.tickets.map((ticket:any) => Number(ticket.price) || 0)
+                        )
+                      : 0 // Default to 0 if there are no tickets
                   }
                   // handleBulletClick={() => handleBulletClick(event)}
                   AboutDrop={isAbout}

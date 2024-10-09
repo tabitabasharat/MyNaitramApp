@@ -871,7 +871,7 @@ function OganizerCreateEvent() {
 
           setEventsFile(res?.data?.imageUrls);
 
-          SuccessToast("Images Uploaded Successfully");
+          // SuccessToast("Images Uploaded Successfully");
           return res?.data?.imageUrls;
         } else {
           setLoader(false);
@@ -2013,29 +2013,65 @@ function OganizerCreateEvent() {
                           control={form.control}
                           name="eventenddate"
                           render={({ field }) => {
-                            const minStartTime = dayjs(
-                              TicketStartDate || new Date()
-                            );
+                            // const adjustedticketStartTime = dayjs(TicketStartDate).add(12, "hour");
+                            // const minStartTime = dayjs(
+                            //   TicketStartDate || new Date()
+                            // );
 
-                            const defaultStartTime = field.value
-                              ? dayjs(field.value)
-                              : minStartTime;
+                            // const defaultStartTime = field.value
+                            //   ? dayjs(field.value)
+                            //   : minStartTime;
 
-                            const isSameDay = minStartTime.isSame(
-                              defaultStartTime,
-                              "day"
-                            );
+                            // const isSameDay = minStartTime.isSame(
+                            //   defaultStartTime,
+                            //   "day"
+                            // );
 
-                            const validStartTime = isSameDay
-                              ? minStartTime // Only allow times greater than TicketStartDate
-                              : null;
-                              let referenceTicketDate;
-                            if (validStartTime) {
-                             referenceTicketDate = validStartTime.add(
-                                2,
-                                "minute"
-                              );
-                            }
+                            // const validStartTime = isSameDay
+                            //   ? minStartTime
+                            //   : null;
+                            //   let referenceTicketDate;
+                            // if (validStartTime) {
+                            //  referenceTicketDate = validStartTime.add(
+                            //     2,
+                            //     "minute"
+                            //   );
+                            // }
+
+                            // const minStartTime = dayjs(
+                            //   TicketStartDate || new Date()
+                            // ).add(12, "hour");
+
+                            // const defaultStartTime = field.value
+                            //   ? dayjs(field.value)
+                            //   : minStartTime;
+
+                            // const isSameDay = minStartTime.isSame(
+                            //   defaultStartTime,
+                            //   "day"
+                            // );
+                            // const validStartTime = isSameDay
+                            //   ? minStartTime
+                            //   : null;
+
+                            // let referenceTicketDate;
+                            // if (validStartTime) {
+                            //   referenceTicketDate = validStartTime.add(
+                            //     2,
+                            //     "minute"
+                            //   );
+                            // }
+
+                            const adjustedEventStartTime = dayjs(
+                              TicketStartDate
+                            ).add(12, "hour");
+
+                            // Default to the current time if the adjusted start time has passed
+                            const defaultEndTime = dayjs().isAfter(
+                              adjustedEventStartTime
+                            )
+                              ? dayjs()
+                              : adjustedEventStartTime;
 
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
@@ -2047,7 +2083,8 @@ function OganizerCreateEvent() {
                                     <StyledDateTimePicker
                                       // value={validStartTime}
                                       formatDensity="spacious"
-                                      referenceDate={referenceTicketDate}
+                                      // referenceDate={referenceTicketDate}
+                                      referenceDate={defaultEndTime}
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
@@ -2059,7 +2096,9 @@ function OganizerCreateEvent() {
                                       }}
                                       //  label="Event End Date & Time"
                                       disablePast
-                                      minDateTime={validStartTime}
+                                      // minDateTime={validStartTime}
+                                      // minDateTime={minStartTime}
+                                      minDateTime={adjustedEventStartTime}
                                       // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                       slots={{
                                         openPickerIcon: () => (
@@ -2931,7 +2970,7 @@ function OganizerCreateEvent() {
                           onClick={() => handleDropdown(index)}
                         >
                           <p className="text-sm text-[#8F8F8F] uppercase">
-                            WHATS INCLUDED
+                            WHAT'S INCLUDED
                           </p>
                           <Image
                             src={ticket?.dropdown ? arrowdown : arrowdown}
@@ -2956,12 +2995,24 @@ function OganizerCreateEvent() {
                                     width={16}
                                     height={16}
                                     alt="img"
+                                    className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
                                   />
-                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                  {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p> */}
+                                  <p
+                                    className={`text-[16px] font-normal items-center ${
+                                      ticket?.options?.some(
+                                        (o) => o?.id === option?.id
+                                      )
+                                        ? "text-[#00d059]"
+                                        : "text-[#FFFFFF]"
+                                    }`}
+                                  >
                                     {option.label}
                                   </p>
                                 </div>
-                                {ticket?.options?.some(
+                                {/* {ticket?.options?.some(
                                   (o) => o?.id === option?.id
                                 ) && (
                                   <Image
@@ -2970,7 +3021,7 @@ function OganizerCreateEvent() {
                                     height={15}
                                     alt="tick"
                                   />
-                                )}
+                                )} */}
                               </div>
                             ))}
                             <div className="column-separator"></div>{" "}
@@ -3030,12 +3081,18 @@ function OganizerCreateEvent() {
                       <FormControl>
                         <Input
                           type="number"
+                          min="0"
+                          onWheel={(e: any) => e.target.blur()}
                           placeholder="Enter No. of Tickets"
                           className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                           {...field}
                           onChange={(e) => {
                             setCompTicketNo(e.target.value);
                             field.onChange(e);
+                          }}
+                          style={{
+                            appearance: "none", // Disable browser styling
+                            MozAppearance: "textfield", // Firefox
                           }}
                         />
                       </FormControl>

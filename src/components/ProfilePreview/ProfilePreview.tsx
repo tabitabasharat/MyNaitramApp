@@ -214,7 +214,7 @@ const ProfilePreview = () => {
               )}
 
             {myProfile?.data?.profile?.tiktokUrl &&
-              myProfile?.data?.profile?.tiktokrl !==
+              myProfile?.data?.profile?.tiktokUrl !==
                 "https://www.tiktok.com/@" && (
                 <Link
                   href={myProfile?.data?.profile?.tiktokUrl || "#"}

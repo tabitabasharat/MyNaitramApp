@@ -124,7 +124,7 @@ const SignUpModal = ({
       dispatch(signup(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
-          SuccessToast("Verification Code Sended");
+          SuccessToast("Verification Code Sent");
           // navigate(`/SignUp-Verify/${email}`);
           setVerificationModalOpen(true);
         } else if (res?.payload?.status === 201) {

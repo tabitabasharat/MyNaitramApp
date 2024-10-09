@@ -20,7 +20,7 @@ import SignInModal from "@/components/auth/SignInModal";
 import SignUpModal from "@/components/auth/SignUpModal";
 
 import { AuthMode } from "@/types/types";
-import { Bell } from "@phosphor-icons/react/dist/ssr";
+import { Bell, LockKey } from "@phosphor-icons/react/dist/ssr";
 import { AnimatePresence, motion } from "framer-motion";
 import Menu from "./Menu";
 import ProfileSidebar from "@/components/profile-page/ProfileSideBar";
@@ -30,7 +30,8 @@ import NotificationPopUp from "../notifications/NotificationPopUp";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { showProfile } from "@/lib/middleware/profile";
-
+import bellred from "@/assets/Wallet/bell red.svg";
+import { getUserNotifications,getOrgNotifications } from "@/lib/middleware/notification";
 const Header = () => {
   const router = useRouter();
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
@@ -39,6 +40,7 @@ const Header = () => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [notifPopupOpen, setNotifPopupOpen] = useState(false);
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+  // const [Unreadnotification,setUnreadNotification] = useState<any>("");
 
   const count = useAppSelector((state) => state?.signIn);
   console.log(count, "this is good");
@@ -52,6 +54,14 @@ const Header = () => {
   const toggleMenu = () => {
     setMenuIsOpen(!menuIsOpen);
   };
+
+  useEffect(() => {
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    console.log("user id ", userid);
+    dispatch(getUserNotifications(userid));
+    dispatch(getOrgNotifications(userid));
+  }, []);
 
   const changeBg = () => {
     if (window.scrollY >= 10) {
@@ -116,16 +126,27 @@ const Header = () => {
 
   const handleHostToggle = () => {
     if (!token) {
-      console.log("Token host ",token)
+      console.log("Token host ", token);
       setIsLoginDialogOpen(true);
     } else {
       const userid =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-      console.log("No token ",token)
+        typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+      console.log("No token ", token);
       router.push("/organizer-event/event-dashboard");
     }
   };
 
+  const Notify = useAppSelector(
+    (state) => state?.getUserNotifications?.myNotifications?.data
+  );
+  const Unreadnotification =
+     Notify && Notify?.some((item: any) => item && item?.NotifyRead === false);
+     console.log("Notify:", Notify);
+     console.log("Unreadnotification:", Unreadnotification);
+    // useEffect(() => {
+    //   const hasUnread = Notify && Notify.some((item:any) => item?.NotifyRead === false);
+    //   setUnreadNotification(hasUnread);
+    // }, [Notify]);
   return (
     <>
       <AnimatePresence mode="wait">
@@ -266,8 +287,19 @@ const Header = () => {
                   asChild
                   className="relative z-[1200] cursor-pointer"
                 >
-                  <Bell className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer" />
+                  {Unreadnotification ? (
+                     <Image
+                     className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer"
+                     src={bellred}
+                     alt="unread-bell"
+                   />
+                  ) : (
+                   
+                    <Bell className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer" />
+
+                  )}
                 </PopoverTrigger>
+              
                 <PopoverContent className="cursor-pointer relative z-[1200] text-white border border-muted shadow-custom bg-black w-[350px] lg:w-[400px] rounded-2xl  -translate-x-4 translate-y-6">
                   <ScrollArea className="h-[658px] px-[8px] pb-[62px] border-none ">
                     <NotificationPopUp setNotifPopupOpen={setNotifPopupOpen} />

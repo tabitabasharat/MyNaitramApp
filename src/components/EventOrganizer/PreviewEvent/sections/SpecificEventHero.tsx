@@ -277,7 +277,25 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                   //   eventAllData?.ticketsdata?.length === 1
                   //     ? "0"
                   //     : eventAllData?.ticketsdata[0]?.price
+                 
                   // }
+
+                
+                  ticketStartPrice = {
+                    eventAllData?.ticketsdata?.length === 1
+                      ? Number(eventAllData?.ticketsdata[0]?.price) // Return the price of the single ticket as a number
+                      :  eventAllData?.ticketsdata &&  eventAllData?.ticketsdata?.length > 0
+                        ? Math.min(
+                            ... eventAllData?.ticketsdata?.map((ticket: any) => {
+                              const price = Number(ticket.price); // Convert price to number
+                              return isNaN(price) ? Infinity : price; // Return Infinity if price is NaN
+                            })
+                          ).toString() // Find the lowest price and convert to string
+                        : "0" // Default to "0" if there are no tickets
+                  }
+
+
+                
                   // ticketEndPrice={
                   //   eventAllData?.tickets[eventAllData?.ticketsdata.length - 1]?.price
                   // }
@@ -285,6 +303,30 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                   AboutDrop={isAbout}
                   AboutToggle={() => setisAbout(!isAbout)}
                   ticketsdata={eventAllData?.ticketsdata}
+
+                  ticketLength={eventAllData?.ticketsdata?.length}
+                  // ticketStartPrice={
+                  //   eventAllData?.ticketsdata?.length === 1
+                  //     ? "0"
+                  //     : eventAllData?.ticketsdata[0]?.price
+                  // }
+                  
+                 
+
+                  ticketEndPrice={
+                    eventAllData?.ticketsdata && eventAllData?.ticketsdata?.length > 0
+                      ? Math.max(
+                          ...eventAllData?.ticketsdata.map((ticket:any) => Number(ticket.price) || 0)
+                        )
+                      : 0 // Default to 0 if there are no tickets
+                  }
+                  // ticketStartPrice={
+                  //   eventAllData?.ticketsdata && eventAllData?.ticketsdata?.length > 0
+                  //     ? Math.min(
+                  //         ...eventAllData?.ticketsdata.map((ticket:any) => Number(ticket.price) || 0)
+                  //       )
+                  //     : 0 
+                  // }
                 />
 
                 {eventAllData?.eventmedia?.length > 0 &&
@@ -375,7 +417,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                       <p className="text-[#BFBFBF] text-[12px] pt-[4px]">
                         Tap to see the live activities
                       </p>
-                      <Link href={"/events/event-detail/live-activity"}>
+                     
                         <Button
                           className="flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full mt-[12px] w-fit ps-[0] pe-[16px] py-[10px]"
                           disabled
@@ -383,7 +425,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                           <Lock size={20} weight="fill" className="ms-[10px]" />
                           Live Activity
                         </Button>
-                      </Link>
+                  
                     </div>
                   </div>
                 </GradientBorder>

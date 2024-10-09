@@ -100,6 +100,12 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
       };
     }
   }, []);
+
+
+  const Unreadnotification =
+    Notify &&
+    Notify?.some((item:any) => item && item?.NotifyRead === false);
+    
   return (
     <div className="bg-black relative z-[1400]">
       <div className="flex justify-between">

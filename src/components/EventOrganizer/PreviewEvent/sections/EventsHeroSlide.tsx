@@ -54,6 +54,7 @@ const EventsHeroSlide = ({
   instaUrl,
   tiktokUrl,
   ticketsdata,
+  ticketLength
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
@@ -63,16 +64,16 @@ const EventsHeroSlide = ({
     // Ensure the input UTC date string is treated as UTC by appending 'Z'
     const utcDate = new Date(`${originalDateStr}Z`);
     console.log("Converted UTC time:", utcDate);
-  
+
     // Check if the date is valid
     if (isNaN(utcDate.getTime())) {
       console.error("Invalid date format");
       return "";
     }
-  
+
     // Detect local time zone
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  
+
     // Extract local time parts using toLocaleDateString with time zone adjustment
     const dayOfWeek = utcDate.toLocaleDateString("en-US", {
       weekday: "long",
@@ -90,7 +91,7 @@ const EventsHeroSlide = ({
       year: "numeric",
       timeZone: timeZone,
     });
-  
+
     // Function to get ordinal suffix
     const getOrdinalSuffix = (date: number) => {
       if (date > 3 && date < 21) return "th"; // covers 11th to 19th
@@ -105,43 +106,39 @@ const EventsHeroSlide = ({
           return "th";
       }
     };
-  
+
     // Convert day string to a number and calculate ordinal suffix
     const numericDay = parseInt(dayOfMonth, 10); // Convert day string to number
     const ordinalSuffix = getOrdinalSuffix(numericDay);
-  
+
     // Combine all parts into a properly formatted date string
     const formattedDate = `${dayOfWeek}, ${numericDay}${ordinalSuffix} ${month} ${year}`;
-  
+
     return formattedDate;
   };
 
-    
   const ConvertDate = (originalDateStr: string | undefined): string => {
     // Ensure input is a valid string
     if (typeof originalDateStr !== "string") {
       console.error("Input must be a string");
       return "";
     }
-  
-  
 
-  
     console.log("Converted UTC time:", originalDateStr);
     const isUTC = originalDateStr.endsWith("Z");
     const utcDate = new Date(isUTC ? originalDateStr : `${originalDateStr}Z`);
-  
+
     // Check if the input already has a timezone indicator
-    
+
     // Check if the date is valid
     if (isNaN(utcDate.getTime())) {
       console.error("Invalid date format");
       return "";
     }
-  
+
     // Detect local time zone
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  
+
     // Extract local time parts using toLocaleDateString with time zone adjustment
     const dayOfWeek = utcDate.toLocaleDateString("en-US", {
       weekday: "long",
@@ -159,7 +156,7 @@ const EventsHeroSlide = ({
       year: "numeric",
       timeZone: timeZone,
     });
-  
+
     // Function to get ordinal suffix
     const getOrdinalSuffix = (date: number) => {
       if (date > 3 && date < 21) return "th"; // covers 11th to 19th
@@ -174,17 +171,16 @@ const EventsHeroSlide = ({
           return "th";
       }
     };
-  
+
     // Convert day string to a number and calculate ordinal suffix
     const numericDay = parseInt(dayOfMonth, 10); // Convert day string to number
     const ordinalSuffix = getOrdinalSuffix(numericDay);
-  
+
     // Combine all parts into a properly formatted date string
     const formattedDate = `${dayOfWeek}, ${numericDay}${ordinalSuffix} ${month} ${year}`;
-  
+
     return formattedDate;
   };
-  
 
   const ConvertTime = (timeStr: string): string => {
     // Ensure input is a string
@@ -192,17 +188,17 @@ const EventsHeroSlide = ({
       console.error("Input must be a string");
       return "";
     }
-  
+
     // Convert the input UTC time to a local time using the Date object
     const utcDate = new Date(`${timeStr}Z`); // Appending 'Z' to ensure UTC parsing
     if (isNaN(utcDate.getTime())) {
       console.error("Invalid time format");
       return "";
     }
-  
+
     // Detect local time zone
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  
+
     // Convert UTC date to local time string in "HH:MM" format
     const localTime = utcDate.toLocaleTimeString("en-GB", {
       timeZone: timeZone,
@@ -210,30 +206,30 @@ const EventsHeroSlide = ({
       hour: "2-digit",
       minute: "2-digit",
     });
-  
+
     // Split the time into hours and minutes
     const [hoursStr, minutesStr] = localTime.split(":");
     const hours = parseInt(hoursStr, 10);
     const minutes = parseInt(minutesStr, 10);
-  
+
     // Ensure the hours and minutes are valid numbers
     if (isNaN(hours) || isNaN(minutes)) {
       console.error("Invalid time format");
       return "";
     }
-  
+
     // Determine AM or PM
     const period = hours >= 12 ? "PM" : "AM";
-  
+
     // Convert hours from 24-hour to 12-hour format
     const formattedHours = hours % 12 || 12; // Handle 0 as 12 for midnight
-  
+
     // Format minutes with leading zero if necessary
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  
+
     // Combine hours, minutes, and period
     const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
-  
+
     return formattedTime;
   };
   interface Ticket {
@@ -273,6 +269,21 @@ const EventsHeroSlide = ({
     setShowFullDescription((prev) => !prev);
   };
 
+  // const descriptionText = eventdescription || "";
+  // const maxLines = 3;
+
+  // // Function to strip HTML tags
+  // const stripHtmlTags = (html: string) => {
+  //   return html.replace(/<\/?[^>]+(>|$)/g, ""); // Regular expression to remove HTML tags
+  // };
+
+  // Get plain text version without HTML
+  // const plainTextDescription = stripHtmlTags(descriptionText);
+  // const firstParagraph = descriptionText
+  //   .split("\n")
+  //   .slice(0, maxLines)
+  //   .join("\n");
+
   const descriptionText = eventdescription || "";
   const maxLines = 3;
 
@@ -281,12 +292,14 @@ const EventsHeroSlide = ({
     return html.replace(/<\/?[^>]+(>|$)/g, ""); // Regular expression to remove HTML tags
   };
 
-  // Get plain text version without HTML
-  const plainTextDescription = stripHtmlTags(descriptionText);
-  const firstParagraph = plainTextDescription
+  // Get HTML content directly without stripping
+  const firstParagraphHtml = descriptionText
     .split("\n")
     .slice(0, maxLines)
-    .join("\n");
+    .join("\n"); // You don't need to remove the HTML tags here anymore
+
+
+    const myid = typeof window !== "undefined" ? localStorage.getItem("_id") || "" : "";
 
   return (
     <>
@@ -412,21 +425,47 @@ const EventsHeroSlide = ({
                   <Image src={Arrowdown} alt="arrow-down" sizes="16px" />
                 </button>
               </div>
+              {/* <div dangerouslySetInnerHTML={{ __html: eventdescription }} className="text-white break-words overflow-hidden text-ellipsis" /> */}
+
+              {/* {AboutDrop && (
+                <div className="mb-[12px] text-white break-words overflow-hidden">
+                  {showFullDescription ? (
+             <div dangerouslySetInnerHTML={{ __html: eventdescription }} className="text-white break-words overflow-hidden text-ellipsis" /> 
+                   
+                    
+                  ) : (
+                    <div className="line-clamp-3 overflow-hidden">
+                      {firstParagraphh}
+                    </div>
+                
+                  )}
+                  <button
+                    onClick={toggleDescription}
+                    className="text-[#13FF7A]  text-sm font-bold md:text-base cursor-pointer mt-2"
+                  >
+                    {showFullDescription ? "Show Less" : "Read More"}
+                  </button>
+                </div>
+              )} */}
 
               {AboutDrop && (
                 <div className="mb-[12px] text-white break-words overflow-hidden">
                   {/* Show a limited number of lines if showFullDescription is false */}
                   {showFullDescription ? (
-                    <div>{plainTextDescription}</div> // Display plain text when expanded
+                    <div
+                      dangerouslySetInnerHTML={{ __html: descriptionText }}
+                    /> // Render full HTML when expanded
                   ) : (
-                    <div className="line-clamp-3 overflow-hidden">
-                      {firstParagraph}
-                    </div>
+                    <div
+                      className="line-clamp-3 overflow-hidden"
+                      dangerouslySetInnerHTML={{ __html: firstParagraphHtml }}
+                    />
                   )}
+
                   {/* Button to toggle between showing more or less */}
                   <button
                     onClick={toggleDescription}
-                    className="text-[#13FF7A]  text-sm font-bold md:text-base cursor-pointer mt-2"
+                    className="text-[#13FF7A] text-sm font-bold md:text-base cursor-pointer mt-2"
                   >
                     {showFullDescription ? "Show Less" : "Read More"}
                   </button>
@@ -443,6 +482,17 @@ const EventsHeroSlide = ({
             startPrice={ticketStartPrice}
             endPrice={ticketEndPrice}
           /> */}
+
+<BuyTicket
+            // eventType={eventType}
+            event={event}
+            setShowTicket={setShowTicket}
+            startPrice={ticketStartPrice}
+            endPrice={ticketEndPrice}
+            userId={myid}
+            ticketlength={ticketLength}
+            endTime={endTime}
+          />
         </div>
       </div>
     </>

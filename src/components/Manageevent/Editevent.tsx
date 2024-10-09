@@ -1941,6 +1941,13 @@ function Editevent() {
                           name="eventenddate"
                           render={({ field }) => {
                             //  const adjustedEventStartTime = dayjs(EventStartTime).add(5, 'hour');
+                            
+                            const adjustedEventStartTime = dayjs(TicketStartDate).add(12, "hour");
+
+                            // Default to the current time if the adjusted start time has passed
+                            const defaultEndTime = dayjs().isAfter(adjustedEventStartTime)
+                              ? dayjs()
+                              : adjustedEventStartTime;
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
@@ -1962,7 +1969,8 @@ function Editevent() {
                                         }
                                       }}
                                       //  label="Event End Date & Time"
-                                      minDateTime={dayjs(TicketStartDate)}
+                                      // minDateTime={dayjs(TicketStartDate)}
+                                      minDateTime={adjustedEventStartTime}
                                       // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                       slots={{
                                         openPickerIcon: () => (
@@ -2641,12 +2649,25 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                                     width={16}
                                     height={16}
                                     alt="img"
+                                    className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
+
                                   />
-                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                  {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p> */}
+                                  <p
+                                    className={`text-[16px] font-normal items-center ${
+                                      ticket?.options?.some(
+                                        (o) => o?.id === option?.id
+                                      )
+                                        ? "text-[#00d059]"
+                                        : "text-[#FFFFFF]"
+                                    }`}
+                                  >
                                     {option.label}
                                   </p>
                                 </div>
-                                {ticket?.options?.some(
+                                {/* {ticket?.options?.some(
                                   (o) => o?.id === option?.id
                                 ) && (
                                   <Image
@@ -2655,7 +2676,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                                     height={15}
                                     alt="tick"
                                   />
-                                )}
+                                )} */}
                               </div>
                             ))}
                             <div className="column-separator"></div>{" "}
@@ -2727,9 +2748,12 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                       <FormControl>
                         <Input
                           type="number"
+                          min="0"
                           placeholder="Enter No. of Tickets"
                           className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                           {...field}
+                          onWheel={(e:any) => e.target.blur()} 
+
                           onChange={(e) => {
                             setCompTicketNo(e.target.value);
                             field.onChange(e);

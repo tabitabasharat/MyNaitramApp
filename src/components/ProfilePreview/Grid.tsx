@@ -31,7 +31,7 @@ const Grid = () => {
       <h2 className="font-bold text-sm lg:text-[32px] lg:mb-[24px] mb-[16px] mt-[32px] lg:mt-[80px]">
         Upcoming Events
       </h2>
-      {myProfile?.data?.events ? (
+      {myProfile?.data?.events?.length > 0 ? (
         <>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-[12px] lg:gap-[20px]">

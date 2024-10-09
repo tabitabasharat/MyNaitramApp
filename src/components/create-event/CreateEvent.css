@@ -8,7 +8,22 @@
   ) !important;
   color: white !important;
 } */
+.filtergreen{
+  filter: brightness(0) saturate(100%) invert(37%) sepia(100%) saturate(600%) hue-rotate(80deg);
 
+}
+
+.hue-rotate-90 {
+  filter: hue-rotate(90deg) !important; /* Adjust as necessary */
+}
+input[type="number"]::-webkit-outer-spin-button, 
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield !important; 
+}
 .MuiDatePickerToolbar-root{
   color: white !important;
 }
