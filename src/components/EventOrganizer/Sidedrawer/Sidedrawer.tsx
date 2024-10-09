@@ -18,6 +18,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import logout from "@/assets/logout.svg";
 import sponser from "@/assets/sponser.svg";
 import { styled, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -339,6 +340,19 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
             </Link>
           ))}
         </List>
+        <div className="mt-[30px] pb-[50px] md:mt-[60px]">
+        <button
+          className="text-[white] mb-[50px] md:me-[21px] me-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
+          onClick={Logout}
+        >
+          <Image
+            src={logout}
+            className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]"
+            alt="img"
+          />{" "}
+          Log out
+        </button>
+      </div>
       </div>
     </>
   );

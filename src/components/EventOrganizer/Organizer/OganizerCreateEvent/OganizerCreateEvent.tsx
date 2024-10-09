@@ -94,11 +94,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import calendaricon from "@/assets/calender.svg";
+// import styled from "styled-components";
 import styled from "styled-components";
 import { useTheme } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { addHours } from "date-fns";
+import { color } from "framer-motion";
 
 type TicketTypeOption = {
   id: number;
@@ -541,9 +543,13 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
     background-color: #eaea87;
     color: #ffffff;
   }
-  &. MuiTypography-root {
+  & .MuiTypography-root {
     color: #ffffff;
+    & .MuiTimePickerToolbar-root {
+      display: none;
+    }
   }
+
   //  & .MuiDialog-paper {
   //  background-color: #eaea87;
   //  }
@@ -585,6 +591,9 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
   }
   & .MuiClockNumber-root {
     color: #ffffff;
+  }
+  & .MuiButtonBase-root-MuiTab-root.Mui-selected {
+    background-color: red;
   }
 `;
 
@@ -993,22 +1002,6 @@ function OganizerCreateEvent() {
       return updatedTickets;
     });
   };
-
-  // useEffect(()=>{
-  //   console
-  //   if (selected === "free") {
-  //     setTicketTypes((prevTickets) =>
-  //       prevTickets.map((ticket) => ({
-  //         ...ticket,
-  //         type: "free",
-  //         price: 0,
-  //         no: 0,
-  //         options: [],
-  //       }))
-  //     );
-  //   }
-  // },[selected])
-
   const filteredTicketTypes = ticketTypes.map((ticket) => ({
     selected: ticket.selected,
 
@@ -1284,67 +1277,7 @@ function OganizerCreateEvent() {
     }
   };
 
-  // const handleCateOptionToggle = (index: number, option: cateOption) => {
-  //   setCategoryTypes((prevCategories) =>
-  //     prevCategories.map((category, i) =>
-  //       i === index
-  //         ? {
-  //             ...category,
-  //             options: category.options.some((o) => o.id === option.id)
-  //               ? category.options.filter((o) => o.id !== option.id)
-  //               : [...category.options, option],
-  //           }
-  //         : category
-  //     )
-  //   );
-  // };
-  // const handleCateOptionToggle = (option: any) => {
-  //   setCategoryTypes((prev: any) =>
-  //     prev.some((o: any) => o.id === option.id)
-  //       ? prev.filter((o: any) => o.id !== option.id)
-  //       : [...prev, option]
-  //   );
-  // };
 
-  // const handleCateOptionToggle = (option: any) => {
-  //   setCategoryTypes((prev: any) =>
-  //     prev.some((o: any) => o.label === option.label)
-  //       ? prev.filter((o: any) => o.label !== option.label)
-  //       : [...prev, option]
-  //   );
-  // };
-  // const handleCateOptionToggle = (option: any) => {
-  //   setCategoryTypes((prev: any) => {
-  //     if (prev.some((o: any) => o.label === option.label)) {
-  //       return prev.filter((o: any) => o.label !== option.label);
-  //     }
-
-  //     if (prev.length < 4) {
-  //       return [...prev, option];
-  //     }
-
-  //     ErrorToast("You can only select 4 categories at a time")
-
-  //     return prev;
-  //   });
-  // };
-
-  // const handleCateOptionToggle = (option: any) => {
-  //   setCategoryTypes((prev: any) => {
-  //     if (prev.some((o: any) => o.label === option.label)) {
-  //       return prev.filter((o: any) => o.label !== option.label);
-  //     }
-
-  //     if (prev.length >= 4) {
-  //       setCategoryAlert(true);
-  //       // ErrorToast("You can only select 4 categories at a time");
-  //       return prev;
-  //     }
-  //     setCategoryAlert(false);
-
-  //     return [...prev, option];
-  //   });
-  // };
   const handleCateOptionToggle = (option: any) => {
     setCategoryTypes((prev: any) => {
       const isSelected = prev.some((o: any) => o.label === option.label);
@@ -1596,7 +1529,6 @@ function OganizerCreateEvent() {
                         type="file"
                         multiple
                         accept="image/*, video/*"
-                        // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
                         className="hidden"
                         id="galleryUpload"
                         onChange={handleFileChange}
@@ -1608,77 +1540,12 @@ function OganizerCreateEvent() {
             </div>
           </div>
         </div>
-        {/* <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
-          <Image
-            src={CoverImg || bgframe}
-            alt="bg-frame"
-            className="w-full hidden md:block w-full h-[281px] object-cover"
-            width={100}
-            height={281}
-          />
-          <Image
-            src={CoverImg || bgframe2}
-            alt="bg-img"
-            className="w-full md:hidden w-full h-[281px] object-cover"
-            width={100}
-            height={281}
-          />
-          <label
-            htmlFor="uploadcover"
-            className="flex gap-2 items-center justify-between w-full cursor-pointer"
-          >
-            <div className="absolute px-[10px] top-1/2 h-[92%] sm:h-[auto] md:h-[auto] lg:h-[auto] left-1/2 transform flex flex-col w-full justify-between  sm:jutify-center md:jutify-center lg:jutify-center items-center -translate-x-1/2 -translate-y-1/2">
-              <div>
-                <p className="text-[30px] flex-wrap mt-[60px] flex text-center lg:mb-[10px] font-extrabold">
-                  Upload Cover Artwork
-                </p>
-              </div>
-              <div className="flex justify-center mb-[68px] items center  rounded-[44px]  gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
-                <Image src={cam} alt="pencil" />
-                <p className="text-[#00D059] text-sm font-extrabold">
-                  Upload Image
-                </p>
-              </div>
-            </div>
-            <input
-              ref={fileInputRef2}
-              type="file"
-              accept="image/*"
-              id="uploadcover"
-              className="hidden"
-              onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
-            />
-          </label>
-        </div> */}
-        {/* <div className="w-full pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px]">
-        <Image src={CoverImg || bgframe} alt="bg-frame" className="w-full hidden md:block" />
-        <Image src={CoverImg || bgframe2} alt="bg-img" className="w-full md:hidden" />
-          <label
-            htmlFor="upload"
-            className="flex gap-2 items-center justify-between w-full cursor-pointer"
-          >
-            <div className="absolute top-1/2 h-[92%] sm:h-[auto] md:h-[auto] lg:h-[auto] left-1/2 transform flex flex-col w-full justify-between  sm:jutify-center md:jutify-center lg:jutify-center items-center -translate-x-1/2 -translate-y-1/2">
-              <div>
-                <p className="text-[30px] flex-wrap mt-[60px] flex text-center lg:mb-[10px] font-extrabold">
-                  Upload Cover Artwork
-                </p>
-              </div>
-              <div className="flex justify-center mb-[68px] items center  rounded-[44px]  gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
-                <Image src={cam} alt="pencil" />
-                <p className="text-[#00D059] text-sm font-extrabold">
-                  Upload Image
-                </p>
-              </div>
-            </div>
-          </label>
-        </div> */}
         <div className="px-[24px] py-[16px] relative create-container mt-[46px] ">
           <div className="flex justify-between">
             <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
               {" "}
               Host <span className="text-primary">Event</span>
             </h1>
-            {/* <Image src={Editicon} alt="Edit-icon" /> */}
           </div>
 
           <Image
@@ -1691,15 +1558,7 @@ function OganizerCreateEvent() {
         </div>
         <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
           <Form {...form}>
-            <form
-              className=" w-full"
-              // onSubmit={(event) => handleFormSubmit(event)}
-              // onSubmit={(event) => {
-              //   console.log("Form submit triggered");
-              //   form.handleSubmit(EventCreation)(event);
-
-              // }}
-            >
+            <form className=" w-full">
               <div className="flex items-start gap-[24px] w-full common-container">
                 <FormField
                   control={form.control}
@@ -1821,29 +1680,6 @@ function OganizerCreateEvent() {
               </div>
 
               <div className="mt-[24px]">
-                {/* <FormField
-                  control={form.control}
-                  name="eventlocation"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Event location
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter Location"
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                          {...field}
-                          onChange={(e) => {
-                            setEventLocation(e.target.value);
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
                 <FormField
                   control={form.control}
                   name="eventlocation"
@@ -1861,15 +1697,6 @@ function OganizerCreateEvent() {
                           value={field.value}
                         />
                       </FormControl>
-                      {/* Optional display of the selected location */}
-                      {/* {selectedLocation && (
-        <div className="mt-4">
-          <p>
-            <strong>Selected Location:</strong>{" "}
-            {selectedLocation}
-          </p>
-        </div>
-      )} */}
                       <FormMessage />
                     </FormItem>
                   )}
@@ -1877,41 +1704,6 @@ function OganizerCreateEvent() {
               </div>
 
               <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                {/* <FormField
-                  control={form.control}
-                  name="eventstartdate"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Ticketing Start Date & Time
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          // type="date"
-                          // aria-label="Date"
-                          type="datetime-local"
-                          aria-label="Date and time"
-                          placeholder="Enter Start Date"
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
-                          {...field}
-                          onChange={(e) => {
-                            setTicketStartDate(e.target.value);
-                            console.log(
-                              "my ticket date and time",
-                              e.target.value
-                            );
-                            field.onChange(e);
-                          }}
-                          onKeyDown={(e) => e.preventDefault()}
-                          min={new Date().toISOString().slice(0, 16)}
-                          // max={extractDate(EventStartTime)}
-                        />
-                      </FormControl>
-
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
                 <div className="w-full">
                   <ThemeProvider theme={themeMui}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1920,7 +1712,7 @@ function OganizerCreateEvent() {
                           control={form.control}
                           name="eventstartdate"
                           render={({ field }) => {
-                            const currentDateTime = dayjs(); // Get current date and time
+                            const currentDateTime = dayjs();
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
                                 <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
@@ -2027,11 +1819,11 @@ function OganizerCreateEvent() {
                             );
 
                             const validStartTime = isSameDay
-                              ? minStartTime // Only allow times greater than TicketStartDate
+                              ? minStartTime 
                               : null;
-                              let referenceTicketDate;
+                            let referenceTicketDate;
                             if (validStartTime) {
-                             referenceTicketDate = validStartTime.add(
+                              referenceTicketDate = validStartTime.add(
                                 2,
                                 "minute"
                               );
@@ -2076,7 +1868,7 @@ function OganizerCreateEvent() {
                                       }}
                                       slotProps={{
                                         tabs: {
-                                          hidden: false,
+                                          hidden: true,
                                         },
                                         toolbar: {
                                           toolbarFormat: "YYYY",

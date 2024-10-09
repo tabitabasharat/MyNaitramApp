@@ -40,7 +40,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const drawerWidth = 248;
+const drawerWidth = 273;
 
 interface Props {
   window?: () => Window;
@@ -120,7 +120,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
 
   const drawer = (
     <>
-      <div className="ps-[32px] bg-[black]">
+      <div className="ps-[32px] bg-[black] overflow-y-auto scrollbar-hide">
         <List className="bg-[black] p-[0px] text-[white]">
           <div className="flex  lg:pt-[32px]  mb-[24px] items-center">
             {mobileOpen && (

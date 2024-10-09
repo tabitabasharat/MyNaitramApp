@@ -318,6 +318,7 @@ const OrganizerProfile = () => {
                 onSubmit={form.handleSubmit(updateActivity)}
                 className=" w-full"
               >
+                <div className="overflow-y-auto scrollbar-hide h-[449px]">
                 <FormField
                   control={form.control}
                   name="BIO"
@@ -556,7 +557,7 @@ const OrganizerProfile = () => {
                   control={form.control}
                   name="twitter"
                   render={({ field }) => (
-                    <FormItem className="relative mb-[48px] md:mb-6 space-y-0">
+                    <FormItem className="relative space-y-0">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         TWITTER
                       </FormLabel>
@@ -588,7 +589,8 @@ const OrganizerProfile = () => {
                     </FormItem>
                   )}
                 />
-                <div className="flex justify-start mb-[49px] lg:justify-end">
+                </div>
+                <div className="flex justify-start mt-[32px] mb-[49px] lg:justify-end">
                   <Button
                     type="submit"
                     className="w-full font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base md:w-fit"

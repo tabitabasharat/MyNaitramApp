@@ -234,7 +234,7 @@ const PaymentsModal = ({
           </div>
           <p className="text-sm mt-6">PAYMENT METHOD</p>
           <div className="flex justify-between items-center font-bold border border-muted rounded-lg p-3 mt-3">
-            <p>Stripe</p>
+            <p>Credit/Debit Card</p>
             <StripeLogo size={18} weight="fill" />
           </div>
         </div>

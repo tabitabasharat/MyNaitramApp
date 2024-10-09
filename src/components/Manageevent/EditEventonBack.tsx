@@ -309,15 +309,22 @@ const themeMui: any = createTheme({
         },
       },
     },
+    
+
     MuiTab: {
       styleOverrides: {
+        
         root: {
+          display:"none",
           color: "#ffffff", // Color for unselected tabs
         },
         selected: {
+          display:"none",
           color: "#1976d2", // Color for selected tab
         },
+        
       },
+      
     },
     MuiButton: {
       styleOverrides: {
@@ -392,7 +399,7 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
     background-color: #eaea87;
     color: #ffffff;
   }
-  &. MuiTypography-root {
+  & .MuiTypography-root {
     color: #ffffff;
   }
   //  & .MuiDialog-paper {

@@ -412,18 +412,15 @@ const EventsHeroSlide = ({
                   <Image src={Arrowdown} alt="arrow-down" sizes="16px" />
                 </button>
               </div>
-
               {AboutDrop && (
                 <div className="mb-[12px] text-white break-words overflow-hidden">
-                  {/* Show a limited number of lines if showFullDescription is false */}
                   {showFullDescription ? (
-                    <div>{plainTextDescription}</div> // Display plain text when expanded
+                    <div>{plainTextDescription}</div> 
                   ) : (
                     <div className="line-clamp-3 overflow-hidden">
                       {firstParagraph}
                     </div>
                   )}
-                  {/* Button to toggle between showing more or less */}
                   <button
                     onClick={toggleDescription}
                     className="text-[#13FF7A]  text-sm font-bold md:text-base cursor-pointer mt-2"
@@ -432,6 +429,8 @@ const EventsHeroSlide = ({
                   </button>
                 </div>
               )}
+
+
             </div>
           </div>
 
