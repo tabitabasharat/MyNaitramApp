@@ -20,6 +20,7 @@ import { getUserSocialProfile } from "@/lib/middleware/profile";
 import { getOrganizerSocialProfile, getOrganizerLiveSocialProfile } from "@/lib/middleware/organizer";
 import { YoutubeLogo } from "@phosphor-icons/react";
 
+
 const ProfilePreview = () => {
   const dispatch = useAppDispatch();
   const [userEmail, setUserEmail] = useState<any>("");
@@ -245,6 +246,7 @@ const ProfilePreview = () => {
                 </Link>
               )}
           </div>
+         
         </div>
       </div>
     </div>

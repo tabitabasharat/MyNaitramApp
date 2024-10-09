@@ -2,8 +2,8 @@ import React from "react";
 import "./DownloadAppPage.css";
 import Image from "next/image";
 import mobileimg from "../../assets/Group-17.png";
-import appstore from "../../assets/image-1-e1711464803461.png";
-import googleplay from "../../assets/googleapp.png";
+import appstore from "@/assets/App Store .svg";
+import googleplay from "@/assets/Google Play .svg";
 import natriam from "../../assets/Group-1.png";
 import { FadeReveal } from "@/components/animations/FadeReveal";
 import { Reveal } from "@/components/animations/Reveal";
@@ -29,9 +29,9 @@ function DownloadAppPage() {
               <Image alt="" src={natriam} className="mb-5 green-natiram " />
               <h3 className="coming-soon">Coming Soon</h3>
             </div>
-            <div className="flex items-center justify-center">
-              <Image alt="" src={appstore} className="appstroe" />
-              <Image alt="" src={googleplay} className="ps-5" />
+            <div className="flex items-center w-full h-full justify-center">
+              <Image alt="" src={appstore} sizes="30px" className="appstroe h-full w-[130px] sm:w-[160px] lg:w-[200px] xl:w-[280px] " />
+              <Image alt="" src={googleplay} className="ps-5 w-[130px] h-full sm:w-[160px] lg:w-[200px] xl:w-[280px]" />
             </div>
             </div>
           </Reveal>

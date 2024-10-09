@@ -346,7 +346,10 @@ const SignUpModal = ({
                 />
 
                 <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
-                  <Button type="submit" className="font-extrabold text-base w-full">
+                  <Button
+                    type="submit"
+                    className="font-extrabold text-base w-full"
+                  >
                     Create an Account
                   </Button>
                 </DialogFooter>

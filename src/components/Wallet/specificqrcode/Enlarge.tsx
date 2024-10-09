@@ -313,7 +313,7 @@ export default function Enlarge() {
         {/* Main content container */}
         <div className="flex flex-col-reverse justify-between items-center gap-[62px]  lg:flex-row">
           <div className="flex w-full flex-col">
-            <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
+            <div className="flex flex-col w-full lg:flex-row items-center  lg:items-start gap-[16px]">
               <div className="flex w-full gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 w-full lg:w-[100%] flex-wrap">
                 {TicketData?.event?.category?.length > 0 &&
                   TicketData?.event?.category?.map(
@@ -435,12 +435,8 @@ export default function Enlarge() {
                 )}
               </div> */}
             </div>
-          </div>
-          {/* <div style={{background:"#00A849",borderRadius:"12px"}}  */}
-          {/* > */}
-
-         
-             <div>
+          </div>      
+             <div className="w-full flex flex-col items-center">
              <Image
             style={{ borderRadius: "12px" }}
             width={320}
@@ -453,27 +449,16 @@ export default function Enlarge() {
             <p className="py-[24px] text-center w-[320px] font-normal text-[18px]">
               Please view the ticket QR code on the Naitram Mobile App{" "}
             </p>
-            <div className="flex gap-[16px] ">
-            <Button
-              onClick={() => {
-                router.push("/download-app");
-              }}
-              className="flex items-center add-bank-account-border bg-black gap-[4px] p-[12px]"
-            >
-              <p className=" font-extrabold text-base text-[#00D059]">
-                {" "}
-                Download App
-              </p>
-            </Button>
+            {/* <div className="flex gap-[16px] w-full "> */}
             <Button
               onClick={() => {
                 window.open(`https://sepolia.etherscan.io/tx/${TicketData?.txHash}`, '_blank', 'noopener,noreferrer');
               }}
-              className="flex items-center gap-[4px] p-[12px]"
+              className="flex items-center gap-[4px] sm:p-[12px] w-full sm:w-[320px]"
             >
               <p className=" font-extrabold text-sm"> View on Blockchain</p>
             </Button>
-          </div>
+          {/* </div> */}
           </div>
         </div>
         {/* </div> */}

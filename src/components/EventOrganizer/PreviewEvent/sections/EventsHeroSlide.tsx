@@ -450,7 +450,6 @@ const EventsHeroSlide = ({
 
               {AboutDrop && (
                 <div className="mb-[12px] text-white break-words overflow-hidden">
-                  {/* Show a limited number of lines if showFullDescription is false */}
                   {showFullDescription ? (
                     <div
                       dangerouslySetInnerHTML={{ __html: descriptionText }}
@@ -471,6 +470,8 @@ const EventsHeroSlide = ({
                   </button>
                 </div>
               )}
+
+
             </div>
           </div>
 
