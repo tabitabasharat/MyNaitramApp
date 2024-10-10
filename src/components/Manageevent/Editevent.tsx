@@ -511,7 +511,7 @@ function Editevent() {
     { label: "Government" },
     { label: "Fashion" },
     { label: "Home & Lifestyle" },
-    { label: "Auto, Biat & Air" },
+    { label: "Auto, Boat & Air" },
     { label: "Hobbies" },
     { label: "Family & Education" },
     { label: "School Activities" },

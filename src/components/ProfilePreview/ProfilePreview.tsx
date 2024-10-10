@@ -113,7 +113,7 @@ const ProfilePreview = () => {
               {myProfile?.data?.profile?.totalAttendees}{" "}
               <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
                 {" "}
-                Attended
+                Attendees
               </span>
             </span>{" "}
           </p>
@@ -130,7 +130,7 @@ const ProfilePreview = () => {
                 {" "}
                 {myProfile?.data?.profile?.totalAttendees}
               </p>
-              <p className="text-[12px] opacity-50">ATTENDED</p>
+              <p className="text-[12px] opacity-50">ATTENDEES</p>
             </div>
           </div>
           <p className="font-normal text-center md:text-start break-words overflow-hidden w-full lg:w-[70%] text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">

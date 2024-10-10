@@ -130,7 +130,7 @@ const Menu = ({
   return (
     <>
       <motion.div
-        className="fixed z-[1200] right-0 h-full w-full md:w-[450px] gradient-slate border-l border-l-[#282828] px-[2.5rem] lg:hidden"
+        className="fixed z-[1205] right-0 h-full w-full md:w-[450px] gradient-slate border-l border-l-[#282828] px-[2.5rem] lg:hidden"
         initial={{ x: "120%" }}
         animate={{ x: menuIsOpen ? 0 : "120%" }}
         transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}

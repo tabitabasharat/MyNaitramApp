@@ -27,7 +27,7 @@ export default function AboutPage ()  {
                 This is NAITRAM
               </h2>
               <p className="md:max-w-[44.569%] text-center pb-[55.6px] md:text-xl text-[17px] ">
-                We are not just changing the game; we’re redefining it. Born
+                We are not just changing the game we’re redefining it. Born
                 from a visionary idea to a revolutionary experience, we stands
                 at the vanguard of the events and entertainment industry’s
                 transformation.

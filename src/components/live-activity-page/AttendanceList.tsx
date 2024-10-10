@@ -56,7 +56,7 @@ const AttendanceList = () => {
         </div>
 
         {/* LARGE SCREEN VIEW */}
-        <div className="hidden md:flex flex-wrap justify-normal items-center mt-[16px]">
+        <div className="hidden md:flex md:h-[530px] overflow-auto scrollbar-hide flex-wrap justify-normal items-center mt-[16px]">
           {eventAttendy?.attend?.data?.map((attendee: any) => (
             <Avatar
               size="size-[64px]"
