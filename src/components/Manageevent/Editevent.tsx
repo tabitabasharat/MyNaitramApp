@@ -512,6 +512,7 @@ function Editevent() {
   const [categoryTypes, setCategoryTypes] = useState<any>([]);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
 
+
   const optionscate: CateOption[] = [
     { label: "Music" },
     { label: "Business" },
@@ -2999,6 +3000,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
               <div className="flex justify-end items-center mt-[36px] edit-btn">
                 <Button
                   type="submit"
+                  disabled={!isCategorySelected}
                   className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                 >
                   Submit
