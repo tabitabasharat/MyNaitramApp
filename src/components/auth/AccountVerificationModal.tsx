@@ -165,7 +165,7 @@ const AccountVerificationModal = ({
           setLoader(false);
           console.log(data);
           SuccessToast("Code resent Successfully");
-          // navigate("/");
+       
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -241,7 +241,9 @@ const AccountVerificationModal = ({
             </div>
             <button
               className="opacity-70 font-normal mb-[50px] hover:opacity-100 "
-              onClick={()=>{ResentCode()}}
+              type="button"
+              // onClick={()=>{ResentCode()}}
+              onClick={ResentCode}
             >
               Didn't receive the code? <span className="font-extrabold underline"> Request again</span>
             </button>

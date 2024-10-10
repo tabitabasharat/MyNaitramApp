@@ -305,7 +305,7 @@ const formSchema = z.object({
           return true; // Skip price validation for free tickets
         },
         {
-          message: "Price must be greater than 0 for paid tickets.",
+          message: "Price required and must be greater than 0 .",
           path: ["price"], // Specify the path for the error
         }
       )

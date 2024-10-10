@@ -103,7 +103,7 @@ function Manageevent({
                         </p>
                         <Link
                           href={
-                            event?.eventTickets?.length == 0  ||  event?.eventTickets==undefined
+                            event?.eventTickets?.length == 0  ||  event?.eventTickets == undefined
                               ? `/management/edit-event/${event.id}`
                               : "javascript:void(0)"
                           }

@@ -48,7 +48,6 @@ const BuyTicket = ({
     dispatch(getTicketsById(id));
     TicketHandle();
   }, []);
- 
 
   const EventDetail = useAppSelector(
     (state: any) => state?.getTicket?.specificEvent?.data
@@ -127,12 +126,22 @@ const BuyTicket = ({
           <p className="font-bold text-[24px] text-center lg:text-left">
             {/* £10 - £1000 */}
 
-            {ticketlength === 1
+            {/* {ticketlength === 1
               ? `£${endPrice}`
               : startPrice && endPrice
               ? `£${startPrice > endPrice ? endPrice : startPrice} - £${
                   startPrice < endPrice ? endPrice : startPrice
                 }`
+              : "£0"} */}
+
+            {ticketlength === 1
+              ? `£${endPrice}`
+              : startPrice && endPrice
+              ? startPrice == endPrice
+                ? `£${startPrice}`
+                : `£${startPrice > endPrice ? endPrice : startPrice} - £${
+                    startPrice < endPrice ? endPrice : startPrice
+                  }`
               : "£0"}
           </p>
           {/* <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left text-[13px] lg:text-[14px]">
@@ -145,12 +154,14 @@ const BuyTicket = ({
 
         {pathname === "/preview-event" ? (
           <div className="w-full lg:w-auto">
-            <Button disabled className="text-black px-[4rem] lg:py-7 w-full lg:w-fit">
+            <Button
+              disabled
+              className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
+            >
               Buy Ticket
             </Button>
           </div>
-        ) :
-        viewTicket ? (
+        ) : viewTicket ? (
           <div>
             <Button
               onClick={() => {

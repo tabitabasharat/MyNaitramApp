@@ -222,6 +222,8 @@ const formSchema = z.object({
   //   })
   // ),
 
+
+
   tickets: z.array(
     z
       .object({
@@ -230,7 +232,6 @@ const formSchema = z.object({
         no: z
           .union([z.string().transform((val) => parseFloat(val)), z.number()])
           .refine((val) => !isNaN(val) && val > 0, {
-            // Ensure it's greater than 0 after parsing
             message: "Number of tickets must be greater than 0.",
             path: ["no"],
           }),
@@ -242,19 +243,20 @@ const formSchema = z.object({
           if (data.selected === "paid") {
             const priceIsValid =
               data.price !== undefined &&
-              ((typeof data.price === "string" && data.price.trim() !== "") ||
-                (typeof data.price === "number" && data.price > 0));
-
-            return priceIsValid; // Validate if price is provided correctly
+              ((typeof data.price === "string" && data.price.trim() !== "" && parseFloat(data.price) > 0) ||
+               (typeof data.price === "number" && data.price > 0));
+  
+            return priceIsValid; // Validate if price is provided correctly and greater than 0
           }
           return true; // Otherwise, it passes validation
         },
         {
-          message: "Price is required.",
+          message: "Price required and must be greater than 0.",
           path: ["price"], // Specify the path for the error
         }
       )
   ),
+  
 
   // .refine((tickets) => tickets.length > 0, {
   //   message: "At least one ticket is required.",
@@ -2064,6 +2066,7 @@ function EditeventOnBack() {
                           control={form.control}
                           name="eventstartdate"
                           render={({ field }) => {
+
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
@@ -2072,6 +2075,8 @@ function EditeventOnBack() {
                                 <FormControl>
                                   <div className=" w-full">
                                     <StyledDateTimePicker
+                                      disablePast
+
                                       //  {...field}
                                       // onChange={(e: any) => {
                                       //   setEventEndTime(e);
@@ -2162,6 +2167,7 @@ function EditeventOnBack() {
                                       value={
                                         field.value ? dayjs(field.value) : null
                                       }
+                                      referenceDate={adjustedEventStartTime}
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
@@ -2171,6 +2177,7 @@ function EditeventOnBack() {
                                           field.onChange(formattedDate);
                                         }
                                       }}
+                                      disablePast
                                       //  label="Event End Date & Time"
                                       minDateTime={adjustedEventStartTime}
                                       // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
@@ -2225,6 +2232,25 @@ function EditeventOnBack() {
                           control={form.control}
                           name="eventstarttime"
                           render={({ field }) => {
+
+                            const minStartTime = dayjs(
+                              TicketEndDate || new Date()
+                            );
+
+                            const defaultStartTime = field.value
+                              ? dayjs(field.value)
+                              : minStartTime;
+
+                            const validStartTime = defaultStartTime.isBefore(
+                              minStartTime
+                            )
+                              ? minStartTime
+                              : defaultStartTime;
+
+                            const referenceEventDate = validStartTime.add(
+                              2,
+                              "minute"
+                            );
                             //  const adjustedEventStartTime = dayjs(EventStartTime).add(5, 'hour');
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
@@ -2234,9 +2260,13 @@ function EditeventOnBack() {
                                 <FormControl>
                                   <div className=" w-full">
                                     <StyledDateTimePicker
+                                      referenceDate={referenceEventDate}
+                                    disablePast
+
                                       value={
                                         field.value ? dayjs(field.value) : null
                                       }
+
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
@@ -2247,7 +2277,9 @@ function EditeventOnBack() {
                                         }
                                       }}
                                       //  label="Event End Date & Time"
-                                      minDateTime={dayjs(TicketEndDate)}
+                                      // minDateTime={dayjs(TicketEndDate)}
+                                      minDateTime={minStartTime}
+
                                       // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                       slots={{
                                         openPickerIcon: () => (
@@ -2297,9 +2329,18 @@ function EditeventOnBack() {
                           control={form.control}
                           name="eventendtime"
                           render={({ field }) => {
+                            
+
+
                             const adjustedEventStartTime = dayjs(
                               EventStartTime
                             ).add(5, "hour");
+
+                            const defaultEndTime = dayjs().isAfter(
+                              adjustedEventStartTime
+                            )
+                              ? dayjs()
+                              : adjustedEventStartTime;
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
@@ -3166,6 +3207,8 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                                       );
                                       field.onChange(e);
                                     }}
+                          onWheel={(e: any) => e.target.blur()}
+
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -3197,6 +3240,8 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                                     );
                                     field.onChange(e);
                                   }}
+                          onWheel={(e: any) => e.target.blur()}
+
                                 />
                               </FormControl>
                               <FormMessage />
@@ -3332,6 +3377,8 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                             setCompTicketNo(e.target.value);
                             field.onChange(e);
                           }}
+                        
+
                         />
                       </FormControl>
                       <FormMessage />

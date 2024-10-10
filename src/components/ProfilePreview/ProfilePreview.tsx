@@ -17,9 +17,11 @@ import sealnew from "@/assets/Wallet/Sealnew.svg";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getUserSocialProfile } from "@/lib/middleware/profile";
-import { getOrganizerSocialProfile, getOrganizerLiveSocialProfile } from "@/lib/middleware/organizer";
+import {
+  getOrganizerSocialProfile,
+  getOrganizerLiveSocialProfile,
+} from "@/lib/middleware/organizer";
 import { YoutubeLogo } from "@phosphor-icons/react";
-
 
 const ProfilePreview = () => {
   const dispatch = useAppDispatch();
@@ -57,7 +59,6 @@ const ProfilePreview = () => {
   // const myProfile = useAppSelector(
   //   (state) => state?.getOrgSocialProfile?.mySocialData?.data
   // );
-
 
   const myProfile = useAppSelector(
     (state) => state?.getOrgLiveSocialProfile?.mySocialData?.data
@@ -100,7 +101,7 @@ const ProfilePreview = () => {
           </p>
           <p className="mt-1 font-bold text-center md:text-left hidden md:block">
             <span className="text-[24px] sm:text-base">
-              {myProfile?.data?.events?.length}{" "}
+              {myProfile?.data?.profile?.totalEvents}{" "}
               <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
                 {" "}
                 Events{" "}
@@ -119,7 +120,7 @@ const ProfilePreview = () => {
 
           <div className="md:hidden border border-[#0FFF7730] rounded-lg gradient-slate flex justify-evenly items-center w-full  mt-[20px]">
             <div className="flex flex-col items-center py-[16px] justify-center font-bold text-center">
-              <p className="text-[18px]">{myProfile?.data?.events?.length}</p>
+              <p className="text-[18px]">{myProfile?.data?.profile?.totalEvents}</p>
               <p className="text-[12px] opacity-50">EVENTS</p>
             </div>
             <div className="w-px h-8 bg-white/20"></div>
@@ -246,7 +247,6 @@ const ProfilePreview = () => {
                 </Link>
               )}
           </div>
-         
         </div>
       </div>
     </div>

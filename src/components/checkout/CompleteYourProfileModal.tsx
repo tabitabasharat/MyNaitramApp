@@ -181,6 +181,8 @@ const CompleteYourProfileModal = ({
                       placeholder="+00 000-000"
                       className="pt-10 pb-5 font-bold placeholder:font-normal"
                       {...field}
+                      onWheel={(e: any) => e.target.blur()}
+
                       // onChange={(event) => {
                       //   const value = event.target.value;
                       //   field.onChange(value ? +value : undefined);

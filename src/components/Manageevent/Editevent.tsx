@@ -180,26 +180,9 @@ const formSchema = z.object({
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventmainimg: z.string().optional(),
 
-  // tickets: z
-  //   .array(
-  //     z.object({
-  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //       price: z.any(),
-  //       no: z.any(),
-  //       options: z
-  //         .array(
-  //           z.object({
-  //             id: z.number(),
-  //             label: z.string(),
-  //           })
-  //         )
-  //         .optional(),
-  //     })
-  //   )
-  //   .refine((tickets) => tickets.length > 0, {
-  //     message: "At least one ticket is required.",
-  //   }),
 
+
+ 
   tickets: z.array(
     z
       .object({
@@ -209,27 +192,25 @@ const formSchema = z.object({
           z.string().refine((val) => Number(val) > 0, {
             message: "Number of tickets must be greater than 0.",
           }),
-          z
-            .number()
-            .min(1, { message: "Number of tickets must be greater than 0." }),
+          z.number().min(1, { message: "Number of tickets must be greater than 0." }),
         ]),
         selected: z.string().optional(),
       })
       .refine(
         (data) => {
-          // Check if the price is required based on the selected property
+          // Validate price based on selection
           if (data.selected === "paid") {
             const priceIsValid =
               data.price !== undefined &&
-              ((typeof data.price === "string" && data.price.trim() !== "") ||
-                (typeof data.price === "number" && data.price > 0));
-
-            return priceIsValid; // Validate if price is provided correctly
+              ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
+               (typeof data.price === "number" && data.price > 0));
+  
+            return priceIsValid;
           }
-          return true; // Otherwise, it passes validation
+          return true; // Skip price validation for free tickets
         },
         {
-          message: "Price is required.",
+          message: "Price required and must be greater than 0 .",
           path: ["price"], // Specify the path for the error
         }
       )
@@ -1835,6 +1816,7 @@ function Editevent() {
                           control={form.control}
                           name="eventstartdate"
                           render={({ field }) => {
+                            const existingValue = field.value ? dayjs(field.value) : dayjs();
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
@@ -1860,7 +1842,9 @@ function Editevent() {
                                           field.onChange(formattedDate);
                                         }
                                       }}
+                                      disablePast
                                       //  label="Event End Date & Time"
+                                      // minDateTime={dayjs().startOf("day")}
                                       minDateTime={dayjs().startOf("day")}
                                       // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                       slots={{
@@ -1960,6 +1944,8 @@ function Editevent() {
                                       value={
                                         field.value ? dayjs(field.value) : null
                                       }
+                                      referenceDate={defaultEndTime}
+
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
@@ -1969,6 +1955,7 @@ function Editevent() {
                                           field.onChange(formattedDate);
                                         }
                                       }}
+                                      disablePast
                                       //  label="Event End Date & Time"
                                       // minDateTime={dayjs(TicketStartDate)}
                                       minDateTime={adjustedEventStartTime}
@@ -2025,6 +2012,24 @@ function Editevent() {
                           name="eventstarttime"
                           render={({ field }) => {
                             //  const adjustedEventStartTime = dayjs(EventStartTime).add(5, 'hour');
+                            const minStartTime = dayjs(
+                              TicketEndDate || new Date()
+                            );
+
+                            const defaultStartTime = field.value
+                              ? dayjs(field.value)
+                              : minStartTime;
+
+                            const validStartTime = defaultStartTime.isBefore(
+                              minStartTime
+                            )
+                              ? minStartTime
+                              : defaultStartTime;
+
+                            const referenceEventDate = validStartTime.add(
+                              2,
+                              "minute"
+                            );
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
@@ -2036,6 +2041,8 @@ function Editevent() {
                                       value={
                                         field.value ? dayjs(field.value) : null
                                       }
+                                      referenceDate={referenceEventDate}
+
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
@@ -2045,8 +2052,12 @@ function Editevent() {
                                           field.onChange(formattedDate);
                                         }
                                       }}
+                                      disablePast
                                       //  label="Event End Date & Time"
-                                      minDateTime={dayjs(TicketEndDate)}
+                                      // minDateTime={dayjs(TicketEndDate)}
+                                      minDateTime={minStartTime}
+
+
                                       // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                       slots={{
                                         openPickerIcon: () => (
@@ -2579,6 +2590,8 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                                       );
                                       field.onChange(e);
                                     }}
+                          onWheel={(e: any) => e.target.blur()}
+
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -2610,6 +2623,8 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                                     );
                                     field.onChange(e);
                                   }}
+                          onWheel={(e: any) => e.target.blur()}
+
                                 />
                               </FormControl>
                               <FormMessage />
