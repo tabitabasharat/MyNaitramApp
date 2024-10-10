@@ -40,10 +40,15 @@ import { useEffect, useState } from "react";
 
 const formSchema = z.object({
   phone: z
-    .string()
+
+  .string()
     .min(1, { message: "Phone Number cannot be empty." })
     .max(15, { message: "Phone number cannot be more than 15 digits." })
-    .regex(/^\d{15}$/, { message: "Phone number cannot be more than 15 digits." }),
+    .regex(/^\d{1,15}$/, { message: "Phone number must be up to 15 digits." }),
+    // .string()
+    // .min(1, { message: "Phone Number cannot be empty." })
+    // .max(15, { message: "Phone number cannot be more than 15 digits." })
+    // .regex(/^\d{15}$/, { message: "Phone number cannot be more than 15 digits." }),
 });
 
 const CompleteYourProfileModal = ({
@@ -172,7 +177,7 @@ const CompleteYourProfileModal = ({
                   />
                   <FormControl>
                     <Input
-                      type="text" 
+                      type="number" 
                       placeholder="+00 000-000"
                       className="pt-10 pb-5 font-bold placeholder:font-normal"
                       {...field}
@@ -181,9 +186,14 @@ const CompleteYourProfileModal = ({
                       //   field.onChange(value ? +value : undefined);
                       // }}
 
+                      // onChange={(event) => {
+                      //   const value = event.target.value;
+                      //   field.onChange(value); // Keep it as a string
+                      // }}
                       onChange={(event) => {
-                        const value = event.target.value;
-                        field.onChange(value); // Keep it as a string
+                        // Get the value and replace non-numeric characters
+                        const value = event.target.value.replace(/[^0-9+]/g, '');
+                        field.onChange(value); // Update form state with the cleaned value
                       }}
                       // onChange={(event) => field.onChange(+event.target.value)}
                     />

@@ -240,41 +240,77 @@ const formSchema = z.object({
   //   })
   // ),
 
+  // ticketss: z.array(
+  //   z
+  //     .object({
+  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //       // price: z.union([z.string(), z.number()]).optional(),
+  //       price: z.string().min(1, { message: "Ticket price cannot be empty." }),
+  //       no: z
+  //         .union([z.string(), z.number()])
+  //         .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+  //           message: "Number of tickets must be greater than 0.",
+  //           path: ["no"],
+  //         }),
+  //       selected: z.string().optional(),
+  //     })
+  //     .refine(
+  //       (data) => {
+  //         if (data.selected === "paid") {
+  //           const priceIsValid =
+  //             data.price !== undefined &&
+  //             ((typeof data.price === "string" && data.price.trim() !== "") ||
+  //               (typeof data.price === "number" && data.price > 0));
+
+  //           return priceIsValid;
+
+
+            
+  //         } else if (data.selected === "free") {
+  //           return data.price === undefined; // Price must be undefined for free tickets
+  //         }
+  //         return true; // If neither selected, pass validation
+  //       },
+  //       {
+  //         message:
+  //           "Price is required for paid tickets and should not be present for free tickets.",
+  //         path: ["price"],
+  //       }
+  //     )
+  // ),
   tickets: z.array(
     z
       .object({
         type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-        // price: z.union([z.string(), z.number()]).optional(),
-        price: z.string().min(1, { message: "Ticket price cannot be empty." }),
-        no: z
-          .union([z.string(), z.number()])
-          .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+        price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
+        no: z.union([
+          z.string().refine((val) => Number(val) > 0, {
             message: "Number of tickets must be greater than 0.",
-            path: ["no"],
           }),
+          z.number().min(1, { message: "Number of tickets must be greater than 0." }),
+        ]),
         selected: z.string().optional(),
       })
       .refine(
         (data) => {
+          // Validate price based on selection
           if (data.selected === "paid") {
             const priceIsValid =
               data.price !== undefined &&
-              ((typeof data.price === "string" && data.price.trim() !== "") ||
-                (typeof data.price === "number" && data.price > 0));
-
+              ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
+               (typeof data.price === "number" && data.price > 0));
+  
             return priceIsValid;
-          } else if (data.selected === "free") {
-            return data.price === undefined; // Price must be undefined for free tickets
           }
-          return true; // If neither selected, pass validation
+          return true; // Skip price validation for free tickets
         },
         {
-          message:
-            "Price is required for paid tickets and should not be present for free tickets.",
-          path: ["price"],
+          message: "Price must be greater than 0 for paid tickets.",
+          path: ["price"], // Specify the path for the error
         }
       )
   ),
+  
 });
 const formSchema2 = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
@@ -377,6 +413,40 @@ const formSchema2 = z.object({
   //   })
   // ),
 
+  // ticketss: z.array(
+  //   z
+  //     .object({
+  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //       price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
+  //       no: z.union([
+  //         z.string().refine((val) => Number(val) > 0, {
+  //           message: "Number of tickets must be greater than 0.",
+  //         }),
+  //         z
+  //           .number()
+  //           .min(1, { message: "Number of tickets must be greater than 0." }),
+  //       ]),
+  //       selected: z.string().optional(),
+  //     })
+  //     .refine(
+  //       (data) => {
+  //         // Validate price based on selection
+  //         if (data.selected === "paid") {
+  //           const priceIsValid =
+  //             data.price !== undefined &&
+  //             ((typeof data.price === "string" && data.price.trim() !== "") ||
+  //               (typeof data.price === "number" && data.price > 0));
+
+  //           return priceIsValid;
+  //         }
+  //         return true; // Skip price validation for free tickets
+  //       },
+  //       {
+  //         message: "Price is required for paid tickets.",
+  //         path: ["price"], // Specify the path for the error
+  //       }
+  //     )
+  // ),
   tickets: z.array(
     z
       .object({
@@ -386,9 +456,7 @@ const formSchema2 = z.object({
           z.string().refine((val) => Number(val) > 0, {
             message: "Number of tickets must be greater than 0.",
           }),
-          z
-            .number()
-            .min(1, { message: "Number of tickets must be greater than 0." }),
+          z.number().min(1, { message: "Number of tickets must be greater than 0." }),
         ]),
         selected: z.string().optional(),
       })
@@ -398,19 +466,20 @@ const formSchema2 = z.object({
           if (data.selected === "paid") {
             const priceIsValid =
               data.price !== undefined &&
-              ((typeof data.price === "string" && data.price.trim() !== "") ||
-                (typeof data.price === "number" && data.price > 0));
-
+              ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
+               (typeof data.price === "number" && data.price > 0));
+  
             return priceIsValid;
           }
           return true; // Skip price validation for free tickets
         },
         {
-          message: "Price is required for paid tickets.",
+          message: "Price must be greater than 0 for paid tickets.",
           path: ["price"], // Specify the path for the error
         }
       )
   ),
+  
 });
 
 type Option = {
@@ -2682,6 +2751,8 @@ function OganizerCreateEvent() {
                                 <FormControl>
                                   <Input
                                     type="number"
+                          onWheel={(e: any) => e.target.blur()}
+
                                     placeholder="Enter Price"
                                     className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                     {...field}
@@ -2739,6 +2810,8 @@ function OganizerCreateEvent() {
                                   placeholder="Enter No. of Tickets"
                                   className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                   {...field}
+                                  onWheel={(e: any) => e.target.blur()}
+
                                   onChange={(e) => {
                                     handleInputChange(
                                       index,
@@ -3134,6 +3207,7 @@ function OganizerCreateEvent() {
                     // onClick={() => setActionType("preview")}
                     // disabled={!isCategorySelected}
                     onClick={(event) => handleFormSubmit(event, "preview")}
+                    disabled={!isCategorySelected}
                   >
                     Preview
                   </button>

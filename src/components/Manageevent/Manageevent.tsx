@@ -56,7 +56,7 @@ function Manageevent({
   const EventsData = useAppSelector(
     (state) => state?.getEventsByUID?.myEvents?.data
   );
-  console.log("my events data", EventsData);
+  console.log("my events data", EventsData.eventTickets);
   const imageUrl =
     img?.startsWith("http") || img?.startsWith("https") ? img : event12;
   console.log("image src is", imageUrl);
@@ -103,12 +103,14 @@ function Manageevent({
                         </p>
                         <Link
                           href={
-                            event?.eventTickets?.length == 0
+                            event?.eventTickets?.length == 0 && event?.eventTickets==undefined
                               ? `/management/edit-event/${event.id}`
                               : "javascript:void(0)"
                           }
                           onClick={() => {
-                            if (event?.eventTickets?.length !== 0) {
+
+                           
+                            if (event?.eventTickets == undefined && event?.eventTickets?.length !== 0) {
                               ErrorToast("You Cannot Edit event");
                             }
                           }}

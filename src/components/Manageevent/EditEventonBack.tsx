@@ -543,6 +543,8 @@ function EditeventOnBack() {
   console.log("iside eventalldata", eventAllData);
   const router = useRouter();
 
+
+
   // const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
   //   { type: "", price: 0, no: 0, options: [], dropdown: true },
   // ]);
@@ -558,6 +560,8 @@ function EditeventOnBack() {
   ]);
   const [categoryTypes, setCategoryTypes] = useState<any>([]);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
+  const isCategorySelected = categoryTypes?.length > 0;
+
 
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
@@ -3580,6 +3584,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                     // onClick={() => setActionType("preview")}
 
                     onClick={(event) => handleFormSubmit(event, "preview")}
+                    disabled={!isCategorySelected}
                   >
                     Preview
                   </button>
@@ -3590,6 +3595,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                     className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                     // onClick={() => setActionType("create")}
                     onClick={(event) => handleFormSubmit(event, "create")}
+                    disabled={!isCategorySelected}
                   >
                     Submit
                   </Button>

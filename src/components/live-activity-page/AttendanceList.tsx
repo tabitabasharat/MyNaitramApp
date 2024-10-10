@@ -102,7 +102,7 @@ const AttendanceList = () => {
           <div className="relative">
             <Input
               id="search"
-              placeholder="Search Attendance"
+              placeholder="Search Active Users List"
               className="h-12 mt-4"
               value={searchAttendees}
               onChange={(event) => setsearchAttendees(event.target.value)}
