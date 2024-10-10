@@ -164,7 +164,7 @@ const Menu = ({
                 {link.subLinks ? (
                   <div
                     className="relative flex items-center"
-                    ref={(el) => (dropdownRefs.current[i] = el)}
+                    ref={(el:any) => (dropdownRefs.current[i] = el)}
                   >
                     {/* Main link (e.g., "Rewards", "About") */}
                     <Link
