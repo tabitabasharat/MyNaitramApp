@@ -102,6 +102,8 @@ import { useTheme } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { addHours } from "date-fns";
+import { root } from "postcss";
+import { color } from "framer-motion";
 type TicketTypeOption = {
   id: number;
   label: string;
@@ -288,7 +290,7 @@ const themeMui: any = createTheme({
           color: "#ffffff",
         },
         paper: {
-          backgroundColor: "#505050",
+          backgroundColor: "#1a1a1a",
           color: "#ffffff",
           borderRadius: "12px",
         },
@@ -297,19 +299,18 @@ const themeMui: any = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: "#505050",
+          backgroundColor: "#1a1a1a",
           // width: "90%",
         },
       },
     },
-    MuiTypography: {
+ MuiTypography: {
       styleOverrides: {
         root: {
-          color: "#ffffff",
+          color: '#ffffff',
         },
       },
-    },
-    
+    },  
 
     MuiTab: {
       styleOverrides: {
@@ -326,6 +327,7 @@ const themeMui: any = createTheme({
       },
       
     },
+  
     MuiButton: {
       styleOverrides: {
         root: {

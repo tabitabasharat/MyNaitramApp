@@ -276,7 +276,7 @@ export default function PrivacyPolicy() {
           </ol>
           <p className="pt-4">- - -</p>
           <p className="pt-4">
-            This Privacy Policy provides detailed informatioon on how Naitram
+            This Privacy Policy provides detailed information on how Naitram
             collects, uses, shares, and protects your personal information,
             ensuring transparency and compliance with data protection on
             regulations, including considerations for Web3 and NFT interactions.

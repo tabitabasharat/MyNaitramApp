@@ -14,6 +14,7 @@ import {
   TiktokLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { useEffect,useRef } from "react";
 import Arrowdown from "@/assets/arrow-down.svg";
 import {
   ArrowLeft,
@@ -347,6 +348,20 @@ const EventsHeroSlide = ({
     .slice(0, maxLines)
     .join("\n"); // You don't need to remove the HTML tags here anymore
 
+
+    const myid = typeof window !== "undefined" ? localStorage.getItem("_id") || "" : "";
+
+    const textRef:any = useRef(null);
+    const [isOverflowing, setIsOverflowing] = useState(false);
+  
+    useEffect(() => {
+      if (textRef.current) {
+        const lineHeight = parseFloat(getComputedStyle(textRef.current).lineHeight);
+        const oneLineHeight = lineHeight; // height of one line
+        setIsOverflowing(textRef.current.scrollHeight > oneLineHeight);
+      }
+    }, [firstParagraphHtml, showFullDescription]);
+
   return (
     <>
       {" "}
@@ -443,28 +458,24 @@ const EventsHeroSlide = ({
               </div>
 
               {AboutDrop && (
-                <div className="mb-[12px] text-white break-words overflow-hidden">
-                  {/* Show a limited number of lines if showFullDescription is false */}
-                  {showFullDescription ? (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: descriptionText }}
-                    /> // Render full HTML when expanded
-                  ) : (
-                    <div
-                      className="line-clamp-3 overflow-hidden"
-                      dangerouslySetInnerHTML={{ __html: firstParagraphHtml }}
-                    />
-                  )}
+        <div className="mb-[12px] text-white break-words overflow-hidden" ref={textRef}>
+          {showFullDescription ? (
+            <div dangerouslySetInnerHTML={{ __html: descriptionText }} />
+          ) : (
+            <div className="line-clamp-3 overflow-hidden" dangerouslySetInnerHTML={{ __html: firstParagraphHtml }} />
+          )}
 
-                  {/* Button to toggle between showing more or less */}
-                  <button
-                    onClick={toggleDescription}
-                    className="text-[#13FF7A] text-sm font-bold md:text-base cursor-pointer mt-2"
-                  >
-                    {showFullDescription ? "Show Less" : "Read More"}
-                  </button>
-                </div>
-              )}
+          {/* Show "Read More" if text is overflowing, or show "Show Less" when expanded */}
+          {isOverflowing && (
+            <button
+              onClick={toggleDescription}
+              className="text-[#13FF7A] text-sm font-bold md:text-base cursor-pointer mt-2"
+            >
+              {showFullDescription ? "Show Less" : "Read More"}
+            </button>
+          )}
+        </div>
+      )}
             </div>
           </div>
           <BuyTicket

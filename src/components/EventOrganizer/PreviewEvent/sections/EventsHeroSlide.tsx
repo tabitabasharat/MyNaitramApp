@@ -32,6 +32,8 @@ import stall from "@/assets/stall1.svg";
 import food from "@/assets/dob1.svg";
 import vip from "@/assets/crown1.svg";
 import security from "@/assets/security.svg";
+import { useEffect, useRef } from "react";
+import { any } from "zod";
 
 const EventsHeroSlide = ({
   title,
@@ -54,7 +56,7 @@ const EventsHeroSlide = ({
   instaUrl,
   tiktokUrl,
   ticketsdata,
-  ticketLength
+  ticketLength,
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
@@ -269,21 +271,6 @@ const EventsHeroSlide = ({
     setShowFullDescription((prev) => !prev);
   };
 
-  // const descriptionText = eventdescription || "";
-  // const maxLines = 3;
-
-  // // Function to strip HTML tags
-  // const stripHtmlTags = (html: string) => {
-  //   return html.replace(/<\/?[^>]+(>|$)/g, ""); // Regular expression to remove HTML tags
-  // };
-
-  // Get plain text version without HTML
-  // const plainTextDescription = stripHtmlTags(descriptionText);
-  // const firstParagraph = descriptionText
-  //   .split("\n")
-  //   .slice(0, maxLines)
-  //   .join("\n");
-
   const descriptionText = eventdescription || "";
   const maxLines = 3;
 
@@ -298,8 +285,20 @@ const EventsHeroSlide = ({
     .slice(0, maxLines)
     .join("\n"); // You don't need to remove the HTML tags here anymore
 
+  const myid =
+    typeof window !== "undefined" ? localStorage.getItem("_id") || "" : "";
 
-    const myid = typeof window !== "undefined" ? localStorage.getItem("_id") || "" : "";
+  const textRef :any = useRef(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  useEffect(() => {
+    if (textRef.current ) {
+      const lineHeight : any= parseFloat(getComputedStyle(textRef.current).lineHeight);
+      const oneLineHeight :any = lineHeight; // height of one line
+      setIsOverflowing(textRef.current.scrollHeight > oneLineHeight);
+    }
+  }, [firstParagraphHtml, showFullDescription]);
+  
 
   return (
     <>
@@ -369,49 +368,6 @@ const EventsHeroSlide = ({
               </p>
             </div>
           </div>
-          {/* <div className="mt-[24px]">
-            <p className="text-[20px]">Included</p>
-            <div className="mt-[12px]">
-              {ticketsdata?.map((ticket:any) => (
-                <div key={ticket.type} className="mb-[20px]">
-                  <p className="mb-[12px]">{ticket?.type}</p>
-                  {ticket.options?.map((option:any) => (
-                    <div
-                      key={option.id}
-                      className="flex items-center mb-[12px]"
-                    >
-                      <Image
-                        src={
-                          imageMap[option.label] || location
-                        }
-                        width={30}
-                        height={30}
-                        alt="Option Icon"
-                        className="me-[8px]"
-                      />
-                      <p className="font-bold text-start text-[16px]">
-                        {option.label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div> */}
-          {/* <div
-            className="flex items-center gap-[6px] cursor-pointer mt-[24px] lg:mt-[48px] mb-[12px]"
-            onClick={() => AboutToggle()}
-          >
-            <p className="text-[#13FF7A]">About this event</p>
-            <Image src={Arrowdown} alt="arrow-icon" className="" />
-          </div>
-          {AboutDrop && (
-            <div>
-              <div>
-              <div dangerouslySetInnerHTML={{ __html: eventdescription }} className="text-white break-words overflow-hidden text-ellipsis" />
-              </div>
-            </div>
-          )} */}
           <div>
             <div className="relative">
               <div className="mb-4 md:mt-[48px] mt-[24px]">
@@ -425,53 +381,31 @@ const EventsHeroSlide = ({
                   <Image src={Arrowdown} alt="arrow-down" sizes="16px" />
                 </button>
               </div>
-              {/* <div dangerouslySetInnerHTML={{ __html: eventdescription }} className="text-white break-words overflow-hidden text-ellipsis" /> */}
-
-              {/* {AboutDrop && (
-                <div className="mb-[12px] text-white break-words overflow-hidden">
-                  {showFullDescription ? (
-             <div dangerouslySetInnerHTML={{ __html: eventdescription }} className="text-white break-words overflow-hidden text-ellipsis" /> 
-                   
-                    
-                  ) : (
-                    <div className="line-clamp-3 overflow-hidden">
-                      {firstParagraphh}
-                    </div>
-                
-                  )}
-                  <button
-                    onClick={toggleDescription}
-                    className="text-[#13FF7A]  text-sm font-bold md:text-base cursor-pointer mt-2"
-                  >
-                    {showFullDescription ? "Show Less" : "Read More"}
-                  </button>
-                </div>
-              )} */}
-
               {AboutDrop && (
-                <div className="mb-[12px] text-white break-words overflow-hidden">
+                <div
+                  className="mb-[12px] text-white break-words overflow-hidden"
+                  ref={textRef}
+                >
                   {showFullDescription ? (
                     <div
                       dangerouslySetInnerHTML={{ __html: descriptionText }}
-                    /> // Render full HTML when expanded
+                    />
                   ) : (
                     <div
                       className="line-clamp-3 overflow-hidden"
                       dangerouslySetInnerHTML={{ __html: firstParagraphHtml }}
                     />
                   )}
-
-                  {/* Button to toggle between showing more or less */}
-                  <button
-                    onClick={toggleDescription}
-                    className="text-[#13FF7A] text-sm font-bold md:text-base cursor-pointer mt-2"
-                  >
-                    {showFullDescription ? "Show Less" : "Read More"}
-                  </button>
+                  {isOverflowing && (
+                    <button
+                      onClick={toggleDescription}
+                      className="text-[#13FF7A] text-sm font-bold md:text-base cursor-pointer mt-2"
+                    >
+                      {showFullDescription ? "Show Less" : "Read More"}
+                    </button>
+                  )}
                 </div>
               )}
-
-
             </div>
           </div>
 
@@ -484,7 +418,7 @@ const EventsHeroSlide = ({
             endPrice={ticketEndPrice}
           /> */}
 
-<BuyTicket
+          <BuyTicket
             // eventType={eventType}
             event={event}
             setShowTicket={setShowTicket}

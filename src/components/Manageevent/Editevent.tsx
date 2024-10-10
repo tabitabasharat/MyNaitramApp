@@ -260,7 +260,7 @@ const themeMui: any = createTheme({
           color: "#ffffff",
         },
         paper: {
-          backgroundColor: "#505050",
+          backgroundColor: "#1a1a1a",
           color: "#ffffff",
           borderRadius: "12px",
         },
@@ -269,7 +269,7 @@ const themeMui: any = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: "#505050",
+          backgroundColor: "#1a1a1a",
           // width: "90%",
         },
       },
@@ -367,7 +367,7 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
     background-color: #eaea87;
     color: #ffffff;
   }
-  &. MuiTypography-root {
+  & .MuiTypography-root {
     color: #ffffff;
   }
   //  & .MuiDialog-paper {

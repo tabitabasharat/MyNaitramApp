@@ -100,7 +100,7 @@ export default function AboutPage ()  {
               <p className=" md:max-w-[55.338%] text-center md:text-xl text-[16px] text-white mb-[1.6em]">
                 The ticketing system, positioned at the bottom, serves as a
                 foundation for connecting fans, artists, and organisers,
-                emphasising the importance of addressing fans’ needs and
+                emphasising the importance of addressing fans needs and
                 experiences while empowering all stakeholders above it.
               </p>
             </div>
