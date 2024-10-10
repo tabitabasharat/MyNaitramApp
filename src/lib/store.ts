@@ -44,6 +44,7 @@ import getWalletHistory from "./reducer/getWalletHistory";
 
 import  getOrgLiveSocialProfile  from "./reducer/getOrgLiveSocialProfile";
 import getFollowStatus from "./reducer/getFollowStatus";
+import getPastEventBox from "./reducer/getPastEventsBox"
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -54,6 +55,7 @@ const appReducer = combineReducers({
   getViewAllEvents: getViewAllEvents,
   getEventByEventID: getEventByEventID,
   getPastEvents: getPastEvents,
+  getPastEventsBox: getPastEventBox,
   getEventCount: getEventCount,
   getUserLiveEvents: getUserLiveEvents,
   getShowProfile: getShowProfile,

@@ -246,6 +246,29 @@ export const getViewPastEvents = createAsyncThunk(
   }
 );
 
+export const getViewPastEventsBox = createAsyncThunk(
+  "getViewPastEventsBox",
+  async (data: any) => {
+    try {
+      console.log("inside get Past Events ");
+      const res = await api.get(
+        `${API_URL}/event/getPastEvents?page=${data?.page ? data?.page : 1}`
+      );
+      console.log("inside get Past Events ", res);
+      // localStorage.setItem("token", res?.data?.token);
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+      };
+    } catch (error: any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  }
+);
+
 export const getEventCount = createAsyncThunk(
   "getEventCount",
   async (data: any) => {
@@ -328,7 +351,7 @@ export const updateEvent = createAsyncThunk(
         instaUrl: data?.instaUrl,
         youtubeUrl: data?.youtubeUrl,
         twitterUrl: data?.twitterUrl,
-        telegramUrl:data?.telegramUrl,
+        telegramUrl: data?.telegramUrl,
         tiktokUrl: data?.tiktokUrl,
         linkedinUrl: data?.linkedinUrl,
         eventmedia: data?.eventmedia,
@@ -434,16 +457,15 @@ export const ticketStatus = createAsyncThunk(
   }
 );
 
-
-
-
 export const FollowPromoterStatus = createAsyncThunk(
   "FollowPromoterStatus",
   async (data: any) => {
     try {
       console.log("inside get FollowPromoterStatus ");
 
-      const res = await api.get(`${API_URL}/reward/checkFollowStatus/${data?.userId}/${data?.followId}`);
+      const res = await api.get(
+        `${API_URL}/reward/checkFollowStatus/${data?.userId}/${data?.followId}`
+      );
 
       // const res = await api.post(`${API_URL}/reward/checkFollowStatus`, data);
       console.log("inside get FollowPromoterStatus", res);

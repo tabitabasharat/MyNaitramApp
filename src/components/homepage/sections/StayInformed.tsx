@@ -12,13 +12,14 @@ import {
   ErrorToast,
   SuccessToast,
 } from "@/components/reusable-components/Toaster/Toaster";
+import { getViewPastEventsBox } from "@/lib/middleware/event";
 
 const StayInformed = () => {
   const [Email, setEmail] = useState<any>("");
   const [loader,setLoader] = useState(false);
   const dispatch = useAppDispatch();
   const EventsPastData = useAppSelector(
-    (state: any) => state?.getPastEvents?.ViewPastEvents?.data
+    (state: any) => state?.getPastEventsBox?.ViewPastEvents?.data
   );
   const filteredEvent = EventsPastData?.events?.filter(
     (event: any) => event.name === "TAKEOVR Boat Party"
@@ -58,6 +59,13 @@ const StayInformed = () => {
       ErrorToast(error);
     }
   }
+
+  useEffect(()=>{
+    const data={
+      page:1
+    }
+dispatch(getViewPastEventsBox(data))
+  },[])
   return (
     <div
       style={{ height: "" }}

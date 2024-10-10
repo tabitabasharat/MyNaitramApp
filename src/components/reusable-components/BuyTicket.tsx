@@ -12,6 +12,8 @@ import { useRouter } from "next/navigation";
 import { getTicketsById } from "@/lib/middleware/event";
 import { ticketStatus } from "@/lib/middleware/event";
 import { useParams } from "next/navigation";
+import { usePathname } from "next/navigation";
+
 const BuyTicket = ({
   eventid,
   event,
@@ -26,6 +28,7 @@ const BuyTicket = ({
   const dispatch = useAppDispatch();
   const router = useRouter();
   const params = useParams<any>();
+  const pathname = usePathname();
 
   const [token, setToken] = useState<any>();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
@@ -45,6 +48,7 @@ const BuyTicket = ({
     dispatch(getTicketsById(id));
     TicketHandle();
   }, []);
+ 
 
   const EventDetail = useAppSelector(
     (state: any) => state?.getTicket?.specificEvent?.data
@@ -55,6 +59,7 @@ const BuyTicket = ({
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
     setToken(token);
   }, [isLoginDialogOpen]);
+
   useEffect(() => {
     const token =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -137,7 +142,15 @@ const BuyTicket = ({
             One ticket per person
           </p>
         </div>
-        {viewTicket ? (
+
+        {pathname === "/preview-event" ? (
+          <div className="w-full lg:w-auto">
+            <Button disabled className="text-black px-[4rem] lg:py-7 w-full lg:w-fit">
+              Buy Ticket
+            </Button>
+          </div>
+        ) :
+        viewTicket ? (
           <div>
             <Button
               onClick={() => {

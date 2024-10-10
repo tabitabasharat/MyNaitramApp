@@ -52,7 +52,9 @@ const PersonalSocialProfile = () => {
         style={{ filter: "blur(40px)" }}
         width={1000}
         height={1000}
-        src={"/person1.png"}
+        src={ myProfile?.data?.profile?.profilePicture
+                  ? myProfile?.data?.profile?.profilePicture
+                  : "/person3.jpg"}
         className="w-full object-cover absolute top-0 object-top z-0 opacity-[0.22]  h-screen"
         alt=""
       />
