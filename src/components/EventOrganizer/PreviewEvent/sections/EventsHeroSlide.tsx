@@ -32,6 +32,7 @@ import stall from "@/assets/stall1.svg";
 import food from "@/assets/dob1.svg";
 import vip from "@/assets/crown1.svg";
 import security from "@/assets/security.svg";
+import { useEffect,useRef } from "react";
 
 const EventsHeroSlide = ({
   title,
@@ -269,21 +270,6 @@ const EventsHeroSlide = ({
     setShowFullDescription((prev) => !prev);
   };
 
-  // const descriptionText = eventdescription || "";
-  // const maxLines = 3;
-
-  // // Function to strip HTML tags
-  // const stripHtmlTags = (html: string) => {
-  //   return html.replace(/<\/?[^>]+(>|$)/g, ""); // Regular expression to remove HTML tags
-  // };
-
-  // Get plain text version without HTML
-  // const plainTextDescription = stripHtmlTags(descriptionText);
-  // const firstParagraph = descriptionText
-  //   .split("\n")
-  //   .slice(0, maxLines)
-  //   .join("\n");
-
   const descriptionText = eventdescription || "";
   const maxLines = 3;
 
@@ -300,6 +286,17 @@ const EventsHeroSlide = ({
 
 
     const myid = typeof window !== "undefined" ? localStorage.getItem("_id") || "" : "";
+
+    const textRef = useRef(null);
+    const [isOverflowing, setIsOverflowing] = useState(false);
+  
+    useEffect(() => {
+      if (textRef.current) {
+        const lineHeight = parseFloat(getComputedStyle(textRef.current).lineHeight);
+        const oneLineHeight = lineHeight; // height of one line
+        setIsOverflowing(textRef.current.scrollHeight > oneLineHeight);
+      }
+    }, [firstParagraphHtml, showFullDescription]);
 
   return (
     <>
@@ -447,30 +444,25 @@ const EventsHeroSlide = ({
                   </button>
                 </div>
               )} */}
+ {AboutDrop && (
+        <div className="mb-[12px] text-white break-words overflow-hidden" ref={textRef}>
+          {showFullDescription ? (
+            <div dangerouslySetInnerHTML={{ __html: descriptionText }} />
+          ) : (
+            <div className="line-clamp-3 overflow-hidden" dangerouslySetInnerHTML={{ __html: firstParagraphHtml }} />
+          )}
 
-              {AboutDrop && (
-                <div className="mb-[12px] text-white break-words overflow-hidden">
-                  {showFullDescription ? (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: descriptionText }}
-                    /> // Render full HTML when expanded
-                  ) : (
-                    <div
-                      className="line-clamp-3 overflow-hidden"
-                      dangerouslySetInnerHTML={{ __html: firstParagraphHtml }}
-                    />
-                  )}
-
-                  {/* Button to toggle between showing more or less */}
-                  <button
-                    onClick={toggleDescription}
-                    className="text-[#13FF7A] text-sm font-bold md:text-base cursor-pointer mt-2"
-                  >
-                    {showFullDescription ? "Show Less" : "Read More"}
-                  </button>
-                </div>
-              )}
-
+          {/* Show "Read More" if text is overflowing, or show "Show Less" when expanded */}
+          {isOverflowing && (
+            <button
+              onClick={toggleDescription}
+              className="text-[#13FF7A] text-sm font-bold md:text-base cursor-pointer mt-2"
+            >
+              {showFullDescription ? "Show Less" : "Read More"}
+            </button>
+          )}
+        </div>
+      )}
 
             </div>
           </div>

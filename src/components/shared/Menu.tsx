@@ -8,6 +8,8 @@ import {
   InstagramLogo,
   YoutubeLogo,
 } from "@phosphor-icons/react/dist/ssr";
+import arrowUp from "@/assets/Arrow up.svg";
+import arrowDown from "@/assets/aboutdropdown.svg";
 import twitter from "@/assets/prime_twitter.svg";
 import logo from "@/assets/logo.svg";
 import { slide } from "@/components/animations/variants";
@@ -17,11 +19,10 @@ import Image from "next/image";
 import SignInModal from "@/components/auth/SignInModal";
 import SignUpModal from "@/components/auth/SignUpModal";
 import { AuthMode } from "@/types/types";
-import arrowdown from "@/assets/aboutdropdown.svg";
-import dropdown from "@/assets/aboutdropdown.svg";
 import naitramLogo from "@/assets/naitram-logo-white.svg";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
+import { useRef } from "react";
 const Menu = ({
   authMode,
   setAuthMode,
@@ -77,15 +78,6 @@ const Menu = ({
   const dispatch = useAppDispatch();
   const router = useRouter();
   const count = useAppSelector((state) => state?.signIn);
-  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
-
-  const handleDropdownToggle = (id: number) => {
-    if (activeDropdown === id) {
-      setActiveDropdown(null); // Close if already open
-    } else {
-      setActiveDropdown(id); // Open the clicked dropdown
-    }
-  };
 
   const logout = () => {
     localStorage.clear();
@@ -112,6 +104,29 @@ const Menu = ({
     }
   };
 
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const dropdownRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  const handleDropdownToggle = (id: number) => {
+    setActiveDropdown((prev) => (prev === id ? null : id));
+  };
+
+  // Detect clicks outside any dropdown to close it
+  const handleClickOutside = (event: MouseEvent) => {
+    const clickedOutside = dropdownRefs.current.every(
+      (ref) => ref && !ref.contains(event.target as Node)
+    );
+    if (clickedOutside) setActiveDropdown(null);
+  };
+
+  // Listen for clicks outside of the dropdown to close it
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       <motion.div
@@ -132,7 +147,7 @@ const Menu = ({
               className="flex items-center w-[40px] h-[40px] gap-[0.1rem] translate-x-[0.6rem]"
             >
               <div className="text-white w-[40px] flex h-[40px]">
-                <Hamburger toggled={menuIsOpen} size={22}  />
+                <Hamburger toggled={menuIsOpen} size={22} />
               </div>
             </button>
           </div>
@@ -147,26 +162,33 @@ const Menu = ({
                 className="relative w-fit group"
               >
                 {link.subLinks ? (
-                  <div className="relative flex items-center">
+                  <div
+                    className="relative flex items-center"
+                    ref={(el) => (dropdownRefs.current[i] = el)}
+                  >
                     {/* Main link (e.g., "Rewards", "About") */}
                     <Link
                       href={link.href}
-                      onClick={() => setMenuIsOpen(false)} // Close menu when clicked
+                      onClick={() => setActiveDropdown(null)} // Close menu when clicked
                       className="relative cursor-pointer"
                     >
                       {link.name || link.title}
                       <div className="absolute h-[1px] bottom-[0.15rem] scale-x-0 w-full group-hover:scale-x-100 bg-white duration-300 origin-left"></div>
                     </Link>
 
-                    {/* Arrow for dropdown toggle (works independently) */}
+                    {/* Arrow for dropdown toggle */}
                     {(link.id === 2 || link.id === 4) && (
                       <div
                         className="ml-2 cursor-pointer"
                         onClick={() => handleDropdownToggle(link.id)} // Toggle dropdown
                       >
                         <Image
-                          src={arrowdown}
-                          alt="Arrow Down"
+                          src={activeDropdown === link.id ? arrowUp : arrowDown}
+                          alt={
+                            activeDropdown === link.id
+                              ? "Arrow Up"
+                              : "Arrow Down"
+                          }
                           className="ml-[5px]"
                           sizes="12px"
                         />
@@ -195,7 +217,7 @@ const Menu = ({
                 ) : (
                   <Link
                     href={link.href || "#"}
-                    onClick={() => setMenuIsOpen(false)} // Close menu when clicked
+                    onClick={() => setActiveDropdown(null)} // Close menu when clicked
                     className="relative"
                   >
                     {link.name || link.title}
@@ -204,7 +226,6 @@ const Menu = ({
                 )}
               </motion.div>
             ))}
-
             {/* <Dialog>
               <DialogTrigger asChild> */}
             <motion.div
@@ -222,7 +243,9 @@ const Menu = ({
                 variant="secondary"
                 className="bg-[#13FF7A] p-[12px] py-[8px] font- font-extrabold text-base lg:mr-[12px]"
                 // onClick={() => router.push("/organizer-event/event-dashboard")}
-                onClick={()=>{handleHostToggle()}}
+                onClick={() => {
+                  handleHostToggle();
+                }}
               >
                 Host Event
               </Button>
@@ -331,60 +354,66 @@ const Menu = ({
             className="mt-[2.6rem] text-white flex items-center gap-[1.3rem] pb-[2rem]"
           >
             <div className="flex gap-[0.5rem] mt-[0.8rem]">
-            <Link
-              target="_blank"
-              href="https://www.linkedin.com/company/naitramlive/"
-            >
-              <LinkedinLogo className="w-[32px] h-[32px]" weight="fill" />
-            </Link>
-            <Link
-              target="_blank"
-              href="https://www.instagram.com/naitram.developments?igsh=OGRxd2RuYmMzazFp"
-            >
-              <InstagramLogo className="w-[32px] h-[32px]" weight="fill" />
-            </Link>
-            <Link
-              target="_blank"
-              href="https://www.instagram.com/naitram.live?igsh=MXh0amo4YWFyemF4aA=="
-            >
-              <InstagramLogo className="w-[32px] h-[32px]" weight="fill" />
-            </Link>
-            {/* <Link target="_blank" href="">
+              <Link
+                target="_blank"
+                href="https://www.linkedin.com/company/naitramlive/"
+              >
+                <LinkedinLogo className="w-[32px] h-[32px]" weight="fill" />
+              </Link>
+              <Link
+                target="_blank"
+                href="https://www.instagram.com/naitram.developments?igsh=OGRxd2RuYmMzazFp"
+              >
+                <InstagramLogo className="w-[32px] h-[32px]" weight="fill" />
+              </Link>
+              <Link
+                target="_blank"
+                href="https://www.instagram.com/naitram.live?igsh=MXh0amo4YWFyemF4aA=="
+              >
+                <InstagramLogo className="w-[32px] h-[32px]" weight="fill" />
+              </Link>
+              {/* <Link target="_blank" href="">
               <FacebookLogo  className="w-[32px] h-[32px]" weight="fill" />
             </Link> */}
-            <Link
-              target="_blank"
-              href="https://www.tiktok.com/@naitram.verified?_t=8qCgj42cequ&_r=1"
-            >
-              <TiktokLogo className="w-[32px] h-[32px]" weight="fill" />
-            </Link>
-            <Link
-              target="_blank"
-              href="https://www.tiktok.com/@naitram.entertainment?_t=8qCgbmu3oB7&_r=1"
-            >
-              <TiktokLogo className="w-[32px] h-[32px]" weight="fill" />
-            </Link>
+              <Link
+                target="_blank"
+                href="https://www.tiktok.com/@naitram.verified?_t=8qCgj42cequ&_r=1"
+              >
+                <TiktokLogo className="w-[32px] h-[32px]" weight="fill" />
+              </Link>
+              <Link
+                target="_blank"
+                href="https://www.tiktok.com/@naitram.entertainment?_t=8qCgbmu3oB7&_r=1"
+              >
+                <TiktokLogo className="w-[32px] h-[32px]" weight="fill" />
+              </Link>
 
-            <Link
-              target="_blank"
-              href="https://x.com/naitramlive?s=21&t=GGj-Zie78PovWf6riV3N1A"
-            >
-              {/* <TwitterLogo size={30} weight="fill" /> */}
-              <Image
-                src={twitter}
-                className="w-[30px] h-[30px]"
-                alt="twitter"
-              />
-            </Link>
-            {/* <Link target="_blank" href="">
+              <Link
+                target="_blank"
+                href="https://x.com/naitramlive?s=21&t=GGj-Zie78PovWf6riV3N1A"
+              >
+                {/* <TwitterLogo size={30} weight="fill" /> */}
+                <Image
+                  src={twitter}
+                  className="w-[30px] h-[30px]"
+                  alt="twitter"
+                />
+              </Link>
+              {/* <Link target="_blank" href="">
               <TelegramLogo className="w-[32px] h-[32px]" weight="fill" />
             </Link> */}
-            <Link target="_blank" href="https://youtube.com/@naitramlive?si=PQqyX_n8DcQ_H1nc">
-              <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
-            </Link> 
-            <Link target="_blank" href="https://youtube.com/@naitram.entertainment?si=rYyYuGCajrn2v3TM">
-              <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
-            </Link> 
+              <Link
+                target="_blank"
+                href="https://youtube.com/@naitramlive?si=PQqyX_n8DcQ_H1nc"
+              >
+                <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
+              </Link>
+              <Link
+                target="_blank"
+                href="https://youtube.com/@naitram.entertainment?si=rYyYuGCajrn2v3TM"
+              >
+                <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
+              </Link>
             </div>
           </motion.div>
         </div>

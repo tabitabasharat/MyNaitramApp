@@ -6,10 +6,13 @@ import naitramlogo from "@/assets/naitram-logo-white.svg";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
-import arrowdown from "@/assets/aboutdropdown.svg";
 import { cn, shimmer, toBase64 } from "@/lib/utils";
+import { useRef } from "react";
 import { Sling as Hamburger } from "hamburger-react";
 import { useEffect, useState } from "react";
+import arrowup from "@/assets/Arrow up.svg";
+import arrowdown from "@/assets/aboutdropdown.svg";
+// import arrowDownIcon from "@/assets/arrow-down-drop.svg"
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   Popover,
@@ -31,7 +34,10 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { showProfile } from "@/lib/middleware/profile";
 import bellred from "@/assets/Wallet/bell red.svg";
-import { getUserNotifications,getOrgNotifications } from "@/lib/middleware/notification";
+import {
+  getUserNotifications,
+  getOrgNotifications,
+} from "@/lib/middleware/notification";
 const Header = () => {
   const router = useRouter();
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
@@ -41,6 +47,31 @@ const Header = () => {
   const [notifPopupOpen, setNotifPopupOpen] = useState(false);
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   // const [Unreadnotification,setUnreadNotification] = useState<any>("");
+
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null); // Track the currently open dropdown
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  // Toggle dropdown function
+  const handleDropdownToggle = (id: number) => {
+    setOpenDropdown((prev) => (prev === id ? null : id));
+  };
+
+  // Click outside handler to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdown(null); // Close dropdown if click is outside
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const count = useAppSelector((state) => state?.signIn);
   console.log(count, "this is good");
@@ -117,12 +148,12 @@ const Header = () => {
   const myProfile = useAppSelector(
     (state) => state?.getShowProfile?.myProfile?.data
   );
-  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
+  // const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
-  const handleDropdownToggle = (id: number) => {
-    setOpenDropdown(openDropdown === id ? null : id);
-  };
-  console.log("my Profile is", myProfile);
+  // const handleDropdownToggle = (id: number) => {
+  //   setOpenDropdown(openDropdown === id ? null : id);
+  // };
+  // console.log("my Profile is", myProfile);
 
   const handleHostToggle = () => {
     if (!token) {
@@ -140,13 +171,9 @@ const Header = () => {
     (state) => state?.getUserNotifications?.myNotifications?.data
   );
   const Unreadnotification =
-     Notify && Notify?.some((item: any) => item && item?.NotifyRead === false);
-     console.log("Notify:", Notify);
-     console.log("Unreadnotification:", Unreadnotification);
-    // useEffect(() => {
-    //   const hasUnread = Notify && Notify.some((item:any) => item?.NotifyRead === false);
-    //   setUnreadNotification(hasUnread);
-    // }, [Notify]);
+    Notify && Notify?.some((item: any) => item && item?.NotifyRead === false);
+  console.log("Notify:", Notify);
+  console.log("Unreadnotification:", Unreadnotification);
   return (
     <>
       <AnimatePresence mode="wait">
@@ -183,28 +210,33 @@ const Header = () => {
         </Link>
         <nav className="nav-inside">
           {links.map((link) => (
-            <div key={link.id} className="relative group">
+            <div
+              key={link.id}
+              className="relative group"
+              ref={link.id === openDropdown ? dropdownRef : null}
+            >
               {/* Main Link */}
               <div className="flex items-center cursor-pointer">
                 <Link
                   href={link.url}
-                  className={cn("", {
-                    "text-base font-normal": pathname === link.url,
-                  })}
+                  className={`text-base font-normal ${
+                    pathname === link.url ? "active" : ""
+                  }`}
                 >
                   {link.title}
                 </Link>
 
+                {/* Toggle arrows only for IDs 2 and 4 */}
                 {(link.id === 2 || link.id === 4) && (
                   <Image
-                    src={arrowdown} // Specify your image path here
+                    src={openDropdown === link.id ? arrowup : arrowdown} // Change icon based on state
                     alt={`${link.title} Arrow`}
-                    width={12} // Adjust width and height as needed
+                    width={12}
                     height={12}
-                    className="ml-[5px] inline cursor-pointer" // Adjust styling as needed
+                    className="ml-[5px] h-[12px] w-[12px] inline cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault(); // Prevent link redirection
-                      handleDropdownToggle(link.id); // Open/close dropdown
+                      handleDropdownToggle(link.id); // Toggle dropdown
                     }}
                   />
                 )}
@@ -232,18 +264,8 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center">
-          {/* {token && (
-            <Button
-              className="hidden p-[12px] py-[8px] font- font-extrabold text-base lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
-              onClick={() => router.push("/organizer-event/event-dashboard")}
-            >
-              Host Event
-            </Button>
-          )} */}
-
           <Button
             className="hidden p-[12px] py-[8px] font- font-extrabold text-base lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
-            // onClick={() => router.push("/organizer-event/event-dashboard")}
             onClick={() => handleHostToggle()}
           >
             Host Event
@@ -288,18 +310,16 @@ const Header = () => {
                   className="relative z-[1200] cursor-pointer"
                 >
                   {Unreadnotification ? (
-                     <Image
-                     className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer"
-                     src={bellred}
-                     alt="unread-bell"
-                   />
+                    <Image
+                      className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer"
+                      src={bellred}
+                      alt="unread-bell"
+                    />
                   ) : (
-                   
                     <Bell className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer" />
-
                   )}
                 </PopoverTrigger>
-              
+
                 <PopoverContent className="cursor-pointer relative z-[1200] text-white border border-muted shadow-custom bg-black w-[350px] lg:w-[400px] rounded-2xl  -translate-x-4 translate-y-6">
                   <ScrollArea className="h-[658px] px-[8px] pb-[62px] border-none ">
                     <NotificationPopUp setNotifPopupOpen={setNotifPopupOpen} />

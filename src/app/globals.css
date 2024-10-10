@@ -620,7 +620,21 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Hide scrollbar in Chrome, Safari, Edge */
 }
-
+.MuiDateTimePickerTabs-root {
+  display: none !important;
+}
+.MuiTypography-root-MuiPickersToolbarText-root{
+  display: none !important;
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* Show up to 3 lines */
+  overflow: hidden;
+}
+.MuiPickersToolbarText-root.Mui-selected{
+  display: none !important;
+}
 .scrollbar-hide {
   -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
   scrollbar-width: none; /* Hide scrollbar in Firefox */
