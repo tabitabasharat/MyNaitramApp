@@ -309,7 +309,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
             </ListItem>
           </Link>
         </List>
-        <List className="bg-[black] pt-[24px] h-[30%] pb-[0px] text-[white]">
+        <List className="bg-[black] pt-[24px] h-[18%] md:h-[20%] lg:h-[25%] pb-[0px] text-[white]">
           <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">
             HELP
           </h3>
@@ -340,7 +340,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
             </Link>
           ))}
         </List>
-        <div className="mt-[30px] pb-[50px] md:mt-[60px]">
+        <div className="mt-[30px] pb-[50px] md:mt-[60px] xl:mt-[40px]">
         <button
           className="text-[white] mb-[50px] md:me-[21px] me-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
           onClick={Logout}

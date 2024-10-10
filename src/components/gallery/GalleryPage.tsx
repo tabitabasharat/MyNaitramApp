@@ -64,7 +64,7 @@ const GalleryPage = () => {
             NAITRAM GALLERY
           </h2>
           <p className="max-w-[90%] sm:max-w-[75%] lg:max-w-[55.53%]">
-            We are not just changing the game; we’re redefining it. Born from a
+            We are not just changing the game we’re redefining it. Born from a
             visionary idea to a revolutionary experience, we stand at the
             vanguard of the events and entertainment industry’s transformation.
           </p>

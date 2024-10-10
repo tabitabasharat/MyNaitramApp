@@ -57,7 +57,7 @@ const FilterSideBar = () => {
     "Government",
     "Fashion",
     "Home & Lifestyle",
-    "Auto, Biat & Air",
+    "Auto, Boat & Air",
     "Hobbies",
     "Family & Education",
     "School Activities",
@@ -176,6 +176,12 @@ const FilterSideBar = () => {
     ? categories
     : categories.slice(0, 6);
 
+
+ 
+    const toggleDateDropdownOpen = () => {
+      setToggleDrop((prev) => !prev);
+    };
+
   return (
     <div className="lg:w-[300px]">
       <div className="flex md:flex-col lg:flex-row justify-between gap-1 lg:gap-0">
@@ -261,49 +267,59 @@ const FilterSideBar = () => {
       </div>
       <hr className="opacity-20 h-px mt-4" />
       <div className="flex flex-col gap-[0.6rem]">
-        <div className="flex gap-3 mt-6">
-          <Image src={sortby} alt="sortby" />
-          <p className="font-bold text-base">Sort By</p>
-        </div>
-        <div
-          className="flex items-center justify-between cursor-pointer"
-          onClick={() => toggleDateDropdown()}
-        >
-          <p>Date</p>
-          <Image src={downarrow} alt="arrow" className="cursor-pointer" />
-        </div>
-        {toggleDrop && (
-          <div className="flex flex-col items-start gap-[12px]">
-            <Button
-              className="gradient-slate text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border border-muted"
-              onClick={handleStartDateChange}
-            >
-              Start Date
-            </Button>
-            <Button
-              className="gradient-slate  text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border border-muted"
-              onClick={handleEndDateChange}
-            >
-              End Date
-            </Button>
-          </div>
-        )}
-        {showDatePicker && (
-          <DatePicker
-            setSelectedDate={(date: Date | null) => {
-              setChosenDate(date);
-            }}
-          />
-        )}
-
-        {showEndDatePicker && (
-          <DatePicker
-            setSelectedDate={(date: Date | null) => {
-              setChosenEndDate(date);
-            }}
-          />
-        )}
+      <div className="flex gap-3 mt-6">
+        <Image src={sortby} alt="sortby" />
+        <p className="font-bold text-base">Sort By</p>
       </div>
+
+      {/* Clickable Dropdown Toggle */}
+      <div
+        className="flex items-center justify-between cursor-pointer"
+        onClick={toggleDateDropdownOpen}
+      >
+        <p>Date</p>
+        <Image 
+          src={toggleDrop ? arrowup : arrowdown} // Switch the arrow based on toggleDrop state
+          alt="arrow" 
+          className="cursor-pointer" 
+        />
+      </div>
+
+      {/* Date Options */}
+      {toggleDrop && (
+        <div className="flex flex-col items-start gap-[12px]">
+          <Button
+            className="gradient-slate text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border border-muted"
+            onClick={handleStartDateChange}
+          >
+            Start Date
+          </Button>
+          <Button
+            className="gradient-slate  text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border border-muted"
+            onClick={handleEndDateChange}
+          >
+            End Date
+          </Button>
+        </div>
+      )}
+
+      {/* Date Picker Components */}
+      {showDatePicker && (
+        <DatePicker
+          setSelectedDate={(date: Date | null) => {
+            setChosenDate(date);
+          }}
+        />
+      )}
+
+      {showEndDatePicker && (
+        <DatePicker
+          setSelectedDate={(date: Date | null) => {
+            setChosenEndDate(date);
+          }}
+        />
+      )}
+    </div>
     </div>
   );
 };

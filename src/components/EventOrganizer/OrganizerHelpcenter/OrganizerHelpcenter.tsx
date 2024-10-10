@@ -298,7 +298,7 @@ const OrganizerHelpcenter = ({
               />
 
               <div className="w-full border border-muted rounded-[12px]">
-                <div className="px-[24px] py-[16px] relative create-container  w-full">
+                <div className="px-[24px] py-[16px] relative create-container w-full">
                   <div className="flex justify-between">
                     <h1 className="text-[16px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
                       {" "}

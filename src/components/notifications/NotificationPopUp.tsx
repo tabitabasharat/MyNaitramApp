@@ -136,7 +136,7 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
             className={`text-center text-sm font-bold pb-[16px] ${
               activeTab === "ORGANISER"
                 ? "text-[white] border-[#00A849] border-b-2"
-                : "border-b-1 text-[#757575] border-[#292929]"
+                : "border-b text-[#757575] border-solid border-[#292929]"
             } cursor-pointer`}
             onClick={() => setActiveTab("ORGANISER")}
           >
