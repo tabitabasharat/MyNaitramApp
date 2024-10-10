@@ -351,7 +351,7 @@ const EventsHeroSlide = ({
 
     const myid = typeof window !== "undefined" ? localStorage.getItem("_id") || "" : "";
 
-    const textRef = useRef(null);
+    const textRef:any = useRef(null);
     const [isOverflowing, setIsOverflowing] = useState(false);
   
     useEffect(() => {
