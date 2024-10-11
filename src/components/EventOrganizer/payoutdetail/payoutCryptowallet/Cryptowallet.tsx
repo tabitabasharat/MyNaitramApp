@@ -20,6 +20,7 @@ import {
   SuccessToast,
   ErrorToast,
 } from "@/components/reusable-components/Toaster/Toaster";
+import { Button } from "@/components/ui/button";
 
 const Cryptowallet = () => {
   const router = useRouter();
@@ -110,7 +111,7 @@ const Cryptowallet = () => {
               href="/organizer-event/payout-detail/cryptowallet/addCryptowallet"
               className="w-full md:w-fit"
             >
-              <button className="text-[#00D059] text-[11px] font-extrabold table-gradient w-full md:w-fit py-[10px] px-[0px] md:p-[20px] rounded-[100px] add-bank-account-border flex items-center justify-center gap-[8px]">
+              <Button className="text-[#00D059] text-[11px] font-extrabold table-gradient w-full md:w-fit py-[10px] px-[0px] md:p-[20px] rounded-[100px] add-bank-account-border flex items-center justify-center gap-[8px]">
                 {" "}
                 <Image
                   src={add}
@@ -118,10 +119,10 @@ const Cryptowallet = () => {
                   className="lg:h-[12px] lg:w-[12px] w-[16px] h-[16px]"
                 />{" "}
                 <p>Add Crypto Wallet </p>
-              </button>
+              </Button>
             </Link>
 
-            <button
+            <Button
               className="bg-[#FF1717B2] text-[11px] font-extrabold w-full 
           md:w-fit py-[10px] px-[0px] text-[white] md:p-[20px]
            rounded-[100px] flex items-center justify-center gap-[8px]"
@@ -134,7 +135,7 @@ const Cryptowallet = () => {
                 className=" lg:h-[12px] lg:w-[12px] w-[16px] h-[16px]"
               />{" "}
               <p> Delete Crypto Account </p>
-            </button>
+            </Button>
           </div>
         )}
 

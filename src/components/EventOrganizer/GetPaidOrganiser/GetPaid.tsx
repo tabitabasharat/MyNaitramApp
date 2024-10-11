@@ -12,6 +12,7 @@ import ScreenLoader from "@/components/loader/Screenloader";
 import rocket from "@/assets/Wallet/rocket-empty.svg";
 import { useRouter } from "next/navigation";
 import Pagination from "@/components/reusable-components/pagination/Pagination";
+import { Button } from "@/components/ui/button";
 
 const GetPaid = () => {
   const dispatch = useAppDispatch();
@@ -89,13 +90,13 @@ const GetPaid = () => {
       ) : (
         <div className="relative gradient-slate py-[94.5px] border border-[#292929] flex items-center justify-center flex-col gap-[12px] rounded-[12px] w-full">
           <p className="text-[16px] text-extrabold">You have no events</p>
-          <button
+          <Button
             className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto "
             onClick={() => router.push("/organizer-event/launch-event")}
           >
             <Image src={rocket} alt="rocket" />
             Host Event
-          </button>
+          </Button>
         </div>
       )}
     </div>

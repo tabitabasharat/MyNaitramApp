@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import greenticket from "@/assets/greenTicket.svg"
 
 const Hero = () => {
   const router = useRouter();
@@ -52,9 +51,10 @@ const Hero = () => {
             </Reveal>
             <Reveal y={100} width="100%">
               <p className="mt-[12px] text-muted text-base text-center lg:text-start md:w-[60%] lg:w-full md:mx-auto lg:mx-0">
-                Discover a new way to engage with events through Naitram,
+                Discover a new way to engage with events through Naitram and
                 enhance your experience from start to finish. Whether you're
-                attending a conference, festival, or corporate gathering.
+                attending a concert, festival, charity, educational, sport,
+                entertainment, or corporate event.
               </p>
             </Reveal>
           </div>
@@ -77,15 +77,6 @@ const Hero = () => {
               >
                 <DownloadSimple size={20} weight="bold" />
                 <p className=" font-extrabold text-sm"> Download App</p>
-              </Button>
-              <Button
-                onClick={() => {
-                  router.push("/verify-ticket");
-                }}
-                className="flex items-center add-bank-account-border bg-black gap-[4px] p-[12px]"
-              >
-                <Image src={greenticket} alt="greenticket"/>
-                <p className=" font-extrabold text-base text-[#00D059]"> Verify Ticket</p>
               </Button>
               {/* <div>
                 <Button

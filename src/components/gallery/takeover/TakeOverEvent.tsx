@@ -8,7 +8,7 @@ import takeImage4 from "../../../assets/naitramgallery/TAKEOVR/takeovr_set_4.web
 const TakeOverEvent = () => {
   return (
     <section
-      className="md:px-[112px] px-[25px] py-[220px] "
+      className="md:px-[112px] px-[25px] pt-[130px] sm:pt-[160px] pb-[220px]"
       style={{
         backgroundImage: "url(/About/Blur.png)",
         // backgroundPosition: "bottom center",

@@ -342,7 +342,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
         </List>
         <div className="mt-[30px] pb-[50px] md:mt-[60px] xl:mt-[40px]">
         <button
-          className="text-[white] mb-[50px] md:me-[21px] me-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
+          className="text-[white] hover:opacity-80 duration-300 mb-[50px] md:me-[21px] me-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
           onClick={Logout}
         >
           <Image

@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
       }}
       className="min-h-screen  bg-cover bg-no-repeat pb-[80px]"
     >
-      <div className="pxpx mx-2xl pp-inner ">
+      <div className="pxpx mx-2xl pt-[150px] md:pt-[180px]">
         <h1 className="lg:text-[60px] text-[30px] font-[600] mb-[20px] uppercase ">
           Privacy Policy
         </h1>

@@ -183,14 +183,14 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
       className="min-h-screen pt-[76px] bg-cover bg-no-repeat"
     >
       <section className="min-h-screen pxpx mx-2xl pt-[32px] pb-[120px] md:pt-[56px] md:pb-20">
-        <div className="grid grid-cols-3 gap-[4px] events md:gap-4">
+        <div className="grid grid-cols-3 gap-[8px] events md:gap-4">
           {options.map((event) => (
             <div
               key={event.id}
               onClick={() => handleClick(event.id, event.title)}
-              className={`relative flex flex-col flex items-center justify-center md:items-start rounded-[44px] md:rounded-lg w-full md:px-[12px] md:pt-[16px] md:pb-[12px] cursor-pointer  duration-300 ${
+              className={`relative flex flex-col flex items-center justify-center md:items-start pt-[3px] rounded-[44px] md:rounded-lg w-full md:px-[12px] md:pt-[16px] md:pb-[12px] cursor-pointer  duration-300 ${
                 selectedEvent?.id === event.id
-                  ? "gradient-slate text-[#13FF7A] gradient-border-rounded "
+                  ? "gradient-slate text-[#13FF7A] gradient-border-rounded"
                   : "gradient-slate border-muted"
               }`}
             >
@@ -264,23 +264,6 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
             </div>
 
             <AllEventsGrid events={getFilteredEvents()} eventType={title} />
-            {/* All Naitram Events */}
-            {/* <div className="w-full">
-            <div className="w-full relative mb-[32px]">
-              <Input
-                value={searchTerm}
-                className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
-                onChange={(event) => setSearchTerm(event.target.value)}
-                placeholder="Search Event"
-              />
-              <MagnifyingGlass
-                size={20}
-                className="absolute top-1/2 -translate-y-1/2 right-5"
-              />
-            </div>
-
-            <AllEventsGrid events={events} eventType={title} />
-          </div> */}
           </div>
         </div>
       </section>

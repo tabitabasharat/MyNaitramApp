@@ -12,7 +12,7 @@ export default function TermsAndCondition() {
       }}
       className="min-h-screen  bg-cover bg-no-repeat pb-[80px]"
     >
-      <div className="pxpx mx-2xl pp-inner">
+      <div className="pxpx mx-2xl pt-[150px] md:pt-[180px]">
         <h1 className="lg:text-[60px] text-[30px] font-[600] mb-[20px] uppercase ">
           TERMS OF SERVICES / PURCHASE POLICY
         </h1>
@@ -408,12 +408,12 @@ export default function TermsAndCondition() {
               Notices to users will be made via email or through the Naitram
               platform. Notices to Naitram should be sent to:
               <ul className="list-type-none space-y-2 mt-2">
-                <li> 5 Holborn Circus</li>
-                <li> London</li>
+                <li>-5 Holborn Circus</li>
+                <li>-London</li>
 
-                <li> United Kingdom</li>
+                <li>-United Kingdom</li>
 
-                <li> EC1N2HB</li>
+                <li>-EC1N2HB</li>
               </ul>
             </li>
           </ol>

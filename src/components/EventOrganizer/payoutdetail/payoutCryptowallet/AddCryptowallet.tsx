@@ -319,7 +319,7 @@ const AddCryptowallet = ({ eventData }: any) => {
                 render={({ field }) => (
                   <FormItem className="mb-[12px] relative md:mb-4 space-y-0">
                     <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                      Name of Wallet
+                      Wallet Type
                     </FormLabel>
                     <User className="absolute right-3 top-[30%]" size={20} />
                     <FormControl>

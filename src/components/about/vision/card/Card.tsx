@@ -25,9 +25,9 @@ export default function Card()  {
     //     </div>
     //   </div>
     // </section>
-    <section className="py-[120px]">
+    <section className="pt-[70px] pb-[75px]  md:py-[120px]">
       <div className="md:max-w-[1140px] flex mx-auto justify-center w-[100%] md:px-0 px-[20px]">
-        <div className="relative border-[#009540] rounded-[20px] border-2 py-[90px] flex flex-col items-center w-[100%]">
+        <div className="relative border-[#009540] rounded-[20px] border-2 py-[50px] md:py-[90px] flex flex-col items-center w-[100%]">
           <div
             className="absolute inset-0 rounded-[20px]"
             style={{

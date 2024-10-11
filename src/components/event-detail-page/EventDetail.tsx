@@ -133,9 +133,9 @@ const EventDetail = () => {
       <div className="pxpx pt-[8rem] lg:pt-[9rem] pb-[6rem] z-[2] flex flex-col xl:flex-row gap-6 lg:gap-12 w-full md:w-[70%] md:mx-auto xl:w-full relative">
         <div className="">
           <div className="flex items-center gap-4 mb-6">
-            <button onClick={() => router.back()} type="button">
+            <Button onClick={() => router.back()} type="button">
               <ArrowLeft size={22} />
-            </button>
+            </Button>
             <p>
               <span className="text-[#BFBFBF]">Event</span> /{" "}
               <span>{EventDetail?.name}</span>

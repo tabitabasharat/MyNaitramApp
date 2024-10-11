@@ -11,7 +11,7 @@ export default function Vision ()  {
         backgroundSize: "cover",
         opacity: "1",
       }}
-      className="flex flex-col justify-center items-center py-[50px] px-[20px] md:px-0"
+      className="flex flex-col justify-center items-center pt-0 md:py-[50px] px-[20px] md:px-0"
     >
       <h2 className="md:text-6xl text-[30px] font-normal text-center text-white mb-[20px]">
         Our Vision

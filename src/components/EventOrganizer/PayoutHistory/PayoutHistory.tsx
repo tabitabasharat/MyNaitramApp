@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 // import SubmitSucessModal from "./SubmitSuccessModal";
 import { getPayoutHistory } from "@/lib/middleware/payout";
 import rocket from "@/assets/Wallet/rocket-empty.svg";
+import { Button } from "@/components/ui/button";
 
 
 const PayoutHistory = () => {
@@ -152,13 +153,13 @@ const PayoutHistory = () => {
         ) : (
           <div className="relative gradient-slate py-[94.5px] border border-[#292929] flex items-center justify-center flex-col gap-[12px] rounded-[12px] w-full">
               <p className="text-[16px] text-extrabold">There's no Payout History</p>
-              <button
+              <Button
                 className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto "
                 onClick={() => router.push("/organizer-event/payout-detail/cryptowallet/addCryptowallet")}
               >
                 <Image src={rocket} alt="add-icon" />
                  See What's On
-              </button>
+              </Button>
             </div>
         )}
       </div>
