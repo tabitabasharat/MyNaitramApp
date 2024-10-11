@@ -65,7 +65,7 @@ const Profile = () => {
     console.log(values);
   }
 
-  const imageUrl = myProfile?.profilePicture?.startsWith("http" || "https")
+  const imageUrl = myProfile?.profilePicture?.startsWith("http") || myProfile?.profilePicture?.startsWith("https")
     ? myProfile?.profilePicture
     : "/person3.jpg";
   console.log("image src is", imageUrl);

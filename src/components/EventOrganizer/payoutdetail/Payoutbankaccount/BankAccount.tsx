@@ -18,6 +18,7 @@ import {
 } from "@/components/reusable-components/Toaster/Toaster";
 import ScreenLoader from "@/components/loader/Screenloader";
 import addicon from "@/assets/Wallet/plus-black.svg";
+import { Button } from "@/components/ui/button";
 
 const BankAccountPayoutDetail = () => {
   const router = useRouter();
@@ -112,7 +113,7 @@ const BankAccountPayoutDetail = () => {
               href="/organizer-event/payout-detail/bankaccount/add-bank-account"
               className="w-full md:w-fit"
             >
-              <button className="text-[#00D059] text-[11px] font-extrabold table-gradient w-full md:w-fit py-[10px] px-[0px] md:p-[20px] rounded-[100px] add-bank-account-border flex items-center justify-center gap-[8px]">
+              <Button className="text-[#00D059] text-[11px] font-extrabold table-gradient w-full md:w-fit py-[10px] px-[0px] md:p-[20px] rounded-[100px] add-bank-account-border flex items-center justify-center gap-[8px]">
                 {" "}
                 <Image
                   src={add}
@@ -120,10 +121,10 @@ const BankAccountPayoutDetail = () => {
                   className="lg:h-[12px] lg:w-[12px] w-[16px] h-[16px]"
                 />{" "}
                 <p>Add Bank Account </p>
-              </button>
+              </Button>
             </Link>
 
-            <button
+            <Button
               className="bg-[#FF1717B2] text-[11px] font-extrabold w-full md:w-fit py-[10px] px-[0px] text-[white]
            md:p-[20px] rounded-[100px] flex items-center justify-center gap-[8px]"
               onClick={() => deleteBank()}
@@ -135,7 +136,7 @@ const BankAccountPayoutDetail = () => {
                 className=" lg:h-[12px] lg:w-[12px] w-[16px] h-[16px]"
               />{" "}
               <p> Delete Bank Account </p>
-            </button>
+            </Button>
           </div>
         )}
         <div className="flex gap-[32px] lg:gap-[24px] flex-col h-[500px] overflow-auto scrollbar-hide">
@@ -243,7 +244,7 @@ const BankAccountPayoutDetail = () => {
               <p className="text-[16px] text-extrabold">
                 There's no Bank Account
               </p>
-              <button
+              <Button
                 className="text-[14px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto "
                 onClick={() =>
                   router.push(
@@ -253,25 +254,10 @@ const BankAccountPayoutDetail = () => {
               >
                 <Image src={addicon} alt="add-icon" />
                 Add Bank Account
-              </button>
+              </Button>
             </div>
           )}
         </div>
-
-        {/* <div
-          onClick={() => setOpenModal(true)}
-          className="flex lg:mb-[158px] mb-[32px] mt-[39px] md:mt-[32px] w-full mt-[20px] lg:mt-[32px] md:w-[676px]"
-        >
-          <button className="text-sm w-full lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]">
-            Payout
-          </button>
-          {openModal && (
-          <SubmitSucessModal
-            onClose={() => setOpenModal(false)}
-            open={() => setOpenModal(true)}
-          />
-        )}
-        </div> */}
       </div>
     </div>
     // </section>

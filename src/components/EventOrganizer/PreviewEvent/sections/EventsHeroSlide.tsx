@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useState } from "react";
 import clander from "@/assets/startdate.svg";
 import time from "@/assets/endDate.svg";
+import Arrowup from "@/assets/arrow up.svg"
 import { top5Events } from "@/lib/dummyData";
 import {
   DownloadSimple,
@@ -369,18 +370,25 @@ const EventsHeroSlide = ({
             </div>
           </div>
           <div>
-            <div className="relative">
+          <div className="relative">
               <div className="mb-4 md:mt-[48px] mt-[24px]">
                 <button
                   onClick={AboutToggle}
                   className="text-white flex items-center gap-[10px]"
                 >
                   <p className="text-[#13FF7A] text-sm font-bold md:text-base">
-                    About this event{" "}
-                  </p>{" "}
-                  <Image src={Arrowdown} alt="arrow-down" sizes="16px" />
+                    About this event
+                  </p>
+                  {/* Toggle between arrow down and arrow up based on AboutDrop state */}
+                  <Image
+                    src={AboutDrop ? Arrowdown : Arrowup}
+                    alt="arrow"
+                    sizes="16px"
+                    className="h-[16px] w-[16px]"
+                  />
                 </button>
               </div>
+
               {AboutDrop && (
                 <div
                   className="mb-[12px] text-white break-words overflow-hidden"
@@ -396,6 +404,8 @@ const EventsHeroSlide = ({
                       dangerouslySetInnerHTML={{ __html: firstParagraphHtml }}
                     />
                   )}
+
+                  {/* Show "Read More" if text is overflowing, or "Show Less" when expanded */}
                   {isOverflowing && (
                     <button
                       onClick={toggleDescription}

@@ -20,6 +20,7 @@ import {
 } from "@/lib/middleware/payout";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import NotPaidModal from "./NotPaidModal";
+import { Button } from "@/components/ui/button";
 
 interface ReceviePaymentModalProps {
   onClose: () => void;
@@ -142,13 +143,13 @@ const ReceviePaymentModal = ({
               {/* <Link
                 href={`/fund-rised/bank-account/${eventID}?ticketSold=${ticketSold}&PlatformFee=${platformFee}&Payout=${payoutAvailable}`}
               > */}
-                <button
+                <Button
                   type="button"
                   onClick={handleBank}
                   className="bg-[#00D059] text-[black] p-[12px] text-sm font-extrabold rounded-[100px]"
                 >
                   Bank Account
-                </button>
+                </Button>
               {/* </Link> */}
             </div>
             {isWalletOpen && (

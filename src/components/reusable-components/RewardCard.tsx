@@ -26,11 +26,11 @@ const RewardCard = ({
           alt="award"
         />
       </ScaleReveal>
-      <Reveal y={100}>
-        <h3 className="text-[32px] font-bold mt-8">{title}</h3>
+      <Reveal y={100} width='100%'>
+        <h3 className="text-[32px] text-center w-full  lg:text-start font-bold mt-8">{title}</h3>
       </Reveal>
       <Reveal y={100}>
-        <p className="text-muted mt-6">{desc}</p>
+        <p className="text-muted text-center lg:text-start mt-6">{desc}</p>
       </Reveal>
     </div>
   );

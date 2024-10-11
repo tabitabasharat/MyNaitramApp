@@ -5,6 +5,7 @@ import logo from "@/assets/logo.svg";
 import naitramlogo from "@/assets/naitram-logo-white.svg";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import greenticket from "@/assets/greenTicket.svg";
 import { usePathname } from "next/navigation";
 import { cn, shimmer, toBase64 } from "@/lib/utils";
 import { useRef } from "react";
@@ -117,7 +118,7 @@ const Header = () => {
         { title: "Download App", url: "/download-app" },
       ],
     },
-    { id: 3, title: "Event", url: "/viewallevents" },
+    { id: 3, title: "Events", url: "/viewallevents" },
     // { id: 4, title: "Host", url: "/organizer-event/event-dashboard" },
     {
       id: 4,
@@ -263,14 +264,29 @@ const Header = () => {
           ))}
         </nav>
 
-        <div className="flex items-center">
+        <div className="flex gap-[10px] items-center">
+          <div className="hidden lg:block">
+          <Button
+            onClick={() => {
+              router.push("/verify-ticket");
+            }}
+            className="flex items-center add-bank-account-border  bg-black gap-[4px] p-[12px]"
+          >
+            <Image src={greenticket} alt="greenticket" />
+            <p className=" font-extrabold text-base text-[#00D059]">
+              {" "}
+              Verify Ticket
+            </p>
+          </Button>
+          </div>
+          <div>
           <Button
             className="hidden p-[12px] py-[8px] font- font-extrabold text-base lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
             onClick={() => handleHostToggle()}
           >
             Host Event
           </Button>
-
+          </div>
           <>
             {!token && (
               <Dialog
@@ -365,6 +381,7 @@ const Header = () => {
               </Popover>
             </div>
           )}
+
           <button
             type="button"
             onClick={toggleMenu}

@@ -34,21 +34,21 @@ const RewardProgram = () => {
       }}
       className="bg-cover bg-no-repeat relative min-h-screen"
     >
-      <div className="z-[8] relative pxpx mx-2xl py-28">
+      <div className="z-[8] relative pxpx mx-2xl pt-[20px] pb-[0px] lg:py-16">
         <div className="lg:w-[50%]">
           <Reveal y={100}>
-            <h2 className="font-bold text-center sm:text-start text-[32px] lg:text-[48px] leading-[1.15]">
+            <h2 className="font-bold text-center lg:text-start text-[32px] lg:text-[48px] leading-[1.15]">
               Unlock Your Potential with Our Reward Program
             </h2>
           </Reveal>
           <Reveal y={100}>
-            <p className="text-muted mt-6">
+            <p className="text-muted text-center lg:text-start mt-6">
               Earn, claim, and redeem amazing rewards effortlessly. Discover how
               you can maximize your benefits and enjoy exclusive perks today!
             </p>
           </Reveal>
         </div>
-        <div className="flex flex-col lg:flex-row md:justify-center md:items-center lg:justify-start lg:items-start gap-[2rem] mt-24">
+        <div className="flex flex-col w-full text-center lg:text-start lg:flex-row md:justify-center md:items-center lg:justify-start lg:items-start gap-[2rem] mt-24">
           {rewards.map((reward) => (
             <RewardCard
               key={reward.id}

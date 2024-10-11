@@ -181,7 +181,7 @@ const GetSponsored = () => {
         <h2 className="text-[18px] lg:text-[24px] font-extrabold mb-[16px] lg:mb-[24px]">
           Our sponsorship offerings include, but are not limited to:
         </h2>
-        <ul className="list-disc ml-5 font-normal text-[13px] text-[16px] mb-[50px] lg:mb-[80px]">
+        <ul className="list-disc ml-5 font-normal text-[13px] text-[16px] mb-[30px] lg:mb-[40px]">
           <li>Funding</li>
           <li>Media and publicity support</li>
           <li>Venue arrangements</li>

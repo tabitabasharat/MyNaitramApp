@@ -13,6 +13,7 @@ import {
   SuccessToast,
   ErrorToast,
 } from "@/components/reusable-components/Toaster/Toaster";
+import { Button } from "@/components/ui/button";
 
 const CryptoWallets = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -143,13 +144,13 @@ const CryptoWallets = () => {
         </div>
 
         <div className="flex mb-[32px] lg:mb-[158px] w-full mt-[20px] lg:mt-[32px] md:w-[676px]">
-          <button
+          <Button
             className="text-sm w-full lg:text-base font-extrabold 
           bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]"
             onClick={() => handleSubmit()}
           >
             Submit
-          </button>
+          </Button>
           {openModal && (
             <SubmitSucessModal
               onClose={() => setOpenModal(false)}

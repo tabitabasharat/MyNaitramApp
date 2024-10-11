@@ -23,6 +23,7 @@ import time from "@/assets/endDate.svg";
 import ReceviePaymentModal from "./ReceivePaymentModal";
 import { getPaidDetail } from "@/lib/middleware/payout";
 import ScreenLoader from "@/components/loader/Screenloader";
+import { Button } from "@/components/ui/button";
 function createData(name: number, calories: any, fat: number) {
   return { name, calories, fat };
 }
@@ -382,14 +383,14 @@ const FUndRised = () => {
       </div>
 
       <div className="flex mb-[32px] md:justify-end w-full">
-        <button
+        <Button
           disabled={isGetPaidDisabled}
           onClick={() => setOpenModal(true)}
           className="text-sm w-full md:w-fit lg:text-base font-extrabold bg-[#00D059] 
           text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px] disabled:opacity-50"
         >
           Get Paid
-        </button>
+        </Button>
       </div>
       {openModal && (
         <ReceviePaymentModal
@@ -401,11 +402,6 @@ const FUndRised = () => {
           eventID={eventid}
         />
       )}
-
-      {/* <NotPaidModal
-        onClose={() => setOpenModal(false)}
-        open={() => setOpenModal(true)}
-      /> */}
     </div>
   );
 };

@@ -5,11 +5,12 @@ import takeImage2 from "../../../assets/naitramgallery/Rooftop/naitram_rooftop_p
 import takeImage3 from "../../../assets/naitramgallery/Rooftop/naitram_rooftop_party_set3.webp";
 import takeImage4 from "../../../assets/naitramgallery/Rooftop/naitram_rooftop_party_set4.webp";
 import takeImage5 from "../../../assets/naitramgallery/Rooftop/naitram_rooftop_party_set5.webp";
+import { Button } from "@/components/ui/button";
 
 const TakeOverEvent = () => {
   return (
     <section
-      className="md:px-[112px] px-[25px] py-[220px] "
+      className="md:px-[112px] px-[25px] pt-[130px] sm:pt-[160px] pb-[220px] "
       style={{
         backgroundImage: "url(/About/Blur.png)",
         // backgroundPosition: "bottom center",
@@ -38,9 +39,9 @@ const TakeOverEvent = () => {
               className="relative md:w-unset w-[100%] "
             />
             <a href="https://drive.google.com/drive/folders/1cSFDy1Soflcjv4dnbxPKsIZNpHNhDYpu?usp=drive_link" target="_blank">
-              <button className="absolute bottom-[20px] left-[27%] bg-[#FFFFFF1F] px-[10px] py-[6px] rounded-[100px] text-[14px] font-[700] border-none hover:bg-[#00D059] hover:text-black ">
+              <Button className="absolute bottom-[20px] left-[27%] bg-[#FFFFFF1F] px-[10px] py-[6px] rounded-[100px] text-[14px] font-[700] border-none hover:bg-[#00D059] hover:text-black ">
                 View All
-              </button>
+              </Button>
             </a>
           </div>
           <p className="text-center font-[700] text-[16px] mt-[15px] ">Set 1</p>
@@ -49,9 +50,9 @@ const TakeOverEvent = () => {
           <div className="relative  ">
             <Image src={takeImage2} alt="/" className="relative" />
             <a href="https://drive.google.com/drive/folders/1NZmjjwpY4_wXxJzgQb8q22p1TxWW8oMm?usp=drive_link" target="_blank">
-              <button className="absolute bottom-[20px] left-[27%] bg-[#FFFFFF1F] px-[10px] py-[6px] rounded-[100px] text-[14px] font-[700] border-none hover:bg-[#00D059] hover:text-black ">
+              <Button className="absolute bottom-[20px] left-[27%] bg-[#FFFFFF1F] px-[10px] py-[6px] rounded-[100px] text-[14px] font-[700] border-none hover:bg-[#00D059] hover:text-black ">
                 View All
-              </button>
+              </Button>
             </a>
           </div>
           <p className="text-center font-[700] text-[16px] mt-[15px]">Set 2</p>
@@ -60,9 +61,9 @@ const TakeOverEvent = () => {
           <div className="relative  ">
             <Image src={takeImage3} alt="/" className="relative" />
             <a href="https://drive.google.com/drive/folders/1qIp8R8v4Yx6yzdBfLkShP-Sjx44VwIxd?usp=drive_link" target="_blank">
-              <button className="absolute bottom-[20px] left-[27%] bg-[#FFFFFF1F] px-[10px] py-[6px] rounded-[100px] text-[14px] font-[700] border-none hover:bg-[#00D059] hover:text-black">
+              <Button className="absolute bottom-[20px] left-[27%] bg-[#FFFFFF1F] px-[10px] py-[6px] rounded-[100px] text-[14px] font-[700] border-none hover:bg-[#00D059] hover:text-black">
                 View All
-              </button>
+              </Button>
             </a>
           </div>
           <p className="text-center font-[700] text-[16px] mt-[15px]">Set 3</p>
@@ -71,9 +72,9 @@ const TakeOverEvent = () => {
           <div className="relative ">
             <Image src={takeImage4} alt="/" className="relative" />
             <a href="https://drive.google.com/drive/folders/1WY3jG_a8HpKh7agKxEdk0cbCiRa9GldQ?usp=drive_link" target="_blank">
-              <button className="absolute bottom-[20px] left-[27%] bg-[#FFFFFF1F] px-[10px] py-[6px] rounded-[100px] text-[14px] font-[700] border-none hover:bg-[#00D059] hover:text-black">
+              <Button className="absolute bottom-[20px] left-[27%] bg-[#FFFFFF1F] px-[10px] py-[6px] rounded-[100px] text-[14px] font-[700] border-none hover:bg-[#00D059] hover:text-black">
                 View All
-              </button>
+              </Button>
             </a>
           </div>
           <p className="text-center font-[700] text-[16px] mt-[15px]">Set 4</p>
@@ -82,9 +83,9 @@ const TakeOverEvent = () => {
           <div className="relative ">
             <Image src={takeImage5} alt="/" className="relative" />
             <a href="https://drive.google.com/drive/folders/1LTQdz4JGfdrfNBgsBSQ9UXtm2dKjFGMV?usp=drive_link" target="_blank">
-              <button className="absolute bottom-[20px] left-[27%] bg-[#FFFFFF1F] px-[10px] py-[6px] rounded-[100px] text-[14px] font-[700] border-none hover:bg-[#00D059] hover:text-black">
+              <Button className="absolute bottom-[20px] left-[27%] bg-[#FFFFFF1F] px-[10px] py-[6px] rounded-[100px] text-[14px] font-[700] border-none hover:bg-[#00D059] hover:text-black">
                 View All
-              </button>
+              </Button>
             </a>
           </div>
           <p className="text-center font-[700] text-[16px] mt-[15px]">Set 5</p>

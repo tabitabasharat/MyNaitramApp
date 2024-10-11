@@ -12,7 +12,7 @@ const NaitramLaunch = () => {
   
   return (
     <section
-      className="md:px-[112px] px-[25px] py-[220px] "
+      className="md:px-[112px] px-[25px] pt-[130px] sm:pt-[160px] pb-[220px] "
       style={{
         backgroundImage: "url(/About/Blur.png)",
         backgroundPosition: "center top",

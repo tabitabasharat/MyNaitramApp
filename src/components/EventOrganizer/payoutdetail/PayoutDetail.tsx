@@ -4,6 +4,7 @@ import ReceviePaymentModal from "../GetPaidOrganiser/ReceivePaymentModal";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import SubmitSucessModal from "../GetPaidOrganiser/SubmitSuccessModal";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 const PayoutDetail = () => {
   const dispatch = useAppDispatch();
   const [openModal, setOpenModal] = useState(false);
@@ -38,9 +39,9 @@ const PayoutDetail = () => {
           className="w-full sm:w-fit"
         >
           <div className="w-full">
-            <button className="text-sm font-extrabold w-full text-center sm:w-[165px] table-gradient gradient-border-notify  rounded-[100px] py-[12px] text-[#00D059]">
+            <Button className="text-sm font-extrabold w-full text-center sm:w-[165px] table-gradient gradient-border-notify  rounded-[100px] py-[12px] text-[#00D059]">
               Crypto Wallet
-            </button>
+            </Button>
           </div>
         </Link>
         <Link
@@ -48,9 +49,9 @@ const PayoutDetail = () => {
           className="w-full sm:w-fit"
         >
           <div className="w-full">
-            <button className="text-sm font-extrabold text-center w-full sm:w-[165px] rounded-[100px] py-[12px] text-[black] bg-[#00D059]">
+            <Button className="text-sm font-extrabold text-center w-full sm:w-[165px] rounded-[100px] py-[12px] text-[black] bg-[#00D059]">
               Bank Account
-            </button>
+            </Button>
           </div>
         </Link>
       </div>

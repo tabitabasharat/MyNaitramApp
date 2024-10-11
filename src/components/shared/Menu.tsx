@@ -8,6 +8,7 @@ import {
   InstagramLogo,
   YoutubeLogo,
 } from "@phosphor-icons/react/dist/ssr";
+import greenticket from "@/assets/greenTicket.svg";
 import arrowUp from "@/assets/Arrow up.svg";
 import arrowDown from "@/assets/aboutdropdown.svg";
 import twitter from "@/assets/prime_twitter.svg";
@@ -51,7 +52,7 @@ const Menu = ({
       ],
     },
     {
-      name: "Event",
+      name: "Events",
       href: "/viewallevents",
     },
 
@@ -164,7 +165,7 @@ const Menu = ({
                 {link.subLinks ? (
                   <div
                     className="relative flex items-center"
-                    ref={(el:any) => (dropdownRefs.current[i] = el)}
+                    ref={(el: any) => (dropdownRefs.current[i] = el)}
                   >
                     {/* Main link (e.g., "Rewards", "About") */}
                     <Link
@@ -237,8 +238,20 @@ const Menu = ({
               animate="enter"
               exit="exit"
               initial="initial"
-              className="h-fit w-fit mt-[1.5rem] lg:mt-[2rem] z-[1]"
+              className="h-fit w-fit flex gap-[1.5rem] flex-col gap:mt-[2rem] z-[1]"
             >
+              <Button
+                onClick={() => {
+                  router.push("/verify-ticket");
+                }}
+                className="flex items-center add-bank-account-border  bg-black gap-[4px] p-[12px]"
+              >
+                <Image src={greenticket} alt="greenticket" />
+                <p className=" font-extrabold text-base text-[#00D059]">
+                  {" "}
+                  Verify Ticket
+                </p>
+              </Button>
               <Button
                 variant="secondary"
                 className="bg-[#13FF7A] p-[12px] py-[8px] font- font-extrabold text-base lg:mr-[12px]"
@@ -356,41 +369,41 @@ const Menu = ({
             <div className="flex gap-[0.5rem] mt-[0.8rem]">
               <Link
                 target="_blank"
-                href="https://www.linkedin.com/company/naitramlive/"
+                href="https://www.linkedin.com/company/naitramlive"
               >
                 <LinkedinLogo className="w-[32px] h-[32px]" weight="fill" />
               </Link>
-              <Link
+              {/* <Link
                 target="_blank"
-                href="https://www.instagram.com/naitram.developments?igsh=OGRxd2RuYmMzazFp"
+                href="https://www.instagram.com/naitram.live/"
               >
                 <InstagramLogo className="w-[32px] h-[32px]" weight="fill" />
-              </Link>
+              </Link> */}
               <Link
                 target="_blank"
-                href="https://www.instagram.com/naitram.live?igsh=MXh0amo4YWFyemF4aA=="
+                href="https://www.instagram.com/naitram.live/"
               >
                 <InstagramLogo className="w-[32px] h-[32px]" weight="fill" />
               </Link>
               {/* <Link target="_blank" href="">
               <FacebookLogo  className="w-[32px] h-[32px]" weight="fill" />
             </Link> */}
-              <Link
+              {/* <Link
                 target="_blank"
                 href="https://www.tiktok.com/@naitram.verified?_t=8qCgj42cequ&_r=1"
               >
                 <TiktokLogo className="w-[32px] h-[32px]" weight="fill" />
-              </Link>
-              <Link
+              </Link> */}
+              {/* <Link
                 target="_blank"
                 href="https://www.tiktok.com/@naitram.entertainment?_t=8qCgbmu3oB7&_r=1"
               >
                 <TiktokLogo className="w-[32px] h-[32px]" weight="fill" />
-              </Link>
+              </Link> */}
 
               <Link
                 target="_blank"
-                href="https://x.com/naitramlive?s=21&t=GGj-Zie78PovWf6riV3N1A"
+                href="https://x.com/naitramlive"
               >
                 {/* <TwitterLogo size={30} weight="fill" /> */}
                 <Image
@@ -404,16 +417,16 @@ const Menu = ({
             </Link> */}
               <Link
                 target="_blank"
-                href="https://youtube.com/@naitramlive?si=PQqyX_n8DcQ_H1nc"
+                href="https://www.youtube.com/@naitramlive"
               >
                 <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
               </Link>
-              <Link
+              {/* <Link
                 target="_blank"
                 href="https://youtube.com/@naitram.entertainment?si=rYyYuGCajrn2v3TM"
               >
                 <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
-              </Link>
+              </Link> */}
             </div>
           </motion.div>
         </div>

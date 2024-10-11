@@ -18,7 +18,7 @@ export default function AboutPage ()  {
           backgroundSize: "contain",
           opacity: "1",
         }}
-        className="pt-[150px] md:pt-[200px] pb-[100px] md:px-0 px-[20px] "
+        className="pt-[150px] md:pt-[200px] pb-[60px] md:pb-[100px] md:px-0 px-[20px] "
       >
         <div style={{}} className="flex flex-col justify-center items-center">
           <Reveal y={100} width="100%">
