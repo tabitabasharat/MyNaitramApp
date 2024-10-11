@@ -24,6 +24,7 @@ import api from "@/lib/apiInterceptor";
 import { styled } from "@mui/material/styles";
 import { API_URL } from "@/lib/client";
 import { usePathname } from "next/navigation";
+import profileimg from "@/assets/Wallet/User Gear.svg";
 
 import {
   TelegramLogo,
@@ -79,7 +80,55 @@ const OrganizerProfile = () => {
   const [twitterUrl, settwitterUrl] = useState("");
   const [youtubeUrl, setyoutubeUrl] = useState("");
   const [tiktokUrl, settiktokUrl] = useState("");
+  const [checked, setChecked] = useState(true);
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+  const AntSwitch = styled(Switch)(({ theme }) => ({
+    width: 28,
+    height: 16,
+    padding: 0,
+    display: "flex",
+    "&:active": {
+      "& .MuiSwitch-thumb": {
+        width: 15,
+      },
+      "& .MuiSwitch-switchBase.Mui-checked": {
+        transform: "translateX(9px)",
+      },
+    },
+    "& .MuiSwitch-switchBase": {
+      padding: 2,
+      "&.Mui-checked": {
+        transform: "translateX(12px)",
+        color: "#000",
+        "& + .MuiSwitch-track": {
+          opacity: 1,
+          backgroundColor:
+            theme.palette.mode === "dark" ? "#13FF7A" : "#13FF7A",
+        },
+      },
+    },
+    "& .MuiSwitch-thumb": {
+      boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
+      width: 12,
+      height: 12,
+      borderRadius: 6,
+      transition: theme.transitions.create(["width"], {
+        duration: 200,
+      }),
+    },
+    "& .MuiSwitch-track": {
+      borderRadius: 16 / 2,
+      opacity: 1,
+      backgroundColor:
+        theme.palette.mode === "dark"
+          ? "rgba(255,255,255,.35)"
+          : "rgba(0,0,0,.25)",
+      boxSizing: "border-box",
+    },
+  }));
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -235,6 +284,7 @@ const OrganizerProfile = () => {
         OrganizationUpdate: true,
 
         userId: userID,
+        public:checked,
       };
       dispatch(updateOrganizerProfile(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
@@ -295,6 +345,43 @@ const OrganizerProfile = () => {
           </Button>
         </div>
         <div className="flex w-full  md:w-full lg:w-[428px] flex-col lg:flex-col gap-6 md:gap-8">
+        <div
+              className={`flex items-center rounded-lg py-[16px]  px-[12px] sm:py-[20px] sm:px-[12px] justify-between transition-colors duration-300`}
+              style={{
+                background: checked
+                  ? "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"
+                  : "linear-gradient(#0F0F0F, #1A1A1A) padding-box",
+                border: checked ? "2px solid transparent" : "2px solid #BFBFBF",
+                borderImage: checked
+                  ? "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%)"
+                  : "none",
+                borderImageSlice: checked ? 1 : undefined,
+              }}
+            >
+            <div className="flex items-center gap-[8px]">
+              <Image
+                  src={profileimg}
+                  width={20}
+                  height={20}
+                  className="size-[20px]"
+                  placeholder={`data:image/svg+xml;base64,${toBase64(
+                    shimmer(1200, 1800)
+                  )}`}
+                  alt="DP"
+                />
+              <p className="mb-0 text-[16px] font-bold">
+                Make my profile public
+              </p>
+            </div>
+             
+              <Stack direction="row" spacing={1} alignItems="center">
+                <AntSwitch
+                  checked={checked}
+                  onChange={handleChange}
+                  inputProps={{ "aria-label": "ant design" }}
+                />
+              </Stack>
+            </div>
           <Link
             href={`/profile-perview/${userid}`}
             className={cn(

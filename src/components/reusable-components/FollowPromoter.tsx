@@ -54,7 +54,6 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
     dispatch(getFollowingPromoters(data));
     dispatch(FollowPromoterStatus(data));
 
-  
     // dispatch(getOrganizerSocialProfile(userId));
   }, []);
 
@@ -73,9 +72,8 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
   const myFollowStatus = useAppSelector(
     (state) => state?.getFollowStatus?.myStatus?.data
   );
-  console.log("my  status is", myFollowStatus );
+  console.log("my  status is", myFollowStatus);
 
-  
   const imageUrl =
     myProfile?.profile?.profilePicture?.startsWith("http") ||
     myProfile?.profile?.profilePicture?.startsWith("https")
@@ -108,7 +106,6 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
         if (res?.payload?.status === 200) {
           setLoading(false);
           setFollowStatus(true);
-         
 
           console.log("org Activity res", res?.payload?.data);
           SuccessToast("You are now Following ");
@@ -118,9 +115,6 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
           };
           dispatch(getFollowingPromoters(datas));
           dispatch(FollowPromoterStatus(datas));
-
-          
-        
         } else {
           setLoading(false);
           console.log(res?.payload?.message);
@@ -143,7 +137,6 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
       dispatch(UnFollowPromoter(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoading(false);
-         
 
           setFollowStatus(false);
           console.log("org Activity res", res?.payload?.data);
@@ -154,7 +147,6 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
           };
           dispatch(getFollowingPromoters(datas));
           dispatch(FollowPromoterStatus(datas));
-        
         } else {
           setLoading(false);
           console.log(res?.payload?.message);
@@ -165,7 +157,6 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
       console.error("Error:", error);
     }
   }
-
 
   // async function handleStatus() {
   //   setLoading(true);
@@ -181,13 +172,13 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
   //         setLoading(false);
 
   //         setFollowStatus(res?.payload?.data?.status);
-       
+
   //         const datas = {
   //           followId: userId,
   //           userId: userID,
   //         };
   //         // dispatch(getFollowingPromoters(datas));
-       
+
   //       } else {
   //         setLoading(false);
   //         console.log(res?.payload?.message);
@@ -207,27 +198,38 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
     (item: any) => item?.followId == userId
   );
 
-  console.log("my follow statys ,", followStatus)
+  console.log("my follow statys ,", followStatus);
+
+  const handleProfileClick = (e: any) => {
+    e.preventDefault();
+
+    if (EventData?.profile?.public) {
+      router.push(`/profile-perview/${userId}`);
+    } else {
+      ErrorToast("This Organiser's Profile is Private");
+    }
+  };
 
   return (
     <div className="mt-[32px] bg-white/10 rounded-xl p-[16px] w-full">
       <div className="flex gap-4">
-        <Link href={`/profile-perview/${userId}`}>
+        <div onClick={handleProfileClick} className="cursor-pointer">
           <Image
             style={{ width: "40px", height: "40px" }}
             src={imageUrl}
             width={40}
             height={40}
-            className="rounded-xl border-2 border-[#D9D9D9] shadow-2xl"
+            className="rounded-xl border-2 border-[#D9D9D9] shadow-2xl cursor-pointer"
             alt="promoter"
           />
-        </Link>
+        </div>
         <div>
-          <Link href={`/profile-perview/${userId}`}>
-            <p className="font-bold text-[14px]  font-bold flex items-center gap-1 capitalize hover:underline">
-              {myProfile?.userProfile?.fullname}
-            </p>
-          </Link>
+          <p
+            className="font-bold text-[14px]  font-bold flex items-center gap-1 capitalize hover:underline cursor-pointer"
+            onClick={handleProfileClick}
+          >
+            {myProfile?.userProfile?.fullname}
+          </p>
           <p className="text-[#FFFFFF3D] text-[12px]">
             <span className="text-[11px] text-[#E6E6E6]">
               {myProfile?.events?.length} Events
@@ -248,14 +250,16 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
             variant="secondary"
             className="text-[14px] font-bold px-[16px] py-[10px] disabled:cursor-not-allowed disabled:opacity-50"
             onClick={() => {
-              if (followStatus  || myFollowStatus?.status) {
+              if (followStatus || myFollowStatus?.status) {
                 handleUnFollow();
               } else {
                 handleFollow();
               }
             }}
           >
-            {followStatus  || myFollowStatus?.status ? "Following" : "Follow Organiser"}
+            {followStatus || myFollowStatus?.status
+              ? "Following"
+              : "Follow Organiser"}
           </Button>
         }
         <div className="flex gap-[8px] flex-wrap h-full">

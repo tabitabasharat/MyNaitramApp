@@ -142,6 +142,7 @@ dispatch(getViewPastEventsBox(data))
                 <Button
                   variant="secondary"
                   className="md:hidden h-[45px] w-full mt-4"
+                  onClick={handleEmail}
                 >
                   Join Now
                 </Button>

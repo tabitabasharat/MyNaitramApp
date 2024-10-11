@@ -143,11 +143,11 @@ const FAQ = ({
             content:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
           },
-          {
-            title: "Is Naitram safe for me?",
-            content:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
-          },
+          // {
+          //   title: "Is Naitram safe for me?",
+          //   content:
+          //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
+          // },
           {
             title: "Is Naitram free to use?",
             content:

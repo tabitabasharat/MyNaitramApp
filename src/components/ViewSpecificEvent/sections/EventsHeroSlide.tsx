@@ -14,7 +14,7 @@ import {
   TiktokLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
-import { useEffect,useRef } from "react";
+import { useEffect, useRef } from "react";
 import Arrowdown from "@/assets/arrow-down.svg";
 import {
   ArrowLeft,
@@ -128,14 +128,12 @@ const EventsHeroSlide = ({
     //   // If it already has a timezone indicator, treat it as UTC
     //   utcDate = new Date(originalDateStr);
     // } else {
-     
+
     //   // Otherwise, treat it as a local time and convert to UTC
     //   utcDate = new Date(`${originalDateStr}Z`);
     // }
 
     utcDate = new Date(`${originalDateStr}Z`);
-
-
 
     // Check if the date is valid
     if (isNaN(utcDate.getTime())) {
@@ -164,7 +162,6 @@ const EventsHeroSlide = ({
       timeZone: timeZone,
     });
 
-
     // Function to get ordinal suffix
     const getOrdinalSuffix = (date: number) => {
       if (date > 3 && date < 21) return "th"; // covers 11th to 19th
@@ -187,11 +184,8 @@ const EventsHeroSlide = ({
     // Combine all parts into a properly formatted date string
     const formattedDate = `${dayOfWeek}, ${numericDay}${ordinalSuffix} ${month} ${year}`;
 
-
-
     return formattedDate;
   };
-
 
   const ConvertDate = (originalDateStr: string | undefined): string => {
     // Ensure input is a valid string
@@ -199,25 +193,22 @@ const EventsHeroSlide = ({
       console.error("Input must be a string");
       return "";
     }
-  
-  
 
-  
     console.log("Converted UTC time:", originalDateStr);
     const isUTC = originalDateStr.endsWith("Z");
     const utcDate = new Date(isUTC ? originalDateStr : `${originalDateStr}Z`);
-  
+
     // Check if the input already has a timezone indicator
-    
+
     // Check if the date is valid
     if (isNaN(utcDate.getTime())) {
       console.error("Invalid date format");
       return "";
     }
-  
+
     // Detect local time zone
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  
+
     // Extract local time parts using toLocaleDateString with time zone adjustment
     const dayOfWeek = utcDate.toLocaleDateString("en-US", {
       weekday: "long",
@@ -235,7 +226,7 @@ const EventsHeroSlide = ({
       year: "numeric",
       timeZone: timeZone,
     });
-  
+
     // Function to get ordinal suffix
     const getOrdinalSuffix = (date: number) => {
       if (date > 3 && date < 21) return "th"; // covers 11th to 19th
@@ -250,18 +241,16 @@ const EventsHeroSlide = ({
           return "th";
       }
     };
-  
+
     // Convert day string to a number and calculate ordinal suffix
     const numericDay = parseInt(dayOfMonth, 10); // Convert day string to number
     const ordinalSuffix = getOrdinalSuffix(numericDay);
-  
+
     // Combine all parts into a properly formatted date string
     const formattedDate = `${dayOfWeek}, ${numericDay}${ordinalSuffix} ${month} ${year}`;
-  
+
     return formattedDate;
   };
-  
-  
 
   const ConvertTime = (timeStr: string): string => {
     // Ensure input is a string
@@ -318,8 +307,6 @@ const EventsHeroSlide = ({
     return formattedTime;
   };
 
-
-
   const [AboutDrop, setAboutDrop] = useState(true);
   const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -348,19 +335,23 @@ const EventsHeroSlide = ({
     .slice(0, maxLines)
     .join("\n"); // You don't need to remove the HTML tags here anymore
 
+  const myid =
+    typeof window !== "undefined" ? localStorage.getItem("_id") || "" : "";
 
-    const myid = typeof window !== "undefined" ? localStorage.getItem("_id") || "" : "";
+  const textRef: any = useRef(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
 
-    const textRef:any = useRef(null);
-    const [isOverflowing, setIsOverflowing] = useState(false);
-  
-    useEffect(() => {
-      if (textRef.current) {
-        const lineHeight = parseFloat(getComputedStyle(textRef.current).lineHeight);
-        const oneLineHeight = lineHeight; // height of one line
-        setIsOverflowing(textRef.current.scrollHeight > oneLineHeight);
-      }
-    }, [firstParagraphHtml, showFullDescription]);
+  useEffect(() => {
+    if (textRef.current) {
+      const lineHeight = parseFloat(
+        getComputedStyle(textRef.current).lineHeight
+      );
+      const oneLineHeight = lineHeight; // height of one line
+      setIsOverflowing(textRef.current.scrollHeight > oneLineHeight);
+    }
+  }, [firstParagraphHtml, showFullDescription]);
+
+  const APIKEY = "AIzaSyA78WzK8evJ7Vier7fUXAqjM5KDhDwyq88";
 
   return (
     <>
@@ -406,12 +397,28 @@ const EventsHeroSlide = ({
             {/* <p className="text-[#E6E6E6] font-extrabold mt-[10px]">
               {eventCategory ? eventCategory : " TAKEOVR Boat Party"}
             </p> */}
-            <div className="flex items-center gap-[8px] ">
+            {/* <div className="flex items-center gap-[8px] ">
               <Image src={Location} alt="location" />
               <p className=" text-[16px] font-bold leading-[24px]">
                 {location}
               </p>
+            </div> */}
+
+            <div className="flex items-center gap-[8px]">
+              <Image src={Location} alt="location" />
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  location
+                )}&key=${APIKEY}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p className="text-[16px] font-bold leading-[24px]">
+                  {location}
+                </p>
+              </a>
             </div>
+
             <div className="flex items-center gap-[8px] mt-[12px] ">
               <Image src={clander} alt="calendar" />
               <p className=" text-[16px] font-bold leading-[24px]">
@@ -458,24 +465,32 @@ const EventsHeroSlide = ({
               </div>
 
               {AboutDrop && (
-        <div className="mb-[12px] text-white break-words overflow-hidden" ref={textRef}>
-          {showFullDescription ? (
-            <div dangerouslySetInnerHTML={{ __html: descriptionText }} />
-          ) : (
-            <div className="line-clamp-3 overflow-hidden" dangerouslySetInnerHTML={{ __html: firstParagraphHtml }} />
-          )}
+                <div
+                  className="mb-[12px] text-white break-words overflow-hidden"
+                  ref={textRef}
+                >
+                  {showFullDescription ? (
+                    <div
+                      dangerouslySetInnerHTML={{ __html: descriptionText }}
+                    />
+                  ) : (
+                    <div
+                      className="line-clamp-3 overflow-hidden"
+                      dangerouslySetInnerHTML={{ __html: firstParagraphHtml }}
+                    />
+                  )}
 
-          {/* Show "Read More" if text is overflowing, or show "Show Less" when expanded */}
-          {isOverflowing && (
-            <button
-              onClick={toggleDescription}
-              className="text-[#13FF7A] text-sm font-bold md:text-base cursor-pointer mt-2"
-            >
-              {showFullDescription ? "Show Less" : "Read More"}
-            </button>
-          )}
-        </div>
-      )}
+                  {/* Show "Read More" if text is overflowing, or show "Show Less" when expanded */}
+                  {isOverflowing && (
+                    <button
+                      onClick={toggleDescription}
+                      className="text-[#13FF7A] text-sm font-bold md:text-base cursor-pointer mt-2"
+                    >
+                      {showFullDescription ? "Show Less" : "Read More"}
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
           <BuyTicket

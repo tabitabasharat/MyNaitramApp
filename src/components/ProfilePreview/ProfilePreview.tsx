@@ -120,7 +120,9 @@ const ProfilePreview = () => {
 
           <div className="md:hidden border border-[#0FFF7730] rounded-lg gradient-slate flex justify-evenly items-center w-full  mt-[20px]">
             <div className="flex flex-col items-center py-[16px] justify-center font-bold text-center">
-              <p className="text-[18px]">{myProfile?.data?.profile?.totalEvents}</p>
+              <p className="text-[18px]">
+                {myProfile?.data?.profile?.totalEvents}
+              </p>
               <p className="text-[12px] opacity-50">EVENTS</p>
             </div>
             <div className="w-px h-8 bg-white/20"></div>
@@ -133,10 +135,12 @@ const ProfilePreview = () => {
               <p className="text-[12px] opacity-50">ATTENDEES</p>
             </div>
           </div>
-          <p className="font-normal text-center md:text-start break-words overflow-hidden w-full lg:w-[70%] text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
-            {myProfile?.data?.profile?.bio}
-          </p>
-          <div className="flex flex-wrap justify-center md:justify-start md:mt-[0px] gap-[8px] sm:gap-3 h-full mt-6">
+          {myProfile?.data?.profile?.bio && (
+            <p className="font-normal text-center md:text-start break-words overflow-hidden w-full lg:w-[70%] text-sm mt-[24px] lg:mt-[8px] mb-[16px] lg:mb-[24px]">
+              {myProfile?.data?.profile?.bio}
+            </p>
+          )}
+          <div className="flex flex-wrap justify-center md:justify-start mt-6 gap-[8px] sm:gap-3 h-full ">
             {myProfile?.data?.profile?.instaUrl &&
               myProfile?.data?.profile?.instaUrl !==
                 "https://instagram.com/" && (

@@ -23,6 +23,7 @@ import { Theme } from "emoji-picker-react";
 import { EmojiStyle } from "emoji-picker-react";
 import { SkinTones } from "emoji-picker-react";
 import { SkinTonePickerLocation } from "emoji-picker-react";
+import { useRouter } from "next/navigation";
 // Utility function to format time
 const formatTime = (dateString: string) => {
   const date = new Date(dateString);
@@ -35,6 +36,7 @@ const formatTime = (dateString: string) => {
 
 const LiveActivityChat = ({ eventID, userID }: any) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [userid, setUserid] = useState<string | null>(null);
   const [loader, setLoader] = useState(false);
@@ -58,7 +60,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   console.log("active reactio", messageReactions);
   const handleMessagePress = (messageId: number) => {
     console.log("Clicked message ID:", messageId);
-    if (activeMessage === messageId) {
+    if (activeMessage == messageId) {
       setActiveMessage(null); // If same message is pressed again, close reactions
     } else {
       setActiveMessage(messageId); // Open reactions for the selected message
@@ -278,22 +280,24 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   const userIDlocal =
     typeof window !== "undefined" ? localStorage.getItem("_id") : null;
 
+  const handleProfileClick = (userid: number) => {
+    // Navigate to the user's profile
+    router.push(`/social-profile/${userid}`);
+  };
   return (
     <div
       className="md:w-[576px] h-[600px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
   bg-effect2 bg-effect"
     >
       <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[6rem]">
-
         <div className="space-y-2 block">
           {EventChat?.length > 0 &&
             EventChat?.map((event: any, index: any) => {
-
               const attendee = myAttendees?.find(
                 (attendee: any) => attendee?.attendeeId === event?.userId
               );
               const isLocalUser = event?.userId === userIDlocal;
-              console.log("my event user id", event?.userId)
+              console.log("my event user id", event?.userId);
               return (
                 <div key={event?.id} className="relative">
                   <div
@@ -314,6 +318,8 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
                       attendeename={event?.user?.liveActivity?.isActive}
                       userid={event?.userId}
                       localUserId={event?.userId == userIDlocal ? true : false}
+                      isActive={event?.user?.liveActivity?.isActive}
+                      onProfileClick={handleProfileClick}
                     />
                   </div>
                   {activeMessage === event?.id && (
@@ -374,12 +380,13 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
             onKeyDown={handleKeyDown}
           />
           {userID === userIDlocal && (
-          <Image
-            src={link}
-            alt="link-img"
-            sizes="16px"
-            className="absolute top-[16px] right-[60px]"
-          />)}
+            <Image
+              src={link}
+              alt="link-img"
+              sizes="16px"
+              className="absolute top-[16px] right-[60px]"
+            />
+          )}
         </label>
         <input
           ref={fileInputRef}
@@ -392,9 +399,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
           className="rounded-full w-[36px] p-[0px] mt-[6px] px-[10px] h-[36px]"
           onClick={() => SendMsg()}
         >
-          
-            <PaperPlaneTilt size={16} className="h-full " weight="bold" />
-        
+          <PaperPlaneTilt size={16} className="h-full " weight="bold" />
         </Button>
       </div>
       {/* <div className="absolute top-[-3rem] md:top-8 bg-[#0A0D0B] px-3 py-2 translate-x-1/2 right-1/2 rounded-full z-[2]">

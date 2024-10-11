@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { useAppSelector } from "@/lib/hooks";
 import Link from "next/link";
+import { ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
+import { useRouter } from "next/navigation";
 const Chat = ({
   img,
   msgtext,
@@ -13,29 +15,55 @@ const Chat = ({
   attendeename,
   userid,
   localUserId,
+  isActive,
+  onProfileClick,
 }: any) => {
+  console.log("my local userid ", localUserId);
 
-  console.log("my local userid ",  localUserId )
+  const router = useRouter();
+  // const handleProfileClick = (e: any) => {
+  //   e.preventDefault();
 
-  
+  //   if (isActive) {
+  //     router.push(`/social-profile/${userid}`);
+  //   } else {
+  //     ErrorToast("This User Profile is Private");
+  //   }
+  // };
+
+  const handleProfileClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isActive) {
+      onProfileClick(userid);
+    } else {
+      ErrorToast("This User Profile is Private");
+    }
+  };
   return (
     // <div className="z-[2] relative flex items-end gap-4 ">
-       <div className={`z-[2] flex ${ localUserId == true ? 'flex-row-reverse pr-[37px] ' : 'flex-row me-[44px] sm:me-[55px]'} items-end gap-4`}>
-   
-      <Link href={`/social-profile/${userid}`}>
+    <div
+      className={`z-[2] flex ${
+        localUserId == true
+          ? "flex-row-reverse pr-[37px] "
+          : "flex-row me-[44px] sm:me-[55px]"
+      } items-end gap-4`}
+    >
+      <div onClick={handleProfileClick} className="cursor-pointer">
         <Image
           src={userimg || "/person1.png"}
           width={200}
           height={200}
-          className="size-[32px] object-cover object-top rounded-full max-w-fit"
+          className="size-[32px] object-cover object-top rounded-full max-w-fit cursor-pointer"
           alt="chat-profile-pic"
         />
-      </Link>
+      </div>
       {/* <div className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg w-full me-[44px] sm:me-[55px] "> */}
       <div className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg me-0 chat-wid ">
-
         <div className="flex flex-col gap-1 ">
-          <p className="text-primary">{attendeename == true ? username : ""}</p>
+          <p className="text-primary break-words overflow-hidden text-ellipsis">
+            {attendeename == true ? username : ""}
+          </p>
 
           {img && (
             <Image
@@ -47,12 +75,9 @@ const Chat = ({
             />
           )}
 
-         
           {/* <p className="mt-1">{msgtext}</p> */}
           <p className="mt-1 break-words overflow-hidden text-ellipsis">
             {msgtext}
-            
-          
           </p>
         </div>
         {reactions?.length > 0 && (

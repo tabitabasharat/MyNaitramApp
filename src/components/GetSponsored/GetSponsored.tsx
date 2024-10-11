@@ -44,35 +44,60 @@ const formSchema = z.object({
     .min(1, { message: "Email cannot be empty." })
     .email({ message: "Invalid email address." }),
 
+  // firstname: z
+  //   .string()
+  //   .min(1, { message: "Full Name cannot be empty." })
+  //   .regex(/^[A-Za-z\s]+$/, {
+  //     message: "First name must contain only letters.",
+  //   })
+  //   .trim(),
+
   firstname: z
     .string()
-    .min(1, { message: "Full Name cannot be empty." })
-    .regex(/^[A-Za-z\s]+$/, {
-      message: "First name must contain only letters.",
-    }),
+    .min(1, { message: "First name cannot be empty." })
+    .regex(/^[A-Za-z]+$/, { message: "First name must contain only letters." })
+    .trim(),
   role: z
     .string()
-    .min(2, { message: "Role cannot be empty." })
-    .regex(/^[A-Za-z\s]+$/, { message: "Role must contain only letters." }),
+    .min(1, { message: "Role cannot be empty." })
+    .regex(/^[A-Za-z]+$/, { message: "Role must contain only letters." })
+    .trim(),
   cell: z
     // .string()
     // .min(1, { message: "Phone number cannot be empty." })
     // .regex(/^\d+$/, { message: "Phone number must be numeric." })
     // .length(15, { message: "Phone number cannot be more than 15 digits." }),
-    
+
     .string()
     .min(1, { message: "Phone Number cannot be empty." })
     .max(15, { message: "Phone number cannot be more than 15 digits." })
     .regex(/^\d{1,15}$/, { message: "Phone number must be up to 15 digits." }),
+  // organization: z
+  //   .string()
+  //   .min(1, { message: "Organization name cannot be empty." }),
+
   organization: z
     .string()
-    .min(1, { message: "Organization name cannot be empty." }),
+    .min(1, { message: "Organization name cannot be empty." })
+    .regex(/^[A-Za-z0-9][A-Za-z0-9\s]*$/, {
+      message: "Organization name cannot be empty.",
+    })
+    .trim(),
+  // lastname: z
+  //   .string()
+  //   .min(1, { message: "Last name cannot be empty." })
+  //   .regex(/^[A-Za-z\s]+$/, {
+  //     message: "Last name must contain only letters.",
+  //   }),
+
   lastname: z
     .string()
     .min(1, { message: "Last name cannot be empty." })
-    .regex(/^[A-Za-z\s]+$/, {
+    .regex(/^[A-Za-z][A-Za-z\s]*$/, {
       message: "Last name must contain only letters.",
-    }),
+    })
+    .trim(),
+
   BIO: z.string().min(1, { message: "Description cannot be empty." }),
 });
 
@@ -179,7 +204,7 @@ const GetSponsored = () => {
               //  onSubmit={form.handleSubmit(login)}
             >
               <div className="lg:flex w-full  gap-[24px]">
-                <div className="w-full">
+                {/* <div className="w-full">
                   <FormField
                     control={form.control}
                     name="firstname"
@@ -204,7 +229,62 @@ const GetSponsored = () => {
                             }}
                             onKeyDown={(e) => {
                               // Allow only letters and spaces
-                              if (!/^[A-Za-z\s]*$/.test(e.key) && e.key !== "Backspace" && e.key !== "Tab") {
+                              if (
+                                !/^[A-Za-z\s]*$/.test(e.key) &&
+                                e.key !== "Backspace" &&
+                                e.key !== "Tab"
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div> */}
+                <div className="w-full">
+                  <FormField
+                    control={form.control}
+                    name="firstname"
+                    render={({ field }) => (
+                      <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                          FIRST NAME
+                        </FormLabel>
+                        <Image
+                          src={user}
+                          alt="img"
+                          className="absolute right-3 top-[30%]"
+                        />
+                        <FormControl className="text-[white]">
+                          <Input
+                            placeholder="Enter First Name"
+                            className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                            {...field}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              // Allow the input, but prevent leading space
+                              if (value.trimStart().length === 0) {
+                                // If input is only spaces, set to empty
+                                setName("");
+                                field.onChange("");
+                              } else {
+                                setName(value);
+                                field.onChange(value);
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent leading space
+                              if (e.key === " " && field.value.length === 0) {
+                                e.preventDefault();
+                              }
+                              // Allow letters and spaces
+                              if (
+                                !/^[A-Za-z\s]*$/.test(e.key) &&
+                                !["Backspace", "Tab"].includes(e.key)
+                              ) {
                                 e.preventDefault();
                               }
                             }}
@@ -215,7 +295,7 @@ const GetSponsored = () => {
                     )}
                   />
                 </div>
-                <div className="w-full">
+                {/* <div className="w-full">
                   <FormField
                     control={form.control}
                     name="lastname"
@@ -241,7 +321,62 @@ const GetSponsored = () => {
                             }}
                             onKeyDown={(e) => {
                               // Allow only letters and spaces
-                              if (!/^[A-Za-z\s]*$/.test(e.key) && e.key !== "Backspace" && e.key !== "Tab") {
+                              if (
+                                !/^[A-Za-z\s]*$/.test(e.key) &&
+                                e.key !== "Backspace" &&
+                                e.key !== "Tab"
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div> */}
+                <div className="w-full">
+                  <FormField
+                    control={form.control}
+                    name="lastname"
+                    render={({ field }) => (
+                      <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                          LAST NAME
+                        </FormLabel>
+                        <Image
+                          src={user}
+                          alt="img"
+                          className="absolute right-3 top-[30%]"
+                        />
+                        <FormControl>
+                          <Input
+                            placeholder="Enter Last Name"
+                            className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                            {...field}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              // Prevent leading space
+                              if (value.trimStart().length === 0) {
+                                setLastName("");
+                                field.onChange("");
+                              } else {
+                                setLastName(value);
+                                field.onChange(value);
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent leading space
+                              if (e.key === " " && field.value.length === 0) {
+                                e.preventDefault();
+                              }
+                              // Allow letters and spaces
+                              if (
+                                !/^[A-Za-z\s]*$/.test(e.key) &&
+                                !["Backspace", "Tab"].includes(e.key)
+                              ) {
                                 e.preventDefault();
                               }
                             }}
@@ -283,7 +418,7 @@ const GetSponsored = () => {
                     )}
                   />
                 </div>
-                <div className="w-full">
+                {/* <div className="w-full">
                   <FormField
                     control={form.control}
                     name="organization"
@@ -312,10 +447,60 @@ const GetSponsored = () => {
                       </FormItem>
                     )}
                   />
+                </div> */}
+                <div className="w-full">
+                  <FormField
+                    control={form.control}
+                    name="organization"
+                    render={({ field }) => (
+                      <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                          Organization
+                        </FormLabel>
+                        <Image
+                          src={organization}
+                          alt="img"
+                          className="absolute right-3 top-[30%]"
+                        />
+                        <FormControl>
+                          <Input
+                            placeholder="Enter Organization Name"
+                            className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                            {...field}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              // Prevent leading space
+                              if (value.trimStart().length === 0) {
+                                setOrgName("");
+                                field.onChange("");
+                              } else {
+                                setOrgName(value);
+                                field.onChange(value);
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent leading space
+                              if (e.key === " " && field.value.length === 0) {
+                                e.preventDefault();
+                              }
+                              // Allow letters, numbers, and spaces
+                              if (
+                                !/^[A-Za-z0-9\s]*$/.test(e.key) &&
+                                !["Backspace", "Tab"].includes(e.key)
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
               </div>
               <div className="lg:flex w-full  gap-[24px]">
-                <div className="w-full">
+                {/* <div className="w-full">
                   <FormField
                     control={form.control}
                     name="role"
@@ -340,7 +525,61 @@ const GetSponsored = () => {
                             }}
                             onKeyDown={(e) => {
                               // Allow only letters and spaces
-                              if (!/^[A-Za-z\s]*$/.test(e.key) && e.key !== "Backspace" && e.key !== "Tab") {
+                              if (
+                                !/^[A-Za-z\s]*$/.test(e.key) &&
+                                e.key !== "Backspace" &&
+                                e.key !== "Tab"
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div> */}
+                <div className="w-full">
+                  <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                      <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                          ROLE
+                        </FormLabel>
+                        <Image
+                          src={user}
+                          alt="img"
+                          className="absolute right-3 top-[30%]"
+                        />
+                        <FormControl>
+                          <Input
+                            placeholder="Enter Role"
+                            className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                            {...field}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              // Prevent leading space
+                              if (value.trimStart().length === 0) {
+                                setRole("");
+                                field.onChange("");
+                              } else {
+                                setRole(value);
+                                field.onChange(value);
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent leading space
+                              if (e.key === " " && field.value.length === 0) {
+                                e.preventDefault();
+                              }
+                              // Allow only letters and spaces
+                              if (
+                                !/^[A-Za-z\s]*$/.test(e.key) &&
+                                !["Backspace", "Tab"].includes(e.key)
+                              ) {
                                 e.preventDefault();
                               }
                             }}
@@ -351,6 +590,7 @@ const GetSponsored = () => {
                     )}
                   />
                 </div>
+
                 <div className="w-full">
                   <FormField
                     control={form.control}
@@ -397,7 +637,7 @@ const GetSponsored = () => {
                   />
                 </div>
               </div>
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="BIO"
                 render={({ field }) => (
@@ -419,7 +659,47 @@ const GetSponsored = () => {
                     <FormMessage />
                   </FormItem>
                 )}
+              /> */}
+              <FormField
+                control={form.control}
+                name="BIO"
+                render={({ field }) => (
+                  <FormItem className="relative mb-[32px] md:mb-[24px] space-y-0">
+                    <FormLabel className="text-[12px] text-[#8F8F8F] font-bold absolute left-3 top-3">
+                      MESSAGE
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Enter Message"
+                        className="pt-[36px] pb-5 h-[135px] lg:h-[260px] placeholder:text-base placeholder:text-[white] placeholder:font-extrabold resize-none"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // Prevent leading space
+                          if (value.trimStart().length === 0) {
+                            setDescription("");
+                            field.onChange("");
+                          } else {
+                            setDescription(value);
+                            field.onChange(value);
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent leading space
+                          if (
+                            e.key === " " &&
+                            field.value.trim().length === 0
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
+
               <div className="flex justify-start">
                 <Button
                   type="submit"

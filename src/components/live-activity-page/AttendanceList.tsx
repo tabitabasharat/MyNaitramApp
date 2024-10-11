@@ -56,7 +56,7 @@ const AttendanceList = () => {
         </div>
 
         {/* LARGE SCREEN VIEW */}
-        <div className="hidden md:flex md:h-[530px] overflow-auto scrollbar-hide flex-wrap justify-normal items-center mt-[16px]">
+        <div className="hidden md:flex lg:h-[530px] overflow-auto scrollbar-hide flex-wrap justify-normal items-start mt-[16px]">
           {eventAttendy?.attend?.data?.map((attendee: any) => (
             <Avatar
               size="size-[64px]"
@@ -125,7 +125,7 @@ const AttendanceList = () => {
                       size="size-[55px]"
                     />
 
-                    <p className="font-bold text-[18px]">
+                    <p className="font-bold text-[18px] ">
                       {attendee?.liveActivity?.isActive
                         ? attendee.fullname
                         : ""}

@@ -39,8 +39,11 @@ import { API_URL } from "@/lib/client";
 import api from "@/lib/apiInterceptor";
 
 const formSchema = z.object({
-  subject: z.string().min(1, { message: "Subject cannot be empty." }),
-  description: z.string().min(1, { message: "Description be empty." }),
+  subject: z
+    .string()
+    .min(1, { message: "Subject cannot be empty." })
+    .regex(/^[A-Za-z\s]+$/, { message: "Subject must contain only letters." }),
+  description: z.string().min(1, { message: "Description cannot be empty." }),
 });
 
 const OrganizerHelpcenter = ({
@@ -128,6 +131,11 @@ const OrganizerHelpcenter = ({
       description: "",
     },
   });
+
+  const {
+    watch,
+    formState: { isValid },
+  } = form;
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -250,7 +258,7 @@ const OrganizerHelpcenter = ({
               onSubmit={form.handleSubmit(createCenter)}
               className=" w-full"
             >
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="subject"
                 render={({ field }) => (
@@ -272,8 +280,53 @@ const OrganizerHelpcenter = ({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
+
               <FormField
+                control={form.control}
+                name="subject"
+                render={({ field }) => (
+                  <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                      SUBJECT
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter Subject"
+                        className="pt-11 pb-5 text-[#D9D9D9] text-base placeholder:font-normal"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // Prevent leading space
+                          if (value.trimStart().length === 0) {
+                            setSubject("");
+                            field.onChange("");
+                          } else {
+                            setSubject(value);
+                            field.onChange(value);
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent leading space
+                          if (e.key === " " && field.value.length === 0) {
+                            e.preventDefault();
+                          }
+                          // Allow letters and spaces
+                          if (
+                            !/^[A-Za-z\s]*$/.test(e.key) &&
+                            !["Backspace", "Tab"].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* <FormField
                 control={form.control}
                 name="description"
                 render={({ field }) => (
@@ -295,14 +348,58 @@ const OrganizerHelpcenter = ({
                     <FormMessage />
                   </FormItem>
                 )}
+              /> */}
+
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                      DESCRIPTION
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Vorem ipsum dolor sit amet consectetur"
+                        className="pt-[36px] pb-5 h-[136px] text-[#D9D9D9] text-base placeholder:font-normal resize-none"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // Prevent leading space
+                          if (value.trimStart().length === 0) {
+                            setDescription("");
+                            field.onChange("");
+                          } else {
+                            setDescription(value);
+                            field.onChange(value);
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent leading space
+                          if (e.key === " " && field.value.length === 0) {
+                            e.preventDefault();
+                          }
+                          // Allow letters, numbers, and spaces
+                          if (
+                            !/^[A-Za-z0-9\s]*$/.test(e.key) &&
+                            !["Backspace", "Tab"].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
 
               <div className="w-full border border-muted rounded-[12px]">
-                <div className="px-[24px] py-[16px] relative create-container w-full">
+                <div className="ps-[12px] pr-[24px] py-[16px] relative create-container w-full">
                   <div className="flex justify-between">
-                    <h1 className="text-[16px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
+                    <h1 className="text-[16px] font-extrabold -tracking-[0.02em] leading-[27.6px] ">
                       {" "}
-                      Attachments
+                      ATTACHMENTS
                     </h1>
                     {/* <Image src={Editicon} alt="Edit-icon" /> */}
                   </div>
@@ -316,7 +413,7 @@ const OrganizerHelpcenter = ({
                   />
                 </div>
                 <div
-                  className={`  gradient-slate w-full pt-[16px] pb-[16px] px-[24px] h-[300px] lg:h-[330px] create-container-head relative ${
+                  className={`  gradient-slate w-full pt-[16px] pb-[16px] ps-[12px] pr-[24px] h-[300px] lg:h-[330px] create-container-head relative ${
                     galleryFiles.length > 0
                       ? "block"
                       : "flex items-center justify-center lg:h-[200px]"
@@ -407,7 +504,7 @@ const OrganizerHelpcenter = ({
                         // }`}
                         className={`pb-3 gallery-box-same border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end ${
                           galleryFiles.length >= 10
-                            ?  "opacity-50 cursor-not-allowed"
+                            ? "opacity-50 cursor-not-allowed"
                             : galleryFiles.length > 0
                             ? "gallery-box"
                             : "pt-9 gallery-top"
@@ -486,6 +583,9 @@ const OrganizerHelpcenter = ({
                 <Button
                   type="submit"
                   className="w-full p-[12px] font-extrabold py-[12px] text-sm md:text-base "
+                  disabled={
+                    eventsFiles.length === 0 && galleryFiles.length === 0
+                  }
                 >
                   Submit
                 </Button>
