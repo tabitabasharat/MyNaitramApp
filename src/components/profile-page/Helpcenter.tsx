@@ -43,7 +43,7 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Subject cannot be empty." })
     .regex(/^[A-Za-z\s]+$/, { message: "Subject must contain only letters." }),
-  description: z.string().min(1, { message: "Description be empty." }),
+  description: z.string().min(1, { message: "Description cannot be empty." }),
 });
 
 const Helpcenter = ({

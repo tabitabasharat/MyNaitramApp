@@ -60,8 +60,8 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "@/components/loader/Screenloader";
 import { createevent } from "@/lib/middleware/event";
 import api from "@/lib/apiInterceptor";
-import arrowdown from "@/assets/arrow-down-drop.svg";
-
+import arrowdown from "@/assets/aboutdropdown.svg";
+import arrowup from "@/assets/Arrow up.svg"
 import img1 from "@/assets/Handbag (1).svg";
 import img2 from "@/assets/Cake.svg";
 import img3 from "@/assets/Crown.svg";
@@ -227,57 +227,6 @@ const formSchema = z.object({
   // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
-  // selected: z.string(),
-  // tickets: z.array(
-  //   z.object({
-  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //     price: z
-  //       .string()
-  //       .min(1, { message: "Ticket price must be greater than 0." }),
-  //     no: z
-  //       .string()
-  //       .min(1, { message: "Number of tickets must be greater than 0." }),
-  //   })
-  // ),
-
-  // ticketss: z.array(
-  //   z
-  //     .object({
-  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //       // price: z.union([z.string(), z.number()]).optional(),
-  //       price: z.string().min(1, { message: "Ticket price cannot be empty." }),
-  //       no: z
-  //         .union([z.string(), z.number()])
-  //         .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-  //           message: "Number of tickets must be greater than 0.",
-  //           path: ["no"],
-  //         }),
-  //       selected: z.string().optional(),
-  //     })
-  //     .refine(
-  //       (data) => {
-  //         if (data.selected === "paid") {
-  //           const priceIsValid =
-  //             data.price !== undefined &&
-  //             ((typeof data.price === "string" && data.price.trim() !== "") ||
-  //               (typeof data.price === "number" && data.price > 0));
-
-  //           return priceIsValid;
-
-
-            
-  //         } else if (data.selected === "free") {
-  //           return data.price === undefined; // Price must be undefined for free tickets
-  //         }
-  //         return true; // If neither selected, pass validation
-  //       },
-  //       {
-  //         message:
-  //           "Price is required for paid tickets and should not be present for free tickets.",
-  //         path: ["price"],
-  //       }
-  //     )
-  // ),
   tickets: z.array(
     z
       .object({
@@ -385,68 +334,7 @@ const formSchema2 = z.object({
   // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
-  // selected: z.string(),
-  // tickets: z.array(
-  //   z.object({
-  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //     price: z.string().min(1, { message: "Ticket price cannot be empty." }),
-  //     no: z
-  //       .string()
-  //       .min(1, { message: "Number of tickets must be greater than 0." }),
-  //   })
-  // ),
-  // tickets: z.array(
-  //   z.object({
-  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //     price: z.string().optional(),
-  //     no: z.string().min(1, { message: "Number of tickets must be greater than 0." }),
-  //     selected: z.string().optional(),
-  //   }).refine((data) => {
-
-  //     if (data.selected === "paid" && (!data.price || data.price.trim() === "")) {
-  //       return false;
-  //     }
-  //     return true;
-  //   }, {
-  //     message: "Price is required .",
-  //     path: ['price']
-  //   })
-  // ),
-
-  // ticketss: z.array(
-  //   z
-  //     .object({
-  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //       price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
-  //       no: z.union([
-  //         z.string().refine((val) => Number(val) > 0, {
-  //           message: "Number of tickets must be greater than 0.",
-  //         }),
-  //         z
-  //           .number()
-  //           .min(1, { message: "Number of tickets must be greater than 0." }),
-  //       ]),
-  //       selected: z.string().optional(),
-  //     })
-  //     .refine(
-  //       (data) => {
-  //         // Validate price based on selection
-  //         if (data.selected === "paid") {
-  //           const priceIsValid =
-  //             data.price !== undefined &&
-  //             ((typeof data.price === "string" && data.price.trim() !== "") ||
-  //               (typeof data.price === "number" && data.price > 0));
-
-  //           return priceIsValid;
-  //         }
-  //         return true; // Skip price validation for free tickets
-  //       },
-  //       {
-  //         message: "Price is required for paid tickets.",
-  //         path: ["price"], // Specify the path for the error
-  //       }
-  //     )
-  // ),
+ 
   tickets: z.array(
     z
       .object({
@@ -741,16 +629,7 @@ function OganizerCreateEvent() {
       selected: "free",
     },
   ]);
-  // const [ticketTypes, setTicketTypes] = useState([
-  //   {
-  //     type: "",
-  //     price: "",
-  //     no: "",
-  //     selected: "free",
-  //     dropdown: true,
-  //     options: [],
-  //   },
-  // ]);
+
   const [categoryTypes, setCategoryTypes] = useState<any>([]);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
 
@@ -853,14 +732,6 @@ function OganizerCreateEvent() {
     );
   };
 
-  // const handlecateDropdown = (index: number) => {
-  //   setCategoryTypes((prevCategories) =>
-  //     prevCategories.map((category, i) =>
-  //       i === index ? { ...category, dropdown: !category.dropdown } : category
-  //     )
-  //   );
-  // };
-
   const handleCatDropdownToggle = () => {
     setIsCatDropdownOpen((prev) => !prev);
   };
@@ -893,13 +764,6 @@ function OganizerCreateEvent() {
       tickets: [],
     },
   });
-
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files) {
-  //     const filesArray = Array.from(event.target.files);
-  //     setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]);
-  //   }
-  // };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -1422,19 +1286,18 @@ function OganizerCreateEvent() {
                 width={100}
                 height={345}
               />
+                <div className="absolute inset-0 flex items-center justify-center">
 
               <label
                 htmlFor="uploadcover"
-                className="flex gap-2 items-center justify-between w-full cursor-pointer  "
+                className="flex gap-2 items-center justify-center w-full cursor-pointer  "
               >
-                <div className="absolute inset-0 flex items-center justify-center">
                   <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate">
                     <Image src={cam} alt="pencil" />
                     <p className="text-[#00D059] text-sm font-extrabold ">
                       Upload Image
                     </p>
                   </div>
-                </div>
                 <input
                   ref={fileInputRef2}
                   type="file"
@@ -1444,6 +1307,8 @@ function OganizerCreateEvent() {
                   onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
                 />
               </label>
+              </div>
+
             </div>
           </div>
 
@@ -1664,7 +1529,7 @@ function OganizerCreateEvent() {
                           </p>
                         </div>
                         <Image
-                          src={isCatDropdownOpen ? arrowdown : arrowdown}
+                          src={isCatDropdownOpen ?arrowup :arrowdown}
                           width={11}
                           height={11}
                           alt="arrow"
@@ -1673,7 +1538,7 @@ function OganizerCreateEvent() {
 
                       {isCatDropdownOpen && (
                         <>
-                          <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                          <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-0 gradient-slate px-[12px] pb-[16px] pt-[8px]">
                             {categoryAlert == true && (
                               <p className="text-[red] text-[16px]">
                                 You can only select 4 categories at a time
@@ -2831,7 +2696,7 @@ function OganizerCreateEvent() {
                             WHAT'S INCLUDED
                           </p>
                           <Image
-                            src={ticket?.dropdown ? arrowdown : arrowdown}
+                            src={ticket?.dropdown ? arrowup : arrowdown}
                             width={11}
                             height={11}
                             alt="arrow"
