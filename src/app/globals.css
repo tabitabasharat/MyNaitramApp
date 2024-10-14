@@ -309,26 +309,6 @@ body {
   background-repeat: no-repeat;
   padding: 0px;
 }
-/* .auth-bg-gradient {
-  position: relative;
-  border-radius: 8px !important;
-}
-.auth-bg-gradient::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 8px !important;
-  padding: 1px; 
-  background: linear-gradient(
-    135deg,
-    #13ff7a 0.2%,
-    #002b12 50.2%,
-    #13ff7a 100.2%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-} */
 .gradient-bg-auth {
   position: relative;
   border-radius: 8px; /* This controls the rounding of the corners */
@@ -370,7 +350,7 @@ body {
   position: absolute;
   inset: 0;
   border-radius: "44px"; /* Inherit the border-radius from the parent */
-  padding: 1px; /* Adjust this value to control the thickness of the border */
+  padding: 2px; /* Adjust this value to control the thickness of the border */
   background: linear-gradient(
     135deg,
     #13ff7a 0.2%,
@@ -393,7 +373,7 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 44px !important; /* Inherit the border-radius from the parent */
-  padding: 1px; /* Adjust this value to control the thickness of the border */
+  padding: 2px; /* Adjust this value to control the thickness of the border */
   background: linear-gradient(
     135deg,
     #13ff7a 0.2%,
@@ -415,7 +395,7 @@ body {
   position: absolute;
   inset: 0;
   border-radius: inherit; /* Inherit the border-radius from the parent */
-  padding: 1px; /* Adjust this value to control the thickness of the border */
+  padding: 2px; /* Adjust this value to control the thickness of the border */
   background: linear-gradient(
     135deg,
     #13ff7a 0.2%,
@@ -436,7 +416,7 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 44px !important; /* Inherit the border-radius from the parent */
-  padding: 1px; /* Adjust this value to control the thickness of the border */
+  padding: 2px; /* Adjust this value to control the thickness of the border */
   background: linear-gradient(
     135deg,
     #13ff7a 0.2%,
@@ -727,7 +707,7 @@ input[type="number"] {
   position: absolute;
   inset: 0;
   border-radius: 100px !important; /* Inherit the border-radius from the parent */
-  padding: 1px; /* Adjust this value to control the thickness of the border */
+  padding: 2px; /* Adjust this value to control the thickness of the border */
   background: linear-gradient(
     135deg,
     #13ff7a 0.2%,
@@ -788,7 +768,7 @@ input[type="number"] {
     position: absolute;
     inset: 0;
     border-radius: 44px !important; /* Inherit the border-radius from the parent */
-    padding: 1px; /* Adjust this value to control the thickness of the border */
+    padding: 2px; /* Adjust this value to control the thickness of the border */
     background: linear-gradient(
       135deg,
       #13ff7a 0.2%,
@@ -824,7 +804,7 @@ input[type="number"] {
     position: absolute;
     inset: 0;
     border-radius: 44px !important; /* Inherit the border-radius from the parent */
-    padding: 1px; /* Adjust this value to control the thickness of the border */
+    padding: 2px; /* Adjust this value to control the thickness of the border */
     background: linear-gradient(
       135deg,
       #13ff7a 0.2%,

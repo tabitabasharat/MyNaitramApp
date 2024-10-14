@@ -57,10 +57,9 @@ const Footer = () => {
             </div>
             <div className="flex justify-center text-center lg:justify-start gap-16 lg:gap-24 xl:gap-32">
               <div className="flex items-start flex-col gap-3 lg:gap-8">
-                <Link href={"/about"} className="text-center w-full hover:underline lg:text-start">FAQ</Link>
+              <Link href={"/about"} className="text-center w-full hover:underline lg:text-start">FAQ</Link>
                 <Link href={"/organizer-event/helpcenter"} className="text-center w-full hover:underline lg:text-start">Help Center</Link>
-
-                <Link href={"/privacypolicy"} className="text-center w-full hover:underline lg:text-start">Terms and Conditions</Link>
+                <Link href={"/termsandcondition"} className="text-center w-full hover:underline lg:text-start">Terms and Conditions</Link>
               </div>
             </div>
           </div>

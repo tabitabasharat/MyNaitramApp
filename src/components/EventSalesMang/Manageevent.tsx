@@ -72,7 +72,7 @@ function Manageevent({
     <div className="w-full lg:w-[70%] lg:pe-[88px] px-[24px] lg:ps-[80px] md:px-[50px] lg:w-full pt-[120px] pb-[57px] lg:pb-[170px] md:pt-[136px] lg:mx-0 relative  ">
       <Backward />
       <h3 className=" font-bold lg:text-[48px] text-[32px] my-[24px] lg:my-[32px]">
-        Get event sales
+        Get Event Sales
       </h3>
 
       {EventsData?.data?.events?.length > 0 ? (

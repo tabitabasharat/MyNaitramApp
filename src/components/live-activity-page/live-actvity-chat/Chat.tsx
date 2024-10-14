@@ -59,7 +59,7 @@ const Chat = ({
           src={userimg || "/person1.png"}
           width={200}
           height={200}
-          className="size-[32px] object-cover object-top rounded-full max-w-fit cursor-pointer"
+          className={`size-[32px] object-cover object-top rounded-full ${userimg ? 'max-w-fit' : ''} cursor-pointer`}
           alt="chat-profile-pic"
         />
       </div>
