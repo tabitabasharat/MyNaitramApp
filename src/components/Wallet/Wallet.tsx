@@ -11,10 +11,11 @@ import { Input } from "@/components/ui/input";
 import EventCards from "../eventCards/EventCards";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getTicketsByID } from "@/lib/middleware/wallet";
+import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
 
 type SelectedOption = "tickets" | "collectables" | null;
 
-export default function Wallet() {
+ function Wallet() {
   const [selected, setSelected] = useState<SelectedOption>("tickets");
   const dispatch = useAppDispatch();
   const [searchQuerytickets, setSearchQuerytickets] = useState("");
@@ -152,3 +153,5 @@ export default function Wallet() {
     </section>
   );
 }
+
+export default Protectedroute(Wallet);

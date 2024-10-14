@@ -11,12 +11,19 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import Link from "next/link";
 import { Reveal } from "@/components/animations/Reveal";
+import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
+import { StayInformedEmail } from "@/lib/middleware/signin";
+import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+
 
 const ContactUsPage = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [searchTerm, setSearchTerm] = useState("");
   const [fullname, setFullname] = useState("");
   const [Lastname, setLastname] = useState("");
+  const [loader,setLoader] = useState(false);
+
 
   const [Email, setEmail] = useState("");
   const [EmailAddress, setEmailAddress] = useState("");
@@ -33,6 +40,29 @@ const ContactUsPage = () => {
   const filteredEvents = events.filter((event) =>
     event.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  async function handleEmail() {
+  
+    setLoader(true);
+    try {
+      const data = {
+        email: EmailAddress,
+
+      };
+      dispatch(StayInformedEmail(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          SuccessToast("Email Sent Successfully");
+          setEmailAddress("");
+
+        }  else {
+          ErrorToast(res?.payload?.message || "Something went wrong");
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      ErrorToast(error);
+    }
+  }
   return (
     <section    
       style={{
@@ -149,6 +179,7 @@ const ContactUsPage = () => {
                   <Button
                     variant="secondary"
                     className=" flex items-center subscribe-btn"
+                    onClick={handleEmail}
                   >
                     Subscribe
                   </Button>

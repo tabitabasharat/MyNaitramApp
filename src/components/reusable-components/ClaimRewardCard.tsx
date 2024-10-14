@@ -7,6 +7,7 @@ import { SuccessToast, ErrorToast } from "./Toaster/Toaster";
 import { useState, useEffect } from "react";
 import { claimReward, getClaimStatus } from "@/lib/middleware/reward";
 import ClaimRewardModal from "../Reward/ClaimRewardModal";
+import ClaimReward24hrModal from "../Reward/ClaimReward24hrPopup";
 
 
 
@@ -15,6 +16,8 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID,claimed, claimedamount }
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const [isClaimOpen, setisClaimOpen] = useState(false);
+  const [isClaimHourOpen, setisClaimHourOpen] = useState(false);
+
 
 
 
@@ -36,7 +39,9 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID,claimed, claimedamount }
           setisClaimOpen(true);
         } else {
           setLoader(false);
-          ErrorToast(res?.payload?.message);
+          // ErrorToast(res?.payload?.message);
+          setisClaimHourOpen(true);
+
         }
       });
     } catch (error) {
@@ -56,7 +61,7 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID,claimed, claimedamount }
         </div>
 
         <Button
-        disabled={claimed}
+        // disabled={claimed}
           size="sm"
           variant="secondary"
           className="py-[6px] font-extrabold w-fit text-[#030303] text-[14px] disabled:opacity-50"
@@ -77,6 +82,14 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID,claimed, claimedamount }
           open={() => setisClaimOpen(true)}
           MRTamount={claimedamount}
           Name={heading}
+         
+        />
+      )}
+       {isClaimHourOpen && (
+        <ClaimReward24hrModal
+          onClose={() => setisClaimHourOpen(false)}
+          open={() => setisClaimHourOpen(true)}
+         
          
         />
       )}

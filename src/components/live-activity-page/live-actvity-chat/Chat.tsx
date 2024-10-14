@@ -3,6 +3,8 @@ import { useAppSelector } from "@/lib/hooks";
 import Link from "next/link";
 import { ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import PrivateProfilePopUp from "@/components/reusable-components/PrivateProfilePopUp";
 const Chat = ({
   img,
   msgtext,
@@ -21,6 +23,8 @@ const Chat = ({
   console.log("my local userid ", localUserId);
 
   const router = useRouter();
+  const [isClaimOpen, setisClaimOpen] = useState(false);
+
   // const handleProfileClick = (e: any) => {
   //   e.preventDefault();
 
@@ -37,7 +41,8 @@ const Chat = ({
     if (isActive) {
       onProfileClick(userid);
     } else {
-      ErrorToast("This User Profile is Private");
+      // ErrorToast("This User Profile is Private");
+      setisClaimOpen(true);
     }
   };
   return (
@@ -101,6 +106,15 @@ const Chat = ({
           </div>
         )}
       </div>
+      {isClaimOpen && (
+        <PrivateProfilePopUp
+          onClose={() => setisClaimOpen(false)}
+          open={() => setisClaimOpen(true)}
+          msg={"This User's Profile is Private"}
+        
+         
+        />
+      )}
     </div>
   );
 };

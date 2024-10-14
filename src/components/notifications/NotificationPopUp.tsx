@@ -14,7 +14,10 @@ import {
   getOrgReadNotifications,
 } from "@/lib/middleware/notification";
 import profileimg from "@/assets/Avatar-1.svg";
+import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
 
+dayjs.extend(isBetween);
 const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
   const dispatch = useAppDispatch();
 
@@ -101,11 +104,48 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
     }
   }, []);
 
-
   const Unreadnotification =
-    Notify &&
-    Notify?.some((item:any) => item && item?.NotifyRead === false);
-    
+    Notify && Notify?.some((item: any) => item && item?.NotifyRead === false);
+
+  const filterNotifications = (notifications: any) => {
+    const now = dayjs();
+    console.log("All notifications:", notifications); // Log all notifications
+
+    let filteredNotifications;
+    switch (active) {
+      case "today":
+        filteredNotifications = notifications.filter((notification: any) =>
+          dayjs(notification.createdAt).isSame(now, "day")
+        );
+        break;
+      case "This Week": // Updated case for "This Week"
+        filteredNotifications = notifications.filter((notification: any) =>
+          dayjs(notification.createdAt).isBetween(
+            now.startOf("week"),
+            now.endOf("week"),
+            null,
+            "[]" // Inclusive
+          )
+        );
+        break;
+      case "This Month": // Updated case for "This Month"
+        filteredNotifications = notifications.filter((notification: any) =>
+          dayjs(notification.createdAt).isBetween(
+            now.startOf("month"),
+            now.endOf("month"),
+            null,
+            "[]" // Inclusive
+          )
+        );
+        break;
+      default:
+        filteredNotifications = notifications;
+    }
+
+    console.log(`Filtered notifications for ${active}:`, filteredNotifications); // Log filtered notifications
+    return filteredNotifications;
+  };
+
   return (
     <div className="bg-black relative z-[1400]">
       <div className="flex justify-between">
@@ -147,10 +187,24 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
 
       {/* Time Period Buttons */}
       <div className="flex flex-wrap gap-2 mt-[20px]">
-        {/* Today */}
-        {/* <GradientBorder
-          className={`rounded-full w-fit`}
-        > */}
+        {["today", "This Week", "This Month"].map((period) => (
+          <div
+            key={period}
+            onClick={() => setActive(period)} // Set the active state to match button labels
+            className={`border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
+              active === period
+                ? "gradient-border-notify text-primary"
+                : "text-white"
+            } items-center lg:items-start cursor-pointer`}
+          >
+            <p className="text-sm font-extrabold">
+              {period.charAt(0).toUpperCase() + period.slice(1)}
+            </p>
+          </div>
+        ))}
+      </div>
+      {/* <div className="flex flex-wrap gap-2 mt-[20px]">
+       
         <div
           onClick={() => handleClick("today")}
           className={`border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
@@ -161,9 +215,7 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
         >
           <p className="text-sm font-extrabold">Today</p>
         </div>
-        {/* </GradientBorder> */}
 
-        {/* This Week */}
         <div
           onClick={() => handleClick("week")}
           className={`border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
@@ -175,7 +227,6 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
           <p className="text-sm font-extrabold">This Week</p>
         </div>
 
-        {/* This Month */}
         <div
           onClick={() => handleClick("month")}
           className={`border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
@@ -186,7 +237,7 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
         >
           <p className="text-sm font-extrabold">This Month</p>
         </div>
-      </div>
+      </div> */}
 
       {/* Notifications List */}
 
@@ -215,7 +266,7 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
             })}
         </div>
       )} */}
-      {activeTab === "USER" && (
+      {/* {activeTab === "USER" && (
         <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
           {Notify?.length > 0 &&
             Notify?.map((item: any, index: any) => {
@@ -232,6 +283,24 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
                 />
               );
             })}
+        </div>
+      )} */}
+
+      {activeTab === "USER" && (
+        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
+          {filterNotifications(Notify)?.length > 0 &&
+            filterNotifications(Notify).map((item: any, index: any) => (
+              <EventNotificationCard
+                key={index}
+                msg={item?.msg}
+                heading={item?.action}
+                notifyTime={item?.createdAt}
+                readStatus={item?.NotifyRead}
+                notificationId={item?.id}
+                notifyType={"user"}
+                profileimg={item?.picture}
+              />
+            ))}
         </div>
       )}
 
@@ -258,7 +327,7 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
             })}
         </div>
       )} */}
-      {activeTab === "ORGANISER" && (
+      {/* {activeTab === "ORGANISER" && (
         <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
           {NotifyOrg?.length > 0 &&
             NotifyOrg?.map((item: any, index: any) => {
@@ -276,6 +345,24 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
                 />
               );
             })}
+        </div>
+      )} */}
+
+      {activeTab === "ORGANISER" && (
+        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
+          {filterNotifications(NotifyOrg)?.length > 0 &&
+            filterNotifications(NotifyOrg).map((item: any, index: any) => (
+              <EventNotificationCard
+                key={index}
+                msg={item?.msg}
+                heading={item?.action}
+                notifyTime={item?.createdAt}
+                readStatus={item?.NotifyRead}
+                notificationId={item?.id}
+                notifyType={"organization"}
+                profileimg={item?.picture}
+              />
+            ))}
         </div>
       )}
     </div>

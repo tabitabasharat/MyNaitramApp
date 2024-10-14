@@ -29,11 +29,14 @@ import {
 } from "@/lib/middleware/liveactivity";
 import { SuccessToast, ErrorToast } from "./Toaster/Toaster";
 import { FollowPromoterStatus } from "@/lib/middleware/event";
+import PrivateProfilePopUp from "./PrivateProfilePopUp";
 
 const Followpromoter = ({ userId, eventName, EventData }: any) => {
   const [uId, setUid] = useState<any>("");
   const [loading, setLoading] = useState(false);
   const [followStatus, setFollowStatus] = useState(false);
+  const [isClaimOpen, setisClaimOpen] = useState(false);
+
 
   console.log("my follow status", followStatus);
 
@@ -206,7 +209,8 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
     if (EventData?.profile?.public) {
       router.push(`/profile-perview/${userId}`);
     } else {
-      ErrorToast("This Organiser's Profile is Private");
+      // ErrorToast("This Organiser's Profile is Private");
+      setisClaimOpen(true);
     }
   };
 
@@ -381,6 +385,15 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
             </div>
           )}
         </div>
+        {isClaimOpen && (
+        <PrivateProfilePopUp
+          onClose={() => setisClaimOpen(false)}
+          open={() => setisClaimOpen(true)}
+          msg={"This Organizer's Profile is Private"}
+        
+         
+        />
+      )}
       </div>
     </div>
   );

@@ -55,7 +55,7 @@ const options: Option[] = [
 ];
 
 const formSchema = z.object({
-  walletName: z.string().min(1, { message: "Wallet Name cannot be empty." }),
+  // walletName: z.string().min(1, { message: "Wallet Name cannot be empty." }),
 
   walletAddress: z
     .string()
@@ -79,7 +79,7 @@ const AddCryptowallet = ({ eventData }: any) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       walletAddress: "",
-      walletName: "",
+      // walletName: "",
     },
   });
 
@@ -258,7 +258,7 @@ const AddCryptowallet = ({ eventData }: any) => {
         userId: userid,
         chain: selectedOption.label || "",
         walletAddress: walletaddress,
-        walletName: walletname,
+        // walletName: "walletname",
       };
 
       const res: any = await dispatch(createPayoutCrypto(data));
@@ -313,7 +313,7 @@ const AddCryptowallet = ({ eventData }: any) => {
                 form.handleSubmit(EventCreation)(event);
               }}
             >
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="walletName"
                 render={({ field }) => (
@@ -337,7 +337,7 @@ const AddCryptowallet = ({ eventData }: any) => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
               <FormField
                 control={form.control}
                 name="walletAddress"
@@ -400,8 +400,8 @@ const AddCryptowallet = ({ eventData }: any) => {
                   className="w-full"
                   disabled={
                     !selectedOption ||
-                    !form.watch("walletAddress") ||
-                    !form.watch("walletName")
+                    !form.watch("walletAddress") 
+                 
                   }
                 >
                   Add

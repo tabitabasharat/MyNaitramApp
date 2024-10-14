@@ -37,6 +37,8 @@ const formatTime = (dateString: string) => {
 const LiveActivityChat = ({ eventID, userID }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [replyToMessage, setReplyToMessage] = useState<any>(null);
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [userid, setUserid] = useState<string | null>(null);
   const [loader, setLoader] = useState(false);
@@ -195,6 +197,11 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
 
   const userLoading = useAppSelector((state) => state?.getEventChat);
 
+  const handleReplyClick = (message: any) => {
+    setReplyToMessage(message);
+    setmsgs(`Replying to: ${message.msg}`); // Pre-fill the input
+  };
+
   async function SendMsg() {
     try {
       const data = {
@@ -304,6 +311,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
                     onClick={(e) => {
                       e.stopPropagation();
                       handleMessagePress(event?.id);
+                      // handleReplyClick(event);
                     }}
                   >
                     <Chat
@@ -402,6 +410,13 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
           <PaperPlaneTilt size={16} className="h-full " weight="bold" />
         </Button>
       </div>
+      {/* {replyToMessage && (
+  <div className="absolute top-[-60px] left-0 w-full bg-[#f0f0f0] p-2 rounded-md shadow-md">
+    <p className="text-sm text-gray-600">Replying to:</p>
+    <p className="font-semibold">{replyToMessage.user?.fullname}</p>
+    <p className="text-gray-800">{replyToMessage.msg}</p>
+  </div>
+)} */}
       {/* <div className="absolute top-[-3rem] md:top-8 bg-[#0A0D0B] px-3 py-2 translate-x-1/2 right-1/2 rounded-full z-[2]">
         <p className="font-bold text-[13px] text-[#D9D9D9]">Tue, 14 March</p>
       </div> */}

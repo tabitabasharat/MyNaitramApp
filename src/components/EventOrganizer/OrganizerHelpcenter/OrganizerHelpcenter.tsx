@@ -112,7 +112,7 @@ const OrganizerHelpcenter = ({
 
           setEventsFile(res?.data?.imageUrls);
 
-          SuccessToast("Images Uploaded Successfully");
+          // SuccessToast("Images Uploaded Successfully");
           return res?.data?.imageUrls;
         } else {
           setLoader(false);

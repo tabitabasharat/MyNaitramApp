@@ -156,7 +156,6 @@ const isValidDateTime = (dateTimeString: string) => {
 
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
-
   eventcategory: z.array(
     z.object({
       options: z
@@ -226,7 +225,7 @@ const formSchema = z.object({
     .min(1, { message: "Telegram URL cannot be empty." }),
   // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventmainimg: z.string().optional(),
-  eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+  eventcoverimg: z.string().optional(),
   // selected: z.string(),
   // tickets: z.array(
   //   z.object({
@@ -264,8 +263,6 @@ const formSchema = z.object({
 
   //           return priceIsValid;
 
-
-            
   //         } else if (data.selected === "free") {
   //           return data.price === undefined; // Price must be undefined for free tickets
   //         }
@@ -287,7 +284,9 @@ const formSchema = z.object({
           z.string().refine((val) => Number(val) > 0, {
             message: "Number of tickets must be greater than 0.",
           }),
-          z.number().min(1, { message: "Number of tickets must be greater than 0." }),
+          z
+            .number()
+            .min(1, { message: "Number of tickets must be greater than 0." }),
         ]),
         selected: z.string().optional(),
       })
@@ -297,9 +296,11 @@ const formSchema = z.object({
           if (data.selected === "paid") {
             const priceIsValid =
               data.price !== undefined &&
-              ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
-               (typeof data.price === "number" && data.price > 0));
-  
+              ((typeof data.price === "string" &&
+                data.price.trim() !== "" &&
+                Number(data.price) > 0) ||
+                (typeof data.price === "number" && data.price > 0));
+
             return priceIsValid;
           }
           return true; // Skip price validation for free tickets
@@ -310,7 +311,6 @@ const formSchema = z.object({
         }
       )
   ),
-  
 });
 const formSchema2 = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
@@ -384,7 +384,8 @@ const formSchema2 = z.object({
     .min(1, { message: "Telegram URL cannot be empty." }),
   // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventmainimg: z.string().optional(),
-  eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+  eventcoverimg: z.string().optional(),
+
   // selected: z.string(),
   // tickets: z.array(
   //   z.object({
@@ -456,7 +457,9 @@ const formSchema2 = z.object({
           z.string().refine((val) => Number(val) > 0, {
             message: "Number of tickets must be greater than 0.",
           }),
-          z.number().min(1, { message: "Number of tickets must be greater than 0." }),
+          z
+            .number()
+            .min(1, { message: "Number of tickets must be greater than 0." }),
         ]),
         selected: z.string().optional(),
       })
@@ -466,9 +469,11 @@ const formSchema2 = z.object({
           if (data.selected === "paid") {
             const priceIsValid =
               data.price !== undefined &&
-              ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
-               (typeof data.price === "number" && data.price > 0));
-  
+              ((typeof data.price === "string" &&
+                data.price.trim() !== "" &&
+                Number(data.price) > 0) ||
+                (typeof data.price === "number" && data.price > 0));
+
             return priceIsValid;
           }
           return true; // Skip price validation for free tickets
@@ -479,7 +484,6 @@ const formSchema2 = z.object({
         }
       )
   ),
-  
 });
 
 type Option = {
@@ -729,6 +733,8 @@ function OganizerCreateEvent() {
   const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
   const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
   const [eventsFiles, setEventsFile] = useState<any>([]);
+  const [coverImageWarning, setCoverImageWarning] = useState<any>(false);
+
   const router = useRouter();
 
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
@@ -782,7 +788,7 @@ function OganizerCreateEvent() {
     { id: 20, label: "Ticketing & Registration", image: img20 },
   ];
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
-
+  console.log("my gallery is", galleryFiles);
   const optionscate: CateOption[] = [
     { label: "Music" },
     { label: "Business" },
@@ -913,6 +919,7 @@ function OganizerCreateEvent() {
           const remainingSlots = 10 - prevFiles.length;
           const limitedFilesArray = filesArray.slice(0, remainingSlots);
           ErrorToast("You can only select 10 media items");
+
           return [...prevFiles, ...limitedFilesArray];
         }
 
@@ -1029,6 +1036,7 @@ function OganizerCreateEvent() {
           setLoader(false);
 
           form.setValue("eventcoverimg", res?.data?.data);
+          setCoverImageWarning(false);
 
           setCoverImg(res?.data?.data);
           SuccessToast("Cover Event Image Uploaded Successfully");
@@ -1121,6 +1129,13 @@ function OganizerCreateEvent() {
     values: z.infer<typeof formSchema | typeof formSchema2>
   ) {
     setLoader(true);
+    setCoverImageWarning(false);
+
+    if (!CoverImg) {
+      setCoverImageWarning(true);
+
+      return;
+    }
     const categorylabels = categoryTypes?.map(
       (category: any) => category?.label
     );
@@ -1176,6 +1191,7 @@ function OganizerCreateEvent() {
     const updatedValues = {
       ...values,
       eventmedia: imagesOfGallery,
+
       ticketsdata: filteredTicketTypes,
 
       eventcategory: categorylabels,
@@ -1237,9 +1253,17 @@ function OganizerCreateEvent() {
       ErrorToast(error);
     }
   }
+
   async function handlePreviewClick(
     values: z.infer<typeof formSchema | typeof formSchema2>
   ) {
+    setCoverImageWarning(false);
+
+    if (!CoverImg) {
+      setCoverImageWarning(true);
+
+      return;
+    }
     // setLoader(true);
     setisWalletModalOpen(false);
     console.log("my values", values);
@@ -1339,7 +1363,6 @@ function OganizerCreateEvent() {
     }
   };
 
-
   const handleCateOptionToggle = (option: any) => {
     setCategoryTypes((prev: any) => {
       const isSelected = prev.some((o: any) => o.label === option.label);
@@ -1348,6 +1371,7 @@ function OganizerCreateEvent() {
         const updatedCategories = prev.filter(
           (o: any) => o.label !== option.label
         );
+        // Set the form value for eventcategory
 
         // If removing a category and the total is now less than 4, reset the alert
         if (updatedCategories.length < 4) {
@@ -1412,6 +1436,7 @@ function OganizerCreateEvent() {
                 alt="ufo"
               />
             </div>
+
             <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head relative ">
               {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
 
@@ -1422,7 +1447,9 @@ function OganizerCreateEvent() {
                 width={100}
                 height={345}
               />
-
+              {coverImageWarning && (
+                <p className="text-red-500">Please select a cover image</p>
+              )}
               <label
                 htmlFor="uploadcover"
                 className="flex gap-2 items-center justify-between w-full cursor-pointer  "
@@ -1472,9 +1499,18 @@ function OganizerCreateEvent() {
                   : "flex items-center justify-center"
               }`}
             >
+              {galleryFiles.length >= 10 && (
+                <p className="text-[red] text-[16px]">
+                  {" "}
+                  You have reached your limit
+                </p>
+              )}
+              {galleryFiles.length > 0 && galleryFiles.length < 10 && (
+                <p>Maximum 10 media can be uploaded</p>
+              )}
               {galleryFiles?.length > 0 ? (
                 <>
-                  <div className="mt-4 pb-4 relative">
+                  <div className=" pb-4 relative">
                     <div className="flex flex-wrap gap-[24px] lg:gap-[13px] max-h-[148px] lg:max-h-[264px] pt-[9px] overflow-auto scrollbar-hide">
                       {galleryFiles?.map((file, index) => {
                         const isVideo = file.type.startsWith("video/");
@@ -1622,7 +1658,7 @@ function OganizerCreateEvent() {
           <Form {...form}>
             <form className=" w-full">
               <div className="flex items-start gap-[24px] w-full common-container">
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="eventname"
                   render={({ field }) => (
@@ -1645,7 +1681,53 @@ function OganizerCreateEvent() {
                       <FormMessage />
                     </FormItem>
                   )}
+                /> */}
+                <FormField
+                  control={form.control}
+                  name="eventname"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3 uppercase pt-[16px] pb-[4px]">
+                        Event Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter Event Name"
+                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            // Allow the input, but prevent leading space
+                            if (value.trimStart().length === 0) {
+                              // If input is only spaces, set to empty
+                              setEventname("");
+                              field.onChange("");
+                            } else {
+                              setEventname(value);
+                              field.onChange(value);
+                            }
+                          }}
+                          onKeyDown={(e) => {
+                            // Prevent leading space
+                            if (e.key === " " && field.value.length === 0) {
+                              e.preventDefault();
+                            }
+                            // Allow letters, numbers, and spaces
+                            if (
+                              !/^[A-Za-z0-9\s]*$/.test(e.key) &&
+                              !["Backspace", "Tab"].includes(e.key)
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
+                        />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
+
                 <FormField
                   control={form.control}
                   name="eventcategory"
@@ -1845,6 +1927,7 @@ function OganizerCreateEvent() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
+                                          placeholder: "MM / DD / YYYY HH:MM AA", 
                                         },
                                       }}
                                     />
@@ -1980,6 +2063,8 @@ function OganizerCreateEvent() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
+                                          placeholder: "MM / DD / YYYY HH:MM AA", 
+
                                         },
                                       }}
                                     />
@@ -2161,6 +2246,8 @@ function OganizerCreateEvent() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
+                                          placeholder: "MM / DD / YYYY HH:MM AA", 
+
                                         },
                                       }}
                                     />
@@ -2253,6 +2340,8 @@ function OganizerCreateEvent() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
+                                          placeholder: "MM / DD / YYYY HH:MM AA", 
+
                                         },
                                       }}
                                     />
@@ -2744,8 +2833,7 @@ function OganizerCreateEvent() {
                                 <FormControl>
                                   <Input
                                     type="number"
-                          onWheel={(e: any) => e.target.blur()}
-
+                                    onWheel={(e: any) => e.target.blur()}
                                     placeholder="Enter Price"
                                     className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                     {...field}
@@ -2804,7 +2892,6 @@ function OganizerCreateEvent() {
                                   className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                   {...field}
                                   onWheel={(e: any) => e.target.blur()}
-
                                   onChange={(e) => {
                                     handleInputChange(
                                       index,
@@ -2853,7 +2940,13 @@ function OganizerCreateEvent() {
                                     width={16}
                                     height={16}
                                     alt="img"
-                                    className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
+                                    className={
+                                      ticket?.options?.some(
+                                        (o) => o?.id === option?.id
+                                      )
+                                        ? "filtergreen"
+                                        : ""
+                                    }
                                   />
                                   {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
                                     {option.label}
@@ -3201,6 +3294,7 @@ function OganizerCreateEvent() {
                     // disabled={!isCategorySelected}
                     onClick={(event) => handleFormSubmit(event, "preview")}
                     disabled={!isCategorySelected}
+                    // disabled={!isCategorySelected || galleryFiles.length <= 0}
                   >
                     Preview
                   </button>

@@ -340,7 +340,7 @@ const Menu = ({
                   initial="initial"
                   className="h-fit w-fit mt-[1.5rem] lg:mt-[2rem] z-[1]"
                 >
-                  <Button className="px-[3rem]">Sign In</Button>
+                  <Button className="px-[3rem] bg-white">Sign In</Button>
                 </motion.div>
               </DialogTrigger>
               {authMode === "SIGNIN" && (

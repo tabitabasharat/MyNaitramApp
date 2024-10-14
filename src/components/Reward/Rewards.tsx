@@ -1,4 +1,5 @@
 "use client";
+import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
 
 import React from "react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
@@ -217,4 +218,4 @@ function Rewards() {
   );
 }
 
-export default Rewards;
+export default  Protectedroute(Rewards);

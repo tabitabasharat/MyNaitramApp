@@ -128,6 +128,7 @@ dispatch(getViewPastEventsBox(data))
                 />
                 <input
                   type="text"
+                  value={Email}
                   placeholder="Enter your email"
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full h-full rounded-full bg-white/10 mt-4 border border-[#3C3C3C] outline-none focus:border-[#087336] px-[3.2rem] placeholder:text-muted"

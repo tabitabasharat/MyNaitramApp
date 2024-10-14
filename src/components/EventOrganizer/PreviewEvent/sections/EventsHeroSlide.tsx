@@ -299,6 +299,9 @@ const EventsHeroSlide = ({
       setIsOverflowing(textRef.current.scrollHeight > oneLineHeight);
     }
   }, [firstParagraphHtml, showFullDescription]);
+
+  const APIKEY = "AIzaSyA78WzK8evJ7Vier7fUXAqjM5KDhDwyq88";
+
   
 
   return (
@@ -349,11 +352,25 @@ const EventsHeroSlide = ({
             {title}
           </h2>
           <div className="">
-            <div className="flex items-center gap-[8px] ">
+            {/* <div className="flex items-center gap-[8px] ">
               <Image src={Location} alt="location" />
               <p className=" text-[16px] font-bold leading-[24px]">
                 {location}
               </p>
+            </div> */}
+            <div className="flex items-center gap-[8px]">
+              <Image src={Location} alt="location" />
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  location
+                )}&key=${APIKEY}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p className="text-[16px] font-bold leading-[24px]">
+                  {location}
+                </p>
+              </a>
             </div>
             <div className="flex items-center gap-[8px] mt-[12px] ">
               <Image src={clander} alt="calendar" />

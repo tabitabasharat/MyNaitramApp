@@ -8,6 +8,7 @@ import location from "@/assets/Location.svg";
 import candendar from "@/assets/calendar1.svg";
 import time from "@/assets/clock1.svg";
 import blurqrcode from "@/assets/Wallet/BlurQrGreen.svg";
+import blurqrmb from "@/assets/Wallet/Blur qr- mobile.svg";
 import stall from "@/assets/stall1.svg";
 import food from "@/assets/dob1.svg";
 import vip from "@/assets/crown1.svg";
@@ -448,7 +449,16 @@ export default function Specificqrcode() {
               // src={TicketData?.qrCode}
               src={blurqrcode}
               alt="rhs"
-              className="pt-[0px]  w-[100%] md:w-[320px]"
+              className="pt-[0px]  hidden lg:block  w-[100%] md:w-[320px]"
+            />
+             <Image
+              style={{ borderRadius: "12px" }}
+              width={320}
+              height={320}
+              // src={TicketData?.qrCode}
+              src={blurqrmb}
+              alt="rhs"
+              className="pt-[0px] block lg:hidden w-[100%] md:w-[320px]"
             />
             <p className="py-[24px] text-center w-[320px] font-normal text-[18px]">
               Please view the ticket QR code on the Naitram Mobile App{" "}
