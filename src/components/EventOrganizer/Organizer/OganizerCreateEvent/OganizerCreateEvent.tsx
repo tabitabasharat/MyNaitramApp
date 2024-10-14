@@ -3290,21 +3290,14 @@ function OganizerCreateEvent() {
             </form>
           </Form>
         </div>
-        {/* {isWalletModalOpen && (
-       
-          <Receviepayment
-            onClose={() => setisWalletModalOpen(false)}
-            open={() => setisWalletModalOpen(true)}
-            eventData={eventAllData}
-          />
-        )} */}
+
         {isWalletModalOpen && (
           <EventSubmmitModal
             onClose={() => setisWalletModalOpen(false)}
             open={() => setisWalletModalOpen(true)}
           />
         )}
-      </div>
+     
     </section>
   );
 }
