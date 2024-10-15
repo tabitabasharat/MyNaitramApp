@@ -57,7 +57,7 @@ export default function Card() {
     //     </div>
     //   </div>
     // </section>
-    <section className="pt-[60px] pb-[75px]  md:pt-[100px] md:pb-[120px]">
+    <section className="pt-[60px] pb-[75px]  md:pt-[70px] md:pb-[120px]">
       <div className="md:max-w-[1140px] flex mx-auto justify-center w-[100%] md:px-0 px-[20px]">
         <div className="relative border-[#009540] rounded-[20px] border-2 py-[50px] md:py-[90px] flex flex-col items-center w-[100%]">
           <div

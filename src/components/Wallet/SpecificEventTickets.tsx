@@ -359,7 +359,7 @@ export default function SpecificEventTickets() {
               </div> */}
             </div>
           </div>
-          <div className="bg-ticket-img sm:w-[408px] md:w-[408px] lg:w-[408px] w-full rounded-[12px] pt-[32px] px-[20px] pb-[2px]">
+          <div className="bg-ticket-img w-[300px] md:w-[300px] lg:w-[460px] xl:w-[420px] rounded-[12px] pt-[32px] px-[20px] pb-[2px]">
             {/* <div className="flex justify-end">
               <Image src={info} alt="img" />
             </div> */}
@@ -379,10 +379,10 @@ export default function SpecificEventTickets() {
                 </p> */}
               </div>
 
-              <Link href={`/wallet/enlarge/${eventID}`} className="py-[16px]">
+              <Link href={`/wallet/enlarge/${eventID}`} className="pt-[16px] pb-[24px]">
                 {/* <Link href={`/download-app`}> */}
 
-                <button className="font-extrabold text-sm rounded-[100px] mb-[24px] px-[16px] py-[10px] bg-[#00D059] text-black">
+                <button className="font-extrabold text-sm rounded-[100px]  px-[16px] py-[10px] bg-[#00D059] text-black">
                   Enlarge Code
                 </button>
               </Link>

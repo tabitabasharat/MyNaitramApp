@@ -1,0 +1,38 @@
+.emoji-picker-outer{
+    position: absolute;
+    left: 53%;
+}
+@media(max-width:768px)
+{
+    .emoji-picker-outer{
+        left: 60%;
+       }  
+}
+
+@media(max-width:600px)
+{
+    .emoji-picker-outer{
+        left: 50%;
+       }  
+}
+
+@media(max-width:500px)
+{
+   .emoji-picker-container{
+    width: 100% !important;
+   }
+   .emoji-picker-outer{
+    left: 53%;
+   }
+}
+
+@media(max-width:400px)
+{
+   
+   .emoji-picker-outer{
+    left: 53%;
+   }
+   .emoji-picker-container{
+    width: 90% !important;
+   }
+}

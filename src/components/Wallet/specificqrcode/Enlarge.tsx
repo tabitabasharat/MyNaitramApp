@@ -452,7 +452,7 @@ export default function Enlarge() {
             {/* <div className="flex gap-[16px] w-full "> */}
             <Button
               onClick={() => {
-                window.open(`https://sepolia.etherscan.io/tx/${TicketData?.txHash}`, '_blank', 'noopener,noreferrer');
+                window.open(`https://sepolia.lineascan.build/tx/${TicketData?.txHash}`, '_blank', 'noopener,noreferrer');
               }}
               className="flex items-center gap-[4px] sm:p-[12px] w-full sm:w-[320px]"
             >

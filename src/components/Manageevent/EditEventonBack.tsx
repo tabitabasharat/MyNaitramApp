@@ -831,21 +831,30 @@ function EditeventOnBack() {
     );
   };
 
+
   // const handleAddTicketType = (e: any) => {
   //   e.preventDefault();
   //   setTicketTypes((prevTickets) => [
   //     ...prevTickets,
-  //     { type: "", price: 0, no: 0, options: [], dropdown: true },
+  //     {
+  //       type: "",
+  //       price: 0,
+  //       no: 0,
+  //       options: [],
+  //       dropdown: true,
+  //       selected: "free",
+  //     },
   //   ]);
   // };
+
   const handleAddTicketType = (e: any) => {
     e.preventDefault();
     setTicketTypes((prevTickets) => [
       ...prevTickets,
       {
         type: "",
-        price: 0,
-        no: 0,
+        price: "", // Change from 0 to an empty string
+        no: "",    // Change from 0 to an empty string
         options: [],
         dropdown: true,
         selected: "free",
@@ -905,7 +914,7 @@ function EditeventOnBack() {
       }
     }
   };
-  const handleCoverSingleFileChange = async (
+  const handleCoverSingleFileChangeOld = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
@@ -948,6 +957,72 @@ function EditeventOnBack() {
       }
     }
   };
+
+  const handleCoverSingleFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    const filename = file?.name;
+    setCoverImgName(filename);
+  
+    if (file) {
+      setLoader(true);
+  
+     
+      const imgUrl = URL.createObjectURL(file);
+      const img = new window.Image(); // Use window.Image to avoid TypeScript confusion
+  
+      img.onload = async () => {
+        const { width, height } = img;
+  
+        const requiredSize = 1080; 
+        if (width !== requiredSize || height !== requiredSize) {
+          setLoader(false);
+          ErrorToast(`Image must be ${requiredSize}px x ${requiredSize}px.`);
+          return;
+        }
+  
+     
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+  
+          const res: any = await api.post(
+            `${API_URL}/upload/uploadimage`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+  
+          if (res.status === 200) {
+            setLoader(false);
+            form.setValue("eventcoverimg", res?.data?.data);
+            setCoverImg(res?.data?.data);
+            SuccessToast("Cover Event Image Uploaded Successfully");
+          } else {
+            setLoader(false);
+            ErrorToast(res?.payload?.message || "Error uploading image");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          setLoader(false);
+          ErrorToast("An error occurred while uploading the image.");
+        }
+      };
+  
+      img.onerror = () => {
+        setLoader(false);
+        ErrorToast("Failed to load the image.");
+      };
+  
+      // Set the source of the image to trigger loading
+      img.src = imgUrl;
+    }
+  };
+
   const getColumnClass = (index: any) => {
     if (index < 7) return "col-span-1"; // 1-7 in the first column
     if (index < 14) return "col-span-2"; // 8-14 in the second column
@@ -1066,6 +1141,10 @@ function EditeventOnBack() {
       return updatedTickets; // Return the updated tickets
     });
   };
+
+ 
+  
+  
 
   async function EventCreation(values: z.infer<typeof formSchema>) {
     setLoader(true);

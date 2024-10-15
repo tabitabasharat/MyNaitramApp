@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
+import "./Chat.css";
 import { Input } from "@/components/ui/input";
-import { PaperPlaneTilt } from "@phosphor-icons/react/dist/ssr";
+import { PaperPlaneTilt, Smiley } from "@phosphor-icons/react/dist/ssr";
 import React, { useState, useEffect, useRef } from "react";
 import Chat from "@/components/live-activity-page/live-actvity-chat/Chat";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -24,6 +25,7 @@ import { EmojiStyle } from "emoji-picker-react";
 import { SkinTones } from "emoji-picker-react";
 import { SkinTonePickerLocation } from "emoji-picker-react";
 import { useRouter } from "next/navigation";
+import bendarrow from "@/assets/Wallet/Arrow Bend Up Left.svg";
 // Utility function to format time
 const formatTime = (dateString: string) => {
   const date = new Date(dateString);
@@ -47,6 +49,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   const [imgSrc, setImageSrc] = useState<any>("");
   const chatEndRef = useRef<HTMLDivElement>(null);
   const [moreEmoji, setMoreEmoji] = useState<any>(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
 
   const [activeMessage, setActiveMessage] = useState<number | null>(null);
   const [messageReactions, setMessageReactions] = useState<{
@@ -80,12 +83,29 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   //   }));
   // };
 
+  // const handleEmojiClick = (emojiData: any) => {
+  //   const emoji = emojiData.emoji;
+  //   setmsgs((prevMsgs) => prevMsgs + emoji);
+  //   if (activeMessage !== null) {
+  //     setMessageReaction(activeMessage, emoji);
+  //     setMoreEmoji(false);
+  //   }
+  // };
+
   const handleEmojiClick = (emojiData: any) => {
     const emoji = emojiData.emoji;
+
     if (activeMessage !== null) {
       setMessageReaction(activeMessage, emoji);
       setMoreEmoji(false);
+    } else {
+      setmsgs((prevMsgs) => prevMsgs + emoji);
+      setShowEmojiPicker(false);
     }
+  };
+
+  const toggleEmojiPicker = () => {
+    setShowEmojiPicker((prev) => !prev);
   };
   async function setMessageReaction(messageId: number, emoji: string) {
     try {
@@ -199,7 +219,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
 
   const handleReplyClick = (message: any) => {
     setReplyToMessage(message);
-    setmsgs(`Replying to: ${message.msg}`); // Pre-fill the input
+    // setmsgs(`Replying to: ${message.msg}`); 
   };
 
   async function SendMsg() {
@@ -291,6 +311,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     // Navigate to the user's profile
     router.push(`/social-profile/${userid}`);
   };
+
   return (
     <div
       className="md:w-[576px] h-[600px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
@@ -352,6 +373,13 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
                         onClick={() => handleMoreEmoji()}
                         className="cursor-pointer"
                       />
+                      <Image
+                        src={bendarrow}
+                        alt="img"
+                        sizes="16px"
+                        onClick={() => handleReplyClick(event)}
+                        className="cursor-pointer"
+                      />
                       {activeMessage === event?.id && moreEmoji && (
                         <div className="absolute top-0 right-[35px] p-2 gradient-slate rounded cursor-pointer">
                           <EmojiPicker
@@ -375,14 +403,15 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
 
         <div ref={chatEndRef} />
       </ScrollArea>
-      <div className="flex absolute bottom-8 w-[90%] gap-[12px] z-[2]">
+
+      {/* <div className="flex absolute bottom-8 w-[90%] gap-[12px] z-[2]">
         <label
           htmlFor="upload"
           className="flex gap-2 items-center justify-between w-full cursor-pointer"
         >
           <Input
             placeholder="Type here"
-            className="rounded-full relative h-12 px-6"
+            className="rounded-full relative h-12 ps-6 pr-[50px]"
             onChange={(e) => setmsgs(e.target.value)}
             value={msgs}
             onKeyDown={handleKeyDown}
@@ -391,10 +420,58 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
             <Image
               src={link}
               alt="link-img"
-              sizes="16px"
-              className="absolute top-[16px] right-[60px]"
+              sizes="18px"
+              className="absolute top-[17px] right-[60px] "
             />
           )}
+        </label>
+        <input
+          ref={fileInputRef}
+          type="file"
+          className="hidden"
+          id="upload"
+          onChange={handleSingleFileChange}
+        />
+        <Button
+          onClick={toggleEmojiPicker}
+          className="absolute p-0 bg-transparent z-10 emoji-btn"
+        >
+          <Smiley size={18} color="white" />
+        </Button>
+        <Button
+          className="rounded-full w-[36px] p-[0px] mt-[6px] px-[10px] h-[36px]"
+          onClick={() => SendMsg()}
+        >
+          <PaperPlaneTilt size={16} className="h-full  " weight="bold" />
+        </Button>
+      </div> */}
+
+      <div className="flex absolute bottom-8 w-[90%] gap-[12px] z-[2]">
+        <label
+          htmlFor="upload"
+          className="flex gap-2 items-center justify-between w-full cursor-pointer"
+        >
+          <Input
+            placeholder="Type here"
+            className="rounded-full relative h-12 ps-6 pr-[50px]"
+            onChange={(e) => setmsgs(e.target.value)}
+            value={msgs}
+            onKeyDown={handleKeyDown}
+          />
+          {userID === userIDlocal && (
+            <Image
+              src={link}
+              alt="link-img"
+              sizes="18px"
+              className="absolute top-[17px] right-[60px]"
+            />
+          )}
+          <Button
+            onClick={toggleEmojiPicker}
+            className="absolute right-[80px] top-1/2 transform -translate-y-1/2 p-0 bg-transparent z-10 cursor-pointer"
+          >
+            <Smiley size={18} color="white" />
+          </Button>
         </label>
         <input
           ref={fileInputRef}
@@ -407,16 +484,44 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
           className="rounded-full w-[36px] p-[0px] mt-[6px] px-[10px] h-[36px]"
           onClick={() => SendMsg()}
         >
-          <PaperPlaneTilt size={16} className="h-full " weight="bold" />
+          <PaperPlaneTilt size={16} className="h-full" weight="bold" />
         </Button>
       </div>
+
+      {showEmojiPicker && (
+        <div className="absolute bottom-[5rem] emoji-picker-outer transform -translate-x-1/2 z-20 ">
+          <EmojiPicker
+            onEmojiClick={handleEmojiClick}
+            theme={Theme.DARK}
+            height={400}
+            lazyLoadEmojis={true}
+            className="emoji-picker-container"
+          />
+        </div>
+      )}
+
       {/* {replyToMessage && (
-  <div className="absolute top-[-60px] left-0 w-full bg-[#f0f0f0] p-2 rounded-md shadow-md">
-    <p className="text-sm text-gray-600">Replying to:</p>
-    <p className="font-semibold">{replyToMessage.user?.fullname}</p>
-    <p className="text-gray-800">{replyToMessage.msg}</p>
-  </div>
-)} */}
+        <div className="absolute top-[-60px] left-0 w-full bg-[#f0f0f0] p-2 rounded-md shadow-md">
+          <p className="text-sm text-gray-600">Replying to:</p>
+          <p className="font-semibold">{replyToMessage.user?.fullname}</p>
+          <p className="text-gray-800">{replyToMessage.msg}</p>
+        </div>
+      )} */}
+      {/* {replyToMessage && 
+
+      <div className="z-[2] flex-row me-[10px] sm:me-[25px] items-end gap-4 absolute bottom-20 ">
+        <div className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg me-0 chat-wid ">
+          <div className="flex flex-col gap-1 ">
+            <p className="text-primary break-words overflow-hidden text-ellipsis">
+              {replyToMessage.user?.fullname}
+            </p>
+            <p className="mt-1 break-words overflow-hidden text-ellipsis">
+              {replyToMessage.msg}
+            </p>
+          </div>
+        </div>
+      </div>
+      } */}
       {/* <div className="absolute top-[-3rem] md:top-8 bg-[#0A0D0B] px-3 py-2 translate-x-1/2 right-1/2 rounded-full z-[2]">
         <p className="font-bold text-[13px] text-[#D9D9D9]">Tue, 14 March</p>
       </div> */}

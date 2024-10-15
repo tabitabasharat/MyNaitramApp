@@ -477,7 +477,7 @@ export default function Specificqrcode() {
             </Button>
             <Button
               onClick={() => {
-                window.open(`https://sepolia.etherscan.io/tx/${TicketData?.txHash}`, '_blank', 'noopener,noreferrer');
+                window.open(`https://sepolia.lineascan.build/tx/${TicketData?.txHash}`, '_blank', 'noopener,noreferrer');
               }}
               className="flex items-center gap-[4px] p-[12px]"
             >

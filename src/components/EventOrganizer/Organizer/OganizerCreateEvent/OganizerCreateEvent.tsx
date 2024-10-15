@@ -61,7 +61,7 @@ import ScreenLoader from "@/components/loader/Screenloader";
 import { createevent } from "@/lib/middleware/event";
 import api from "@/lib/apiInterceptor";
 import arrowdown from "@/assets/aboutdropdown.svg";
-import arrowup from "@/assets/Arrow up.svg"
+import arrowup from "@/assets/Arrow up.svg";
 import img1 from "@/assets/Handbag (1).svg";
 import img2 from "@/assets/Cake.svg";
 import img3 from "@/assets/Crown.svg";
@@ -951,16 +951,30 @@ function OganizerCreateEvent() {
     );
   };
 
+  // const handleAddTicketType = (e: any) => {
+  //   e.preventDefault();
+  //   setTicketTypes((prevTickets) => [
+  //     ...prevTickets,
+  //     {
+  //       type: "",
+  //       price: 0,
+  //       no: 0,
+  //       options: [],
+
+  //       dropdown: true,
+  //       selected: "free",
+  //     },
+  //   ]);
+  // };
   const handleAddTicketType = (e: any) => {
     e.preventDefault();
     setTicketTypes((prevTickets) => [
       ...prevTickets,
       {
         type: "",
-        price: 0,
-        no: 0,
+        price: "", // Change from 0 to an empty string
+        no: "", // Change from 0 to an empty string
         options: [],
-
         dropdown: true,
         selected: "free",
       },
@@ -986,18 +1000,146 @@ function OganizerCreateEvent() {
   //   );
   // };
 
-  const handleCoverSingleFileChange = async (
+  // const handleCoverSingleFileChange = async (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const file = e.target.files?.[0];
+  //   const filename = file?.name;
+  //   setCoverImgName(filename);
+  //   if (file) {
+  //     setLoader(true);
+
+  //     try {
+  //       const formData = new FormData();
+  //       formData.append("file", file);
+  //       const res: any = await api.post(
+  //         `${API_URL}/upload/uploadimage`,
+  //         formData,
+  //         {
+  //           headers: {
+  //             "Content-Type": "multipart/form-data",
+  //           },
+  //         }
+  //       );
+
+  //       if (res.status === 200) {
+  //         setLoader(false);
+
+  //         form.setValue("eventcoverimg", res?.data?.data);
+  //         setCoverImageWarning(false);
+
+  //         setCoverImg(res?.data?.data);
+  //         SuccessToast("Cover Event Image Uploaded Successfully");
+  //       } else {
+  //         setLoader(false);
+  //         ErrorToast(res?.payload?.message || "Error uploading image");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //   }
+  // };
+
+  const handleCoverSingleFileChangeQuality = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
+  
     if (file) {
       setLoader(true);
+  
+      // Validation for file size
+      const maxSize = 5 * 1024 * 1024; // 5 MB
+      if (file.size > maxSize) {
+        setLoader(false);
+        ErrorToast("File size exceeds 5 MB. Please upload a smaller image.");
+        return;
+      }
+  
+      // Create a URL for the file
+      const imgUrl = URL.createObjectURL(file);
+      const img = new window.Image(); // Use window.Image to avoid TypeScript confusion
+  
+      img.onload = async () => {
+        const { width, height } = img;
+  
+        // Check minimum dimensions
+        const minWidth = 330; // Minimum width
+        const minHeight = 330; // Minimum height
+        if (width < minWidth || height < minHeight) {
+          setLoader(false);
+          ErrorToast(`Image quality is too low. Minimum dimensions are ${minWidth}x${minHeight} pixels.`);
+          return;
+        }
+  
+        // Proceed with uploading if all checks pass
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+  
+          const res: any = await api.post(
+            `${API_URL}/upload/uploadimage`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+  
+          if (res.status === 200) {
+            setLoader(false);
+            form.setValue("eventcoverimg", res?.data?.data);
+            setCoverImageWarning(false);
+            setCoverImg(res?.data?.data);
+            SuccessToast("Cover Event Image Uploaded Successfully");
+          } else {
+            setLoader(false);
+            ErrorToast(res?.payload?.message || "Error uploading image");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          setLoader(false);
+          ErrorToast("An error occurred while uploading the image.");
+        }
+      };
+  
+      img.onerror = () => {
+        setLoader(false);
+        ErrorToast("Failed to load the image.");
+      };
+  
+      // Set the source of the image to trigger loading
+      img.src = imgUrl;
+    }
+  };
 
+  const handleCoverSingleFileChangeSize = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    const filename = file?.name;
+    setCoverImgName(filename);
+  
+    if (file) {
+      setLoader(true);
+  
+      // Validation for file size
+      const maxSize = 5 * 1024 * 1024; // 5 MB
+  
+      if (file.size > maxSize) {
+        setLoader(false);
+        setCoverImageWarning(true);
+        ErrorToast("File size exceeds 5 MB. Please upload a smaller image.");
+        return;
+      }
+  
       try {
         const formData = new FormData();
         formData.append("file", file);
+  
         const res: any = await api.post(
           `${API_URL}/upload/uploadimage`,
           formData,
@@ -1007,13 +1149,11 @@ function OganizerCreateEvent() {
             },
           }
         );
-
+  
         if (res.status === 200) {
           setLoader(false);
-
           form.setValue("eventcoverimg", res?.data?.data);
           setCoverImageWarning(false);
-
           setCoverImg(res?.data?.data);
           SuccessToast("Cover Event Image Uploaded Successfully");
         } else {
@@ -1022,9 +1162,82 @@ function OganizerCreateEvent() {
         }
       } catch (error) {
         console.error("Error:", error);
+        setLoader(false);
+        ErrorToast("An error occurred while uploading the image.");
       }
     }
   };
+  
+  const handleCoverSingleFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    const filename = file?.name;
+    setCoverImgName(filename);
+  
+    if (file) {
+      setLoader(true);
+  
+   
+      const imgUrl = URL.createObjectURL(file);
+      const img = new window.Image(); // Use window.Image to avoid TypeScript confusion
+  
+      img.onload = async () => {
+        const { width, height } = img;
+  
+        const requiredSize = 1080; 
+        if (width !== requiredSize || height !== requiredSize) {
+          setLoader(false);
+          ErrorToast(`Image must be ${requiredSize}px x ${requiredSize}px.`);
+          return;
+        }
+  
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+  
+          const res: any = await api.post(
+            `${API_URL}/upload/uploadimage`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+  
+          if (res.status === 200) {
+            setLoader(false);
+            form.setValue("eventcoverimg", res?.data?.data);
+            setCoverImageWarning(false);
+            setCoverImg(res?.data?.data);
+            SuccessToast("Cover Event Image Uploaded Successfully");
+          } else {
+            setLoader(false);
+            ErrorToast(res?.payload?.message || "Error uploading image");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          setLoader(false);
+          ErrorToast("An error occurred while uploading the image.");
+        }
+      };
+  
+      img.onerror = () => {
+        setLoader(false);
+        ErrorToast("Failed to load the image.");
+      };
+  
+      // Set the source of the image to trigger loading
+      img.src = imgUrl;
+    }
+  };
+  
+  
+  
+  
+  
+  
   const removeImage = (index: number) => {
     setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
@@ -1035,19 +1248,59 @@ function OganizerCreateEvent() {
     setUserid(userID);
   }, []);
 
+  // const handleOptionChange = (index: number, type: string) => {
+  //   setTicketTypes((prevTickets) => {
+  //     const updatedTickets = prevTickets.map((ticket, i) =>
+  //       i === index ? { ...ticket, selected: type } : ticket
+  //     );
+
+  //     updatedTickets.forEach((ticket, i) => {
+  //       form.setValue(`tickets.${i}.selected`, ticket.selected);
+  //     });
+
+  //     return updatedTickets;
+  //   });
+  // };
+
   const handleOptionChange = (index: number, type: string) => {
     setTicketTypes((prevTickets) => {
-      const updatedTickets = prevTickets.map((ticket, i) =>
-        i === index ? { ...ticket, selected: type } : ticket
-      );
+      const updatedTickets = prevTickets.map((ticket, i) => {
+        if (i === index) {
+          const updatedTicket = { ...ticket, selected: type };
 
+          // Reset fields based on the selected type
+          if (type === "free") {
+            updatedTicket.price = ""; // Reset price for free tickets
+            updatedTicket.options = []; // Reset options for free tickets
+            updatedTicket.no = "";
+            updatedTicket.type = "";
+          } else if (type === "paid") {
+            // Keep price empty or retain it
+            updatedTicket.no = "";
+            updatedTicket.type = "";
+            updatedTicket.options = []; // Reset options for paid tickets
+          }
+
+          return updatedTicket;
+        }
+        return ticket; // Return the original ticket for others
+      });
+
+      // Update form values accordingly
       updatedTickets.forEach((ticket, i) => {
         form.setValue(`tickets.${i}.selected`, ticket.selected);
+        form.setValue(
+          `tickets.${i}.price`,
+          ticket.price !== "" ? ticket.price : undefined
+        ); // Set to undefined if empty
+        form.setValue(`tickets.${i}.no`, ticket.no);
+        form.setValue(`tickets.${i}.type`, ticket.type);
       });
 
       return updatedTickets;
     });
   };
+
   const filteredTicketTypes = ticketTypes.map((ticket) => ({
     selected: ticket.selected,
 
@@ -1386,16 +1639,13 @@ function OganizerCreateEvent() {
     <section
       style={{
         backgroundImage:
-"linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
+          "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
         backgroundPosition: "center",
       }}
       className="min-h-screen  bg-cover bg-no-repeat  pb-[80px] pt-[120px] lg:pt-[120px] "
     >
-      
-      
       {loader && <ScreenLoader />}
       <div className="pxpx mx-2xl w-full ">
-
         <div className="event-images-container w-full mt-[26px]">
           <div className=" w-full md:w-[440px] lg:w-[440px]">
             <div className="px-[24px] py-[16px] relative create-container w-full  lg:w-[440px]">
@@ -1416,8 +1666,10 @@ function OganizerCreateEvent() {
               />
             </div>
 
-               <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head 
-               relative  ">
+            <div
+              className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head 
+               relative  "
+            >
               {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
 
               <Image
@@ -1434,20 +1686,21 @@ function OganizerCreateEvent() {
                 htmlFor="uploadcover"
                 className="flex gap-2 items-center justify-center w-full cursor-pointer absolute"
                 style={{
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
                 }}
               >
-                 
-                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px]
-                   gradient-bg gradient-border-edit p-[12px] gradient-slate">
-                    <Image src={cam} alt="pencil" />
-                    <p className="text-[#00D059] text-sm font-extrabold ">
-                      Upload Image
-                    </p>
-                  </div>
-                
+                <div
+                  className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px]
+                   gradient-bg gradient-border-edit p-[12px] gradient-slate"
+                >
+                  <Image src={cam} alt="pencil" />
+                  <p className="text-[#00D059] text-sm font-extrabold ">
+                    Upload Image
+                  </p>
+                </div>
+
                 <input
                   ref={fileInputRef2}
                   type="file"
@@ -1457,11 +1710,13 @@ function OganizerCreateEvent() {
                   onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
                 />
               </label>
-              </div>
-
+              {/* <p className="text-sm text-gray-500 mt-2">
+                Upload Guidelines: Maximum file size: <strong>5 MB</strong>,
+                Minimum resolution: <strong>800 x 600 pixels</strong>, Supported
+                formats: <strong>JPEG, PNG, GIF</strong> (animated).
+              </p> */}
+            </div>
           </div>
-         
-       
 
           <div className="w-full">
             <div className="px-[24px] py-[16px] relative create-container  w-full">
@@ -1721,10 +1976,12 @@ function OganizerCreateEvent() {
                   control={form.control}
                   name="eventcategory"
                   render={({ field }) => (
-                    <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                    <FormItem
+                      className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
                     pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
                     file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
-                     disabled:opacity-50">
+                     disabled:opacity-50"
+                    >
                       <div
                         className="flex items-center justify-between"
                         onClick={handleCatDropdownToggle}
@@ -1738,7 +1995,7 @@ function OganizerCreateEvent() {
                           </p>
                         </div>
                         <Image
-                          src={isCatDropdownOpen ?arrowup :arrowdown}
+                          src={isCatDropdownOpen ? arrowup : arrowdown}
                           width={11}
                           height={11}
                           alt="arrow"
@@ -1919,7 +2176,8 @@ function OganizerCreateEvent() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
-                                          placeholder: "MM / DD / YYYY HH:MM AA", 
+                                          placeholder:
+                                            "MM / DD / YYYY HH:MM AA",
                                         },
                                       }}
                                     />
@@ -2055,8 +2313,8 @@ function OganizerCreateEvent() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
-                                          placeholder: "MM / DD / YYYY HH:MM AA", 
-
+                                          placeholder:
+                                            "MM / DD / YYYY HH:MM AA",
                                         },
                                       }}
                                     />
@@ -2238,8 +2496,8 @@ function OganizerCreateEvent() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
-                                          placeholder: "MM / DD / YYYY HH:MM AA", 
-
+                                          placeholder:
+                                            "MM / DD / YYYY HH:MM AA",
                                         },
                                       }}
                                     />
@@ -2332,8 +2590,8 @@ function OganizerCreateEvent() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
-                                          placeholder: "MM / DD / YYYY HH:MM AA", 
-
+                                          placeholder:
+                                            "MM / DD / YYYY HH:MM AA",
                                         },
                                       }}
                                     />
@@ -3314,8 +3572,6 @@ function OganizerCreateEvent() {
           />
         )}
       </div>
-  
-  
     </section>
   );
 }

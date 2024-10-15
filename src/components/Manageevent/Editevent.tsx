@@ -822,7 +822,7 @@ function Editevent() {
       }
     }
   };
-  const handleCoverSingleFileChange = async (
+  const handleCoverSingleFileChangeOld = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
@@ -866,6 +866,68 @@ function Editevent() {
     }
   };
 
+  const handleCoverSingleFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    const filename = file?.name;
+    setCoverImgName(filename);
+  
+    if (file) {
+      setLoader(true);
+  
+      const imgUrl = URL.createObjectURL(file);
+      const img = new window.Image(); // Use window.Image to avoid TypeScript confusion
+  
+      img.onload = async () => {
+        const { width, height } = img;
+  
+        const requiredSize = 1080;
+        if (width !== requiredSize || height !== requiredSize) {
+          setLoader(false);
+          ErrorToast(`Image must be ${requiredSize}px x ${requiredSize}px.`);
+          return;
+        }
+  
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+  
+          const res: any = await api.post(
+            `${API_URL}/upload/uploadimage`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+  
+          if (res.status === 200) {
+            setLoader(false);
+            form.setValue("eventcoverimg", res?.data?.data);
+            setCoverImg(res?.data?.data);
+            SuccessToast("Cover Event Image Uploaded Successfully");
+          } else {
+            setLoader(false);
+            ErrorToast(res?.payload?.message || "Error uploading image");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          setLoader(false);
+          ErrorToast("An error occurred while uploading the image.");
+        }
+      };
+  
+      img.onerror = () => {
+        setLoader(false);
+        ErrorToast("Failed to load the image.");
+      };
+  
+      // Set the source of the image to trigger loading
+      img.src = imgUrl;
+    }
+  };
   const removeImage = (index: number) => {
     setGalleryFiles((prevFiles) => {
       const fileToRemove = prevFiles[index];
