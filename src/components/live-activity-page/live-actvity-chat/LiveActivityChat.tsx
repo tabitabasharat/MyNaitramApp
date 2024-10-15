@@ -26,6 +26,7 @@ import { SkinTones } from "emoji-picker-react";
 import { SkinTonePickerLocation } from "emoji-picker-react";
 import { useRouter } from "next/navigation";
 import bendarrow from "@/assets/Wallet/Arrow Bend Up Left.svg";
+import closecirecle from "@/assets/Wallet/close-circle.svg";
 // Utility function to format time
 const formatTime = (dateString: string) => {
   const date = new Date(dateString);
@@ -219,7 +220,8 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
 
   const handleReplyClick = (message: any) => {
     setReplyToMessage(message);
-    // setmsgs(`Replying to: ${message.msg}`); 
+    setActiveMessage(null);
+    setmsgs(`Replying to: ${message.msg}`);
   };
 
   async function SendMsg() {
@@ -311,13 +313,15 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     // Navigate to the user's profile
     router.push(`/social-profile/${userid}`);
   };
-
+  const handleCloseReply = () => {
+    setReplyToMessage(null);
+  };
   return (
     <div
       className="md:w-[576px] h-[600px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
   bg-effect2 bg-effect"
     >
-      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[6rem]">
+      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[9rem] md:h-[600px]">
         <div className="space-y-2 block">
           {EventChat?.length > 0 &&
             EventChat?.map((event: any, index: any) => {
@@ -507,21 +511,30 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
           <p className="text-gray-800">{replyToMessage.msg}</p>
         </div>
       )} */}
-      {/* {replyToMessage && 
+      {replyToMessage && (
+        <div className="absolute right-0 bottom-[12%] w-full bg-effect2 bg-effect px-[60px] py-[60px]">
+          {/* <hr className="my-2 border-t border-[#FFFFFF1A] absolute bottom-[30%] w-[100%] z-4 px-0" /> */}
 
-      <div className="z-[2] flex-row me-[10px] sm:me-[25px] items-end gap-4 absolute bottom-20 ">
-        <div className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg me-0 chat-wid ">
-          <div className="flex flex-col gap-1 ">
-            <p className="text-primary break-words overflow-hidden text-ellipsis">
-              {replyToMessage.user?.fullname}
-            </p>
-            <p className="mt-1 break-words overflow-hidden text-ellipsis">
-              {replyToMessage.msg}
-            </p>
+          <div className="z-[2] flex-row items-end gap-4 absolute bottom-[17%] right-[10%] border-l border-l-[#13FF7A] rounded-lg  ">
+            <Image
+              src={closecirecle}
+              alt="close"
+              className="absolute top-[6px] right-[6px] cursor-pointer"
+              onClick={handleCloseReply}
+            />
+            <div className="gradient-slate  py-2 px-3 rounded-lg me-0 chat-wid  ">
+              <div className="flex flex-col gap-1">
+                <p className="text-primary break-words overflow-hidden text-ellipsis">
+                  {replyToMessage.user?.fullname}
+                </p>
+                <p className="mt-1 break-words overflow-hidden text-ellipsis">
+                  {replyToMessage.msg}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      } */}
+      )}
       {/* <div className="absolute top-[-3rem] md:top-8 bg-[#0A0D0B] px-3 py-2 translate-x-1/2 right-1/2 rounded-full z-[2]">
         <p className="font-bold text-[13px] text-[#D9D9D9]">Tue, 14 March</p>
       </div> */}
