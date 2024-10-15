@@ -150,7 +150,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType,setTicketIndex }
               {EventData?.map((ticket:any,index:any) => {
                 let isSoldOut = false // Check if the ticket is sold out
                 console.log(EventDatas?.data?.totalSoldOut[index],"my data in buy tickets")
-                if(EventDatas?.data?.totalSoldOut[index] <=0){
+                if(ticket?.no <=0){
                   isSoldOut=true
                 }
 

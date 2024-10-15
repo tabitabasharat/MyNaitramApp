@@ -222,8 +222,6 @@ const formSchema = z.object({
   //   })
   // ),
 
-
-
   tickets: z.array(
     z
       .object({
@@ -243,9 +241,11 @@ const formSchema = z.object({
           if (data.selected === "paid") {
             const priceIsValid =
               data.price !== undefined &&
-              ((typeof data.price === "string" && data.price.trim() !== "" && parseFloat(data.price) > 0) ||
-               (typeof data.price === "number" && data.price > 0));
-  
+              ((typeof data.price === "string" &&
+                data.price.trim() !== "" &&
+                parseFloat(data.price) > 0) ||
+                (typeof data.price === "number" && data.price > 0));
+
             return priceIsValid; // Validate if price is provided correctly and greater than 0
           }
           return true; // Otherwise, it passes validation
@@ -256,7 +256,6 @@ const formSchema = z.object({
         }
       )
   ),
-  
 
   // .refine((tickets) => tickets.length > 0, {
   //   message: "At least one ticket is required.",
@@ -306,30 +305,27 @@ const themeMui: any = createTheme({
         },
       },
     },
- MuiTypography: {
+    MuiTypography: {
       styleOverrides: {
         root: {
-          color: '#ffffff',
+          color: "#ffffff",
         },
       },
-    },  
+    },
 
     MuiTab: {
       styleOverrides: {
-        
         root: {
-          display:"none",
+          display: "none",
           color: "#ffffff", // Color for unselected tabs
         },
         selected: {
-          display:"none",
+          display: "none",
           color: "#1976d2", // Color for selected tab
         },
-        
       },
-      
     },
-  
+
     MuiButton: {
       styleOverrides: {
         root: {
@@ -547,8 +543,6 @@ function EditeventOnBack() {
   console.log("iside eventalldata", eventAllData);
   const router = useRouter();
 
-
-
   // const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
   //   { type: "", price: 0, no: 0, options: [], dropdown: true },
   // ]);
@@ -565,7 +559,6 @@ function EditeventOnBack() {
   const [categoryTypes, setCategoryTypes] = useState<any>([]);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
   const isCategorySelected = categoryTypes?.length > 0;
-
 
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
@@ -831,7 +824,6 @@ function EditeventOnBack() {
     );
   };
 
-
   // const handleAddTicketType = (e: any) => {
   //   e.preventDefault();
   //   setTicketTypes((prevTickets) => [
@@ -854,7 +846,7 @@ function EditeventOnBack() {
       {
         type: "",
         price: "", // Change from 0 to an empty string
-        no: "",    // Change from 0 to an empty string
+        no: "", // Change from 0 to an empty string
         options: [],
         dropdown: true,
         selected: "free",
@@ -964,29 +956,27 @@ function EditeventOnBack() {
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
-  
+
     if (file) {
       setLoader(true);
-  
-     
+
       const imgUrl = URL.createObjectURL(file);
       const img = new window.Image(); // Use window.Image to avoid TypeScript confusion
-  
+
       img.onload = async () => {
         const { width, height } = img;
-  
-        const requiredSize = 1080; 
+
+        const requiredSize = 1080;
         if (width !== requiredSize || height !== requiredSize) {
           setLoader(false);
           ErrorToast(`Image must be ${requiredSize}px x ${requiredSize}px.`);
           return;
         }
-  
-     
+
         try {
           const formData = new FormData();
           formData.append("file", file);
-  
+
           const res: any = await api.post(
             `${API_URL}/upload/uploadimage`,
             formData,
@@ -996,7 +986,7 @@ function EditeventOnBack() {
               },
             }
           );
-  
+
           if (res.status === 200) {
             setLoader(false);
             form.setValue("eventcoverimg", res?.data?.data);
@@ -1012,12 +1002,12 @@ function EditeventOnBack() {
           ErrorToast("An error occurred while uploading the image.");
         }
       };
-  
+
       img.onerror = () => {
         setLoader(false);
         ErrorToast("Failed to load the image.");
       };
-  
+
       // Set the source of the image to trigger loading
       img.src = imgUrl;
     }
@@ -1141,10 +1131,6 @@ function EditeventOnBack() {
       return updatedTickets; // Return the updated tickets
     });
   };
-
- 
-  
-  
 
   async function EventCreation(values: z.infer<typeof formSchema>) {
     setLoader(true);
@@ -1642,21 +1628,20 @@ function EditeventOnBack() {
               <label
                 htmlFor="uploadcover"
                 className="flex gap-2 items-center justify-center w-full cursor-pointer absolute"
-                onClick={(e) => e.stopPropagation()} 
+                onClick={(e) => e.stopPropagation()}
                 style={{
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
                 }}
               >
-                
-                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate">
-                    <Image src={greenpencile} alt="pencil" />
-                    <p className="text-[#00D059] text-sm font-extrabold">
-                      Edit Image
-                    </p>
-                  </div>
-                
+                <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate">
+                  <Image src={greenpencile} alt="pencil" />
+                  <p className="text-[#00D059] text-sm font-extrabold">
+                    Edit Image
+                  </p>
+                </div>
+
                 <input
                   ref={fileInputRef2}
                   type="file"
@@ -1959,7 +1944,17 @@ function EditeventOnBack() {
                               onClick={() => handleCateOptionToggle(option)}
                             >
                               <div className="flex items-center gap-[10px]">
-                                <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                  {option.label}
+                                </p> */}
+
+                                <p
+                                  className={`text-[16px] font-normal items-center ${
+                                    categoryTypes.includes(option.label)
+                                      ? "text-[#00d059]"
+                                      : "text-[#FFFFFF]"
+                                  }`}
+                                >
                                   {option.label}
                                 </p>
                               </div>
@@ -2151,7 +2146,6 @@ function EditeventOnBack() {
                           control={form.control}
                           name="eventstartdate"
                           render={({ field }) => {
-
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
@@ -2161,7 +2155,6 @@ function EditeventOnBack() {
                                   <div className=" w-full">
                                     <StyledDateTimePicker
                                       disablePast
-
                                       //  {...field}
                                       // onChange={(e: any) => {
                                       //   setEventEndTime(e);
@@ -2208,8 +2201,8 @@ function EditeventOnBack() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
-                                          placeholder: "MM / DD / YYYY HH:MM AA", 
-
+                                          placeholder:
+                                            "MM / DD / YYYY HH:MM AA",
                                         },
                                       }}
                                     />
@@ -2294,8 +2287,8 @@ function EditeventOnBack() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
-                                          placeholder: "MM / DD / YYYY HH:MM AA", 
-
+                                          placeholder:
+                                            "MM / DD / YYYY HH:MM AA",
                                         },
                                       }}
                                     />
@@ -2321,7 +2314,6 @@ function EditeventOnBack() {
                           control={form.control}
                           name="eventstarttime"
                           render={({ field }) => {
-
                             const minStartTime = dayjs(
                               TicketEndDate || new Date()
                             );
@@ -2350,12 +2342,10 @@ function EditeventOnBack() {
                                   <div className=" w-full">
                                     <StyledDateTimePicker
                                       referenceDate={referenceEventDate}
-                                    disablePast
-
+                                      disablePast
                                       value={
                                         field.value ? dayjs(field.value) : null
                                       }
-
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
@@ -2368,7 +2358,6 @@ function EditeventOnBack() {
                                       //  label="Event End Date & Time"
                                       // minDateTime={dayjs(TicketEndDate)}
                                       minDateTime={minStartTime}
-
                                       // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                       slots={{
                                         openPickerIcon: () => (
@@ -2396,8 +2385,8 @@ function EditeventOnBack() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
-                                          placeholder: "MM / DD / YYYY HH:MM AA", 
-
+                                          placeholder:
+                                            "MM / DD / YYYY HH:MM AA",
                                         },
                                       }}
                                     />
@@ -2420,9 +2409,6 @@ function EditeventOnBack() {
                           control={form.control}
                           name="eventendtime"
                           render={({ field }) => {
-                            
-
-
                             const adjustedEventStartTime = dayjs(
                               EventStartTime
                             ).add(5, "hour");
@@ -2482,8 +2468,8 @@ function EditeventOnBack() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
-                                          placeholder: "MM / DD / YYYY HH:MM AA", 
-
+                                          placeholder:
+                                            "MM / DD / YYYY HH:MM AA",
                                         },
                                       }}
                                     />
@@ -2497,8 +2483,8 @@ function EditeventOnBack() {
                       </DemoContainer>
                     </LocalizationProvider>
                   </ThemeProvider>
+                </div>
               </div>
-              </div>        
               <div className="flex  flex-col w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
                 {ticketTypes?.length > 0 &&
                   ticketTypes.map((ticket, index) => (
@@ -2612,8 +2598,7 @@ function EditeventOnBack() {
                                       );
                                       field.onChange(e);
                                     }}
-                          onWheel={(e: any) => e.target.blur()}
-
+                                    onWheel={(e: any) => e.target.blur()}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -2645,8 +2630,7 @@ function EditeventOnBack() {
                                     );
                                     field.onChange(e);
                                   }}
-                          onWheel={(e: any) => e.target.blur()}
-
+                                  onWheel={(e: any) => e.target.blur()}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -2687,8 +2671,13 @@ function EditeventOnBack() {
                                     width={16}
                                     height={16}
                                     alt="img"
-                                    className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
-
+                                    className={
+                                      ticket?.options?.some(
+                                        (o) => o?.id === option?.id
+                                      )
+                                        ? "filtergreen"
+                                        : ""
+                                    }
                                   />
                                   {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
                                     {option.label}
@@ -2782,8 +2771,6 @@ function EditeventOnBack() {
                             setCompTicketNo(e.target.value);
                             field.onChange(e);
                           }}
-                        
-
                         />
                       </FormControl>
                       <FormMessage />
