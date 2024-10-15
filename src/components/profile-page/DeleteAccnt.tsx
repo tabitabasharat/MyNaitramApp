@@ -85,11 +85,11 @@ const DeleteAccnt = () => {
       {" "}
       {loader && <ScreenLoader />}
       {/* {userLoading.loading && <ScreenLoader />} */}
-      <div className="w-full lg:ps-[119px] mt-[45px] lg:w-[70%] md:mx-auto flex flex-col justify-start lg:w-full lg:mt-[150px] lg:mx-0">
+      <div className="w-full lg:ps-[119px] mt-[45px] lg:w-[70%] md:mx-auto flex flex-col justify-start lg:w-full lg:mt-[90px] lg:mx-0">
         <h2 className="font-bold text-[24px] ms-[24px] lg:ms-[0px] lg:text-[32px]">
           Delete Account
         </h2>
-        <div className="flex flex-col justify-start lg:flex-row lg:gap-[62px] gap-[32px] mt-[56px] items-center lg:mt-[32px]">
+        <div className="flex flex-col justify-start lg:flex-row lg:gap-[62px] gap-[32px] mt-[30px] items-center lg:mt-[32px]">
           <div className="flex flex-col lg:mx-0 gap-4 w-fit">
             <GradientBorder className="rounded-full p-[3px] w-fit">
               <div className="bg-black rounded-full p-[6px]">

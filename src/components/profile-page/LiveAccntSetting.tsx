@@ -218,7 +218,7 @@ const LiveAccntSetting = ({
     <>
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
       {loader && <ScreenLoader />}
-      <div className="w-full lg:w-[70%] md:ps-[0px] lg:pe-[20px] mt-[48px] lg:ps-[90px] xl:ps-[172px] md:mx-auto lg:w-full  lg:mx-[0] relative h-[90vh] overflow-y-auto scrollbar-hide">
+      <div className="w-full lg:w-[70%] md:ps-[0px] lg:pe-[20px] mt-[48px] lg:mt-[90px] lg:ps-[90px] xl:ps-[172px] md:mx-auto lg:w-full  lg:mx-[0] relative h-[90vh] overflow-y-auto scrollbar-hide">
         <h2 className="font-bold text-[20px] ms-[24px] lg:ms-[0px] lg:text-[32px]">
           Live Activity Settings
         </h2>
@@ -270,6 +270,7 @@ const LiveAccntSetting = ({
                 onSubmit={form.handleSubmit(updateActivity)}
                 className=" w-full mb-[50px]"
               >
+                <div className="overflow-y-auto scrollbar-hide h-[420px] md:h-[365px]">
                 <FormField
                   control={form.control}
                   name="facebook"
@@ -517,6 +518,7 @@ const LiveAccntSetting = ({
                     </FormItem>
                   )}
                 />
+                </div>
                 <div className="flex justify-start lg:justify-start">
                   <Button
                     type="submit"

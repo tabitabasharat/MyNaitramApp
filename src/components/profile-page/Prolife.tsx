@@ -73,7 +73,7 @@ const Profile = () => {
     <div className="w-full ps-[0px] mb-[230px] lg:mb-[0px] xl:ps-[172px] md:px-auto lg:w-full lg:mx-0">
       {userLoading?.loading && <ScreenLoader />}
       <div>
-        <div className="flex mt-[45px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start lg:mt-[150px]">
+        <div className="flex mt-[45px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start lg:mt-[90px]">
           <div className="flex flex-col justify-center lg:mx-0 md:gap-[32px] gap-[32px] w-fit">
             <h2 className="font-extrabold text-[20px] lg:ms-[0px] ms-[24px] lg:text-[32px]">
               Profile
