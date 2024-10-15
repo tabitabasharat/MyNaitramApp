@@ -33,7 +33,7 @@ function Manageevent({
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     const data = {
       page: page,
-      userId:userid
+      userId: userid,
     };
 
     dispatch(getEventsByUID(data));
@@ -46,7 +46,7 @@ function Manageevent({
     console.log("user id ", userid);
     const data = {
       page: 1,
-      userId:userid
+      userId: userid,
     };
     dispatch(getEventsByUID(data));
 
@@ -76,9 +76,7 @@ function Manageevent({
                 <ScaleReveal extraStyle="w-full">
                   {/* <Link href={`/events`} className="w-full"> */}
                   <Link
-                    href={
-                      event?.id ? `/event/${event?.id}` : "/events"
-                    }
+                    href={event?.id ? `/event/${event?.id}` : "/events"}
                     className="w-full"
                   >
                     <div
@@ -101,7 +99,7 @@ function Manageevent({
                         <p className="font-bold text-white text-xl">
                           {event?.name}
                         </p>
-                        <Link
+                        {/* <Link
                           href={
                             event?.eventTickets?.length == 0  ||  event?.eventTickets == undefined
                               ? `/management/edit-event/${event.id}`
@@ -110,9 +108,24 @@ function Manageevent({
                           onClick={() => {
 
                            
-                            if (event?.eventTickets?.length !== 0  || event?.eventTickets == undefined) {
-                              ErrorToast("You Cannot Edit event");
+                            if (event?.eventTickets?.length != 0  || event?.eventTickets != undefined) {
+                              ErrorToast("You Can't Edit this Event");
                             }
+                          }}
+                        >
+                          <Image src={edit} alt="edit" />
+                        </Link> */}
+                        <Link
+                          href={`/management/edit-event/${event.id}`}
+                          onClick={(e) => {
+                            if (
+                              event?.eventTickets !== undefined &&
+                              event?.eventTickets.length > 0
+                            ) {
+                              e.preventDefault(); // Prevent navigation
+                              ErrorToast("You Can't Edit this Event");
+                            }
+                           
                           }}
                         >
                           <Image src={edit} alt="edit" />

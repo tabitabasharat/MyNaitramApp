@@ -1386,13 +1386,16 @@ function OganizerCreateEvent() {
     <section
       style={{
         backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
+"linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
         backgroundPosition: "center",
       }}
       className="min-h-screen  bg-cover bg-no-repeat  pb-[80px] pt-[120px] lg:pt-[120px] "
     >
+      
+      
       {loader && <ScreenLoader />}
       <div className="pxpx mx-2xl w-full ">
+
         <div className="event-images-container w-full mt-[26px]">
           <div className=" w-full md:w-[440px] lg:w-[440px]">
             <div className="px-[24px] py-[16px] relative create-container w-full  lg:w-[440px]">
@@ -1413,7 +1416,8 @@ function OganizerCreateEvent() {
               />
             </div>
 
-            <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head relative ">
+               <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head 
+               relative  ">
               {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
 
               <Image
@@ -1428,14 +1432,22 @@ function OganizerCreateEvent() {
               )}
               <label
                 htmlFor="uploadcover"
-                className="flex gap-2 items-center justify-center w-full cursor-pointer  "
+                className="flex gap-2 items-center justify-center w-full cursor-pointer absolute"
+                style={{
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                }}
               >
-                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate">
+                 
+                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px]
+                   gradient-bg gradient-border-edit p-[12px] gradient-slate">
                     <Image src={cam} alt="pencil" />
                     <p className="text-[#00D059] text-sm font-extrabold ">
                       Upload Image
                     </p>
                   </div>
+                
                 <input
                   ref={fileInputRef2}
                   type="file"
@@ -1447,8 +1459,9 @@ function OganizerCreateEvent() {
               </label>
               </div>
 
-            </div>
           </div>
+         
+       
 
           <div className="w-full">
             <div className="px-[24px] py-[16px] relative create-container  w-full">
@@ -1708,7 +1721,10 @@ function OganizerCreateEvent() {
                   control={form.control}
                   name="eventcategory"
                   render={({ field }) => (
-                    <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                    <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                    pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                    file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                     disabled:opacity-50">
                       <div
                         className="flex items-center justify-between"
                         onClick={handleCatDropdownToggle}
@@ -1731,7 +1747,7 @@ function OganizerCreateEvent() {
 
                       {isCatDropdownOpen && (
                         <>
-                          <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-0 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                          <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
                             {categoryAlert == true && (
                               <p className="text-[red] text-[16px]">
                                 You can only select 4 categories at a time
@@ -3305,6 +3321,8 @@ function OganizerCreateEvent() {
           />
         )}
       </div>
+  
+  
     </section>
   );
 }

@@ -1562,16 +1562,22 @@ function EditeventOnBack() {
             /> */}
               <label
                 htmlFor="uploadcover"
-                className="flex gap-2 items-center justify-between w-full cursor-pointer"
+                className="flex gap-2 items-center justify-center w-full cursor-pointer absolute"
+                onClick={(e) => e.stopPropagation()} 
+                style={{
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                }}
               >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
+                
+                  <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate">
                     <Image src={greenpencile} alt="pencil" />
                     <p className="text-[#00D059] text-sm font-extrabold">
                       Edit Image
                     </p>
                   </div>
-                </div>
+                
                 <input
                   ref={fileInputRef2}
                   type="file"
