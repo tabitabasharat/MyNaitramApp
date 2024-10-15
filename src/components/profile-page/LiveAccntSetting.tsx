@@ -69,7 +69,7 @@ const LiveAccntSetting = ({
 }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [useriD,setuserId] = useState<any>("");
+  const [useriD, setuserId] = useState<any>("");
   const [loader, setLoader] = useState(false);
   const [fbUrl, setFbUrl] = useState("");
   const [twitterUrl, settwitterUrl] = useState("");
@@ -102,7 +102,7 @@ const LiveAccntSetting = ({
     const id =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", id);
-    setuserId(id)
+    setuserId(id);
     dispatch(showLiveActivity(id));
   }, []);
 
@@ -187,17 +187,32 @@ const LiveAccntSetting = ({
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("my val", values);
     try {
-      const data = {
-        fbUrl: fbUrl || myliveActivity[0]?.fbUrl || "",
-        instaUrl: instaUrl || myliveActivity[0]?.instaUrl || "",
-        linkedinUrl: linkedinUrl || myliveActivity[0]?.linkedinUrl || "",
-        tiktokUrl: tiktokUrl || myliveActivity[0]?.tiktokUrl || "",
-        youtubeUrl: youtubeUrl || myliveActivity[0]?.youtubeUrl || "",
-        twitterUrl: twitterUrl || myliveActivity[0]?.twitterUrl || "",
-        telegramUrl: telegramUrl || myliveActivity[0]?.telegramUrl || "",
-        isActive: checked,
-        userID: userID,
-      };
+      let data;
+      if (myliveActivity) {
+        data = {
+          fbUrl: fbUrl || myliveActivity[0]?.fbUrl || "",
+          instaUrl: instaUrl || myliveActivity[0]?.instaUrl || "",
+          linkedinUrl: linkedinUrl || myliveActivity[0]?.linkedinUrl || "",
+          tiktokUrl: tiktokUrl || myliveActivity[0]?.tiktokUrl || "",
+          youtubeUrl: youtubeUrl || myliveActivity[0]?.youtubeUrl || "",
+          twitterUrl: twitterUrl || myliveActivity[0]?.twitterUrl || "",
+          telegramUrl: telegramUrl || myliveActivity[0]?.telegramUrl || "",
+          isActive: checked,
+          userID: userID,
+        };
+      } else {
+        data = {
+          fbUrl: fbUrl,
+          instaUrl: instaUrl,
+          linkedinUrl: linkedinUrl,
+          tiktokUrl: tiktokUrl,
+          youtubeUrl: youtubeUrl,
+          twitterUrl: twitterUrl,
+          telegramUrl: telegramUrl,
+          isActive: checked,
+          userID: userID,
+        };
+      }
       dispatch(updateLiveActivity(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
@@ -271,253 +286,261 @@ const LiveAccntSetting = ({
                 className=" w-full mb-[50px]"
               >
                 <div className="overflow-y-auto scrollbar-hide h-[420px] md:h-[365px]">
-                <FormField
-                  control={form.control}
-                  name="facebook"
-                  render={({ field }) => (
-                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
-                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                        FACEBOOK
-                      </FormLabel>
-                      <FacebookLogo
-                        className="absolute right-3 top-[35%]"
-                        size={20}
-                      />
-                      <FormControl>
-                        <Input
-                          placeholder="Enter Fullname"
-                          className="pt-11 pb-5 text-base placeholder:font-extrabold"
-                          {...field}
-                          // onChange={(e) => {
-                          //   setFbUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
-
-                          onChange={(e) => {
-                            const value = e.target.value;
-
-                            if (value.startsWith("https://www.facebook.com/")) {
-                              setFbUrl(e.target.value);
-                              field.onChange(e);
-                            }
-                          }}
+                  <FormField
+                    control={form.control}
+                    name="facebook"
+                    render={({ field }) => (
+                      <FormItem className="relative mb-4 md:mb-6 space-y-0">
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                          FACEBOOK
+                        </FormLabel>
+                        <FacebookLogo
+                          className="absolute right-3 top-[35%]"
+                          size={20}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="insta"
-                  render={({ field }) => (
-                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
-                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                        INSTAGRAM
-                      </FormLabel>
-                      <InstagramLogo
-                        className="absolute right-3 top-[35%]"
-                        size={20}
-                      />
-                      <FormControl>
-                        <Input
-                          placeholder="Enter Fullname"
-                          className="pt-11 pb-5 text-base placeholder:font-extrabold"
-                          {...field}
-                          // onChange={(e) => {
-                          //   setinstaUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
-                          onChange={(e) => {
-                            const value = e.target.value;
+                        <FormControl>
+                          <Input
+                            placeholder="Enter Fullname"
+                            className="pt-11 pb-5 text-base placeholder:font-extrabold"
+                            {...field}
+                            // onChange={(e) => {
+                            //   setFbUrl(e.target.value);
+                            //   field.onChange(e);
+                            // }}
 
-                            if (value.startsWith("https://instagram.com/")) {
-                              setinstaUrl(e.target.value);
-                              field.onChange(e);
-                            }
-                          }}
+                            onChange={(e) => {
+                              const value = e.target.value;
+
+                              if (
+                                value.startsWith("https://www.facebook.com/")
+                              ) {
+                                setFbUrl(e.target.value);
+                                field.onChange(e);
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="insta"
+                    render={({ field }) => (
+                      <FormItem className="relative mb-4 md:mb-6 space-y-0">
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                          INSTAGRAM
+                        </FormLabel>
+                        <InstagramLogo
+                          className="absolute right-3 top-[35%]"
+                          size={20}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="linkedIn"
-                  render={({ field }) => (
-                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
-                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                        LINKEDIN
-                      </FormLabel>
-                      <LinkedinLogo
-                        className="absolute right-3 top-[35%]"
-                        size={20}
-                      />
-                      <FormControl>
-                        <Input
-                          placeholder="Enter Fullname"
-                          className="pt-11 pb-5 text-base placeholder:font-extrabold"
-                          {...field}
-                          // onChange={(e) => {
-                          //   setlinkedinUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
-                          onChange={(e) => {
-                            const value = e.target.value;
+                        <FormControl>
+                          <Input
+                            placeholder="Enter Fullname"
+                            className="pt-11 pb-5 text-base placeholder:font-extrabold"
+                            {...field}
+                            // onChange={(e) => {
+                            //   setinstaUrl(e.target.value);
+                            //   field.onChange(e);
+                            // }}
+                            onChange={(e) => {
+                              const value = e.target.value;
 
-                            if (value.startsWith("https://linkedin.com/in/")) {
-                              setlinkedinUrl(e.target.value);
-                              field.onChange(e);
-                            }
-                          }}
+                              if (value.startsWith("https://instagram.com/")) {
+                                setinstaUrl(e.target.value);
+                                field.onChange(e);
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="linkedIn"
+                    render={({ field }) => (
+                      <FormItem className="relative mb-4 md:mb-6 space-y-0">
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                          LINKEDIN
+                        </FormLabel>
+                        <LinkedinLogo
+                          className="absolute right-3 top-[35%]"
+                          size={20}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="telegram"
-                  render={({ field }) => (
-                    <FormItem className="relative mb-4 md:mb-8 space-y-0">
-                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                        TELEGRAM
-                      </FormLabel>
-                      <TelegramLogo
-                        className="absolute right-3 top-[35%]"
-                        size={20}
-                      />
-                      <FormControl>
-                        <Input
-                          placeholder="youremail@example.com"
-                          className="pt-11 pb-5 text-base  placeholder:font-extrabold"
-                          {...field}
-                          // onChange={(e) => {
-                          //   settelegramUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
-                          onChange={(e) => {
-                            const value = e.target.value;
+                        <FormControl>
+                          <Input
+                            placeholder="Enter Fullname"
+                            className="pt-11 pb-5 text-base placeholder:font-extrabold"
+                            {...field}
+                            // onChange={(e) => {
+                            //   setlinkedinUrl(e.target.value);
+                            //   field.onChange(e);
+                            // }}
+                            onChange={(e) => {
+                              const value = e.target.value;
 
-                            if (value.startsWith("https://t.me/")) {
-                              settelegramUrl(e.target.value);
-                              field.onChange(e);
-                            }
-                          }}
+                              if (
+                                value.startsWith("https://linkedin.com/in/")
+                              ) {
+                                setlinkedinUrl(e.target.value);
+                                field.onChange(e);
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="telegram"
+                    render={({ field }) => (
+                      <FormItem className="relative mb-4 md:mb-8 space-y-0">
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                          TELEGRAM
+                        </FormLabel>
+                        <TelegramLogo
+                          className="absolute right-3 top-[35%]"
+                          size={20}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="youtube"
-                  render={({ field }) => (
-                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
-                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                        YOUTUBE
-                      </FormLabel>
-                      <YoutubeLogo
-                        className="absolute right-3 top-[35%]"
-                        size={20}
-                      />
-                      <FormControl>
-                        <Input
-                          placeholder="username12"
-                          className="pt-11 pb-5 text-base  placeholder:font-extrabold"
-                          {...field}
-                          // onChange={(e) => {
-                          //   setyoutubeUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
-                          onChange={(e) => {
-                            const value = e.target.value;
+                        <FormControl>
+                          <Input
+                            placeholder="youremail@example.com"
+                            className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                            {...field}
+                            // onChange={(e) => {
+                            //   settelegramUrl(e.target.value);
+                            //   field.onChange(e);
+                            // }}
+                            onChange={(e) => {
+                              const value = e.target.value;
 
-                            if (value.startsWith("https://www.youtube.com/")) {
-                              setyoutubeUrl(e.target.value);
-                              field.onChange(e);
-                            }
-                          }}
+                              if (value.startsWith("https://t.me/")) {
+                                settelegramUrl(e.target.value);
+                                field.onChange(e);
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="youtube"
+                    render={({ field }) => (
+                      <FormItem className="relative mb-4 md:mb-6 space-y-0">
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                          YOUTUBE
+                        </FormLabel>
+                        <YoutubeLogo
+                          className="absolute right-3 top-[35%]"
+                          size={20}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="tiktok"
-                  render={({ field }) => (
-                    <FormItem className="relative mb-4 md:mb-6 space-y-0">
-                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                        TIKTOK
-                      </FormLabel>
-                      <TiktokLogo
-                        className="absolute right-3 top-[35%]"
-                        size={20}
-                      />
-                      <FormControl>
-                        <Input
-                          placeholder="username12"
-                          className="pt-11 pb-5 text-base  placeholder:font-extrabold"
-                          {...field}
-                          // onChange={(e) => {
-                          //   setyoutubeUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
-                          onChange={(e) => {
-                            const value = e.target.value;
+                        <FormControl>
+                          <Input
+                            placeholder="username12"
+                            className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                            {...field}
+                            // onChange={(e) => {
+                            //   setyoutubeUrl(e.target.value);
+                            //   field.onChange(e);
+                            // }}
+                            onChange={(e) => {
+                              const value = e.target.value;
 
-                            if (value.startsWith("https://www.tiktok.com/@")) {
-                              settiktokUrl(e.target.value);
-                              field.onChange(e);
-                            }
-                          }}
+                              if (
+                                value.startsWith("https://www.youtube.com/")
+                              ) {
+                                setyoutubeUrl(e.target.value);
+                                field.onChange(e);
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="tiktok"
+                    render={({ field }) => (
+                      <FormItem className="relative mb-4 md:mb-6 space-y-0">
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                          TIKTOK
+                        </FormLabel>
+                        <TiktokLogo
+                          className="absolute right-3 top-[35%]"
+                          size={20}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="twitter"
-                  render={({ field }) => (
-                    <FormItem className="relative mb-[48px] md:mb-6 space-y-0">
-                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                        TWITTER
-                      </FormLabel>
-                      <TwitterLogo
-                        className="absolute right-3 top-[30%]"
-                        size={20}
-                      />
-                      <FormControl>
-                        <Input
-                          placeholder="username12"
-                          className="pt-11 pb-5 text-base  placeholder:font-extrabold"
-                          {...field}
-                          // onChange={(e) => {
-                          //   settwitterUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
+                        <FormControl>
+                          <Input
+                            placeholder="username12"
+                            className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                            {...field}
+                            // onChange={(e) => {
+                            //   setyoutubeUrl(e.target.value);
+                            //   field.onChange(e);
+                            // }}
+                            onChange={(e) => {
+                              const value = e.target.value;
 
-                          onChange={(e) => {
-                            const value = e.target.value;
-
-                            if (value.startsWith("https://www.x.com/")) {
-                              settwitterUrl(e.target.value);
-                              field.onChange(e);
-                            }
-                          }}
+                              if (
+                                value.startsWith("https://www.tiktok.com/@")
+                              ) {
+                                settiktokUrl(e.target.value);
+                                field.onChange(e);
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="twitter"
+                    render={({ field }) => (
+                      <FormItem className="relative mb-[48px] md:mb-6 space-y-0">
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                          TWITTER
+                        </FormLabel>
+                        <TwitterLogo
+                          className="absolute right-3 top-[30%]"
+                          size={20}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        <FormControl>
+                          <Input
+                            placeholder="username12"
+                            className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                            {...field}
+                            // onChange={(e) => {
+                            //   settwitterUrl(e.target.value);
+                            //   field.onChange(e);
+                            // }}
+
+                            onChange={(e) => {
+                              const value = e.target.value;
+
+                              if (value.startsWith("https://www.x.com/")) {
+                                settwitterUrl(e.target.value);
+                                field.onChange(e);
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
                 <div className="flex justify-start lg:justify-start">
                   <Button
