@@ -53,6 +53,7 @@ import ScreenLoader from "../loader/Screenloader";
 import { createevent } from "@/lib/middleware/event";
 import api from "@/lib/apiInterceptor";
 import arrowdown from "../../assets/arrow-down-drop.svg";
+import arrowup from "@/assets/arrow up.svg"
 import img1 from "../../assets/Handbag (1).svg";
 import img2 from "../../assets/Cake.svg";
 import img3 from "../../assets/Crown.svg";
@@ -1348,7 +1349,7 @@ function CreateEvent() {
                         WHATS INCLUDED
                       </p>
                       <Image
-                        src={ticket?.dropdown ? arrowdown : arrowdown}
+                        src={ticket?.dropdown ? arrowup : arrowdown}
                         width={11}
                         height={11}
                         alt="arrow"
