@@ -262,7 +262,7 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
             }}
           >
             {followStatus || myFollowStatus?.status
-              ? "Following"
+              ? "Unfollow Organiser"
               : "Follow Organiser"}
           </Button>
         }
