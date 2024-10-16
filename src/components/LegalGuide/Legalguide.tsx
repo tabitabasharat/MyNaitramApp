@@ -198,28 +198,28 @@ const Legalguide = () => {
             </div>
           </Link>
           <Link href="/event-promoter-agreement">
-            <div className="gradient-slate py-[22px] px-[12px] flex justify-between gradient-bg-auth w-full md:w-[492px]">
-              <p className="text-base font-normal">
-                Naitram Event Promoter Agreement
-              </p>
-              <Image
-                src={arrowrigth}
-                className="h-[20px] w-[20px]"
-                alt="arrowrigth"
-              />
-            </div>
+          <div className="gradient-slate py-[22px] px-[12px] flex justify-between gradient-bg-auth w-full md:w-[492px]">
+            <p className="text-base font-normal">
+            Event Organiser Agreement
+            </p>
+            <Image
+              src={arrowrigth}
+              className="h-[20px] w-[20px]"
+              alt="arrowrigth"
+            />
+          </div>
           </Link>
           <Link href="/ticket-exchange-policy">
-            <div className="gradient-slate py-[22px] px-[12px] flex justify-between gradient-bg-auth w-full md:w-[492px]">
-              <p className="text-base font-normal">
-                Naitram Ticket Exchange Policy
-              </p>
-              <Image
-                src={arrowrigth}
-                className="h-[20px] w-[20px]"
-                alt="arrowrigth"
-              />
-            </div>
+          <div className="gradient-slate py-[22px] px-[12px] flex justify-between gradient-bg-auth w-full md:w-[492px]">
+            <p className="text-base font-normal">
+            Ticket Exchange Policy
+            </p>
+            <Image
+              src={arrowrigth}
+              className="h-[20px] w-[20px]"
+              alt="arrowrigth"
+            />
+          </div>
           </Link>
           <Link href="/privacypolicy">
             <div className="gradient-slate py-[22px] px-[12px] flex justify-between gradient-bg-auth w-full md:w-[492px]">
