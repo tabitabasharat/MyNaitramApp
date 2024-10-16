@@ -162,10 +162,10 @@ const Legalguide = () => {
   return (
     <section className="min-h-screen bg-cover bg-no-repeat bg-reward">
       <div className="lg:pt-[134px] lg:pb-[116px] pb-[74px] py-[139px] md:px-[100px] lg:px-[216px] px-[24px]">
-        <h3 className="font-extrabold text-[32px] lg:text-[48px] mb-[24px] lg:mb-[32px]">
+        <h3 className="font-extrabold text-center md:text-start  text-[32px] lg:text-[48px] mb-[24px] lg:mb-[32px]">
           Legal Guide
         </h3>
-        <p className="font-normal text-[13px] lg:text-[16px] mb-[24px] lg:mb-[50px]">
+        <p className="font-normal text-center md:text-start text-[16px] mb-[24px] lg:mb-[50px]">
           Welcome to the “Legal Guide” section of the Naitram platform. Here,
           you will find all the legal information and agreements that govern
           your use of our platform. This section is designed to ensure
@@ -198,28 +198,28 @@ const Legalguide = () => {
             </div>
           </Link>
           <Link href="/event-promoter-agreement">
-            <div className="gradient-slate py-[22px] px-[12px] flex justify-between gradient-bg-auth w-full md:w-[492px]">
-              <p className="text-base font-normal">
-                Naitram Event Promoter Agreement
-              </p>
-              <Image
-                src={arrowrigth}
-                className="h-[20px] w-[20px]"
-                alt="arrowrigth"
-              />
-            </div>
+          <div className="gradient-slate py-[22px] px-[12px] flex justify-between gradient-bg-auth w-full md:w-[492px]">
+            <p className="text-base font-normal">
+            Event Organiser Agreement
+            </p>
+            <Image
+              src={arrowrigth}
+              className="h-[20px] w-[20px]"
+              alt="arrowrigth"
+            />
+          </div>
           </Link>
           <Link href="/ticket-exchange-policy">
-            <div className="gradient-slate py-[22px] px-[12px] flex justify-between gradient-bg-auth w-full md:w-[492px]">
-              <p className="text-base font-normal">
-                Naitram Ticket Exchange Policy
-              </p>
-              <Image
-                src={arrowrigth}
-                className="h-[20px] w-[20px]"
-                alt="arrowrigth"
-              />
-            </div>
+          <div className="gradient-slate py-[22px] px-[12px] flex justify-between gradient-bg-auth w-full md:w-[492px]">
+            <p className="text-base font-normal">
+            Ticket Exchange Policy
+            </p>
+            <Image
+              src={arrowrigth}
+              className="h-[20px] w-[20px]"
+              alt="arrowrigth"
+            />
+          </div>
           </Link>
           <Link href="/privacypolicy">
             <div className="gradient-slate py-[22px] px-[12px] flex justify-between gradient-bg-auth w-full md:w-[492px]">

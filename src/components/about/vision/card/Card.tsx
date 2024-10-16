@@ -78,7 +78,7 @@ export default function Card() {
               </h1>
               <div className="flex justify-center items-center flex-wrap gap-[20px] ">
                 <Input
-                  placeholder="Your Email Adresss"
+                  placeholder="Your Email Address"
                   type="text"
                   style={{ background: "transparent" }}
                   value={Email}

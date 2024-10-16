@@ -1680,6 +1680,7 @@ function OganizerCreateEvent() {
                 width={100}
                 height={345}
               />
+                <div className="absolute inset-0 flex items-center justify-center">
 
               <label
                 htmlFor="uploadcover"
@@ -3525,6 +3526,7 @@ function OganizerCreateEvent() {
             open={() => setisWalletModalOpen(true)}
           />
         )}
+      </div>
       </div>
     </section>
   );
