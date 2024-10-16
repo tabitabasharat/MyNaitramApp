@@ -29,6 +29,7 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID,claimed, claimedamount }
       const data = {
         claimId: claimID,
         userId: userID,
+        ismobile:false,
       };
       dispatch(claimReward(data)).then((res: any) => {
         if (res?.payload?.status == 201) {

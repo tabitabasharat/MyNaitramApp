@@ -224,22 +224,26 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     // setmsgs(`Replying to: ${message.msg}`);
   };
 
+  console.log("any img", imgSrc)
+  console.log("Selected msg", replyToMessage)
   async function SendMsg() {
     try {
       const data = {
-        msg: msgs,
+        msg: msgs ? msgs : " ",
         picture: imgSrc,
         userId: userid,
         eventId: eventID,
-        //  replyId:  replyToMessage ? replyToMessage.userId : null,
-         replyId: replyToMessage ? String(replyToMessage.userId) : null, 
-        ismobile:false,
+        //  replyId: replyToMessage ? String(replyToMessage.userId) : null,
+        replyId: replyToMessage ? replyToMessage.id : null,
+        ismobile: false,
       };
 
       dispatch(createChat(data)).then((res: any) => {
         if (res?.payload?.status === 201) {
           console.log("Message sent successfully", res?.payload?.data);
           setmsgs("");
+          setReplyToMessage(null);
+          setImageSrc("");
           dispatch(getChat(eventID));
         } else {
           ErrorToast(res?.payload?.message);
@@ -315,14 +319,12 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     router.push(`/social-profile/${userid}`);
   };
   const getUserActiveStatus = (userId: string) => {
-    const userChat = EventChat.find((event:any) => event.userId === userId);
+    const userChat = EventChat.find((event: any) => event.userId === userId);
     return userChat ? userChat.user?.liveActivity?.isActive : false;
   };
   const handleCloseReply = () => {
     setReplyToMessage(null);
   };
-
-  
 
   return (
     <div
@@ -330,7 +332,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   bg-effect2 bg-effect"
     >
       <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[9rem] md:h-[600px]">
-        <div className="space-y-2 block">
+        <div className="space-y-2 block ">
           {EventChat?.length > 0 &&
             EventChat?.map((event: any, index: any) => {
               const attendee = myAttendees?.find(
@@ -361,6 +363,12 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
                       localUserId={event?.userId == userIDlocal ? true : false}
                       isActive={event?.user?.liveActivity?.isActive}
                       onProfileClick={handleProfileClick}
+                      msgReplyId={event?.replyId}
+                      previousMsg={event?.replyMsg}
+                      replyingUser={event?.replyUser?.fullname}
+                      replyingUserID={event?.replyUser?.id}
+                      msguserId={event?.user?.id}
+                      replyPic={event?.replyPicture}
                     />
                   </div>
                   {activeMessage === event?.id && (
@@ -512,25 +520,32 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         </div>
       )}
 
-     
       {replyToMessage && (
-        <div className="absolute right-0 bottom-[12%] w-full bg-effect2 bg-effect px-[60px] py-[60px]">
+        <div className="absolute right-0 bottom-[12%] w-full bg-effect2 bg-effect px-[60px] py-[60px] pt-[115px]  ">
           {/* <hr className="my-2 border-t border-[#FFFFFF1A] absolute bottom-[30%] w-[100%] z-4 px-0" /> */}
 
           <div className="z-[2] flex-row items-end gap-4 absolute bottom-[17%] right-[10%] border-l border-l-[#13FF7A] rounded-lg  ">
             <Image
               src={closecirecle}
               alt="close"
-              className="absolute top-[6px] right-[6px] cursor-pointer"
+              className="absolute top-[6px] right-[6px] cursor-pointer "
               onClick={handleCloseReply}
             />
-            <div className="gradient-slate  py-2 px-3 rounded-lg me-0 chat-wid  ">
+            <div className="gradient-slate  pb-2 pt-[20px] px-4 rounded-lg me-0 chat-wid  ">
               <div className="flex flex-col gap-1">
-                
                 {getUserActiveStatus(replyToMessage.userId) && (
                   <p className="text-primary break-words overflow-hidden text-ellipsis">
                     {replyToMessage.user?.fullname}
                   </p>
+                )}
+                {replyToMessage?.replyPicture && (
+                  <Image
+                    src={replyToMessage?.replyPicture}
+                    alt="img"
+                    width={500}
+                    height={500}
+                    className="w-full h-[80px] object-cover rounded-lg"
+                  />
                 )}
                 <p className="mt-1 break-words overflow-hidden text-ellipsis">
                   {replyToMessage.msg}
