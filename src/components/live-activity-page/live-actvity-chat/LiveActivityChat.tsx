@@ -231,7 +231,8 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         picture: imgSrc,
         userId: userid,
         eventId: eventID,
-       
+        //  replyId:  replyToMessage ? replyToMessage.userId : null,
+         replyId: replyToMessage ? String(replyToMessage.userId) : null, 
         ismobile:false,
       };
 

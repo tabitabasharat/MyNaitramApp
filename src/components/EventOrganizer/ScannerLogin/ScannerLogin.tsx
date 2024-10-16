@@ -158,18 +158,18 @@ const ScannerLogin = () => {
           <p className="text-red-500 text-sm mt-2">{validationError}</p>
         )}
       </div>
-      {EventsData?.data?.length > 0 && (
+      {EventsData?.data?.events?.length > 0 && (
         <Link
           href={
-            EventsData?.data?.length > 0
+            EventsData?.data?.events?.length > 0
               ? `/organizer-event/add-scanner/${selectedEventID}`
               : "#"
           }
-          onClick={(e) => EventsData?.length <= 0 && e.preventDefault()}
+          onClick={(e) => EventsData?.events?.length <= 0 && e.preventDefault()}
         >
           <div className="flex mb-[24px] lg:mb-[32px] justify-end">
             <Button
-              disabled={EventsData?.length <= 0}
+              disabled={EventsData?.events?.length <= 0}
               type="submit"
               className="max-w-fit gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
             py-[8px] lg:py-[16px] lg:px-[24px] px-[12px] text-sm md:text-base md:w-fit
