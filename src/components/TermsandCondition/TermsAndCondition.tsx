@@ -508,7 +508,7 @@ export default function TermsAndCondition() {
               reports of unacceptable behaviour.
             </li>
 
-            <p className="pt-4">- - -</p>
+            {/* <p className="pt-4">- - -</p> */}
             <p className="pt-4">
               This document outlines the terms and conditions for using the
               Naitram ticket selling app, including considerations for Web3 and

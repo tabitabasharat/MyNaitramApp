@@ -274,7 +274,7 @@ export default function PrivacyPolicy() {
               or your local data protection authority.
             </li>
           </ol>
-          <p className="pt-4">- - -</p>
+          {/* <p className="pt-4">- - -</p> */}
           <p className="pt-4">
             This Privacy Policy provides detailed information on how Naitram
             collects, uses, shares, and protects your personal information,

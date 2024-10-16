@@ -35,20 +35,19 @@ import { useEffect, useState } from "react";
 //     .length(15, { message: "Phone number must be exactly 15 digits." })
 //     .regex(/^\d{15}$/, { message: "Phone number cannot be more than 15 digits." }),
 
-
 // });
 
 const formSchema = z.object({
   phone: z
 
-  .string()
+    .string()
     .min(1, { message: "Phone Number cannot be empty." })
     .max(15, { message: "Phone number cannot be more than 15 digits." })
     .regex(/^\d{1,15}$/, { message: "Phone number must be up to 15 digits." }),
-    // .string()
-    // .min(1, { message: "Phone Number cannot be empty." })
-    // .max(15, { message: "Phone number cannot be more than 15 digits." })
-    // .regex(/^\d{15}$/, { message: "Phone number cannot be more than 15 digits." }),
+  // .string()
+  // .min(1, { message: "Phone Number cannot be empty." })
+  // .max(15, { message: "Phone number cannot be more than 15 digits." })
+  // .regex(/^\d{15}$/, { message: "Phone number cannot be more than 15 digits." }),
 });
 
 const CompleteYourProfileModal = ({
@@ -163,7 +162,7 @@ const CompleteYourProfileModal = ({
               <FormMessage />
             </FormItem>
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="phone"
               render={({ field }) => (
@@ -194,9 +193,10 @@ const CompleteYourProfileModal = ({
                       // }}
                       onChange={(event) => {
                         // Get the value and replace non-numeric characters
-                        const value = event.target.value.replace(/[^0-9+]/g, '');
+                        const value = event.target.value.replace(/[^0-9]/g, '');
                         field.onChange(value); // Update form state with the cleaned value
                       }}
+                     
                       // onChange={(event) => field.onChange(+event.target.value)}
                     />
                   </FormControl>
@@ -204,8 +204,49 @@ const CompleteYourProfileModal = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />
-          </div>
+            /> */}
+            
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem className="relative w-full">
+                     <FormLabel className="text-[11px] text-[#8F8F8F] absolute left-3 top-5">
+                    PHONE NUMBER
+                  </FormLabel>
+                    <Phone
+                      className="absolute right-3 translate-y-[1.2rem]"
+                      size={20}
+                    />
+                    <FormControl>
+                      <Input
+                        type="tel"
+                        inputMode="numeric"
+                        pattern="\d*"
+                        placeholder="+00 000-000"
+                        className="pt-10 pb-5 font-bold placeholder:font-normal"
+                        {...field}
+                        onChange={(e: any) => {
+                          field.onChange(e);
+                        }}
+                        onKeyDown={(e) => {
+                          if (
+                            e.key.match(/[^0-9]/) &&
+                            !["Backspace", "ArrowLeft", "ArrowRight"].includes(
+                              e.key
+                            )
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+      
 
           <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
             <Button type="submit" className="w-fit px-8">

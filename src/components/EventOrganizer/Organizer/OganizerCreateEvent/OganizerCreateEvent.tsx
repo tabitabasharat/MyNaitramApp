@@ -264,8 +264,6 @@ const formSchema = z.object({
 
   //           return priceIsValid;
 
-
-            
   //         } else if (data.selected === "free") {
   //           return data.price === undefined; // Price must be undefined for free tickets
   //         }
@@ -287,7 +285,9 @@ const formSchema = z.object({
           z.string().refine((val) => Number(val) > 0, {
             message: "Number of tickets must be greater than 0.",
           }),
-          z.number().min(1, { message: "Number of tickets must be greater than 0." }),
+          z
+            .number()
+            .min(1, { message: "Number of tickets must be greater than 0." }),
         ]),
         selected: z.string().optional(),
       })
@@ -297,9 +297,11 @@ const formSchema = z.object({
           if (data.selected === "paid") {
             const priceIsValid =
               data.price !== undefined &&
-              ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
-               (typeof data.price === "number" && data.price > 0));
-  
+              ((typeof data.price === "string" &&
+                data.price.trim() !== "" &&
+                Number(data.price) > 0) ||
+                (typeof data.price === "number" && data.price > 0));
+
             return priceIsValid;
           }
           return true; // Skip price validation for free tickets
@@ -310,7 +312,6 @@ const formSchema = z.object({
         }
       )
   ),
-  
 });
 const formSchema2 = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
@@ -456,7 +457,9 @@ const formSchema2 = z.object({
           z.string().refine((val) => Number(val) > 0, {
             message: "Number of tickets must be greater than 0.",
           }),
-          z.number().min(1, { message: "Number of tickets must be greater than 0." }),
+          z
+            .number()
+            .min(1, { message: "Number of tickets must be greater than 0." }),
         ]),
         selected: z.string().optional(),
       })
@@ -466,9 +469,11 @@ const formSchema2 = z.object({
           if (data.selected === "paid") {
             const priceIsValid =
               data.price !== undefined &&
-              ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
-               (typeof data.price === "number" && data.price > 0));
-  
+              ((typeof data.price === "string" &&
+                data.price.trim() !== "" &&
+                Number(data.price) > 0) ||
+                (typeof data.price === "number" && data.price > 0));
+
             return priceIsValid;
           }
           return true; // Skip price validation for free tickets
@@ -479,7 +484,6 @@ const formSchema2 = z.object({
         }
       )
   ),
-  
 });
 
 type Option = {
@@ -1064,10 +1068,10 @@ function OganizerCreateEvent() {
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
-  
+
     if (file) {
       setLoader(true);
-  
+
       // Validation for file size
       const maxSize = 5 * 1024 * 1024; // 5 MB
       if (file.size > maxSize) {
@@ -1075,28 +1079,30 @@ function OganizerCreateEvent() {
         ErrorToast("File size exceeds 5 MB. Please upload a smaller image.");
         return;
       }
-  
+
       // Create a URL for the file
       const imgUrl = URL.createObjectURL(file);
       const img = new window.Image(); // Use window.Image to avoid TypeScript confusion
-  
+
       img.onload = async () => {
         const { width, height } = img;
-  
+
         // Check minimum dimensions
         const minWidth = 330; // Minimum width
         const minHeight = 330; // Minimum height
         if (width < minWidth || height < minHeight) {
           setLoader(false);
-          ErrorToast(`Image quality is too low. Minimum dimensions are ${minWidth}x${minHeight} pixels.`);
+          ErrorToast(
+            `Image quality is too low. Minimum dimensions are ${minWidth}x${minHeight} pixels.`
+          );
           return;
         }
-  
+
         // Proceed with uploading if all checks pass
         try {
           const formData = new FormData();
           formData.append("file", file);
-  
+
           const res: any = await api.post(
             `${API_URL}/upload/uploadimage`,
             formData,
@@ -1106,7 +1112,7 @@ function OganizerCreateEvent() {
               },
             }
           );
-  
+
           if (res.status === 200) {
             setLoader(false);
             form.setValue("eventcoverimg", res?.data?.data);
@@ -1123,12 +1129,12 @@ function OganizerCreateEvent() {
           ErrorToast("An error occurred while uploading the image.");
         }
       };
-  
+
       img.onerror = () => {
         setLoader(false);
         ErrorToast("Failed to load the image.");
       };
-  
+
       // Set the source of the image to trigger loading
       img.src = imgUrl;
     }
@@ -1140,24 +1146,24 @@ function OganizerCreateEvent() {
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
-  
+
     if (file) {
       setLoader(true);
-  
+
       // Validation for file size
       const maxSize = 5 * 1024 * 1024; // 5 MB
-  
+
       if (file.size > maxSize) {
         setLoader(false);
         setCoverImageWarning(true);
         ErrorToast("File size exceeds 5 MB. Please upload a smaller image.");
         return;
       }
-  
+
       try {
         const formData = new FormData();
         formData.append("file", file);
-  
+
         const res: any = await api.post(
           `${API_URL}/upload/uploadimage`,
           formData,
@@ -1167,7 +1173,7 @@ function OganizerCreateEvent() {
             },
           }
         );
-  
+
         if (res.status === 200) {
           setLoader(false);
           form.setValue("eventcoverimg", res?.data?.data);
@@ -1185,35 +1191,34 @@ function OganizerCreateEvent() {
       }
     }
   };
-  
+
   const handleCoverSingleFileChange = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
-  
+
     if (file) {
       setLoader(true);
-  
-   
+
       const imgUrl = URL.createObjectURL(file);
       const img = new window.Image(); // Use window.Image to avoid TypeScript confusion
-  
+
       img.onload = async () => {
         const { width, height } = img;
-  
-        const requiredSize = 1080; 
+
+        const requiredSize = 1080;
         if (width !== requiredSize || height !== requiredSize) {
           setLoader(false);
           ErrorToast(`Image must be ${requiredSize}px x ${requiredSize}px.`);
           return;
         }
-  
+
         try {
           const formData = new FormData();
           formData.append("file", file);
-  
+
           const res: any = await api.post(
             `${API_URL}/upload/uploadimage`,
             formData,
@@ -1223,7 +1228,7 @@ function OganizerCreateEvent() {
               },
             }
           );
-  
+
           if (res.status === 200) {
             setLoader(false);
             form.setValue("eventcoverimg", res?.data?.data);
@@ -1240,22 +1245,17 @@ function OganizerCreateEvent() {
           ErrorToast("An error occurred while uploading the image.");
         }
       };
-  
+
       img.onerror = () => {
         setLoader(false);
         ErrorToast("Failed to load the image.");
       };
-  
+
       // Set the source of the image to trigger loading
       img.src = imgUrl;
     }
   };
-  
-  
-  
-  
-  
-  
+
   const removeImage = (index: number) => {
     setGalleryFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
@@ -1593,7 +1593,6 @@ function OganizerCreateEvent() {
       form.handleSubmit(EventCreation)(event);
     }
   };
-
 
   const handleCateOptionToggle = (option: any) => {
     setCategoryTypes((prev: any) => {
@@ -1956,14 +1955,25 @@ function OganizerCreateEvent() {
                               </p>
                             )}
 
-                            {optionscate?.map((option) => (
+                            {optionscate?.map((option:any) => (
                               <div
                                 key={option.label}
                                 className="flex items-center justify-between pt-[8px] cursor-pointer"
                                 onClick={() => handleCateOptionToggle(option)}
                               >
                                 <div className="flex items-center gap-[10px]">
-                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                  {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p> */}
+                                  <p
+                                    className={`text-[16px] font-normal items-center ${
+                                      categoryTypes?.some(
+                                        (o:any) => o.label === option.label
+                                      )
+                                         ? "text-[#00d059]"
+                                        : "text-[#FFFFFF]"
+                                    }`}
+                                  >
                                     {option.label}
                                   </p>
                                 </div>
@@ -3028,8 +3038,7 @@ function OganizerCreateEvent() {
                                 <FormControl>
                                   <Input
                                     type="number"
-                          onWheel={(e: any) => e.target.blur()}
-
+                                    onWheel={(e: any) => e.target.blur()}
                                     placeholder="Enter Price"
                                     className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                     {...field}
@@ -3088,7 +3097,6 @@ function OganizerCreateEvent() {
                                   className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                   {...field}
                                   onWheel={(e: any) => e.target.blur()}
-
                                   onChange={(e) => {
                                     handleInputChange(
                                       index,
@@ -3137,7 +3145,13 @@ function OganizerCreateEvent() {
                                     width={16}
                                     height={16}
                                     alt="img"
-                                    className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
+                                    className={
+                                      ticket?.options?.some(
+                                        (o) => o?.id === option?.id
+                                      )
+                                        ? "filtergreen"
+                                        : ""
+                                    }
                                   />
                                   {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
                                     {option.label}

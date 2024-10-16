@@ -1722,7 +1722,7 @@ function Editevent() {
                         />
                       </div>
                       {isCatDropdownOpen && (
-                        <div className="h-[210px] overflow-auto absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                        <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
                           {optionscate?.map((option) => (
                             <div
                               key={option.label}
@@ -1730,9 +1730,20 @@ function Editevent() {
                               onClick={() => handleCateOptionToggle(option)}
                             >
                               <div className="flex items-center gap-[10px]">
-                                <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
                                   {option.label}
-                                </p>
+                                </p> */}
+                                <p
+                                    className={`text-[16px] font-normal items-center ${
+                                      categoryTypes?.some(
+                                        (o:any) => o.label === option.label
+                                      )
+                                         ? "text-[#00d059]"
+                                        : "text-[#FFFFFF]"
+                                    }`}
+                                  >
+                                    {option.label}
+                                  </p>
                               </div>
                               {categoryTypes?.some(
                                 (o: any) => o.label === option.label
