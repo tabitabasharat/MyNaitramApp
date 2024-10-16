@@ -221,7 +221,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   const handleReplyClick = (message: any) => {
     setReplyToMessage(message);
     setActiveMessage(null);
-    setmsgs(`Replying to: ${message.msg}`);
+    // setmsgs(`Replying to: ${message.msg}`);
   };
 
   async function SendMsg() {
@@ -231,6 +231,8 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         picture: imgSrc,
         userId: userid,
         eventId: eventID,
+       
+        ismobile:false,
       };
 
       dispatch(createChat(data)).then((res: any) => {
@@ -247,9 +249,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
       ErrorToast(error);
     }
   }
-  // const scrollToBottom = () => {
-  //   chatEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  // };
+
   const scrollToBottom = () => {
     const chatArea = chatEndRef.current;
     if (chatArea) {
@@ -313,9 +313,16 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     // Navigate to the user's profile
     router.push(`/social-profile/${userid}`);
   };
+  const getUserActiveStatus = (userId: string) => {
+    const userChat = EventChat.find((event:any) => event.userId === userId);
+    return userChat ? userChat.user?.liveActivity?.isActive : false;
+  };
   const handleCloseReply = () => {
     setReplyToMessage(null);
   };
+
+  
+
   return (
     <div
       className="md:w-[576px] h-[600px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
@@ -504,13 +511,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         </div>
       )}
 
-      {/* {replyToMessage && (
-        <div className="absolute top-[-60px] left-0 w-full bg-[#f0f0f0] p-2 rounded-md shadow-md">
-          <p className="text-sm text-gray-600">Replying to:</p>
-          <p className="font-semibold">{replyToMessage.user?.fullname}</p>
-          <p className="text-gray-800">{replyToMessage.msg}</p>
-        </div>
-      )} */}
+     
       {replyToMessage && (
         <div className="absolute right-0 bottom-[12%] w-full bg-effect2 bg-effect px-[60px] py-[60px]">
           {/* <hr className="my-2 border-t border-[#FFFFFF1A] absolute bottom-[30%] w-[100%] z-4 px-0" /> */}
@@ -524,9 +525,12 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
             />
             <div className="gradient-slate  py-2 px-3 rounded-lg me-0 chat-wid  ">
               <div className="flex flex-col gap-1">
-                <p className="text-primary break-words overflow-hidden text-ellipsis">
-                  {replyToMessage.user?.fullname}
-                </p>
+                
+                {getUserActiveStatus(replyToMessage.userId) && (
+                  <p className="text-primary break-words overflow-hidden text-ellipsis">
+                    {replyToMessage.user?.fullname}
+                  </p>
+                )}
                 <p className="mt-1 break-words overflow-hidden text-ellipsis">
                   {replyToMessage.msg}
                 </p>

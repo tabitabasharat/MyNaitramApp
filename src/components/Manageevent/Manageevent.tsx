@@ -123,7 +123,7 @@ function Manageevent({
                               event?.eventTickets.length > 0
                             ) {
                               e.preventDefault(); // Prevent navigation
-                              ErrorToast("You Can't Edit this Event");
+                              ErrorToast("You cannot edit this event because tickets from this event have been sold already");
                             }
                            
                           }}

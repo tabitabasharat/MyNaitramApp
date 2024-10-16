@@ -31,7 +31,7 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID,claimed, claimedamount }
         userId: userID,
       };
       dispatch(claimReward(data)).then((res: any) => {
-        if (res?.payload?.status === 201) {
+        if (res?.payload?.status == 201) {
           setLoader(false);
           // SuccessToast("Reward Claimed Successfully");
 
@@ -41,6 +41,7 @@ const ClaimRewardCard = ({ heading, desc, icon, claimID,claimed, claimedamount }
           setLoader(false);
           // ErrorToast(res?.payload?.message);
           setisClaimHourOpen(true);
+          dispatch(getClaimStatus(userID));
 
         }
       });
