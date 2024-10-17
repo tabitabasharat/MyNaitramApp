@@ -1093,7 +1093,8 @@ function OganizerCreateEvent() {
         if (width < minWidth || height < minHeight) {
           setLoader(false);
           ErrorToast(
-            `Image quality is too low. Minimum dimensions are ${minWidth}x${minHeight} pixels.`
+            // `Image quality is too low. Minimum dimensions are ${minWidth}x${minHeight} pixels.`
+           ` Upload an image with at least ${minWidth}x${minHeight} pixels for better quality.`
           );
           return;
         }

@@ -12,6 +12,10 @@ import {
   SuccessToast,
   ErrorToast,
 } from "../reusable-components/Toaster/Toaster";
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
+
 const EventNotificationCard = ({
   msg,
   heading,
@@ -29,13 +33,31 @@ const EventNotificationCard = ({
   );
 
   console.log("All Notifications are", Notify);
-  const formatTime = (isoString: string): string => {
+  const formatTimeol = (isoString: string): string => {
     const date = new Date(isoString);
     return date.toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
     });
+  };
+
+  // const formatTimeAGo = (isoString: string): string => {
+  //   return dayjs(isoString).fromNow(); 
+  // };
+
+  const formatTime = (isoString: string): string => {
+    const notificationTime = dayjs(isoString);
+    const now = dayjs();
+  
+    // Check if the notification is today
+    if (notificationTime.isSame(now, 'day')) {
+      return notificationTime.format('h:mm A'); // Format to show hours and minutes (e.g., 3:45 PM)
+    } else if (notificationTime.isSame(now.subtract(1, 'day'), 'day')) {
+      return 'Yesterday'; 
+    } else {
+      return notificationTime.fromNow(); // Use relative time for older notifications
+    }
   };
   async function readnotification(id: any) {
     console.log("my notify id is", id);
@@ -126,10 +148,10 @@ const EventNotificationCard = ({
       </div> */}
       <div className="w-full">
         <div className="flex justify-between w-full">
-          <h3 className="font-bold">{heading}</h3>
-          <p className="text-sm opacity-50">{formatTime(notifyTime)}</p>
+          <h3 className="font-bold break-words overflow-hidden text-ellipsis text-[14px] capitalize">{heading}</h3>
+          <p className=" opacity-50 capitalize text-[12px]">{formatTime(notifyTime)}</p>
         </div>
-        <p className="text-[#BFBFBF] text-sm mt-2">
+        <p className="text-[#BFBFBF] mt-2 text-[12px]">
           {/* 🎉 Join us for an electrifying evening at the NAITRAM Launch Party,
           debuting our */}
           {msg}

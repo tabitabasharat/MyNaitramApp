@@ -199,6 +199,7 @@ function Rewards() {
                           claimID={reward?.id}
                           claimed={reward?.claimed}
                           claimedamount={reward?.claimAmount}
+                        
                         />
                       )
                     )}

@@ -123,7 +123,8 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         if (res?.payload?.status === 201) {
           console.log("Message reaction", res?.payload?.data);
 
-          // setmsgs("");
+          // setmsgs(""); 
+          setActiveMessage(null);
           dispatch(getChat(eventID));
         } else {
           console.log(res?.payload?.message);
@@ -270,7 +271,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     scrollToBottom();
   }, [EventChat]);
 
-  const handleSingleFileChange = async (
+  const handleSingleFileChangeOld = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
@@ -311,6 +312,66 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     }
   };
 
+  const handleSingleFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    console.log("Selected image is:", file);
+  
+    if (file) {
+      // Check image dimensions
+      const imgUrl = URL.createObjectURL(file);
+      const img = new window.Image();
+      
+      img.onload = async () => {
+        const { width, height } = img;
+  
+        // Check if dimensions are at least 800x800
+        if (width < 800 || height < 800) {
+          ErrorToast("Upload an image with at least 800 x 800 pixels for better quality.");
+          return;
+        }
+  
+        setLoader(true);
+  
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+          const filename = file?.name;
+          console.log("file name", filename);
+          
+          const res: any = await api.post(
+            `${API_URL}/upload/uploadimage`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+  
+          if (res.status === 200) {
+            setLoader(false);
+            console.log("File uploaded", res);
+            setImageSrc(res?.data?.data);
+            console.log(res?.data?.data, "this is the file url");
+            SuccessToast("File Uploaded Successfully");
+          } else {
+            setLoader(false);
+            ErrorToast(res?.payload?.message || "Error uploading image");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          setLoader(false);
+        }
+      };
+  
+      // Set the src of the img to trigger the onload
+      img.src = imgUrl; // Use imgUrl to load the image
+    }
+  };
+  
+  
   const userIDlocal =
     typeof window !== "undefined" ? localStorage.getItem("_id") : null;
 
@@ -369,6 +430,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
                       replyingUserID={event?.replyUser?.id}
                       msguserId={event?.user?.id}
                       replyPic={event?.replyPicture}
+                      replyUserActive={event?.replyUser?.liveActivity?.isActive}
                     />
                   </div>
                   {activeMessage === event?.id && (
@@ -473,25 +535,27 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         >
           <Input
             placeholder="Type here"
-            className="rounded-full relative h-12 ps-6 pr-[50px]"
+            className="rounded-full relative h-12 ps-6 pr-[58px]"
             onChange={(e) => setmsgs(e.target.value)}
             value={msgs}
             onKeyDown={handleKeyDown}
           />
+          <div className="flex items-center">
           {userID === userIDlocal && (
             <Image
               src={link}
               alt="link-img"
               sizes="18px"
-              className="absolute top-[17px] right-[60px]"
+              className="absolute top-[17px] right-[68px]"
             />
           )}
           <Button
             onClick={toggleEmojiPicker}
-            className="absolute right-[80px] top-1/2 transform -translate-y-1/2 p-0 bg-transparent z-10 cursor-pointer"
+            className="absolute right-[88px] top-1/2 transform -translate-y-1/2 p-0 bg-transparent z-10 cursor-pointer"
           >
             <Smiley size={18} color="white" />
           </Button>
+          </div>
         </label>
         <input
           ref={fileInputRef}

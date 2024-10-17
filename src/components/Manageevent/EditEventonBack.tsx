@@ -969,7 +969,9 @@ function EditeventOnBack() {
         const requiredSize = 1080;
         if (width !== requiredSize || height !== requiredSize) {
           setLoader(false);
-          ErrorToast(`Image must be ${requiredSize}px x ${requiredSize}px.`);
+          // ErrorToast(`Image must be ${requiredSize}px x ${requiredSize}px.`);
+          ErrorToast(` Upload an image with at least ${requiredSize} x ${requiredSize} pixels for better quality.`)
+
           return;
         }
 
