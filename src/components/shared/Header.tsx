@@ -207,7 +207,7 @@ const Header = () => {
         if (res?.payload?.status === 200) {
           setLoader(false);
           console.log("Notification Status Res", res?.payload?.data);
-          // SuccessToast("Read Success User");
+          SuccessToast("Marked All as read");
           dispatch(getUserNotifications(userid));
         } else {
           setLoader(false);
@@ -233,7 +233,8 @@ const Header = () => {
         if (res?.payload?.status === 200) {
           setLoader(false);
           console.log("Notification Status Res", res?.payload?.data);
-          // SuccessToast("Read Success org");
+          SuccessToast("Marked All as read");
+
           dispatch(getOrgNotifications(userid));
         } else {
           setLoader(false);
@@ -416,7 +417,7 @@ const Header = () => {
                       setActiveTab={setActiveTab}
                     />
                   </ScrollArea>
-                  {activeTab == "USER" && Notify && (
+                  {activeTab == "USER" && Notify  && Unreadnotification && (
                     <Button
                       className=" py-[12px] text-[12px] h-[32px] flex 
                   items-center justify-center mt-2"
@@ -426,7 +427,7 @@ const Header = () => {
                     </Button>
                   )}
 
-                  {activeTab == "ORGANISER" && NotifyOrg && (
+                  {activeTab == "ORGANISER" && UnreadnotificationOrg  && NotifyOrg &&(
                     <Button
                       className=" py-[12px] text-[12px] h-[32px] flex 
                   items-center justify-center mt-2"

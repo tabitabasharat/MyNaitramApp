@@ -403,11 +403,11 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
               return (
                 <div key={event?.id} className="relative">
                   <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleMessagePress(event?.id);
-                      // handleReplyClick(event);
-                    }}
+                    // onClick={(e) => {
+                    //   e.stopPropagation();
+                    //   handleMessagePress(event?.id);
+                      
+                    // }}
                   >
                     <Chat
                       key={event?.id}
@@ -430,6 +430,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
                       msguserId={event?.user?.id}
                       replyPic={event?.replyPicture}
                       replyUserActive={event?.replyUser?.liveActivity?.isActive}
+                      msgBoxClick={() => handleMessagePress(event?.id)}
                     />
                   </div>
                   {activeMessage === event?.id && (

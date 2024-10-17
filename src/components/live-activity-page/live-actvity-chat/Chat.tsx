@@ -25,7 +25,9 @@ const Chat = ({
   replyingUserID,
   msguserId,
   replyPic,
-  replyUserActive
+  replyUserActive,
+  msgBoxClick,
+  key,
 }: any) => {
   console.log("my local userid ", localUserId);
 
@@ -142,17 +144,23 @@ const Chat = ({
           />
         </div>
 
-        <div className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg me-0 chat-wid">
+        <div
+          className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg me-0 chat-wid"
+          onClick={(e) => {
+            e.stopPropagation();
+            msgBoxClick();
+            // handleReplyClick(event);
+          }}
+        >
           <div className="flex flex-col gap-1">
             {msgReplyId != null ? (
               <>
                 <div className="py-2 px-3  me-0 border-l border-l-[#13FF7A] rounded-lg gradient-slate mb-1 ">
-                  { replyUserActive && 
-                  <p className="text-primary break-words overflow-hidden text-ellipsis">
-                  
-                    { msguserId == replyingUserID ? "You" : replyingUser}
-                  </p>
-}
+                  {replyUserActive && (
+                    <p className="text-primary break-words overflow-hidden text-ellipsis">
+                      {msguserId == replyingUserID ? "You" : replyingUser}
+                    </p>
+                  )}
                   {replyPic && (
                     <Image
                       src={replyPic}
