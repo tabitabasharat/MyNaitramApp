@@ -25,7 +25,7 @@ const Chat = ({
   replyingUserID,
   msguserId,
   replyPic,
-  replyUserActive,
+  replyUserActive
 }: any) => {
   console.log("my local userid ", localUserId);
 
@@ -147,11 +147,12 @@ const Chat = ({
             {msgReplyId != null ? (
               <>
                 <div className="py-2 px-3  me-0 border-l border-l-[#13FF7A] rounded-lg gradient-slate mb-1 ">
-                  {replyUserActive && (
-                    <p className="text-primary break-words overflow-hidden text-ellipsis">
-                      {msguserId == replyingUserID ? "You" : replyingUser}
-                    </p>
-                  )}
+                  { replyUserActive && 
+                  <p className="text-primary break-words overflow-hidden text-ellipsis">
+                  
+                    { msguserId == replyingUserID ? "You" : replyingUser}
+                  </p>
+}
                   {replyPic && (
                     <Image
                       src={replyPic}

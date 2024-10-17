@@ -52,7 +52,7 @@ console.log("Chat photos are", photoRoll)
         </div>
 
         {/* LARGE SCREEN VIEW */}
-        <div className="flex hidden md:flex flex-wrap  space-e-[16px] justify-between items-center mt-[16px] h-[180px] overflow-auto scrollbar-hide">
+        <div className="flex hidden md:flex flex-wrap  space-e-[16px]  gap-[16px] items-center mt-[16px] h-[200px] overflow-auto scrollbar-hide">
           {photoRoll?.length > 0 && photoRoll.map((photoroll:any, index:any) => (
             <Thumbnillive key={index} img={photoroll.picture} />
           ))}
@@ -68,16 +68,16 @@ console.log("Chat photos are", photoRoll)
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
 
-        <DialogContent className="sm:max-w-full md:max-w-[660px] pb-0">
+        <DialogContent className="sm:max-w-full md:max-w-[660px] pb-0 px-[24px] pt-[18px] ">
           <DialogHeader>
-            <DialogTitle className="font-bold text-sm lg:text-[24px]">
+            <DialogTitle className="font-bold text-sm lg:text-[24px] pb-[18px]">
               Photo Roll
             </DialogTitle>
             <Separator className="scale-x-[1.09] bg-[#292929]" />
           </DialogHeader>
 
           <ScrollArea className="h-[402px] w-full mt-1 pb-1 overflow-auto  ">
-            <div className=" gap-4 photo-container">
+            <div className=" gap-[14px] photo-container">
             {photoRoll?.length > 0 && photoRoll.map((photoroll:any, index:any) => (
             <Thumbnillive key={index} img={photoroll.picture}  size="size-[168.5px]  md:size-[140px]"/>
           ))}

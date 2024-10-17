@@ -51,7 +51,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const [moreEmoji, setMoreEmoji] = useState<any>(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
-
+  const emojiReplyRef = useRef<HTMLDivElement | null>(null);
   const [activeMessage, setActiveMessage] = useState<number | null>(null);
   const [messageReactions, setMessageReactions] = useState<{
     [key: number]: string;
@@ -64,6 +64,20 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
 
   console.log("active state", activeMessage);
   console.log("active reactio", messageReactions);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (emojiReplyRef.current && !emojiReplyRef.current.contains(event.target as Node)) {
+        setActiveMessage(null); // Close emoji/reply icons
+      }
+    };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleMessagePress = (messageId: number) => {
     console.log("Clicked message ID:", messageId);
     if (activeMessage == messageId) {
@@ -76,22 +90,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     // );
   };
 
-  // const setMessageReaction = (messageId: number, emoji: string) => {
-  //   console.log(`Setting reaction for message ${messageId}: ${emoji}`); // Debugging log
-  //   setMessageReactions((prevReactions) => ({
-  //     ...prevReactions,
-  //     [messageId]: emoji, // Store emoji for the message
-  //   }));
-  // };
-
-  // const handleEmojiClick = (emojiData: any) => {
-  //   const emoji = emojiData.emoji;
-  //   setmsgs((prevMsgs) => prevMsgs + emoji);
-  //   if (activeMessage !== null) {
-  //     setMessageReaction(activeMessage, emoji);
-  //     setMoreEmoji(false);
-  //   }
-  // };
+ 
 
   const handleEmojiClick = (emojiData: any) => {
     const emoji = emojiData.emoji;
@@ -434,14 +433,14 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
                     />
                   </div>
                   {activeMessage === event?.id && (
-                    <div className="absolute top-0 right-0 flex flex-col items-center space-y-2 z-10">
+                    <div className="absolute top-0 right-0 flex flex-col items-center space-y-2 z-10" ref={emojiReplyRef}>
                       {emojis.map((emoji, index) => (
                         <p
                           key={index}
                           onClick={() => setMessageReaction(event?.id, emoji)}
                           className={`cursor-pointer bg-[#FFFFFF0F] h-[32px] w-[32px] pt-[7px] pb-[4px] pe-[3.5px] ps-[5.5px] rounded-full flex items-center justify-center text-xl ${
-                            messageReactions[event?.id] === emoji
-                              ? "border border-solid border-[#FFFFFF]"
+                            messageReactions[event?.id] == emoji
+                              ? "border border-solid border-white"
                               : ""
                           }`}
                         >
