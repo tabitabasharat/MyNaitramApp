@@ -212,7 +212,7 @@ color: #ffffff !important;
 .event-images-container {
   display: flex;
   justify-content: space-between;
-  gap: 50px;
+  gap: 32px;
 }
 .create-container-head {
   border-bottom-left-radius: 12px;

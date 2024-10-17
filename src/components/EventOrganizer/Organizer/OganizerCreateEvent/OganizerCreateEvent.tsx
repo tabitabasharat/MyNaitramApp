@@ -1873,7 +1873,7 @@ function OganizerCreateEvent() {
             </div>
           </div>
         </div>
-        <div className="px-[24px] py-[16px] relative create-container mt-[46px] ">
+        <div className="px-[24px] py-[16px] relative create-container mt-[32px] ">
           <div className="flex justify-between">
             <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
               {" "}
