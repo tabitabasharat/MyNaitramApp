@@ -7,7 +7,7 @@
 // export const API_URL = "http://localhost:3001"
 
 export const API_URL = "https://backend.naitram.live"
-// export const API_URL = "https://stagingbe.dotskulls.com";
+;
 
 //  export const API_URL = "http://192.168.18.27:3001"
 // export const API_URL ="https://staggingbe.blockmoblabs.com"

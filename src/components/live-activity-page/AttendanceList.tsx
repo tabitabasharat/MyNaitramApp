@@ -49,8 +49,8 @@ const AttendanceList = () => {
             Active Users
           </p>
           <DialogTrigger asChild>
-            <button className="text-[#8F8F8F] flex hover:text-white duration-300">
-              View All <CaretRight size={20} weight="bold" />
+            <button className="text-[#8F8F8F] text-sm font-bold flex hover:text-white duration-300">
+              View All <CaretRight size={14} weight="bold" />
             </button>
           </DialogTrigger>
         </div>
@@ -108,7 +108,7 @@ const AttendanceList = () => {
             <Input
               id="search"
               placeholder="Search Active Users List"
-              className="h-12 mt-4"
+              className="h-12 placeholder:text-sm placeholder:text-[#BFBFBF] mt-[4px]"
               value={searchAttendees}
               onChange={(event) => setsearchAttendees(event.target.value)}
             />
@@ -121,7 +121,7 @@ const AttendanceList = () => {
             <div className="flex flex-col gap-4">
               {filteredattendees?.length > 0 ? (
                 filteredattendees?.map((attendee: any) => (
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center md:gap-[4px] gap-[8px]">
                     <Avatar
                       key={attendee?.id}
                       img={
@@ -130,7 +130,7 @@ const AttendanceList = () => {
                       size="size-[55px]"
                     />
 
-                    <p className="font-bold text-[18px] ">
+                    <p className="md:font-bold font-extrabold text-sm md:text-[18px] ">
                       {attendee?.liveActivity?.isActive
                         ? attendee.fullname
                         : ""}

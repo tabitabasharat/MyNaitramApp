@@ -83,7 +83,7 @@ const LiveActivity = () => {
     
       <div className="flex gap-4 mb-8 lg:mb-[48px]  xl:ps-[100px] xl:pe-[216px] lg:px-[80px] md:px-[0px] px-[24px] mx-2xl">
         <button onClick={() => router.back()}>
-          <ArrowLeft size={22} />
+          <ArrowLeft size={20} />
         </button>
         <p>
           <span className="text-[#BFBFBF]">Event</span> /
@@ -95,7 +95,7 @@ const LiveActivity = () => {
             {' '}
             {evantName}{' '}
           </span>
-          / <span>Live Activity</span>
+          / <span className='font-bold'>Live Activity</span>
         </p>
       </div>
       <div className="flex flex-col xl:ps-[100px] xl:pe-[216px] lg:px-[80px] md:px-[0px] px-[0px] lg:flex-row gap-[48px] mx-2xl 2xl:mt-12">

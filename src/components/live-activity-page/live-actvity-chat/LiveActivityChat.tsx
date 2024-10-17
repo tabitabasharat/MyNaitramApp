@@ -67,14 +67,17 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (emojiReplyRef.current && !emojiReplyRef.current.contains(event.target as Node)) {
+      if (
+        emojiReplyRef.current &&
+        !emojiReplyRef.current.contains(event.target as Node)
+      ) {
         setActiveMessage(null); // Close emoji/reply icons
       }
     };
-  
-    document.addEventListener('mousedown', handleClickOutside);
+
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -89,8 +92,6 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     //   prevActiveMessage === messageId ? null : messageId
     // );
   };
-
- 
 
   const handleEmojiClick = (emojiData: any) => {
     const emoji = emojiData.emoji;
@@ -122,7 +123,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         if (res?.payload?.status === 201) {
           console.log("Message reaction", res?.payload?.data);
 
-          // setmsgs(""); 
+          // setmsgs("");
           setActiveMessage(null);
           dispatch(getChat(eventID));
         } else {
@@ -224,8 +225,8 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     // setmsgs(`Replying to: ${message.msg}`);
   };
 
-  console.log("any img", imgSrc)
-  console.log("Selected msg", replyToMessage)
+  console.log("any img", imgSrc);
+  console.log("Selected msg", replyToMessage);
   async function SendMsg() {
     try {
       const data = {
@@ -316,29 +317,31 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   ) => {
     const file = e.target.files?.[0];
     console.log("Selected image is:", file);
-  
+
     if (file) {
       // Check image dimensions
       const imgUrl = URL.createObjectURL(file);
       const img = new window.Image();
-      
+
       img.onload = async () => {
         const { width, height } = img;
-  
+
         // Check if dimensions are at least 800x800
         if (width < 800 || height < 800) {
-          ErrorToast("Upload an image with at least 800 x 800 pixels for better quality.");
+          ErrorToast(
+            "Upload an image with at least 800 x 800 pixels for better quality."
+          );
           return;
         }
-  
+
         setLoader(true);
-  
+
         try {
           const formData = new FormData();
           formData.append("file", file);
           const filename = file?.name;
           console.log("file name", filename);
-          
+
           const res: any = await api.post(
             `${API_URL}/upload/uploadimage`,
             formData,
@@ -348,7 +351,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
               },
             }
           );
-  
+
           if (res.status === 200) {
             setLoader(false);
             console.log("File uploaded", res);
@@ -364,13 +367,12 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
           setLoader(false);
         }
       };
-  
+
       // Set the src of the img to trigger the onload
       img.src = imgUrl; // Use imgUrl to load the image
     }
   };
-  
-  
+
   const userIDlocal =
     typeof window !== "undefined" ? localStorage.getItem("_id") : null;
 
@@ -387,11 +389,16 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   };
 
   return (
+    //   <div
+    //     className="md:w-[576px] h-[650px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-[24px] relative md:overflow-hidden mt-12 md:mt-0
+    // bg-effect2 bg-effect"
+    //   >
+
     <div
       className="md:w-[576px] h-[600px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
   bg-effect2 bg-effect"
     >
-      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[9rem] md:h-[600px]">
+      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[9rem] md:h-[650px]">
         <div className="space-y-2 block ">
           {EventChat?.length > 0 &&
             EventChat?.map((event: any, index: any) => {
@@ -403,11 +410,11 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
               return (
                 <div key={event?.id} className="relative">
                   <div
-                    // onClick={(e) => {
-                    //   e.stopPropagation();
-                    //   handleMessagePress(event?.id);
-                      
-                    // }}
+                  // onClick={(e) => {
+                  //   e.stopPropagation();
+                  //   handleMessagePress(event?.id);
+
+                  // }}
                   >
                     <Chat
                       key={event?.id}
@@ -434,7 +441,10 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
                     />
                   </div>
                   {activeMessage === event?.id && (
-                    <div className="absolute top-0 right-0 flex flex-col items-center space-y-2 z-10" ref={emojiReplyRef}>
+                    <div
+                      className="absolute top-0 right-0 flex flex-col items-center space-y-2 z-10"
+                      ref={emojiReplyRef}
+                    >
                       {emojis.map((emoji, index) => (
                         <p
                           key={index}
@@ -535,26 +545,29 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         >
           <Input
             placeholder="Type here"
-            className="rounded-full relative h-12 ps-6 pr-[58px]"
+            className="rounded-full placeholder:text-[#9D9FAB] placeholder:text-sm relative h-12 ps-[20px] pr-[50px]"
             onChange={(e) => setmsgs(e.target.value)}
             value={msgs}
             onKeyDown={handleKeyDown}
           />
           <div className="flex items-center">
-          {userID === userIDlocal && (
-            <Image
-              src={link}
-              alt="link-img"
-              sizes="18px"
-              className="absolute top-[17px] right-[68px]"
-            />
-          )}
-          <Button
-            onClick={toggleEmojiPicker}
-            className="absolute right-[88px] top-1/2 transform -translate-y-1/2 p-0 bg-transparent z-10 cursor-pointer"
-          >
-            <Smiley size={18} color="white" />
-          </Button>
+            {userID === userIDlocal && (
+              <Image
+                src={link}
+                alt="link-img"
+                sizes="18px"
+                className="absolute top-[17px] right-[68px]"
+              />
+            )}
+            <Button
+              onClick={toggleEmojiPicker}
+              // className="absolute right-[70px] top-1/2 transform -translate-y-1/2 p-0 bg-transparent z-10 cursor-pointer "
+              className={`absolute   p-0 bg-transparent z-10 emoji-btn cursor-pointer ${
+                userID === userIDlocal ? "right-[88px]" : " right-[70px]"
+              }`}
+            >
+              <Smiley size={18} color="white" />
+            </Button>
           </div>
         </label>
         <input
@@ -588,7 +601,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         <div className="absolute right-0 bottom-[12%] w-full bg-effect2 bg-effect px-[60px] py-[60px] pt-[115px]  ">
           {/* <hr className="my-2 border-t border-[#FFFFFF1A] absolute bottom-[30%] w-[100%] z-4 px-0" /> */}
 
-          <div className="z-[2] flex-row items-end gap-4 absolute bottom-[17%] right-[10%] border-l border-l-[#13FF7A] rounded-lg  ">
+          <div className="z-[2] flex-row items-end gap-[8px] absolute bottom-[17%] right-[10%] border-l border-l-[#13FF7A] rounded-lg  ">
             <Image
               src={closecirecle}
               alt="close"
