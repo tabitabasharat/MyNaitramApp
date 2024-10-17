@@ -59,6 +59,7 @@ function VerifiyTicket() {
   const [loader, setLoader] = useState(false);
   const [ticketid, setTicketId] = useState<any>("");
 
+ 
   useEffect(() => {
     const currentUrl: any =
       typeof window !== "undefined" ? window.location.href : null;
@@ -106,6 +107,12 @@ function VerifiyTicket() {
     }
   }
 
+  const handleKeyDown = (event:any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
+
   return (
     <div>
       {loader && <ScreenLoader />}
@@ -142,6 +149,9 @@ function VerifiyTicket() {
             <form
               // onSubmit={form.handleSubmit(verifyBlockchain)}
               className=" w-full md:w-[600px]"
+              // onSubmit={handleSubmit(onSubmit)} 
+              // onSubmit={form.handleSubmit(verifyBlockchain)}
+              // onKeyDown={handleKeyDown}
             >
               <FormField
                 // control={form.control}

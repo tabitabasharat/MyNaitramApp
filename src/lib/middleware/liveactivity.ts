@@ -181,3 +181,24 @@ export const createChat = createAsyncThunk(
       }
     }
   );
+
+  export const getPhotoRoll= createAsyncThunk(
+    "getPhotoRoll",
+    async (data: any) => {
+      try {
+        console.log("inside get PhotoRoll");
+        const res = await api.get(`${API_URL}/reward/getChatPictures/${data}`);
+        console.log("inside get PhotoRoll", res);
+        // localStorage.setItem("token", res?.data?.token);
+        return {
+          status: res?.status,
+          data: res?.data?.data,
+        };
+      } catch (error: any) {
+        return {
+          message: error?.response?.data?.error,
+          status: error?.response?.status,
+        };
+      }
+    }
+  );

@@ -51,7 +51,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const [moreEmoji, setMoreEmoji] = useState<any>(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
-
+  const emojiReplyRef = useRef<HTMLDivElement | null>(null);
   const [activeMessage, setActiveMessage] = useState<number | null>(null);
   const [messageReactions, setMessageReactions] = useState<{
     [key: number]: string;
@@ -64,6 +64,23 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
 
   console.log("active state", activeMessage);
   console.log("active reactio", messageReactions);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        emojiReplyRef.current &&
+        !emojiReplyRef.current.contains(event.target as Node)
+      ) {
+        setActiveMessage(null); // Close emoji/reply icons
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleMessagePress = (messageId: number) => {
     console.log("Clicked message ID:", messageId);
     if (activeMessage == messageId) {
@@ -75,23 +92,6 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     //   prevActiveMessage === messageId ? null : messageId
     // );
   };
-
-  // const setMessageReaction = (messageId: number, emoji: string) => {
-  //   console.log(`Setting reaction for message ${messageId}: ${emoji}`); // Debugging log
-  //   setMessageReactions((prevReactions) => ({
-  //     ...prevReactions,
-  //     [messageId]: emoji, // Store emoji for the message
-  //   }));
-  // };
-
-  // const handleEmojiClick = (emojiData: any) => {
-  //   const emoji = emojiData.emoji;
-  //   setmsgs((prevMsgs) => prevMsgs + emoji);
-  //   if (activeMessage !== null) {
-  //     setMessageReaction(activeMessage, emoji);
-  //     setMoreEmoji(false);
-  //   }
-  // };
 
   const handleEmojiClick = (emojiData: any) => {
     const emoji = emojiData.emoji;
@@ -124,6 +124,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
           console.log("Message reaction", res?.payload?.data);
 
           // setmsgs("");
+          setActiveMessage(null);
           dispatch(getChat(eventID));
         } else {
           console.log(res?.payload?.message);
@@ -270,7 +271,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     scrollToBottom();
   }, [EventChat]);
 
-  const handleSingleFileChange = async (
+  const handleSingleFileChangeOld = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
@@ -311,6 +312,67 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     }
   };
 
+  const handleSingleFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    console.log("Selected image is:", file);
+
+    if (file) {
+      // Check image dimensions
+      const imgUrl = URL.createObjectURL(file);
+      const img = new window.Image();
+
+      img.onload = async () => {
+        const { width, height } = img;
+
+        // Check if dimensions are at least 800x800
+        if (width < 800 || height < 800) {
+          ErrorToast(
+            "Upload an image with at least 800 x 800 pixels for better quality."
+          );
+          return;
+        }
+
+        setLoader(true);
+
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+          const filename = file?.name;
+          console.log("file name", filename);
+
+          const res: any = await api.post(
+            `${API_URL}/upload/uploadimage`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+
+          if (res.status === 200) {
+            setLoader(false);
+            console.log("File uploaded", res);
+            setImageSrc(res?.data?.data);
+            console.log(res?.data?.data, "this is the file url");
+            SuccessToast("File Uploaded Successfully");
+          } else {
+            setLoader(false);
+            ErrorToast(res?.payload?.message || "Error uploading image");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          setLoader(false);
+        }
+      };
+
+      // Set the src of the img to trigger the onload
+      img.src = imgUrl; // Use imgUrl to load the image
+    }
+  };
+
   const userIDlocal =
     typeof window !== "undefined" ? localStorage.getItem("_id") : null;
 
@@ -327,11 +389,16 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   };
 
   return (
+    //   <div
+    //     className="md:w-[576px] h-[650px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-[24px] relative md:overflow-hidden mt-12 md:mt-0
+    // bg-effect2 bg-effect"
+    //   >
+
     <div
-      className="md:w-[576px] h-[844px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-[24px] relative md:overflow-hidden mt-12 md:mt-0 
+      className="md:w-[576px] h-[600px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
   bg-effect2 bg-effect"
     >
-      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[9rem] md:h-[844px]">
+      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[9rem] md:h-[650px]">
         <div className="space-y-2 block ">
           {EventChat?.length > 0 &&
             EventChat?.map((event: any, index: any) => {
@@ -343,11 +410,11 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
               return (
                 <div key={event?.id} className="relative">
                   <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleMessagePress(event?.id);
-                      // handleReplyClick(event);
-                    }}
+                  // onClick={(e) => {
+                  //   e.stopPropagation();
+                  //   handleMessagePress(event?.id);
+
+                  // }}
                   >
                     <Chat
                       key={event?.id}
@@ -369,17 +436,22 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
                       replyingUserID={event?.replyUser?.id}
                       msguserId={event?.user?.id}
                       replyPic={event?.replyPicture}
+                      replyUserActive={event?.replyUser?.liveActivity?.isActive}
+                      msgBoxClick={() => handleMessagePress(event?.id)}
                     />
                   </div>
                   {activeMessage === event?.id && (
-                    <div className="absolute top-0 right-0 flex flex-col items-center space-y-2 z-10">
+                    <div
+                      className="absolute top-0 right-0 flex flex-col items-center space-y-2 z-10"
+                      ref={emojiReplyRef}
+                    >
                       {emojis.map((emoji, index) => (
                         <p
                           key={index}
                           onClick={() => setMessageReaction(event?.id, emoji)}
                           className={`cursor-pointer bg-[#FFFFFF0F] h-[32px] w-[32px] pt-[7px] pb-[4px] pe-[3.5px] ps-[5.5px] rounded-full flex items-center justify-center text-xl ${
-                            messageReactions[event?.id] === emoji
-                              ? "border border-solid border-[#FFFFFF]"
+                            messageReactions[event?.id] == emoji
+                              ? "border border-solid border-white"
                               : ""
                           }`}
                         >
@@ -478,20 +550,25 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
             value={msgs}
             onKeyDown={handleKeyDown}
           />
-          {userID === userIDlocal && (
-            <Image
-              src={link}
-              alt="link-img"
-              sizes="18px"
-              className="absolute top-[17px] right-[60px]"
-            />
-          )}
-          <Button
-            onClick={toggleEmojiPicker}
-            className="absolute right-[70px] top-1/2 transform -translate-y-1/2 p-0 bg-transparent z-10 cursor-pointer"
-          >
-            <Smiley size={18} color="white" />
-          </Button>
+          <div className="flex items-center">
+            {userID === userIDlocal && (
+              <Image
+                src={link}
+                alt="link-img"
+                sizes="18px"
+                className="absolute top-[17px] right-[68px]"
+              />
+            )}
+            <Button
+              onClick={toggleEmojiPicker}
+              // className="absolute right-[70px] top-1/2 transform -translate-y-1/2 p-0 bg-transparent z-10 cursor-pointer "
+              className={`absolute   p-0 bg-transparent z-10 emoji-btn cursor-pointer ${
+                userID === userIDlocal ? "right-[88px]" : " right-[70px]"
+              }`}
+            >
+              <Smiley size={18} color="white" />
+            </Button>
+          </div>
         </label>
         <input
           ref={fileInputRef}

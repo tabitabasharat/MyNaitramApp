@@ -38,7 +38,13 @@ import bellred from "@/assets/Wallet/bell red.svg";
 import {
   getUserNotifications,
   getOrgNotifications,
+  UserNotificationReadAll,
+  OrgNotificationReadAll,
 } from "@/lib/middleware/notification";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "../reusable-components/Toaster/Toaster";
 const Header = () => {
   const router = useRouter();
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
@@ -47,6 +53,9 @@ const Header = () => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [notifPopupOpen, setNotifPopupOpen] = useState(false);
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"USER" | "ORGANISER">("USER");
+  const [loader, setLoader] = useState(false);
+
   // const [Unreadnotification,setUnreadNotification] = useState<any>("");
 
   const [openDropdown, setOpenDropdown] = useState<number | null>(null); // Track the currently open dropdown
@@ -171,10 +180,71 @@ const Header = () => {
   const Notify = useAppSelector(
     (state) => state?.getUserNotifications?.myNotifications?.data
   );
+  const NotifyOrg = useAppSelector(
+    (state) => state?.getOrgNotifications?.myNotifications?.data
+  );
   const Unreadnotification =
     Notify && Notify?.some((item: any) => item && item?.NotifyRead === false);
+
+  const UnreadnotificationOrg =
+    NotifyOrg &&
+    NotifyOrg?.some((item: any) => item && item?.NotifyRead === false);
+
   console.log("Notify:", Notify);
   console.log("Unreadnotification:", Unreadnotification);
+
+  async function UserReadAll(id: any) {
+    console.log("my notify id is", id);
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setLoader(true);
+
+    try {
+      const data = {
+        userId: userid,
+      };
+      dispatch(UserNotificationReadAll(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          console.log("Notification Status Res", res?.payload?.data);
+          SuccessToast("Marked All as read");
+          dispatch(getUserNotifications(userid));
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  async function OrgReadAll(id: any) {
+    console.log("my notify id is", id);
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setLoader(true);
+
+    try {
+      const data = {
+        userId: userid,
+      };
+      dispatch(OrgNotificationReadAll(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          console.log("Notification Status Res", res?.payload?.data);
+          SuccessToast("Marked All as read");
+
+          dispatch(getOrgNotifications(userid));
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
   return (
     <>
       <AnimatePresence mode="wait">
@@ -266,26 +336,26 @@ const Header = () => {
 
         <div className="flex gap-[10px] items-center">
           <div className="hidden lg:block">
-          <Button
-            onClick={() => {
-              router.push("/verify-ticket");
-            }}
-            className="flex items-center add-bank-account-border  bg-black gap-[4px] p-[12px]"
-          >
-            <Image src={greenticket} alt="greenticket" />
-            <p className=" font-extrabold text-base text-[#00D059]">
-              {" "}
-              Verify Ticket
-            </p>
-          </Button>
+            <Button
+              onClick={() => {
+                router.push("/verify-ticket");
+              }}
+              className="flex items-center add-bank-account-border  bg-black gap-[4px] p-[12px]"
+            >
+              <Image src={greenticket} alt="greenticket" />
+              <p className=" font-extrabold text-base text-[#00D059]">
+                {" "}
+                Verify Ticket
+              </p>
+            </Button>
           </div>
           <div>
-          <Button
-            className="hidden p-[12px] py-[8px] font- font-extrabold text-base lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
-            onClick={() => handleHostToggle()}
-          >
-            Host Event
-          </Button>
+            <Button
+              className="hidden p-[12px] py-[8px] font- font-extrabold text-base lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
+              onClick={() => handleHostToggle()}
+            >
+              Host Event
+            </Button>
           </div>
           <>
             {!token && (
@@ -325,7 +395,7 @@ const Header = () => {
                   asChild
                   className="relative z-[1200] cursor-pointer"
                 >
-                  {Unreadnotification ? (
+                  {Unreadnotification  || UnreadnotificationOrg ? (
                     <Image
                       className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer"
                       src={bellred}
@@ -336,10 +406,36 @@ const Header = () => {
                   )}
                 </PopoverTrigger>
 
-                <PopoverContent className="cursor-pointer relative z-[1200] text-white border border-muted shadow-custom bg-black w-[350px] lg:w-[400px] rounded-2xl  -translate-x-4 translate-y-6">
-                  <ScrollArea className="h-[658px] px-[8px] pb-[62px] border-none ">
-                    <NotificationPopUp setNotifPopupOpen={setNotifPopupOpen} />
+                <PopoverContent
+                  className=" flex items-end flex-col cursor-pointer relative z-[1200] text-white border border-muted 
+                shadow-custom bg-black w-[350px] lg:w-[400px] rounded-2xl  -translate-x-4 translate-y-6"
+                >
+                  <ScrollArea className="h-[600px] px-[8px] pb-[15px] border-none w-full ">
+                    <NotificationPopUp
+                      setNotifPopupOpen={setNotifPopupOpen}
+                      activeTab={activeTab}
+                      setActiveTab={setActiveTab}
+                    />
                   </ScrollArea>
+                  {activeTab == "USER" && Notify  && Unreadnotification && (
+                    <Button
+                      className=" py-[12px] text-[12px] h-[32px] flex 
+                  items-center justify-center mt-2"
+                      onClick={UserReadAll}
+                    >
+                      Mark as all read
+                    </Button>
+                  )}
+
+                  {activeTab == "ORGANISER" && UnreadnotificationOrg  && NotifyOrg &&(
+                    <Button
+                      className=" py-[12px] text-[12px] h-[32px] flex 
+                  items-center justify-center mt-2"
+                      onClick={OrgReadAll}
+                    >
+                      Mark as all read
+                    </Button>
+                  )}
                 </PopoverContent>
               </Popover>
 

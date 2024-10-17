@@ -16,12 +16,17 @@ import {
 import profileimg from "@/assets/Avatar-1.svg";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
+import { Button } from "../ui/button";
 
 dayjs.extend(isBetween);
-const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
+const NotificationPopUp = ({
+  setNotifPopupOpen,
+  activeTab,
+  setActiveTab,
+}: any) => {
   const dispatch = useAppDispatch();
 
-  const [activeTab, setActiveTab] = useState<"USER" | "ORGANISER">("USER");
+  // const [activeTab, setActiveTab] = useState<"USER" | "ORGANISER">("USER");
   const [active, setActive] = useState<string>("today");
 
   useEffect(() => {
@@ -203,6 +208,7 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
           </div>
         ))}
       </div>
+
       {/* <div className="flex flex-wrap gap-2 mt-[20px]">
        
         <div
@@ -266,25 +272,6 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
             })}
         </div>
       )} */}
-      {/* {activeTab === "USER" && (
-        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
-          {Notify?.length > 0 &&
-            Notify?.map((item: any, index: any) => {
-              return (
-                <EventNotificationCard
-                  key={index}
-                  msg={item?.msg}
-                  heading={item?.action}
-                  notifyTime={item?.createdAt}
-                  readStatus={item?.NotifyRead}
-                  notificationId={item?.id}
-                  notifyType={"user"}
-                 profileimg={item?.picture}
-                />
-              );
-            })}
-        </div>
-      )} */}
 
       {activeTab === "USER" && (
         <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
@@ -306,50 +293,6 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
 
       {/* {activeTab === "ORGANISER" && (
         <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
-          {Notify?.length > 0 &&
-            Notify?.map((item: any, index: any) => {
-              if (
-                item?.action === "Event created" ||
-                item?.action === "Event updated" ||
-                item?.action === "Ticket Purchase"
-              ) {
-                return (
-                  <EventNotificationCard
-                    key={index}
-                    msg={item?.msg}
-                    heading={item?.action}
-                    notifyTime={item?.createdAt}
-                    profileimg={profileimg}
-                  />
-                );
-              }
-              return null;
-            })}
-        </div>
-      )} */}
-      {/* {activeTab === "ORGANISER" && (
-        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
-          {NotifyOrg?.length > 0 &&
-            NotifyOrg?.map((item: any, index: any) => {
-              return (
-                <EventNotificationCard
-                  key={index}
-                  msg={item?.msg}
-                  heading={item?.action}
-                  notifyTime={item?.createdAt}
-                  
-                  readStatus={item?.NotifyRead}
-                  notificationId={item?.id}
-                  notifyType={"organization"}
-                  profileimg={item?.picture}
-                />
-              );
-            })}
-        </div>
-      )} */}
-
-      {activeTab === "ORGANISER" && (
-        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
           {filterNotifications(NotifyOrg)?.length > 0 &&
             filterNotifications(NotifyOrg).map((item: any, index: any) => (
               <EventNotificationCard
@@ -363,6 +306,30 @@ const NotificationPopUp = ({ setNotifPopupOpen }: any) => {
                 profileimg={item?.picture}
               />
             ))}
+        </div>
+      )} */}
+
+      {activeTab === "ORGANISER" && (
+        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
+          {filterNotifications(NotifyOrg)?.length === 0 ? (
+            <p className="text-gray-500 text-center">
+              No New Notification
+            </p>
+          ) : (
+            filterNotifications(NotifyOrg)?.length > 0 &&
+            filterNotifications(NotifyOrg).map((item: any, index: any) => (
+              <EventNotificationCard
+                key={index}
+                msg={item?.msg}
+                heading={item?.action}
+                notifyTime={item?.createdAt}
+                readStatus={item?.NotifyRead}
+                notificationId={item?.id}
+                notifyType={"organization"}
+                profileimg={item?.picture}
+              />
+            ))
+          )}
         </div>
       )}
     </div>

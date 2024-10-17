@@ -1093,7 +1093,8 @@ function OganizerCreateEvent() {
         if (width < minWidth || height < minHeight) {
           setLoader(false);
           ErrorToast(
-            `Image quality is too low. Minimum dimensions are ${minWidth}x${minHeight} pixels.`
+            // `Image quality is too low. Minimum dimensions are ${minWidth}x${minHeight} pixels.`
+           ` Upload an image with at least ${minWidth}x${minHeight} pixels for better quality.`
           );
           return;
         }
@@ -1680,7 +1681,6 @@ function OganizerCreateEvent() {
                 width={100}
                 height={345}
               />
-                <div className="absolute inset-0 flex items-center justify-center">
 
               <label
                 htmlFor="uploadcover"
@@ -1873,7 +1873,7 @@ function OganizerCreateEvent() {
             </div>
           </div>
         </div>
-        <div className="px-[24px] py-[16px] relative create-container mt-[46px] ">
+        <div className="px-[24px] py-[16px] relative create-container mt-[32px] ">
           <div className="flex justify-between">
             <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
               {" "}
@@ -3526,7 +3526,6 @@ function OganizerCreateEvent() {
             open={() => setisWalletModalOpen(true)}
           />
         )}
-      </div>
       </div>
     </section>
   );

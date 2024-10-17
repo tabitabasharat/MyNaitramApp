@@ -45,6 +45,7 @@ import getWalletHistory from "./reducer/getWalletHistory";
 import  getOrgLiveSocialProfile  from "./reducer/getOrgLiveSocialProfile";
 import getFollowStatus from "./reducer/getFollowStatus";
 import getPastEventBox from "./reducer/getPastEventsBox"
+import getPhotoRollChat from "./reducer/getPhotoRollChat"
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -90,6 +91,7 @@ const appReducer = combineReducers({
   getWalletHistory: getWalletHistory,
   getOrgLiveSocialProfile:getOrgLiveSocialProfile,
   getFollowStatus:getFollowStatus,
+  getPhotoRollChat:getPhotoRollChat
 
 });
 const rootReducer = (

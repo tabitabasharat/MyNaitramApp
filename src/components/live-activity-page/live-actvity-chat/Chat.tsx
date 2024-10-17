@@ -24,7 +24,10 @@ const Chat = ({
   replyingUser,
   replyingUserID,
   msguserId,
-  replyPic
+  replyPic,
+  replyUserActive,
+  msgBoxClick,
+  key,
 }: any) => {
   console.log("my local userid ", localUserId);
 
@@ -125,11 +128,17 @@ const Chat = ({
       </div>
 
       <div
+        // className={`z-[2] flex ${
+        //   localUserId
+        //     ? "flex-row-reverse pr-[37px]"
+        //     : "flex-row me-[44px] sm:me-[55px]"
+        // } items-end gap-[8px]`}
+
         className={`z-[2] flex ${
           localUserId
             ? "flex-row-reverse pr-[37px]"
             : "flex-row me-[44px] sm:me-[55px]"
-        } items-end gap-[8px]`}
+        } items-end gap-4`}
       >
         <div onClick={handleProfileClick} className="cursor-pointer">
           <Image
@@ -141,15 +150,23 @@ const Chat = ({
           />
         </div>
 
-        <div className="bg-[#151915]/40 py-[10px] px-3 border border-white/10 rounded-lg me-0 chat-wid">
+        <div
+          className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg me-0 chat-wid"
+          onClick={(e) => {
+            e.stopPropagation();
+            msgBoxClick();
+            // handleReplyClick(event);
+          }}
+        >
           <div className="flex flex-col gap-1">
             {msgReplyId != null ? (
               <>
                 <div className="py-2 px-3  me-0 border-l border-l-[#13FF7A] rounded-lg gradient-slate mb-1 ">
-                  <p className="text-primary font-extrabold text-sm break-words overflow-hidden text-ellipsis">
-                  
-                    { msguserId == replyingUserID ? "You" : replyingUser}
-                  </p>
+                  {replyUserActive && (
+                    <p className="text-primary break-words overflow-hidden text-ellipsis">
+                      {msguserId == replyingUserID ? "You" : replyingUser}
+                    </p>
+                  )}
                   {replyPic && (
                     <Image
                       src={replyPic}

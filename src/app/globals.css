@@ -4,6 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
+#tab-toolbar{
+  background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a) !important;
+
+
+}
+#tab-panel{
+  background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a) !important;
+}
+#emoji-palatte{
+  width: 300px !important;
+}
 
 
 .del-verification-input{

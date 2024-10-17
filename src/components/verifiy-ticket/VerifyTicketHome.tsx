@@ -139,7 +139,7 @@ function VerifiyTicketHome() {
 
           <Form {...form}>
             <form
-              // onSubmit={form.handleSubmit(verifyBlockchain)}
+              onSubmit={form.handleSubmit(verifyBlockchain)}
               className=" w-full md:w-[600px]"
             >
               <FormField
@@ -170,6 +170,15 @@ function VerifiyTicketHome() {
                         onChange={(e) => {
                           setTicketId(e.target.value);
                           field.onChange(e);
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent leading space
+                          if (
+                            e.key === " " &&
+                            field.value.trim().length === 0
+                          ) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                     </FormControl>

@@ -201,12 +201,12 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
     (item: any) => item?.followId == userId
   );
 
-  console.log("my follow statys ,", followStatus);
+  console.log("my follow statys ,", myProfile?.profile?.public);
 
   const handleProfileClick = (e: any) => {
     e.preventDefault();
 
-    if (EventData?.profile?.public) {
+    if (myProfile?.profile?.public ) {
       router.push(`/profile-perview/${userId}`);
     } else {
       // ErrorToast("This Organiser's Profile is Private");

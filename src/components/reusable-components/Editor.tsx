@@ -1,20 +1,26 @@
 import { Content } from "@radix-ui/react-popover";
 import React, { useState, useRef, useEffect } from "react";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch, useSelector } from "react-redux";
+import quillEmoji from "quill-emoji";
+import "quill-emoji/dist/quill-emoji.css";
 
 const fontSizes = ["small", false, "large", "huge"];
 const fonts = ["Arial"];
 // import { setContractEditor } from "@/components/services/redux/reducer/addcontracteditor";
 var modules = {
   toolbar: [
-    ["bold", "italic", "underline"],
+    ["bold", "italic", "underline", "emoji"],
     [{ header: ["Heading", 1, 2, 3, 4, 5, 6] }],
+    
     [],
   ],
+  "emoji-toolbar": true,
+  "emoji-textarea": false,
+  "emoji-shortname": true,
 };
-var formats = ["header", "height", "bold", "italic", "underline"];
+var formats = ["header", "height", "bold", "italic", "underline", "emoji"];
 
 interface EditorProps {
   onChange: (content: string) => void;
@@ -22,6 +28,16 @@ interface EditorProps {
 }
 
 const Editor: React.FC<EditorProps> = ({ onChange,value }) => {
+  Quill.register (
+    {
+      "formats/emoji": quillEmoji.EmojiBlot,
+      "modules/emoji-toolbar": quillEmoji.ToolbarEmoji,
+      "modules/emoji-textarea": quillEmoji.TextAreaEmoji,
+      "modules/emoji-shortname": quillEmoji.ShortNameEmoji
+    },
+    true
+  );
+
   // Function to handle content change in the editor
   const handleEditorChange = (content: string) => {
     console.log("my content ", content)

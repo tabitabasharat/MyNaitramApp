@@ -10,6 +10,8 @@ import { FadeReveal } from "@/components/animations/FadeReveal";
 import { Reveal } from "@/components/animations/Reveal";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
+import { getTicketByQR } from "@/lib/middleware/wallet";
+
 import { useState, useEffect } from "react";
 import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -24,6 +26,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import ScreenLoader from "@/components/loader/Screenloader";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "@/components/reusable-components/Toaster/Toaster";
 
 const formSchema = z.object({
   subject: z.string().min(1, { message: "Ticket Id cannot be empty." }),
@@ -32,9 +39,11 @@ const formSchema = z.object({
 const Hero = () => {
   const router = useRouter();
   const [isClaimOpen, setIsClaimOpen] = useState(false);
-  const [collectID, setCollectID] = useState(""); // Assuming you'll use this for some logic
-  const [loader, setLoader] = useState(false); // Assuming this is for some loader logic
-  const dispatch = useAppDispatch(); // Redux dispatch
+  const [collectID, setCollectID] = useState("");
+  const dispatch = useAppDispatch();
+  const [eventId, setEventId] = useState<any>("");
+  const [loader, setLoader] = useState(false);
+  const [ticketid, setTicketId] = useState<any>("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -56,7 +65,42 @@ const Hero = () => {
   //   setCollectID(value);
   //   console.log("my event id is", value);
   // }, []);
+  async function verifyBlockchain() {
+    if (!ticketid) {
+      ErrorToast("Ticket Id cannot be empty");
+      return;
+    }
 
+    setLoader(true);
+    try {
+      const currentUrl: any =
+        typeof window !== "undefined" ? window.location.href : null;
+      const parts = currentUrl.split("/");
+      const value = parts[parts.length - 1];
+
+      const data = {
+        // ticketId : value,
+        ticketInput: ticketid,
+      };
+
+      dispatch(getTicketByQR(ticketid)).then((res: any) => {
+        console.log("inside the login", res);
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          console.log("ticket res", res?.payload?.data);
+          localStorage.setItem("ticketId", ticketid);
+          router.push(`/wallet/specific-qr-code/${ticketid}`);
+        } else {
+          setLoader(false);
+
+          ErrorToast("Ticket Not Found");
+        }
+      });
+    } catch (error) {
+      setLoader(false);
+      console.error("Error:", error);
+    }
+  }
   return (
     <section
       style={{
@@ -75,7 +119,13 @@ const Hero = () => {
                   Verify Ticket on Blockchain
                 </p>
                 <Form {...form}>
-                  <form className="w-full md:w-[491px]">
+                  <form
+                    className="w-full md:w-[491px]"
+                    onSubmit={(e: any) => {
+                      e.preventDefault();
+                      verifyBlockchain();
+                    }}
+                  >
                     <FormField
                       name="subject"
                       render={({ field }) => (
@@ -84,6 +134,7 @@ const Hero = () => {
                             src={arrow}
                             alt="arrow"
                             className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                            onClick={() => verifyBlockchain()}
                           />
                           <Image
                             src={ticket}
@@ -94,6 +145,19 @@ const Hero = () => {
                             <Input
                               placeholder="Search by Ticket ID Number / Transaction ID"
                               className="placeholder:text-white placeholder:text-base placeholder:font-normal pb-[30px] pt-8 pl-[45px] pr-[45px]"
+                              onChange={(e) => {
+                                setTicketId(e.target.value);
+                                field.onChange(e);
+                              }}
+                              onKeyDown={(e) => {
+                                // Prevent leading space
+                                if (
+                                  e.key === " " &&
+                                  field.value.trim().length === 0
+                                ) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                           </FormControl>
                           <FormMessage />

@@ -56,13 +56,18 @@ const AttendanceList = () => {
         </div>
 
         {/* LARGE SCREEN VIEW */}
-        <div className="hidden md:flex lg:h-[530px] overflow-auto scrollbar-hide flex-wrap justify-normal items-start mt-[16px]">
+        {/* <div className="hidden md:flex lg:h-[150px] overflow-auto scrollbar-hide flex-wrap justify-normal items-start mt-[16px]"> */}
+        <div className={`hidden md:flex  ${eventAttendy?.attend?.data?.length > 8 ? 'overflow-y-auto lg:h-[170px]' : ''} scrollbar-hide flex-wrap justify-normal items-start mt-[16px]`}>
           {eventAttendy?.attend?.data?.map((attendee: any) => (
+            <>
             <Avatar
               size="size-[64px]"
               key={attendee?.id}
               img={attendee?.profilePicture ? attendee?.profilePicture : Avatrimg}
             />
+         
+          
+            </>
           ))}
         </div>
 
