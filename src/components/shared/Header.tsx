@@ -5,7 +5,7 @@ import logo from "@/assets/logo.svg";
 import naitramlogo from "@/assets/naitram-logo-white.svg";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import greenticket from "@/assets/greenTicket.svg";
+import greenticket from "@/assets/Group 1597878034.svg";
 import { usePathname } from "next/navigation";
 import { cn, shimmer, toBase64 } from "@/lib/utils";
 import { useRef } from "react";

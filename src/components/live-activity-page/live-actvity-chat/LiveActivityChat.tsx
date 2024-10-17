@@ -224,8 +224,8 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
     // setmsgs(`Replying to: ${message.msg}`);
   };
 
-  console.log("any img", imgSrc)
-  console.log("Selected msg", replyToMessage)
+  console.log("any img", imgSrc);
+  console.log("Selected msg", replyToMessage);
   async function SendMsg() {
     try {
       const data = {
@@ -328,10 +328,10 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
 
   return (
     <div
-      className="md:w-[576px] h-[600px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
+      className="md:w-[576px] h-[844px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-[24px] relative md:overflow-hidden mt-12 md:mt-0 
   bg-effect2 bg-effect"
     >
-      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[9rem] md:h-[600px]">
+      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[9rem] md:h-[844px]">
         <div className="space-y-2 block ">
           {EventChat?.length > 0 &&
             EventChat?.map((event: any, index: any) => {
@@ -473,7 +473,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         >
           <Input
             placeholder="Type here"
-            className="rounded-full relative h-12 ps-6 pr-[50px]"
+            className="rounded-full placeholder:text-[#9D9FAB] placeholder:text-sm relative h-12 ps-[20px] pr-[50px]"
             onChange={(e) => setmsgs(e.target.value)}
             value={msgs}
             onKeyDown={handleKeyDown}
@@ -488,7 +488,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
           )}
           <Button
             onClick={toggleEmojiPicker}
-            className="absolute right-[80px] top-1/2 transform -translate-y-1/2 p-0 bg-transparent z-10 cursor-pointer"
+            className="absolute right-[70px] top-1/2 transform -translate-y-1/2 p-0 bg-transparent z-10 cursor-pointer"
           >
             <Smiley size={18} color="white" />
           </Button>
@@ -524,7 +524,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         <div className="absolute right-0 bottom-[12%] w-full bg-effect2 bg-effect px-[60px] py-[60px] pt-[115px]  ">
           {/* <hr className="my-2 border-t border-[#FFFFFF1A] absolute bottom-[30%] w-[100%] z-4 px-0" /> */}
 
-          <div className="z-[2] flex-row items-end gap-4 absolute bottom-[17%] right-[10%] border-l border-l-[#13FF7A] rounded-lg  ">
+          <div className="z-[2] flex-row items-end gap-[8px] absolute bottom-[17%] right-[10%] border-l border-l-[#13FF7A] rounded-lg  ">
             <Image
               src={closecirecle}
               alt="close"

@@ -96,7 +96,7 @@ const Chat = ({
           </div>
           {reactions?.length > 0 && (
             <div className="flex items-center justify-between">
-              <p className="text-[#D9D9D9]">{time}</p>
+              <p className="text-[#D9D9D9] ">{time}</p>
               <div
                 style={{
                   background: "#FFFFFF14",
@@ -129,7 +129,7 @@ const Chat = ({
           localUserId
             ? "flex-row-reverse pr-[37px]"
             : "flex-row me-[44px] sm:me-[55px]"
-        } items-end gap-4`}
+        } items-end gap-[8px]`}
       >
         <div onClick={handleProfileClick} className="cursor-pointer">
           <Image
@@ -141,12 +141,12 @@ const Chat = ({
           />
         </div>
 
-        <div className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg me-0 chat-wid">
+        <div className="bg-[#151915]/40 py-[10px] px-3 border border-white/10 rounded-lg me-0 chat-wid">
           <div className="flex flex-col gap-1">
             {msgReplyId != null ? (
               <>
                 <div className="py-2 px-3  me-0 border-l border-l-[#13FF7A] rounded-lg gradient-slate mb-1 ">
-                  <p className="text-primary break-words overflow-hidden text-ellipsis">
+                  <p className="text-primary font-extrabold text-sm break-words overflow-hidden text-ellipsis">
                   
                     { msguserId == replyingUserID ? "You" : replyingUser}
                   </p>
@@ -159,18 +159,18 @@ const Chat = ({
                       alt="message-img"
                     />
                   )}
-                  <p className="mt-1 break-words overflow-hidden text-ellipsis">
+                  <p className="mt-1 text-sm break-words overflow-hidden text-ellipsis">
                     {previousMsg}
                   </p>
                 </div>
-                <p className="mt-1 break-words overflow-hidden text-ellipsis">
+                <p className="mt-1 text-sm break-words overflow-hidden text-ellipsis">
                   {msgtext}
                 </p>
               </>
             ) : (
               <>
                 {/* This is the simple message structure */}
-                <p className="text-primary break-words overflow-hidden text-ellipsis">
+                <p className="text-primary font-extrabold text-sm break-words overflow-hidden text-ellipsis">
                   {attendeename ? username : ""}
                 </p>
                 {img && (
@@ -182,7 +182,7 @@ const Chat = ({
                     alt="message-img"
                   />
                 )}
-                <p className="mt-1 break-words overflow-hidden text-ellipsis">
+                <p className="mt-1 text-sm break-words overflow-hidden text-ellipsis">
                   {msgtext}
                 </p>
               </>
@@ -190,7 +190,7 @@ const Chat = ({
           </div>
 
           <div className="flex items-center justify-between">
-            <p className="text-[#D9D9D9]">{time}</p>
+            <p className="text-[#D9D9D9] text-[12px]">{time}</p>
             {reactions?.length > 0 && (
               <div
                 style={{ background: "#FFFFFF14" }}
@@ -217,91 +217,6 @@ const Chat = ({
           />
         )}
       </div>
-      {/* 
-      {msgReplyId != null && (
-        <div
-          className={`z-[2] flex ${
-            localUserId == true
-              ? "flex-row-reverse pr-[37px] "
-              : "flex-row me-[44px] sm:me-[55px]"
-          } items-end gap-4`}
-        >
-          <div onClick={handleProfileClick} className="cursor-pointer">
-            <Image
-              src={userimg || "/person1.png"}
-              width={200}
-              height={200}
-              className={`size-[32px] object-cover object-top rounded-full ${
-                userimg ? "max-w-fit" : ""
-              } cursor-pointer`}
-              alt="chat-profile-pic"
-            />
-          </div>
-          <div className="bg-[#151915]/40 py-2 px-3 border border-white/10 rounded-lg me-0 chat-wid ">
-            <div className="flex flex-col gap-1 ">
-              <p className="text-primary break-words overflow-hidden text-ellipsis">
-                {attendeename == true ? username : ""}
-              </p>
-
-              {img && (
-                <Image
-                  src={img}
-                  width={500}
-                  height={500}
-                  className="w-full h-[80px] object-cover rounded-lg"
-                  alt="message-img"
-                />
-              )}
-
-              <div
-                className="  py-2 px-3  me-0 border-l border-l-[#13FF7A] rounded-lg gradient-slate "
-                // style={{
-                //   background: "linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%)",
-
-                //   backdropFilter: "blur(8px)"
-                // }}
-              >
-                <p className="text-primary break-words overflow-hidden text-ellipsis">
-                  {attendeename == true ? username : "xyz"}
-                </p>
-                <p>{msgtext}</p>
-              </div>
-              <p className="mt-1 break-words overflow-hidden text-ellipsis">
-                {msgtext}
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <p className="text-[#D9D9D9]">{time}</p>
-              {reactions?.length > 0 && (
-                <div
-                  style={{
-                    background: "#FFFFFF14",
-                  }}
-                  className="flex items-baseline justify-center gap-[2px] px-[4.5px] py-[1px] rounded-full"
-                >
-                  {reactions.map((reaction: any, index: number) => (
-                    <div key={index} className="flex items-center">
-                      <p>{reaction?.reactionType}</p>
-                      <p className="text-[#D9D9D9] text-[12px] ml-1">
-                        {reaction?.count}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {isClaimOpen && (
-            <PrivateProfilePopUp
-              onClose={() => setisClaimOpen(false)}
-              open={() => setisClaimOpen(true)}
-              msg={"This User's Profile is Private"}
-            />
-          )}
-        </div>
-      )} */}
     </>
   );
 };

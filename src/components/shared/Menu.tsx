@@ -8,7 +8,7 @@ import {
   InstagramLogo,
   YoutubeLogo,
 } from "@phosphor-icons/react/dist/ssr";
-import greenticket from "@/assets/greenTicket.svg";
+import greenticket from "@/assets/Group 1597878034.svg";
 import arrowUp from "@/assets/Arrow up.svg";
 import arrowDown from "@/assets/aboutdropdown.svg";
 import twitter from "@/assets/prime_twitter.svg";
