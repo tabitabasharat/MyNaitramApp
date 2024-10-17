@@ -1,13 +1,13 @@
-'use client';
+"use client";
+import { useState } from "react";
+import "swiper/css";
+import "swiper/css/free-mode";
 
-import 'swiper/css';
-import 'swiper/css/free-mode';
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode } from 'swiper/modules';
-import { CaretRight, MagnifyingGlass } from '@phosphor-icons/react/dist/ssr';
-import Avatar from '../reusable-components/Avatar';
-import { attendees } from '@/lib/dummyData';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode } from "swiper/modules";
+import { CaretRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import Avatar from "../reusable-components/Avatar";
+import { attendees } from "@/lib/dummyData";
 
 import {
   Dialog,
@@ -15,46 +15,65 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
-import { Separator } from '../ui/separator';
-import { ScrollArea, ScrollBar } from '../ui/scroll-area';
-import Link from 'next/link';
+import { Separator } from "../ui/separator";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import Link from "next/link";
+import { useAppSelector } from "@/lib/hooks";
+import ScreenLoader from "../loader/Screenloader";
+import Avatrimg from "@/assets/Wallet/Avatar new.svg"
+
 
 const AttendanceList = () => {
+  const eventAttendy = useAppSelector((state: any) => state?.getAllAttend);
+  console.log(eventAttendy, "this is event attendy");
+  const [searchAttendees, setsearchAttendees] = useState<any>("");
+
+  const myAttendees = useAppSelector(
+    (state) => state?.getAllAttend?.attend?.data
+  );
+
+  const filteredattendees = myAttendees?.filter((item: any) =>
+    item?.fullname?.toLowerCase().includes(searchAttendees.toLowerCase())
+  );
+  console.log("filtered attendees", filteredattendees);
+
   return (
     <div>
+      {eventAttendy.loading && <ScreenLoader />}
       <Dialog>
         <div className="flex justify-between">
-          <p>Attendance List</p>
+          <p className="text-sm font-extrabold lg:text-base lg:font-bold">
+            Active Users
+          </p>
           <DialogTrigger asChild>
-            <button className="text-[#8F8F8F] flex hover:text-white duration-300">
-              View All <CaretRight size={20} weight="bold" />
+            <button className="text-[#8F8F8F] text-sm font-bold flex hover:text-white duration-300">
+              View All <CaretRight size={14} weight="bold" />
             </button>
           </DialogTrigger>
         </div>
 
         {/* LARGE SCREEN VIEW */}
-        <div className="hidden md:flex flex-wrap gap-4 justify-center items-center mt-6">
-          {attendees.map((attendee) => (
-            <Link
-              href={
-                '/events/event-detail/live-activity/personal-social-profile'
-              }
-            >
-              <Avatar
-                size="size-[65px] lg:size-[85px]"
-                key={attendee.id}
-                img={attendee.img}
-              />
-            </Link>
+        {/* <div className="hidden md:flex lg:h-[150px] overflow-auto scrollbar-hide flex-wrap justify-normal items-start mt-[16px]"> */}
+        <div className={`hidden md:flex  ${eventAttendy?.attend?.data?.length > 8 ? 'overflow-y-auto lg:h-[170px]' : ''} scrollbar-hide flex-wrap justify-normal items-start mt-[16px]`}>
+          {eventAttendy?.attend?.data?.map((attendee: any) => (
+            <>
+            <Avatar
+              size="size-[64px]"
+              key={attendee?.id}
+              img={attendee?.profilePicture ? attendee?.profilePicture : Avatrimg}
+            />
+         
+          
+            </>
           ))}
         </div>
 
         {/* SMALL SCREEN VIEW */}
 
-        <div className="block md:hidden mt-6">
+        <div className="block scrollbar-hide gap-[8px] overflow-y-auto md:hidden mt-[16px]">
           <Swiper
             slidesPerView={4}
             spaceBetween={5}
@@ -63,20 +82,14 @@ const AttendanceList = () => {
               clickable: true,
             }}
             modules={[FreeMode]}
-            style={{ overflow: 'visible' }}
+            style={{ overflow: "visible" }}
           >
-            {attendees.map((attendee) => (
-              <SwiperSlide key={attendee.id}>
-                <Link
-                  href={
-                    '/events/event-detail/live-activity/personal-social-profile'
-                  }
-                >
-                  <Avatar
-                    size="size-[65px] lg:size-[85px]"
-                    img={attendee.img}
-                  />
-                </Link>
+            {eventAttendy?.attend?.data?.map((attendee: any) => (
+              <SwiperSlide key={attendee.id} className="slider-wid">
+                <Avatar
+                  size="size-[64px]"
+                  img={attendee?.profilePicture ? attendee?.profilePicture : Avatrimg}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -85,15 +98,19 @@ const AttendanceList = () => {
         <DialogContent className="sm:max-w-md lg:max-w-[500px] pb-0">
           <DialogHeader>
             <DialogTitle className="font-bold text-2xl">
-              Attendance List
+              <p className="font-extrabold text-[20px] lg:text-[24px]">
+                Active Users List
+              </p>
             </DialogTitle>
             <Separator className="scale-x-[1.12] bg-[#292929]" />
           </DialogHeader>
           <div className="relative">
             <Input
               id="search"
-              placeholder="Search Attendance"
-              className="h-12 mt-4"
+              placeholder="Search Active Users List"
+              className="h-12 placeholder:text-sm placeholder:text-[#BFBFBF] mt-[4px]"
+              value={searchAttendees}
+              onChange={(event) => setsearchAttendees(event.target.value)}
             />
             <MagnifyingGlass
               size={18}
@@ -102,16 +119,27 @@ const AttendanceList = () => {
           </div>
           <ScrollArea className="h-72 w-full mt-1">
             <div className="flex flex-col gap-4">
-              {attendees.map((attendee) => (
-                <div className="flex items-center gap-4">
-                  <Avatar
-                    key={attendee.id}
-                    img={attendee.img}
-                    size="size-[55px]"
-                  />
-                  <p className="font-bold text-[18px]">{attendee.name}</p>
-                </div>
-              ))}
+              {filteredattendees?.length > 0 ? (
+                filteredattendees?.map((attendee: any) => (
+                  <div className="flex items-center md:gap-[4px] gap-[8px]">
+                    <Avatar
+                      key={attendee?.id}
+                      img={
+                        attendee?.profilePicture ? attendee?.profilePicture : Avatrimg
+                      }
+                      size="size-[55px]"
+                    />
+
+                    <p className="md:font-bold font-extrabold text-sm md:text-[18px] ">
+                      {attendee?.liveActivity?.isActive
+                        ? attendee.fullname
+                        : ""}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p>No Active User Found</p>
+              )}
             </div>
           </ScrollArea>
         </DialogContent>

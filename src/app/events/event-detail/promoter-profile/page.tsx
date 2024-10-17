@@ -1,7 +1,7 @@
 import PromoterProfile from '@/components/promoter-profile-page/PromoterProfile';
 
-const page = () => {
+export default function page ()  {
   return <PromoterProfile />;
 };
 
-export default page;
+

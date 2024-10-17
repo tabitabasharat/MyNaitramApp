@@ -41,14 +41,14 @@ const DeleteAccountPopup = ({ onClose, open }: any) => {
   );
   const userLoading = useAppSelector((state) => state?.getShowProfile);
 
-  const imageUrl = myProfile?.profilePicture?.startsWith("http" || "https")
+  const imageUrl = myProfile?.profilePicture?.startsWith("http" )|| myProfile?.profilePicture?.startsWith("https")
     ? myProfile?.profilePicture
     : "/person3.jpg";
   console.log("image src is", imageUrl);
 
   async function deleteUser() {
     setLoader(true);
-    const userID = localStorage.getItem("_id");
+    const userID = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("my user id", userID);
 
     try {

@@ -1,7 +1,6 @@
 import YourTickets from '@/components/profile-page/YourTickets';
 
-const page = () => {
+export default function page ()  {
   return <YourTickets />;
 };
 
-export default page;

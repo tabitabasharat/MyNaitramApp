@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 
-const VideoPlayer = () => {
+export default function VideoPlayer() {
   const videoRef = useRef<any>(null);
   const overlayRef = useRef<any>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -51,21 +51,9 @@ const VideoPlayer = () => {
         className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-2xl cursor-pointer"
         onClick={handlePlayButton}
       >
-        {/* <img src="/About/play.svg" alt="Play" className="w-16 h-16" /> */}
       </div>
-      {/* <div className="flex justify-between mt-2">
-        <button className="p-2 bg-gray-800 text-white rounded" onClick={handlePlayButton}>
-          {isPlaying ? 'Pause' : 'Play'}
-        </button>
-        <button className="p-2 bg-gray-800 text-white rounded" onClick={handleMuteButton}>
-          {isMuted ? 'Unmute' : 'Mute'}
-        </button>
-        <button className="p-2 bg-gray-800 text-white rounded" onClick={handleFullscreenButton}>
-          Fullscreen
-        </button>
-      </div> */}
     </div>
   );
 };
 
-export default VideoPlayer;
+

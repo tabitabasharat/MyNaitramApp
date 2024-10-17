@@ -7,33 +7,44 @@ import HeartBadge from "../ui/heart-badge";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getTicketsByID } from "@/lib/middleware/wallet";
-
-// Mock Data (replace with actual data)
-const events = [
-  { id: 1, imageUrl: "/event2.png", title: "Amet est massa volutpat faucibus" },
-  { id: 2, imageUrl: "/event3.png", title: "Fashion Friday by Bushmills 2024" },
-  { id: 3, imageUrl: "/event4.png", title: "PIZDEZ Womens Day Party 2024" },
-  { id: 4, imageUrl: "/event5.png", title: "Deep Week with Hate Tuesday" },
-  { id: 5, imageUrl: "/event7.png", title: "After Party for Ladies Night" },
-  { id: 6, imageUrl: "/event8.png", title: "THE VAB with DJ CULOUGH" },
-];
+import {
+  getTicketsByID,
+  getWalletCollectByUserID,
+} from "@/lib/middleware/wallet";
+import { getRewardCollectibles } from "@/lib/middleware/reward";
+import ScreenLoader from "../loader/Screenloader";
 
 const EventCard: React.FC<{
   eventId: number;
   imageUrl: string;
   title: string;
   height?: string;
-  width?: string;
-}> = ({ eventId, imageUrl, title, height = "auto", width = "auto" }) => (
-  <ScaleReveal extraStyle="w-full">
+  // width?: string;
+  eventType: "tickets" | "collectables" | "rewardcollectables" | null;
+}> = ({
+  eventId,
+  imageUrl,
+  title,
+  eventType,
+  height = "288px",
+  // width = "100%",
+}) => (
+  <ScaleReveal extraStyle="">
     <Link
-      href={eventId ? `/specific-event/${eventId}` : "/events"}
-      className="w-full"
+      href={
+        eventType === "tickets"
+          ? `/wallet/specific-ticket/${eventId}`
+          : eventType === "collectables"
+          ? `/wallet/collect-table/${eventId}`
+          : eventType === "rewardcollectables"
+          ? `reward/claimable-reward/${eventId}`
+          : "#"
+      }
+      className=""
     >
       <div
-        style={{ height, width }}
-        className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242]"
+        // style={{ height, width }}
+        className="relative overflow-hidden rounded-lg w-full lg:w-[100%] lg:h-[345px]  xl:h-[388px] md:h-[384px] h-[345px]  border border-[#424242]"
       >
         <Image
           src={imageUrl}
@@ -54,30 +65,111 @@ const EventCard: React.FC<{
   </ScaleReveal>
 );
 
-const EventGrid: React.FC = () => {
+const EventGrid: React.FC<{
+  eventType: "tickets" | "collectables" | "rewardcollectables" | null;
+  eventitems: any
+}> = ({ eventType, eventitems }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
+    const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     dispatch(getTicketsByID(userid));
+    dispatch(getWalletCollectByUserID(userid));
+    dispatch(getRewardCollectibles());
   }, []);
+
   const myEvents = useAppSelector(
     (state) => state?.getTicketsByUId?.myTickets?.data
   );
-
   console.log("my events are ", myEvents);
+
+  const myWalletCollect = useAppSelector(
+    (state) =>
+      state?.getWalletCollectByUID?.myWalletCollectibles?.data?.userCollectibles
+  );
+  console.log("my wallet collectibles are ", myWalletCollect);
+
+  const myRewardCollectibles = useAppSelector(
+    (state) => state?.getRewardCollectibles?.myCollectibles?.data?.collectibles
+  );
+  console.log("my Rewards Collectibles are ", myRewardCollectibles);
+
+  const userRewardCollectibleLoading = useAppSelector(
+    (state) => state?.getRewardCollectibles
+  );
+  const ticketsLoading = useAppSelector((state) => state?.getTicketsByUId);
+  const walletCollectLoading = useAppSelector((state) => state?.getWalletCollectByUID);
+
+
   return (
-    <div className="grid grid-cols-1 w-full pb-[28px]  md:pb-[132px] md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px]">
-      {myEvents?.length > 0 && myEvents?.map((item:any) => (
-        <EventCard
-          key={item?.event?.id}
-          eventId={item?.event?.id}
-          imageUrl={item?.event?.coverEventImage
-          }
-          title={item?.event?.name}
-        />
-      ))}
-    </div>
+    <>
+      {eventType === "tickets" && (
+        <>
+          {ticketsLoading.loading && <ScreenLoader />}
+          <div className="grid grid-cols-1 w-full pb-[28px]  md:pb-[132px] md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px]">
+            {eventType === "tickets" && eventitems?.length > 0 ? (
+              eventitems?.map((item: any) => (
+                <EventCard
+                  key={item?.event?.id}
+                  eventId={item?.ticketId}
+                  imageUrl={item?.event?.coverEventImage}
+                  title={item?.event?.name}
+                  eventType={eventType}
+                  
+                  
+                />
+              ))
+            ) : (
+              <p>No Data Found</p>
+            )}
+          </div>
+        </>
+      )}
+
+      {eventType === "collectables" && (
+        <>
+          {walletCollectLoading.loading && <ScreenLoader />}
+          {/* <div className="grid grid-cols-1 pb-[28px]  md:pb-[132px] md:grid-cols-2 xl:grid-cols-3 gap-[12px] md:gap-[20px]"> */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px] w-full">
+
+            {eventType === "collectables" && eventitems?.length > 0 ? (
+             eventitems?.map((item: any) => (
+                <EventCard
+                  key={item?.id}
+                  eventId={item?.Collectiblee?.id}
+                  imageUrl={item?.Collectiblee?.image}
+                  title={item?.Collectiblee?.name}
+                  eventType={eventType}
+                />
+              ))
+            ) : (
+              <p>No Data Found</p>
+            )}
+          </div>
+        </>
+      )}
+      {eventType === "rewardcollectables" && (
+        <>
+          {userRewardCollectibleLoading.loading && <ScreenLoader />}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px] md:gap-[20px]">
+            {eventType === "rewardcollectables" &&
+            myRewardCollectibles?.length > 0 ? (
+              myRewardCollectibles?.map((item: any) => (
+                <EventCard
+                  key={item?.id}
+                  eventId={item?.id}
+                  imageUrl={item?.image}
+                  title={item?.name}
+                  eventType={eventType}
+                />
+              ))
+            ) : (
+              <p>No Data Found</p>
+            )}
+          </div>
+        </>
+      )}
+    </>
   );
 };
 

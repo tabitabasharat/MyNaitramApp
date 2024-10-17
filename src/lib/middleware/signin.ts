@@ -24,8 +24,8 @@ export const signup = createAsyncThunk("signup", async (data:any) => {
 
   export const signin = createAsyncThunk("signin", async (data:any) => {
     try {
-      console.log("inside the Login modal");
       const res = await api.post(`${API_URL}/auth/login`, data);
+      console.log("inside the Login modal",res);
       // localStorage.setItem("token", res?.data?.token);
       return {
         status: res?.status,
@@ -138,4 +138,66 @@ export const signup = createAsyncThunk("signup", async (data:any) => {
     }
   );
 
+
+  export const deleteUser= createAsyncThunk("deleteUser", async (data:any) => {
+    try {
+      console.log("inside Delete account");
+      const res = await api.post(`${API_URL}/auth/verifyAndDeleteAccount`, data);
+      // localStorage.setItem("token", res?.data?.token);
+      console.log("inside Delete account",res);
+
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+        token: res?.data?.token,
+      };
+    } catch (error:any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  });
+
+  export const ResendDeletCode= createAsyncThunk("ResendDeletCode", async (data:any) => {
+    try {
+      console.log("inside Delete account again");
+      const res = await api.post(`${API_URL}/auth/requestDeleteAccount`, data);
+      // localStorage.setItem("token", res?.data?.token);
+      console.log("inside Delete account again",res);
+
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+        token: res?.data?.token,
+      };
+    } catch (error:any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  });
+
+
+  export const StayInformedEmail = createAsyncThunk("StayInformedEmail", async (data:any) => {
+    try {
+      console.log("inside stay inform ");
+      const res = await api.post(`${API_URL}/auth/sendStayInformedRequest`, data);
+      // localStorage.setItem("token", res?.data?.token);
+      console.log("inside stay inform", res);
+
+      return {
+        status: res?.status,
+        data: res?.data?.data,
+        token: res?.data?.token,
+      };
+    } catch (error:any) {
+      return {
+        message: error?.response?.data?.error,
+        status: error?.response?.status,
+      };
+    }
+  });
+  
   

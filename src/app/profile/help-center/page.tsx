@@ -1,7 +1,10 @@
-import Helpcenter from "@/components/profile-page/Helpcenter"
 
-const page =()=>{
+import dynamic from 'next/dynamic';
+const Helpcenter = dynamic(()=>import("@/components/profile-page/Helpcenter"),{
+  ssr:false
+})
+
+export default function page ()  {
     return <Helpcenter/>
 }
 
-export default page

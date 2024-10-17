@@ -1,0 +1,88 @@
+.bg-reward {
+  background-image: url("/blur-green.png");
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.bg-reward-outer{
+
+  padding: 132px 320px 89px 216px ; 
+}
+.bg-reward-outer2{
+  display: flex;
+  align-items: start ;
+
+  justify-content: center;
+  flex-direction: column;
+}
+
+.claimable-container {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+@media (max-width: 992px) {
+  .bg-reward-outer{
+    width: 100%;
+    display: block;
+
+    padding: 100px 54px !important;
+  }
+  .bg-reward-outer2{
+    width: 100%;
+    display: block;
+  }
+  .claim-container {
+    width: 100%;
+    flex-direction: column;
+  }
+  .bg-reward {
+    background: transparent;
+  }
+  .claimable-container {
+    width: 100%;
+    flex-direction: column;
+    align-items: normal;
+    gap: 32px !important;
+  }
+  .textbr br {
+    display: none;
+  }
+  .img-contain {
+    width: 100%;
+  }
+}
+@media (max-width: 1290px) {
+  .bg-reward-outer{
+    width: 100%;
+    display: block;
+
+    padding: 132px 170px;
+  }
+}
+@media (max-width: 1190px) {
+  .bg-reward-outer{
+    width: 100%;
+    display: block;
+
+    padding: 132px 100px;
+  }
+}
+@media (max-width: 1090px) {
+  .bg-reward-outer{
+    width: 100%;
+    display: block;
+
+    padding: 132px 60px;
+  }
+}
+@media (max-width: 425px) {
+  .bg-reward-outer{
+    width: 100%;
+    display: block;
+
+    padding: 100px 24px 54px !important;
+  }
+}
+

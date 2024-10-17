@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
       }}
       className="min-h-screen  bg-cover bg-no-repeat pb-[80px]"
     >
-      <div className="pxpx mx-2xl pp-inner ">
+      <div className="pxpx mx-2xl pt-[150px] md:pt-[180px]">
         <h1 className="lg:text-[60px] text-[30px] font-[600] mb-[20px] uppercase ">
           Privacy Policy
         </h1>
@@ -274,9 +274,9 @@ export default function PrivacyPolicy() {
               or your local data protection authority.
             </li>
           </ol>
-          <p className="pt-4">- - -</p>
+          {/* <p className="pt-4">- - -</p> */}
           <p className="pt-4">
-            This Privacy Policy provides detailed informatioon on how Naitram
+            This Privacy Policy provides detailed information on how Naitram
             collects, uses, shares, and protects your personal information,
             ensuring transparency and compliance with data protection on
             regulations, including considerations for Web3 and NFT interactions.

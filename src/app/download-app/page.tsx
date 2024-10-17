@@ -1,7 +1,11 @@
-import DownloadAppPage from "@/components/Download-app/DownloadAppPage";
+"use client"
 
-const page = () => {
+import dynamic from 'next/dynamic';
+const DownloadAppPage = dynamic(()=>import("@/components/Download-app/DownloadAppPage"),{
+  ssr:false
+})
+
+export default function page ()  {
   return <DownloadAppPage/>;
 };
 
-export default page;

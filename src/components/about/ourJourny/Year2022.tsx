@@ -20,7 +20,7 @@ const Nine = () => {
       <div className="flex justify-start items-center pb-2">
         <Image src={tick} className="w-[24px] h-[24px]" alt="/" />
         <p className="pl-[5px] md:text-[16px] text-[14px] ">
-          House Of Parliment talk about Blockchain and NFTs
+          House Of Parliament talk about Blockchain and NFTs
         </p>
       </div>
       <div className="flex justify-start items-center pb-2">

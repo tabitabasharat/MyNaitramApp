@@ -1,0 +1,78 @@
+.emoji-picker-outer{
+    position: absolute;
+    left: 53%;
+}
+
+.chat-border {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a);
+
+}
+
+.chat-border::before {
+    content: "";
+    position: absolute;
+    left: 0px;          /* Position to the left */
+    top: -4px;           /* Align to the top */
+    bottom: 0;        /* Stretch to the bottom */
+   padding: 2px;      /* Control the thickness of the left border */
+   background: linear-gradient(
+    135deg,
+    #13ff7a 0.2%,
+    #002b12 50.2%,
+    #13ff7a 100.2%
+  ) !important;
+    border-radius: 8px;
+    z-index: 1; /* Ensure it's behind the content */
+    /* Masking properties */
+    -webkit-mask-image: linear-gradient(#fff 0 0);
+    mask-image: linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    border-top-left-radius: 8px; 
+    border-bottom-left-radius: 8px; 
+}
+
+.photo-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex:1;
+    justify-content: center;
+}
+
+@media(max-width:768px)
+{
+    .emoji-picker-outer{
+        left: 60%;
+       }  
+}
+
+@media(max-width:600px)
+{
+    .emoji-picker-outer{
+        left: 50%;
+       }  
+}
+
+@media(max-width:500px)
+{
+   .emoji-picker-container{
+    width: 100% !important;
+   }
+   .emoji-picker-outer{
+    left: 53%;
+   }
+}
+
+@media(max-width:400px)
+{
+   
+   .emoji-picker-outer{
+    left: 53%;
+   }
+   .emoji-picker-container{
+    width: 90% !important;
+   }
+}

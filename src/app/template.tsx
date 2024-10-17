@@ -1,8 +1,8 @@
 "use client";
-import { usePathname } from 'next/navigation';
-import Transition from '@/components/animations/Transition';
-import Footer from '@/components/shared/Footer';
-import Header from '@/components/shared/Header';
+import { usePathname } from "next/navigation";
+import Transition from "@/components/animations/Transition";
+import Footer from "@/components/shared/Footer";
+import Header from "@/components/shared/Header";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -14,11 +14,40 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/profile/help-center",
     "/profile/FAQ",
     "/profile/Delete-account",
-    "/social-profile"
-  ];
+    // "/social-profile",
+    "/organizer-event/event-dashboard",
+    "/organizer-event/profile",
+    // "/profile-perview",
+    // "/management",
+    "/organizer-event/launch-event",
+    // "/eventsales",
+    "/organizer-event/sacnner-login",
+    // `/organizer-event/add-scanner/$[id]`,
+    "/organizer-event/scanner-credentials",
+    "/organizer-event/helpcenter",
+    "/profile-perview",
+    // " /organizer-event/get-paid",
+    // "/preview-event",
+    "/events/event-detail/live-activity",
+    "/organizer-event/payout-detail",
+    "organizer-event/payout-detail/cryptowallet",
+    "/organizer-event/payout-detail/bankaccount",
+    "/organizer-event/payout-detail/bankaccount/add-bank-account",
+    "/organizer-event/payout-detail/cryptowallet/addCryptowallet",
+    "/organizer-event/payout-history",
+   "/organizer-event/get-paid",
+  
+    
 
+    // "/wallet",
+    // "/profile/reward-item"
+  ];
   const pathname = usePathname();
-  const isProfileRoute = profileRoutes.includes(pathname);
+  // const isProfileRoute = profileRoutes.includes(pathname);
+
+  const isProfileRoute =
+    profileRoutes.includes(pathname) ||
+    pathname.startsWith("/organizer-event/add-scanner/");
 
   return (
     <>
@@ -37,6 +66,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
         <Header />
         {children}
         {!isProfileRoute && <Footer />}
+        {/* <Footer /> */}
       </Transition>
     </>
   );

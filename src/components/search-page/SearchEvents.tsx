@@ -1,28 +1,28 @@
-'use client';
+"use client";
 
-import { ArrowLeft, MagnifyingGlass } from '@phosphor-icons/react/dist/ssr';
-import { useRouter } from 'next/navigation';
-import { Input } from '../ui/input';
-import { events } from '@/lib/dummyData';
-import EventCard from '../reusable-components/EventCard';
-import { useState } from 'react';
+import { ArrowLeft, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { useRouter } from "next/navigation";
+import { Input } from "../ui/input";
+import { events } from "@/lib/dummyData";
+import EventCard from "../reusable-components/EventCard";
+import { useState } from "react";
 
 const SearchEvents = () => {
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const clearInput = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
 
   const filteredEvents = events.filter((event) =>
-    event.title.toLowerCase().includes(searchTerm.toLowerCase()),
+    event.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
   return (
     <section
       style={{
         backgroundImage:
-          'linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)',
-        backgroundPosition: 'center',
+          "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
+        backgroundPosition: "center",
       }}
       className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
     >
@@ -48,7 +48,7 @@ const SearchEvents = () => {
           />
         </div>
         <div className="mt-12">
-          {searchTerm === '' ? (
+          {searchTerm === "" ? (
             <div className="flex flex-col justify-center items-center w-full h-full text-center mt-24">
               <h2 className="font-bold text-[24px] lg:text-[36px]">
                 Easily Discover Events Here
@@ -60,7 +60,14 @@ const SearchEvents = () => {
           ) : filteredEvents.length > 0 ? (
             <div className="relative grid md:grid-cols-2 lg:grid-cols-3 xl:lg:grid-cols-4 gap-[1rem]">
               {filteredEvents.map((event) => (
-                <EventCard key={event.id} img={event.img} title={event.title}  eventId={event.id}/>
+                <EventCard
+                likedEvents={[]}
+                  eventType={"test"}
+                  key={event.id}
+                  img={event.img}
+                  title={event.title}
+                  eventId={event.id}
+                />
               ))}
             </div>
           ) : (

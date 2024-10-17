@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
 import Image from "next/image";
+import { useEffect } from "react";
 import {
   AppBar,
   Box,
@@ -15,6 +16,7 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -29,8 +31,16 @@ import logout from "../../assets/logout.svg";
 import Link from "next/link";
 import { useAppDispatch } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
+import { Poppins } from "next/font/google";
 
-const drawerWidth = 247;
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-poppins",
+  display: "swap",
+});
+
+const drawerWidth = 273;
 
 interface Props {
   window?: () => Window;
@@ -45,10 +55,15 @@ interface GradientListItemProps {
   activeItem: string | null;
 }
 const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
+  const isSmallScreen = useMediaQuery("(max-width:992px)");
+  useEffect(() => {
+    if (isSmallScreen) {
+      setMobileOpen(false);
+    }
+  }, [isSmallScreen]);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState<string | null>(null);
-  // const isActive = activeItem === item.text;
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -67,6 +82,9 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
 
   const handleItemClick = (itemText: string) => {
     setActiveItem(itemText);
+    if (isSmallScreen) {
+      handleDrawerClose(); 
+    }
   };
 
   const menuItems = [
@@ -95,50 +113,50 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
 
   const Logout = () => {
     localStorage.clear();
-  
+
     dispatch({ type: "LOGOUT" });
     router.push("/");
   };
-  
-  const drawer = (
 
+  const drawer = (
     <>
-      <div className="ps-[32px] pe-[24px] bg-[black]">
+      <div className="px-[32px] bg-[black] overflow-y-auto scrollbar-hide">
         <List className="bg-[black] p-[0px] text-[white]">
-          <Link href="/profile/profile-main">
-            <h3 className="text-[20px] font-extrabold pt-[0px] lg:pt-[32px]  mb-[24px]">
-              Profile
-            </h3>
-          </Link>
+          <div className="flex  lg:pt-[32px]  mb-[24px] items-center">
+            {mobileOpen && (
+              <Image
+                src={backwardicon}
+                alt="icon"
+                onClick={handleDrawerClose}
+              />
+            )}
+            <Link href="/profile/profile-main">
+              <h3 className="text-[20px] ps-[6px] font-extrabold pt-[0px]">
+                Profile
+              </h3>
+            </Link>
+          </div>
           <div>
-            <h3 className="text-[#FFFFFF99] text-sm font-extrabold mb-[8px]">
+            <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[8px]">
               SETTINGS
             </h3>
             <div className="text-xl font-bold">
               {menuItems.map((item) => (
                 <Link href={item.url} key={item.text}>
                   <ListItem
-                    // style={{
-                    //   background:
-                    //     "linear-gradient(#0F0F0F, #1A1A1A)   padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
-                    // }}
-                    // className={`text-xl font-bold  bg-transparent ${
-                    //   activeItem === item.text
-                    //     ? "rounded-[8px] border-[1px]  border-transparent "
-                    //     : ""
-                    // }`}
+                    className={`text-xl font-bold ${
+                      activeItem === item.text
+                        ? "gradient-border rounded-lg"
+                        : ""
+                    }`}
                     disablePadding
                     onClick={() => handleItemClick(item.text)}
                   >
-                    {/* <div style={{background:" linear-gradient(#fff, #fff) padding-box,linear-gradient(90deg, #0B6719 0%, #2AD72D 100%) border-box;",padding:"1px 2px"}}> */}
-                    <ListItemButton
-                    // style={{background:"black"}}
-                     
-                    className={`text-xl font-bold ${
-                      activeItem === item.text ? "gradient-border rounded-lg" : ""
-                    }`}
-                    >
-                      <ListItemIcon className="min-w-0 pr-2">
+                    <ListItemButton>
+                      <ListItemIcon
+                        style={{ minWidth: "0pc" }}
+                        className="pr-2"
+                      >
                         <Image
                           src={item.icon}
                           alt={item.text}
@@ -148,8 +166,6 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                       </ListItemIcon>
                       <ListItemText primary={item.text} />
                     </ListItemButton>
-
-                    {/* </div> */}
                   </ListItem>
                 </Link>
               ))}
@@ -158,7 +174,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
         </List>
         <Divider />
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">
+          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-bold mb-[8px]">
             SUPPORT
           </h3>
           <div className="text-xl font-bold">
@@ -171,8 +187,8 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
                   disablePadding
                   onClick={() => handleItemClick(item.text)}
                 >
-                  <ListItemButton className="p-[10px] flex items-center">
-                    <ListItemIcon className="min-w-0 pr-2">
+                  <ListItemButton className=" flex items-center">
+                    <ListItemIcon style={{ minWidth: "0pc" }} className=" pr-2">
                       <Image
                         src={item.icon}
                         alt={item.text}
@@ -188,22 +204,24 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
           </div>
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] text-sm font-bold mb-[8px]">ABOUT</h3>
+          <h3 className="text-[#FFFFFF99] text-sm ps-[9px] font-bold mb-[8px]">
+            ABOUT
+          </h3>
           <Link href="/profile/Delete-account">
             <ListItem
-              // className={`text-xl font-bold ${
-              //   activeItem === "Delete Account"
-              //     ? "border-[#13FF7A] border-[1px] rounded-[8px]"
-              //     : ""
-              // }`}
               className={`text-xl font-bold ${
-                activeItem === "Delete Account" ? "gradient-border rounded-lg" : ""
+                activeItem === "Delete Account"
+                  ? "gradient-border rounded-lg"
+                  : ""
               }`}
               disablePadding
               onClick={() => handleItemClick("Delete Account")}
             >
               <ListItemButton className="p-[10px]">
-                <ListItemIcon className="min-w-0 pr-2">
+                <ListItemIcon
+                  style={{ minWidth: "0px" }}
+                  className="min-w-0 pr-2"
+                >
                   <Image
                     src={delaccnt}
                     alt="Delete Account"
@@ -216,47 +234,58 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
             </ListItem>
           </Link>
         </List>
-      </div>
-      <div className="">
-        <button className="text-[white] mb-[32px] md:mx-[21px] absolute bottom-[10%] mx-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
-        onClick={Logout}>
+        <div className="mt-[200px] pb-[50px] md:mt-[300px]">
+        <button
+          className="text-[white] mb-[50px] hover:opacity-80 duration-300 md:me-[21px] me-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
+          onClick={Logout}
+        >
           <Image
             src={logout}
             className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]"
             alt="img"
-          
           />{" "}
           Log out
         </button>
+      </div>
       </div>
     </>
   );
 
   const container =
-    window !== undefined ? () => window().document.body : undefined;
+    typeof window !== "undefined" ? window().document.body : null;
   const theme = useTheme();
 
-  
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
           background: "transparent",
           marginTop: "80px",
           boxShadow: "none",
+          "& .MuiToolbar-root": {
+            minHeight: isSmallScreen ? "56px" : "64px",
+          },
         }}
       >
-        <Toolbar>
+        <Toolbar
+          sx={{
+            "& .MuiToolbar-root": {
+              minHeight: isSmallScreen ? "56px" : "64px",
+            },
+          }}
+        >
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" }, boxShadow: "none" }}
+            sx={{
+              mr: 2,
+              display: { sm: "block", md: "block", lg: "none" },
+              boxShadow: "none",
+            }}
           >
             <MenuIcon />
           </IconButton>
@@ -289,24 +318,19 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               marginTop: "87px",
               position: "relative",
             },
+            "& .MuiListItemButton-root": {
+              paddingLeft: "0px",
+              marginLeft: "9px",
+            },
             "& .MuiTypography-root": {
               fontSize: "14px",
               fontWeight: "400",
             },
+            "& .MuiListItemText-root": {
+              marginBottom: "0px",
+            },
           }}
         >
-          <DrawerHeader className="flex justify-start h-[30px] w-[30px] ps-[32px]">
-            <IconButton
-              className="p-0 h-[30px] w-[30px]"
-              onClick={handleDrawerClose}
-            >
-              {theme.direction === "ltr" ? (
-                <Image src={backwardicon} alt="icon" />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </DrawerHeader>
           {drawer}
         </Drawer>
         <Drawer
@@ -319,9 +343,16 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
               marginTop: "87px",
               backgroundColor: "black",
             },
+            "& .MuiListItemButton-root": {
+              marginLeft: "9px",
+              paddingLeft: "0px",
+            },
             "& .MuiTypography-root": {
               fontSize: "14px",
-              fontWeight: "400",
+              fontFamily: "var(--font-base)",
+            },
+            "& .MuiListItemText-root": {
+              marginBottom: "0px",
             },
           }}
           open

@@ -58,10 +58,12 @@ const Events = () => {
           {events.map((event) => (
             <SwiperSlide key={event.id}>
               <EventCard
+              likedEvents={[]}
                 key={event.id}
                 img={event.img}
                 title={event.title}
                 eventId={event?.id}
+                eventType={"test"}
               />
             </SwiperSlide>
           ))}

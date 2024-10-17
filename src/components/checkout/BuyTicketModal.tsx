@@ -42,7 +42,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType,setTicketIndex }
   }
 
   useEffect(() => {
-    const currentUrl = window.location.href;
+    const currentUrl:any = typeof window !== "undefined"? window.location.href:null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventid(value);
@@ -53,7 +53,10 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType,setTicketIndex }
   const EventData = useAppSelector(
     (state) => state?.getEventByEventID?.eventIdEvents?.data?.tickets
   );
-  console.log("my data in buy tickets", EventData?.options);
+  const EventDatas = useAppSelector(
+    (state) => state?.getEventByEventID?.eventIdEvents
+  );
+  console.log("my data in buy tickets", EventDatas?.data?.totalSoldOut  );
 
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[600px] text-white">
@@ -138,14 +141,18 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType,setTicketIndex }
               )}
             </div>
           </ScrollArea> */}
-          <ScrollArea className="h-[30rem] w-full">
+          <ScrollArea className="w-full">
             <div className="flex flex-col gap-3">
               {/* ENTRY TICKET */}
               <p className="text-[14px] text-[#BFBFBF] font-[400]">
                 Entry Ticket
               </p>
               {EventData?.map((ticket:any,index:any) => {
-                const isSoldOut = false // Check if the ticket is sold out
+                let isSoldOut = false // Check if the ticket is sold out
+                console.log(EventDatas?.data?.totalSoldOut[index],"my data in buy tickets")
+                if(ticket?.no <=0){
+                  isSoldOut=true
+                }
 
                 return selectedTicket === ticket.type ? (
                   <Collapsible
@@ -202,12 +209,12 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType,setTicketIndex }
                     key={ticket.type}
                     open={selectedTicket === ticket.type}
                     onOpenChange={() => {
-                      // if (!isSoldOut) {
+                      if (!isSoldOut) {
                         setSelectedTicket(ticket.type);
                         setSelectedTicketPrice(ticket.price);
                         setSelectedTIcketType(ticket.type);
                         setTicketIndex(index)
-                      // }
+                      }
                     }}
                     className="w-full"
                   >

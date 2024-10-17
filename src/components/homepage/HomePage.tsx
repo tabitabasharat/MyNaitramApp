@@ -17,27 +17,16 @@ const HomePage = () => {
   const [showmodal, setShowModal] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowModal(true);
-    }, 4000);
 
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <>
       {/* {loader && <ScreenLoader/>} */}
 
       <Dialog open={showmodal} onOpenChange={setShowModal}>
-        {/* <DialogTrigger asChild>
-                  <Button variant="secondary" className="hidden lg:block">
-                    Sign In
-                  </Button>
-                </DialogTrigger> */}
         {authMode === "SIGNIN" && (
           <SignInModal
-            redirectRoute={`/events`}
+            redirectRoute={`/viewallevents`}
             setAuthMode={setAuthMode}
             setSigninModal={() => setShowModal(false)}
           />
@@ -50,7 +39,7 @@ const HomePage = () => {
         )}
       </Dialog>
       <Hero />
-      {/* <Events /> */}
+      {/* <Events />s */}
       <About />
       <RewardProgram />
       <AllNaitramEvents />

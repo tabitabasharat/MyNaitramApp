@@ -12,7 +12,7 @@ const PostCard = ({ img, title }: any) => {
           placeholder={`data:image/svg+xml;base64,${toBase64(
             shimmer(1200, 1800),
           )}`}
-          className="rounded-lg xl:w-full xl:h-full sm:w-[243px] sm:h-[215px] object-cover object-center w-[107px] h-[107px]"
+          className="rounded-lg xl:w-full xl:h-[300px] sm:w-[243px] sm:h-[215px] object-cover object-center w-[107px] h-[107px]"
           alt="img"
         />
       </div>

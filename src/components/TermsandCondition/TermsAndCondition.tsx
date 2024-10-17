@@ -12,9 +12,9 @@ export default function TermsAndCondition() {
       }}
       className="min-h-screen  bg-cover bg-no-repeat pb-[80px]"
     >
-      <div className="pxpx mx-2xl pp-inner">
+      <div className="pxpx mx-2xl pt-[150px] md:pt-[180px]">
         <h1 className="lg:text-[60px] text-[30px] font-[600] mb-[20px] uppercase ">
-          TERMS & CONDITIONS / PURCHASE POLICY
+          TERMS OF SERVICES / PURCHASE POLICY
         </h1>
 
         <ol className="list-decimal list-inside mt-4 ">
@@ -35,7 +35,7 @@ export default function TermsAndCondition() {
               means primary event tickets ( tickets sold directly by an Event
               Partner (also referred to as event promoters) for sale through
               Naitram). Our platform also supports Web3 and NFT (Non-Fungible
-              Token) transacations.
+              Token) transactions.
             </li>
           </ol>
           {/* 2 bullet */}
@@ -70,7 +70,7 @@ export default function TermsAndCondition() {
             </li>
             <li>
               "NFT" (Non-Fungible Token) is a digital asset representing
-              ownership or proof of authen city of a unique item or piece of
+              ownership or proof of authenticity of a unique item or piece of
               content, verified using blockchain technology.
             </li>
             <li>
@@ -113,7 +113,7 @@ export default function TermsAndCondition() {
               account and password.{" "}
             </li>
             <li>
-              Users engaging in Web3 and NFT transacations must ensure their
+              Users engaging in Web3 and NFT transactions must ensure their
               wallets are secure and adhere to blockchain protocols.{" "}
             </li>
             <li>
@@ -153,7 +153,7 @@ export default function TermsAndCondition() {
           <ol className="list-decimal list-inside ml-4 space-y-4">
             <li>
               Promoters must comply with all applicable laws and regulations when
-              listng tickets on the Service.
+              listing tickets on the Service.
             </li>
             <li>
               Promoters are responsible for ensuring that the event details and
@@ -205,7 +205,7 @@ export default function TermsAndCondition() {
               Naitram reserves the right to change payment terms at any time.
             </li>
             <li>
-              Payments for NFT transacations may involve cryptocurrencies and
+              Payments for NFT transactions may involve cryptocurrencies and
               require blockchain confirmations.
             </li>
           </ol>
@@ -264,7 +264,7 @@ export default function TermsAndCondition() {
             </li>
             <li>
               Users represent that they will not engage in fraudulent activities
-              related to Web3 and NFT transacations.
+              related to Web3 and NFT transactions.
             </li>
           </ol>
           {/* 15 bullet */}
@@ -296,7 +296,7 @@ export default function TermsAndCondition() {
               in the Privacy Policy.
             </li>
             <li>
-              Data related to Web3 and NFT transacations will be processed in
+              Data related to Web3 and NFT transactions will be processed in
               compliance with blockchain technology standards.
             </li>
           </ol>
@@ -408,12 +408,12 @@ export default function TermsAndCondition() {
               Notices to users will be made via email or through the Naitram
               platform. Notices to Naitram should be sent to:
               <ul className="list-type-none space-y-2 mt-2">
-                <li> 5 Holborn Circus</li>
-                <li> London</li>
+                <li>-5 Holborn Circus</li>
+                <li>-London</li>
 
-                <li> United Kingdom</li>
+                <li>-United Kingdom</li>
 
-                <li> EC1N2HB</li>
+                <li>-EC1N2HB</li>
               </ul>
             </li>
           </ol>
@@ -448,7 +448,7 @@ export default function TermsAndCondition() {
             <li>
               This agreement is governed by the laws of England and Wales. Any
               disputes arising from this agreement shall be subject to the
-              exclusive jurisdic on of the courts of England and Wales.
+              exclusive jurisdicton of the courts of England and Wales.
             </li>
           </ol>
 
@@ -508,11 +508,11 @@ export default function TermsAndCondition() {
               reports of unacceptable behaviour.
             </li>
 
-            <p className="pt-4">- - -</p>
+            {/* <p className="pt-4">- - -</p> */}
             <p className="pt-4">
               This document outlines the terms and conditions for using the
               Naitram ticket selling app, including considerations for Web3 and
-              NFT transacations, as well as guidelines for using the event chat
+              NFT transactions, as well as guidelines for using the event chat
               function, ensuring clarity and compliance for all parties involved.
             </p>
           </ol>

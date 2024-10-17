@@ -66,7 +66,7 @@ const ProfileSidebar = ({
             <p className="text-sm">
               <span className="text-[#E6E6E6]">07 Attend</span>{" "}
               <span className="opacity-20">|</span>{" "}
-              <span className="text-[#E6E6E6]">324 Following</span>
+              <span className="text-[#E6E6E6]">0 Following</span>
             </p>
           </div>
         </div>
@@ -122,7 +122,7 @@ const ProfileSidebar = ({
           </div>
         </div>
        
-        <button className="bg-customRed w-full h-full border-none mb-[23.76px] rounded-full py-4 ">
+        <button className="bg-customRed w-full h-full border-none mb-[50px] rounded-full py-4 ">
           logout
         </button>
       </div>

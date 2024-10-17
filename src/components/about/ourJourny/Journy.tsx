@@ -9,7 +9,7 @@ import { text } from "stream/consumers";
 // import Year2022 from '../components/Year2022';
 // import Year2023 from '../components/Year2023';
 
-const Journy = () => {
+export default function Journy ()  {
   const [currentYear, setCurrentYear] = useState("2019");
 
   const renderComponent = () => {
@@ -31,8 +31,8 @@ const Journy = () => {
   // };
 
   return (
-    <section className="pt-[80px] pb-[40px]">
-      <h2 className="md:text-6xl text-[30px] font-[600] text-center text-white mb-[20px]">
+    <section className="">
+      <h2 className="md:text-6xl text-[30px] font-[600] text-center text-white md:mb-[20px]">
         Our Journey
       </h2>
       <div className="md:flex">
@@ -122,4 +122,4 @@ const Journy = () => {
   );
 };
 
-export default Journy;
+

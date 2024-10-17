@@ -36,10 +36,12 @@ const PopularEvents = () => {
         {EventsAllData?.events.length > 0 &&
           EventsAllData?.events.map((event: any, index:any) => (
             <EventCard
+            likedEvents={[]}
               key={index}
               img={event?.eventPicture}
               title={event?.name}
               eventId={event?.id}
+              eventType={"test"}
             />
           ))}
       </div>
@@ -59,10 +61,12 @@ const PopularEvents = () => {
           {events.slice(0, 6).map((event) => (
             <SwiperSlide key={event.id}>
               <EventCard
+              likedEvents={[]}
                 key={event.id}
                 img={event.img}
                 title={event.title}
               eventId={event?.id}
+              eventType={"test"}
 
                 // eventid={event.id}
               />

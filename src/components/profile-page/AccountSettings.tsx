@@ -107,7 +107,7 @@ const AccountSettings = () => {
           console.log("Profile image uploaded");
           setImageSrc(res?.data?.data);
           console.log(res?.data?.data, "this is the Profile");
-          SuccessToast("Profile Image Updated Successfully");
+          // SuccessToast("Profile Image Updated Successfully");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message || "Error uploading image");
@@ -119,10 +119,9 @@ const AccountSettings = () => {
   };
   async function profileclick(values: z.infer<typeof formSchema>) {
     setLoader(true);
-    const userID = localStorage.getItem("_id");
+    const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     try {
       const data = {
-        password: Password || myProfile?.password || "",
         fullName: Name || myProfile?.fullname || "",
         userId: userID,
 
@@ -147,7 +146,7 @@ const AccountSettings = () => {
   }
 
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
+    const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     dispatch(getUserByID(userid));
   }, []);
@@ -167,14 +166,14 @@ const AccountSettings = () => {
     }
   }, [myProfile]);
   return (
-    <div className="w-full md:w-[70%] ps-[0px] xl:ps-[182px] md:mx-auto lg:w-full mt-[48px] md:mt-[150px] lg:mx-0 relative h-[90vh]">
+    <div className="w-full lg:w-[70%] ps-[0px] xl:ps-[182px] md:mx-auto lg:w-full mt-[48px] lg:mt-[90px] lg:mx-0 relative h-[90vh]">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
-      <h2 className="font-bold ms-[24px] md:ms-[0px] text-[20px] lg:text-[32px]">
+      <h2 className="font-bold ms-[24px] md:ms-[24px] lg:ms-[0px] text-[20px] lg:text-[32px]">
         Account Settings
       </h2>
-      <div className="flex flex-col lg:flex-row gap-8 mt-[34px]  lg:mt-[32px]">
+      <div className="flex flex-col lg:flex-row gap-8 mt-[30px]  lg:mt-[32px]">
         <div className="flex flex-col mx-auto lg:mx-0 gap-[16px] items-center  w-fit">
           <GradientBorder className="rounded-full p-[3px] w-fit">
             <div className="bg-black rounded-full p-[6px] flex items-center justify-center">
@@ -205,7 +204,7 @@ const AccountSettings = () => {
             variant="secondary"
             className="w-[100%] py-[8px] px-[12px] md:py-[12px] md:px-[21px] font-bold text-base  text-[#030303] "
           >
-            Change Photo Profile
+            Change Profile Photo
           </Button>
         </div>
         <div className="w-full lg:w-[428px]">
@@ -265,7 +264,7 @@ const AccountSettings = () => {
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
@@ -292,7 +291,7 @@ const AccountSettings = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
               <p className="opacity-70 text-sm pt-2 text-[12px] font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
                 <Link href="/auth/resetpasspage">
                   Want to change your password?
@@ -307,7 +306,7 @@ const AccountSettings = () => {
                 </Button>
               </div> */}
 
-              <div className="flex justify-start lg:justify-end  absolute bottom-[0px] mb-[32px] md:mt-[32px]  sm:relative mt-[57px] w-full">
+              <div className="flex justify-start lg:justify-end  absolute bottom-[0px] mb-[32px] md:mt-[43px]  sm:relative mt-[57px] w-full">
                 <Button
                   type="submit"
                className="w-full  px-[30.5px] py-[12px]  md:mb-[0px] font-extrabold text-base md:w-fit"
