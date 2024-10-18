@@ -197,13 +197,13 @@ const Hero = () => {
                           <Image
                             src={arrow}
                             alt="arrow"
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer z-[12]"
                             onClick={() => verifyBlockchain()}
                           />
                           <Image
                             src={ticket}
                             alt="ticket"
-                            className="absolute left-3 top-1/2 transform -translate-y-1/2"
+                            className="absolute left-3 top-1/2 transform -translate-y-1/2 "
                           />
                           <FormControl>
                             <input
@@ -221,12 +221,14 @@ const Hero = () => {
                                 setTicketId(e.target.value);
                                 field.onChange(e);
                               }}
+                      
                               onKeyDown={(e) => {
+                                // Prevent alphabetic characters
+                                if (/^[a-zA-Z]$/.test(e.key)) {
+                                  e.preventDefault();
+                                }
                                 // Prevent leading space
-                                if (
-                                  e.key === " " &&
-                                  field.value.trim().length === 0
-                                ) {
+                                if (e.key === " " && field.value.trim().length === 0) {
                                   e.preventDefault();
                                 }
                               }}

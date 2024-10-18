@@ -1,13 +1,7 @@
 .pp-inner {
   padding-top: 250px;
 }
-@supports (-webkit-appearance: none) {
-  ol li {
-    list-style-position: inside !important;
-    list-style: decimal !important;
-    /* Change list style position for iOS */
-  }
-}
+
 
 ol {
   list-style-type: none;

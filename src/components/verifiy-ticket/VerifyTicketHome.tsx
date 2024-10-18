@@ -172,11 +172,12 @@ function VerifiyTicketHome() {
                           field.onChange(e);
                         }}
                         onKeyDown={(e) => {
+                          // Prevent alphabetic characters
+                          if (/^[a-zA-Z]$/.test(e.key)) {
+                            e.preventDefault();
+                          }
                           // Prevent leading space
-                          if (
-                            e.key === " " &&
-                            field.value.trim().length === 0
-                          ) {
+                          if (e.key === " " && field.value.trim().length === 0) {
                             e.preventDefault();
                           }
                         }}
