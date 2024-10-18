@@ -28,7 +28,7 @@ import {
   ErrorToast,
 } from "../reusable-components/Toaster/Toaster";
 import ScreenLoader from "../loader/Screenloader";
-
+import { useMediaQuery } from "react-responsive";
 // const formSchema = z.object({
 //   subject: z.string().min(1, { message: "Subject cannot be empty." }),
 // });
@@ -38,6 +38,19 @@ const formSchema = z.object({
 });
 
 function VerifiyTicketHome() {
+  const isMobile = useMediaQuery({
+    query: "(max-width: 390px)",
+  });
+
+  const isMobilemd = useMediaQuery({
+    query: "(max-width: 440px)",
+  });
+
+  const placeholderText = isMobile
+    ? "Search by Ticket ID Num..."
+    : isMobilemd
+    ? "Search by Ticket ID Number / Tran..."
+    : "Search by Ticket ID Number / Transaction ID";
   //   const form = useForm<z.infer<typeof formSchema>>({
   //     resolver: zodResolver(formSchema),
   //     defaultValues: {
@@ -120,7 +133,7 @@ function VerifiyTicketHome() {
               />
             </button>
             <h3 className="font-extrabold text-[20px] lg:text-[24px] ">
-              Verify Ticket
+              Verify Tickets
             </h3>
           </div>
           <h2 className="text-sm lg:text-base text-[#BFBFBF] font-bold mb-[31px] lg:mb-[32px]">
@@ -142,8 +155,8 @@ function VerifiyTicketHome() {
               onSubmit={form.handleSubmit(verifyBlockchain)}
               className=" w-full md:w-[600px]"
             >
-              <FormField
-                // control={form.control}
+              {/* <FormField
+            
                 name="subject"
                 render={({ field }) => (
                   <FormItem className="relative mb-[12px] md:mb-[20px] space-y-0">
@@ -164,7 +177,7 @@ function VerifiyTicketHome() {
                     <FormControl>
                       <Input
                         placeholder="1234567890"
-                        // value={eventId}
+                     
                         {...field}
                         className="pt-11 pb-5 ps-[45px] placeholder:text-white placeholder:text-base placeholder:font-normal"
                         onChange={(e) => {
@@ -172,11 +185,11 @@ function VerifiyTicketHome() {
                           field.onChange(e);
                         }}
                         onKeyDown={(e) => {
-                          // Prevent alphabetic characters
+                        
                           if (/^[a-zA-Z]$/.test(e.key)) {
                             e.preventDefault();
                           }
-                          // Prevent leading space
+                       
                           if (e.key === " " && field.value.trim().length === 0) {
                             e.preventDefault();
                           }
@@ -186,7 +199,55 @@ function VerifiyTicketHome() {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
+               <FormField
+                      name="subject"
+                      render={({ field }) => (
+                        <FormItem className="relative add-bank-account-border rounded-[44px] md:mb-[20px] space-y-0">
+                          <Image
+                            src={arrow}
+                            alt="arrow"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer z-[12]"
+                            onClick={() => verifyBlockchain()}
+                          />
+                          <Image
+                            src={ticket}
+                            alt="ticket"
+                            className="absolute left-3 top-1/2 transform -translate-y-1/2 "
+                          />
+                          <FormControl>
+                            <input
+                              // placeholder="Search by Ticket ID Number / Transaction ID"
+                              // placeholder={
+                              //   isMobile
+                              //     ? "Search by Ticket ID Num..."
+                              //     : "Search by Ticket ID Number / Transaction ID"
+                              // }
+                              placeholder={placeholderText}
+                              className="placeholder:text-white placeholder:w-full focus:border-green-500 hover:border-green-500 focus:ring-0 focus:outline-none w-full
+                               backdrop-blur-18 bg-opacity-40 bg-black rounded-[44px] placeholder:text-sm  placeholder:font-[300] pb-[12px] pt-[12px] pl-[45px] pr-[45px]
+                               bg-transparent  z-10"
+                              onChange={(e) => {
+                                setTicketId(e.target.value);
+                                field.onChange(e);
+                              }}
+                      
+                              onKeyDown={(e) => {
+                                // Prevent alphabetic characters
+                                if (/^[a-zA-Z]$/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                                // Prevent leading space
+                                if (e.key === " " && field.value.trim().length === 0) {
+                                  e.preventDefault();
+                                }
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
             </form>
           </Form>
           <p className="text-[18px] py-[31px] md:py-8 md:text-[20px] font-extrabold">
