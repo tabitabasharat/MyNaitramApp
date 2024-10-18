@@ -97,7 +97,7 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
   ];
 
   const helpItems = [
-    { text: "Help Center", icon: heplcenter, url: "/profile/help-center" },
+    { text: "Help Center", icon: heplcenter, url: "/helpcenter" },
     { text: "FAQs", icon: faq, url: "/profile/FAQ" },
   ];
 

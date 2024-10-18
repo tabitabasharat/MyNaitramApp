@@ -94,7 +94,7 @@ const ProfileSidebar = ({
               setPopupOpen={setPopupOpen}
               title="Help Center"
               leftElement={<Headphones size={20} weight="bold" />}
-              url="/profile/help-center"
+              url="/helpcenter"
             />
             <AccountSidebarLink
               setPopupOpen={setPopupOpen}
