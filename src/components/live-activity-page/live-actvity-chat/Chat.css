@@ -39,7 +39,7 @@
     display: flex;
     flex-wrap: wrap;
     flex:1;
-    justify-content: center;
+    justify-content: start;
 }
 
 @media(max-width:768px)
@@ -47,6 +47,10 @@
     .emoji-picker-outer{
         left: 60%;
        }  
+       .photo-container{
+        
+        justify-content: center;
+    }
 }
 
 @media(max-width:600px)

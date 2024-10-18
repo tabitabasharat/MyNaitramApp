@@ -285,14 +285,20 @@ export default function Enlarge() {
     {
       id: 2,
       image: candendar,
-      address: ConvertDate(TicketData?.event?.startTime),
+      // address: ConvertDate(TicketData?.event?.startTime),
+      address:`${ConvertDate(TicketData?.event?.startTime) } - ${ConvertTime(
+        TicketData?.event?.startTime
+      )}` ,
     },
     {
       id: 3,
       image: time,
-      address: `${ConvertTime(TicketData?.event?.startTime)} - ${ConvertTime(
+      // address: `${ConvertTime(TicketData?.event?.startTime)} - ${ConvertTime(
+      //   TicketData?.event?.endTime
+      // )}`,
+      address: `${ConvertDate(TicketData?.event?.endTime) } - ${ConvertTime(
         TicketData?.event?.endTime
-      )}`,
+      )}`
     },
   ];
   return (

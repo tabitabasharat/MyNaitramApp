@@ -15,6 +15,12 @@
 #emoji-palatte{
   width: 300px !important;
 }
+@supports (-webkit-appearance: none) {
+  ol {
+    list-style-position: inside !important; /* Change list style position for iOS */
+  }
+}
+
 
 
 .del-verification-input{
@@ -728,6 +734,10 @@ input[type="number"] {
 .add-bank-account-border {
   position: relative;
   border-radius: 100px !important; /* This controls the rounding of the corners */
+}
+.add-bank-account-border input {
+  position: relative;
+  z-index: 1;
 }
 .add-bank-account-border::before {
   content: "";

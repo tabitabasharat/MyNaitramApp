@@ -399,7 +399,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   bg-effect2 bg-effect"
     >
       <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[9rem] md:h-[650px]">
-        <div className="space-y-2 block ">
+        <div className=" space-y-2 block mb-[20px]">
           {EventChat?.length > 0 &&
             EventChat?.map((event: any, index: any) => {
               const attendee = myAttendees?.find(
@@ -442,7 +442,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
                   </div>
                   {activeMessage === event?.id && (
                     <div
-                      className="absolute top-0 right-0 flex flex-col items-center space-y-2 z-10"
+                      className="absolute top-0 right-0 flex flex-col items-center space-y-2 z-10 mb-[3]"
                       ref={emojiReplyRef}
                     >
                       {emojis.map((emoji, index) => (

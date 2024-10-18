@@ -114,7 +114,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
     {
       text: "Help Center",
       icon: heplcenter,
-      url: "/organizer-event/helpcenter",
+      url: "/helpcenter",
     },
   ];
   const payments = [
