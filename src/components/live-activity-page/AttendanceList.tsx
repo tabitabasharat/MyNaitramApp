@@ -49,8 +49,8 @@ const AttendanceList = () => {
             Active Users
           </p>
           <DialogTrigger asChild>
-            <button className="text-[#8F8F8F] text-sm font-bold flex hover:text-white duration-300">
-              View All <CaretRight size={14} weight="bold" />
+            <button className="text-[#8F8F8F] text-sm font-bold flex items-center hover:text-white duration-300">
+              View All <CaretRight size={14} weight="bold" className="mb-[3px]" />
             </button>
           </DialogTrigger>
         </div>

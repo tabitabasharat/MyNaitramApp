@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/popover";
 type DatePickerProps = {
   setSelectedDate: (date: Date | null) => void;
+  closeDatePicker: () => void;
 };
 
 const FormSchema = z.object({
@@ -23,7 +24,10 @@ const FormSchema = z.object({
   }),
 });
 
-export function DatePicker({ setSelectedDate }: DatePickerProps) {
+export function DatePicker({
+  setSelectedDate,
+  closeDatePicker,
+}: DatePickerProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -42,7 +46,8 @@ export function DatePicker({ setSelectedDate }: DatePickerProps) {
                 className="bg-black text-white border border-black"
                 onSelect={(date: any) => {
                   field.onChange(date);
-                  setSelectedDate(date); // Call the parent state setter when the date is selected
+                  setSelectedDate(date);
+                  // closeDatePicker(); 
                 }}
                 // disabled={(date: any) =>
                 //   date > new Date() || date < new Date('1900-01-01')

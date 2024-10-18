@@ -305,7 +305,10 @@ const FilterSideBar = () => {
           <DatePicker
             setSelectedDate={(date: Date | null) => {
               setChosenDate(date);
+             
+              
             }}
+            closeDatePicker={() => setShowDatePicker(false)} 
           />
         )}
 
@@ -313,7 +316,10 @@ const FilterSideBar = () => {
           <DatePicker
             setSelectedDate={(date: Date | null) => {
               setChosenEndDate(date);
+            
+             
             }}
+            closeDatePicker={() =>   setShowEndDatePicker(false)} 
           />
         )}
       </div>

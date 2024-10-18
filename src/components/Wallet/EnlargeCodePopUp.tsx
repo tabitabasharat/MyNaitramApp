@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogPortal,
 } from "@/components/ui/newdialog";
-import blurqrcode from "@/assets/Wallet/BlurQrGreen.svg";
+import blurqrcode from "@/assets/Wallet/Blur-enlarge-code.svg";
 
 import Image from "next/image";
 import Iconpop from "@/assets/summit.svg";
@@ -53,11 +53,16 @@ const EnlargeCodePopUp = ({ onClose, open }: any) => {
         <DialogOverlay />
         <DialogContent
           showCloseIcon={false}
-          style={{
-            background:
-              "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
-          }}
+        //   style={{
+        //     background:
+        //       "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+        //   }}
           className="sm:max-w-md w-[390px] text-white px-[20px] py-[32px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent "
+          style={{
+            background: 
+              "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%) padding-box," +
+              "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+          }}
         >
           <div className="w-full flex flex-col items-center">
             <Image

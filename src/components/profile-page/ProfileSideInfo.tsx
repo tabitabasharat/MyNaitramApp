@@ -234,9 +234,11 @@ const ProfileSideInfo: React.FC<Props> = ({ window, children }) => {
             </ListItem>
           </Link>
         </List>
-        <div className="mt-[200px] pb-[50px] md:mt-[300px]">
+        <div className="mt-[180px] pb-[50px] md:mt-[230px]">
         <button
-          className="text-[white] mb-[50px] hover:opacity-80 duration-300 md:me-[21px] me-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
+          className="text-[white] mb-[50px] hover:opacity-80 duration-300 md:me-[21px] 
+          me-[32px] flex justify-center items-center text-[11px] md:text-base font-bold
+           border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
           onClick={Logout}
         >
           <Image

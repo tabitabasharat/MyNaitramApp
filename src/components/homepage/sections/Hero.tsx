@@ -31,12 +31,27 @@ import {
   SuccessToast,
   ErrorToast,
 } from "@/components/reusable-components/Toaster/Toaster";
+import { useMediaQuery } from "react-responsive";
 
 const formSchema = z.object({
   subject: z.string().min(1, { message: "Ticket Id cannot be empty." }),
 });
 
 const Hero = () => {
+  const isMobile = useMediaQuery({
+    query: "(max-width: 390px)",
+  });
+
+  const isMobilemd = useMediaQuery({
+    query: "(max-width: 440px)",
+  });
+
+  const placeholderText = isMobile
+    ? "Search by Ticket ID Num..."
+    : isMobilemd
+    ? "Search by Ticket ID Number / Tran..."
+    : "Search by Ticket ID Number / Transaction ID";
+
   const router = useRouter();
   const [isClaimOpen, setIsClaimOpen] = useState(false);
   const [collectID, setCollectID] = useState("");
@@ -118,7 +133,7 @@ const Hero = () => {
                 <p className="font-extrabold text-base mb-[12px]">
                   Verify Ticket on Blockchain
                 </p>
-                <Form {...form}>
+                {/* <Form {...form}>
                   <form
                     className="w-full md:w-[491px]"
                     onSubmit={(e: any) => {
@@ -145,6 +160,63 @@ const Hero = () => {
                             <Input
                               placeholder="Search by Ticket ID Number / Transaction ID"
                               className="placeholder:text-white placeholder:text-base placeholder:font-normal pb-[30px] pt-8 pl-[45px] pr-[45px]"
+                              onChange={(e) => {
+                                setTicketId(e.target.value);
+                                field.onChange(e);
+                              }}
+                              onKeyDown={(e) => {
+                                // Prevent leading space
+                                if (
+                                  e.key === " " &&
+                                  field.value.trim().length === 0
+                                ) {
+                                  e.preventDefault();
+                                }
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </form>
+                </Form> */}
+
+                <Form {...form}>
+                  <form
+                    className="w-full md:w-[491px]"
+                    onSubmit={(e: any) => {
+                      e.preventDefault();
+                      verifyBlockchain();
+                    }}
+                  >
+                    <FormField
+                      name="subject"
+                      render={({ field }) => (
+                        <FormItem className="relative add-bank-account-border rounded-[44px] md:mb-[20px] space-y-0">
+                          <Image
+                            src={arrow}
+                            alt="arrow"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                            onClick={() => verifyBlockchain()}
+                          />
+                          <Image
+                            src={ticket}
+                            alt="ticket"
+                            className="absolute left-3 top-1/2 transform -translate-y-1/2"
+                          />
+                          <FormControl>
+                            <input
+                              // placeholder="Search by Ticket ID Number / Transaction ID"
+                              // placeholder={
+                              //   isMobile
+                              //     ? "Search by Ticket ID Num..."
+                              //     : "Search by Ticket ID Number / Transaction ID"
+                              // }
+                              placeholder={placeholderText}
+                              className="placeholder:text-white placeholder:w-full focus:border-green-500 hover:border-green-500 focus:ring-0 focus:outline-none w-full
+                               backdrop-blur-18 bg-opacity-40 bg-black rounded-[44px] placeholder:text-sm  placeholder:font-[300] pb-[12px] pt-[12px] pl-[45px] pr-[45px]
+                               bg-transparent  z-10"
                               onChange={(e) => {
                                 setTicketId(e.target.value);
                                 field.onChange(e);

@@ -98,7 +98,7 @@ const LiveActivity = () => {
           / <span className='font-bold'>Live Activity</span>
         </p>
       </div>
-      <div className="flex flex-col xl:ps-[100px] xl:pe-[216px] lg:px-[80px] md:px-[0px] px-[0px] lg:flex-row gap-[48px] mx-2xl 2xl:mt-12">
+      <div className="flex flex-col xl:ps-[100px] xl:pe-[216px] lg:px-[80px] md:px-[0px] px-[0px] lg:flex-row md:gap-[48px] mx-2xl 2xl:mt-12">
         <div className="w-full lg:w-[384px] px-[24px] lg:px-[0px] flex flex-col gap-4 lg:gap-[32px] border border-t-0 border-x-0 lg:border-none pb-12 lg:pb-0 border-white/10">
           <AttendanceList />
           <PhotoRoll />
