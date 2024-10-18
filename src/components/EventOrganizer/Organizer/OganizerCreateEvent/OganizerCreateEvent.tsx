@@ -2133,7 +2133,8 @@ function OganizerCreateEvent() {
                                         textField: {
                                           inputProps: { readOnly: true },
                                           placeholder:
-                                            "MM / DD / YYYY HH:MM AA :",
+                                            "MM / DD / YYYY HH:MM:AA",
+                                            
                                         },
                                       }}
                                     />
@@ -2270,7 +2271,7 @@ function OganizerCreateEvent() {
                                         textField: {
                                           inputProps: { readOnly: true },
                                           placeholder:
-                                            "MM / DD / YYYY HH:MM AA :",
+                                            "MM / DD / YYYY HH:MM:AA ",
                                         },
                                       }}
                                     />
@@ -2453,7 +2454,7 @@ function OganizerCreateEvent() {
                                         textField: {
                                           inputProps: { readOnly: true },
                                           placeholder:
-                                            "MM / DD / YYYY HH:MM AA :",
+                                            "MM / DD / YYYY HH:MM:AA",
                                         },
                                       }}
                                     />
@@ -2547,7 +2548,7 @@ function OganizerCreateEvent() {
                                         textField: {
                                           inputProps: { readOnly: true },
                                           placeholder:
-                                            "MM / DD / YYYY HH:MM AA :",
+                                            "MM / DD / YYYY HH:MM:AA",
                                         },
                                       }}
                                     />

@@ -44,6 +44,7 @@ import img18 from "@/assets/Whats-Included/option18.svg";
 import img19 from "@/assets/Whats-Included/option19.svg";
 import img20 from "@/assets/Whats-Included/option20.svg";
 import { ErrorToast } from "../reusable-components/Toaster/Toaster";
+import EnlargeCodePopUp from "./EnlargeCodePopUp";
 interface Location {
   id: number;
   address: any;
@@ -121,6 +122,8 @@ export default function SpecificEventTickets() {
   const router = useRouter();
   const [eventID, setEventId] = useState("");
   const [loader, setLoader] = useState(false);
+  const [enlargeOpen, setenlargeOpen] = useState(false);
+
   useEffect(() => {
     const currentUrl: any =
       typeof window !== "undefined" ? window.location.href : null;
@@ -131,7 +134,6 @@ export default function SpecificEventTickets() {
     dispatch(getTicketByQR(value));
   }, []);
 
- 
   const TicketData = useAppSelector(
     (state) => state?.getTicketByQR?.myQRTickets?.data
   );
@@ -178,24 +180,33 @@ export default function SpecificEventTickets() {
       console.error("Input must be a string");
       return "";
     }
+    const isUTC = timeStr.endsWith("Z");
+    const utcDate = new Date(isUTC ? timeStr : `${timeStr}Z`);
 
-    // Extract the time part if the input includes a date and time
-    const timeOnly = timeStr.split("T")[1]?.split("Z")[0];
+    // Convert the input UTC time to a local time using the Date object
 
-    if (!timeOnly) {
-      console.error("Input must include a valid time");
+    // const utcDate = new Date(`${timeStr}Z`);
+    // Appending 'Z' to ensure UTC parsing
+    if (isNaN(utcDate.getTime())) {
+      console.error("Invalid time format");
       return "";
     }
 
-    const parts = timeOnly.split(":");
+    // Detect local time zone
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    // Check if timeOnly is in HH:MM or HH:MM:SS format
-    if (parts.length < 2) {
-      console.error("Input time must be in HH:MM or HH:MM:SS format");
-      return "";
-    }
+    // Convert UTC date to local time string in "HH:MM" format
+    const localTime = utcDate.toLocaleTimeString("en-GB", {
+      timeZone: timeZone,
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
-    const [hours, minutes] = parts.map(Number);
+    // Split the time into hours and minutes
+    const [hoursStr, minutesStr] = localTime.split(":");
+    const hours = parseInt(hoursStr, 10);
+    const minutes = parseInt(minutesStr, 10);
 
     // Ensure the hours and minutes are valid numbers
     if (isNaN(hours) || isNaN(minutes)) {
@@ -207,15 +218,17 @@ export default function SpecificEventTickets() {
     const period = hours >= 12 ? "PM" : "AM";
 
     // Convert hours from 24-hour to 12-hour format
-    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+    const formattedHours = hours % 12 || 12; // Handle 0 as 12 for midnight
 
-    // Combine hours and period
-    const formattedTime = `${formattedHours}:${
-      minutes < 10 ? "0" + minutes : minutes
-    } ${period}`;
+    // Format minutes with leading zero if necessary
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+    // Combine hours, minutes, and period
+    const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
 
     return formattedTime;
   };
+
   const locations: Location[] = [
     {
       id: 1,
@@ -226,12 +239,18 @@ export default function SpecificEventTickets() {
     {
       id: 2,
       image: candendar,
-      address: ConvertDate(TicketData?.event?.startTime),
+      // address: ConvertDate(TicketData?.event?.startTime),
+      address: `${ConvertDate(TicketData?.event?.startTime)} - ${ConvertTime(
+        TicketData?.event?.startTime
+      )}`,
     },
     {
       id: 3,
       image: time,
-      address: `${ConvertTime(TicketData?.event?.startTime)} - ${ConvertTime(
+      // address: `${ConvertTime(TicketData?.event?.startTime)} - ${ConvertTime(
+      //   TicketData?.event?.endTime
+      // )}`,
+      address: `${ConvertDate(TicketData?.event?.endTime)} - ${ConvertTime(
         TicketData?.event?.endTime
       )}`,
     },
@@ -379,13 +398,18 @@ export default function SpecificEventTickets() {
                 </p> */}
               </div>
 
-              <Link href={`/wallet/enlarge/${eventID}`} className="pt-[16px] pb-[24px]">
+              {/* <Link href={`/wallet/enlarge/${eventID}`} className="pt-[16px] pb-[24px]"> */}
+              <div className="pt-[16px] pb-[24px]">
                 {/* <Link href={`/download-app`}> */}
 
-                <button className="font-extrabold text-sm rounded-[100px]  px-[16px] py-[10px] bg-[#00D059] text-black">
+                <button
+                  className="font-extrabold text-sm rounded-[100px]  px-[16px] py-[10px] bg-[#00D059] text-black"
+                  onClick={() => setenlargeOpen(true)}
+                >
                   Enlarge Code
                 </button>
-              </Link>
+              </div>
+              {/* </Link> */}
             </div>
             <div>
               <h2 className="font-normal text-sm pb-[4px] text-start">
@@ -413,20 +437,20 @@ export default function SpecificEventTickets() {
             </div>
             <div className="flex justify-center items center">
               <Link href={`/verifiy-ticket/${eventID}`} className="w-full">
-              <div
-                className="flex p-[12px] bg-[#00D059] rounded-[100px] items-center my-[24px] justify-between w-full "
-                // onClick={() => verifyBlockchain()}
-              >
-                <div className="flex">
-                  <Image src={blockchainblack} alt="block-chain" />
-                  <p className="font-extrabold text-start text-sm mt-[3px] text-black ms-[12px]">
-                    Verify on Blockchain
-                  </p>
+                <div
+                  className="flex p-[12px] bg-[#00D059] rounded-[100px] items-center my-[24px] justify-between w-full "
+                  // onClick={() => verifyBlockchain()}
+                >
+                  <div className="flex">
+                    <Image src={blockchainblack} alt="block-chain" />
+                    <p className="font-extrabold text-start text-sm mt-[3px] text-black ms-[12px]">
+                      Verify on Blockchain
+                    </p>
+                  </div>
+                  <div>
+                    <Image src={arrow} alt="arrow" />
+                  </div>
                 </div>
-                <div>
-                  <Image src={arrow} alt="arrow" />
-                </div>
-              </div>
               </Link>
             </div>
             {/* <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
@@ -451,6 +475,12 @@ export default function SpecificEventTickets() {
             </div> */}
           </div>
         </div>
+        {enlargeOpen && (
+          <EnlargeCodePopUp
+            onClose={() => setenlargeOpen(false)}
+            open={() => setenlargeOpen(true)}
+          />
+        )}
       </div>
     </section>
   );

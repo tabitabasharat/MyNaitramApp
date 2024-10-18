@@ -275,7 +275,10 @@ const NotificationPopUp = ({
 
       {activeTab === "USER" && (
         <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
-          {filterNotifications(Notify)?.length > 0 &&
+          {filterNotifications(Notify)?.length === 0 ? (
+            <p className="text-gray-500 text-center">No New Notification</p>
+          ) : (
+            filterNotifications(Notify)?.length > 0 &&
             filterNotifications(Notify).map((item: any, index: any) => (
               <EventNotificationCard
                 key={index}
@@ -287,7 +290,8 @@ const NotificationPopUp = ({
                 notifyType={"user"}
                 profileimg={item?.picture}
               />
-            ))}
+            ))
+          )}
         </div>
       )}
 
@@ -312,9 +316,7 @@ const NotificationPopUp = ({
       {activeTab === "ORGANISER" && (
         <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
           {filterNotifications(NotifyOrg)?.length === 0 ? (
-            <p className="text-gray-500 text-center">
-              No New Notification
-            </p>
+            <p className="text-gray-500 text-center">No New Notification</p>
           ) : (
             filterNotifications(NotifyOrg)?.length > 0 &&
             filterNotifications(NotifyOrg).map((item: any, index: any) => (

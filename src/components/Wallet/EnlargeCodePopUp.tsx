@@ -12,6 +12,7 @@ import {
   DialogFooter,
   DialogPortal,
 } from "@/components/ui/newdialog";
+import blurqrcode from "@/assets/Wallet/BlurQrGreen.svg";
 
 import Image from "next/image";
 import Iconpop from "@/assets/summit.svg";
@@ -28,7 +29,7 @@ import { deleteAccount } from "@/lib/middleware/profile";
 import { useRouter } from "next/navigation";
 import { close } from "fs";
 
-const EventSubmmitModal = ({ onClose, open }: any) => {
+const EnlargeCodePopUp = ({ onClose, open }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [loader, setLoader] = useState(false);
@@ -56,25 +57,18 @@ const EventSubmmitModal = ({ onClose, open }: any) => {
             background:
               "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
           }}
-          className="sm:max-w-md w-[345px] text-white px-[24px] py-[32px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent "
+          className="sm:max-w-md w-[390px] text-white px-[20px] py-[32px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent "
         >
-          <div>
-            {/* <DialogHeader >
-              <DialogTitle className="font-bold text-2xl mb-1"></DialogTitle>
-            </DialogHeader> */}
-
-            <div className="flex items-center flex-col">
-              <Image src={Iconpop} alt="icon" />
-              <p className="mt-[16px] font-extrabold text-base leading-[24px] whitelist-txt text-center">
-                Event Submitted
-              </p>
-              <Button
-                className="mt-[32px] text-[14px] font-extrabold w-full "
-                onClick={() => router.push("/management")}
-              >
-                Let’s go 🎉
-              </Button>
-            </div>
+          <div className="w-full flex flex-col items-center">
+            <Image
+              style={{ borderRadius: "12px" }}
+              width={320}
+              height={320}
+              // src={TicketData?.qrCode}
+              src={blurqrcode}
+              alt="rhs"
+              className="pt-[0px]"
+            />
           </div>
         </DialogContent>
       </DialogPortal>
@@ -82,4 +76,4 @@ const EventSubmmitModal = ({ onClose, open }: any) => {
   );
 };
 
-export default EventSubmmitModal;
+export default EnlargeCodePopUp;
