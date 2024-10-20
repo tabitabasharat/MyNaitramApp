@@ -24,6 +24,7 @@ const BuyTicket = ({
   eventType,
   ticketlength,
   endTime,
+  ticketEndTime
 }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -173,10 +174,12 @@ const BuyTicket = ({
             </Button>
           </div>
         ) : (
+          // new Date() > new Date(endTime) || new Date() > new Date(ticketEndTime)
           <div className="w-full lg:w-auto">
             {token ? (
               <DialogTrigger asChild>
-                {new Date() > new Date(endTime) ? (
+                {new Date() > new Date(endTime)
+                 ? (
                   <Button
                     disabled
                     onClick={() => {

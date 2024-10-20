@@ -45,6 +45,8 @@ import img19 from "@/assets/Whats-Included/option19.svg";
 import img20 from "@/assets/Whats-Included/option20.svg";
 import { ErrorToast } from "../reusable-components/Toaster/Toaster";
 import EnlargeCodePopUp from "./EnlargeCodePopUp";
+import TicketNoAccessPopUp from "./TicketNoAccessPopUp";
+import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
 interface Location {
   id: number;
   address: any;
@@ -117,12 +119,15 @@ const imageMap: any = {
   "Ticketing & Registration": img20,
 };
 
-export default function SpecificEventTickets() {
+ function SpecificEventTickets() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [eventID, setEventId] = useState("");
   const [loader, setLoader] = useState(false);
   const [enlargeOpen, setenlargeOpen] = useState(false);
+
+  const [TicketNoAccessOpen, setTicketNoAccessOpen] = useState(false);
+
 
   useEffect(() => {
     const currentUrl: any =
@@ -134,12 +139,22 @@ export default function SpecificEventTickets() {
     dispatch(getTicketByQR(value));
   }, []);
 
+
   const TicketData = useAppSelector(
     (state) => state?.getTicketByQR?.myQRTickets?.data
   );
   console.log("MY ticket data is", TicketData);
 
   const userLoading = useAppSelector((state) => state?.getTicketByQR);
+
+  useEffect(() => {
+    if (TicketData) {
+      const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+      if (TicketData?.userId != id) {
+        setTicketNoAccessOpen(true);
+      }
+    }
+  }, [TicketData]);
   const ConvertDate = (originalDateStr: string): string => {
     const originalDate = new Date(originalDateStr);
 
@@ -255,97 +270,100 @@ export default function SpecificEventTickets() {
       )}`,
     },
   ];
+  const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
   return (
     <section className="min-h-screen py-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
       {userLoading.loading && <ScreenLoader />}
       <div className="max-w-screen-lg lg:gap-[0px]   mx-auto text-center lg:text-left">
-        {/* Container for back button and title */}
-        <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-8">
-          <Image
-            src={Backbtn}
-            alt="back"
-            className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]"
-            onClick={() => router.back()}
-          />
-          <p className="text-[20px] lg:text-[24px] font-bold">
-            {TicketData?.event?.name}
-          </p>
-        </div>
-        {/* Main content container */}
-        <div className="flex flex-col-reverse gap-[62px] justify-between items-center lg:flex-row">
-          <div className="flex w-full flex-col">
-            <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
-              <div className="flex gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 flex-wrap w-full lg:w-[100%]">
-                {TicketData?.event?.category?.length > 0 &&
-                  TicketData?.event?.category?.map(
-                    (category: any, index: any) => (
-                      <Badge
-                        key={index}
-                        className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]"
-                      >
-                        {category}
-                      </Badge>
-                    )
-                  )}
+        {TicketData?.userId == id ? (
+          <>
+            {/* Container for back button and title */}
+            <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-8">
+              <Image
+                src={Backbtn}
+                alt="back"
+                className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]"
+                onClick={() => router.back()}
+              />
+              <p className="text-[20px] lg:text-[24px] font-bold">
+                {TicketData?.event?.name}
+              </p>
+            </div>
+            {/* Main content container */}
+            <div className="flex flex-col-reverse gap-[62px] justify-between items-center lg:flex-row">
+              <div className="flex w-full flex-col">
+                <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
+                  <div className="flex gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 flex-wrap w-full lg:w-[100%]">
+                    {TicketData?.event?.category?.length > 0 &&
+                      TicketData?.event?.category?.map(
+                        (category: any, index: any) => (
+                          <Badge
+                            key={index}
+                            className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]"
+                          >
+                            {category}
+                          </Badge>
+                        )
+                      )}
 
-                {/* <Badge className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]">
+                    {/* <Badge className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]">
                   Party
                 </Badge>
                 
                 <Badge className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]">
                   TAKEOVR
                 </Badge> */}
-              </div>
-            </div>
-            <div>
-              <h2 className="font-extrabold text-start text-[32px] lg:text-[48px] mb-[24px]">
-                {TicketData?.event?.name}
-              </h2>
-              <div className="flex flex-col justify-center">
-                {locations?.map((location) => (
-                  <div
-                    key={location?.id}
-                    className="flex items-center mb-[12px] gap-[8px]"
-                  >
-                    <Image
-                      src={location?.image}
-                      width={30}
-                      height={30}
-                      // className=" "
-                      alt="Location Icon"
-                    />
-                    <p className="font-bold text-start text-[16px]">
-                      {location?.address}
-                    </p>
                   </div>
-                ))}
-              </div>
-              <div className="flex flex-col justify-center">
-                <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
-                  Included in this ticket type
-                </h3>
-                {TicketData?.event?.tickets[TicketData?.isIndex]?.options.map(
-                  (Ticket: any) => (
-                    <div
-                      key={Ticket.id}
-                      className="flex items-center mb-[12px]"
-                    >
-                      <Image
-                        src={imageMap[Ticket?.label]}
-                        width={20}
-                        height={20}
-                        alt="Location Icon"
-                        className=" me-[8px]"
-                      />
-                      <p className="font-bold text-start text-[16px]">
-                        {Ticket?.label}
-                      </p>
-                    </div>
-                  )
-                )}
-              </div>
+                </div>
+                <div>
+                  <h2 className="font-extrabold text-start text-[32px] lg:text-[48px] mb-[24px]">
+                    {TicketData?.event?.name}
+                  </h2>
+                  <div className="flex flex-col justify-center">
+                    {locations?.map((location) => (
+                      <div
+                        key={location?.id}
+                        className="flex items-center mb-[12px] gap-[8px]"
+                      >
+                        <Image
+                          src={location?.image}
+                          width={30}
+                          height={30}
+                          // className=" "
+                          alt="Location Icon"
+                        />
+                        <p className="font-bold text-start text-[16px]">
+                          {location?.address}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex flex-col justify-center">
+                    <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
+                      Included in this ticket type
+                    </h3>
+                    {TicketData?.event?.tickets[
+                      TicketData?.isIndex
+                    ]?.options.map((Ticket: any) => (
+                      <div
+                        key={Ticket.id}
+                        className="flex items-center mb-[12px]"
+                      >
+                        <Image
+                          src={imageMap[Ticket?.label]}
+                          width={20}
+                          height={20}
+                          alt="Location Icon"
+                          className=" me-[8px]"
+                        />
+                        <p className="font-bold text-start text-[16px]">
+                          {Ticket?.label}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
 
-              {/* <div className="flex flex-col justify-center">
+                  {/* <div className="flex flex-col justify-center">
                 <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
                   Included in this ticket type
                 </h3>
@@ -376,84 +394,84 @@ export default function SpecificEventTickets() {
                   )
                 )}
               </div> */}
-            </div>
-          </div>
-          <div className="bg-ticket-img w-[300px] md:w-[300px] lg:w-[460px] xl:w-[420px] rounded-[12px] pt-[32px] px-[20px] pb-[2px]">
-            {/* <div className="flex justify-end">
+                </div>
+              </div>
+              <div className="bg-ticket-img w-[300px] md:w-[300px] lg:w-[460px] xl:w-[420px] rounded-[12px] pt-[32px] px-[20px] pb-[2px]">
+                {/* <div className="flex justify-end">
               <Image src={info} alt="img" />
             </div> */}
-            <div className="flex flex-col justify-center items-center">
-              <div className="flex items-center justify-center flex-col">
-                <Image
-                  style={{ borderRadius: "12px" }}
-                  width={144}
-                  height={144}
-                  src={TicketData?.qrCode}
-                  // src={blurqrcode}
-                  alt="img"
-                />
-                {/* <p className="text-center py-[16px] text-[14px] ">
+                <div className="flex flex-col justify-center items-center">
+                  <div className="flex items-center justify-center flex-col">
+                    <Image
+                      style={{ borderRadius: "12px" }}
+                      width={144}
+                      height={144}
+                      src={TicketData?.qrCode}
+                      // src={blurqrcode}
+                      alt="img"
+                    />
+                    {/* <p className="text-center py-[16px] text-[14px] ">
                   Please view the ticket QR code on<br></br> the Naitram Mobile
                   App{" "}
                 </p> */}
-              </div>
-
-              {/* <Link href={`/wallet/enlarge/${eventID}`} className="pt-[16px] pb-[24px]"> */}
-              <div className="pt-[16px] pb-[24px]">
-                {/* <Link href={`/download-app`}> */}
-
-                <button
-                  className="font-extrabold text-sm rounded-[100px]  px-[16px] py-[10px] bg-[#00D059] text-black"
-                  onClick={() => setenlargeOpen(true)}
-                >
-                  Enlarge Code
-                </button>
-              </div>
-              {/* </Link> */}
-            </div>
-            <div>
-              <h2 className="font-normal text-sm pb-[4px] text-start">
-                Event Name
-              </h2>
-              <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">
-                {TicketData?.event?.name}
-              </h3>
-            </div>
-            <div className="pt-[24px]">
-              <h2 className="font-normal text-sm pb-[4px] text-start">
-                Ticket Type
-              </h2>
-              <h3 className="font-extrabold text-base pb-[24px] border-b border-dashed border-[#00D059] text-start">
-                {TicketData?.event?.tickets[TicketData?.isIndex]?.type}
-              </h3>
-            </div>
-            <div className="pt-[24px]">
-              <h2 className="font-normal text-sm pb-[4px] text-start">
-                Ticket ID
-              </h2>
-              <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">
-                {TicketData?.id}
-              </h3>
-            </div>
-            <div className="flex justify-center items center">
-              <Link href={`/verifiy-ticket/${eventID}`} className="w-full">
-                <div
-                  className="flex p-[12px] bg-[#00D059] rounded-[100px] items-center my-[24px] justify-between w-full "
-                  // onClick={() => verifyBlockchain()}
-                >
-                  <div className="flex">
-                    <Image src={blockchainblack} alt="block-chain" />
-                    <p className="font-extrabold text-start text-sm mt-[3px] text-black ms-[12px]">
-                      Verify on Blockchain
-                    </p>
                   </div>
-                  <div>
-                    <Image src={arrow} alt="arrow" />
+
+                  {/* <Link href={`/wallet/enlarge/${eventID}`} className="pt-[16px] pb-[24px]"> */}
+                  <div className="pt-[16px] pb-[24px]">
+                    {/* <Link href={`/download-app`}> */}
+
+                    <button
+                      className="font-extrabold text-sm rounded-[100px]  px-[16px] py-[10px] bg-[#00D059] text-black"
+                      onClick={() => setenlargeOpen(true)}
+                    >
+                      Enlarge Code
+                    </button>
                   </div>
+                  {/* </Link> */}
                 </div>
-              </Link>
-            </div>
-            {/* <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
+                <div>
+                  <h2 className="font-normal text-sm pb-[4px] text-start">
+                    Event Name
+                  </h2>
+                  <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">
+                    {TicketData?.event?.name}
+                  </h3>
+                </div>
+                <div className="pt-[24px]">
+                  <h2 className="font-normal text-sm pb-[4px] text-start">
+                    Ticket Type
+                  </h2>
+                  <h3 className="font-extrabold text-base pb-[24px] border-b border-dashed border-[#00D059] text-start">
+                    {TicketData?.event?.tickets[TicketData?.isIndex]?.type}
+                  </h3>
+                </div>
+                <div className="pt-[24px]">
+                  <h2 className="font-normal text-sm pb-[4px] text-start">
+                    Ticket ID
+                  </h2>
+                  <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">
+                    {TicketData?.id}
+                  </h3>
+                </div>
+                <div className="flex justify-center items center">
+                  <Link href={`/verifiy-ticket/${eventID}`} className="w-full">
+                    <div
+                      className="flex p-[12px] bg-[#00D059] rounded-[100px] items-center my-[24px] justify-between w-full "
+                      // onClick={() => verifyBlockchain()}
+                    >
+                      <div className="flex">
+                        <Image src={blockchainblack} alt="block-chain" />
+                        <p className="font-extrabold text-start text-sm mt-[3px] text-black ms-[12px]">
+                          Verify on Blockchain
+                        </p>
+                      </div>
+                      <div>
+                        <Image src={arrow} alt="arrow" />
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                {/* <div className=" flex justify-between rounded-[8px] my-[24px] p-[12px] items-center bg-[#007A35]">
               <Link
                 href={`https://sepolia.etherscan.io/tx/${TicketData?.txHash}`}
                 target="_blank"
@@ -473,15 +491,32 @@ export default function SpecificEventTickets() {
                 <Image src={blockchain} alt="img" />
               </div>
             </div> */}
-          </div>
-        </div>
-        {enlargeOpen && (
-          <EnlargeCodePopUp
-            onClose={() => setenlargeOpen(false)}
-            open={() => setenlargeOpen(true)}
-          />
+              </div>
+            </div>
+            {enlargeOpen && (
+              <EnlargeCodePopUp
+                onClose={() => setenlargeOpen(false)}
+                open={() => setenlargeOpen(true)}
+              />
+            )}
+          </>
+        ) : (
+          <>
+      
+         
+          {
+            TicketNoAccessOpen && (
+              <TicketNoAccessPopUp
+                onClose={() => setTicketNoAccessOpen(false)}
+                open={() => setTicketNoAccessOpen(true)}
+              />
+            )
+          }
+              </>
         )}
       </div>
     </section>
   );
 }
+
+export default Protectedroute(SpecificEventTickets);
