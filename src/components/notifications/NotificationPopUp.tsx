@@ -119,12 +119,12 @@ const NotificationPopUp = ({
     let filteredNotifications;
     switch (active) {
       case "today":
-        filteredNotifications = notifications.filter((notification: any) =>
+        filteredNotifications = notifications?.filter((notification: any) =>
           dayjs(notification.createdAt).isSame(now, "day")
         );
         break;
       case "This Week": // Updated case for "This Week"
-        filteredNotifications = notifications.filter((notification: any) =>
+        filteredNotifications = notifications?.filter((notification: any) =>
           dayjs(notification.createdAt).isBetween(
             now.startOf("week"),
             now.endOf("week"),
@@ -134,7 +134,7 @@ const NotificationPopUp = ({
         );
         break;
       case "This Month": // Updated case for "This Month"
-        filteredNotifications = notifications.filter((notification: any) =>
+        filteredNotifications = notifications?.filter((notification: any) =>
           dayjs(notification.createdAt).isBetween(
             now.startOf("month"),
             now.endOf("month"),
@@ -176,6 +176,7 @@ const NotificationPopUp = ({
             USER
           </p>
         </div>
+        {filterNotifications(NotifyOrg)?.length > 0 && 
         <div className="w-full">
           <p
             className={`text-center text-sm font-bold pb-[16px] ${
@@ -188,6 +189,7 @@ const NotificationPopUp = ({
             ORGANISER
           </p>
         </div>
+}
       </div>
 
       {/* Time Period Buttons */}
@@ -209,69 +211,8 @@ const NotificationPopUp = ({
         ))}
       </div>
 
-      {/* <div className="flex flex-wrap gap-2 mt-[20px]">
-       
-        <div
-          onClick={() => handleClick("today")}
-          className={`border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
-            active === "today"
-              ? "gradient-border-notify text-primary"
-              : "text-white"
-          } items-center lg:items-start cursor-pointer`}
-        >
-          <p className="text-sm font-extrabold">Today</p>
-        </div>
-
-        <div
-          onClick={() => handleClick("week")}
-          className={`border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
-            active === "week"
-              ? "gradient-border-notify text-primary"
-              : "text-white"
-          } items-center lg:items-start cursor-pointer`}
-        >
-          <p className="text-sm font-extrabold">This Week</p>
-        </div>
-
-        <div
-          onClick={() => handleClick("month")}
-          className={`border border-[#3C3C3C] w-fit rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
-            active === "month"
-              ? "gradient-border-notify text-primary"
-              : "text-white"
-          } items-center lg:items-start cursor-pointer`}
-        >
-          <p className="text-sm font-extrabold">This Month</p>
-        </div>
-      </div> */}
-
-      {/* Notifications List */}
-
-      {/* {activeTab === "USER" && (
-        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
-          {Notify?.length > 0 &&
-            Notify?.map((item: any, index: any) => {
-              
-              if (
-                item?.action !== "Event created" &&
-                item?.action !== "Event updated" &&
-                item?.action !== "Ticket Purchase"
-              ) {
-                return (
-                  <EventNotificationCard
-                    key={index}
-                    msg={item?.msg}
-                    heading={item?.action}
-                    notifyTime={item?.createdAt}
-                    
-                  />
-                  
-                );
-              }
-              return null;
-            })}
-        </div>
-      )} */}
+    
+    
 
       {activeTab === "USER" && (
         <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">

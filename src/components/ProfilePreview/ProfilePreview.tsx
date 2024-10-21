@@ -22,9 +22,11 @@ import {
   getOrganizerLiveSocialProfile,
 } from "@/lib/middleware/organizer";
 import { YoutubeLogo } from "@phosphor-icons/react";
+import { useRouter } from "next/navigation";
 
 const ProfilePreview = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const [userEmail, setUserEmail] = useState<any>("");
   const [userName, setUsername] = useState<any>("");
   const [userId, setUserId] = useState<any>("");
@@ -78,11 +80,12 @@ const ProfilePreview = () => {
               }
               width={136}
               height={136}
-              className="h-[128px] w-[128px] sm:h-[120px] sm:w-[120px] object-cover object-top rounded-full"
+              className="h-[128px] w-[128px] sm:h-[120px] sm:w-[120px] object-cover object-top rounded-full cursor-pointer"
               placeholder={`data:image/svg+xml;base64,${toBase64(
                 shimmer(1200, 1800)
               )}`}
               alt=""
+              onClick={()=> router.push("/organizer-event/profile")}
             />
           </div>
         </GoldGradientBorder>

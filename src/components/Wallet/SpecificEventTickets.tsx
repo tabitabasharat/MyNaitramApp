@@ -422,7 +422,9 @@ const imageMap: any = {
 
                     <button
                       className="font-extrabold text-sm rounded-[100px]  px-[16px] py-[10px] bg-[#00D059] text-black"
-                      onClick={() => setenlargeOpen(true)}
+                       onClick={() => setenlargeOpen(true)}
+
+
                     >
                       Enlarge Code
                     </button>
@@ -497,6 +499,7 @@ const imageMap: any = {
               <EnlargeCodePopUp
                 onClose={() => setenlargeOpen(false)}
                 open={() => setenlargeOpen(true)}
+               qrCode={TicketData?.qrCode}
               />
             )}
           </>

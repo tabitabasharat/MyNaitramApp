@@ -40,7 +40,7 @@ const Footer = () => {
               </Link>
             </Button>
           </div>
-          <div className="flex flex-col lg:flex-row gap-3 lg:gap-24 xl:gap-32 mt-6 lg:mt-0 px-4 lg:px-0 md:w-[60%] lg:w-full md:mx-auto lg:mx-0 lg:mr-0 lg:justify-end">
+          <div className="flex flex-col lg:flex-row gap-3 lg:gap-24 xl:gap-28 mt-6 lg:mt-0 px-4 lg:px-0 md:w-[60%] lg:w-full md:mx-auto lg:mx-0 lg:mr-0 lg:justify-end">
             <div className="flex flex-col items-center lg:flex-row lg:justify-start lg:gap-24 xl:gap-28">
               <div className="flex flex-col tems-start gap-3 lg:gap-8">
                 <Link href={"/"} className="hover:underline">Home</Link>

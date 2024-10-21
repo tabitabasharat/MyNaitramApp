@@ -28,6 +28,8 @@ import {
   ErrorToast,
 } from "../reusable-components/Toaster/Toaster";
 import ScreenLoader from "../loader/Screenloader";
+import { useMediaQuery } from "react-responsive";
+
 // const formSchema = z.object({
 //   subject: z.string().min(1, { message: "Subject cannot be empty." }),
 // });
@@ -43,6 +45,20 @@ function VerifiyTicket() {
   //       subject: "",
   //     },
   //   });
+  const isMobile = useMediaQuery({
+    query: "(max-width: 390px)",
+  });
+
+  const isMobilemd = useMediaQuery({
+    query: "(max-width: 440px)",
+  });
+
+  const placeholderText = isMobile
+    ? "Search by Ticket ID Num..."
+    : isMobilemd
+    ? "Search by Ticket ID Number / Tran..."
+    : "Search by Ticket ID Number / Transaction ID";
+  
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,7 +75,6 @@ function VerifiyTicket() {
   const [loader, setLoader] = useState(false);
   const [ticketid, setTicketId] = useState<any>("");
 
- 
   useEffect(() => {
     const currentUrl: any =
       typeof window !== "undefined" ? window.location.href : null;
@@ -107,8 +122,8 @@ function VerifiyTicket() {
     }
   }
 
-  const handleKeyDown = (event:any) => {
-    if (event.key === 'Enter') {
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter") {
       event.preventDefault();
     }
   };
@@ -140,16 +155,16 @@ function VerifiyTicket() {
           </h2>
           <p className="text-sm lg:text-base text-[#BFBFBF] font-bold mb-[31px] lg:mb-[32px]">
             {" "}
-            Simply click the button below to confirm the
-             ownership and details of your<br className="hide-text" /> ticket
-            directly on the blockchain.
+            Simply click the button below to confirm the ownership and details
+            of your
+            <br className="hide-text" /> ticket directly on the blockchain.
           </p>
 
           <Form {...form}>
             <form
               // onSubmit={form.handleSubmit(verifyBlockchain)}
               className=" w-full md:w-[600px]"
-              // onSubmit={handleSubmit(onSubmit)} 
+              // onSubmit={handleSubmit(onSubmit)}
               // onSubmit={form.handleSubmit(verifyBlockchain)}
               // onKeyDown={handleKeyDown}
             >
@@ -157,30 +172,79 @@ function VerifiyTicket() {
                 // control={form.control}
                 name="subject"
                 render={({ field }) => (
-                  <FormItem className="relative mb-[12px] md:mb-[20px] space-y-0">
-                    <FormLabel className="text-[12px] ms-[35px] text-[#8F8F8F] font-extrabold md:font-bold absolute left-3 top-3">
-                      TICKET ID
-                    </FormLabel>
+                  // <FormItem className="relative mb-[12px] md:mb-[20px] space-y-0">
+                  //   <FormLabel className="text-[12px] ms-[35px] text-[#8F8F8F] font-extrabold md:font-bold absolute left-3 top-3">
+                  //     TICKET ID
+                  //   </FormLabel>
+                  //   <Image
+                  //     src={arrow}
+                  //     alt="arrow"
+                  //     className="absolute right-3 top-[33%] cursor-pointer"
+                  //     onClick={() => verifyBlockchain()}
+                  //   />
+                  //   <Image
+                  //     src={ticket}
+                  //     alt="ticket"
+                  //     className="absolute left-3 top-[30%]"
+                  //   />
+                  //   <FormControl>
+                  //     <Input
+                  //       placeholder="1234567890"
+                  //       value={eventId}
+                  //       className="pt-11 pb-5 ps-[45px] placeholder:text-white placeholder:text-base placeholder:font-normal"
+                  //       // onChange={(e) => {
+                  //       //   setTicketId(e.target.value);
+                  //       //   field.onChange(e);
+                  //       // }}
+                  //     />
+                  //   </FormControl>
+                  //   <FormMessage />
+                  // </FormItem>
+
+                  <FormItem className="relative add-bank-account-border rounded-[44px] md:mb-[20px] space-y-0">
                     <Image
                       src={arrow}
                       alt="arrow"
-                      className="absolute right-3 top-[33%] cursor-pointer"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer z-[12]"
                       onClick={() => verifyBlockchain()}
                     />
                     <Image
                       src={ticket}
                       alt="ticket"
-                      className="absolute left-3 top-[30%]"
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 "
                     />
                     <FormControl>
-                      <Input
-                        placeholder="1234567890"
-                        value={eventId}
-                        className="pt-11 pb-5 ps-[45px] placeholder:text-white placeholder:text-base placeholder:font-normal"
+                      <input
+                        // placeholder="Search by Ticket ID Number / Transaction ID"
+                        // placeholder={
+                        //   isMobile
+                        //     ? "Search by Ticket ID Num..."
+                        //     : "Search by Ticket ID Number / Transaction ID"
+                        // }
+                        placeholder={placeholderText}
+                        className="placeholder:text-white placeholder:w-full focus:border-green-500 hover:border-green-500 focus:ring-0 focus:outline-none w-full
+     backdrop-blur-18 bg-opacity-40 bg-black rounded-[44px] placeholder:text-sm  placeholder:font-[300] pb-[12px] pt-[12px] pl-[45px] pr-[45px]
+     bg-transparent  z-10"
+
+     value={eventId}
                         // onChange={(e) => {
+
                         //   setTicketId(e.target.value);
                         //   field.onChange(e);
                         // }}
+                        onKeyDown={(e) => {
+                          // Prevent alphabetic characters
+                          if (/^[a-zA-Z]$/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                          // Prevent leading space
+                          if (
+                            e.key === " " &&
+                            field.value.trim().length === 0
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -194,17 +258,24 @@ function VerifiyTicket() {
           </p>
           <p className="text-sm lg:text-base text-[#BFBFBF] font-bold">
             By using the "Verify Your Ticket on the Blockchain" service, you
-            agree to these<br className="hide-text" /> terms. This feature ensures the authenticity of your
-            ticket by confirming its<br className="hide-text" /> validity and ownership directly on the
-            blockchain. It applies only to tickets<br className="hide-text" /> purchased through our
-            platform or authorized channels, and does not allow for <br className="hide-text" />ticket
-            transfer or resale.
+            agree to these
+            <br className="hide-text" /> terms. This feature ensures the
+            authenticity of your ticket by confirming its
+            <br className="hide-text" /> validity and ownership directly on the
+            blockchain. It applies only to tickets
+            <br className="hide-text" /> purchased through our platform or
+            authorized channels, and does not allow for{" "}
+            <br className="hide-text" />
+            ticket transfer or resale.
           </p>
           <p className="md:mt-[32px] text-sm lg:text-base text-[#BFBFBF] font-bold mt-[24px]">
             This service is provided as-is and may experience interruptions or
-            downtime due <br className="hide-text" />to maintenance or network issues; while we aim for
-            accurate and reliable<br className="hide-text" /> verification, we are not liable for any issues
-            related to technical delays,<br className="hide-text" /> unauthorized ticket purchases, or
+            downtime due <br className="hide-text" />
+            to maintenance or network issues; while we aim for accurate and
+            reliable
+            <br className="hide-text" /> verification, we are not liable for any
+            issues related to technical delays,
+            <br className="hide-text" /> unauthorized ticket purchases, or
             disputes.
           </p>
         </div>

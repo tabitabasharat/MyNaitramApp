@@ -260,7 +260,7 @@ export default function PrivacyPolicy() {
           </div>
         </ol>
         {/* 9 bullet */}
-        <p className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4">
+        <p className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold my-4">
           9. Your Rights
         </p>
         <ol className="list-decimal list-inside ml-4 space-y-4">

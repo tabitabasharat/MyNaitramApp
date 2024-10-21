@@ -303,7 +303,7 @@ const OrganizerProfile = () => {
     }
   }
   return (
-    <div className="w-full md:w-[70%] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[auto]">
+    <div className="w-full md:w-[70%] xl:ps-[172px] md:mx-auto lg:w-full mt-[48px] md:mt-[90px] lg:mx-0 relative lg:h-[auto] h-[auto] ">
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
@@ -405,7 +405,7 @@ const OrganizerProfile = () => {
                 onSubmit={form.handleSubmit(updateActivity)}
                 className=" w-full"
               >
-                <div className="overflow-y-auto scrollbar-hide h-[449px]">
+                <div className="overflow-y-auto scrollbar-hide lg:h-[300px] xl:h-[310px]">
                 <FormField
                   control={form.control}
                   name="BIO"

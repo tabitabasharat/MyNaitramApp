@@ -52,6 +52,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
   const [moreEmoji, setMoreEmoji] = useState<any>(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const emojiReplyRef = useRef<HTMLDivElement | null>(null);
+
   const [activeMessage, setActiveMessage] = useState<number | null>(null);
   const [messageReactions, setMessageReactions] = useState<{
     [key: number]: string;
@@ -398,7 +399,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
       className="md:w-[576px] h-[600px] md:border md:border-[#292929] md:rounded-xl bg-cover bg-no-repeat px-5 relative md:overflow-hidden mt-12 md:mt-0 
   bg-effect2 bg-effect"
     >
-      <ScrollArea className="h-full relative w-full mt-1 z-0 space-y-2 pb-[9rem] md:h-[650px]">
+      <ScrollArea className="h-full relative w-full mt-1 z-3 space-y-2 pb-[9rem] md:h-[650px]">
         <div className=" space-y-2 block mb-[20px]">
           {EventChat?.length > 0 &&
             EventChat?.map((event: any, index: any) => {
@@ -545,7 +546,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         >
           <Input
             placeholder="Type here"
-            className="rounded-full placeholder:text-[#9D9FAB] placeholder:text-sm relative h-12 ps-[20px] pr-[50px]"
+            className="rounded-full placeholder:text-[#9D9FAB] placeholder:text-sm relative h-12 ps-[20px] pr-[50px] z-[2]"
             onChange={(e) => setmsgs(e.target.value)}
             value={msgs}
             onKeyDown={handleKeyDown}
@@ -615,15 +616,17 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
                     {replyToMessage.user?.fullname}
                   </p>
                 )}
-                {replyToMessage?.replyPicture && (
+                {(replyToMessage?.replyPicture || replyToMessage?.picture)  && (
                   <Image
-                    src={replyToMessage?.replyPicture}
+                    src={replyToMessage?.replyPicture ||  replyToMessage?.picture }
                     alt="img"
                     width={500}
                     height={500}
                     className="w-full h-[80px] object-cover rounded-lg"
                   />
                 )}
+
+
                 <p className="mt-1 break-words overflow-hidden text-ellipsis">
                   {replyToMessage.msg}
                 </p>

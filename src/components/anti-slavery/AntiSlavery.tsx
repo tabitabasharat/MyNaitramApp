@@ -32,7 +32,7 @@ export default function AntiSlavery() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold ">
             Purpose
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Ensure that modern slavery and human trafficking have no place in
               our business activities.
@@ -46,7 +46,7 @@ export default function AntiSlavery() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Scope
           </li>
-          <p className="list-inside ml-2 pt-[10px] space-y-1">
+          <p className="list-inside ml-2  space-y-1">
             This policy applies to all employees, contractors, business
             partners, and other third parties engaged with Naitram. It extends
             to all regions in which Naitram operates
@@ -55,7 +55,7 @@ export default function AntiSlavery() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Zero-Tolerance Approach
           </li>
-          <p className="list-inside ml-2 pt-[10px] space-y-1">
+          <p className="list-inside ml-2  space-y-1">
             Naitram has a zero-tolerance approach to modern slavery and human
             trafficking. Any suspicion or report of modern slavery will be
             investigated, and appropriate remedial actions, including reporting
@@ -69,7 +69,7 @@ export default function AntiSlavery() {
             All Naitram employees are responsible for upholding this policy.
             Employees must:
           </p>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Report any suspicions or evidence of modern slavery in our
               business or supply chain.
@@ -87,7 +87,7 @@ export default function AntiSlavery() {
             We expect our suppliers and partners to share our commitment to
             human rights. Naitram will:
           </p>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Conduct due diligence when engaging with new suppliers or partners
             </li>
@@ -104,7 +104,7 @@ export default function AntiSlavery() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Reporting Concerns
           </li>
-          <p className="list-inside ml-2 pt-[10px] space-y-1">
+          <p className="list-inside ml-2 space-y-1">
             Employees, contractors, or other third parties who suspect modern
             slavery should report their concerns to [insert contact details]
             without fear of retaliation. All reports will be treated
@@ -114,7 +114,7 @@ export default function AntiSlavery() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Compliance and Disciplinary Actions
           </li>
-          <p className="list-inside ml-2 pt-[10px] space-y-1">
+          <p className="list-inside ml-2  space-y-1">
             Failure to comply with this policy will result in disciplinary
             actions, up to and including termination of contracts or employment.
             Violations may also be reported to relevant law enforcement agencies
@@ -124,7 +124,7 @@ export default function AntiSlavery() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Policy Review
           </li>
-          <p className="list-inside ml-2 pt-[10px] space-y-1">
+          <p className="list-inside ml-2 space-y-1">
             This policy will be reviewed and updated regularly to ensure
             continued compliance with legal requirements and best practices.
           </p>

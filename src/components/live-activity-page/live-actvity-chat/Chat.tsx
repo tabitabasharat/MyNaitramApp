@@ -5,6 +5,8 @@ import { ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import PrivateProfilePopUp from "@/components/reusable-components/PrivateProfilePopUp";
+import PhotoRollEnlargePopUp from "../PhotoRollEnlarge";
+import Crossicon from "@/assets/Wallet/X.svg"
 const Chat = ({
   img,
   msgtext,
@@ -33,16 +35,8 @@ const Chat = ({
 
   const router = useRouter();
   const [isClaimOpen, setisClaimOpen] = useState(false);
-
-  // const handleProfileClick = (e: any) => {
-  //   e.preventDefault();
-
-  //   if (isActive) {
-  //     router.push(`/social-profile/${userid}`);
-  //   } else {
-  //     ErrorToast("This User Profile is Private");
-  //   }
-  // };
+  const [openEnlarge, setOpenEnlarge] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const handleProfileClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -53,6 +47,15 @@ const Chat = ({
       // ErrorToast("This User Profile is Private");
       setisClaimOpen(true);
     }
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+  };
+
+  const handlePhotoClick = (photo: any) => {
+    setSelectedImage(photo);
+    setOpenEnlarge(true);
   };
   return (
     // <div className="z-[2] relative flex items-end gap-4 ">
@@ -161,7 +164,7 @@ const Chat = ({
           <div className="flex flex-col gap-1">
             {msgReplyId != null ? (
               <>
-                <div className="py-2 px-3  me-0 border-l border-l-[#13FF7A] rounded-lg gradient-slate mb-1 ">
+                <div className="py-2 px-3  me-0 border-l border-l-[#13FF7A] rounded-lg gradient-slate mb-1 z-2 ">
                   {replyUserActive && (
                     <p className="text-primary break-words overflow-hidden text-ellipsis">
                       {msguserId == replyingUserID ? "You" : replyingUser}
@@ -172,8 +175,9 @@ const Chat = ({
                       src={replyPic}
                       width={500}
                       height={500}
-                      className="w-full h-[80px] object-cover rounded-lg"
+                      className="w-full h-[80px] object-cover rounded-lg cursor-pointer"
                       alt="message-img"
+                      onClick={() => handlePhotoClick(replyPic)}
                     />
                   )}
                   <p className="mt-1 text-sm break-words overflow-hidden text-ellipsis">
@@ -195,8 +199,9 @@ const Chat = ({
                     src={img}
                     width={500}
                     height={500}
-                    className="w-full h-[80px] object-cover rounded-lg"
+                    className="w-full h-[80px] object-cover rounded-lg cursor-pointer"
                     alt="message-img"
+                    onClick={() => handlePhotoClick(img)} 
                   />
                 )}
                 <p className="mt-1 text-sm break-words overflow-hidden text-ellipsis">
@@ -233,6 +238,35 @@ const Chat = ({
             msg={"This User's Profile is Private"}
           />
         )}
+            {selectedImage && (
+          <div
+            className="fixed  inset-0 bg-black bg-opacity-90 flex justify-center items-center z-[100]"
+            onClick={closeModal}
+          >
+            <img
+              src={selectedImage}
+              alt="Selected"
+              className="max-w-full h-[700px] z-[100]"
+            />
+             <button
+              className="absolute top-4 right-4 z-[101] bg-transparent border-none cursor-pointer"
+              onClick={closeModal}
+            >
+              <Image
+                src={Crossicon}
+                alt="Close"
+                className="w-full h-full "
+              />
+            </button>
+          </div>
+        )}
+         {/* {openEnlarge && (
+          <PhotoRollEnlargePopUp
+            onClose={() => setOpenEnlarge(false)}
+            open={() => setOpenEnlarge(true)}
+            photoRoll={selectedImage}
+          />
+        )} */}
       </div>
     </>
   );

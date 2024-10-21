@@ -17,10 +17,12 @@ import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getUserSocialProfile } from "@/lib/middleware/profile";
 import { YoutubeLogo } from "@phosphor-icons/react";
+import { useRouter } from "next/navigation";
 
 const ProfileDetails = () => {
   const dispatch = useAppDispatch();
   const [userId, setUserId] = useState<any>("");
+  const router = useRouter();
 
   useEffect(() => {
     const userid =
@@ -54,11 +56,12 @@ const ProfileDetails = () => {
               }
               width={136}
               height={136}
-              className="h-[128px] w-[128px] sm:h-[136px] sm:w-[136px] object-cover object-top rounded-full"
+              className="h-[128px] w-[128px] sm:h-[136px] sm:w-[136px] object-cover object-top rounded-full cursor-pointer"
               placeholder={`data:image/svg+xml;base64,${toBase64(
                 shimmer(1200, 1800)
               )}`}
               alt=""
+              onClick ={()=> router.push("/profile/account-settings")}
             />
           </div>
         </GoldGradientBorder>

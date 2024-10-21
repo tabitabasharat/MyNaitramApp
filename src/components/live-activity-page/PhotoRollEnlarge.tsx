@@ -29,7 +29,7 @@ import { deleteAccount } from "@/lib/middleware/profile";
 import { useRouter } from "next/navigation";
 import { close } from "fs";
 
-const EnlargeCodePopUp = ({ onClose, open, qrCode }: any) => {
+const PhotoRollEnlargePopUp = ({ onClose, open,photoRoll }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [loader, setLoader] = useState(false);
@@ -57,11 +57,11 @@ const EnlargeCodePopUp = ({ onClose, open, qrCode }: any) => {
           //     background:
           //       "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
           //   }}
-          className="sm:max-w-md w-[390px] text-white px-[20px] py-[32px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent "
+          className="sm:max-w-md w-[390px] text-white px-[20px] py-[32px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent 
+          bg-black bg-opacity-80 "
           style={{
-            background:
-              "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%) padding-box," +
-              "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+         
+           border:"none"
           }}
         >
           <div className="w-full flex flex-col items-center">
@@ -70,7 +70,7 @@ const EnlargeCodePopUp = ({ onClose, open, qrCode }: any) => {
               width={320}
               height={320}
               // src={blurqrcode}
-              src={qrCode}
+              src={photoRoll}
               alt="rhs"
               className="pt-[0px]"
             />
@@ -81,4 +81,4 @@ const EnlargeCodePopUp = ({ onClose, open, qrCode }: any) => {
   );
 };
 
-export default EnlargeCodePopUp;
+export default PhotoRollEnlargePopUp;

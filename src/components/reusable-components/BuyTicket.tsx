@@ -24,7 +24,8 @@ const BuyTicket = ({
   eventType,
   ticketlength,
   endTime,
-  ticketEndTime
+  ticketEndTime,
+  ticketStartTime,
 }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -125,8 +126,6 @@ const BuyTicket = ({
       <div className="w-full event-width-adjustment bg-[#007A3535] rounded-xl flex flex-col lg:flex-row items-center justify-center lg:items-center lg:justify-between px-6 py-4 gap-4">
         <div>
           <p className="font-bold text-[24px] text-center lg:text-left">
-          
-
             {/* {ticketlength === 1
               ? `£${endPrice}`
               : startPrice && endPrice
@@ -178,8 +177,7 @@ const BuyTicket = ({
           <div className="w-full lg:w-auto">
             {token ? (
               <DialogTrigger asChild>
-                {new Date() > new Date(endTime)
-                 ? (
+                {new Date() > new Date(endTime) ? (
                   <Button
                     disabled
                     onClick={() => {
@@ -202,6 +200,10 @@ const BuyTicket = ({
                       }
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
+                    disabled={
+                      new Date() < new Date(ticketStartTime) ||
+                      new Date() > new Date(ticketEndTime)
+                    }
                   >
                     {userId != userIds ? "Buy Tickets" : "Manage Event"}
                   </Button>

@@ -172,7 +172,7 @@ export default function ClaimableRewards() {
                 // onClick={() => setisClaimOpen(true)}
                 onClick={() => ClaimCollectible()}
               >
-                Claim Collectible
+                {myData?.claimed ? "Claimed"  : "Claim Collectible"}
               </Button>
               <Image
                 src={claimbtn}

@@ -143,7 +143,7 @@ export default function Dataprotection() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Changes to the Policy{" "}
           </li>
-          <p className="list-inside ml-2 pt-[10px] space-y-1">
+          <p className="list-inside ml-2  space-y-1">
             We may update this Privacy Disclaimer from time to time. Users will
             be notified of any significant changes through our platform.
             Continued use of our services after such updates constitutes
@@ -153,7 +153,7 @@ export default function Dataprotection() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Contact Information{" "}
           </li>
-          <p className="list-inside ml-2 pt-[10px] space-y-1">
+          <p className="list-inside ml-2  space-y-1">
             For any questions or concerns regarding this Privacy Disclaimer,
             please contact us at: support@naitram.live
           </p>

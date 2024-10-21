@@ -69,9 +69,10 @@ const ClaimRewardCard = ({
 
         <Button
           // disabled={claimed}
+          disabled={claimID === 1 && claimed === true}
           size="sm"
           variant="secondary"
-          className="py-[6px] font-extrabold w-fit text-[#030303] text-[14px] disabled:opacity-50"
+          className={`py-[6px] font-extrabold w-fit text-[#030303] text-[14px] disabled:opacity-50 ${claimed === true ? "opacity-50" : ""}`}
           // onClick={() => {
           //   router.push("/reward/claimable-reward");
           // }}
@@ -90,13 +91,17 @@ const ClaimRewardCard = ({
               ClaimReward();
             } else if (claimed === false) {
               ClaimReward();
-            } else if (claimed === true && claimID !== 1 ) {
+            } else if (claimed === true && claimID !== 1) {
               setisClaimHourOpen(true);
             }
           }}
         >
-       
-          {claimID === 1 && claimed === true ? "Claimed" : "Claim"}
+          {/* {claimID === 1 && claimed === true
+            ? "Claimed"
+            : claimID === 2 && claimed === true
+            ? "Claimed"
+            : "Claim"} */}
+            {claimed === true ? "Claimed" : "Claim"}
         </Button>
       </div>
       <div className="text-primary">

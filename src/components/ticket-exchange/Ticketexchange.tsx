@@ -33,7 +33,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold ">
             Eligibility for Ticket Exchange{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Only tickets purchased through Naitram’s platform are eligible for
               resale or transfer.
@@ -48,7 +48,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Exchange Restrictions
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Tickets may only be resold at the original purchase price. Sellers
               are prohibited from marking up or discounting tickets.{" "}
@@ -62,7 +62,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Promoter’s Rights and Obligations{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Promoters may impose restrictions on ticket resale or transfer,
               including limiting the resale of specific ticket types (e.g., VIP
@@ -86,7 +86,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4">
             Processing Fees{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Naitram charges a processing fee for ticket resales. The fee will
               be displayed during the resale process and is non-refundable.
@@ -100,7 +100,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4">
             Exchange Deadline{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Ticket holders must complete all resales or transfers at least 48
               hours before the event. Once the 48-hour window begins, no further
@@ -115,7 +115,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Event Cancellations or Postponements{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               In the event of an **event cancellation or postponement**, the
               promoter is fully responsible for issuing refunds or offering
@@ -133,7 +133,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Refund Policy{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Tickets resold or transferred through Naitram are non-refundable,
               except in cases of event cancellation. Once a ticket has been
@@ -149,7 +149,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Transfer of Tickets{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Ticket holders can transfer tickets to friends or family members
               without reselling them. The recipient must accept the transfer via
@@ -164,7 +164,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Promoter’s Enforcement of Event Restrictions{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Promoters may enforce event-specific restrictions (e.g., ID
               checks, access limitations for specific ticket types). Such
@@ -180,7 +180,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             No Resale Markups or Price Gouging{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Naitram strictly prohibits ticket holders from reselling tickets
               at a higher price than the original purchase value. Any attempt to
@@ -192,7 +192,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Blockchain Technology and Ticket Security{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               All ticket transactions on Naitram are verified using **blockchain
               technology**, ensuring the security and authenticity of tickets.
@@ -209,7 +209,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Ticket Seller and Buyer Responsibilities{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Sellers are responsible for ensuring that the details of the
               ticket (including event date, time, seat information, etc.) are
@@ -227,7 +227,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Promoter’s Control over Ticket Validity{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               While promoters may impose restrictions on resold or transferred
               tickets, they must respect the resale and transfer rights of
@@ -243,7 +243,7 @@ export default function Ticketexchange() {
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
             Dispute Resolution{" "}
           </li>
-          <ul className="dashed list-inside ml-2 pt-[10px] space-y-1">
+          <ul className="dashed list-inside ml-2  space-y-1">
             <li>
               Any disputes between buyers, sellers, or promoters regarding the
               resale or transfer of tickets must first be addressed through
