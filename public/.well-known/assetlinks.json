@@ -1,12 +1,16 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.magnusmobileapp",
+      "package_name": "com.naitram",
       "sha256_cert_fingerprints": [
         "FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C",
-        "FB:E5:48:AE:80:D2:70:FC:F3:BB:86:CD:C7:EB:02:AA:BC:F9:D2:09:DE:8E:C9:FE:E1:BC:78:2F:C5:79:B1:5E"
+        "67:6F:C9:78:E9:9A:DF:17:E9:84:EB:C8:AA:AC:61:DE:13:95:B1:53:DA:69:C1:FF:6C:E4:C3:AC:95:EB:AD:C6",
+        "FD:80:77:E2:14:2D:2F:29:BE:34:BB:B1:E4:D6:D2:3E:3A:14:F9:46:BA:5A:3A:8D:04:86:01:4C:D7:C6:51:D6",
+        "37:C0:E2:31:5F:25:43:AB:F7:82:00:D7:7D:D5:DF:10:A3:59:6D:A8:D4:80:12:1F:4B:F6:A2:A2:98:70:3D:F8"
       ]
     }
   }
