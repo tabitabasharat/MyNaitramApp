@@ -325,7 +325,7 @@ const EventsHeroSlide = ({
   };
 
   const descriptionText = eventdescription || "";
-  const maxLines = 3;
+  const maxLines = 4;
 
   // Function to strip HTML tags
   const stripHtmlTags = (html: string) => {
