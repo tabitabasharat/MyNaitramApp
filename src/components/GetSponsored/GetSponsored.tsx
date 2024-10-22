@@ -665,7 +665,7 @@ const GetSponsored = () => {
                 name="BIO"
                 render={({ field }) => (
                   <FormItem className="relative mb-[32px] md:mb-[24px] space-y-0">
-                    <FormLabel className="text-[12px] text-[#8F8F8F] font-bold absolute left-3 top-3">
+                    <FormLabel className="text-[12px] z-1 w-[98%]  xl:w-[99.5%] h-[25%] md:h-[15%] xl:h-[12%] mt-[1px] gradient-slate text-[#8F8F8F] font-bold absolute left-1 ps-3 pt-3 top-0">
                       MESSAGE
                     </FormLabel>
                     <FormControl>
