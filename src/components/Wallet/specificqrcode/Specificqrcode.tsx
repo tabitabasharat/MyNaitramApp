@@ -272,7 +272,7 @@ function Specificqrcode() {
   return (
     <section className="min-h-screen py-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
       <div className="max-w-screen-lg lg:gap-[0px]  mx-auto text-center lg:text-left">
-        {TicketData?.userId == id ? (
+       
           <>
             <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-[52px] lg:mb-[34px]">
               <Image
@@ -466,19 +466,12 @@ function Specificqrcode() {
               </div>
             </div>
           </>
-        ) : (
-          <>
-            {TicketNoAccessOpen && (
-              <TicketNoAccessPopUp
-                onClose={() => setTicketNoAccessOpen(false)}
-                open={() => setTicketNoAccessOpen(true)}
-              />
-            )}
-          </>
-        )}
+      
+         
+      
       </div>
     </section>
   );
 }
 
-export default Protectedroute(Specificqrcode);
+export default Specificqrcode;
