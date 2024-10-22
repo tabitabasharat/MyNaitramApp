@@ -354,7 +354,12 @@ const EventsHeroSlide = ({
     }
   }, [firstParagraphHtml, showFullDescription]);
 
+  // Check for overflowing content
+
+
   const APIKEY = "AIzaSyA78WzK8evJ7Vier7fUXAqjM5KDhDwyq88";
+
+
 
   return (
     <>

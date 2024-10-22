@@ -362,10 +362,12 @@ const AddBankAccount = ({ eventData }: any) => {
                         placeholder="U.S. Dollars $"
                         className="pt-11 pb-5 palceholder:text-base placeholder:text-[white] placeholder:font-normal"
                         {...field}
+                      
                         onChange={(e) => {
-                          field.onChange(e);
+                          const trimmedValue = e.target.value.trimStart(); 
+                          field.onChange(trimmedValue);
                           setValidationError("");
-                          setPaidCurrency(e.target.value);
+                          setPaidCurrency(trimmedValue);
                         }}
                       />
                     </FormControl>
@@ -390,6 +392,19 @@ const AddBankAccount = ({ eventData }: any) => {
                           field.onChange(e);
                           setValidationError("");
                           setCountry(e.target.value);
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent leading space
+                          if (e.key === " " && field.value.length === 0) {
+                            e.preventDefault();
+                          }
+                          // Allow letters and spaces
+                          if (
+                            !/^[A-Za-z\s]*$/.test(e.key) &&
+                            !["Backspace", "Tab"].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                     </FormControl>
@@ -450,11 +465,15 @@ const AddBankAccount = ({ eventData }: any) => {
                               className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                               {...field}
                               onChange={(e) => {
-                                field.onChange(e);
+                                const trimmedValue = e.target.value.trimStart(); 
+                                field.onChange(trimmedValue);
                                 setValidationError("");
-                                setCompanyname(e.target.value);
+                                setCompanyname(trimmedValue);
                               }}
+
+
                             />
+                            
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -478,10 +497,13 @@ const AddBankAccount = ({ eventData }: any) => {
                               placeholder="Enter Address"
                               className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                               {...field}
+                            
+
                               onChange={(e) => {
-                                field.onChange(e);
+                                const trimmedValue = e.target.value.trimStart(); 
+                                field.onChange(trimmedValue);
                                 setValidationError("");
-                                setCompanyAddress(e.target.value);
+                                setCompanyAddress(trimmedValue);
                               }}
                             />
                           </FormControl>
@@ -507,10 +529,12 @@ const AddBankAccount = ({ eventData }: any) => {
                               placeholder="Enter Address 2"
                               className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                               {...field}
+                             
                               onChange={(e) => {
-                                field.onChange(e);
+                                const trimmedValue = e.target.value.trimStart(); 
+                                field.onChange(trimmedValue);
                                 setValidationError("");
-                                setCompanyAddress2(e.target.value);
+                                setCompanyAddress2(trimmedValue);
                               }}
                             />
                           </FormControl>
@@ -537,10 +561,13 @@ const AddBankAccount = ({ eventData }: any) => {
                               className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                               {...field}
                               onChange={(e) => {
-                                field.onChange(e);
+                                const trimmedValue = e.target.value.trimStart(); 
+                                field.onChange(trimmedValue);
                                 setValidationError("");
-                                setCity(e.target.value);
+                                setCity(trimmedValue);
                               }}
+                              
+                           
                             />
                           </FormControl>
                           <FormMessage />
@@ -566,9 +593,11 @@ const AddBankAccount = ({ eventData }: any) => {
                               className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                               {...field}
                               onChange={(e) => {
-                                field.onChange(e);
+                               
+                                const trimmedValue = e.target.value.trimStart(); 
+                                field.onChange(trimmedValue);
                                 setValidationError("");
-                                setZipcode(e.target.value);
+                                setZipcode(trimmedValue);
                               }}
                             />
                           </FormControl>
@@ -638,10 +667,31 @@ const AddBankAccount = ({ eventData }: any) => {
                             placeholder="Enter Bank Name"
                             className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                             {...field}
+                            // onChange={(e) => {
+                            //   field.onChange(e);
+                            //   setValidationError("");
+                            //   setbankname(e.target.value);
+                            // }}
                             onChange={(e) => {
-                              field.onChange(e);
+                              const trimmedValue = e.target.value.trimStart(); 
+                              field.onChange(trimmedValue);
                               setValidationError("");
-                              setbankname(e.target.value);
+                              setbankname(trimmedValue);
+                            }}
+                           
+
+                            onKeyDown={(e) => {
+                              // Prevent leading space
+                              if (e.key === " " && field.value.length === 0) {
+                                e.preventDefault();
+                              }
+                              // Allow letters, numbers, and spaces
+                              if (
+                                !/^[A-Za-z0-9\s]*$/.test(e.key) &&
+                                !["Backspace", "Tab"].includes(e.key)
+                              ) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                         </FormControl>
@@ -667,6 +717,19 @@ const AddBankAccount = ({ eventData }: any) => {
                               setValidationError("");
                               setbankTitle(e.target.value);
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent leading space
+                              if (e.key === " " && field.value.length === 0) {
+                                e.preventDefault();
+                              }
+                              // Allow letters, numbers, and spaces
+                              if (
+                                !/^[A-Za-z0-9\s]*$/.test(e.key) &&
+                                !["Backspace", "Tab"].includes(e.key)
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -691,6 +754,20 @@ const AddBankAccount = ({ eventData }: any) => {
                               setValidationError("");
                               setbankIBAN(e.target.value);
                             }}
+
+                            onKeyDown={(e) => {
+                              // Prevent leading space
+                              if (e.key === " " && field.value.length === 0) {
+                                e.preventDefault();
+                              }
+                              
+                              if (
+                                !/^[A-Za-z0-9\s]*$/.test(e.key) &&
+                                !["Backspace", "Tab"].includes(e.key)
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -710,10 +787,13 @@ const AddBankAccount = ({ eventData }: any) => {
                             placeholder="Enter Swift Code"
                             className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                             {...field}
+                          
+
                             onChange={(e) => {
-                              field.onChange(e);
+                              const trimmedValue = e.target.value.trimStart(); 
+                              field.onChange(trimmedValue);
                               setValidationError("");
-                              setbankSwiftCode(e.target.value);
+                              setbankSwiftCode(trimmedValue);
                             }}
                           />
                         </FormControl>

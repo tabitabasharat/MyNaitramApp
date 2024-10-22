@@ -665,13 +665,13 @@ const GetSponsored = () => {
                 name="BIO"
                 render={({ field }) => (
                   <FormItem className="relative mb-[32px] md:mb-[24px] space-y-0">
-                    <FormLabel className="text-[12px] text-[#8F8F8F] font-bold absolute left-3 top-3">
+                    <FormLabel className="text-[12px] text-[#8F8F8F] font-bold absolute left-3 top-3 ">
                       MESSAGE
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Enter Message"
-                        className="pt-[36px] pb-5 h-[135px] lg:h-[260px] placeholder:text-base placeholder:text-[white] placeholder:font-extrabold resize-none"
+                        className="pt-[36px] pb-5 h-[135px] lg:h-[260px] placeholder:text-base placeholder:text-[white] placeholder:font-extrabold resize-none "
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;

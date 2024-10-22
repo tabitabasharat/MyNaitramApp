@@ -36,30 +36,57 @@ const Footer = () => {
                 className="flex items-center gap-[0.5rem]"
               >
                 <DownloadSimple size={20} weight="bold" />
-           <p className="pt-[8px]">     Download App</p>
+                <p className=""> Download App</p>
               </Link>
             </Button>
           </div>
           <div className="flex flex-col lg:flex-row gap-3 lg:gap-24 xl:gap-28 mt-6 lg:mt-0 px-4 lg:px-0 md:w-[60%] lg:w-full md:mx-auto lg:mx-0 lg:mr-0 lg:justify-end">
             <div className="flex flex-col items-center lg:flex-row lg:justify-start lg:gap-24 xl:gap-28">
               <div className="flex flex-col tems-start gap-3 lg:gap-8">
-                <Link href={"/"} className="hover:underline">Home</Link>
-                <Link href={"/viewallevents"} className="hover:underline">Event</Link>
-                <Link href={"/about"} className="hover:underline">About</Link>
+                <Link href={"/"} className="hover:underline">
+                  Home
+                </Link>
+                <Link href={"/viewallevents"} className="hover:underline">
+                  Event
+                </Link>
+                <Link href={"/about"} className="hover:underline">
+                  About
+                </Link>
               </div>
               <div className="flex items-center mt-3 lg:mt-0 lg:items-start flex-col gap-3 lg:gap-8">
-                <Link href={"/wallet"} className="hover:underline">Wallet</Link>
-                <Link href={"/reward"} className="hover:underline">Rewards</Link>
-                <Link href={"/get-sponsor"} className="hover:underline">Get Sponsored</Link>
+                <Link href={"/wallet"} className="hover:underline">
+                  Wallet
+                </Link>
+                <Link href={"/reward"} className="hover:underline">
+                  Rewards
+                </Link>
+                <Link href={"/get-sponsor"} className="hover:underline">
+                  Get Sponsored
+                </Link>
                 {/* <Link href={''}>FAQ</Link>
                 <Link href={''}>Resource</Link> */}
               </div>
             </div>
             <div className="flex justify-center text-center lg:justify-start gap-16 lg:gap-24 xl:gap-32">
               <div className="flex items-start flex-col gap-3 lg:gap-8">
-              <Link href={"/about"} className="text-center w-full hover:underline lg:text-start">FAQ</Link>
-                <Link href={"/helpcenter"} className="text-center w-full hover:underline lg:text-start">Help Center</Link>
-                <Link href={"/legal-guide"} className="text-center w-full hover:underline lg:text-start">Legal Guide</Link>
+                <Link
+                  href={"/about"}
+                  className="text-center w-full hover:underline lg:text-start"
+                >
+                  FAQ
+                </Link>
+                <Link
+                  href={"/helpcenter"}
+                  className="text-center w-full hover:underline lg:text-start"
+                >
+                  Help Center
+                </Link>
+                <Link
+                  href={"/legal-guide"}
+                  className="text-center w-full hover:underline lg:text-start"
+                >
+                  Legal Guide
+                </Link>
               </div>
             </div>
           </div>
@@ -101,10 +128,7 @@ const Footer = () => {
               <TiktokLogo className="w-[32px] h-[32px]" weight="fill" />
             </Link> */}
 
-            <Link
-              target="_blank"
-              href="https://x.com/naitramlive"
-            >
+            <Link target="_blank" href="https://x.com/naitramlive">
               {/* <TwitterLogo size={30} weight="fill" /> */}
               <Image
                 src={twitter}
@@ -117,8 +141,8 @@ const Footer = () => {
             </Link> */}
             <Link target="_blank" href="https://www.youtube.com/@naitramlive">
               <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
-            </Link> 
-           {/*  <Link target="_blank" href="https://youtube.com/@naitram.entertainment?si=rYyYuGCajrn2v3TM">
+            </Link>
+            {/*  <Link target="_blank" href="https://youtube.com/@naitram.entertainment?si=rYyYuGCajrn2v3TM">
               <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
             </Link>  */}
           </div>
