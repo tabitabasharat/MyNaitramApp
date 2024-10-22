@@ -33,7 +33,7 @@ const FilterSideBar = () => {
   // const [chosenDate, setChosenDate] = useState<Date | null>(null);
   const [chosenDate, setChosenDate] = useState<Date | null>(null);
   const [chosenEndDate, setChosenEndDate] = useState<Date | null>(null);
-
+  const [activeButton, setActiveButton] = useState<string | null>(null);
   const [filterDate, setFilterDate] = useState<FilterDate>(null);
   const [filterEndDate, setFilterEndDate] = useState<FilterDate>(null);
 
@@ -156,11 +156,13 @@ const FilterSideBar = () => {
 
   const handleStartDateChange = () => {
     setShowDatePicker((prev) => !prev);
+    setActiveButton((prev) => (prev === "start" ? null : "start"));
     setFilterDate((prev) => (prev === "Date" ? null : "Date"));
   };
   const handleEndDateChange = () => {
     setShowEndDatePicker((prev) => !prev);
-    setFilterEndDate((prev) => (prev === "Date" ? null : "Date"));
+ setActiveButton((prev) => (prev === "end" ? null : "end"));
+     setFilterEndDate((prev) => (prev === "Date" ? null : "Date"));
   };
 
   const toggleShowAllCategories = () => {
@@ -284,20 +286,24 @@ const FilterSideBar = () => {
 
         {/* Date Options */}
         {toggleDrop && (
-          <div className="flex flex-col items-start gap-[12px]">
-            <Button
-              className="gradient-slate text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border border-muted"
-              onClick={handleStartDateChange}
-            >
-              Start Date
-            </Button>
-            <Button
-              className="gradient-slate  text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border border-muted"
-              onClick={handleEndDateChange}
-            >
-              End Date
-            </Button>
-          </div>
+        <div className="flex flex-col items-start gap-[12px]">
+        <Button
+          className={`gradient-slate text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border ${
+            activeButton === "start" ? "border-green-500" : "border-muted"
+          }`}
+          onClick={handleStartDateChange}
+        >
+          Start Date
+        </Button>
+        <Button
+          className={`gradient-slate text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border ${
+            activeButton === "end" ? "border-green-500" : "border-muted"
+          }`}
+          onClick={handleEndDateChange}
+        >
+          End Date
+        </Button>
+      </div>
         )}
 
         {/* Date Picker Components */}

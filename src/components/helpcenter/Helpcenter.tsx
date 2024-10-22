@@ -363,13 +363,13 @@ const Helpcenter = ({
                 name="description"
                 render={({ field }) => (
                   <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
-                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                    <FormLabel className="text-[12px] mb-3 z-1 font-bold w-[98%] sm:w-[99%] lg:w-[99%] h-[27%] mt-[0.5px] gradient-slate text-[#8F8F8F] absolute ps-3 left-1 pt-3 top-0">
                       DESCRIPTION
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Vorem ipsum dolor sit amet consectetur"
-                        className="pt-[36px] pb-5 h-[136px] text-[#D9D9D9] text-base placeholder:font-normal resize-none"
+                        className="pt-[36px] pb-5 h-[136px] text-[#D9D9D9] text-base placeholder:font-normal  resize-none"
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;

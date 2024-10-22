@@ -264,7 +264,7 @@ const Header = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={() => setMenuIsOpen(false)}
-            className="fixed bg-black z-[70] w-full h-full cursor-pointer menu-show"
+            className="fixed bg-black z-[1300] w-full h-full cursor-pointer menu-show"
           ></motion.div>
         )}
       </AnimatePresence>
