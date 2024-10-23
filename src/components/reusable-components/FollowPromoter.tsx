@@ -267,10 +267,10 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
           </Button>
         }
         <div className="flex gap-[8px] flex-wrap h-full">
-          {EventData?.instaUrl !== "https://instagram.com/" && (
-            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+          {EventData?.instaUrl && EventData?.instaUrl !== "https://instagram.com/" && (
+            <div className="border border-white w-[36px] h-[36px] cursor-pointer p-2 rounded-full">
               <InstagramLogo
-                style={{ cursor: "pointer" }}
+                // style={{ cursor: "pointer" }}
                 // onClick={() => {
                 //   typeof window !== "undefined"
                 //     ? window.open(myEvents?.data?.data[0]?.instaUrl, "_blank")
@@ -286,10 +286,10 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
               />
             </div>
           )}
-          {EventData?.twitterUrl !== "https://www.x.com/" && (
-            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+          {EventData?.twitterUrl && EventData?.twitterUrl !== "https://www.x.com/" && (
+            <div className="border border-white w-[36px] h-[36px] cursor-pointer p-2 rounded-full">
               <TwitterLogo
-                style={{ cursor: "pointer" }}
+                // style={{ cursor: "pointer" }}
                 onClick={() => {
                   typeof window !== "undefined"
                     ? window.open(EventData?.twitterUrl, "_blank")
@@ -300,10 +300,10 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
               />
             </div>
           )}
-          {EventData?.fbUrl !== "https://www.facebook.com/" && (
-            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+          {EventData?.fbUrl && EventData?.fbUrl !== "https://www.facebook.com/" && (
+            <div className="border border-white w-[36px] cursor-pointer h-[36px] p-2 rounded-full">
               <FacebookLogo
-                style={{ cursor: "pointer" }}
+                // style={{ cursor: "pointer" }}
                 onClick={() => {
                   typeof window !== "undefined"
                     ? window.open(EventData?.fbUrl, "_blank")
@@ -326,10 +326,10 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
               weight="fill"
             />
           </div> */}
-          {EventData?.tiktokUrl !== "https://www.tiktok.com/@" && (
-            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+          {EventData?.tiktokUrl && EventData?.tiktokUrl !== "https://www.tiktok.com/@" && (
+            <div className="border border-white w-[36px] cursor-pointer h-[36px] p-2 rounded-full">
               <TiktokLogo
-                style={{ cursor: "pointer" }}
+                // style={{ cursor: "pointer" }}
                 onClick={() => {
                   typeof window !== "undefined"
                     ? window.open(EventData?.tiktokUrl, "_blank")
@@ -341,10 +341,10 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
             </div>
           )}
 
-          {EventData?.linkedinUrl !== "https://linkedin.com/in/" && (
-            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+          {EventData?.linkedinUrl && EventData?.linkedinUrl !== "https://linkedin.com/in/" && (
+            <div className="border border-white w-[36px] cursor-pointer h-[36px] p-2 rounded-full">
               <LinkedinLogo
-                style={{ cursor: "pointer" }}
+                // style={{ cursor: "pointer" }}
                 onClick={() => {
                   typeof window !== "undefined"
                     ? window.open(EventData?.linkedinUrl, "_blank")
@@ -355,10 +355,10 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
               />
             </div>
           )}
-          {EventData?.youtubeUrl !== "https://www.youtube.com/" && (
-            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+          {EventData?.youtubeUrl && EventData?.youtubeUrl !== "https://www.youtube.com/" && (
+            <div className="border border-white w-[36px] cursor-pointer h-[36px] p-2 rounded-full">
               <YoutubeLogo
-                style={{ cursor: "pointer" }}
+                // style={{ cursor: "pointer" }}
                 onClick={() => {
                   typeof window !== "undefined"
                     ? window.open(EventData?.youtubeUrl, "_blank")
@@ -370,10 +370,10 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
             </div>
           )}
 
-          {EventData?.telegramUrl !== "https://t.me/" && (
-            <div className="border border-white w-[36px] h-[36px] p-2 rounded-full">
+          {EventData?.telegramUrl && EventData?.telegramUrl !== "https://t.me/" && (
+            <div className="border border-white w-[36px] cursor-pointer h-[36px] p-2 rounded-full">
               <TelegramLogo
-                style={{ cursor: "pointer" }}
+                // style={{ cursor: "pointer" }}
                 onClick={() => {
                   typeof window !== "undefined"
                     ? window.open(EventData?.telegramUrl, "_blank")

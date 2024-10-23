@@ -30,7 +30,6 @@ if (typeof window !== "undefined") {
       ) {
         typeof window !== "undefined" ? window.location.href = "/login":null;
       }
-
       return Promise.reject(error);
     }
   );
