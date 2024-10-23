@@ -1,18 +1,21 @@
 {
-    "applinks": {
-      "apps": [],
-      "details": [
-        {
-          "appID": "282CQ66PD5.com.naitram",
-          "paths": [
-              "/bottom-tab",                
-              "/paymentsuccess",            
-              "/paymentfailure",             
-              "/EventsPage/*",               
-              "/PersonalSocialProfile/*",    
-              "/EventOrganizerPreview/*"    
-            ]
-        }
-      ]
-    }
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "QNFDCAH859.com.naitram.live",  
+        "paths": [
+          "/bottom-tab",
+          "/paymentsuccess",
+          "/paymentfailure",
+          "/EventsPage",
+          "/PersonalSocialProfile",
+          "/EventOrganizerPreview",
+          "/EventsPage/*",               
+          "/PersonalSocialProfile/*",     
+          "/EventOrganizerPreview/*"      
+        ]
+      }
+    ]
   }
+}
