@@ -315,8 +315,8 @@ const OrganizerProfile = () => {
           <GradientBorder className="rounded-full p-[3px] w-fit">
             <div className="bg-black rounded-full p-[6px] flex items-center justify-center">
               <label htmlFor="upload">
-                <Image
-                  src={imageSrc ? imageSrc : "/person3.jpg"}
+                <Image    
+                    src={imageSrc ? imageSrc : "/person3.jpg"}             
                   width={216}
                   height={216}
                   className="size-[216px] w-[156px] h-[156px] sm:w-[216px] sm:h-[216px] object-cover object-top rounded-full"

@@ -337,8 +337,7 @@ const AddBankAccount = ({ eventData }: any) => {
         </div>
         <div>
           <p className="text-[#BFBFBF] text-sm lmd:text-base font-bold mb-[32px]">
-            Receive your payout in crypto by entering your wallet address and
-            selecting the correct chain. Payouts are processed within 48 hours.
+          Receive your payout in bank by entering your bank details. Payouts are processed within 48 hours.
           </p>
           <Form {...form}>
             <form
@@ -672,7 +671,8 @@ const AddBankAccount = ({ eventData }: any) => {
                             //   setValidationError("");
                             //   setbankname(e.target.value);
                             // }}
-                            onChange={(e) => {
+
+                                          onChange={(e) => {
                               const trimmedValue = e.target.value.trimStart(); 
                               field.onChange(trimmedValue);
                               setValidationError("");
@@ -687,7 +687,7 @@ const AddBankAccount = ({ eventData }: any) => {
                               }
                               // Allow letters, numbers, and spaces
                               if (
-                                !/^[A-Za-z0-9\s]*$/.test(e.key) &&
+                                !/^[A-Za-z\s]*$/.test(e.key) &&
                                 !["Backspace", "Tab"].includes(e.key)
                               ) {
                                 e.preventDefault();
@@ -724,7 +724,7 @@ const AddBankAccount = ({ eventData }: any) => {
                               }
                               // Allow letters, numbers, and spaces
                               if (
-                                !/^[A-Za-z0-9\s]*$/.test(e.key) &&
+                                !/^[A-Za-z\s]*$/.test(e.key) &&
                                 !["Backspace", "Tab"].includes(e.key)
                               ) {
                                 e.preventDefault();

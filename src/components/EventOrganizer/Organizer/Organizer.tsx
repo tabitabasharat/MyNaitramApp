@@ -47,7 +47,7 @@ const [userid,setUserid] = useState<any>("");
             </h2>
           </div>
           <div className="lg:w-auto xl:w-auto w-full">
-            <div className="flex flex-col lg:flex-row md-flex-row gap-[32px]">
+            <div className="flex flex-col xl:flex-row gap-[32px]">
               <div className="flex justify-center w-full items-center">
                 <GradientBorder className="rounded-full p-[3px] w-fit">
                   <div className="bg-black rounded-full p-[6px]">
@@ -69,7 +69,7 @@ const [userid,setUserid] = useState<any>("");
                   </div>
                 </GradientBorder>
               </div>
-              <div className="flex flex-col lg:items-start items-center lg:justify-start justify-center ">
+              <div className="flex flex-col xl:items-start items-center xl:justify-start justify-center ">
                 <h2 className="text-[28px] font-extrabold text-center lg:text-start xl:text-start  leading-[31.36px] mb-[0px] lg:mb-[9px] ">
                   {myOrgData?.userDetails?.fullName}
                 </h2>
@@ -81,7 +81,7 @@ const [userid,setUserid] = useState<any>("");
                     background:
                       "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
                   }}
-                  className="flex bg-[#0F0F0F] rounded-[6.89px] flex-wrap gap-[0px] sm:gap-[20px] md:gap-[20px] lg:gap-[20px] justify-evenly  py-[16px] px-[0px] lg:px-[19.37px] lg:py-[13.77px] w-[100%] lg:w-[428px] xl:w-[428px] border-[0.86px] border-transparent"
+                  className="flex bg-[#0F0F0F] rounded-[6.89px] flex-wrap gap-[0px] sm:gap-[20px] md:gap-[20px] lg:gap-[20px] justify-evenly  py-[16px] px-[0px] lg:px-[19.37px] lg:py-[13.77px] w-[100%] lg:w-[567.26px] xl:w-[567.26px] border-[0.86px] border-transparent"
                 >
                   <div
                     className="flex flex-col items-center justify-center cursor-pointer "
@@ -103,7 +103,7 @@ const [userid,setUserid] = useState<any>("");
                       EVENTS
                     </p>
                   </div>
-                  <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
+                  <div className="h-[58.01px] border-l border-[#292929] mx-0"></div>
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
                       {myOrgData?.totalAttendees !== null
@@ -114,7 +114,7 @@ const [userid,setUserid] = useState<any>("");
                       ATTENDEES
                     </p>
                   </div>
-                  <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
+                  <div className="h-[58.01px] border-l border-[#292929] mx-0"></div>
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
                       {myOrgData?.totalFollowers !== null
@@ -125,7 +125,18 @@ const [userid,setUserid] = useState<any>("");
                       FOLLOWERS
                     </p>
                   </div>
-                  <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
+                  <div className="h-[58.01px] border-l border-[#292929] mx-0"></div>
+                  <div className="flex flex-col items-center justify-center ">
+                    <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
+                      {myOrgData?.totalFollowers !== null
+                        ? myOrgData?.totalFollowers
+                        : "0"}
+                    </h2>
+                    <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
+                      LIKES
+                    </p>
+                  </div>
+                  <div className="h-[58.01px] border-l border-[#292929] mx-0"></div>
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
                     £{myOrgData?.totalSales !== null
