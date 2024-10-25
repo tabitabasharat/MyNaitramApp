@@ -269,7 +269,7 @@ const Hero = () => {
               </Button>
               <Button
                 onClick={() => {
-                  router.push("/download-app");
+                  router.push("https://apps.apple.com/pk/app/naitram-fan-centric-tickets/id6736828037");
                 }}
                 className="flex items-center gap-[4px] p-[12px]"
               >
