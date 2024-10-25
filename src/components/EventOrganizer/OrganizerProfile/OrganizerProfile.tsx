@@ -405,7 +405,17 @@ const OrganizerProfile = () => {
                 onSubmit={form.handleSubmit(updateActivity)}
                 className=" w-full"
               >
-                <div className="overflow-y-auto scrollbar-hide lg:h-[300px] xl:h-[310px]">
+                     <div className="flex justify-start mt-[32] mb-8 lg:justify-end">
+                  <Button
+                    type="submit"
+                    className="w-full font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base md:w-fit"
+                  >
+                    Update Changes
+                  </Button>
+                </div>
+                {/* <div className="overflow-y-auto scrollbar-hide lg:h-[300px] xl:h-[310px]"> */}
+                <div className="overflow-y-auto scrollbar-hide">
+
                 <FormField
                   control={form.control}
                   name="BIO"
@@ -644,7 +654,7 @@ const OrganizerProfile = () => {
                   control={form.control}
                   name="twitter"
                   render={({ field }) => (
-                    <FormItem className="relative space-y-0">
+                    <FormItem className="relative mb-[49px]">
                       <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
                         TWITTER
                       </FormLabel>
@@ -677,14 +687,7 @@ const OrganizerProfile = () => {
                   )}
                 />
                 </div>
-                <div className="flex justify-start mt-[32px] mb-[49px] lg:justify-end">
-                  <Button
-                    type="submit"
-                    className="w-full font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base md:w-fit"
-                  >
-                    Update Changes
-                  </Button>
-                </div>
+           
               </form>
             </Form>
           </div>

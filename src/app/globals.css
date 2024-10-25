@@ -20,8 +20,16 @@
     list-style-position: inside !important; /* Change list style position for iOS */
   }
 }
-
-
+.flex-adjustmentoforganiserinner{
+  display: flex;
+justify-content: center;
+align-items: flex-start;  
+flex-direction: column;
+}
+.flex-adjustmentoforganiser{
+  display: flex;
+  flex-direction: row;
+}
 
 .del-verification-input{
   width: 67px;
@@ -788,6 +796,18 @@ input[type="number"] {
   }
   .event-bg-effect {
     background: transparent;
+  }
+}
+@media (max-width:1118px) {
+  .flex-adjustmentoforganiser{
+    display: flex;
+    flex-direction: column !important;
+  }
+  .flex-adjustmentoforganiserinner{
+    display: flex;
+  justify-content: center;
+  align-items: center !important;  
+  flex-direction: column;
   }
 }
 @media (min-width:1440px) {

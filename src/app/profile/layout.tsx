@@ -33,7 +33,7 @@ export default function RootLayout({
             right: "0%",
             bottom: "0%",
             zIndex: "-1",
-          }}
+          }}  
         >
           <div
             style={{

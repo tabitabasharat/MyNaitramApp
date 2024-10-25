@@ -12,6 +12,7 @@ import EventCards from "../eventCards/EventCards";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getTicketsByID } from "@/lib/middleware/wallet";
 import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
+import filter from "@/assets/whitefilter.svg"
 
 type SelectedOption = "tickets" | "collectables" | null;
 
@@ -116,7 +117,8 @@ type SelectedOption = "tickets" | "collectables" | null;
             </div>
           </div>
           {selected === "tickets" && (
-            <div className="w-full relative mb-[16px] md:mb-[32px]">
+            <div className="flex mb-[16px] md:mb-[32px] gap-[10px] w-full">
+            <div className="w-full relative ">
               <Input
                 className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-[12px] md:text-sm font-normal"
                 placeholder="Search Events"
@@ -127,6 +129,8 @@ type SelectedOption = "tickets" | "collectables" | null;
                 size={20}
                 className="absolute top-1/2 -translate-y-1/2 right-5"
               />
+            </div>
+            <Image src={filter} alt="filter" sizes="30px"/>
             </div>
           )}
           {selected == "collectables" && (

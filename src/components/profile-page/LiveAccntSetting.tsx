@@ -285,7 +285,16 @@ const LiveAccntSetting = ({
                 onSubmit={form.handleSubmit(updateActivity)}
                 className=" w-full mb-[50px]"
               >
-                <div className="overflow-y-auto scrollbar-hide h-[420px] md:h-[365px]">
+                        <div className="flex justify-start mb-8 lg:justify-start">
+                  <Button
+                    type="submit"
+                    className="w-full font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base md:w-fit"
+                  >
+                    Update Changes
+                  </Button>
+                </div>
+                {/* <div className="overflow-y-auto scrollbar-hide h-[420px] md:h-[365px]"> */}
+                <div className="overflow-y-auto">
                   <FormField
                     control={form.control}
                     name="facebook"
@@ -542,14 +551,7 @@ const LiveAccntSetting = ({
                     )}
                   />
                 </div>
-                <div className="flex justify-start lg:justify-start">
-                  <Button
-                    type="submit"
-                    className="w-full font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base md:w-fit"
-                  >
-                    Update Changes
-                  </Button>
-                </div>
+        
               </form>
             </Form>
           </div>

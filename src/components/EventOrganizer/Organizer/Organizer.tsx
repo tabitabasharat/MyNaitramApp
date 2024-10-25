@@ -47,7 +47,7 @@ const [userid,setUserid] = useState<any>("");
             </h2>
           </div>
           <div className="lg:w-auto xl:w-auto w-full">
-            <div className="flex flex-col xl:flex-row gap-[32px]">
+            <div className="flex-adjustmentoforganiser gap-[32px]">
               <div className="flex justify-center w-full items-center">
                 <GradientBorder className="rounded-full p-[3px] w-fit">
                   <div className="bg-black rounded-full p-[6px]">
@@ -69,7 +69,7 @@ const [userid,setUserid] = useState<any>("");
                   </div>
                 </GradientBorder>
               </div>
-              <div className="flex flex-col xl:items-start items-center xl:justify-start justify-center ">
+              <div className="flex-adjustmentoforganiserinner ">
                 <h2 className="text-[28px] font-extrabold text-center lg:text-start xl:text-start  leading-[31.36px] mb-[0px] lg:mb-[9px] ">
                   {myOrgData?.userDetails?.fullName}
                 </h2>
