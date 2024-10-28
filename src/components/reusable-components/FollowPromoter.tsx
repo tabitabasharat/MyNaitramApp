@@ -227,14 +227,14 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
             alt="promoter"
           />
         </div>
-        <div>
+        <div style={{display:"flex",justifyContent:"center"}}>
           <p
             className="font-bold text-[14px]  font-bold flex items-center gap-1 capitalize hover:underline cursor-pointer"
             onClick={handleProfileClick}
           >
             {myProfile?.userProfile?.fullname}
           </p>
-          <p className="text-[#FFFFFF3D] text-[12px]">
+          {/* <p className="text-[#FFFFFF3D] text-[12px]">
             <span className="text-[11px] text-[#E6E6E6]">
               {myProfile?.events?.length} Events
             </span>{" "}
@@ -243,7 +243,7 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
               {" "}
               {myProfile?.profile?.totalAttendees} Attendees
             </span>
-          </p>
+          </p> */}
         </div>
       </div>
       <hr className="border-white/10 my-[16px]" />
