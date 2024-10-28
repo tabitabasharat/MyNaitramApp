@@ -16,11 +16,28 @@ import filter from "@/assets/whitefilter.svg"
 
 type SelectedOption = "tickets" | "collectables" | null;
 
+interface FilterItem {
+  id: number;       // Unique identifier for the filter item
+  name: string;     // Name of the filter item
+}
+
  function Wallet() {
   const [selected, setSelected] = useState<SelectedOption>("tickets");
   const dispatch = useAppDispatch();
   const [searchQuerytickets, setSearchQuerytickets] = useState("");
   const [searchQueryCollectibles, setSearchQueryCollectibles] = useState("");
+  const [items, setItems] = useState<FilterItem[]>([]);
+
+  const handleFilterClick = () => {
+    const newItem: FilterItem = {
+      id: items.length + 1, // Generate a unique ID based on the array length
+      name: 'New Filter',   // Give the new object a name
+    };
+
+    const newArray = [...items, newItem]; // Add the new item to the array
+    setItems(newArray); // Update the state with the new array
+    console.log(newArray); // Log the updated array
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -49,6 +66,12 @@ type SelectedOption = "tickets" | "collectables" | null;
   );
   console.log("my events are ", mytickets);
 
+  const walletfilter = mytickets?.filter((item: any) =>
+    item?.event?.name?.toLowerCase().includes(searchQuerytickets.toLowerCase())
+  );
+  console.log("my wallet filtered tickets are ", walletfilter);
+
+  
   const filteredTickets = mytickets?.filter((item: any) =>
     item?.event?.name?.toLowerCase().includes(searchQuerytickets.toLowerCase())
   );
@@ -130,7 +153,7 @@ type SelectedOption = "tickets" | "collectables" | null;
                 className="absolute top-1/2 -translate-y-1/2 right-5"
               />
             </div>
-            <Image src={filter} alt="filter" sizes="30px"/>
+            <Image src={filter} alt="filter" sizes="30px"  onClick={handleFilterClick} className="cursor-pointer"/>
             </div>
           )}
           {selected == "collectables" && (

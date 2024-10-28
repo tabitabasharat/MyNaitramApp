@@ -2554,7 +2554,7 @@ function EditeventOnBack() {
                           render={({ field }) => (
                             <FormItem className="relative w-full space-y-0  input-custom-container">
                               <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                                Event Ticket Type
+                              Event Ticket Name
                               </FormLabel>
                               <FormControl>
                                 <Input

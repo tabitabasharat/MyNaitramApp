@@ -26,6 +26,85 @@ export const getTicketsByID = createAsyncThunk(
   }
 );
 
+interface GetAllTicketsPayload {
+  page?: number;
+  limit?: number;
+  userId: string;
+  category?: string[];  // assuming category is an array of strings
+  startDate?: string;   // assuming dates are strings (ISO format)
+  endDate?: string;
+  [key: string]: any;   // To account for the rest parameter
+}
+
+// Define the shape of the response expected from the API
+interface TicketResponse {
+  status: number;
+  data: {
+    tickets: any[];      // Replace `any[]` with the actual type of tickets if known
+    total: number;
+  };
+  currentPage: number;
+  totalPages: number;
+}
+
+// Define the shape of the error object
+interface ErrorResponse {
+  message: string;
+  status?: number;
+}
+
+// Create the async thunk with types for payload, response, and error
+export const getAllTickets = createAsyncThunk<
+  TicketResponse,               // The return type
+  GetAllTicketsPayload,         // The payload type
+  { rejectValue: ErrorResponse } // The rejectWithValue error type
+>(
+  'getAllTickets',
+  async (
+    { page = 1, limit = 10, userId, category, startDate, endDate, ...rest },
+    { rejectWithValue },
+  ) => {
+    try {
+      let queryParams: string[] = [];
+      
+      // Construct query params with proper type checking
+      if (category && category.length > 0) {
+        queryParams.push(`category=${JSON.stringify(category)}`);
+      }
+      queryParams.push(`page=${page}`);
+      queryParams.push(`limit=${limit}`);
+      if (startDate) queryParams.push(`startDate=${startDate}`);
+      if (endDate) queryParams.push(`endDate=${endDate}`);
+
+      const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+      
+      // Make API request
+      const res = await api.get(`${API_URL}/event/getTickets/${userId}${queryString}`);
+      
+      // Ensure that the response matches the expected type
+      if (res?.status !== 200 || !res?.data) {
+        throw new Error('Invalid response from API');
+      }
+      
+      return {
+        status: res.status,
+        data: res.data,
+        currentPage: page,
+        totalPages: Math.ceil(res.data.total / limit),
+      };
+    } catch (error: any) {
+      const errorMessage = error?.message || 'An error occurred';
+      const statusCode = error?.response?.status || 500;
+      console.error('Error fetching tickets:', error);
+
+      return rejectWithValue({
+        message: errorMessage,
+        status: statusCode,
+      });
+    }
+  }
+);
+
 export const getTicketByQR = createAsyncThunk(
   "getTicketByQR",
   async (data: any) => {

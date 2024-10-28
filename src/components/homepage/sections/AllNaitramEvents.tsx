@@ -27,13 +27,13 @@ import { useAppDispatch } from "@/lib/hooks";
 
 const eventimges = [
   { id: 1, title: "All Events", imges: calender },
-  { id: 2, title: "Your Events", imges: calendercheck },
+  { id: 2, title: "Attending", imges: calendercheck },
   { id: 3, title: "Past Events", imges: calenderX },
 ];
 
 const greenimges = [
   { id: 1, title: "All Events", imges: caledndergreen },
-  { id: 2, title: "Your Events", imges: calendercheckgreen },
+  { id: 2, title: "Attending", imges: calendercheckgreen },
   { id: 3, title: "Past Events", imges: calenderXgreen },
 ];
 
@@ -114,11 +114,11 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
     ? greenimges
     : userID
     ? eventimges
-    : eventimges.filter((e) => e.title !== "Your Events");
+    : eventimges.filter((e) => e.title !== "Attending");
 
   const options = userID
     ? eventimges
-    : eventimges.filter((e) => e.title !== "Your Events");
+    : eventimges.filter((e) => e.title !== "Attending");
 
   const title = selectedEvent ? selectedEvent.title : "All Events";
 
@@ -160,7 +160,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
         return filteredAllEvents || [];
       case "Past Events":
         return filteredPastEvents || [];
-      case "Your Events":
+      case "Attending":
         return filteredLiveEvents || [];
       default:
         return [];
@@ -243,7 +243,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
                   placeholder="Search Past Events"
                 />
               )}
-              {title === "Your Events" && (
+              {title === "Attending" && (
                 <Input
                   value={searchQueryLive}
                   className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"

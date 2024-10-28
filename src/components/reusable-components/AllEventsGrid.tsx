@@ -171,7 +171,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
         ))}
 
       {/* Your Events or Live Events */}
-      {eventType === "Your Events" &&
+      {eventType === "Attending" &&
         (events?.length > 0 ? (
           <>
             <div className="relative  sm:grid flex flex-col  md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[1rem]">

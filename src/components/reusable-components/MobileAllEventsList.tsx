@@ -74,7 +74,7 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
         ? renderEvents(EventsAllData?.events)
         : eventType === "Past Events"
         ? renderEvents(EventsPastData?.events)
-        : eventType === "Your Events"
+        : eventType === "Attending"
         ? renderEvents(myEvents?.events)
         : null}
 

@@ -34,7 +34,8 @@ const formSchema = z.object({
   email: z
     .string()
     .min(1, { message: "Email cannot be empty." })
-    .email({ message: "Invalid email address." }),
+    .email({ message: "Invalid email address." })
+    .regex(/^[^\s+_]+$/, 'Invalid email address.'),
 });
 const ResetPassPage = () => {
   const dispatch = useAppDispatch();
@@ -47,6 +48,7 @@ const ResetPassPage = () => {
       email: "",
     },
   });
+  
   // 2. Define a submit handler.
   // function onSubmit(values: z.infer<typeof formSchema>) {
   //   // Do something with the form values.
