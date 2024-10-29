@@ -28,7 +28,7 @@ function DownloadAppPage() {
                 <h2 className=" mb-5 download-text">Download</h2>
               </Reveal>
               <Image alt="" src={natriam} className="mb-5 green-natiram " />
-              <h3 className="coming-soon">Coming Soon</h3>
+              {/* <h3 className="coming-soon">Coming Soon</h3> */}
             </div>
             <div className="flex items-center w-full h-full justify-center">
             <Link href="https://apps.apple.com/pk/app/naitram-fan-centric-tickets/id6736828037">

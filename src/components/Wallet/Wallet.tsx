@@ -177,16 +177,7 @@ interface FilterItem {
             <Image src={filter} alt="filter" sizes="30px"  onClick={handleFilterClick} className="cursor-pointer"/>
             </div>
           )}
-
-<EventCards 
-  eventType={selected}  
-  eventitems={
-    filterActive 
-      ? selected === "tickets" ? filteredTickets : filteredCollectibles
-      : selected === "tickets" ? mytickets : myWalletCollect
-  }
-/>
-          {/* <EventCards eventType={selected}  eventitems={selected === "tickets" ? filteredTickets : filteredCollectibles}/> */}
+          <EventCards eventType={selected}  eventitems={selected === "tickets" ? filteredTickets : filteredCollectibles}/>
         </div>
       </div>
     </section>

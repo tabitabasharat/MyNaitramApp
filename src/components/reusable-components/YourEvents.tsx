@@ -347,7 +347,7 @@ const YourEvents = ({
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
 
           <div className="absolute flex justify-between h-full items-end z-[2] p-4 top-0 sm:w-full w-[100%]">
-            <div>
+            <div className="w-[80%]">
               <p className="font-bold text-white text-xl">{title}</p>
               <p className="font-bold text-[11px] text-[#FFFFFF]">
                 {ConvertDate(eventDate)}

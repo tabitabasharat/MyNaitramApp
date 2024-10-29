@@ -22,17 +22,10 @@ import { Button } from "@/components/ui/button";
 
 const BankAccountPayoutDetail = () => {
   const router = useRouter();
-  // const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(false);
   const dispatch = useAppDispatch();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [deletedID, setDeletedID] = useState<number | null>(null);
-  const [selectedBankId, setSelectedBankId] = useState<string | null>(null); // Tracks selected bank account
-  const [loader, setLoader] = useState<boolean>(false); // Tracks loading status
-
-  // Handle bank account selection
-  const handleBankSelect = (bankId: string) => {
-    setSelectedBankId(bankId); // Set the selected bank account ID
-  };
 
   const [openModal, setOpenModal] = useState(false);
   const eventAllData = "hello";
@@ -52,71 +45,49 @@ const BankAccountPayoutDetail = () => {
   );
   console.log("my payout bank history is", myBankDetail);
 
-  // async function deleteBank() {
-  //   setLoader(true);
-  //   const userID =
-  //     typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-  //   console.log("my deleted id", deletedID);
-
-  //   try {
-  //     dispatch(deleteBankAccount(deletedID)).then((res: any) => {
-  //       if (res?.payload?.status === 200) {
-  //         setLoader(false);
-
-  //         SuccessToast("Account Deleted Successfully");
-  //         dispatch(getPayoutBankDetail(userID));
-  //       } else {
-  //         setLoader(false);
-  //         console.log(res?.payload?.message);
-
-  //         ErrorToast(
-  //           res?.payload?.message || "An error occurred during deletion."
-  //         );
-  //       }
-  //     });
-  //   } catch (error: any) {
-  //     console.error("Error:", error);
-  //     const errorMessage =
-  //       error?.response?.data?.message ||
-  //       error?.message ||
-  //       "An unexpected error occurred.";
-  //     ErrorToast(errorMessage);
-  //   }
-  // }
-  const userloading = useAppSelector((state) => state?.getPayoutBankDetail);
-  async function deleteBank() {
-    if (!selectedBankId) return; // Don't proceed if no bank is selected
-
+  async function deleteBank(deletedId: any) {
+    setDeletedID(deletedId);
     setLoader(true);
     const userID =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-    console.log("my deleted id", selectedBankId);
+    console.log("my deleted id", deletedID);
 
     try {
-      dispatch(deleteBankAccount(selectedBankId)).then((res: any) => {
+      dispatch(deleteBankAccount(deletedID)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
+
           SuccessToast("Account Deleted Successfully");
           dispatch(getPayoutBankDetail(userID));
+          setDeletedID(null);
+          setActiveIndex(null);
+          // localStorage.clear();
+          // router.push("/");
         } else {
           setLoader(false);
-          ErrorToast(res?.payload?.message || "An error occurred during deletion.");
+          console.log(res?.payload?.message);
+
+          ErrorToast(
+            res?.payload?.message || "Please select any bank account before deleting bank account detail."
+          );
         }
       });
     } catch (error: any) {
-      setLoader(false);
-      const errorMessage = error?.response?.data?.message || error?.message || "An unexpected error occurred.";
+      console.error("Error:", error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        "An unexpected error occurred.";
       ErrorToast(errorMessage);
     }
   }
-
+  const userloading = useAppSelector((state) => state?.getPayoutBankDetail);
 
   return (
     <div className="pt-[42px] pb-[59.12px] lg:pb-[26.25px] px-[24px] lg:px-[100px] xl:px-[216px] md:pt-[90px] mx-auto">
       <div
-        className={`w-full  ${
-          myBankDetail?.length == null ? "w-full" : "md:w-[676px]"
-        }`}
+        className={`w-full  ${myBankDetail?.length == null ? "w-full" : "md:w-[676px]"
+          }`}
       >
         <p className="block ms-[25px] mb-[32px] sm:mb-[0px] sm:hidden text-[24px] font-extrabold">
           Profile Menu
@@ -138,7 +109,7 @@ const BankAccountPayoutDetail = () => {
             Bank Accounts{" "}
           </p>
         </div>
-        {/* {myBankDetail?.length > 0 && (
+        {myBankDetail?.length > 0 && (
           <div className="flex gap-[12px] btons-wrap-adjustment mb-[32px] w-full md:justify-end">
             <Link
               href="/organizer-event/payout-detail/bankaccount/add-bank-account"
@@ -156,9 +127,13 @@ const BankAccountPayoutDetail = () => {
             </Link>
 
             <Button
-              className="bg-[#FF1717B2] text-[11px] font-extrabold w-full md:w-fit py-[10px] px-[0px] text-[white]
-           md:p-[20px] rounded-[100px] flex items-center justify-center gap-[8px]"
-              onClick={() => deleteBank()}
+              className={`text-[14px] font-extrabold bg-[#FF1717B2] text-[white] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto ${!deletedID ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              onClick={deleteBank}
+              disabled={!deletedID}
+            //     className="bg-[#FF1717B2] text-[11px] font-extrabold w-full md:w-fit py-[10px] px-[0px] text-[white]
+            //  md:p-[20px] rounded-[100px] flex items-center justify-center gap-[8px]"
+            //     onClick={() => deleteBank()}
             >
               {" "}
               <Image
@@ -169,18 +144,15 @@ const BankAccountPayoutDetail = () => {
               <p> Delete Bank Account </p>
             </Button>
           </div>
-        )} */}
-        
-   
-          {/* <div className="flex gap-[32px] lg:gap-[24px] flex-col h-[500px] overflow-auto scrollbar-hide">
-              {myBankDetail?.length > 0 ? (
+        )}
+        <div className="flex gap-[32px] lg:gap-[24px] flex-col h-[500px] overflow-auto scrollbar-hide">
+          {myBankDetail?.length > 0 ? (
             myBankDetail?.map((item: any, index: any) => (
               <div
                 key={index}
-                className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] flex flex-col  ${
-                  selectedBankId === index?.id ? "gradient-border" : ""
-                }`}
-                onClick={() => handleBankSelect( item?.id)}
+                className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] flex flex-col  ${activeIndex === index ? "gradient-border" : ""
+                  }`}
+                onClick={() => handleClick(index, item?.id)}
               >
                 <div
                   className="flex justify-between md:items-center
@@ -249,7 +221,7 @@ const BankAccountPayoutDetail = () => {
               </Button>
             </div>
           )}
-        </div> */}
+        </div>
       </div>
     </div>
     // </section>
