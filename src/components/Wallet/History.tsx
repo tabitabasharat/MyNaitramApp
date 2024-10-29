@@ -97,8 +97,49 @@ function History() {
               History
             </h3>
           </div>
-
           {myHistory?.history?.length > 0 ? (
+            myHistory.history.map((item: any, index: number) => {
+              // Extract day, month, and year from the date string
+              const date = new Date(item.date);
+              const day = date.getDate();
+              const monthYear = date.toLocaleString("default", { month: "long", year: "numeric" });
+              const fullDate = `${day} ${monthYear}`; // Format: "1 September 2024"
+
+              return (
+                <div key={index} className="mb-[28px] lg:mb-[40px]">
+                  {/* Display full date for each entry */}
+                  <p className="font-bold text-sm mb-[10px] md:mb-[8px] md:text-base text-[#E6E6E6]">
+                    {fullDate}
+                  </p>
+
+                  <div className="flex gap-[12px] flex-col">
+                    <div className="gradient-slate rounded-[8px] py-[24px] px-[38px] lg:px-[24px] lg:pt-[24px] lg:pb-[32px]">
+                      <p className="text-base md:text-8 font-extrabold">
+                        {item.amount} MRT
+                      </p>
+                      <p className="text-[#8F8F8F] text-[12px] font-normal">
+                        {item.type}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="relative gradient-slate py-[94.5px] border border-[#292929] flex items-center justify-center flex-col gap-[12px] rounded-[12px] w-full">
+              <p className="text-[16px] text-extrabold">There's no History</p>
+              <button
+                className="text-[16px] font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto"
+                onClick={() => router.push("/wallet")}
+              >
+                <Image src={rocket} alt="add-icon" />
+                See What's On
+              </button>
+            </div>
+          )}
+
+
+          {/* {myHistory?.history?.length > 0 ? (
             Object.entries(groupedHistory)?.map(([monthYear, entries]: any) => (
               <div key={monthYear}>
                 <p className="font-bold text-sm mb-[10px] md:mb-[8px] md:text-base text-[#E6E6E6]">
@@ -132,7 +173,7 @@ function History() {
                 See What's On
               </button>
             </div>
-          )}
+          )} */}
 
           {/* <div className="flex gap-[12px] mb-[28px] lg:mb-[40px] flex-col">
             {filteredHistory?.length > 0 &&

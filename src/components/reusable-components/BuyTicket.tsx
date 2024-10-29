@@ -26,6 +26,7 @@ const BuyTicket = ({
   endTime,
   ticketEndTime,
   ticketStartTime,
+  soldout
 }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -42,7 +43,7 @@ const BuyTicket = ({
   const [viewTicket, setViewTicket] = useState<any>(false);
   const [myEventId, setMyEventId] = useState<any>(false);
 
-  console.log("my event id  in", event);
+  console.log("my event id  in", soldout);
   useEffect(() => {
     const id =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -54,7 +55,7 @@ const BuyTicket = ({
   const EventDetail = useAppSelector(
     (state: any) => state?.getTicket?.specificEvent?.data
   );
-  console.log("this is the events detail", EventDetail);
+  console.log("this is the events detail of event", EventDetail);
   useEffect(() => {
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -202,10 +203,10 @@ const BuyTicket = ({
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
                     disabled={
                       new Date() < new Date(ticketStartTime) ||
-                      new Date() > new Date(ticketEndTime)
+                      new Date() > new Date(ticketEndTime) || soldout
                     }
                   >
-                    {userId != userIds ? "Buy Tickets" : "Manage Event"}
+                    {soldout?"Sold out":userId != userIds ? "Buy Tickets" : "Manage Event"}
                   </Button>
                 )}
               </DialogTrigger>

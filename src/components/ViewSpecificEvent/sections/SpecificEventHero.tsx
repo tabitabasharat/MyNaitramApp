@@ -256,6 +256,8 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     // dispatch(getOrganizerSocialProfile(userId));
   }, []);
 
+  console.log(EventData,"this is my event data")
+
   return (
     <section className="bg-img ">
       {userLoading?.loading && <ScreenLoader />}
@@ -344,6 +346,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   ticketLength={EventData?.tickets?.length}
                   ticketEndDate={EventData?.ticketEndDate}
                   ticketStartDate={EventData?.ticketStartDate}
+                  soldout={EventData?.tickets.every((ticket:any) => ticket.no === 0)}
                   // ticketStartPrice={
                   //   EventData?.tickets?.length === 1
                   //     ? "0"

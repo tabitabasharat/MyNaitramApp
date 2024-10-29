@@ -39,16 +39,23 @@ import { useEffect, useState } from "react";
 
 const formSchema = z.object({
   phone: z
+  .string()
+  .min(1, { message: "Phone Number cannot be empty." })
+  .max(15, { message: "Phone number cannot be more than 15 digits." })
+  .regex(/^\+?\d{1,15}$/, { message: "Phone number must be up to 15 digits and may start with a '+'. It should only contain numeric characters." }),
 
-    .string()
-    .min(1, { message: "Phone Number cannot be empty." })
-    .max(15, { message: "Phone number cannot be more than 15 digits." })
-    .regex(/^\d{1,15}$/, { message: "Phone number must be up to 15 digits." }),
-  // .string()
-  // .min(1, { message: "Phone Number cannot be empty." })
-  // .max(15, { message: "Phone number cannot be more than 15 digits." })
-  // .regex(/^\d{15}$/, { message: "Phone number cannot be more than 15 digits." }),
+  // phone: z
+
+  //   .string()
+  //   .min(1, { message: "Phone Number cannot be empty." })
+  //   .max(15, { message: "Phone number cannot be more than 15 digits." })
+  //   .regex(/^\+?\d{1,15}$/, { message: "Phone number must be up to 15 digits." }),
+  // // .string()
+  // // .min(1, { message: "Phone Number cannot be empty." })
+  // // .max(15, { message: "Phone number cannot be more than 15 digits." })
+  // // .regex(/^\d{15}$/, { message: "Phone number cannot be more than 15 digits." }),
 });
+
 
 const CompleteYourProfileModal = ({
   onNext,
@@ -87,6 +94,24 @@ const CompleteYourProfileModal = ({
     setName(name);
     setEmail(email);
   }, []);
+
+  function processPhoneNumber(input: string) {
+    const parsed = formSchema.safeParse(input);
+    if (!parsed.success) {
+      return { success: false, errors: parsed.error.format() }; // Return validation errors
+    }
+  
+    const phoneNumber = input.replace('+', ''); // Remove the '+' for numeric representation
+    return { success: true, number: Number(phoneNumber) }; // Return the numeric value
+  }
+  
+  // Example usage
+  const result = processPhoneNumber("+1234567890123");
+  if (result.success) {
+    console.log("Valid phone number:", result.number); // Use the number as needed
+  } else {
+    console.error("Validation errors:", result.errors);
+  }
 
   return (
     <DialogContent className="sm:max-w-[550px] lg:max-w-[650px]">

@@ -27,11 +27,15 @@ interface FilterItem {
   const [searchQuerytickets, setSearchQuerytickets] = useState("");
   const [searchQueryCollectibles, setSearchQueryCollectibles] = useState("");
   const [items, setItems] = useState<FilterItem[]>([]);
+  const [filterActive, setFilterActive] = useState(false); // New state to track filter activation
+
+
 
   const handleFilterClick = () => {
+    setFilterActive(true);
     const newItem: FilterItem = {
-      id: items.length + 1, // Generate a unique ID based on the array length
-      name: 'New Filter',   // Give the new object a name
+      id: items.length + 1,
+      name: 'New Filter',   
     };
 
     const newArray = [...items, newItem]; // Add the new item to the array
@@ -157,24 +161,32 @@ interface FilterItem {
             </div>
           )}
           {selected == "collectables" && (
-            <div className="w-full relative mb-[16px] md:mb-[32px]">
+            <div className="flex mb-[16px] md:mb-[32px] gap-[10px] w-full">
+            <div className="w-full relative ">
               <Input
                 className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-[12px] md:text-sm font-normal"
-                placeholder="Search Collectibles"
-                value={searchQueryCollectibles}
-                onChange={(event) =>
-                  setSearchQueryCollectibles(event.target.value)
-                }
+                placeholder="Search Events"
+                value={searchQuerytickets}
+                onChange={(event) => setSearchQuerytickets(event.target.value)}
               />
               <MagnifyingGlass
                 size={20}
                 className="absolute top-1/2 -translate-y-1/2 right-5"
               />
             </div>
+            <Image src={filter} alt="filter" sizes="30px"  onClick={handleFilterClick} className="cursor-pointer"/>
+            </div>
           )}
 
-
-          <EventCards eventType={selected}  eventitems={selected === "tickets" ? filteredTickets : filteredCollectibles}/>
+<EventCards 
+  eventType={selected}  
+  eventitems={
+    filterActive 
+      ? selected === "tickets" ? filteredTickets : filteredCollectibles
+      : selected === "tickets" ? mytickets : myWalletCollect
+  }
+/>
+          {/* <EventCards eventType={selected}  eventitems={selected === "tickets" ? filteredTickets : filteredCollectibles}/> */}
         </div>
       </div>
     </section>

@@ -55,7 +55,8 @@ const EventsHeroSlide = ({
   ticketLength,
   userId,
   ticketEndDate,
-  ticketStartDate
+  ticketStartDate,
+  soldout
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
@@ -501,6 +502,7 @@ const EventsHeroSlide = ({
             endTime={endTime}
             ticketEndTime={ticketEndDate}
             ticketStartTime={ticketStartDate}
+            soldout={soldout}
             
           />
         </div>

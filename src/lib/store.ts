@@ -39,9 +39,8 @@ import getPayoutHistory from "./reducer/getPayoutHistory";
 import getPayoutBankDetail from "./reducer/getPayoutBankDetail";
 import getPayoutCrypto from "./reducer/getPayoutCrypto";
 import getPaidDetail from "./reducer/getPaidDetail";
-
+import getHistoryByid from "./reducer/getHistoryById"
 import getWalletHistory from "./reducer/getWalletHistory";
-
 import  getOrgLiveSocialProfile  from "./reducer/getOrgLiveSocialProfile";
 import getFollowStatus from "./reducer/getFollowStatus";
 import getPastEventBox from "./reducer/getPastEventsBox"
@@ -91,7 +90,8 @@ const appReducer = combineReducers({
   getWalletHistory: getWalletHistory,
   getOrgLiveSocialProfile:getOrgLiveSocialProfile,
   getFollowStatus:getFollowStatus,
-  getPhotoRollChat:getPhotoRollChat
+  getPhotoRollChat:getPhotoRollChat,
+  getHistoryByid:getHistoryByid,
 
 });
 const rootReducer = (

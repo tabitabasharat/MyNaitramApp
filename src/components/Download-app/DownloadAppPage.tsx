@@ -8,6 +8,7 @@ import natriam from "../../assets/Group-1.png";
 import { FadeReveal } from "@/components/animations/FadeReveal";
 import { Reveal } from "@/components/animations/Reveal";
 import elips from "../../assets/Group-16.png";
+import Link from "next/link";
 
 function DownloadAppPage() {
   return (
@@ -30,8 +31,12 @@ function DownloadAppPage() {
               <h3 className="coming-soon">Coming Soon</h3>
             </div>
             <div className="flex items-center w-full h-full justify-center">
+            <Link href="https://apps.apple.com/pk/app/naitram-fan-centric-tickets/id6736828037">
               <Image alt="" src={appstore} sizes="30px" className="appstroe h-full w-[130px] sm:w-[160px] lg:w-[200px] xl:w-[280px] " />
+              </Link>
+              <Link href="https://play.google.com/store/apps/details?id=com.naitram">
               <Image alt="" src={googleplay} className="ps-5 w-[130px] h-full sm:w-[160px] lg:w-[200px] xl:w-[280px]" />
+              </Link>
             </div>
             </div>
           </Reveal>
