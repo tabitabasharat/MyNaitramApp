@@ -149,9 +149,9 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Event description cannot be empty." }),
 
-  compticketno: z
-    .string()
-    .min(1, { message: "Complimentary ticket number cannot be empty." }),
+  // compticketno: z
+  //   .string()
+  //   .min(1, { message: "Complimentary ticket number cannot be empty." }),
   fburl: z
     .string()
     .url({ message: "Invalid Facebook URL." })
@@ -1228,8 +1228,8 @@ function EditeventOnBack() {
         // mainEventImage: eventData?.eventmainimg,
         coverEventImage: CoverImg || Eventdata?.eventcoverimg,
         tickets: filteredTicketTypes || Eventdata?.ticketsdata || "",
-        totalComplemantaryTickets:
-          CompTicketNo || Eventdata?.compticketno || "",
+        totalComplemantaryTickets:0
+         ,
         fbUrl: FBUrl || "",
         instaUrl: InstaUrl || "",
         youtubeUrl: YoutubeUrl || "",
@@ -1531,7 +1531,7 @@ function EditeventOnBack() {
         eventcoverimg:
           Eventdata?.eventcoverimg || form.getValues("eventcoverimg"),
 
-        compticketno: Eventdata?.compticketno || form.getValues("compticketno"),
+        // compticketno:0,
         fburl: Eventdata?.fburl || form.getValues("fburl"),
         instaurl: Eventdata?.instaurl || form.getValues("instaurl"),
         youtubeurl: Eventdata?.youtubeurl || form.getValues("youtubeurl"),
@@ -2230,7 +2230,7 @@ function EditeventOnBack() {
                             //  const adjustedEventStartTime = dayjs(EventStartTime).add(5, 'hour');
                             const adjustedEventStartTime = dayjs(
                               TicketStartDate
-                            ).add(12, "hour");
+                            ).add(10, "minute");
 
                             // Default to the current time if the adjusted start time has passed
                             const defaultEndTime = dayjs().isAfter(
@@ -2331,7 +2331,7 @@ function EditeventOnBack() {
                               : defaultStartTime;
 
                             const referenceEventDate = validStartTime.add(
-                              2,
+                              10,
                               "minute"
                             );
                             //  const adjustedEventStartTime = dayjs(EventStartTime).add(5, 'hour');
@@ -2413,7 +2413,7 @@ function EditeventOnBack() {
                           render={({ field }) => {
                             const adjustedEventStartTime = dayjs(
                               EventStartTime
-                            ).add(5, "hour");
+                            ).add(10, "minute");
 
                             const defaultEndTime = dayjs().isAfter(
                               adjustedEventStartTime
@@ -2752,7 +2752,7 @@ function EditeventOnBack() {
                 </div>
               </div>
 
-              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
+              {/* <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
                   control={form.control}
                   name="compticketno"
@@ -2779,7 +2779,7 @@ function EditeventOnBack() {
                     </FormItem>
                   )}
                 />
-              </div>
+              </div> */}
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField

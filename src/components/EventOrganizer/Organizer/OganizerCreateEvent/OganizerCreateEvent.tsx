@@ -193,9 +193,9 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Event description cannot be empty." }),
 
-  compticketno: z
-    .string()
-    .min(1, { message: "Complimentary ticket number cannot be empty." }),
+  // compticketno: z
+  //   .string()
+  //   .min(1, { message: "Complimentary ticket number cannot be empty." }),
   fburl: z
     .string()
     .url({ message: "Invalid Facebook URL." })
@@ -352,9 +352,9 @@ const formSchema2 = z.object({
     .string()
     .min(1, { message: "Event description cannot be empty." }),
 
-  compticketno: z
-    .string()
-    .min(1, { message: "Complimentary ticket number cannot be empty." }),
+  // compticketno: z
+  //   .string()
+  //   .min(1, { message: "Complimentary ticket number cannot be empty." }),
   fburl: z
     .string()
     .url({ message: "Invalid Facebook URL." })
@@ -887,7 +887,7 @@ function OganizerCreateEvent() {
 
       eventdescription: "",
 
-      compticketno: "",
+      // compticketno: "",
       fburl: "https://www.facebook.com/",
       instaurl: "https://instagram.com/",
       youtubeurl: "https://www.youtube.com/",
@@ -1209,12 +1209,12 @@ function OganizerCreateEvent() {
       img.onload = async () => {
         const { width, height } = img;
 
-        const requiredSize = 1080;
-        if (width !== requiredSize || height !== requiredSize) {
-          setLoader(false);
-          ErrorToast(`Image must be ${requiredSize}px x ${requiredSize}px.`);
-          return;
-        }
+        // const requiredSize = 1080;
+        // if (width !== requiredSize || height !== requiredSize) {
+        //   setLoader(false);
+        //   ErrorToast(`Image must be ${requiredSize}px x ${requiredSize}px.`);
+        //   return;
+        // }
 
         try {
           const formData = new FormData();
@@ -1467,7 +1467,7 @@ function OganizerCreateEvent() {
         // mainEventImage: eventData?.eventmainimg,
         coverEventImage: CoverImg,
         tickets: filteredTicketTypes,
-        totalComplemantaryTickets: CompTicketNo,
+        totalComplemantaryTickets: 0,
         fbUrl: FBUrl,
         instaUrl: InstaUrl,
         youtubeUrl: YoutubeUrl,
@@ -2208,7 +2208,7 @@ function OganizerCreateEvent() {
 
                             const adjustedEventStartTime = dayjs(
                               TicketStartDate
-                            ).add(12, "hour");
+                            ).add(10, "minute");
 
                             // Default to the current time if the adjusted start time has passed
                             const defaultEndTime = dayjs().isAfter(
@@ -2400,7 +2400,7 @@ function OganizerCreateEvent() {
                               : defaultStartTime;
 
                             const referenceEventDate = validStartTime.add(
-                              2,
+                              10,
                               "minute"
                             );
 
@@ -2480,7 +2480,7 @@ function OganizerCreateEvent() {
                           render={({ field }) => {
                             const adjustedEventStartTime = dayjs(
                               EventStartTime
-                            ).add(5, "hour");
+                            ).add(10, "minute");;
 
                             const defaultEndTime = dayjs().isAfter(
                               adjustedEventStartTime
@@ -3227,7 +3227,7 @@ function OganizerCreateEvent() {
               </div>
               {/* Add Ticket Type Button */}
 
-              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
+              {/* <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
                   control={form.control}
                   name="compticketno"
@@ -3258,7 +3258,7 @@ function OganizerCreateEvent() {
                     </FormItem>
                   )}
                 />
-              </div>
+              </div> */}
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
