@@ -64,7 +64,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
 
   // Use media query hook
   const isSmallScreen = useMediaQuery("(max-width:992px)");
-  const drawerWidth = 273;
+  const drawerWidth = 300;
   useEffect(() => {
     if (isSmallScreen) {
       setMobileOpen(false);

@@ -13,6 +13,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/profile/LiveAccntSettings",
     "/profile/help-center",
     "/profile/FAQ",
+    "/organizer-event/payout-detail/cryptowallet",
     "/profile/Delete-account",
     // "/social-profile",
     "/organizer-event/event-dashboard",

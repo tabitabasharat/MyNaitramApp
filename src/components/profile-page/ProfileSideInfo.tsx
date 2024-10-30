@@ -40,7 +40,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const drawerWidth = 273;
+const drawerWidth = 300;
 
 interface Props {
   window?: () => Window;

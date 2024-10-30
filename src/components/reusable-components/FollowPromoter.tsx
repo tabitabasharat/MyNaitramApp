@@ -27,7 +27,7 @@ import {
   getFollowingPromoters,
   UnFollowPromoter,
 } from "@/lib/middleware/liveactivity";
-import { SuccessToast, ErrorToast } from "./Toaster/Toaster";
+import { SuccessToast, ErrorToast, WarningToast } from "./Toaster/Toaster";
 import { FollowPromoterStatus } from "@/lib/middleware/event";
 import PrivateProfilePopUp from "./PrivateProfilePopUp";
 
@@ -143,7 +143,7 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
 
           setFollowStatus(false);
           console.log("org Activity res", res?.payload?.data);
-          SuccessToast("Unfollowed Successfully");
+          WarningToast("Unfollowed Successfully");
           const datas = {
             followId: userId,
             userId: userID,

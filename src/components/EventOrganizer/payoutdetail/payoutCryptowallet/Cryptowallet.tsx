@@ -45,7 +45,8 @@ const Cryptowallet = () => {
   const userloading = useAppSelector((state) => state?.getPayoutCrypto);
   console.log("my crypto payout history is", myCryptoHistory);
 
-  async function deleteBank() {
+  async function deleteBank(deletedId: any) {
+    setDeletedID(deletedId);
     setLoader(true);
     const userID =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -58,8 +59,9 @@ const Cryptowallet = () => {
 
           SuccessToast("Account Deleted Successfully");
           dispatch(getPayoutCryptoDetail(userID));
-          // localStorage.clear();
-          // router.push("/");
+          setDeletedID(null);
+          setActiveIndex(null);
+
         } else {
           setLoader(false);
           console.log(res?.payload?.message);
@@ -83,9 +85,8 @@ const Cryptowallet = () => {
       {userloading.loading && <ScreenLoader />}
 
       <div
-        className={`w-full  ${
-          myCryptoHistory?.length == null ? "w-full" : "md:w-[676px]"
-        }`}
+        className={`w-full  ${myCryptoHistory?.length == null ? "w-full" : "md:w-[676px]"
+          }`}
       >
         <p className="block ms-[25px] mb-[32px] sm:mb-[0px] sm:hidden text-[24px] font-extrabold">
           Profile Menu
@@ -123,11 +124,11 @@ const Cryptowallet = () => {
             </Link>
 
             <Button
-              className="bg-[#FF1717B2] text-[11px] font-extrabold w-full 
-          md:w-fit py-[10px] px-[0px] text-[white] md:p-[20px]
-           rounded-[100px] flex items-center justify-center gap-[8px]"
-              onClick={() => deleteBank()}
-            >
+              className={`text-[14px] font-extrabold bg-[#FF1717B2] text-[white] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto ${!deletedID ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              onClick={deleteBank}
+              disabled={!deletedID}
+                      >
               {" "}
               <Image
                 src={trash}
@@ -144,9 +145,8 @@ const Cryptowallet = () => {
             myCryptoHistory?.map((item: any, index: any) => (
               <div
                 key={index}
-                className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] flex flex-col  ${
-                  activeIndex === index ? "gradient-border" : ""
-                }`}
+                className={`w-full gap-[16px] gradient-slate md:w-[676px] p-[16px] rounded-[12px] flex flex-col  ${activeIndex === index ? "gradient-border" : ""
+                  }`}
                 onClick={() => handleClick(index, item?.id)}
               >
                 <div className="flex justify-between lg:items-center items-start wallet-div-content">
@@ -181,26 +181,11 @@ const Cryptowallet = () => {
                 onClick={() => router.push("/organizer-event/payout-detail/cryptowallet/addCryptowallet")}
               >
                 <Image src={addicon} alt="add-icon" />
-               Add Crypto Wallet
+                Add Crypto Wallet
               </button>
             </div>
           )}
         </div>
-
-        {/* <div
-          onClick={() => setOpenModal(true)}
-          className="flex lg:mb-[158px] mb-[32px] mt-[39px] md:mt-[32px] w-full mt-[20px] lg:mt-[32px] md:w-[676px]"
-        >
-          <button className="text-sm w-full lg:text-base font-extrabold bg-[#00D059] text-[black] rounded-[200px] md:px-[62px] md:py-[12px] py-[16px]">
-            Payout
-          </button>
-          {openModal && (
-          <SubmitSucessModal
-            onClose={() => setOpenModal(false)}
-            open={() => setOpenModal(true)}
-          />
-        )}
-        </div> */}
       </div>
     </div>
   );
