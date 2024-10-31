@@ -88,8 +88,7 @@ const Hero = () => {
 
     setLoader(true);
     try {
-      const currentUrl: any =
-        typeof window !== "undefined" ? window.location.href : null;
+      const currentUrl: any =typeof window !== "undefined" ? window.location.href : null;
       const parts = currentUrl.split("/");
       const value = parts[parts.length - 1];
 
@@ -223,8 +222,7 @@ const Hero = () => {
                               }}
                       
                               onKeyDown={(e) => {
-                                // Prevent alphabetic characters
-                                if (/^[a-zA-Z]$/.test(e.key)) {
+                                if (/[^0-9]/.test(e.key) && !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)) {
                                   e.preventDefault();
                                 }
                                 // Prevent leading space

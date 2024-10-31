@@ -11,17 +11,20 @@ import {
   getViewPastEvents,
   getLiveEventById,
 } from "@/lib/middleware/event";
+import ProgressBar from "@ramonak/react-progress-bar";
 import arrowup from "@/assets/Arrow up.svg";
 import arrowdown from "@/assets/aboutdropdown.svg";
-import { useState, useEffect } from "react";
+import { useState, useEffect ,useRef, MouseEvent} from "react";
 import category from "@/assets/element-3.svg";
-import price from "@/assets/money.svg";
+import price from "@/assets/greenprice.svg";
 import sortby from "@/assets/arrange-square-2.svg";
 import downarrow from "@/assets/Wallet/Caret Down.svg";
+import NextNProgress from 'nextjs-progressbar';
+
 
 type FilterDate = "Date" | null;
 
-const FilterSideBar = () => {
+const FilterSideBar = ({ Component, pageProps }: any) => {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const [toggleDrop, setToggleDrop] = useState<boolean>(false);
@@ -39,6 +42,29 @@ const FilterSideBar = () => {
 
   const [isFree, setisFree] = useState<boolean>(false);
   const [showAllCategories, setShowAllCategories] = useState<boolean>(false);
+  const [progressWidth, setProgressWidth] = useState<number>(0);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!progressBarRef.current) return;
+
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const newProgress = Math.max(0, Math.min(offsetX / rect.width, 1)); // Ensure it's between 0 and 1
+
+    setProgressWidth(newProgress * 100);
+  };
+
+  const handleMouseDown = (e: MouseEvent) => {
+    handleMouseMove(e); // Update immediately when clicked
+    document.addEventListener("mousemove", handleMouseMove as any);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleMouseUp = () => {
+    document.removeEventListener("mousemove", handleMouseMove as any);
+    document.removeEventListener("mouseup", handleMouseUp);
+  };
 
   const categories: string[] = [
     "Arts",
@@ -161,8 +187,8 @@ const FilterSideBar = () => {
   };
   const handleEndDateChange = () => {
     setShowEndDatePicker((prev) => !prev);
- setActiveButton((prev) => (prev === "end" ? null : "end"));
-     setFilterEndDate((prev) => (prev === "Date" ? null : "Date"));
+    setActiveButton((prev) => (prev === "end" ? null : "end"));
+    setFilterEndDate((prev) => (prev === "Date" ? null : "Date"));
   };
 
   const toggleShowAllCategories = () => {
@@ -245,12 +271,40 @@ const FilterSideBar = () => {
         )}
       </div>
       <hr className="opacity-20 h-px mt-6" />
-      <div className="flex flex-col gap-[0.6rem]">
+      <div className="flex flex-col gap-[16px]">
         <div className="flex gap-3 mt-6">
-          <Image src={price} alt="price" />
+          <Image src={price} alt="price" className="h-[20px] w-[20px]" />
           <p className="font-bold text-base">Price</p>
         </div>
-        <div className="flex items-center space-x-3">
+  <div
+      ref={progressBarRef}
+      className="progress-container"
+      onMouseDown={handleMouseDown}
+    >
+      <div
+        className="progress-bar"
+        style={{ width: `${progressWidth}%` }}
+      ></div>
+      <div
+        className="thumb"
+        style={{ left: `${progressWidth}%` }}
+      ></div>
+    </div>
+
+        {/* <div>
+          <ProgressBar completed={20}
+            className="wrapper"
+            barContainerClassName="container"
+            completedClassName="barCompleted"
+            labelClassName="label"
+             />
+        </div> */}
+        <div className="flex gap-[5px] text-sm items-center font-extrabold">
+          <p className="gradient-slate py-[8px] px-[30.5px] w-[109px] text-center rounded-[44px] border border-solid border-muted">$100</p>
+          <p>To</p>
+          <p className="gradient-slate py-[8px] px-[13.5px] w-[109px] text-center rounded-[44px] border border-solid border-muted">$100,000</p>
+        </div>
+        {/* <div className="flex items-center space-x-3">
           <Checkbox
             id="free-events"
             checked={isFree}
@@ -262,7 +316,7 @@ const FilterSideBar = () => {
           >
             See only Free Events
           </label>
-        </div>
+        </div> */}
       </div>
       <hr className="opacity-20 h-px mt-4" />
       <div className="flex flex-col gap-[0.6rem]">
@@ -286,24 +340,22 @@ const FilterSideBar = () => {
 
         {/* Date Options */}
         {toggleDrop && (
-        <div className="flex flex-col items-start gap-[12px]">
-        <Button
-          className={`gradient-slate text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border ${
-            activeButton === "start" ? "border-green-500" : "border-muted"
-          }`}
-          onClick={handleStartDateChange}
-        >
-          Start Date
-        </Button>
-        <Button
-          className={`gradient-slate text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border ${
-            activeButton === "end" ? "border-green-500" : "border-muted"
-          }`}
-          onClick={handleEndDateChange}
-        >
-          End Date
-        </Button>
-      </div>
+          <div className="flex flex-col items-start gap-[12px]">
+            <Button
+              className={`gradient-slate text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border ${activeButton === "start" ? "border-green-500" : "border-muted"
+                }`}
+              onClick={handleStartDateChange}
+            >
+              Start Date
+            </Button>
+            <Button
+              className={`gradient-slate text-[#E6E6E6] text-[14px] w-[109px] h-[36px] border ${activeButton === "end" ? "border-green-500" : "border-muted"
+                }`}
+              onClick={handleEndDateChange}
+            >
+              End Date
+            </Button>
+          </div>
         )}
 
         {/* Date Picker Components */}
@@ -311,10 +363,10 @@ const FilterSideBar = () => {
           <DatePicker
             setSelectedDate={(date: Date | null) => {
               setChosenDate(date);
-             
-              
+
+
             }}
-            closeDatePicker={() => setShowDatePicker(false)} 
+            closeDatePicker={() => setShowDatePicker(false)}
           />
         )}
 
@@ -322,10 +374,10 @@ const FilterSideBar = () => {
           <DatePicker
             setSelectedDate={(date: Date | null) => {
               setChosenEndDate(date);
-            
-             
+
+
             }}
-            closeDatePicker={() =>   setShowEndDatePicker(false)} 
+            closeDatePicker={() => setShowEndDatePicker(false)}
           />
         )}
       </div>
