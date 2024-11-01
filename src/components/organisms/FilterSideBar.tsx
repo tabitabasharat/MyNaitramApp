@@ -14,7 +14,7 @@ import {
 import ProgressBar from "@ramonak/react-progress-bar";
 import arrowup from "@/assets/Arrow up.svg";
 import arrowdown from "@/assets/aboutdropdown.svg";
-import { useState, useEffect ,useRef, MouseEvent} from "react";
+import { useState, useEffect, useRef, useCallback,MouseEvent } from "react";
 import category from "@/assets/element-3.svg";
 import price from "@/assets/greenprice.svg";
 import sortby from "@/assets/arrange-square-2.svg";
@@ -42,29 +42,50 @@ const FilterSideBar = ({ Component, pageProps }: any) => {
 
   const [isFree, setisFree] = useState<boolean>(false);
   const [showAllCategories, setShowAllCategories] = useState<boolean>(false);
-  const [progressWidth, setProgressWidth] = useState<number>(0);
-  const progressBarRef = useRef<HTMLDivElement>(null);
+  const progressBarRef = useRef<HTMLDivElement | null>(null);
+  const [startThumbPosition, setStartThumbPosition] = useState(0); // Left thumb in pixels
+  const [endThumbPosition, setEndThumbPosition] = useState(220); // Right thumb in pixels
+  const [activeThumb, setActiveThumb] = useState<'start' | 'end' | null>(null);
+  const progressBarWidth = 220; // Fixed width of the progress container in pixels
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!progressBarRef.current) return;
-
-    const rect = progressBarRef.current.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const newProgress = Math.max(0, Math.min(offsetX / rect.width, 1)); // Ensure it's between 0 and 1
-
-    setProgressWidth(newProgress * 100);
+  const handleMouseDown = (thumb: 'start' | 'end') => {
+    setActiveThumb(thumb);
   };
 
-  const handleMouseDown = (e: MouseEvent) => {
-    handleMouseMove(e); // Update immediately when clicked
-    document.addEventListener("mousemove", handleMouseMove as any);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
+  const handleMouseMove = useCallback(
+    (e: globalThis.MouseEvent) => { // Explicitly type the event as global MouseEvent
+      if (!activeThumb || !progressBarRef.current) return;
 
-  const handleMouseUp = () => {
-    document.removeEventListener("mousemove", handleMouseMove as any);
-    document.removeEventListener("mouseup", handleMouseUp);
-  };
+      const progressBar = progressBarRef.current;
+      const progressBarRect = progressBar.getBoundingClientRect();
+
+      // Calculate mouse position relative to the progress bar's starting position
+      const mousePosition = e.clientX - progressBarRect.left;
+
+      // Constrain the thumb's position within the bounds of the progress bar width
+      const clampedPosition = Math.min(Math.max(mousePosition, 0), progressBarWidth);
+
+      if (activeThumb === 'start') {
+        setStartThumbPosition(Math.min(clampedPosition, endThumbPosition));
+      } else if (activeThumb === 'end') {
+        setEndThumbPosition(Math.max(clampedPosition, startThumbPosition));
+      }
+    },
+    [activeThumb, endThumbPosition, startThumbPosition, progressBarWidth]
+  );
+
+  const handleMouseUp = () => setActiveThumb(null);
+
+  // Set up and clean up event listeners on mount/unmount
+  useEffect(() => {
+    document.addEventListener('mousemove', handleMouseMove as EventListener);
+    document.addEventListener('mouseup', handleMouseUp as EventListener);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove as EventListener);
+      document.removeEventListener('mouseup', handleMouseUp as EventListener);
+    };
+  }, [handleMouseMove]);
 
   const categories: string[] = [
     "Arts",
@@ -244,17 +265,6 @@ const FilterSideBar = ({ Component, pageProps }: any) => {
             </label>
           </div>
         ))}
-
-        {/* {categories.length > 6 && (
-          <Button
-            variant="ghost"
-            className="w-fit flex gap-[0.5rem] items-center ml-4"
-            onClick={toggleShowAllCategories}
-          >
-            {showAllCategories ? "See less" : "See more"}{" "}
-            <CaretDown size={17} weight="bold" />
-          </Button>
-        )} */}
         {categories.length > 6 && (
           <Button
             variant="ghost"
@@ -276,47 +286,34 @@ const FilterSideBar = ({ Component, pageProps }: any) => {
           <Image src={price} alt="price" className="h-[20px] w-[20px]" />
           <p className="font-bold text-base">Price</p>
         </div>
-  <div
+        <div
       ref={progressBarRef}
       className="progress-container"
-      onMouseDown={handleMouseDown}
+      style={{ width: `${progressBarWidth}px` }}
     >
       <div
         className="progress-bar"
-        style={{ width: `${progressWidth}%` }}
+        style={{
+          left: `${startThumbPosition}px`,
+          width: `${endThumbPosition - startThumbPosition}px`,
+        }}
       ></div>
       <div
         className="thumb"
-        style={{ left: `${progressWidth}%` }}
+        style={{ left: `${startThumbPosition}px` }}
+        onMouseDown={() => handleMouseDown('start')}
+      ></div>
+      <div
+        className="thumb-end"
+        style={{ left: `${endThumbPosition}px` }}
+        onMouseDown={() => handleMouseDown('end')}
       ></div>
     </div>
-
-        {/* <div>
-          <ProgressBar completed={20}
-            className="wrapper"
-            barContainerClassName="container"
-            completedClassName="barCompleted"
-            labelClassName="label"
-             />
-        </div> */}
         <div className="flex gap-[5px] text-sm items-center font-extrabold">
           <p className="gradient-slate py-[8px] px-[30.5px] w-[109px] text-center rounded-[44px] border border-solid border-muted">$100</p>
           <p>To</p>
           <p className="gradient-slate py-[8px] px-[13.5px] w-[109px] text-center rounded-[44px] border border-solid border-muted">$100,000</p>
         </div>
-        {/* <div className="flex items-center space-x-3">
-          <Checkbox
-            id="free-events"
-            checked={isFree}
-            onCheckedChange={() => setisFree((prev: boolean) => !prev)}
-          />
-          <label
-            htmlFor="free-events"
-            className="leading-none font-bold text-base"
-          >
-            See only Free Events
-          </label>
-        </div> */}
       </div>
       <hr className="opacity-20 h-px mt-4" />
       <div className="flex flex-col gap-[0.6rem]">
