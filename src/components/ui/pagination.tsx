@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 
 export default function PaginationRounded() {
   return (
-    <div className="bg-[red]">
+    <div className="bg-[red] ">
       <Stack spacing={2}>
         <Pagination
           sx={{
