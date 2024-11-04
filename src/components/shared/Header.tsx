@@ -55,6 +55,21 @@ const Header = () => {
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"USER" | "ORGANISER">("USER");
   const [loader, setLoader] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Toggle the dropdown open/close state
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+  // Close dropdown if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // const [Unreadnotification,setUnreadNotification] = useState<any>("");
 
@@ -290,9 +305,8 @@ const Header = () => {
               <div className="flex items-center cursor-pointer">
                 <Link
                   href={link.url}
-                  className={`text-base font-normal ${
-                    pathname === link.url ? "active" : ""
-                  }`}
+                  className={`text-base font-normal ${pathname === link.url ? "active" : ""
+                    }`}
                 >
                   {link.title}
                 </Link>
@@ -395,7 +409,7 @@ const Header = () => {
                   asChild
                   className="relative z-[1200] cursor-pointer"
                 >
-                  {Unreadnotification  || UnreadnotificationOrg ? (
+                  {Unreadnotification || UnreadnotificationOrg ? (
                     <Image
                       className="lg:size-[24px] h-[28px] w-[28px] lg:h-[24px] lg:w-[24px] size-{28px} cursot-pointer"
                       src={bellred}
@@ -417,7 +431,7 @@ const Header = () => {
                       setActiveTab={setActiveTab}
                     />
                   </ScrollArea>
-                  {activeTab == "USER" && Notify  && Unreadnotification && (
+                  {activeTab == "USER" && Notify && Unreadnotification && (
                     <Button
                       className=" py-[12px] text-[12px] h-[32px] flex 
                   items-center justify-center mt-2"
@@ -427,7 +441,7 @@ const Header = () => {
                     </Button>
                   )}
 
-                  {activeTab == "ORGANISER" && UnreadnotificationOrg  && NotifyOrg &&(
+                  {activeTab == "ORGANISER" && UnreadnotificationOrg && NotifyOrg && (
                     <Button
                       className=" py-[12px] text-[12px] h-[32px] flex 
                   items-center justify-center mt-2"
@@ -442,29 +456,78 @@ const Header = () => {
               {/* <Popover open={popupOpen} onOpenChange={setPopupOpen}> */}
               <Popover>
                 <PopoverTrigger asChild>
-                  <div className="border  p-[6px] h-[44px] w-[44px] border-muted gradient-slate rounded-full lg:flex items-center  cursor-pointer">
+                  <div className="flex items-center gap-[10px]">
+                  <div className="border h-[44px] w-[44px] border-muted gradient-slate rounded-full items-center  cursor-pointer">
                     {/* <div className="size-[44px] lg:size-[44px] gradient-slate p-[6px] rounded-full overflow-hidden  shadow-inner shadow-md border border-gray-700 rounded-full border-gradient bg-gradient-to-t from-transparent to-transparent"> */}
-                    <Link
-                      href={"/profile/profile-main"}
-                      className="display-none"
-                    >
-                      <Image
-                        src={
-                          myProfile?.profilePicture
-                            ? myProfile?.profilePicture
-                            : "/person3.jpg"
-                        }
-                        width={32}
-                        height={32}
-                        className="object-cover object-center rounded-full h-[32px]"
-                        placeholder={`data:image/svg+xml;base64,${toBase64(
-                          shimmer(1200, 1800)
-                        )}`}
-                        alt="DP"
-                      />
-                    </Link>
+                    <div>
+                      <Link
+                        href={"/profile/profile-main"}
+                        className="display-none"
+                      >
+                        <Image
+                          src={
+                            myProfile?.profilePicture
+                              ? myProfile?.profilePicture
+                              : "/person3.jpg"
+                          }
+                          width={44}
+                          height={44}
+                          className="object-cover object-center rounded-full w-[44px] h-[44px]"
+                          placeholder={`data:image/svg+xml;base64,${toBase64(
+                            shimmer(1200, 1800)
+                          )}`}
+                          alt="DP"
+                        />
+                      </Link>
+                    </div>
+
                     {/* </div> */}
+                
                   </div>
+                  <div className="relative inline-block text-left" ref={dropdownRef}>
+                      {/* Dropdown Button */}
+                      <div>
+                        <button
+                          onClick={toggleDropdown}
+                          className=""
+                        >
+
+                          <svg
+                            className={` h-[20px] w-[20px] text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""
+                              }`}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                      </div>
+                      {/* Dropdown Menu */}
+                      {isOpen && (
+                        <div className="absolute right-0 z-10 mt-4 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                          <div className="py-1">
+                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                              Account settings
+                            </a>
+                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                              Support
+                            </a>
+                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                              License
+                            </a>
+                            <button
+                              onClick={() => alert("Signing out")}
+                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                              Sign out
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
                 </PopoverTrigger>
                 <PopoverContent className="bg-black rounded-2xl text-white border-none shadow-none p-0 -translate-x-4 translate-y-2">
                   <ScrollArea className="h-[550px] rounded-2xl shadow-custom">
