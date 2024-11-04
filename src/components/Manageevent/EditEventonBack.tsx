@@ -20,22 +20,12 @@ import greenpencile from "@/assets/Pencil.svg";
 import bgframe from "@/assets/Frame 1597878544.svg";
 import Link from "next/link";
 import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useSearchParams } from "next/navigation";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  SuccessToast,
-  ErrorToast,
-} from "../reusable-components/Toaster/Toaster";
+import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
 import { useForm } from "react-hook-form";
 import { UploadSimple } from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
@@ -128,58 +118,29 @@ const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
   eventcategory: z.array(z.any()),
 
-  eventlocation: z
-    .string()
-    .min(1, { message: "Event location cannot be empty." }),
-  eventstartdate: z
-    .string()
-    .min(1, { message: "Event start date cannot be empty." }),
-  eventenddate: z
-    .string()
-    .min(1, { message: "Event end date cannot be empty." }),
+  eventHashtags: z
+    .array(z.string().min(2, { message: "Hashtag must be at least 2 characters" }).startsWith("#", { message: "Hashtag must start with #" }))
+    .min(1, { message: "At least one hashtag is required" }),
 
-  eventstarttime: z
-    .string()
-    .min(1, { message: "Event start time cannot be empty." }),
-  eventendtime: z
-    .string()
-    .min(1, { message: "Event end time cannot be empty." }),
+  eventlocation: z.string().min(1, { message: "Event location cannot be empty." }),
+  eventstartdate: z.string().min(1, { message: "Event start date cannot be empty." }),
+  eventenddate: z.string().min(1, { message: "Event end date cannot be empty." }),
 
-  eventdescription: z
-    .string()
-    .min(1, { message: "Event description cannot be empty." }),
+  eventstarttime: z.string().min(1, { message: "Event start time cannot be empty." }),
+  eventendtime: z.string().min(1, { message: "Event end time cannot be empty." }),
+
+  eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
 
   // compticketno: z
   //   .string()
   //   .min(1, { message: "Complimentary ticket number cannot be empty." }),
-  fburl: z
-    .string()
-    .url({ message: "Invalid Facebook URL." })
-    .min(1, { message: "Facebook URL cannot be empty." }),
-  instaurl: z
-    .string()
-    .url({ message: "Invalid Instagram URL." })
-    .min(1, { message: "Instagram URL cannot be empty." }),
-  youtubeurl: z
-    .string()
-    .url({ message: "Invalid YouTube URL." })
-    .min(1, { message: "YouTube URL cannot be empty." }),
-  tiktokurl: z
-    .string()
-    .url({ message: "Invalid TikTok URL." })
-    .min(1, { message: "TikTok URL cannot be empty." }),
-  linkedinurl: z
-    .string()
-    .url({ message: "Invalid Linkedin URL." })
-    .min(1, { message: "Linkedin URL cannot be empty." }),
-  telegramurl: z
-    .string()
-    .url({ message: "Invalid Telegram URL." })
-    .min(1, { message: "Telegram URL cannot be empty." }),
-  twitterurl: z
-    .string()
-    .url({ message: "Invalid Twitter URL." })
-    .min(1, { message: "Twitter URL cannot be empty." }),
+  fburl: z.string().url({ message: "Invalid Facebook URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  instaurl: z.string().url({ message: "Invalid Instagram URL." }).min(1, { message: "Instagram URL cannot be empty." }),
+  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).min(1, { message: "YouTube URL cannot be empty." }),
+  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).min(1, { message: "TikTok URL cannot be empty." }),
+  linkedinurl: z.string().url({ message: "Invalid Linkedin URL." }).min(1, { message: "Linkedin URL cannot be empty." }),
+  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).min(1, { message: "Telegram URL cannot be empty." }),
+  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).min(1, { message: "Twitter URL cannot be empty." }),
   eventmainimg: z.string().optional(),
 
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
@@ -227,12 +188,10 @@ const formSchema = z.object({
       .object({
         type: z.string().min(1, { message: "Ticket type cannot be empty." }),
         price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
-        no: z
-          .union([z.string().transform((val) => parseFloat(val)), z.number()])
-          .refine((val) => !isNaN(val) && val > 0, {
-            message: "Number of tickets must be greater than 0.",
-            path: ["no"],
-          }),
+        no: z.union([z.string().transform((val) => parseFloat(val)), z.number()]).refine((val) => !isNaN(val) && val > 0, {
+          message: "Number of tickets must be greater than 0.",
+          path: ["no"],
+        }),
         selected: z.string().optional(),
       })
       .refine(
@@ -241,9 +200,7 @@ const formSchema = z.object({
           if (data.selected === "paid") {
             const priceIsValid =
               data.price !== undefined &&
-              ((typeof data.price === "string" &&
-                data.price.trim() !== "" &&
-                parseFloat(data.price) > 0) ||
+              ((typeof data.price === "string" && data.price.trim() !== "" && parseFloat(data.price) > 0) ||
                 (typeof data.price === "number" && data.price > 0));
 
             return priceIsValid; // Validate if price is provided correctly and greater than 0
@@ -450,14 +407,7 @@ function EditeventOnBack() {
   const theme = useTheme();
 
   function MuiIcon() {
-    return (
-      <Image
-        src={calendaricon}
-        alt="Date picker opening icon"
-        width={20}
-        className="opacity-90"
-      />
-    );
+    return <Image src={calendaricon} alt="Date picker opening icon" width={20} className="opacity-90" />;
   }
   const [eventAllData, setEventAllData] = useState<EventData | null>(null);
 
@@ -518,6 +468,7 @@ function EditeventOnBack() {
         try {
           // Parse the JSON data from localStorage
           const parsedData: any = JSON.parse(storedData);
+          setCategoryTypes({ label: parsedData?.eventcategory });
           setSelected(parsedData?.isFree ? "free" : "paid");
           setEventData(parsedData);
           setFBUrl(parsedData?.fburl || "https://www.facebook.com/");
@@ -556,9 +507,18 @@ function EditeventOnBack() {
       selected: "free",
     },
   ]);
-  const [categoryTypes, setCategoryTypes] = useState<any>([]);
+  const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(null);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
-  const isCategorySelected = categoryTypes?.length > 0;
+  const isCategorySelected = categoryTypes && categoryTypes.label !== "";
+
+  const [categoryAlert, setCategoryAlert] = useState<any>(false);
+
+  const [chooseHashTags, setChoosenHashtags] = useState<any>([]);
+  const [filterHash, setFilterHash] = useState<any>([]);
+  const [hashINputValue, setHashTagValue] = useState<string>("");
+
+  const [isCustomCatgory, setIsCustomCategory] = useState<boolean>(false);
+  const [customCategotyInput, setCustomCatgoryInput] = useState<string>("");
 
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
@@ -605,6 +565,91 @@ function EditeventOnBack() {
     { label: "School Activities" },
     { label: "Other" },
   ];
+
+  // Defined Hashtags
+  const hashtags: string[] = [
+    "FunFest",
+    "LiveEntertainment",
+    "FestivalVibes",
+    "EventOfTheYear",
+    "ConferenceLife",
+    "NetworkingNight",
+    "CelebrateTogether",
+    "UnforgettableMoments",
+    "PartyAndLearn",
+    "JoyfulGathering",
+    "LiveMusic",
+    "InspiringTalks",
+    "CommunityEvent",
+    "MeetAndGreet",
+    "GoodTimes",
+    "EventPlanner",
+    "LetTheFunBegin",
+    "MemorableExperience",
+    "FestivalFun",
+    "LearnAndGrow",
+    "InteractiveSessions",
+    "GreatSpeakers",
+    "FestiveFun",
+    "ConnectingPeople",
+    "VibrantAtmosphere",
+    "EventJoy",
+    "ExperienceMagic",
+    "HappyCrowd",
+    "ExclusiveAccess",
+    "EngagingEvents",
+    "MakeMemories",
+    "SocialGathering",
+    "FunTimes",
+    "InnovativeIdeas",
+    "RechargeAndInspire",
+    "FestivalWeekend",
+    "EpicMoments",
+    "EventNetworking",
+    "AllAboutFun",
+    "DynamicSpeakers",
+    "FestivalCelebration",
+    "ConferenceConnect",
+    "UniteAndCelebrate",
+    "DiscoverTogether",
+    "EventBuzz",
+    "MustAttend",
+    "HappeningNow",
+    "LifelongConnections",
+    "FestivalSeason",
+    "RechargeRefresh",
+    "SportsFest",
+    "UniversityLife",
+    "StudentConference",
+    "PoliticalDebate",
+    "SocialImpact",
+    "CommunityBuilding",
+    "FutureLeaders",
+    "UniversityPride",
+    "TeamSpirit",
+    "StudentEngagement",
+    "LeadershipEvent",
+    "GameOn",
+    "SocialChange",
+    "SportsFans",
+    "AcademicConference",
+    "SocialMediaEvent",
+    "EventPromotion",
+    "EventMarketing",
+    "GoViral",
+    "ShareTheMoment",
+    "BoostYourBrand",
+    "PromoEvent",
+    "VirtualEngagement",
+    "InfluencerEvent",
+    "DigitalBuzz",
+    "EventCampaign",
+    "TrendingNow",
+    "BrandVisibility",
+    "ContentCreators",
+    "EngageWithUs",
+  ];
+
   // const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
   const [galleryFiles, setGalleryFiles] = useState<GalleryFile[]>([]);
 
@@ -614,8 +659,7 @@ function EditeventOnBack() {
   const [removedImages, setRemovedImages] = useState<string[]>([]);
 
   useEffect(() => {
-    const currentUrl: any =
-      typeof window !== "undefined" ? window.location.href : null;
+    const currentUrl: any = typeof window !== "undefined" ? window.location.href : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventId(value);
@@ -623,29 +667,17 @@ function EditeventOnBack() {
     dispatch(getEventByEventId(value));
   }, []);
 
-  const EventData = useAppSelector(
-    (state) => state?.getEventByEventID?.eventIdEvents?.data
-  );
+  const EventData = useAppSelector((state) => state?.getEventByEventID?.eventIdEvents?.data);
 
   console.log("my event data ", EventData);
 
-  const [selected, setSelected] = useState<SelectedOption>(
-    Eventdata?.isFree ? "free" : "paid"
-  );
+  const [selected, setSelected] = useState<SelectedOption>(Eventdata?.isFree ? "free" : "paid");
 
-  const imageUrl =
-    Eventdata?.eventcoverimg.startsWith("http") ||
-    Eventdata?.eventcoverimg.startsWith("https")
-      ? Eventdata?.eventcoverimg
-      : bgframe;
+  const imageUrl = Eventdata?.eventcoverimg.startsWith("http") || Eventdata?.eventcoverimg.startsWith("https") ? Eventdata?.eventcoverimg : bgframe;
   console.log("image src is", imageUrl);
   const userLoading = useAppSelector((state) => state?.getEventByEventID);
   const handleDropdown = (index: number) => {
-    setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
-      )
-    );
+    setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket)));
   };
 
   const handleOptionToggle = (index: number, option: TicketTypeOption) => {
@@ -673,6 +705,7 @@ function EditeventOnBack() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      eventHashtags: [],
       eventname: "",
       eventcategory: [],
       eventlocation: "",
@@ -762,17 +795,36 @@ function EditeventOnBack() {
   //   );
   // };
   const handleCateOptionToggle = (option: any) => {
-    setCategoryTypes((prev: any) => {
-      if (prev.includes(option.label)) {
-        return prev.filter((category: any) => category !== option.label);
-      } else if (prev.length < 4) {
-        return [...prev, option.label];
-      } else {
-        console.log("You can only select up to 4 categories.");
-        return prev;
-      }
-    });
+    if (option.label === "Other") {
+      setIsCustomCategory(true);
+      setCategoryTypes(null);
+    } else if (option.label === categoryTypes?.label) {
+      // setCategoryTypes(null);
+    } else {
+      setCategoryTypes({ label: option.label });
+      setCustomCatgoryInput("");
+      setIsCustomCategory(false);
+      setCategoryAlert(false);
+    }
   };
+
+  const handleCustomCatgory = (e: any) => {
+    const inputValue = e.target.value;
+    setCustomCatgoryInput(inputValue);
+    setCategoryAlert(false);
+  };
+
+  const handleCustomCatBtn = () => {
+    if (customCategotyInput === "") {
+      setCategoryAlert(true);
+    } else {
+      setCategoryTypes({ label: customCategotyInput });
+      // setCustomCatgoryInput("");
+      setIsCustomCategory(false);
+      setCategoryAlert(false);
+    }
+  };
+
   const handleFileChangeapi = async () => {
     if (galleryFiles) {
       setLoader(true);
@@ -787,10 +839,7 @@ function EditeventOnBack() {
         filesArray.forEach((file: any) => formData.append("files", file));
 
         //  console.log("my res before", formData)
-        const res: any = await api.post(
-          `${API_URL}/upload/uploadMultiple`,
-          formData
-        );
+        const res: any = await api.post(`${API_URL}/upload/uploadMultiple`, formData);
 
         if (res?.status === 200) {
           setLoader(false);
@@ -812,16 +861,8 @@ function EditeventOnBack() {
     }
   };
 
-  const handleInputChange = (
-    index: number,
-    field: keyof TicketType,
-    value: string | number | TicketTypeOption[]
-  ) => {
-    setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index ? { ...ticket, [field]: value } : ticket
-      )
-    );
+  const handleInputChange = (index: number, field: keyof TicketType, value: string | number | TicketTypeOption[]) => {
+    setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, [field]: value } : ticket)));
   };
 
   // const handleAddTicketType = (e: any) => {
@@ -863,9 +904,7 @@ function EditeventOnBack() {
     form.setValue("tickets", updatedTicketTypes); // Update form state
   };
 
-  const handleSingleFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     console.log("Selected Main cover img is:", file);
     const filename = file?.name;
@@ -878,15 +917,11 @@ function EditeventOnBack() {
       try {
         const formData = new FormData();
         formData.append("file", file);
-        const res: any = await api.post(
-          `${API_URL}/upload/uploadimage`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         if (res.status === 200) {
           setLoader(false);
@@ -906,9 +941,7 @@ function EditeventOnBack() {
       }
     }
   };
-  const handleCoverSingleFileChangeOld = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleCoverSingleFileChangeOld = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     console.log("Selected  cover img is:", file);
     const filename = file?.name;
@@ -920,15 +953,11 @@ function EditeventOnBack() {
       try {
         const formData = new FormData();
         formData.append("file", file);
-        const res: any = await api.post(
-          `${API_URL}/upload/uploadimage`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         if (res.status === 200) {
           setLoader(false);
@@ -950,9 +979,7 @@ function EditeventOnBack() {
     }
   };
 
-  const handleCoverSingleFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleCoverSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
@@ -970,7 +997,7 @@ function EditeventOnBack() {
         if (width !== requiredSize || height !== requiredSize) {
           setLoader(false);
           // ErrorToast(`Image must be ${requiredSize}px x ${requiredSize}px.`);
-          ErrorToast(` Upload an image with at least ${requiredSize} x ${requiredSize} pixels for better quality.`)
+          ErrorToast(` Upload an image with at least ${requiredSize} x ${requiredSize} pixels for better quality.`);
 
           return;
         }
@@ -979,15 +1006,11 @@ function EditeventOnBack() {
           const formData = new FormData();
           formData.append("file", file);
 
-          const res: any = await api.post(
-            `${API_URL}/upload/uploadimage`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          );
+          const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
 
           if (res.status === 200) {
             setLoader(false);
@@ -1058,10 +1081,7 @@ function EditeventOnBack() {
     const utcMinutes = localDate.getUTCMinutes();
 
     // Format the components to match the 'yyyy-MM-ddTHH:mm' format
-    const formattedUTC = `${utcYear}-${String(utcMonth).padStart(
-      2,
-      "0"
-    )}-${String(utcDate).padStart(2, "0")}T${String(utcHours).padStart(
+    const formattedUTC = `${utcYear}-${String(utcMonth).padStart(2, "0")}-${String(utcDate).padStart(2, "0")}T${String(utcHours).padStart(
       2,
       "0"
     )}:${String(utcMinutes).padStart(2, "0")}`;
@@ -1099,8 +1119,7 @@ function EditeventOnBack() {
   };
 
   useEffect(() => {
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);
@@ -1141,23 +1160,13 @@ function EditeventOnBack() {
     const imagesOfGallery = await handleFileChangeapi();
     console.log("images of gallery", imagesOfGallery, EventMediaAlready);
 
-    const updatedEventMedia = [...EventMediaAlready, ...imagesOfGallery].filter(
-      (media) => !removedImages.includes(media)
-    );
+    const updatedEventMedia = [...EventMediaAlready, ...imagesOfGallery].filter((media) => !removedImages.includes(media));
     console.log("images updated", updatedEventMedia);
 
-    const utcEventStartTime = EventStartTime
-      ? convertToUTC(EventStartTime)
-      : Eventdata?.eventstarttime;
-    const utcEventEndTime = EventEndTime
-      ? convertToUTC(EventEndTime)
-      : Eventdata?.eventendtime;
-    const utcTicketStartTime = TicketStartDate
-      ? convertToUTC(TicketStartDate)
-      : Eventdata?.eventstartdate;
-    const utcTicketEndTime = TicketEndDate
-      ? convertToUTC(TicketEndDate)
-      : Eventdata?.eventenddate;
+    const utcEventStartTime = EventStartTime ? convertToUTC(EventStartTime) : Eventdata?.eventstarttime;
+    const utcEventEndTime = EventEndTime ? convertToUTC(EventEndTime) : Eventdata?.eventendtime;
+    const utcTicketStartTime = TicketStartDate ? convertToUTC(TicketStartDate) : Eventdata?.eventstartdate;
+    const utcTicketEndTime = TicketEndDate ? convertToUTC(TicketEndDate) : Eventdata?.eventenddate;
 
     const updatedCategoryTypes = categoryTypes;
 
@@ -1201,15 +1210,13 @@ function EditeventOnBack() {
 
     setEventAllData(updatedValues);
     console.log("my updated values", updatedValues);
-    const ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
-      (ticket: any) => ({
-        ...ticket,
-        options: ticket?.options?.map((option: any) => ({
-          ...option,
-          checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
-        })),
-      })
-    );
+    const ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map((ticket: any) => ({
+      ...ticket,
+      options: ticket?.options?.map((option: any) => ({
+        ...option,
+        checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
+      })),
+    }));
 
     setTicketTypes(ticketsWithCheckedOptions);
     const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
@@ -1218,7 +1225,8 @@ function EditeventOnBack() {
         userId: userid,
         isFree: Eventdata?.isFree || isFree,
         name: Eventname || Eventdata?.eventname,
-        category: updatedCategoryTypes,
+        category: [updatedCategoryTypes?.label],
+        hashtags: chooseHashTags,
         eventDescription: Eventdescription || Eventdata?.eventdescription,
         location: EventLocation || Eventdata?.eventlocation,
         ticketStartDate: utcTicketStartTime,
@@ -1228,8 +1236,7 @@ function EditeventOnBack() {
         // mainEventImage: eventData?.eventmainimg,
         coverEventImage: CoverImg || Eventdata?.eventcoverimg,
         tickets: filteredTicketTypes || Eventdata?.ticketsdata || "",
-        totalComplemantaryTickets:0
-         ,
+        totalComplemantaryTickets: 0,
         fbUrl: FBUrl || "",
         instaUrl: InstaUrl || "",
         youtubeUrl: YoutubeUrl || "",
@@ -1266,25 +1273,15 @@ function EditeventOnBack() {
     const imagesOfGallery = await handleFileChangeapi();
     console.log("images of gallery", imagesOfGallery, EventMediaAlready);
 
-    const updatedEventMedia = [...EventMediaAlready, ...imagesOfGallery].filter(
-      (media) => !removedImages.includes(media)
-    );
+    const updatedEventMedia = [...EventMediaAlready, ...imagesOfGallery].filter((media) => !removedImages.includes(media));
     console.log("images updated", updatedEventMedia);
     // const updatedEventMedia = EventMediaAlready.concat(imagesOfGallery);
 
     console.log("images updated", updatedEventMedia);
-    const utcEventStartTime = EventStartTime
-      ? convertToUTC(EventStartTime)
-      : Eventdata?.eventstarttime;
-    const utcEventEndTime = EventEndTime
-      ? convertToUTC(EventEndTime)
-      : Eventdata?.eventendtime;
-    const utcTicketStartTime = TicketStartDate
-      ? convertToUTC(TicketStartDate)
-      : Eventdata?.eventstartdate;
-    const utcTicketEndTime = TicketEndDate
-      ? convertToUTC(TicketEndDate)
-      : Eventdata?.eventenddate;
+    const utcEventStartTime = EventStartTime ? convertToUTC(EventStartTime) : Eventdata?.eventstarttime;
+    const utcEventEndTime = EventEndTime ? convertToUTC(EventEndTime) : Eventdata?.eventendtime;
+    const utcTicketStartTime = TicketStartDate ? convertToUTC(TicketStartDate) : Eventdata?.eventstartdate;
+    const utcTicketEndTime = TicketEndDate ? convertToUTC(TicketEndDate) : Eventdata?.eventenddate;
 
     // const updatedCategoryTypes = Eventdata?.eventcategory.map(
     //   (category: string, index: number) => ({
@@ -1294,7 +1291,7 @@ function EditeventOnBack() {
     // setCategoryTypes(updatedCategoryTypes);
     const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
 
-    const updatedCategoryTypes = categoryTypes;
+    const updatedCategoryTypes = categoryTypes?.label;
     const updatedValues = {
       ...values,
       isFree: isFree,
@@ -1339,13 +1336,9 @@ function EditeventOnBack() {
     const localMinutes = localDate.getMinutes();
 
     // Format the components to match the 'yyyy-MM-ddTHH:mm' format
-    const formattedLocal = `${localYear}-${String(localMonth).padStart(
-      2,
-      "0"
-    )}-${String(localDateNum).padStart(2, "0")}T${String(localHours).padStart(
-      2,
-      "0"
-    )}:${String(localMinutes).padStart(2, "0")}`;
+    const formattedLocal = `${localYear}-${String(localMonth).padStart(2, "0")}-${String(localDateNum).padStart(2, "0")}T${String(
+      localHours
+    ).padStart(2, "0")}:${String(localMinutes).padStart(2, "0")}`;
 
     return formattedLocal;
   }
@@ -1385,8 +1378,7 @@ function EditeventOnBack() {
   useEffect(() => {
     if (EventData || Eventdata) {
       if (Eventdata?.eventmainimg) {
-        const imageName =
-          Eventdata?.eventmainimg.split("/").pop() || "Upload Image";
+        const imageName = Eventdata?.eventmainimg.split("/").pop() || "Upload Image";
         setMainImgName(imageName);
       }
 
@@ -1396,13 +1388,7 @@ function EditeventOnBack() {
             if (typeof media === "string") {
               // Handling URLs
               return {
-                type:
-                  media.endsWith(".mp4") ||
-                  media.endsWith(".avi") ||
-                  media.endsWith(".mov") ||
-                  media.endsWith(".mkv")
-                    ? "video"
-                    : "image",
+                type: media.endsWith(".mp4") || media.endsWith(".avi") || media.endsWith(".mov") || media.endsWith(".mkv") ? "video" : "image",
                 url: media,
               };
             } else if (media instanceof File) {
@@ -1423,28 +1409,24 @@ function EditeventOnBack() {
       if (Eventdata?.isFree == true && selected === "free") {
         console.log("comming in  if");
 
-        ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
-          (ticket: any) => ({
-            ...ticket,
-            options: ticket?.options?.map((option: any) => ({
-              ...option,
-              checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
-            })),
-          })
-        );
+        ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map((ticket: any) => ({
+          ...ticket,
+          options: ticket?.options?.map((option: any) => ({
+            ...option,
+            checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
+          })),
+        }));
 
         setTicketTypes(ticketsWithCheckedOptions);
       } else if (Eventdata?.isFree == false && selected === "paid") {
         console.log("comming in else if");
-        ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
-          (ticket: any) => ({
-            ...ticket,
-            options: ticket?.options?.map((option: any) => ({
-              ...option,
-              checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
-            })),
-          })
-        );
+        ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map((ticket: any) => ({
+          ...ticket,
+          options: ticket?.options?.map((option: any) => ({
+            ...option,
+            checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
+          })),
+        }));
 
         setTicketTypes(ticketsWithCheckedOptions);
       } else {
@@ -1471,10 +1453,7 @@ function EditeventOnBack() {
 
       // console.log("updatedCategoryTypes", updatedCategoryTypes);
 
-      const updatedCategoryTypes =
-        Eventdata?.eventcategory?.map((category: any) =>
-          typeof category === "string" ? category : category.label
-        ) || [];
+      const updatedCategoryTypes = typeof Eventdata?.eventcategory === "string" ? Eventdata?.eventcategory : Eventdata?.eventcategory.label;
 
       setCategoryTypes(updatedCategoryTypes);
 
@@ -1510,26 +1489,15 @@ function EditeventOnBack() {
       form.reset({
         eventname: Eventdata?.eventname || form.getValues("eventname"),
         eventcategory: updatedCategoryTypes || form.getValues("eventcategory"),
-        eventdescription:
-          Eventdata?.eventdescription || form.getValues("eventdescription"),
-        eventlocation:
-          Eventdata?.eventlocation || form.getValues("eventlocation"),
-        eventstartdate:
-          convertUTCToLocalTime(Eventdata?.eventstartdate) ||
-          form.getValues("eventstartdate"),
-        eventenddate:
-          convertUTCToLocalTime(Eventdata?.eventenddate) ||
-          form.getValues("eventenddate"),
+        eventdescription: Eventdata?.eventdescription || form.getValues("eventdescription"),
+        eventlocation: Eventdata?.eventlocation || form.getValues("eventlocation"),
+        eventstartdate: convertUTCToLocalTime(Eventdata?.eventstartdate) || form.getValues("eventstartdate"),
+        eventenddate: convertUTCToLocalTime(Eventdata?.eventenddate) || form.getValues("eventenddate"),
 
-        eventstarttime:
-          convertUTCToLocalTime(Eventdata?.eventstarttime) ||
-          form.getValues("eventstarttime"),
-        eventendtime:
-          convertUTCToLocalTime(Eventdata?.eventendtime) ||
-          form.getValues("eventendtime"),
+        eventstarttime: convertUTCToLocalTime(Eventdata?.eventstarttime) || form.getValues("eventstarttime"),
+        eventendtime: convertUTCToLocalTime(Eventdata?.eventendtime) || form.getValues("eventendtime"),
         // eventmainimg: mainimgName || form.getValues("eventmainimg"),
-        eventcoverimg:
-          Eventdata?.eventcoverimg || form.getValues("eventcoverimg"),
+        eventcoverimg: Eventdata?.eventcoverimg || form.getValues("eventcoverimg"),
 
         // compticketno:0,
         fburl: Eventdata?.fburl || form.getValues("fburl"),
@@ -1556,11 +1524,7 @@ function EditeventOnBack() {
     return `${year}-${month}-${day}`;
   }
 
-  function addTimeToDate(
-    inputDate: string,
-    hoursToAdd: number,
-    minutesToAdd: number
-  ): string {
+  function addTimeToDate(inputDate: string, hoursToAdd: number, minutesToAdd: number): string {
     // Parse the input date
     const date = new Date(inputDate);
 
@@ -1578,11 +1542,45 @@ function EditeventOnBack() {
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
+  const handleHashFieldInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value.trim();
+    setHashTagValue(inputValue);
+
+    if (inputValue === "") {
+      setFilterHash([]);
+    } else {
+      const filtered = hashtags.filter((hashtag) => hashtag.trim().toLowerCase().startsWith(inputValue.toLowerCase()));
+      setFilterHash(() => (filtered.length === 0 ? [inputValue] : filtered));
+    }
+
+    console.log("hashInput is here ====> ", inputValue);
+    console.log("Updated filterHash:", filterHash); // check this value
+  };
+
+  const addUserHash = (hashTag: string) => {
+    setFilterHash([]);
+    setHashTagValue("");
+    if (!chooseHashTags.includes(`#${hashTag}`) && chooseHashTags.length < 5) {
+      setChoosenHashtags([...chooseHashTags, `#${hashTag}`]);
+    }
+
+    if (chooseHashTags.length === 5) {
+      ErrorToast("You can only add 5 Tags");
+    }
+  };
+
+  const removeTag = (ht: string): void => {
+    setChoosenHashtags((prevTags: string[]): string[] => prevTags.filter((tag: string) => tag !== ht));
+  };
+
+  useEffect(() => {
+    console.log("filterHash updated:", filterHash);
+  }, [filterHash]);
+
   return (
     <section
       style={{
-        backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
+        backgroundImage: "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
         backgroundPosition: "center",
       }}
       className="min-h-screen  bg-cover bg-no-repeat  pb-[80px]"
@@ -1602,24 +1600,12 @@ function EditeventOnBack() {
                 {/* <Image src={Editicon} alt="Edit-icon" /> */}
               </div>
 
-              <Image
-                src={ufo}
-                width={350}
-                height={350}
-                className="absolute right-[0] bottom-0"
-                alt="ufo"
-              />
+              <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
             </div>
             <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head relative ">
               {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
 
-              <Image
-                src={CoverImg || imageUrl}
-                alt="bg-frame"
-                className="w-full lg:w-[392px] lg:h-[392px] h-[345px] "
-                width={100}
-                height={345}
-              />
+              <Image src={CoverImg || imageUrl} alt="bg-frame" className="w-full lg:w-[392px] lg:h-[392px] h-[345px] " width={100} height={345} />
               {/* <Image
               src={CoverImg || imageUrl}
               alt="bg-img"
@@ -1639,9 +1625,7 @@ function EditeventOnBack() {
               >
                 <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate">
                   <Image src={greenpencile} alt="pencil" />
-                  <p className="text-[#00D059] text-sm font-extrabold">
-                    Edit Image
-                  </p>
+                  <p className="text-[#00D059] text-sm font-extrabold">Edit Image</p>
                 </div>
 
                 <input
@@ -1665,19 +1649,11 @@ function EditeventOnBack() {
                 {/* <Image src={Editicon} alt="Edit-icon" /> */}
               </div>
 
-              <Image
-                src={ufo}
-                width={350}
-                height={350}
-                className="absolute right-[0] bottom-0"
-                alt="ufo"
-              />
+              <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
             </div>
             <div
               className={`gradient-slate w-full pt-[16px] pb-[16px] px-[24px] h-[270px] lg:h-[424px] create-container-head relative${
-                galleryFiles.length > 0
-                  ? " block"
-                  : " flex items-center justify-center"
+                galleryFiles.length > 0 ? " block" : " flex items-center justify-center"
               }`}
             >
               <div>
@@ -1689,49 +1665,28 @@ function EditeventOnBack() {
                           <div className="mt-4 pb-4 relative">
                             <div className="flex flex-wrap gap-[12px]">
                               {galleryFiles.map((file: any, index) => (
-                                <div
-                                  key={index}
-                                  className="relative lg:w-[120px] lg:h-[120px]  h-[57px] w-[57px]  rounded-[12px]"
-                                >
+                                <div key={index} className="relative lg:w-[120px] lg:h-[120px]  h-[57px] w-[57px]  rounded-[12px]">
                                   {file?.type === "video" ? (
                                     <video
-                                      src={
-                                        typeof file.url === "string"
-                                          ? file.url
-                                          : URL.createObjectURL(file)
-                                      }
+                                      src={typeof file.url === "string" ? file.url : URL.createObjectURL(file)}
                                       className="w-full h-full object-cover relative rounded-[12px]"
                                       width={120}
                                       height={120}
                                       controls
                                     >
-                                      Your browser does not support the video
-                                      tag.
+                                      Your browser does not support the video tag.
                                     </video>
                                   ) : (
                                     <img
-                                      src={
-                                        typeof file.url === "string"
-                                          ? file.url
-                                          : URL.createObjectURL(file)
-                                      }
+                                      src={typeof file.url === "string" ? file.url : URL.createObjectURL(file)}
                                       alt={`Gallery Image ${index + 1}`}
                                       className="w-full h-full object-cover relative rounded-[12px]"
                                       width={120}
                                       height={120}
                                     />
                                   )}
-                                  <button
-                                    type="button"
-                                    onClick={() => removeImage(index)}
-                                    className="trash_button"
-                                  >
-                                    <Image
-                                      src={crossicon}
-                                      alt="remove"
-                                      width={20}
-                                      height={20}
-                                    />
+                                  <button type="button" onClick={() => removeImage(index)} className="trash_button">
+                                    <Image src={crossicon} alt="remove" width={20} height={20} />
                                   </button>
                                 </div>
                               ))}
@@ -1767,9 +1722,7 @@ function EditeventOnBack() {
                         }}
                       >
                         <Image src={greenpencile} alt="pencil" />
-                        <p className="text-[#00D059] text-sm font-extrabold">
-                          Edit Media
-                        </p>
+                        <p className="text-[#00D059] text-sm font-extrabold">Edit Media</p>
                       </div>
 
                       {/* <span className="pl-[0.75rem] uploadImageButton flex items-center">
@@ -1793,23 +1746,17 @@ function EditeventOnBack() {
                       className="  py-[24px]  flex items-center flex-col gap-[12px] justify-center w-[345px] rounded-[12px]
                    gradient-slate box-shadow-inset-empty  border-gradient-emptyF"
                     >
-                      <p className="text-[16px] text-extrabold">
-                        There's No Gallery Media
-                      </p>
+                      <p className="text-[16px] text-extrabold">There's No Gallery Media</p>
                       <label
                         htmlFor="galleryUpload"
                         className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end  ${
-                          galleryFiles.length > 0
-                            ? " gallery-box"
-                            : " gallery-tops"
+                          galleryFiles.length > 0 ? " gallery-box" : " gallery-tops"
                         }`}
                       >
                         <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
                           <Image src={greenpencile} alt="pencil" />
 
-                          <p className="text-[#00D059] text-sm font-extrabold">
-                            Upload Media
-                          </p>
+                          <p className="text-[#00D059] text-sm font-extrabold">Upload Media</p>
                         </div>
 
                         <input
@@ -1867,13 +1814,7 @@ function EditeventOnBack() {
             </h1>
           </div>
 
-          <Image
-            src={ufo}
-            width={350}
-            height={350}
-            className="absolute right-[0] bottom-0"
-            alt="ufo"
-          />
+          <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
         </div>
         <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
           <Form {...form}>
@@ -1890,9 +1831,7 @@ function EditeventOnBack() {
                   name="eventname"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
-                        Event Name
-                      </FormLabel>
+                      <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">Event Name</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Event Name"
@@ -1910,6 +1849,7 @@ function EditeventOnBack() {
                   )}
                 />
 
+                {/* Event Catgory DropDown */}
                 <FormField
                   control={form.control}
                   name="eventcategory"
@@ -1920,22 +1860,12 @@ function EditeventOnBack() {
                     file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] 
                     focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      <div
-                        className="flex items-center justify-between"
-                        onClick={handleCatDropdownToggle}
-                      >
+                      <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
                         <div className="flex flex-col">
-                          <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase">
-                            EVENT category
-                          </p>
-                          <p>Select Event Category</p>
+                          <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase">EVENT category</p>
+                          <p>{categoryTypes ? categoryTypes?.label : "Select Event Category"}</p>
                         </div>
-                        <Image
-                          src={isCatDropdownOpen ? arrowdown : arrowdown}
-                          width={11}
-                          height={11}
-                          alt="arrow"
-                        />
+                        <Image src={isCatDropdownOpen ? arrowdown : arrowdown} width={11} height={11} alt="arrow" />
                       </div>
                       {isCatDropdownOpen && (
                         <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
@@ -1952,9 +1882,7 @@ function EditeventOnBack() {
 
                                 <p
                                   className={`text-[16px] font-normal items-center ${
-                                    categoryTypes.includes(option.label)
-                                      ? "text-[#00d059]"
-                                      : "text-[#FFFFFF]"
+                                    categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
                                   }`}
                                 >
                                   {option.label}
@@ -1970,16 +1898,56 @@ function EditeventOnBack() {
                                   alt="tick"
                                 />
                               )} */}
-                              {categoryTypes.includes(option.label) && (
-                                <Image
-                                  src={tick}
-                                  width={10}
-                                  height={10}
-                                  alt="tick"
-                                />
-                              )}
+                              {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
                             </div>
                           ))}
+                          {isCustomCatgory && (
+                            <>
+                              {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
+                              <div
+                                style={{
+                                  width: "100%",
+                                  marginTop: "10px",
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  gap: "20px",
+                                }}
+                              >
+                                <input
+                                  type="text"
+                                  placeholder="Enter the Category name"
+                                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e)}
+                                  value={customCategotyInput}
+                                  style={{
+                                    width: "100%",
+                                    paddingLeft: "5px",
+                                    paddingTop: "5px",
+                                    paddingBottom: "5px",
+                                    borderRadius: "6px",
+                                  }}
+                                />
+                                <button
+                                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                                    e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                    handleCustomCatBtn();
+                                  }}
+                                  style={{
+                                    background: "green",
+                                    paddingLeft: "10px",
+                                    paddingRight: "10px",
+                                    lineHeight: "10px",
+                                    paddingTop: "10px",
+                                    paddingBottom: "10px",
+                                    borderRadius: "5px",
+                                    marginRight: "5px",
+                                  }}
+                                >
+                                  Add
+                                </button>
+                              </div>
+                            </>
+                          )}
                         </div>
                       )}
                       <FormMessage />
@@ -1994,9 +1962,7 @@ function EditeventOnBack() {
                   name="eventdescription"
                   render={({ field }) => (
                     <FormItem className="relative w-full gradient-slate-input space-y-0  h-[260px]  pb-3">
-                      <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Event Description
-                      </FormLabel>
+                      <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">Event Description</FormLabel>
                       <FormControl className="relative">
                         {/* <Textarea
                           {...field}
@@ -2019,6 +1985,69 @@ function EditeventOnBack() {
                         </div>
                       </FormControl>
                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Hastags Inputs fields Field */}
+              <div className="mt-[24px]">
+                <FormField
+                  control={form.control}
+                  name="eventHashtags" // Form field name
+                  render={({ field }) => (
+                    <FormItem className="relative w-ful w-full rounded-md border border-[#292929] gradient-slate px-3 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-4 pb-2">
+                      <FormLabel className="text-sm text-gray-500 left-3 uppercase pt-[16px] pb-[0px]">Hashtags</FormLabel>
+                      <FormControl>
+                        <div className="flex flex-wrap gap-2 w-full">
+                          {chooseHashTags.map((ht: string, index: number) => {
+                            return (
+                              <div
+                                key={index}
+                                onClick={() => removeTag(ht)}
+                                className="bg-green-600 rounded-md flex justify-center items-center px-[4px] text-[14px]"
+                              >
+                                {ht}
+                              </div>
+                            );
+                          })}
+                          <Input
+                            placeholder="Enter Hashtag"
+                            className="flex h-10 w-full rounded-md border-none px-0 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-0 pb-0 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                            value={hashINputValue}
+                            onChange={(e) => {
+                              handleHashFieldInput(e);
+                              field.onChange(e);
+                            }}
+                          />
+                        </div>
+                      </FormControl>
+                      {filterHash.length > 0 ? (
+                        <>
+                          <div className="h-auto overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                            {filterHash?.map((fh: string, index: number) => (
+                              <div
+                                key={index}
+                                className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                // onClick={() => handleCateOptionToggle(option)}
+                              >
+                                <div className="flex items-center gap-[10px]">
+                                  <p
+                                    className={`text-[16px] font-normal items-center text-[#b0e2c6]}
+                                    }`}
+                                    onClick={() => addUserHash(fh)}
+                                  >
+                                    {fh}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                      {/* <FormMessage /> */}
                     </FormItem>
                   )}
                 />
@@ -2053,9 +2082,7 @@ function EditeventOnBack() {
                   name="eventlocation"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                        Event Location
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">Event Location</FormLabel>
                       <FormControl>
                         <LocationAutocomplete
                           onLocationSelect={(location) => {
@@ -2150,9 +2177,7 @@ function EditeventOnBack() {
                           render={({ field }) => {
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                  Ticket Start Date & Time
-                                </FormLabel>
+                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">Ticket Start Date & Time</FormLabel>
                                 <FormControl>
                                   <div className=" w-full">
                                     <StyledDateTimePicker
@@ -2162,14 +2187,11 @@ function EditeventOnBack() {
                                       //   setEventEndTime(e);
                                       //   field.onChange(e);
                                       // }}
-                                      value={
-                                        field.value ? dayjs(field.value) : null
-                                      }
+                                      value={field.value ? dayjs(field.value) : null}
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
-                                          const formattedDate =
-                                            e.format("YYYY-MM-DDTHH:mm");
+                                          const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                           setTicketStartDate(formattedDate);
                                           field.onChange(formattedDate);
                                         }
@@ -2203,8 +2225,7 @@ function EditeventOnBack() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
-                                          placeholder:
-                                            "MM / DD / YYYY HH:MM AA",
+                                          placeholder: "MM / DD / YYYY HH:MM AA",
                                         },
                                       }}
                                     />
@@ -2228,33 +2249,22 @@ function EditeventOnBack() {
                           name="eventenddate"
                           render={({ field }) => {
                             //  const adjustedEventStartTime = dayjs(EventStartTime).add(5, 'hour');
-                            const adjustedEventStartTime = dayjs(
-                              TicketStartDate
-                            ).add(10, "minute");
+                            const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
 
                             // Default to the current time if the adjusted start time has passed
-                            const defaultEndTime = dayjs().isAfter(
-                              adjustedEventStartTime
-                            )
-                              ? dayjs()
-                              : adjustedEventStartTime;
+                            const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                  Ticket End Date & Time
-                                </FormLabel>
+                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">Ticket End Date & Time</FormLabel>
                                 <FormControl>
                                   <div className=" w-full">
                                     <StyledDateTimePicker
-                                      value={
-                                        field.value ? dayjs(field.value) : null
-                                      }
+                                      value={field.value ? dayjs(field.value) : null}
                                       referenceDate={adjustedEventStartTime}
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
-                                          const formattedDate =
-                                            e.format("YYYY-MM-DDTHH:mm");
+                                          const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                           setTicketEndDate(formattedDate);
                                           field.onChange(formattedDate);
                                         }
@@ -2289,8 +2299,7 @@ function EditeventOnBack() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
-                                          placeholder:
-                                            "MM / DD / YYYY HH:MM AA",
+                                          placeholder: "MM / DD / YYYY HH:MM AA",
                                         },
                                       }}
                                     />
@@ -2316,43 +2325,27 @@ function EditeventOnBack() {
                           control={form.control}
                           name="eventstarttime"
                           render={({ field }) => {
-                            const minStartTime = dayjs(
-                              TicketEndDate || new Date()
-                            );
+                            const minStartTime = dayjs(TicketEndDate || new Date());
 
-                            const defaultStartTime = field.value
-                              ? dayjs(field.value)
-                              : minStartTime;
+                            const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
 
-                            const validStartTime = defaultStartTime.isBefore(
-                              minStartTime
-                            )
-                              ? minStartTime
-                              : defaultStartTime;
+                            const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
 
-                            const referenceEventDate = validStartTime.add(
-                              10,
-                              "minute"
-                            );
+                            const referenceEventDate = validStartTime.add(10, "minute");
                             //  const adjustedEventStartTime = dayjs(EventStartTime).add(5, 'hour');
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                  Event Start Date & Time
-                                </FormLabel>
+                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">Event Start Date & Time</FormLabel>
                                 <FormControl>
                                   <div className=" w-full">
                                     <StyledDateTimePicker
                                       referenceDate={referenceEventDate}
                                       disablePast
-                                      value={
-                                        field.value ? dayjs(field.value) : null
-                                      }
+                                      value={field.value ? dayjs(field.value) : null}
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
-                                          const formattedDate =
-                                            e.format("YYYY-MM-DDTHH:mm");
+                                          const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                           setEventStartTime(formattedDate);
                                           field.onChange(formattedDate);
                                         }
@@ -2387,8 +2380,7 @@ function EditeventOnBack() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
-                                          placeholder:
-                                            "MM / DD / YYYY HH:MM AA",
+                                          placeholder: "MM / DD / YYYY HH:MM AA",
                                         },
                                       }}
                                     />
@@ -2411,31 +2403,20 @@ function EditeventOnBack() {
                           control={form.control}
                           name="eventendtime"
                           render={({ field }) => {
-                            const adjustedEventStartTime = dayjs(
-                              EventStartTime
-                            ).add(10, "minute");
+                            const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
-                            const defaultEndTime = dayjs().isAfter(
-                              adjustedEventStartTime
-                            )
-                              ? dayjs()
-                              : adjustedEventStartTime;
+                            const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                  Event End Date & Time
-                                </FormLabel>
+                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">Event End Date & Time</FormLabel>
                                 <FormControl>
                                   <div className=" w-full">
                                     <StyledDateTimePicker
-                                      value={
-                                        field.value ? dayjs(field.value) : null
-                                      }
+                                      value={field.value ? dayjs(field.value) : null}
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
-                                          const formattedDate =
-                                            e.format("YYYY-MM-DDTHH:mm");
+                                          const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                           setEventEndTime(formattedDate);
                                           field.onChange(formattedDate);
                                         }
@@ -2470,8 +2451,7 @@ function EditeventOnBack() {
                                         },
                                         textField: {
                                           inputProps: { readOnly: true },
-                                          placeholder:
-                                            "MM / DD / YYYY HH:MM AA",
+                                          placeholder: "MM / DD / YYYY HH:MM AA",
                                         },
                                       }}
                                     />
@@ -2490,56 +2470,33 @@ function EditeventOnBack() {
               <div className="flex  flex-col w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
                 {ticketTypes?.length > 0 &&
                   ticketTypes.map((ticket, index) => (
-                    <div
-                      className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
-                      key={index}
-                    >
+                    <div className="flex flex-col gap-[12px] w-full mt-[24px] common-container" key={index}>
                       {/* Free and Paid Selection */}
                       <div className="flex w-full gap-[12px]">
                         <div
                           className={`w-full lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] cursor-pointer ${
-                            ticket?.selected === "free"
-                              ? "gradient-border-rounded text-[#00A849]"
-                              : ""
+                            ticket?.selected === "free" ? "gradient-border-rounded text-[#00A849]" : ""
                           }`}
                           onClick={() => handleOptionChange(index, "free")}
                         >
                           {ticket?.selected === "free" ? (
-                            <Image
-                              src={greenfree}
-                              className="pb-[8px] hidden md:block"
-                              alt="Green Ticket"
-                            />
+                            <Image src={greenfree} className="pb-[8px] hidden md:block" alt="Green Ticket" />
                           ) : (
-                            <Image
-                              src={whitefree}
-                              className="pb-[8px] hidden md:block"
-                              alt="Default Ticket"
-                            />
+                            <Image src={whitefree} className="pb-[8px] hidden md:block" alt="Default Ticket" />
                           )}
                           <p>Free</p>
                         </div>
 
                         <div
                           className={`w-full lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] cursor-pointer ${
-                            ticket.selected === "paid"
-                              ? "gradient-border-rounded text-[#00A849]"
-                              : ""
+                            ticket.selected === "paid" ? "gradient-border-rounded text-[#00A849]" : ""
                           }`}
                           onClick={() => handleOptionChange(index, "paid")}
                         >
                           {ticket?.selected === "paid" ? (
-                            <Image
-                              src={greenfree}
-                              className="pb-[8px] hidden md:block"
-                              alt="Green Collectibles"
-                            />
+                            <Image src={greenfree} className="pb-[8px] hidden md:block" alt="Green Collectibles" />
                           ) : (
-                            <Image
-                              src={whitefree}
-                              className="pb-[8px] hidden md:block"
-                              alt="Default Collectibles"
-                            />
+                            <Image src={whitefree} className="pb-[8px] hidden md:block" alt="Default Collectibles" />
                           )}
                           <p>Paid</p>
                         </div>
@@ -2554,7 +2511,7 @@ function EditeventOnBack() {
                           render={({ field }) => (
                             <FormItem className="relative w-full space-y-0  input-custom-container">
                               <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                              Event Ticket Name
+                                Event Ticket Name
                               </FormLabel>
                               <FormControl>
                                 <Input
@@ -2562,11 +2519,7 @@ function EditeventOnBack() {
                                   className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
                                   {...field}
                                   onChange={(e) => {
-                                    handleInputChange(
-                                      index,
-                                      "type",
-                                      e.target.value
-                                    );
+                                    handleInputChange(index, "type", e.target.value);
                                     field.onChange(e);
                                   }}
                                 />
@@ -2593,11 +2546,7 @@ function EditeventOnBack() {
                                     className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                     {...field}
                                     onChange={(e) => {
-                                      handleInputChange(
-                                        index,
-                                        "price",
-                                        parseFloat(e.target.value)
-                                      );
+                                      handleInputChange(index, "price", parseFloat(e.target.value));
                                       field.onChange(e);
                                     }}
                                     onWheel={(e: any) => e.target.blur()}
@@ -2625,11 +2574,7 @@ function EditeventOnBack() {
                                   className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                   {...field}
                                   onChange={(e) => {
-                                    handleInputChange(
-                                      index,
-                                      "no",
-                                      parseInt(e.target.value, 10)
-                                    );
+                                    handleInputChange(index, "no", parseInt(e.target.value, 10));
                                     field.onChange(e);
                                   }}
                                   onWheel={(e: any) => e.target.blur()}
@@ -2643,19 +2588,9 @@ function EditeventOnBack() {
 
                       {/* What's Included Section */}
                       <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                        <div
-                          className="flex items-center justify-between"
-                          onClick={() => handleDropdown(index)}
-                        >
-                          <p className="text-sm text-[#8F8F8F] uppercase">
-                            WHATS INCLUDED
-                          </p>
-                          <Image
-                            src={ticket?.dropdown ? arrowdown : arrowdown}
-                            width={11}
-                            height={11}
-                            alt="arrow"
-                          />
+                        <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
+                          <p className="text-sm text-[#8F8F8F] uppercase">WHATS INCLUDED</p>
+                          <Image src={ticket?.dropdown ? arrowdown : arrowdown} width={11} height={11} alt="arrow" />
                         </div>
                         {ticket?.dropdown && (
                           <div className="grid-container">
@@ -2663,9 +2598,7 @@ function EditeventOnBack() {
                               <div
                                 key={option.id}
                                 className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
-                                onClick={() =>
-                                  handleOptionToggle(index, option)
-                                }
+                                onClick={() => handleOptionToggle(index, option)}
                               >
                                 <div className="flex items-center gap-[10px]">
                                   <Image
@@ -2673,24 +2606,14 @@ function EditeventOnBack() {
                                     width={16}
                                     height={16}
                                     alt="img"
-                                    className={
-                                      ticket?.options?.some(
-                                        (o) => o?.id === option?.id
-                                      )
-                                        ? "filtergreen"
-                                        : ""
-                                    }
+                                    className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
                                   />
                                   {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
                                     {option.label}
                                   </p> */}
                                   <p
                                     className={`text-[16px] font-normal items-center ${
-                                      ticket?.options?.some(
-                                        (o) => o?.id === option?.id
-                                      )
-                                        ? "text-[#00d059]"
-                                        : "text-[#FFFFFF]"
+                                      ticket?.options?.some((o) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
                                     }`}
                                   >
                                     {option.label}
@@ -2708,8 +2631,7 @@ function EditeventOnBack() {
                                 )} */}
                               </div>
                             ))}
-                            <div className="column-separator"></div>{" "}
-                            <div className="column-separator"></div>
+                            <div className="column-separator"></div> <div className="column-separator"></div>
                           </div>
                         )}
                       </div>
@@ -2719,12 +2641,7 @@ function EditeventOnBack() {
                             className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
                             onClick={() => handleDeleteTicketType(index)}
                           >
-                            <Image
-                              src={deleteicon}
-                              alt="delete-icon"
-                              height={12}
-                              width={12}
-                            />
+                            <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
                             Delete Ticket Type
                           </Button>
                         </div>
@@ -2741,12 +2658,7 @@ function EditeventOnBack() {
                     className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
                     onClick={handleAddTicketType}
                   >
-                    <Image
-                      src={addicon}
-                      alt="Add-icon"
-                      height={12}
-                      width={12}
-                    />
+                    <Image src={addicon} alt="Add-icon" height={12} width={12} />
                     Add Ticket Type
                   </Button>
                 </div>
@@ -2787,9 +2699,7 @@ function EditeventOnBack() {
                   name="fburl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Facebook
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Facebook</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2819,9 +2729,7 @@ function EditeventOnBack() {
                   name="instaurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Instagram
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Instagram</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2854,9 +2762,7 @@ function EditeventOnBack() {
                   name="telegramurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Telegram
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Telegram</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2886,9 +2792,7 @@ function EditeventOnBack() {
                   name="youtubeurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Youtube
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Youtube</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2919,9 +2823,7 @@ function EditeventOnBack() {
                   name="tiktokurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Tiktok
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Tiktok</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2951,9 +2853,7 @@ function EditeventOnBack() {
                   name="linkedinurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Linkedin
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Linkedin</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2984,9 +2884,7 @@ function EditeventOnBack() {
                   name="twitterurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Twitter
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Twitter</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -3072,12 +2970,7 @@ function EditeventOnBack() {
           />
         )} */}
 
-        {isWalletModalOpen && (
-          <EventSubmmitModal
-            onClose={() => setisWalletModalOpen(false)}
-            open={() => setisWalletModalOpen(true)}
-          />
-        )}
+        {isWalletModalOpen && <EventSubmmitModal onClose={() => setisWalletModalOpen(false)} open={() => setisWalletModalOpen(true)} />}
       </div>
     </section>
   );

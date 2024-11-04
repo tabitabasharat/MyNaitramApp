@@ -147,20 +147,14 @@ const isValidDateTime = (dateTimeString: string) => {
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
   eventHashtags: z
-    .array(z.string().min(2, { message: "Hashtag must be at least 2 characters" }).startsWith("#", { message: "Hashtag must start with #" }))
+    .array(
+      z.string().min(2, { message: "Hashtag must be at least 2 characters" }) // Keep the minimum length requirement
+    )
     .min(1, { message: "At least one hashtag is required" }),
-  eventcategory: z.array(
-    z.object({
-      options: z
-        .array(
-          z.object({
-            id: z.number(),
-            label: z.string(),
-          })
-        )
-        .min(1, { message: "Event Category is required" }),
-    })
-  ),
+
+  eventcategory: z.object({
+    label: z.string().min(1, { message: "Category cannot be empty" }),
+  }),
 
   eventlocation: z.string().min(1, { message: "Event location cannot be empty." }),
   eventstartdate: z.string().min(1, { message: "Ticket start date cannot be empty." }),
@@ -271,18 +265,15 @@ const formSchema = z.object({
 const formSchema2 = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
 
-  eventcategory: z.array(
-    z.object({
-      options: z
-        .array(
-          z.object({
-            id: z.number(),
-            label: z.string(),
-          })
-        )
-        .min(1, { message: "Event Category is required" }),
-    })
-  ),
+  eventHashtags: z
+    .array(
+      z.string().min(2, { message: "Hashtag must be at least 2 characters" }) // Keep the minimum length requirement
+    )
+    .min(1, { message: "At least one hashtag is required" }),
+
+  eventcategory: z.object({
+    label: z.string().min(1, { message: "Category cannot be empty" }),
+  }),
 
   eventlocation: z.string().min(1, { message: "Event location cannot be empty." }),
   eventstartdate: z.string().min(1, { message: "Ticket start date cannot be empty." }),
@@ -871,7 +862,9 @@ function OganizerCreateEvent() {
     defaultValues: {
       eventHashtags: [],
       eventname: "",
-      eventcategory: [],
+      eventcategory: {
+        label: "Some Category",
+      },
       eventlocation: "",
       eventstartdate: "",
       eventenddate: "",
@@ -1336,38 +1329,8 @@ function OganizerCreateEvent() {
   async function EventCreation(values: z.infer<typeof formSchema | typeof formSchema2>) {
     setLoader(true);
     const categorylabels = categoryTypes?.label;
+    const eventhashtags = chooseHashTags;
     const imagesOfGallery = await handleFileChangeapi();
-
-    // const requiredFields = [
-    //   { value: values.eventname, name: "Event Name" },
-
-    //   { value: values.eventlocation, name: "Event Location" },
-    //   { value: values.eventstartdate, name: "Event Start Date" },
-    //   { value: values.eventenddate, name: "Event End Date" },
-    //   { value: values.eventstarttime, name: "Event Start Time" },
-    //   { value: values.eventendtime, name: "Event End Time" },
-    //   { value: values.eventcoverimg, name: "Event Cover Image" },
-    //   { value: values.eventdescription, name: "Event Description" },
-    //   { value: values.compticketno, name: "Competition Ticket Number" },
-    //   {
-    //     value: imagesOfGallery.length > 0 ? imagesOfGallery : null,
-    //     name: "Event Gallery",
-    //   },
-    // ];
-
-    // Check for empty required fields
-    // const missingFields = requiredFields.filter((field) => !field.value);
-
-    // if (missingFields.length > 0) {
-    //   const missingFieldNames = missingFields
-    //     .map((field) => field.name)
-    //     .join(", ");
-    //   console.log("Missing fields:", missingFieldNames);
-    //   ErrorToast(
-    //     `Please fill out all the required fields: ${missingFieldNames}`
-    //   );
-    //   return;
-    // }
 
     console.log("my values", values);
 
@@ -1391,6 +1354,7 @@ function OganizerCreateEvent() {
       ticketsdata: filteredTicketTypes,
 
       eventcategory: categorylabels,
+      eventtags: eventhashtags,
       eventstartdate: utcTicketStartTime,
       eventenddate: utcTicketEndTime,
 
@@ -1413,8 +1377,8 @@ function OganizerCreateEvent() {
         userId: userid,
         isFree: isFree,
         name: Eventname,
-        category: categorylabels,
-        hashtags: chooseHashTags,
+        category: [categorylabels],
+        tags: chooseHashTags,
         eventDescription: Eventdescription,
         location: EventLocation,
         ticketStartDate: utcTicketStartTime,
@@ -1476,6 +1440,7 @@ function OganizerCreateEvent() {
     // }));
 
     const categorylabels = categoryTypes?.label;
+    const eventhashtags = chooseHashTags;
 
     const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
 
@@ -1486,6 +1451,7 @@ function OganizerCreateEvent() {
       isFree: isFree,
 
       eventcategory: categorylabels,
+      eventtags: eventhashtags,
 
       eventstartdate: utcTicketStartTime,
       eventenddate: utcTicketEndTime,
@@ -1554,18 +1520,27 @@ function OganizerCreateEvent() {
       setCategoryTypes(null);
     } else if (option.label === categoryTypes?.label) {
       // setCategoryTypes(null);
+      return;
     } else {
       setCategoryTypes({ label: option.label });
       setCustomCatgoryInput("");
       setIsCustomCategory(false);
       setCategoryAlert(false);
     }
+
+    // Update the form field's value with the selected category
+    form.setValue("eventcategory", option); // Use the form controller to set the value
+    form.clearErrors("eventcategory"); // Clear any errors once a selection is made
   };
 
   const handleCustomCatgory = (e: any) => {
     const inputValue = e.target.value;
     setCustomCatgoryInput(inputValue);
     setCategoryAlert(false);
+
+    // Update the form field's value with the selected category
+    form.setValue("eventcategory", { label: inputValue }); // Use the form controller to set the value
+    form.clearErrors("eventcategory"); // Clear any errors once a selection is made
   };
 
   const handleCustomCatBtn = () => {
@@ -1611,8 +1586,19 @@ function OganizerCreateEvent() {
   const addUserHash = (hashTag: string) => {
     setFilterHash([]);
     setHashTagValue("");
-    if (!chooseHashTags.includes(`#${hashTag}`) && chooseHashTags.length < 5) {
+
+    if (hashTag.length >= 2 && !chooseHashTags.includes(`#${hashTag}`) && chooseHashTags.length < 5) {
       setChoosenHashtags([...chooseHashTags, `#${hashTag}`]);
+
+      // Get current eventHashtags from form and add the new hashtag
+      const currentHashtags = form.getValues("eventHashtags") || [];
+
+      // Add the new hashtag directly without alteration
+      form.setValue("eventHashtags", [...currentHashtags, hashTag]);
+    }
+
+    if (hashTag.length < 2) {
+      ErrorToast("Please Enter Valid Tag");
     }
 
     if (chooseHashTags.length === 5) {
@@ -1622,6 +1608,11 @@ function OganizerCreateEvent() {
 
   const removeTag = (ht: string): void => {
     setChoosenHashtags((prevTags: string[]): string[] => prevTags.filter((tag: string) => tag !== ht));
+    const currentHasTag = ht.replace("#", "");
+    // Get the current eventHashtags from the form, filter out the removed hashtag, and update the form
+    const currentHashtags = form.getValues("eventHashtags") || [];
+    const updatedHashtags = currentHashtags.filter((tag: string) => tag !== currentHasTag);
+    form.setValue("eventHashtags", updatedHashtags);
   };
 
   useEffect(() => {
@@ -2023,7 +2014,6 @@ function OganizerCreateEvent() {
                             value={hashINputValue}
                             onChange={(e) => {
                               handleHashFieldInput(e);
-                              field.onChange(e);
                             }}
                           />
                         </div>

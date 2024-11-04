@@ -29,25 +29,13 @@ import leftarrow from "@/assets/left-arrow.svg";
 import { Button } from "@/components/ui/button";
 import GradientBorder from "@/components/ui/gradient-border";
 import { useRouter } from "next/navigation";
-import {
-  Lock,
-  DownloadSimple,
-  UsersThree,
-  Ticket,
-  DeviceMobile,
-} from "@phosphor-icons/react/dist/ssr";
+import { Lock, DownloadSimple, UsersThree, Ticket, DeviceMobile } from "@phosphor-icons/react/dist/ssr";
 import ScreenLoader from "@/components/loader/Screenloader";
 import backbtn from "@/assets/Wallet/back-btn-event.svg";
 import { Autoplay } from "swiper/modules";
 import PreviewEventFollowPromoter from "@/components/reusable-components/PreviewEventFollowPromoter";
-import {
-  getOrganizerByID,
-  getOrganizerSocialProfile,
-} from "@/lib/middleware/organizer";
-import {
-  SuccessToast,
-  ErrorToast,
-} from "@/components/reusable-components/Toaster/Toaster";
+import { getOrganizerByID, getOrganizerSocialProfile } from "@/lib/middleware/organizer";
+import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
 const CustomPrevArrow = (props: any) => (
   <div className="custom-arrow custom-prev-arrow" onClick={props.onClick}>
     <Image src={leftarrow} width={60} height={60} alt="right arrow" />
@@ -73,8 +61,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
 
   console.log("data", eventAllData);
   useEffect(() => {
-    const id =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", id);
     setUserID(id);
     dispatch(getOrganizerByID(id));
@@ -90,10 +77,8 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
     fade: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    prevArrow:
-      eventAllData?.eventmedia?.length > 1 ? <CustomPrevArrow /> : null,
-    nextArrow:
-      eventAllData?.eventmedia?.length > 1 ? <CustomNextArrow /> : null,
+    prevArrow: eventAllData?.eventmedia?.length > 1 ? <CustomPrevArrow /> : null,
+    nextArrow: eventAllData?.eventmedia?.length > 1 ? <CustomNextArrow /> : null,
     arrows: eventAllData?.eventmedia?.length > 1 ? true : false,
   };
   // useEffect(() => {
@@ -112,24 +97,20 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
   const handleBackEvent = () => {
     router.push("/OrganizerEventCreate");
   };
-  const eventAttendy = useAppSelector(
-    (state: any) => state?.getAllAttend?.attend?.data
-  );
-  const eventAttend = useAppSelector(
-    (state: any) => state?.getAllAttend?.attend
-  );
+  const eventAttendy = useAppSelector((state: any) => state?.getAllAttend?.attend?.data);
+  const eventAttend = useAppSelector((state: any) => state?.getAllAttend?.attend);
 
   async function EventCreation() {
     setLoader(true);
 
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     try {
       const data = {
         userId: userID,
         isFree: eventAllData?.isFree,
         name: eventAllData?.eventname,
         category: eventAllData?.eventcategory,
+        tags: eventAllData?.eventHashtags,
         eventDescription: eventAllData?.eventdescription,
         location: eventAllData?.eventlocation,
         ticketStartDate: eventAllData?.eventstartdate,
@@ -180,12 +161,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
           eventData={eventAllData}
         />
       )} */}
-      {isWalletModalOpen && (
-        <EventSubmmitModal
-          onClose={() => setisWalletModalOpen(false)}
-          open={() => setisWalletModalOpen(true)}
-        />
-      )}
+      {isWalletModalOpen && <EventSubmmitModal onClose={() => setisWalletModalOpen(false)} open={() => setisWalletModalOpen(true)} />}
       <Image
         style={{ filter: "blur(30px)" }}
         width={1000}
@@ -199,17 +175,9 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
           <div className="flex justify-between items-center mb-[24px]">
             <div className="flex items-center gap-[16px]">
               <button onClick={() => handleBackEvent()} type="button">
-                <Image
-                  src={backbtn}
-                  width={44}
-                  height={44}
-                  alt="back btn"
-                  className="lg:w-[44px] lg:h-[44px] w-[40px] h-[40px]"
-                />
+                <Image src={backbtn} width={44} height={44} alt="back btn" className="lg:w-[44px] lg:h-[44px] w-[40px] h-[40px]" />
               </button>
-              <p className="text-[24px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">
-                Back
-              </p>
+              <p className="text-[24px] font-extrabold -tracking-[0.04em] text-[#E6E6E6]">Back</p>
             </div>
 
             <Button
@@ -235,24 +203,14 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
           </div> */}
             <div className="">
               <div className="lhs-hero w-full lg:w-[392px] flex items-center justify-center flex-col relative ">
-                <Image
-                  src={eventAllData?.eventcoverimg}
-                  alt="takeover"
-                  width={392}
-                  height={200}
-                  className="img-center rounded-lg relative"
-                />
+                <Image src={eventAllData?.eventcoverimg} alt="takeover" width={392} height={200} className="img-center rounded-lg relative" />
 
                 {/* <div className="bg-white/20 p-[1rem] rounded-full backdrop-blur-lg webkit-header-blur w-fit absolute right-[24px] bottom-0">
                 <Heart size={23} weight="fill" />
               </div> */}
 
                 {/* {eventAllData?.userId && ( */}
-                <PreviewEventFollowPromoter
-                  userId={UserID}
-                  eventName={eventAllData?.eventname}
-                  eventDATA={eventAllData}
-                />
+                <PreviewEventFollowPromoter userId={UserID} eventName={eventAllData?.eventname} eventDATA={eventAllData} />
                 {/* )} */}
               </div>
             </div>
@@ -265,6 +223,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                   event={eventAllData?.eventname}
                   title={eventAllData?.eventname}
                   eventCategory={eventAllData?.eventcategory}
+                  eventTags={eventAllData?.eventHashtags}
                   eventDate={eventAllData?.eventstarttime}
                   endTime={eventAllData?.eventendtime}
                   startTime={eventAllData?.eventstarttime}
@@ -277,25 +236,21 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                   //   eventAllData?.ticketsdata?.length === 1
                   //     ? "0"
                   //     : eventAllData?.ticketsdata[0]?.price
-                 
+
                   // }
 
-                
-                  ticketStartPrice = {
+                  ticketStartPrice={
                     eventAllData?.ticketsdata?.length === 1
                       ? Number(eventAllData?.ticketsdata[0]?.price) // Return the price of the single ticket as a number
-                      :  eventAllData?.ticketsdata &&  eventAllData?.ticketsdata?.length > 0
-                        ? Math.min(
-                            ... eventAllData?.ticketsdata?.map((ticket: any) => {
-                              const price = Number(ticket.price); // Convert price to number
-                              return isNaN(price) ? Infinity : price; // Return Infinity if price is NaN
-                            })
-                          ).toString() // Find the lowest price and convert to string
-                        : "0" // Default to "0" if there are no tickets
+                      : eventAllData?.ticketsdata && eventAllData?.ticketsdata?.length > 0
+                      ? Math.min(
+                          ...eventAllData?.ticketsdata?.map((ticket: any) => {
+                            const price = Number(ticket.price); // Convert price to number
+                            return isNaN(price) ? Infinity : price; // Return Infinity if price is NaN
+                          })
+                        ).toString() // Find the lowest price and convert to string
+                      : "0" // Default to "0" if there are no tickets
                   }
-
-
-                
                   // ticketEndPrice={
                   //   eventAllData?.tickets[eventAllData?.ticketsdata.length - 1]?.price
                   // }
@@ -303,21 +258,16 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                   AboutDrop={isAbout}
                   AboutToggle={() => setisAbout(!isAbout)}
                   ticketsdata={eventAllData?.ticketsdata}
-
                   ticketLength={eventAllData?.ticketsdata?.length}
                   // ticketStartPrice={
                   //   eventAllData?.ticketsdata?.length === 1
                   //     ? "0"
                   //     : eventAllData?.ticketsdata[0]?.price
                   // }
-                  
-                 
 
                   ticketEndPrice={
                     eventAllData?.ticketsdata && eventAllData?.ticketsdata?.length > 0
-                      ? Math.max(
-                          ...eventAllData?.ticketsdata.map((ticket:any) => Number(ticket.price) || 0)
-                        )
+                      ? Math.max(...eventAllData?.ticketsdata.map((ticket: any) => Number(ticket.price) || 0))
                       : 0 // Default to 0 if there are no tickets
                   }
                   // ticketStartPrice={
@@ -325,44 +275,38 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                   //     ? Math.min(
                   //         ...eventAllData?.ticketsdata.map((ticket:any) => Number(ticket.price) || 0)
                   //       )
-                  //     : 0 
+                  //     : 0
                   // }
                 />
 
-                {eventAllData?.eventmedia?.length > 0 &&
-                  Array.isArray(eventAllData?.eventmedia) && (
-                    <div className="w-[576px] event-width-adjustment h-[350]px] mt-[48px] rounded-[12px] slider-main-div">
-                      <Slider {...settings}>
-                        {eventAllData?.eventmedia?.map(
-                          (item: any, index: any) => (
-                            <div key={index} className="w-full">
-                              {item.endsWith(".mp4") ||
-                              item.endsWith(".avi") ||
-                              item.endsWith(".mov") ||
-                              item.endsWith(".mkv") ? (
-                                <video
-                                  src={item}
-                                  width={330}
-                                  height={200}
-                                  className="w-full h-[296px] slider-img object-contain "
-                                  controls
-                                  // alt={`Slide ${index + 1}`}
-                                />
-                              ) : (
-                                <Image
-                                  src={item}
-                                  width={330}
-                                  height={200}
-                                  className="w-full h-[350px] object-contain slider-img "
-                                  alt={`Slide ${index + 1}`}
-                                />
-                              )}
-                            </div>
-                          )
-                        )}
-                      </Slider>
-                    </div>
-                  )}
+                {eventAllData?.eventmedia?.length > 0 && Array.isArray(eventAllData?.eventmedia) && (
+                  <div className="w-[576px] event-width-adjustment h-[350]px] mt-[48px] rounded-[12px] slider-main-div">
+                    <Slider {...settings}>
+                      {eventAllData?.eventmedia?.map((item: any, index: any) => (
+                        <div key={index} className="w-full">
+                          {item.endsWith(".mp4") || item.endsWith(".avi") || item.endsWith(".mov") || item.endsWith(".mkv") ? (
+                            <video
+                              src={item}
+                              width={330}
+                              height={200}
+                              className="w-full h-[296px] slider-img object-contain "
+                              controls
+                              // alt={`Slide ${index + 1}`}
+                            />
+                          ) : (
+                            <Image
+                              src={item}
+                              width={330}
+                              height={200}
+                              className="w-full h-[350px] object-contain slider-img "
+                              alt={`Slide ${index + 1}`}
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </Slider>
+                  </div>
+                )}
 
                 {/* LIVE ACTIVITY */}
                 <GradientBorder className="mt-[48px] w-full">
@@ -376,27 +320,21 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                     <div className="w-full flex flex-col justify-center items-center">
                       <div className="flex -space-x-3">
                         <Image
-                          src={
-                            eventAttend?.data?.[0]?.profilePicture || Avatar1
-                          }
+                          src={eventAttend?.data?.[0]?.profilePicture || Avatar1}
                           width={60}
                           height={60}
                           alt="avatar"
                           className="rounded-full border border-[#034C22] z-[1]"
                         />
                         <Image
-                          src={
-                            eventAttend?.data?.[1]?.profilePicture || Avatar2
-                          }
+                          src={eventAttend?.data?.[1]?.profilePicture || Avatar2}
                           width={60}
                           height={60}
                           alt="avatar"
                           className="rounded-full border border-[#034C22] z-[2]"
                         />
                         <Image
-                          src={
-                            eventAttend?.data?.[2]?.profilePicture || Avatar3
-                          }
+                          src={eventAttend?.data?.[2]?.profilePicture || Avatar3}
                           width={60}
                           height={60}
                           alt="avatar"
@@ -409,23 +347,19 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                       <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
                         {eventAttendy?.length > 0 && (
                           <>
-                            {eventAttendy[0]?.fullname} and{" "}
-                            {eventAttendy?.length - 1} others going
+                            {eventAttendy[0]?.fullname} and {eventAttendy?.length - 1} others going
                           </>
                         )}
                       </h3>
-                      <p className="text-[#BFBFBF] text-[12px] pt-[4px]">
-                        Tap to see the live activities
-                      </p>
-                     
-                        <Button
-                          className="flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full mt-[12px] w-fit ps-[0] pe-[16px] py-[10px]"
-                          disabled
-                        >
-                          <Lock size={20} weight="fill" className="ms-[10px]" />
-                          Live Activity
-                        </Button>
-                  
+                      <p className="text-[#BFBFBF] text-[12px] pt-[4px]">Tap to see the live activities</p>
+
+                      <Button
+                        className="flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full mt-[12px] w-fit ps-[0] pe-[16px] py-[10px]"
+                        disabled
+                      >
+                        <Lock size={20} weight="fill" className="ms-[10px]" />
+                        Live Activity
+                      </Button>
                     </div>
                   </div>
                 </GradientBorder>

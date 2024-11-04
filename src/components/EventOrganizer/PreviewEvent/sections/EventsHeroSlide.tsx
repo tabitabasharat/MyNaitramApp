@@ -6,26 +6,12 @@ import Image from "next/image";
 import { useState } from "react";
 import clander from "@/assets/startdate.svg";
 import time from "@/assets/endDate.svg";
-import Arrowup from "@/assets/arrow up.svg"
+import Arrowup from "@/assets/arrow up.svg";
 import { top5Events } from "@/lib/dummyData";
-import {
-  DownloadSimple,
-  LinkedinLogo,
-  InstagramLogo,
-  TiktokLogo,
-} from "@phosphor-icons/react/dist/ssr";
+import { DownloadSimple, LinkedinLogo, InstagramLogo, TiktokLogo } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import Arrowdown from "@/assets/arrow-down.svg";
-import {
-  ArrowLeft,
-  User,
-  MapPin,
-  Clock,
-  Lock,
-  UsersThree,
-  Ticket,
-  DeviceMobile,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, User, MapPin, Clock, Lock, UsersThree, Ticket, DeviceMobile } from "@phosphor-icons/react/dist/ssr";
 import Clocktime from "@/assets/Wallet/specific-icon-clock.svg";
 import Calendar from "@/assets/Wallet/specific-icon-calender.svg";
 import Location from "@/assets/Wallet/specific-icon-location.svg";
@@ -51,6 +37,7 @@ const EventsHeroSlide = ({
   // AboutDrop,
   // AboutToggle,
   eventCategory,
+  eventTags,
   ticketStartPrice,
   ticketEndPrice,
   eventdescription,
@@ -281,28 +268,26 @@ const EventsHeroSlide = ({
   };
 
   // Get HTML content directly without stripping
-  const firstParagraphHtml = descriptionText
-    .split("\n")
-    .slice(0, maxLines)
-    .join("\n"); // You don't need to remove the HTML tags here anymore
+  const firstParagraphHtml = descriptionText.split("\n").slice(0, maxLines).join("\n"); // You don't need to remove the HTML tags here anymore
 
-  const myid =
-    typeof window !== "undefined" ? localStorage.getItem("_id") || "" : "";
+  const myid = typeof window !== "undefined" ? localStorage.getItem("_id") || "" : "";
 
-  const textRef :any = useRef(null);
+  const textRef: any = useRef(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
 
   useEffect(() => {
-    if (textRef.current ) {
-      const lineHeight : any= parseFloat(getComputedStyle(textRef.current).lineHeight);
-      const oneLineHeight :any = lineHeight; // height of one line
+    if (textRef.current) {
+      const lineHeight: any = parseFloat(getComputedStyle(textRef.current).lineHeight);
+      const oneLineHeight: any = lineHeight; // height of one line
       setIsOverflowing(textRef.current.scrollHeight > oneLineHeight);
     }
   }, [firstParagraphHtml, showFullDescription]);
 
   const APIKEY = "AIzaSyA78WzK8evJ7Vier7fUXAqjM5KDhDwyq88";
 
-  
+  useEffect(() => {
+    console.log("Stooorrrrreeeeeed Arrrraaayyy is heeerreee ===> ", eventTags);
+  });
 
   return (
     <>
@@ -313,24 +298,25 @@ const EventsHeroSlide = ({
             {top5Events.map((_, index) => (
               <div
                 key={index}
-                className={`size-3 ${
-                  index === activeIndex ? "bg-white " : "border border-white"
-                } rounded-full cursor-pointer`}
+                className={`size-3 ${index === activeIndex ? "bg-white " : "border border-white"} rounded-full cursor-pointer`}
                 onClick={() => handleBulletClick(index)}
               ></div>
             ))}
           </div>
 
           <div className="flex gap-[0.35rem] flex-wrap lg:w-[80%]">
-            {eventCategory?.length > 0 &&
-              eventCategory.map((category: any, index: any) => (
-                <Badge key={index} className="lg:text-[12px]">
-                  {category}
-                </Badge>
-              ))}
+            <Badge className="lg:text-[12px]">{eventCategory}</Badge>
             {/* <Badge className="lg:text-[12px]">Party</Badge>
             <Badge className="lg:text-[12px]">Invitation</Badge>
             <Badge className="lg:text-[12px]">TAKEOVR</Badge> */}
+
+            {/* Tags Data is Shown here */}
+            {/* <div className="flex flex-wrap gap-2">
+              {eventTags &&
+                eventTags.map((tag: string, index: number) => {
+                  return <div key={index} className="bg-green-500 py-[1px] px-[5px] rounded-md">{`#${tag}`}</div>;
+                })}
+            </div> */}
           </div>
           {/* <div className="flex gap-[0.35rem] mt-3">
             <Link
@@ -361,15 +347,11 @@ const EventsHeroSlide = ({
             <div className="flex items-center gap-[8px]">
               <Image src={Location} alt="location" />
               <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                  location
-                )}&key=${APIKEY}`}
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}&key=${APIKEY}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className="text-[16px] font-bold leading-[24px]">
-                  {location}
-                </p>
+                <p className="text-[16px] font-bold leading-[24px]">{location}</p>
               </a>
             </div>
             <div className="flex items-center gap-[8px] mt-[12px] ">
@@ -387,47 +369,26 @@ const EventsHeroSlide = ({
             </div>
           </div>
           <div>
-          <div className="relative">
+            <div className="relative">
               <div className="mb-4 md:mt-[48px] mt-[24px]">
-                <button
-                  onClick={AboutToggle}
-                  className="text-white flex items-center gap-[10px]"
-                >
-                  <p className="text-[#13FF7A] text-sm font-bold md:text-base">
-                    About this event
-                  </p>
+                <button onClick={AboutToggle} className="text-white flex items-center gap-[10px]">
+                  <p className="text-[#13FF7A] text-sm font-bold md:text-base">About this event</p>
                   {/* Toggle between arrow down and arrow up based on AboutDrop state */}
-                  <Image
-                    src={AboutDrop ? Arrowdown : Arrowup}
-                    alt="arrow"
-                    sizes="16px"
-                    className="h-[16px] w-[16px]"
-                  />
+                  <Image src={AboutDrop ? Arrowdown : Arrowup} alt="arrow" sizes="16px" className="h-[16px] w-[16px]" />
                 </button>
               </div>
 
               {AboutDrop && (
-                <div
-                  className="mb-[12px] text-white break-words overflow-hidden"
-                  ref={textRef}
-                >
+                <div className="mb-[12px] text-white break-words overflow-hidden" ref={textRef}>
                   {showFullDescription ? (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: descriptionText }}
-                    />
+                    <div dangerouslySetInnerHTML={{ __html: descriptionText }} />
                   ) : (
-                    <div
-                      className="line-clamp-3 overflow-hidden"
-                      dangerouslySetInnerHTML={{ __html: firstParagraphHtml }}
-                    />
+                    <div className="line-clamp-3 overflow-hidden" dangerouslySetInnerHTML={{ __html: firstParagraphHtml }} />
                   )}
 
                   {/* Show "Read More" if text is overflowing, or "Show Less" when expanded */}
                   {isOverflowing && (
-                    <button
-                      onClick={toggleDescription}
-                      className="text-[#13FF7A] text-sm font-bold md:text-base cursor-pointer mt-2"
-                    >
+                    <button onClick={toggleDescription} className="text-[#13FF7A] text-sm font-bold md:text-base cursor-pointer mt-2">
                       {showFullDescription ? "Show Less" : "Read More"}
                     </button>
                   )}
