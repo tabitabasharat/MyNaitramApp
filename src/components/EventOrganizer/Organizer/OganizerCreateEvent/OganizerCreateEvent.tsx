@@ -13,7 +13,7 @@ import Image from "next/image";
 import ufo from "@/assets/UFO_SVG.png";
 import cam from "@/assets/Camera.svg";
 import bgframe from "@/assets/uploadFrame.svg";
-import newCover from "@/assets/Wallet/coverimg-create-event.svg";
+import newCover from "@/assets/Frame 1597878544 (1).svg";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -262,6 +262,7 @@ const formSchema = z.object({
       )
   ),
 });
+
 const formSchema2 = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
 
@@ -605,6 +606,24 @@ function OganizerCreateEvent() {
 
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [coverImageWarning, setCoverImageWarning] = useState<any>(false);
+  const [isPickerOpen, setIsPickerOpen] = useState(false); // State to manage picker visibility
+  const [isEndDatePickerOpen, setIsEndDatePickerOpen] = useState(false);
+  const [isStartEventPickerOpen, setIsStartEventPickerOpen] = useState(false);
+  const [isEndEventPickerOpen, setIsEndEventPickerOpen] = useState(false);
+
+  // Toggle the date-time picker visibility
+  const toggleDateTimePicker = () => {
+    setIsPickerOpen((prev) => !prev);
+  };
+  const toggleEndDateTimePicker = () => {
+    setIsEndDatePickerOpen((prev) => !prev);
+  };
+  const toggleStartEventTimePicker = () => {
+    setIsStartEventPickerOpen((prev) => !prev);
+  };
+  const toggleEndEventTimePicker = () => {
+    setIsEndEventPickerOpen((prev) => !prev);
+  };
 
   const handleLocationSelect = (location: any) => {
     setEventLocation(location);
@@ -2060,33 +2079,106 @@ function OganizerCreateEvent() {
                           render={({ field }) => {
                             const currentDateTime = dayjs();
                             return (
+                              // <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
+                              //   <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
+                              //     Ticket Start Date & Time
+                              //   </FormLabel>
+                              //   <FormControl>
+                              //     <div className="w-full">
+                              //       <StyledDateTimePicker
+                              //         referenceDate={currentDateTime}
+                              //         formatDensity="spacious"
+                              //         onKeyDown={(e: any) => e.preventDefault()}
+                              //         autoOk={false}
+                              //         onChange={(e: any) => {
+                              //           if (e && e.isValid()) {
+                              //             const selectedDate = dayjs(
+                              //               e.format("YYYY-MM-DD")
+                              //             );
+                              //             const today =
+                              //               currentDateTime.startOf("day");
+
+                              //             if (
+                              //               selectedDate.isSame(today, "day")
+                              //             ) {
+                              //               const formattedDate =
+                              //                 e.format("YYYY-MM-DDTHH:mm");
+                              //               setTicketStartDate(formattedDate);
+                              //               field.onChange(formattedDate);
+                              //             } else {
+                              //               const formattedDate =
+                              //                 e.format("YYYY-MM-DDTHH:mm");
+                              //               setTicketStartDate(formattedDate);
+                              //               field.onChange(formattedDate);
+                              //             }
+                              //           }
+                              //         }}
+                              //         // Set minDateTime only if the selected date is today
+                              //         // minDateTime={
+                              //         //   field.value &&
+                              //         //   dayjs(field.value).isSame(
+                              //         //     currentDateTime,
+                              //         //     "day"
+                              //         //   )
+                              //         //     ? currentDateTime
+                              //         //     : null
+                              //         // }
+                              //         disablePast
+                              //         slots={{
+                              //           openPickerIcon: () => (
+                              //             <CalendarTodayIcon
+                              //               style={{
+                              //                 color: "#5e5e5e",
+                              //                 fontSize: "15px",
+                              //                 position: "absolute",
+                              //                 top: "-17px",
+                              //                 right: "5px",
+                              //               }}
+                              //             />
+                              //           ),
+                              //         }}
+                              //         slotProps={{
+                              //           tabs: { hidden: false },
+                              //           toolbar: {
+                              //             toolbarFormat: "YYYY",
+                              //             hidden: false,
+                              //           },
+                              //           calendarHeader: {
+                              //             sx: { color: "white" },
+                              //           },
+                              //           textField: {
+                              //             inputProps: { readOnly: true },
+                              //             placeholder:
+                              //               "MM / DD / YYYY HH:MM:AA",
+
+                              //           },
+                              //         }}
+                              //       />
+                              //     </div>
+                              //   </FormControl>
+                              //   <FormMessage />
+                              // </FormItem>
                               <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
                                 <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">Ticket Start Date & Time</FormLabel>
                                 <FormControl>
-                                  <div className="w-full">
+                                  {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
+                                  <div className="w-full" onClick={toggleDateTimePicker}>
+                                    {" "}
+                                    {/* Attach click event here */}
                                     <StyledDateTimePicker
+                                      open={isPickerOpen} // Control the open state with local state
                                       referenceDate={currentDateTime}
                                       formatDensity="spacious"
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       autoOk={false}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
-                                          const selectedDate = dayjs(e.format("YYYY-MM-DD"));
-                                          const today = currentDateTime.startOf("day");
-
-                                          if (selectedDate.isSame(today, "day")) {
-                                            const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                            setTicketStartDate(formattedDate);
-                                            field.onChange(formattedDate);
-                                          } else {
-                                            const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                            setTicketStartDate(formattedDate);
-                                            field.onChange(formattedDate);
-                                          }
+                                          const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                          setTicketStartDate(formattedDate);
+                                          field.onChange(formattedDate);
+                                          setIsPickerOpen(false); // Close the picker after selection
                                         }
                                       }}
-                                      // Set minDateTime only if the selected date is today
-                                      minDateTime={field.value && dayjs(field.value).isSame(currentDateTime, "day") ? currentDateTime : null}
                                       disablePast
                                       slots={{
                                         openPickerIcon: () => (
@@ -2193,8 +2285,11 @@ function OganizerCreateEvent() {
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">Ticket End Date & Time</FormLabel>
                                 <FormControl>
-                                  <div className=" w-full">
+                                  <div className=" w-full" onClick={toggleEndDateTimePicker}>
+                                    {/* <div className=" w-full" > */}
+
                                     <StyledDateTimePicker
+                                      open={isEndDatePickerOpen}
                                       // value={validStartTime}
                                       formatDensity="spacious"
                                       // referenceDate={referenceTicketDate}
@@ -2205,6 +2300,7 @@ function OganizerCreateEvent() {
                                           const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                           setTicketEndDate(formattedDate);
                                           field.onChange(formattedDate);
+                                          setIsEndDatePickerOpen(false);
                                         }
                                       }}
                                       //  label="Event End Date & Time"
@@ -2365,8 +2461,11 @@ function OganizerCreateEvent() {
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">Event Start Date & Time</FormLabel>
                                 <FormControl>
-                                  <div className=" w-full">
+                                  <div className=" w-full" onClick={toggleStartEventTimePicker}>
+                                    {/* <div className=" w-full"> */}
+
                                     <StyledDateTimePicker
+                                      open={isStartEventPickerOpen}
                                       //  value={validStartTime}
                                       formatDensity="spacious"
                                       referenceDate={referenceEventDate}
@@ -2376,6 +2475,7 @@ function OganizerCreateEvent() {
                                           const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                           setEventStartTime(formattedDate);
                                           field.onChange(formattedDate);
+                                          setIsStartEventPickerOpen(false);
                                         }
                                       }}
                                       //  label="Event End Date & Time"
@@ -2439,8 +2539,11 @@ function OganizerCreateEvent() {
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">Event End Date & Time</FormLabel>
                                 <FormControl>
-                                  <div className=" w-full">
+                                  <div className=" w-full" onClick={toggleEndEventTimePicker}>
+                                    {/* <div className=" w-full"> */}
+
                                     <StyledDateTimePicker
+                                      open={isEndEventPickerOpen}
                                       referenceDate={defaultEndTime}
                                       // value={
                                       //   field.value
@@ -2454,6 +2557,8 @@ function OganizerCreateEvent() {
                                           const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                           setEventEndTime(formattedDate);
                                           field.onChange(formattedDate);
+                                          console.log("my ened time", formattedDate);
+                                          setIsEndEventPickerOpen(false);
                                           console.log("my ened time", formattedDate);
                                         }
                                       }}

@@ -35,7 +35,15 @@ const StayInformed = () => {
 
   console.log("tgis paste event", filteredEvent, EventsPastData);
 
- 
+  const handleEmailInputChange = (e:any) => {
+    const input = e.target.value;
+    // Allow only letters, numbers, and "@"
+    const regex = /^[a-zA-Z0-9@]*$/;
+    if (regex.test(input)) {
+      setEmail(input); // Update state only if input is valid
+    }
+  };
+
   async function handleEmail() {
   
     setLoader(true);
@@ -129,21 +137,24 @@ dispatch(getViewPastEventsBox(data))
                 <input
                   type="text"
                   value={Email}
+                  onChange={handleEmailInputChange}
                   placeholder="Enter your email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  // onChange={(e) => setEmail(e.target.value)}
                   className="w-full h-full rounded-full bg-white/10 mt-4 border border-[#3C3C3C] outline-none focus:border-[#087336] px-[3.2rem] placeholder:text-muted"
                 />
                 <Button
                   variant="secondary"
                   className="absolute right-0 h-[45px] top-4 hidden md:block"
-                  onClick={handleEmail}
+                  // onClick={handleEmail}
+                  onClick={handleEmail} disabled={loader}
                 >
                   Join Now
                 </Button>
                 <Button
                   variant="secondary"
                   className="md:hidden h-[45px] w-full mt-4"
-                  onClick={handleEmail}
+                  // onClick={handleEmail}
+                  onClick={handleEmail} disabled={loader}
                 >
                   Join Now
                 </Button>
