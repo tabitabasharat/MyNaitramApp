@@ -705,7 +705,7 @@ function OganizerCreateEvent() {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [coverImageWarning, setCoverImageWarning] = useState<any>(false);
   const [isPickerOpen, setIsPickerOpen] = useState(false); // State to manage picker visibility
-  const [isdateEndPickerOpen, setIsdateEndPickerOpen] = useState(false);
+  const [isEndDatePickerOpen, setIsEndDatePickerOpen] = useState(false);
   const [isStartEventPickerOpen, setIsStartEventPickerOpen] = useState(false);
   const [isEndEventPickerOpen, setIsEndEventPickerOpen] = useState(false);
 
@@ -714,13 +714,13 @@ const toggleDateTimePicker = () => {
   setIsPickerOpen((prev) => !prev);
 };
 const toggleEndDateTimePicker =() =>{
-  setIsdateEndPickerOpen((prev) => !prev);
+  setIsEndDatePickerOpen((prev) => !prev);
 }
-const toggleEndEventTimePicker = () => {
-  setIsPickerOpen((prev) => !prev);
-};
 const toggleStartEventTimePicker = () => {
   setIsStartEventPickerOpen((prev) => !prev);
+};
+const toggleEndEventTimePicker = () => {
+  setIsEndEventPickerOpen((prev) => !prev);
 };
 
 
@@ -2167,6 +2167,7 @@ const toggleStartEventTimePicker = () => {
                                 Ticket Start Date & Time
                               </FormLabel>
                               <FormControl>
+                                {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
                                 <div className="w-full" onClick={toggleDateTimePicker}> {/* Attach click event here */}
 
                                   <StyledDateTimePicker
@@ -2301,7 +2302,7 @@ const toggleStartEventTimePicker = () => {
                                   {/* <div className=" w-full" > */}
 
                                     <StyledDateTimePicker
-                                      open={isdateEndPickerOpen}
+                                      open={isEndDatePickerOpen}
                                       // value={validStartTime}
                                       formatDensity="spacious"
                                       // referenceDate={referenceTicketDate}
@@ -2313,8 +2314,7 @@ const toggleStartEventTimePicker = () => {
                                             e.format("YYYY-MM-DDTHH:mm");
                                           setTicketEndDate(formattedDate);
                                           field.onChange(formattedDate);
-                                          setIsdateEndPickerOpen(false);
-                                          // setisEntTicketPickerOpen(false);  
+                                          setIsEndDatePickerOpen(false);
                                         }
                                       }}
                                       //  label="Event End Date & Time"
@@ -2502,7 +2502,7 @@ const toggleStartEventTimePicker = () => {
                                         if (e && e.isValid()) {
                                           const formattedDate =
                                             e.format("YYYY-MM-DDTHH:mm");
-                                            setEventStartTime(formattedDate);
+                                          setEventStartTime(formattedDate);
                                           field.onChange(formattedDate);
                                           setIsStartEventPickerOpen(false);
                                         }
@@ -2578,6 +2578,7 @@ const toggleStartEventTimePicker = () => {
                                 </FormLabel>
                                 <FormControl>
                                   <div className=" w-full" onClick={toggleEndEventTimePicker}>
+                                  {/* <div className=" w-full"> */}
 
                                     <StyledDateTimePicker
                                        open={isEndEventPickerOpen}
@@ -3005,6 +3006,25 @@ const toggleStartEventTimePicker = () => {
                   </div>
                 ))} */}
 
+              {/* <div className="flex justify-end items-center mt-[12px] ticket-btn">
+                  <Button
+                    style={{
+                      background:
+                        "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                    }}
+                    className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px]  rounded-full  
+               border-[0.86px] border-transparent text-[11px] font-extrabold"
+                    onClick={handleAddTicketType}
+                  >
+                    <Image
+                      src={addicon}
+                      alt="Add-icon"
+                      height={12}
+                      width={12}
+                    />
+                    Add Ticket Type
+                  </Button>
+                </div> */}
               <div className="flex  flex-col w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
                 {ticketTypes?.length > 0 &&
                   ticketTypes.map((ticket, index) => (

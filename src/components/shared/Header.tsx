@@ -457,8 +457,8 @@ const Header = () => {
               <Popover>
                 <PopoverTrigger asChild>
                   <div className="flex items-center gap-[10px]">
-                  <div className="border h-[44px] w-[44px] border-muted gradient-slate rounded-full items-center  cursor-pointer">
-                    {/* <div className="size-[44px] lg:size-[44px] gradient-slate p-[6px] rounded-full overflow-hidden  shadow-inner shadow-md border border-gray-700 rounded-full border-gradient bg-gradient-to-t from-transparent to-transparent"> */}
+                  {/* <div className="border h-[44px] w-[44px] border-muted gradient-slate rounded-full items-center  cursor-pointer"> */}
+                    <div className="size-[44px] lg:size-[44px] gradient-slate p-[6px] rounded-full overflow-hidden  shadow-inner shadow-md border border-gray-700 rounded-full border-gradient bg-gradient-to-t from-transparent to-transparent">
                     <div>
                       <Link
                         href={"/profile/profile-main"}
@@ -470,9 +470,9 @@ const Header = () => {
                               ? myProfile?.profilePicture
                               : "/person3.jpg"
                           }
-                          width={44}
-                          height={44}
-                          className="object-cover object-center rounded-full w-[44px] h-[44px]"
+                          width={32}
+                          height={32}
+                          className="object-cover object-center rounded-full w-[32px] h-[32px]"
                           placeholder={`data:image/svg+xml;base64,${toBase64(
                             shimmer(1200, 1800)
                           )}`}
