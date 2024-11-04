@@ -114,12 +114,18 @@ type Category = {
   options: cateOption[];
   dropdown: any;
 };
+
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
-  eventcategory: z.array(z.any()),
+
+  eventcategory: z.object({
+    label: z.string().min(1, { message: "Category cannot be empty" }),
+  }),
 
   eventHashtags: z
-    .array(z.string().min(2, { message: "Hashtag must be at least 2 characters" }).startsWith("#", { message: "Hashtag must start with #" }))
+    .array(
+      z.string().min(2, { message: "Hashtag must be at least 2 characters" }) // Keep the minimum length requirement
+    )
     .min(1, { message: "At least one hashtag is required" }),
 
   eventlocation: z.string().min(1, { message: "Event location cannot be empty." }),
@@ -218,6 +224,7 @@ const formSchema = z.object({
   //   message: "At least one ticket is required.",
   // }),
 });
+
 type Option = {
   id: number;
   label: string;
@@ -468,8 +475,11 @@ function EditeventOnBack() {
         try {
           // Parse the JSON data from localStorage
           const parsedData: any = JSON.parse(storedData);
+          console.log("Type of parsed data is ======> ", parsedData?.eventHashtags);
           setCategoryTypes({ label: parsedData?.eventcategory });
+          setChoosenHashtags(parsedData?.eventHashtags);
           setSelected(parsedData?.isFree ? "free" : "paid");
+          setTagsParsedData(parsedData?.eventHashtags);
           setEventData(parsedData);
           setFBUrl(parsedData?.fburl || "https://www.facebook.com/");
           setInstaUrl(parsedData?.insturl || "https://instagram.com/");
@@ -519,6 +529,8 @@ function EditeventOnBack() {
 
   const [isCustomCatgory, setIsCustomCategory] = useState<boolean>(false);
   const [customCategotyInput, setCustomCatgoryInput] = useState<string>("");
+
+  const [tagsParsedData, setTagsParsedData] = useState<any>([]);
 
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
@@ -707,7 +719,9 @@ function EditeventOnBack() {
     defaultValues: {
       eventHashtags: [],
       eventname: "",
-      eventcategory: [],
+      eventcategory: {
+        label: "Some Category",
+      },
       eventlocation: "",
       eventstartdate: "",
       eventenddate: "",
@@ -806,12 +820,19 @@ function EditeventOnBack() {
       setIsCustomCategory(false);
       setCategoryAlert(false);
     }
+    // Update the form field's value with the selected category
+    form.setValue("eventcategory", option); // Use the form controller to set the value
+    form.clearErrors("eventcategory"); // Clear any errors once a selection is made
   };
 
   const handleCustomCatgory = (e: any) => {
     const inputValue = e.target.value;
     setCustomCatgoryInput(inputValue);
     setCategoryAlert(false);
+
+    // Update the form field's value with the selected category
+    form.setValue("eventcategory", { label: inputValue }); // Use the form controller to set the value
+    form.clearErrors("eventcategory"); // Clear any errors once a selection is made
   };
 
   const handleCustomCatBtn = () => {
@@ -1169,12 +1190,14 @@ function EditeventOnBack() {
     const utcTicketEndTime = TicketEndDate ? convertToUTC(TicketEndDate) : Eventdata?.eventenddate;
 
     const updatedCategoryTypes = categoryTypes;
+    const eventhashtags = chooseHashTags;
 
     const updatedValues = {
       ...values,
       eventmedia: updatedEventMedia,
       ticketsdata: filteredTicketTypes,
       eventcategory: updatedCategoryTypes,
+      // eventtags: eventhashtags,
 
       // utcEventStartTime: EventStartTime,
       utcEventEndTime: EventEndTime,
@@ -1267,6 +1290,7 @@ function EditeventOnBack() {
     }
   }
   async function handlePreviewClick(values: z.infer<typeof formSchema>) {
+    console.log("New Preview Tags are as======> ", chooseHashTags);
     // setLoader(true);
     // setisWalletModalOpen(false);
     const EventMediaAlready = [...(Eventdata?.eventmedia || [])];
@@ -1291,13 +1315,15 @@ function EditeventOnBack() {
     // setCategoryTypes(updatedCategoryTypes);
     const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
 
-    const updatedCategoryTypes = categoryTypes?.label;
+    const updatedCategoryTypes = categoryTypes;
+    const eventhashtags = chooseHashTags;
     const updatedValues = {
       ...values,
       isFree: isFree,
       eventmedia: updatedEventMedia,
       ticketsdata: filteredTicketTypes,
-      eventcategory: updatedCategoryTypes,
+      eventcategory: updatedCategoryTypes?.label,
+      // eventtags: eventhashtags,
 
       // utcEventStartTime: EventStartTime,
       utcEventEndTime: EventEndTime,
@@ -1455,7 +1481,7 @@ function EditeventOnBack() {
 
       const updatedCategoryTypes = typeof Eventdata?.eventcategory === "string" ? Eventdata?.eventcategory : Eventdata?.eventcategory.label;
 
-      setCategoryTypes(updatedCategoryTypes);
+      setCategoryTypes({ label: updatedCategoryTypes });
 
       console.log("updatedCategoryTypes", updatedCategoryTypes);
 
@@ -1488,7 +1514,8 @@ function EditeventOnBack() {
 
       form.reset({
         eventname: Eventdata?.eventname || form.getValues("eventname"),
-        eventcategory: updatedCategoryTypes || form.getValues("eventcategory"),
+        eventcategory: { label: updatedCategoryTypes || form.getValues("eventcategory") },
+        eventHashtags: tagsParsedData || form.getValues("eventHashtags"),
         eventdescription: Eventdata?.eventdescription || form.getValues("eventdescription"),
         eventlocation: Eventdata?.eventlocation || form.getValues("eventlocation"),
         eventstartdate: convertUTCToLocalTime(Eventdata?.eventstartdate) || form.getValues("eventstartdate"),
@@ -1560,8 +1587,19 @@ function EditeventOnBack() {
   const addUserHash = (hashTag: string) => {
     setFilterHash([]);
     setHashTagValue("");
-    if (!chooseHashTags.includes(`#${hashTag}`) && chooseHashTags.length < 5) {
+
+    if (hashTag.length >= 2 && !chooseHashTags.includes(`#${hashTag}`) && chooseHashTags.length < 5) {
       setChoosenHashtags([...chooseHashTags, `#${hashTag}`]);
+
+      // Get current eventHashtags from form and add the new hashtag
+      const currentHashtags = form.getValues("eventHashtags") || [];
+
+      // Add the new hashtag directly without alteration
+      form.setValue("eventHashtags", [...currentHashtags, hashTag]);
+    }
+
+    if (hashTag.length < 2) {
+      ErrorToast("Please Enter Valid Tag");
     }
 
     if (chooseHashTags.length === 5) {
@@ -1571,6 +1609,12 @@ function EditeventOnBack() {
 
   const removeTag = (ht: string): void => {
     setChoosenHashtags((prevTags: string[]): string[] => prevTags.filter((tag: string) => tag !== ht));
+    const currentHasTag = ht.replace("#", "");
+    // Get the current eventHashtags from the form, filter out the removed hashtag, and update the form
+    const currentHashtags = form.getValues("eventHashtags") || [];
+    console.log("Current Hash tags are AS==================> ", typeof EventData?.eventHashtags);
+    const updatedHashtags = currentHashtags.filter((tag: string) => tag !== currentHasTag);
+    form.setValue("eventHashtags", updatedHashtags);
   };
 
   useEffect(() => {
@@ -2017,7 +2061,6 @@ function EditeventOnBack() {
                             value={hashINputValue}
                             onChange={(e) => {
                               handleHashFieldInput(e);
-                              field.onChange(e);
                             }}
                           />
                         </div>

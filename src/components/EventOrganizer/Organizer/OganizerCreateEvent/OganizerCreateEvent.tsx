@@ -1347,7 +1347,7 @@ function OganizerCreateEvent() {
 
   async function EventCreation(values: z.infer<typeof formSchema | typeof formSchema2>) {
     setLoader(true);
-    const categorylabels = categoryTypes?.label;
+    const categorylabels = categoryTypes;
     const eventhashtags = chooseHashTags;
     const imagesOfGallery = await handleFileChangeapi();
 
@@ -1372,8 +1372,8 @@ function OganizerCreateEvent() {
       eventmedia: imagesOfGallery,
       ticketsdata: filteredTicketTypes,
 
-      eventcategory: categorylabels,
-      eventtags: eventhashtags,
+      eventcategory: categorylabels?.label,
+      // eventtags: eventhashtags,
       eventstartdate: utcTicketStartTime,
       eventenddate: utcTicketEndTime,
 
@@ -1434,6 +1434,7 @@ function OganizerCreateEvent() {
     }
   }
   async function handlePreviewClick(values: z.infer<typeof formSchema | typeof formSchema2>) {
+    console.log("New Preview Tags are as======> ", chooseHashTags);
     // setLoader(true);
     setisWalletModalOpen(false);
     console.log("my values", values);
@@ -1458,7 +1459,7 @@ function OganizerCreateEvent() {
     //   })),
     // }));
 
-    const categorylabels = categoryTypes?.label;
+    const categorylabels = categoryTypes;
     const eventhashtags = chooseHashTags;
 
     const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
@@ -1469,8 +1470,8 @@ function OganizerCreateEvent() {
       ticketsdata: filteredTicketTypes,
       isFree: isFree,
 
-      eventcategory: categorylabels,
-      eventtags: eventhashtags,
+      eventcategory: categorylabels?.label,
+      // eventtags: eventhashtags,
 
       eventstartdate: utcTicketStartTime,
       eventenddate: utcTicketEndTime,
@@ -1539,14 +1540,15 @@ function OganizerCreateEvent() {
       setCategoryTypes(null);
     } else if (option.label === categoryTypes?.label) {
       // setCategoryTypes(null);
+      setIsCatDropdownOpen(false);
       return;
     } else {
       setCategoryTypes({ label: option.label });
       setCustomCatgoryInput("");
       setIsCustomCategory(false);
       setCategoryAlert(false);
+      setIsCatDropdownOpen(false);
     }
-
     // Update the form field's value with the selected category
     form.setValue("eventcategory", option); // Use the form controller to set the value
     form.clearErrors("eventcategory"); // Clear any errors once a selection is made
@@ -1570,6 +1572,7 @@ function OganizerCreateEvent() {
       // setCustomCatgoryInput("");
       setIsCustomCategory(false);
       setCategoryAlert(false);
+      setIsCatDropdownOpen(false);
     }
   };
 
