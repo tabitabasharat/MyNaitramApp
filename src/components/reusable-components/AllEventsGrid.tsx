@@ -131,6 +131,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
                     endTime={event?.endTime}
                     startTime={event?.startTime}
                     likedEvents={event?.likes}
+                    price={event?.tickets[0]?.price}
                   />
                 ))}
 
@@ -168,6 +169,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
                   eventId={event?.id}
                   eventType={eventType}
                   likedEvents={event?.likes}
+                  price={event?.tickets[0]?.price}
                 />
               ))}
               <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>

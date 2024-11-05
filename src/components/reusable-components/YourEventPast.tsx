@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { LikeEvent, disLikeEvent } from "@/lib/middleware/event";
 import { Heart } from "@phosphor-icons/react/dist/ssr";
 
-
 const EventCardPast = ({
   img,
   title,
@@ -20,6 +19,7 @@ const EventCardPast = ({
   endTime,
   startTime,
   likedEvents,
+  price,
   height = "345px",
   width = "100%",
 }: {
@@ -29,11 +29,11 @@ const EventCardPast = ({
   width?: string;
   eventId: any;
   eventType: any;
-  eventDate:any;
-  endTime:any;
-  startTime:any;
-  likedEvents:any;
-
+  eventDate: any;
+  endTime: any;
+  startTime: any;
+  likedEvents: any;
+  price: string;
 }) => {
   // const imageUrl = img
   //   ? img.startsWith("http") || img.startsWith("https")
@@ -41,13 +41,7 @@ const EventCardPast = ({
   //     : img
   //   : event12;
 
-    const imageUrl = img
-    ? img.startsWith("http") || img.startsWith("https")
-      ? img
-      : img.startsWith("/") 
-      ? img
-      : `/${img}` 
-    : event12.src;
+  const imageUrl = img ? (img.startsWith("http") || img.startsWith("https") ? img : img.startsWith("/") ? img : `/${img}`) : event12.src;
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -55,8 +49,7 @@ const EventCardPast = ({
 
   async function handleLikeEvent() {
     setLoader(true);
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
 
     try {
       const data = {
@@ -80,8 +73,7 @@ const EventCardPast = ({
 
   async function handleDisLikeEvent() {
     setLoader(true);
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
 
     try {
       const data = {
@@ -122,19 +114,15 @@ const EventCardPast = ({
   useEffect(() => {
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserToken(userID);
-   
-    if (userID ) {
-      const userHasLiked = likedEvents.some(
-        (likedEvent: any) =>  likedEvent.userId == userID
-      );
-      console.log("user has" , userHasLiked)
+
+    if (userID) {
+      const userHasLiked = likedEvents.some((likedEvent: any) => likedEvent.userId == userID);
+      console.log("user has", userHasLiked);
       setLiked(userHasLiked);
-    }
-    else{
+    } else {
       setLiked(false);
     }
   }, [likedEvents]);
-
 
   const ConvertDate = (originalDateStr: string | undefined): string => {
     // Ensure input is a valid string
@@ -142,25 +130,22 @@ const EventCardPast = ({
       console.error("Input must be a string");
       return "";
     }
-  
-  
 
-  
     console.log("Converted UTC time:", originalDateStr);
     const isUTC = originalDateStr.endsWith("Z");
     const utcDate = new Date(isUTC ? originalDateStr : `${originalDateStr}Z`);
-  
+
     // Check if the input already has a timezone indicator
-    
+
     // Check if the date is valid
     if (isNaN(utcDate.getTime())) {
       console.error("Invalid date format");
       return "";
     }
-  
+
     // Detect local time zone
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  
+
     // Extract local time parts using toLocaleDateString with time zone adjustment
     const dayOfWeek = utcDate.toLocaleDateString("en-US", {
       weekday: "long",
@@ -178,7 +163,7 @@ const EventCardPast = ({
       year: "numeric",
       timeZone: timeZone,
     });
-  
+
     // Function to get ordinal suffix
     const getOrdinalSuffix = (date: number) => {
       if (date > 3 && date < 21) return "th"; // covers 11th to 19th
@@ -193,14 +178,14 @@ const EventCardPast = ({
           return "th";
       }
     };
-  
+
     // Convert day string to a number and calculate ordinal suffix
     const numericDay = parseInt(dayOfMonth, 10); // Convert day string to number
     const ordinalSuffix = getOrdinalSuffix(numericDay);
-  
+
     // Combine all parts into a properly formatted date string
     const formattedDate = `${dayOfWeek}, ${numericDay}${ordinalSuffix} ${month} ${year}`;
-  
+
     return formattedDate;
   };
   const ConvertTime = (timeStr: string): string => {
@@ -258,59 +243,60 @@ const EventCardPast = ({
     return formattedTime;
   };
 
+  function formatTimeRange(startTime: string, endTime: string): string {
+    const options: Intl.DateTimeFormatOptions = { hour: "numeric", minute: "numeric", hour12: true };
+
+    // Convert strings to Date objects
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+
+    // Format start and end times
+    const startFormatted = start.toLocaleTimeString("en-US", options);
+    const endFormatted = end.toLocaleTimeString("en-US", options);
+
+    return `- ${startFormatted} - ${endFormatted}`;
+  }
+
+  function setPriceIndications(price: string): string {
+    if (price === "0") {
+      return "FREE";
+    } else {
+      return `From £${price}`;
+    }
+  }
+
   return (
     <ScaleReveal extraStyle="w-full">
-      <Link
-        href={
-          eventId
-            ? `/event/${eventId}?EventType=${Eventtype}`
-            : "/viewallevents"
-        }
-        className="w-full"
-      >
-        <div
-          style={{ height, width }}
-          className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242] "
-        >
+      <Link href={eventId ? `/event/${eventId}?EventType=${Eventtype}` : "/viewallevents"} className="w-full">
+        <div style={{ height, width }} className="relative overflow-hidden rounded-lg w-full h-fit border border-[#424242] ">
           <Image
             src={imageUrl}
             width={1000}
             height={1000}
             className="w-full h-full rounded-lg object-cover relative mx-auto overflow-hidden"
-            placeholder={`data:image/svg+xml;base64,${toBase64(
-              shimmer(1200, 1800)
-            )}`}
+            placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(1200, 1800))}`}
             alt="event-img"
           />
 
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-        
 
           <div className="absolute flex justify-between h-full items-end z-[2] p-4 top-0 sm:w-full w-[100%]">
             <div>
-
-        
-            <p className="font-bold text-white text-xl">{title}</p>
-            <p className="font-bold text-[11px] text-[#FFFFFF]">
+              <p className="font-bold text-white text-xl">{title}</p>
+              <p className="font-bold text-[11px] text-[#FFFFFF]">
                 {ConvertDate(eventDate)}
-                <br /> {ConvertTime(startTime)} {" "}
-          
-                {/* {ConvertTime(startTime)} - {ConvertTime(endTime)}{" "} */}
+                <br /> {formatTimeRange(startTime, endTime)} {/* {ConvertTime(startTime)} - {ConvertTime(endTime)}{" "} */}
               </p>
-              </div>
+              <p className="text-[#00D059]">{setPriceIndications(price)}</p>
+            </div>
             {userToken && (
               <Link href="javascript:void(0)">
                 {/* <div onClick={handleHeartClick} className="cursor-pointer">
                   <HeartBadge />
                 </div> */}
                 <div className="bg-white/20 p-[0.6rem] rounded-full backdrop-blur-lg webkit-header-blur" onClick={handleHeartClick}>
-                    <Heart
-                      size={20}
-                   
-                      color="white"
-                      weight={liked ? "fill" : "regular"}
-                    />
-                  </div>
+                  <Heart size={20} color="white" weight={liked ? "fill" : "regular"} />
+                </div>
               </Link>
             )}
           </div>
