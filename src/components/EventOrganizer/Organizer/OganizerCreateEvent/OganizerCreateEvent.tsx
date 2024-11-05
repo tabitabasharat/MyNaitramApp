@@ -2543,10 +2543,7 @@ function OganizerCreateEvent() {
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">Event End Date & Time</FormLabel>
                                 <FormControl>
                                   <div className=" w-full" onClick={toggleEndEventTimePicker}>
-<<<<<<< HEAD
                                     {/* <div className=" w-full"> */}
-=======
->>>>>>> 99a0fdfefa2f75e0a43fc36684b2c8f1cf8e85b1
 
                                     <StyledDateTimePicker
                                       open={isEndEventPickerOpen}
