@@ -66,6 +66,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
     setUserID(id);
     dispatch(getOrganizerByID(id));
     dispatch(getOrganizerSocialProfile(id));
+    console.log("HDJSHDJSHDJSDHSJHDSJHSJDHSJHDSJDH TAGS====> ", eventAllData?.eventHashtags);
   }, []);
 
   const settings: any = {
@@ -104,13 +105,16 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
     setLoader(true);
 
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const updatedTags: string[] =
+      (eventAllData?.eventHashtags && eventAllData?.eventHashtags.map((tag: string) => (tag.trim().startsWith("#") ? tag : `#${tag}`))) || [];
+    console.log("Updated Tags are as ========>   ", updatedTags);
     try {
       const data = {
         userId: userID,
         isFree: eventAllData?.isFree,
         name: eventAllData?.eventname,
-        category: eventAllData?.eventcategory,
-        tags: eventAllData?.eventHashtags,
+        category: [eventAllData?.eventcategory],
+        tags: updatedTags,
         eventDescription: eventAllData?.eventdescription,
         location: eventAllData?.eventlocation,
         ticketStartDate: eventAllData?.eventstartdate,

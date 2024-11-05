@@ -334,9 +334,11 @@ const EventsHeroSlide = ({
             </Link>
           </div> */}
 
+          {/* Event Title Section */}
           <h2 className="text-[32px] lg:w-full lg:text-[48px] xl:text-[48px] font-extrabold leading-[1.2] mt-[12px] mb-[24px] -tracking-[0.02em] ">
             {title}
           </h2>
+          {/* Location and Time Section */}
           <div className="">
             {/* <div className="flex items-center gap-[8px] ">
               <Image src={Location} alt="location" />
@@ -368,6 +370,7 @@ const EventsHeroSlide = ({
               </p>
             </div>
           </div>
+          {/* Description Section */}
           <div>
             <div className="relative">
               <div className="mb-4 md:mt-[48px] mt-[24px]">
@@ -394,6 +397,23 @@ const EventsHeroSlide = ({
                   )}
                 </div>
               )}
+            </div>
+          </div>
+
+          {/* Tags Section */}
+          <div>
+            <div className="flex w-full gap-[8px] flex-wrap mb-[48px] mt-[10px]">
+              {eventTags &&
+                eventTags.map((tag: string, index: number) => {
+                  return (
+                    <div
+                      key={index}
+                      className="gradient-bg gradient-border-edit py-[8px] px-[10px] gradient-slate w-fit text-[12px] font-extrabold leading-[16.2px] text-left"
+                    >
+                      {`#${tag}`}
+                    </div>
+                  );
+                })}
             </div>
           </div>
 

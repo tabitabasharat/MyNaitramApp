@@ -43,11 +43,11 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
   const [startThumbPosition, setStartThumbPosition] = useState<number>(0); // Left thumb in pixels
   const [endThumbPosition, setEndThumbPosition] = useState<number>(200); // Right thumb in pixels
   const [activeThumb, setActiveThumb] = useState<"start" | "end" | null>(null);
-  const [startPrice, setStartPrice] = useState<number>(100); // Initial start price value
+  const [startPrice, setStartPrice] = useState<number>(0); // Initial start price value
   const [endPrice, setEndPrice] = useState<number>(100000); // Initial end price value
   const progressBarWidth = 200; // Fixed width of the progress container in pixels
 
-  const minValue: number = 100; // Minimum price
+  const minValue: number = 0; // Minimum price
   const maxValue: number = 100000; // Maximum price
 
   // Function to calculate price based on thumb position
@@ -214,7 +214,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
     setShowEndDatePicker(false);
     setFilterDate(null);
     setFilterEndDate(null);
-    setStartPrice(100);
+    setStartPrice(0);
     setEndPrice(100000);
     setStartThumbPosition(0);
     setEndThumbPosition(200);

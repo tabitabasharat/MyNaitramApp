@@ -52,8 +52,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
   });
 
   useEffect(() => {
-    const userid =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     const data = {
       page: 1,
@@ -104,55 +103,36 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
   }, [searchParams]);
 
   useEffect(() => {
-    const id =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserID(id);
   }, []);
 
   // const currentImages = selectedEvent === null ? eventimges : greenimges;
-  const currentImages = selectedEvent
-    ? greenimges
-    : userID
-    ? eventimges
-    : eventimges.filter((e) => e.title !== "Attending");
+  const currentImages = selectedEvent ? greenimges : userID ? eventimges : eventimges.filter((e) => e.title !== "Attending");
 
-  const options = userID
-    ? eventimges
-    : eventimges.filter((e) => e.title !== "Attending");
+  const options = userID ? eventimges : eventimges.filter((e) => e.title !== "Attending");
 
   const title = selectedEvent ? selectedEvent.title : "All Events";
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const EventsAllData = useAppSelector(
-    (state) => state?.getViewAllEvents?.ViewallEvents?.data
-  );
+  const EventsAllData = useAppSelector((state) => state?.getViewAllEvents?.ViewallEvents?.data);
 
   console.log("All Events are", EventsAllData);
 
-  const EventsPastData = useAppSelector(
-    (state) => state?.getPastEvents?.ViewPastEvents?.data
-  );
+  const EventsPastData = useAppSelector((state) => state?.getPastEvents?.ViewPastEvents?.data);
 
   console.log("All Past Events are", EventsPastData);
 
-  const myEvents = useAppSelector(
-    (state) => state?.getUserLiveEvents?.myLiveEvents?.data
-  );
+  const myEvents = useAppSelector((state) => state?.getUserLiveEvents?.myLiveEvents?.data);
 
   console.log("my Live Events are", myEvents);
   const [searchQueryAll, setSearchQueryAll] = useState("");
   const [searchQueryPast, setSearchQueryPast] = useState("");
   const [searchQueryLive, setSearchQueryLive] = useState("");
-  const filteredAllEvents = EventsAllData?.events?.filter((item: any) =>
-    item?.name.toLowerCase().includes(searchQueryAll.toLowerCase())
-  );
-  const filteredPastEvents = EventsPastData?.events?.filter((item: any) =>
-    item?.name.toLowerCase().includes(searchQueryPast.toLowerCase())
-  );
-  const filteredLiveEvents = myEvents?.events?.filter((item: any) =>
-    item?.name.toLowerCase().includes(searchQueryLive.toLowerCase())
-  );
+  const filteredAllEvents = EventsAllData?.events?.filter((item: any) => item?.name.toLowerCase().includes(searchQueryAll.toLowerCase()));
+  const filteredPastEvents = EventsPastData?.events?.filter((item: any) => item?.name.toLowerCase().includes(searchQueryPast.toLowerCase()));
+  const filteredLiveEvents = myEvents?.events?.filter((item: any) => item?.name.toLowerCase().includes(searchQueryLive.toLowerCase()));
 
   const getFilteredEvents = () => {
     switch (title) {
@@ -175,8 +155,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
   return (
     <div
       style={{
-        backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
+        backgroundImage: "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
@@ -189,35 +168,25 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
               key={event.id}
               onClick={() => handleClick(event.id, event.title)}
               className={`relative flex flex-col flex items-center justify-center md:items-start pt-[3px] rounded-[44px] md:rounded-lg w-full md:px-[12px] md:pt-[16px] md:pb-[12px] cursor-pointer  duration-300 ${
-                selectedEvent?.id === event.id
-                  ? "gradient-slate text-[#13FF7A] gradient-border-rounded"
-                  : "gradient-slate border-muted"
+                selectedEvent?.id === event.id ? "gradient-slate text-[#13FF7A] gradient-border-rounded" : "gradient-slate border-muted"
               }`}
             >
               <Image
                 // src={event.imges}
-                src={
-                  currentImages.find((img) => img.id === event.id)?.imges ||
-                  event.imges
-                }
+                src={currentImages.find((img) => img.id === event.id)?.imges || event.imges}
                 alt={event.title}
                 width={20}
                 height={20}
                 className="rounded-lg transition-transform duration-300 hidden md:block"
                 style={{
-                  filter:
-                    selectedEvent?.id === event.id ? "none" : "grayscale(100%)",
+                  filter: selectedEvent?.id === event.id ? "none" : "grayscale(100%)",
                 }}
               />
-              <p className="md:m-0 my-[12px] text-sm md:mt-[8px]">
-                {event.title}
-              </p>
+              <p className="md:m-0 my-[12px] text-sm md:mt-[8px]">{event.title}</p>
             </div>
           ))}
         </div>
-        <h2 className="font-bold text-[32px] mb-[24px] lg:text-[48px] mt-[40px] md:mb-[2rem] 2xl:mt-10">
-          🗓 {title}
-        </h2>
+        <h2 className="font-bold text-[32px] mb-[24px] lg:text-[48px] mt-[40px] md:mb-[2rem] 2xl:mt-10">🗓 {title}</h2>
 
         {/* Search web */}
 
@@ -251,10 +220,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
                   placeholder="Search Your Events"
                 />
               )}
-              <MagnifyingGlass
-                size={20}
-                className="absolute top-1/2 -translate-y-1/2 right-5"
-              />
+              <MagnifyingGlass size={20} className="absolute top-1/2 -translate-y-1/2 right-5" />
               {/* {getFilteredEvents()?.length > 0 && (
                 <MagnifyingGlass
                 size={20}
