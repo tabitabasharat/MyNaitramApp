@@ -2578,7 +2578,6 @@ const toggleEndEventTimePicker = () => {
                                 </FormLabel>
                                 <FormControl>
                                   <div className=" w-full" onClick={toggleEndEventTimePicker}>
-                                  {/* <div className=" w-full"> */}
 
                                     <StyledDateTimePicker
                                        open={isEndEventPickerOpen}
