@@ -15,18 +15,14 @@ import eventimg from "../../../../public/event12.png";
 
 const PopularEvents = () => {
   const dispatch = useAppDispatch();
-  const EventsAllData = useAppSelector(
-    (state) => state?.getAllEvents?.allEvents?.data?.data
-  );
+  const EventsAllData = useAppSelector((state) => state?.getAllEvents?.allEvents?.data?.data);
   console.log("All Event Data", EventsAllData);
   useEffect(() => {
     dispatch(getAllEvents());
   }, []);
   return (
     <section className="pxpx mx-2xl pb-20 mt-20">
-      <h2 className="font-bold text-[32px] leading-[1.1] lg:text-[48px] md:mb-[2rem] 2xl:mt-20">
-        📍 Popular Events Near Me
-      </h2>
+      <h2 className="font-bold text-[32px] leading-[1.1] lg:text-[48px] md:mb-[2rem] 2xl:mt-20">📍 Popular Events Near Me</h2>
       {/* <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {events.slice(0, 6).map((event) => (
           <EventCard key={event.id} img={event.img} title={event.title} />
@@ -34,15 +30,8 @@ const PopularEvents = () => {
       </div> */}
       <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {EventsAllData?.events.length > 0 &&
-          EventsAllData?.events.map((event: any, index:any) => (
-            <EventCard
-            likedEvents={[]}
-              key={index}
-              img={event?.eventPicture}
-              title={event?.name}
-              eventId={event?.id}
-              eventType={"test"}
-            />
+          EventsAllData?.events.map((event: any, index: any) => (
+            <EventCard likedEvents={[]} key={index} img={event?.eventPicture} title={event?.name} eventId={event?.id} eventType={"test"} price="0" />
           ))}
       </div>
       <div className="md:hidden mx-auto cursor-grab scale-[0.95] lg:scale-100 origin-bottom-left">
@@ -61,12 +50,13 @@ const PopularEvents = () => {
           {events.slice(0, 6).map((event) => (
             <SwiperSlide key={event.id}>
               <EventCard
-              likedEvents={[]}
+                likedEvents={[]}
                 key={event.id}
                 img={event.img}
                 title={event.title}
-              eventId={event?.id}
-              eventType={"test"}
+                eventId={event?.id}
+                eventType={"test"}
+                price="0"
 
                 // eventid={event.id}
               />
