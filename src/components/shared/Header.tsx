@@ -75,6 +75,13 @@ const Header = () => {
 
   const [openDropdown, setOpenDropdown] = useState<number | null>(null); // Track the currently open dropdown
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  // const [isOpen, setIsOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState<string | null>(null);
+
+  const handleLinkClick = (link: string) => {
+    setActiveLink(link);
+    setIsOpen(false); // Optional: close the menu after selection
+  };
 
   // Toggle dropdown function
   const handleDropdownToggle = (id: number) => {
@@ -457,34 +464,34 @@ const Header = () => {
               <Popover>
                 <PopoverTrigger asChild>
                   <div className="flex items-center gap-[10px]">
-                  {/* <div className="border h-[44px] w-[44px] border-muted gradient-slate rounded-full items-center  cursor-pointer"> */}
+                    {/* <div className="border h-[44px] w-[44px] border-muted gradient-slate rounded-full items-center  cursor-pointer"> */}
                     <div className="size-[44px] lg:size-[44px] gradient-slate p-[6px] rounded-full overflow-hidden  shadow-inner shadow-md border border-gray-700 rounded-full border-gradient bg-gradient-to-t from-transparent to-transparent">
-                    <div>
-                      <Link
-                        href={"/profile/profile-main"}
-                        className="display-none"
-                      >
-                        <Image
-                          src={
-                            myProfile?.profilePicture
-                              ? myProfile?.profilePicture
-                              : "/person3.jpg"
-                          }
-                          width={32}
-                          height={32}
-                          className="object-cover object-center rounded-full w-[32px] h-[32px]"
-                          placeholder={`data:image/svg+xml;base64,${toBase64(
-                            shimmer(1200, 1800)
-                          )}`}
-                          alt="DP"
-                        />
-                      </Link>
-                    </div>
+                      <div>
+                        <Link
+                          href={"/profile/profile-main"}
+                          className="display-none"
+                        >
+                          <Image
+                            src={
+                              myProfile?.profilePicture
+                                ? myProfile?.profilePicture
+                                : "/person3.jpg"
+                            }
+                            width={32}
+                            height={32}
+                            className="object-cover object-center rounded-full w-[32px] h-[32px]"
+                            placeholder={`data:image/svg+xml;base64,${toBase64(
+                              shimmer(1200, 1800)
+                            )}`}
+                            alt="DP"
+                          />
+                        </Link>
+                      </div>
 
-                    {/* </div> */}
-                
-                  </div>
-                  <div className="relative inline-block text-left" ref={dropdownRef}>
+                      {/* </div> */}
+
+                    </div>
+                    <div className="relative inline-block text-left" ref={dropdownRef}>
                       {/* Dropdown Button */}
                       <div>
                         <button
@@ -504,27 +511,49 @@ const Header = () => {
                         </button>
                       </div>
                       {/* Dropdown Menu */}
-                      {isOpen && (
-                        <div className="absolute right-0 z-10 mt-4 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                          <div className="py-1">
-                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                              Account settings
-                            </a>
-                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                              Support
-                            </a>
-                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                              License
-                            </a>
-                            <button
-                              onClick={() => alert("Signing out")}
-                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                            >
-                              Sign out
-                            </button>
+                      {/* {isOpen && (
+                        <div       style={{
+                          background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+                        }} className="absolute w-[179px] right-0 z-10 mt-4 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                          <div className="flex gap-[9px] justify-center p-[24px] flex-col">
+                            <a href="#" className="block text-start text-sm text-white hover:bg-gray-100">
+                              Organizer Profile                            </a>
+                            <a href="#" className="block text-start text-sm text-white hover:bg-gray-100">
+                              User Profile                            </a>
                           </div>
                         </div>
-                      )}
+                      )} */}
+                      <div>
+                        {/* <button onClick={() => setIsOpen(!isOpen)}>Toggle Menu</button> */}
+
+                        {isOpen && (
+                          <div
+                            style={{
+                              background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+                            }}
+                            className="absolute w-[179px] right-0 z-10 mt-4 w-56 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5"
+                          >
+                            <div className="flex gap-[9px] justify-center p-[24px] flex-col">
+                              <Link
+                                href="/organizer-event/event-dashboard"
+                                onClick={() => handleLinkClick("Organizer Profile")}
+                                className={`block text-start text-sm ${activeLink === "Organizer Profile" ? "text-green-500" : "text-white"
+                                  }`}
+                              >
+                                Organizer Profile
+                              </Link>
+                              <Link
+                                href="/profile/profile-main"
+                                onClick={() => handleLinkClick("User Profile")}
+                                className={`block text-start text-sm ${activeLink === "User Profile" ? "text-green-500" : "text-white"
+                                  }`}
+                              >
+                                User Profile
+                              </Link>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
 

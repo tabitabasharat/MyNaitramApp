@@ -3,7 +3,7 @@
 import Backward from "@/components/Backward/Backward";
 import { events } from "@/lib/dummyData";
 import Link from "next/link";
-import edit from "@/assets/Favorite - Button2.svg";
+import edit from "@/assets/managesettings.svg";
 import Image from "next/image";
 import { shimmer, toBase64 } from "@/lib/utils";
 import { ScaleReveal } from "../animations/ScaleReveal";

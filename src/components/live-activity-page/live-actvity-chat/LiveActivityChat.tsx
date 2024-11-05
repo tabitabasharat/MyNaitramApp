@@ -496,50 +496,7 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
 
         <div ref={chatEndRef} />
       </ScrollArea>
-
       {/* <div className="flex absolute bottom-8 w-[90%] gap-[12px] z-[2]">
-        <label
-          htmlFor="upload"
-          className="flex gap-2 items-center justify-between w-full cursor-pointer"
-        >
-          <Input
-            placeholder="Type here"
-            className="rounded-full relative h-12 ps-6 pr-[50px]"
-            onChange={(e) => setmsgs(e.target.value)}
-            value={msgs}
-            onKeyDown={handleKeyDown}
-          />
-          {userID === userIDlocal && (
-            <Image
-              src={link}
-              alt="link-img"
-              sizes="18px"
-              className="absolute top-[17px] right-[60px] "
-            />
-          )}
-        </label>
-        <input
-          ref={fileInputRef}
-          type="file"
-          className="hidden"
-          id="upload"
-          onChange={handleSingleFileChange}
-        />
-        <Button
-          onClick={toggleEmojiPicker}
-          className="absolute p-0 bg-transparent z-10 emoji-btn"
-        >
-          <Smiley size={18} color="white" />
-        </Button>
-        <Button
-          className="rounded-full w-[36px] p-[0px] mt-[6px] px-[10px] h-[36px]"
-          onClick={() => SendMsg()}
-        >
-          <PaperPlaneTilt size={16} className="h-full  " weight="bold" />
-        </Button>
-      </div> */}
-
-      <div className="flex absolute bottom-8 w-[90%] gap-[12px] z-[2]">
         <label
           htmlFor="upload"
           className="flex gap-2 items-center justify-between w-full cursor-pointer"
@@ -584,7 +541,60 @@ const LiveActivityChat = ({ eventID, userID }: any) => {
         >
           <PaperPlaneTilt size={16} className="h-full" weight="bold" />
         </Button>
-      </div>
+      </div> */}
+      <div className="flex absolute bottom-8 w-[90%] gap-[12px] z-[2]">
+  <label
+    htmlFor="upload"
+    className="flex gap-2 items-center justify-between w-full cursor-pointer"
+  >
+    <Input
+      placeholder="Type here"
+      className="rounded-full placeholder:text-[#9D9FAB] placeholder:text-sm relative h-12 ps-[20px] pr-[50px] z-[2]"
+      onChange={(e) => setmsgs(e.target.value)}
+      value={msgs}
+      onKeyDown={(e) => {
+        if (!msgs.trim() && e.key === "Enter") {
+          e.preventDefault(); // Prevents sending empty messages with Enter key
+        } else {
+          handleKeyDown(e);
+        }
+      }}
+    />
+    <div className="flex items-center">
+      {userID === userIDlocal && (
+        <Image
+          src={link}
+          alt="link-img"
+          sizes="18px"
+          className="absolute top-[17px] right-[68px]"
+        />
+      )}
+      <Button
+        onClick={toggleEmojiPicker}
+        className={`absolute p-0 bg-transparent z-10 emoji-btn cursor-pointer ${
+          userID === userIDlocal ? "right-[88px]" : "right-[70px]"
+        }`}
+      >
+        <Smiley size={18} color="white" />
+      </Button>
+    </div>
+  </label>
+  <input
+    ref={fileInputRef}
+    type="file"
+    className="hidden"
+    id="upload"
+    onChange={handleSingleFileChange}
+  />
+  <Button
+    className="rounded-full w-[36px] p-[0px] mt-[6px] px-[10px] h-[36px]"
+    onClick={() => SendMsg()}
+    disabled={!msgs.trim()} // Disables send button if input is empty
+  >
+    <PaperPlaneTilt size={16} className="h-full" weight="bold" />
+  </Button>
+</div>
+
 
       {showEmojiPicker && (
         <div className="absolute bottom-[5rem] emoji-picker-outer transform -translate-x-1/2 z-20 ">
