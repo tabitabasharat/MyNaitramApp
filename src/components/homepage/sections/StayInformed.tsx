@@ -8,34 +8,23 @@ import ufo from "@/assets/ufo.png";
 import GradientBorder from "@/components/ui/gradient-border";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { StayInformedEmail } from "@/lib/middleware/signin";
-import {
-  ErrorToast,
-  SuccessToast,
-} from "@/components/reusable-components/Toaster/Toaster";
+import { ErrorToast, SuccessToast } from "@/components/reusable-components/Toaster/Toaster";
 import { getViewPastEventsBox } from "@/lib/middleware/event";
 
 const StayInformed = () => {
   const [Email, setEmail] = useState<any>("");
-  const [loader,setLoader] = useState(false);
+  const [loader, setLoader] = useState(false);
   const dispatch = useAppDispatch();
-  const EventsPastData = useAppSelector(
-    (state: any) => state?.getPastEventsBox?.ViewPastEvents?.data
-  );
-  const filteredEvent = EventsPastData?.events?.filter(
-    (event: any) => event.name === "TAKEOVR Boat Party"
-  );
+  const EventsPastData = useAppSelector((state: any) => state?.getPastEventsBox?.ViewPastEvents?.data);
+  const filteredEvent = EventsPastData?.events?.filter((event: any) => event.name === "TAKEOVR Boat Party");
 
-  const filteredEventRoof = EventsPastData?.events?.filter(
-    (event: any) => event.name === "Rooftop Event"
-  );
+  const filteredEventRoof = EventsPastData?.events?.filter((event: any) => event.name === "Rooftop Event");
 
-  const filteredEventVerified = EventsPastData?.events?.filter(
-    (event: any) => event.name === "Naitram Verified"
-  );
+  const filteredEventVerified = EventsPastData?.events?.filter((event: any) => event.name === "Naitram Verified");
 
   console.log("tgis paste event", filteredEvent, EventsPastData);
 
-  const handleEmailInputChange = (e:any) => {
+  const handleEmailInputChange = (e: any) => {
     const input = e.target.value;
     // Allow only letters, numbers, and "@"
     const regex = /^[a-zA-Z0-9@]*$/;
@@ -45,20 +34,17 @@ const StayInformed = () => {
   };
 
   async function handleEmail() {
-  
     setLoader(true);
     try {
       const data = {
         email: Email,
-
       };
       dispatch(StayInformedEmail(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
           SuccessToast("Email Sent Successfully");
           setEmail("");
-
-        }  else {
+        } else {
           ErrorToast(res?.payload?.message || "Something went wrong");
         }
       });
@@ -68,17 +54,14 @@ const StayInformed = () => {
     }
   }
 
-  useEffect(()=>{
-    const data={
-      page:1
-    }
-dispatch(getViewPastEventsBox(data))
-  },[])
+  useEffect(() => {
+    const data = {
+      page: 1,
+    };
+    dispatch(getViewPastEventsBox(data));
+  }, []);
   return (
-    <div
-      style={{ height: "" }}
-      className="pxpx mx-2xl flex gap-4 h-[1180px] md:h-[600px] md:mt-10 md:mb-20  "
-    >
+    <div style={{ height: "" }} className="pxpx mx-2xl flex gap-4 h-[1180px] md:h-[600px] md:mt-10 md:mb-20  ">
       {filteredEvent && (
         <div className="w-1/2 hidden lg:block h-full">
           <EventCard
@@ -88,6 +71,7 @@ dispatch(getViewPastEventsBox(data))
             img={filteredEvent[0]?.coverEventImage}
             title={filteredEvent[0]?.name}
             eventId={filteredEvent[0]?.id}
+            price="0"
           />
         </div>
       )}
@@ -102,6 +86,7 @@ dispatch(getViewPastEventsBox(data))
               img={filteredEventRoof[0]?.coverEventImage}
               title={filteredEventRoof[0]?.name}
               eventId={filteredEventRoof[0]?.id}
+              price="0"
             />
           )}
           {/* <EventCard height="600px" img={events[12].img} title={events[12].title} /> */}
@@ -114,6 +99,7 @@ dispatch(getViewPastEventsBox(data))
               img={filteredEventVerified[0]?.coverEventImage}
               title={filteredEventVerified[0]?.name}
               eventId={filteredEventVerified[0]?.id}
+              price="0"
             />
           )}
         </div>
@@ -121,19 +107,12 @@ dispatch(getViewPastEventsBox(data))
         <div className="h-[42%] w-full pt-4">
           <GradientBorder className="h-[75%] md:h-full">
             <div className="bg-black h-full w-full rounded-lg px-8 py-6">
-              <h1 className="text-[25px] lg:text-[27px] xl:text-[37px] font-bold text-center md:text-left">
-                Stay Informed, Stay Ahead
-              </h1>
+              <h1 className="text-[25px] lg:text-[27px] xl:text-[37px] font-bold text-center md:text-left">Stay Informed, Stay Ahead</h1>
               <p className="text-muted mt-2 text-center md:text-left text-sm md:text-base">
-                Enter your email address and join our community today. Stay
-                connected and ahead of the curve with our regular updates.
+                Enter your email address and join our community today. Stay connected and ahead of the curve with our regular updates.
               </p>
               <div className="relative h-[45px]">
-                <Envelope
-                  size={27}
-                  weight="fill"
-                  className="absolute top-6 left-3"
-                />
+                <Envelope size={27} weight="fill" className="absolute top-6 left-3" />
                 <input
                   type="text"
                   value={Email}
@@ -146,7 +125,8 @@ dispatch(getViewPastEventsBox(data))
                   variant="secondary"
                   className="absolute right-0 h-[45px] top-4 hidden md:block"
                   // onClick={handleEmail}
-                  onClick={handleEmail} disabled={loader}
+                  onClick={handleEmail}
+                  disabled={loader}
                 >
                   Join Now
                 </Button>
@@ -154,17 +134,12 @@ dispatch(getViewPastEventsBox(data))
                   variant="secondary"
                   className="md:hidden h-[45px] w-full mt-4"
                   // onClick={handleEmail}
-                  onClick={handleEmail} disabled={loader}
+                  onClick={handleEmail}
+                  disabled={loader}
                 >
                   Join Now
                 </Button>
-                <Image
-                  src={ufo}
-                  width={300}
-                  height={300}
-                  className="absolute right-0 top-0 pointer-events-none"
-                  alt="ufo"
-                />
+                <Image src={ufo} width={300} height={300} className="absolute right-0 top-0 pointer-events-none" alt="ufo" />
               </div>
             </div>
           </GradientBorder>
