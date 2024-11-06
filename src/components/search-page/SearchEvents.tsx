@@ -14,14 +14,11 @@ const SearchEvents = () => {
     setSearchTerm("");
   };
 
-  const filteredEvents = events.filter((event) =>
-    event.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredEvents = events.filter((event) => event.title.toLowerCase().includes(searchTerm.toLowerCase()));
   return (
     <section
       style={{
-        backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
+        backgroundImage: "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
         backgroundPosition: "center",
       }}
       className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
@@ -36,38 +33,19 @@ const SearchEvents = () => {
           </p>
         </div>
         <div className="w-full relative mt-12">
-          <Input
-            value={searchTerm}
-            className="w-full h-14 px-5"
-            onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Search Event"
-          />
-          <MagnifyingGlass
-            size={20}
-            className="absolute top-1/2 -translate-y-1/2 right-5"
-          />
+          <Input value={searchTerm} className="w-full h-14 px-5" onChange={(event) => setSearchTerm(event.target.value)} placeholder="Search Event" />
+          <MagnifyingGlass size={20} className="absolute top-1/2 -translate-y-1/2 right-5" />
         </div>
         <div className="mt-12">
           {searchTerm === "" ? (
             <div className="flex flex-col justify-center items-center w-full h-full text-center mt-24">
-              <h2 className="font-bold text-[24px] lg:text-[36px]">
-                Easily Discover Events Here
-              </h2>
-              <p className="text-[#BFBFBF] font-light">
-                Browse and find events quickly and effortlessly
-              </p>
+              <h2 className="font-bold text-[24px] lg:text-[36px]">Easily Discover Events Here</h2>
+              <p className="text-[#BFBFBF] font-light">Browse and find events quickly and effortlessly</p>
             </div>
           ) : filteredEvents.length > 0 ? (
             <div className="relative grid md:grid-cols-2 lg:grid-cols-3 xl:lg:grid-cols-4 gap-[1rem]">
               {filteredEvents.map((event) => (
-                <EventCard
-                likedEvents={[]}
-                  eventType={"test"}
-                  key={event.id}
-                  img={event.img}
-                  title={event.title}
-                  eventId={event.id}
-                />
+                <EventCard likedEvents={[]} eventType={"test"} key={event.id} img={event.img} title={event.title} eventId={event.id} price="0" />
               ))}
             </div>
           ) : (

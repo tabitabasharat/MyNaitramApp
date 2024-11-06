@@ -16,61 +16,73 @@ export const events = [
     id: 2,
     img: "/event2.png",
     title: "NAITRAM Launch Party 2024",
+    price: "3000",
   },
   {
     id: 3,
     img: "/event3.png",
     title: "Fashion Friday by Bushmills 2024",
+    price: "3000",
   },
   {
     id: 4,
     img: "/event4.png",
     title: "PIZDEZ Womens Day Party 2024",
+    price: "3000",
   },
   {
     id: 5,
     img: "/event5.png",
     title: "Deep Week with Hate Tuesday",
+    price: "3000",
   },
   {
     id: 6,
     img: "/event6.png",
     title: "After Party for Ladies Night",
+    price: "3000",
   },
   {
     id: 7,
     img: "/event7.png",
     title: "THE VAB with DJ CULOUGH",
+    price: "3000",
   },
   {
     id: 8,
     img: "/event8.png",
     title: "Electro Music Festival DJ Jhoe",
+    price: "3000",
   },
   {
     id: 9,
     img: "/event9.png",
     title: "N.425 Centered Show 2024",
+    price: "3000",
   },
   {
     id: 10,
     img: "/event10.png",
     title: "NEON Glow Party DJ Azure 2024",
+    price: "3000",
   },
   {
     id: 11,
     img: "/event11.png",
     title: "Love & Good Talkshow",
+    price: "3000",
   },
   {
     id: 12,
     img: "/event12.png",
     title: "Bolivia Fiesta Grande 2024",
+    price: "3000",
   },
   {
     id: 1,
     img: "/event1.png",
     title: "NAITRAM Launch Party 2024",
+    price: "3000",
   },
   {
     id: 13,
@@ -78,11 +90,13 @@ export const events = [
     img: "/takeover-new.png",
 
     title: "TAKEOVR BOAT PARTY",
+    price: "3000",
   },
   {
     id: 14,
     img: "/takeover-new.png",
     title: "TAKEOVR BOAT PARTY",
+    price: "3000",
     // title: "Você não precisa saber",
   },
   {
@@ -92,6 +106,7 @@ export const events = [
 
     // title: "Havana Club Daiquiri",
     title: "TAKEOVR BOAT PARTY",
+    price: "3000",
   },
 ];
 
@@ -173,11 +188,6 @@ export const rewardposts = [
   { id: 4, title: "Abstract holi...", img: "/social-img-4.svg" },
   { id: 5, title: "Abstract holi...", img: "/social-img-4.svg" },
   { id: 6, title: "Abstract holi...", img: "/social-img-4.svg" },
-
-
-
-
-  
 ];
 
 export const ticketsType = [
@@ -214,30 +224,19 @@ export const ticketsType2 = [
     soldOutCount: 2,
     title: "Silver",
     price: 750,
-    included: [
-      "8 Guest Entry",
-      "1x Spirit + 2x Champagne",
-      "Queue Jump",
-      "Food",
-    ],
+    included: ["8 Guest Entry", "1x Spirit + 2x Champagne", "Queue Jump", "Food"],
   },
   {
     type: "premium-second",
     title: "Gold",
     price: 1000,
     soldOutCount: 3,
-    included: [
-      "10 Guest Entry",
-      "2x spirit + 3x Champagne",
-      "Queue Jump",
-      "Food",
-    ],
+    included: ["10 Guest Entry", "2x spirit + 3x Champagne", "Queue Jump", "Food"],
   },
   {
     type: "premium-trird",
     title: "Exclusive Guest",
     price: 1000,
     soldOutCount: 0,
-
   },
 ];

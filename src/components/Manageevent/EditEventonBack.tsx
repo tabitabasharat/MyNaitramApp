@@ -1243,13 +1243,15 @@ function EditeventOnBack() {
 
     setTicketTypes(ticketsWithCheckedOptions);
     const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
+    const updatedTags: string[] = chooseHashTags.map((tag: string) => (tag.trim().startsWith("#") ? tag : `#${tag}`));
+    console.log("Updated Tags are as ========>   ", updatedTags);
     try {
       const data = {
         userId: userid,
         isFree: Eventdata?.isFree || isFree,
         name: Eventname || Eventdata?.eventname,
         category: [updatedCategoryTypes?.label],
-        hashtags: chooseHashTags,
+        tags: updatedTags,
         eventDescription: Eventdescription || Eventdata?.eventdescription,
         location: EventLocation || Eventdata?.eventlocation,
         ticketStartDate: utcTicketStartTime,

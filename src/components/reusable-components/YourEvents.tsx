@@ -21,6 +21,7 @@ const YourEvents = ({
   endTime,
   startTime,
   likedEvents,
+  price,
   height = "345px",
   width = "100%",
 }: {
@@ -34,19 +35,14 @@ const YourEvents = ({
   endTime: any;
   startTime: any;
   likedEvents: any;
+  price: string;
 }) => {
   // const imageUrl = img
   //   ? img.startsWith("http") || img.startsWith("https")
   //     ? img
   //     : img
   //   : event12;
-    const imageUrl = img
-    ? img.startsWith("http") || img.startsWith("https")
-      ? img
-      : img.startsWith("/") 
-      ? img
-      : `/${img}` 
-    : event12.src;
+  const imageUrl = img ? (img.startsWith("http") || img.startsWith("https") ? img : img.startsWith("/") ? img : `/${img}`) : event12.src;
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -54,12 +50,9 @@ const YourEvents = ({
   const [sharemodal, setShareModal] = useState<any>(false);
   const [copiedUrl, setCopiedUrl] = useState<any>("");
 
-
-
   async function handleLikeEvent() {
     setLoader(true);
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
 
     try {
       const data = {
@@ -83,8 +76,7 @@ const YourEvents = ({
 
   async function handleDisLikeEvent() {
     setLoader(true);
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
 
     try {
       const data = {
@@ -125,15 +117,12 @@ const YourEvents = ({
   useEffect(() => {
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserToken(userID);
-   
-    if (userID ) {
-      const userHasLiked = likedEvents.some(
-        (likedEvent: any) =>  likedEvent.userId == userID
-      );
-      console.log("user has" , userHasLiked)
+
+    if (userID) {
+      const userHasLiked = likedEvents.some((likedEvent: any) => likedEvent.userId == userID);
+      console.log("user has", userHasLiked);
       setLiked(userHasLiked);
-    }
-    else{
+    } else {
       setLiked(false);
     }
   }, [likedEvents]);
@@ -177,25 +166,22 @@ const YourEvents = ({
       console.error("Input must be a string");
       return "";
     }
-  
-  
 
-  
     console.log("Converted UTC time:", originalDateStr);
     const isUTC = originalDateStr.endsWith("Z");
     const utcDate = new Date(isUTC ? originalDateStr : `${originalDateStr}Z`);
-  
+
     // Check if the input already has a timezone indicator
-    
+
     // Check if the date is valid
     if (isNaN(utcDate.getTime())) {
       console.error("Invalid date format");
       return "";
     }
-  
+
     // Detect local time zone
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  
+
     // Extract local time parts using toLocaleDateString with time zone adjustment
     const dayOfWeek = utcDate.toLocaleDateString("en-US", {
       weekday: "long",
@@ -213,7 +199,7 @@ const YourEvents = ({
       year: "numeric",
       timeZone: timeZone,
     });
-  
+
     // Function to get ordinal suffix
     const getOrdinalSuffix = (date: number) => {
       if (date > 3 && date < 21) return "th"; // covers 11th to 19th
@@ -228,14 +214,14 @@ const YourEvents = ({
           return "th";
       }
     };
-  
+
     // Convert day string to a number and calculate ordinal suffix
     const numericDay = parseInt(dayOfMonth, 10); // Convert day string to number
     const ordinalSuffix = getOrdinalSuffix(numericDay);
-  
+
     // Combine all parts into a properly formatted date string
     const formattedDate = `${dayOfWeek}, ${numericDay}${ordinalSuffix} ${month} ${year}`;
-  
+
     return formattedDate;
   };
   const ConvertTime = (timeStr: string): string => {
@@ -305,42 +291,48 @@ const YourEvents = ({
   // };
   const copyUrlToClipboard = () => {
     if (typeof window !== "undefined") {
-      const domainName = window.location.origin; 
-      const eventUrl = `${domainName}/event/${eventId}`; 
-      
-      
+      const domainName = window.location.origin;
+      const eventUrl = `${domainName}/event/${eventId}`;
+
       setCopiedUrl(eventUrl);
       console.log("Your event URL is", eventUrl);
-      
-     
+
       setShareModal(true);
     }
   };
-  
-  
+
+  function formatTimeRange(startTime: string, endTime: string): string {
+    const options: Intl.DateTimeFormatOptions = { hour: "numeric", minute: "numeric", hour12: true };
+
+    // Convert strings to Date objects
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+
+    // Format start and end times
+    const startFormatted = start.toLocaleTimeString("en-US", options);
+    const endFormatted = end.toLocaleTimeString("en-US", options);
+
+    return `- ${startFormatted} - ${endFormatted}`;
+  }
+
+  function setPriceIndications(price: string): string {
+    if (price === "0") {
+      return "FREE";
+    } else {
+      return `From £${price}`;
+    }
+  }
 
   return (
     <ScaleReveal extraStyle="sm:w-full w-auto">
-      <Link
-        href={
-          eventId
-            ? `/event/${eventId}?EventType=${Eventtype}`
-            : "/viewallevents"
-        }
-        className="w-[100%] sm:w-full"
-      >
-        <div
-          style={{ height}}
-          className="relative overflow-hidden rounded-lg  w-[100%] sm:w-full h-fit border border-[#424242] "
-        >
+      <Link href={eventId ? `/event/${eventId}?EventType=${Eventtype}` : "/viewallevents"} className="w-[100%] sm:w-full">
+        <div style={{ height }} className="relative overflow-hidden rounded-lg  w-[100%] sm:w-full h-fit border border-[#424242] ">
           <Image
             src={imageUrl}
             width={1000}
             height={1000}
             className="w-full h-full rounded-lg object-cover relative mx-auto overflow-hidden"
-            placeholder={`data:image/svg+xml;base64,${toBase64(
-              shimmer(1200, 1800)
-            )}`}
+            placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(1200, 1800))}`}
             alt="event-img"
           />
 
@@ -351,25 +343,17 @@ const YourEvents = ({
               <p className="font-bold text-white text-xl">{title}</p>
               <p className="font-bold text-[11px] text-[#FFFFFF]">
                 {ConvertDate(eventDate)}
-                <br /> {ConvertTime(startTime)} {" "}
-                {/* {ConvertTime(startTime)} - {ConvertTime(endTime)}{" "} */}
+                <br /> {formatTimeRange(startTime, endTime)} {/* {ConvertTime(startTime)} - {ConvertTime(endTime)}{" "} */}
               </p>
+              <p className="text-[#00D059]">{setPriceIndications(price)}</p>
             </div>
             {userToken && (
               <Link href="javascript:void(0)">
-                <div
-                  
-                  className="flex gap-[10px] cursor-pointer"
-                >
-                  <Image src={share} sizes="40px" alt="share" onClick={copyUrlToClipboard}/>
+                <div className="flex gap-[10px] cursor-pointer">
+                  <Image src={share} sizes="40px" alt="share" onClick={copyUrlToClipboard} />
 
                   <div className="bg-white/20 p-[0.6rem] rounded-full backdrop-blur-lg webkit-header-blur" onClick={handleHeartClick}>
-                    <Heart
-                      size={20}
-                   
-                      color="white"
-                      weight={liked ? "fill" : "regular"}
-                    />
+                    <Heart size={20} color="white" weight={liked ? "fill" : "regular"} />
                   </div>
                 </div>
               </Link>
@@ -377,13 +361,7 @@ const YourEvents = ({
           </div>
         </div>
       </Link>
-      {sharemodal && (
-              <ShareModal
-                onClose={() => setShareModal(false)}
-                open={() => setShareModal(true)}
-               eventUrl={copiedUrl}
-              />
-            )}
+      {sharemodal && <ShareModal onClose={() => setShareModal(false)} open={() => setShareModal(true)} eventUrl={copiedUrl} />}
     </ScaleReveal>
   );
 };
