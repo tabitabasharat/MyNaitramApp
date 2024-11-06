@@ -128,59 +128,63 @@ const Hero = () => {
         <div className="lg:w-1/2 xl:w-[40%] z-[8] flex flex-col justify-center items-center lg:justify-start lg:items-start gap-[40px]">
           <div>
             <Reveal y={100} width="100%">
-              <div className="mb-[35px] flex flex-col items-center lg:items-start">
+              <h1 className="font-extrabold text-[40px] lg:text-[64px] leading-[1.1] text-center lg:text-start">
+                Revolutionize Your Experience
+              </h1>
+            </Reveal>
+            <Reveal y={100} width="100%">
+              <p className="mt-[12px] text-muted text-base text-center lg:text-start md:w-[60%] lg:w-full md:mx-auto lg:mx-0">
+                Discover a new way to engage with events through Naitram and
+                enhance your experience from start to finish. Whether you're
+                attending a concert, festival, charity, educational, sport,
+                entertainment, or corporate event.
+              </p>
+            </Reveal>
+          </div>
+          <Reveal y={100} width="100%">
+            <div className="flex flex-col md:flex-row gap-[12px] w-full md:w-fit md:mx-auto lg:mx-0">
+              <Button
+                onClick={() => {
+                  router.push("/about");
+                }}
+                variant="secondary"
+                className="p-[12px] font-extrabold text-sm"
+              >
+                Learn More
+              </Button>
+              <Button
+                onClick={() => {
+                  // router.push("https://apps.apple.com/pk/app/naitram-fan-centric-tickets/id6736828037");
+                  router.push("/download-app")
+                }}
+                className="flex items-center gap-[4px] p-[12px]"
+              >
+                <DownloadSimple size={20} weight="bold" />
+                <p className=" font-extrabold text-sm"> Download App</p>
+              </Button>
+              {/* <div>
+                <Button
+                  onClick={handleTogglePopup}
+                  className="flex items-center gap-[0.5rem]"
+                >
+                  <DownloadSimple size={20} weight="bold" />
+                  <p className="pt-[3px]"> pop ups</p>
+                </Button>
+                {isClaimOpen && (
+                  <Receviepayment
+                    onClose={() => setIsClaimOpen(false)} // This will close the popup
+                    open={isClaimOpen} // Pass the current state to open the popup
+                    collectibleID={collectID} // Pass collectible ID if needed
+                  />
+                )}
+              </div> */}
+            </div>
+          </Reveal>
+          <Reveal y={100} width="100%">
+              <div className="mb-[35px] pt-[4px] flex flex-col items-center lg:items-start">
                 <p className="font-extrabold text-base mb-[12px]">
                   Verify Ticket on Blockchain
                 </p>
-                {/* <Form {...form}>
-                  <form
-                    className="w-full md:w-[491px]"
-                    onSubmit={(e: any) => {
-                      e.preventDefault();
-                      verifyBlockchain();
-                    }}
-                  >
-                    <FormField
-                      name="subject"
-                      render={({ field }) => (
-                        <FormItem className="relative md:mb-[20px] space-y-0">
-                          <Image
-                            src={arrow}
-                            alt="arrow"
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                            onClick={() => verifyBlockchain()}
-                          />
-                          <Image
-                            src={ticket}
-                            alt="ticket"
-                            className="absolute left-3 top-1/2 transform -translate-y-1/2"
-                          />
-                          <FormControl>
-                            <Input
-                              placeholder="Search by Ticket ID Number / Transaction ID"
-                              className="placeholder:text-white placeholder:text-base placeholder:font-normal pb-[30px] pt-8 pl-[45px] pr-[45px]"
-                              onChange={(e) => {
-                                setTicketId(e.target.value);
-                                field.onChange(e);
-                              }}
-                              onKeyDown={(e) => {
-                                // Prevent leading space
-                                if (
-                                  e.key === " " &&
-                                  field.value.trim().length === 0
-                                ) {
-                                  e.preventDefault();
-                                }
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </form>
-                </Form> */}
-
                 <Form {...form}>
                   <form
                     className="w-full md:w-[491px]"
@@ -240,58 +244,6 @@ const Hero = () => {
                 </Form>
               </div>
             </Reveal>
-            <Reveal y={100} width="100%">
-              <h1 className="font-extrabold text-[40px] lg:text-[64px] leading-[1.1] text-center lg:text-start">
-                Revolutionize Your Experience
-              </h1>
-            </Reveal>
-            <Reveal y={100} width="100%">
-              <p className="mt-[12px] text-muted text-base text-center lg:text-start md:w-[60%] lg:w-full md:mx-auto lg:mx-0">
-                Discover a new way to engage with events through Naitram and
-                enhance your experience from start to finish. Whether you're
-                attending a concert, festival, charity, educational, sport,
-                entertainment, or corporate event.
-              </p>
-            </Reveal>
-          </div>
-          <Reveal y={100} width="100%">
-            <div className="flex flex-col md:flex-row gap-[12px] w-full md:w-fit md:mx-auto lg:mx-0">
-              <Button
-                onClick={() => {
-                  router.push("/about");
-                }}
-                variant="secondary"
-                className="p-[12px] font-extrabold text-sm"
-              >
-                Learn More
-              </Button>
-              <Button
-                onClick={() => {
-                  router.push("https://apps.apple.com/pk/app/naitram-fan-centric-tickets/id6736828037");
-                }}
-                className="flex items-center gap-[4px] p-[12px]"
-              >
-                <DownloadSimple size={20} weight="bold" />
-                <p className=" font-extrabold text-sm"> Download App</p>
-              </Button>
-              {/* <div>
-                <Button
-                  onClick={handleTogglePopup}
-                  className="flex items-center gap-[0.5rem]"
-                >
-                  <DownloadSimple size={20} weight="bold" />
-                  <p className="pt-[3px]"> pop ups</p>
-                </Button>
-                {isClaimOpen && (
-                  <Receviepayment
-                    onClose={() => setIsClaimOpen(false)} // This will close the popup
-                    open={isClaimOpen} // Pass the current state to open the popup
-                    collectibleID={collectID} // Pass collectible ID if needed
-                  />
-                )}
-              </div> */}
-            </div>
-          </Reveal>
         </div>
         <FadeReveal extraStyle="z-[5] w-[500px] scale-[2] lg:scale-[3] translate-y-[30%]">
           <Image

@@ -32,7 +32,7 @@ const Footer = () => {
             </p>
             <Button className="flex items-center justify-center gap-[0.5rem] mt-4">
               <Link
-                href="download-app"
+                href="/download-app"
                 className="flex items-center gap-[0.5rem]"
               >
                 <DownloadSimple size={20} weight="bold" />
