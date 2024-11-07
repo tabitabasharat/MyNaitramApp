@@ -1396,7 +1396,7 @@ function OganizerCreateEvent() {
         userId: userid,
         isFree: isFree,
         name: Eventname,
-        category: [categorylabels],
+        category: [categorylabels?.label],
         tags: chooseHashTags,
         eventDescription: Eventdescription,
         location: EventLocation,
@@ -1417,6 +1417,8 @@ function OganizerCreateEvent() {
         linkedinUrl: linkedinUrl,
         eventmedia: imagesOfGallery,
       };
+
+      console.log("Ticket creation APi data is =======> ", data);
       dispatch(createevent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
