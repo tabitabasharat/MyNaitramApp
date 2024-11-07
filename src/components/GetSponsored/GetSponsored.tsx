@@ -44,15 +44,6 @@ const formSchema = z.object({
     .min(1, { message: "Email cannot be empty." })
     .email({ message: "Invalid email address." })
     .regex(/^[^\s+_]+$/, 'Invalid email address.'),
-
-  // firstname: z
-  //   .string()
-  //   .min(1, { message: "Full Name cannot be empty." })
-  //   .regex(/^[A-Za-z\s]+$/, {
-  //     message: "First name must contain only letters.",
-  //   })
-  //   .trim(),
-
   firstname: z
     .string()
     .min(1, { message: "First name cannot be empty." })
