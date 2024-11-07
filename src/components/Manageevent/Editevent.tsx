@@ -128,9 +128,9 @@ const formSchema = z.object({
 
   eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
 
-  compticketno: z.any().refine((val) => val !== undefined && val !== null, {
-    message: "Complimentary ticket cannot be empty.",
-  }),
+  // compticketno: z.any().refine((val) => val !== undefined && val !== null, {
+  //   message: "Complimentary ticket cannot be empty.",
+  // }),
 
   fburl: z.string().url({ message: "Invalid Facebook URL." }).min(1, { message: "Facebook URL cannot be empty." }),
   instaurl: z.string().url({ message: "Invalid Instagram URL." }).min(1, { message: "Instagram URL cannot be empty." }),
@@ -393,7 +393,7 @@ function Editevent() {
 
   const [Eventdescription, setEventdescription] = useState("");
 
-  const [CompTicketNo, setCompTicketNo] = useState("");
+  // const [CompTicketNo, setCompTicketNo] = useState("");
   const [MainImg, setMainImg] = useState("");
   const [MainImgName, setMainImgName] = useState<any>("");
 
@@ -1087,7 +1087,7 @@ function Editevent() {
 
         tickets: filteredTicketTypes || EventData?.tickets || "",
         eventcategory: [categorylabels || updatedCategoryTypes || ""],
-        totalComplemantaryTickets: CompTicketNo || EventData?.totalComplemantaryTickets || "",
+        // totalComplemantaryTickets: CompTicketNo || EventData?.totalComplemantaryTickets || "",
         fbUrl: FBUrl || EventData?.fbUrl || "",
         instaUrl: InstaUrl || EventData?.instaUrl || "",
         youtubeUrl: YoutubeUrl || EventData?.youtubeUrl || "",
@@ -1223,7 +1223,7 @@ function Editevent() {
         //  eventmainimg: mainimgName || form.getValues("eventmainimg"),
         eventcoverimg: EventData?.coverEventImage || form.getValues("eventcoverimg"),
 
-        compticketno: EventData?.totalComplemantaryTickets || form.getValues("compticketno"),
+        // compticketno: EventData?.totalComplemantaryTickets || form.getValues("compticketno"),
         fburl: EventData?.fbUrl || form.getValues("fburl"),
         instaurl: EventData?.instaUrl || form.getValues("instaurl"),
         youtubeurl: EventData?.youtubeUrl || form.getValues("youtubeurl"),
@@ -2801,7 +2801,7 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                 )}
               </div>
 
-              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
+              {/* <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                 <FormField
                   control={form.control}
                   name="compticketno"
@@ -2828,9 +2828,9 @@ border-[0.86px] border-transparent text-[11px] font-extrabold"
                     </FormItem>
                   )}
                 />
-              </div>
+              </div> */}
 
-              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
+              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full common-container">
                 <FormField
                   control={form.control}
                   name="fburl"

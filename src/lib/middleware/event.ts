@@ -294,7 +294,7 @@ export const updateEvent = createAsyncThunk("updateEvent", async (data: any) => 
       mainEventImage: data?.mainEventImage,
       coverEventImage: data?.coverEventImage,
       tickets: data?.tickets,
-      totalComplemantaryTickets: data?.totalComplemantaryTickets,
+      // totalComplemantaryTickets: data?.totalComplemantaryTickets,
       fbUrl: data?.fbUrl,
       instaUrl: data?.instaUrl,
       youtubeUrl: data?.youtubeUrl,
