@@ -67,7 +67,6 @@ import localFont from "next/font/local";
 import { Poppins } from "next/font/google";
 import StoreProvider from "./StoreProvider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import Providers from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "NAITRAM - Your Ticket. Your Event. Your Experience.",
@@ -120,9 +119,7 @@ export default function RootLayout({
       <GoogleOAuthProvider clientId={clientId}>
         <StoreProvider>
           <html lang="en">
-            <body className={`${baseFont.variable} ${poppins.variable} font-sans bg-black text-white overflow-x-clip`}>
-              <Providers> {children}</Providers>
-            </body>
+            <body className={`${baseFont.variable} ${poppins.variable} font-sans bg-black text-white overflow-x-clip`}>{children}</body>
           </html>
         </StoreProvider>
       </GoogleOAuthProvider>
