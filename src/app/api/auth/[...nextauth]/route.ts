@@ -1,16 +1,11 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      //   authorization: {
-      //     params: {
-      //       scope: "openid email profile https://www.googleapis.com/auth/youtube.readonly",
-      //     },
-      //   },
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
   callbacks: {
@@ -29,4 +24,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
 });
 
-export { handlers as GET, handlers as POST };
+export { handler as GET, handler as POST };
