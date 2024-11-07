@@ -19,14 +19,7 @@ import {
 } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import AccountSidebarLink from "@/components/reusable-components/AccountSidebarLink";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { CaretRight } from "@phosphor-icons/react/dist/ssr";
 import Switch, { SwitchProps } from "@mui/material/Switch";
@@ -43,30 +36,19 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import bgblur from "../../assets/Blur Green.png";
 import { showLiveActivity, updateLiveActivity } from "@/lib/middleware/profile";
 import ScreenLoader from "../loader/Screenloader";
-import {
-  SuccessToast,
-  ErrorToast,
-} from "../reusable-components/Toaster/Toaster";
+import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
 import { isAction } from "redux";
 const formSchema = z.object({
-  facebook: z
-    .string()
-    .min(2, { message: "Facebook Url name cannot be empty." }),
-  linkedIn: z.string().min(2, { message: "linkedin Url cannot be empty." }),
-  insta: z.string().min(2, { message: "Instagram Url cannot be empty." }),
-  telegram: z.string().min(1, { message: "Telegram Url cannot be empty." }),
-  twitter: z.string().min(1, { message: "Twitter Url cannot be empty." }),
-  tiktok: z.string().min(1, { message: "Tiktok Url cannot be empty." }),
-  youtube: z.string().min(1, { message: "Youtube Url cannot be empty." }),
+  facebook: z.string().url({ message: "Invalid Facebook URL." }).optional(),
+  insta: z.string().url({ message: "Invalid Instagram URL." }).optional(),
+  youtube: z.string().url({ message: "Invalid YouTube URL." }).optional(),
+  tiktok: z.string().url({ message: "Invalid TikTok URL." }).optional(),
+  linkedIn: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
+  twitter: z.string().url({ message: "Invalid Twitter URL." }).optional(),
+  telegram: z.string().url({ message: "Invalid Telegram URL." }).optional(),
 });
 
-const LiveAccntSetting = ({
-  className,
-  setPopupOpen,
-}: {
-  className?: string;
-  setPopupOpen?: any;
-}) => {
+const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; setPopupOpen?: any }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [useriD, setuserId] = useState<any>("");
@@ -79,31 +61,42 @@ const LiveAccntSetting = ({
   const [telegramUrl, settelegramUrl] = useState("");
   const [tiktokUrl, settiktokUrl] = useState("");
 
-  const myliveActivity = useAppSelector(
-    (state) => state?.getProfileLiveActivity?.LiveActivity?.data
-  );
+  const [isFbVerify, setFbVerify] = useState<boolean>(false);
+  const [isInstaVerify, setInstaVerify] = useState<boolean>(false);
+  const [isTeleVerify, setTeleVerify] = useState<boolean>(false);
+  const [isYtVerify, setYtVerify] = useState<boolean>(false);
+  const [isTikTokVerify, setTikTokVerify] = useState<boolean>(false);
+  const [isLinkedInVerify, setLinkedInVerify] = useState<boolean>(false);
+  const [isXVerify, setXVerify] = useState<boolean>(false);
+
+  const myliveActivity = useAppSelector((state) => state?.getProfileLiveActivity?.LiveActivity?.data);
 
   console.log("my live info is", myliveActivity);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      facebook: "https://www.facebook.com/",
-      insta: "https://instagram.com/",
-      linkedIn: "https://linkedin.com/in/",
-      tiktok: "https://www.tiktok.com/@",
-      telegram: "https://t.me/",
-      twitter: "https://www.x.com/",
-      youtube: "https://www.youtube.com/",
+      facebook: "",
+      insta: "",
+      linkedIn: "",
+      tiktok: "",
+      telegram: "",
+      twitter: "",
+      youtube: "",
     },
   });
 
   useEffect(() => {
-    const id =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", id);
     setuserId(id);
     dispatch(showLiveActivity(id));
+
+    // Check is there user Social Accounts verifyOrNot
+    setFbVerify(true);
+    setTikTokVerify(true);
+    setXVerify(true);
+    setYtVerify(true);
   }, []);
 
   useEffect(() => {
@@ -143,8 +136,7 @@ const LiveAccntSetting = ({
         color: "#000",
         "& + .MuiSwitch-track": {
           opacity: 1,
-          backgroundColor:
-            theme.palette.mode === "dark" ? "#13FF7A" : "#13FF7A",
+          backgroundColor: theme.palette.mode === "dark" ? "#13FF7A" : "#13FF7A",
         },
       },
     },
@@ -160,10 +152,7 @@ const LiveAccntSetting = ({
     "& .MuiSwitch-track": {
       borderRadius: 16 / 2,
       opacity: 1,
-      backgroundColor:
-        theme.palette.mode === "dark"
-          ? "rgba(255,255,255,.35)"
-          : "rgba(0,0,0,.25)",
+      backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.35)" : "rgba(0,0,0,.25)",
       boxSizing: "border-box",
     },
   }));
@@ -183,8 +172,7 @@ const LiveAccntSetting = ({
 
   async function updateActivity(values: z.infer<typeof formSchema>) {
     setLoader(true);
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("my val", values);
     try {
       let data;
@@ -234,9 +222,7 @@ const LiveAccntSetting = ({
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
       {loader && <ScreenLoader />}
       <div className="w-full lg:w-[70%] md:ps-[0px] lg:pe-[20px] mt-[48px] lg:mt-[90px] lg:ps-[90px] xl:ps-[172px] md:mx-auto lg:w-full  lg:mx-[0] relative h-[90vh] overflow-y-auto scrollbar-hide">
-        <h2 className="font-bold text-[20px] ms-[24px] lg:ms-[0px] lg:text-[32px]">
-          Live Activity Settings
-        </h2>
+        <h2 className="font-bold text-[20px] ms-[24px] lg:ms-[0px] lg:text-[32px]">Live Activity Settings</h2>
         <div className="flex w-full md:w-full lg:w-[600px] flex-col lg:flex-col gap-6 md:gap-8 mt-[50px] lg:mt-[32px]">
           <Link
             href={`/social-profile/${useriD}`}
@@ -249,9 +235,7 @@ const LiveAccntSetting = ({
           >
             <div className="flex gap-2 items-center ">
               <UserGear size={20} weight="bold" />
-              <p className="text-sm md:text-base font-extrabold mb-0">
-                Preview my Personal Social Profile
-              </p>
+              <p className="text-sm md:text-base font-extrabold mb-0">Preview my Personal Social Profile</p>
             </div>
             <CaretRight size={16} weight="bold" />
           </Link>
@@ -269,27 +253,15 @@ const LiveAccntSetting = ({
                 borderImageSlice: checked ? 1 : undefined,
               }}
             >
-              <p className="mb-0 text-center text-base font-extrabold">
-                Show Name on Live Chat
-              </p>
+              <p className="mb-0 text-center text-base font-extrabold">Show Name on Live Chat</p>
               <Stack direction="row" spacing={1} alignItems="center">
-                <AntSwitch
-                  checked={checked}
-                  onChange={handleChange}
-                  inputProps={{ "aria-label": "ant design" }}
-                />
+                <AntSwitch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "ant design" }} />
               </Stack>
             </div>
             <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(updateActivity)}
-                className=" w-full mb-[50px]"
-              >
-                        <div className="flex justify-start mb-8 lg:justify-start">
-                  <Button
-                    type="submit"
-                    className="w-full font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base md:w-fit"
-                  >
+              <form onSubmit={form.handleSubmit(updateActivity)} className=" w-full mb-[50px]">
+                <div className="flex justify-start mb-8 lg:justify-start">
+                  <Button type="submit" className="w-full font-extrabold py-[16px] lg:py-[12px] px-[30.5px] text-sm md:text-base md:w-fit">
                     Update Changes
                   </Button>
                 </div>
@@ -300,17 +272,21 @@ const LiveAccntSetting = ({
                     name="facebook"
                     render={({ field }) => (
                       <FormItem className="relative mb-4 md:mb-6 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          FACEBOOK
-                        </FormLabel>
-                        <FacebookLogo
-                          className="absolute right-3 top-[35%]"
-                          size={20}
-                        />
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">FACEBOOK</FormLabel>
+                        {/* <FacebookLogo className="absolute right-3 top-[35%]" size={20} /> */}
+                        {isFbVerify ? (
+                          <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
+                            ✔
+                          </FormLabel>
+                        ) : (
+                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                            Verify
+                          </FormLabel>
+                        )}
                         <FormControl>
                           <Input
-                            placeholder="Enter Fullname"
-                            className="pt-11 pb-5 text-base placeholder:font-extrabold"
+                            placeholder="Enter URL"
+                            className="pt-11 pb-5 pr-24 text-[13px] leading-[1.2rem] placeholder:font-extrabold"
                             {...field}
                             // onChange={(e) => {
                             //   setFbUrl(e.target.value);
@@ -319,13 +295,8 @@ const LiveAccntSetting = ({
 
                             onChange={(e) => {
                               const value = e.target.value;
-
-                              if (
-                                value.startsWith("https://www.facebook.com/")
-                              ) {
-                                setFbUrl(e.target.value);
-                                field.onChange(e);
-                              }
+                              setFbUrl(e.target.value);
+                              field.onChange(e);
                             }}
                           />
                         </FormControl>
@@ -338,17 +309,21 @@ const LiveAccntSetting = ({
                     name="insta"
                     render={({ field }) => (
                       <FormItem className="relative mb-4 md:mb-6 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          INSTAGRAM
-                        </FormLabel>
-                        <InstagramLogo
-                          className="absolute right-3 top-[35%]"
-                          size={20}
-                        />
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">INSTAGRAM</FormLabel>
+                        {/* <InstagramLogo className="absolute right-3 top-[35%]" size={20} /> */}
+                        {isInstaVerify ? (
+                          <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
+                            ✔
+                          </FormLabel>
+                        ) : (
+                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                            Verify
+                          </FormLabel>
+                        )}
                         <FormControl>
                           <Input
-                            placeholder="Enter Fullname"
-                            className="pt-11 pb-5 text-base placeholder:font-extrabold"
+                            placeholder="Enter URL"
+                            className="pt-11 pb-5 pr-24 text-[13px] leading-[1.2rem] placeholder:font-extrabold"
                             {...field}
                             // onChange={(e) => {
                             //   setinstaUrl(e.target.value);
@@ -356,11 +331,8 @@ const LiveAccntSetting = ({
                             // }}
                             onChange={(e) => {
                               const value = e.target.value;
-
-                              if (value.startsWith("https://instagram.com/")) {
-                                setinstaUrl(e.target.value);
-                                field.onChange(e);
-                              }
+                              setinstaUrl(e.target.value);
+                              field.onChange(e);
                             }}
                           />
                         </FormControl>
@@ -373,17 +345,21 @@ const LiveAccntSetting = ({
                     name="linkedIn"
                     render={({ field }) => (
                       <FormItem className="relative mb-4 md:mb-6 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          LINKEDIN
-                        </FormLabel>
-                        <LinkedinLogo
-                          className="absolute right-3 top-[35%]"
-                          size={20}
-                        />
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">LINKEDIN</FormLabel>
+                        {/* <LinkedinLogo className="absolute right-3 top-[35%]" size={20} /> */}
+                        {isLinkedInVerify ? (
+                          <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
+                            ✔
+                          </FormLabel>
+                        ) : (
+                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                            Verify
+                          </FormLabel>
+                        )}
                         <FormControl>
                           <Input
-                            placeholder="Enter Fullname"
-                            className="pt-11 pb-5 text-base placeholder:font-extrabold"
+                            placeholder="Enter URL"
+                            className="pt-11 pb-5 pr-24 text-[13px] leading-[1.2rem] placeholder:font-extrabold"
                             {...field}
                             // onChange={(e) => {
                             //   setlinkedinUrl(e.target.value);
@@ -391,13 +367,8 @@ const LiveAccntSetting = ({
                             // }}
                             onChange={(e) => {
                               const value = e.target.value;
-
-                              if (
-                                value.startsWith("https://linkedin.com/in/")
-                              ) {
-                                setlinkedinUrl(e.target.value);
-                                field.onChange(e);
-                              }
+                              setlinkedinUrl(e.target.value);
+                              field.onChange(e);
                             }}
                           />
                         </FormControl>
@@ -410,17 +381,21 @@ const LiveAccntSetting = ({
                     name="telegram"
                     render={({ field }) => (
                       <FormItem className="relative mb-4 md:mb-8 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          TELEGRAM
-                        </FormLabel>
-                        <TelegramLogo
-                          className="absolute right-3 top-[35%]"
-                          size={20}
-                        />
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">TELEGRAM</FormLabel>
+                        {/* <TelegramLogo className="absolute right-3 top-[35%]" size={20} /> */}
+                        {isTeleVerify ? (
+                          <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
+                            ✔
+                          </FormLabel>
+                        ) : (
+                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                            Verify
+                          </FormLabel>
+                        )}
                         <FormControl>
                           <Input
-                            placeholder="youremail@example.com"
-                            className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                            placeholder="Enter URL"
+                            className="pt-11 pb-5 pr-24 text-[13px] leading-[1.2rem] placeholder:font-extrabold"
                             {...field}
                             // onChange={(e) => {
                             //   settelegramUrl(e.target.value);
@@ -428,11 +403,8 @@ const LiveAccntSetting = ({
                             // }}
                             onChange={(e) => {
                               const value = e.target.value;
-
-                              if (value.startsWith("https://t.me/")) {
-                                settelegramUrl(e.target.value);
-                                field.onChange(e);
-                              }
+                              settelegramUrl(e.target.value);
+                              field.onChange(e);
                             }}
                           />
                         </FormControl>
@@ -445,17 +417,21 @@ const LiveAccntSetting = ({
                     name="youtube"
                     render={({ field }) => (
                       <FormItem className="relative mb-4 md:mb-6 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          YOUTUBE
-                        </FormLabel>
-                        <YoutubeLogo
-                          className="absolute right-3 top-[35%]"
-                          size={20}
-                        />
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">YOUTUBE</FormLabel>
+                        {/* <YoutubeLogo className="absolute right-3 top-[35%]" size={20} /> */}
+                        {isYtVerify ? (
+                          <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
+                            ✔
+                          </FormLabel>
+                        ) : (
+                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                            Verify
+                          </FormLabel>
+                        )}
                         <FormControl>
                           <Input
-                            placeholder="username12"
-                            className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                            placeholder="Enter URL"
+                            className="pt-11 pb-5 pr-24 text-[13px] leading-[1.2rem] placeholder:font-extrabold"
                             {...field}
                             // onChange={(e) => {
                             //   setyoutubeUrl(e.target.value);
@@ -463,13 +439,8 @@ const LiveAccntSetting = ({
                             // }}
                             onChange={(e) => {
                               const value = e.target.value;
-
-                              if (
-                                value.startsWith("https://www.youtube.com/")
-                              ) {
-                                setyoutubeUrl(e.target.value);
-                                field.onChange(e);
-                              }
+                              setyoutubeUrl(e.target.value);
+                              field.onChange(e);
                             }}
                           />
                         </FormControl>
@@ -482,17 +453,21 @@ const LiveAccntSetting = ({
                     name="tiktok"
                     render={({ field }) => (
                       <FormItem className="relative mb-4 md:mb-6 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          TIKTOK
-                        </FormLabel>
-                        <TiktokLogo
-                          className="absolute right-3 top-[35%]"
-                          size={20}
-                        />
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">TIKTOK</FormLabel>
+                        {/* <TiktokLogo className="absolute right-3 top-[35%]" size={20} /> */}
+                        {isTikTokVerify ? (
+                          <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
+                            ✔
+                          </FormLabel>
+                        ) : (
+                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                            Verify
+                          </FormLabel>
+                        )}
                         <FormControl>
                           <Input
-                            placeholder="username12"
-                            className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                            placeholder="Enter URL"
+                            className="pt-11 pb-5 pr-24 text-[13px] leading-[1.2rem] placeholder:font-extrabold"
                             {...field}
                             // onChange={(e) => {
                             //   setyoutubeUrl(e.target.value);
@@ -500,13 +475,8 @@ const LiveAccntSetting = ({
                             // }}
                             onChange={(e) => {
                               const value = e.target.value;
-
-                              if (
-                                value.startsWith("https://www.tiktok.com/@")
-                              ) {
-                                settiktokUrl(e.target.value);
-                                field.onChange(e);
-                              }
+                              settiktokUrl(e.target.value);
+                              field.onChange(e);
                             }}
                           />
                         </FormControl>
@@ -519,17 +489,21 @@ const LiveAccntSetting = ({
                     name="twitter"
                     render={({ field }) => (
                       <FormItem className="relative mb-[48px] md:mb-6 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          TWITTER
-                        </FormLabel>
-                        <TwitterLogo
-                          className="absolute right-3 top-[30%]"
-                          size={20}
-                        />
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">TWITTER</FormLabel>
+                        {/* <TwitterLogo className="absolute right-3 top-[30%]" size={20} /> */}
+                        {isXVerify ? (
+                          <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
+                            ✔
+                          </FormLabel>
+                        ) : (
+                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                            Verify
+                          </FormLabel>
+                        )}
                         <FormControl>
                           <Input
-                            placeholder="username12"
-                            className="pt-11 pb-5 text-base  placeholder:font-extrabold"
+                            placeholder="Enter URL"
+                            className="pt-11 pb-5 pr-24 text-[13px] leading-[1.2rem] placeholder:font-extrabold"
                             {...field}
                             // onChange={(e) => {
                             //   settwitterUrl(e.target.value);
@@ -538,11 +512,8 @@ const LiveAccntSetting = ({
 
                             onChange={(e) => {
                               const value = e.target.value;
-
-                              if (value.startsWith("https://www.x.com/")) {
-                                settwitterUrl(e.target.value);
-                                field.onChange(e);
-                              }
+                              settwitterUrl(e.target.value);
+                              field.onChange(e);
                             }}
                           />
                         </FormControl>
@@ -551,7 +522,6 @@ const LiveAccntSetting = ({
                     )}
                   />
                 </div>
-        
               </form>
             </Form>
           </div>
