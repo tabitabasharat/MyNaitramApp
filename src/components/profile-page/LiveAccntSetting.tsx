@@ -1,5 +1,8 @@
 // components/LiveAccntSetting.js
 "use client";
+
+import { signIn, signOut, useSession } from "next-auth/react";
+
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import GradientBorder from "../ui/gradient-border";
@@ -49,6 +52,8 @@ const formSchema = z.object({
 });
 
 const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; setPopupOpen?: any }) => {
+  const { data: session } = useSession();
+
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [useriD, setuserId] = useState<any>("");
@@ -93,10 +98,10 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
     dispatch(showLiveActivity(id));
 
     // Check is there user Social Accounts verifyOrNot
-    setFbVerify(true);
-    setTikTokVerify(true);
-    setXVerify(true);
-    setYtVerify(true);
+    // setFbVerify(false);
+    // setTikTokVerify(false);
+    // setXVerify(false);
+    // setYtVerify(false);
   }, []);
 
   useEffect(() => {
@@ -424,7 +429,10 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                             ✔
                           </FormLabel>
                         ) : (
-                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          <FormLabel
+                            onClick={() => signIn("google")}
+                            className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center"
+                          >
                             Verify
                           </FormLabel>
                         )}
