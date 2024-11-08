@@ -122,7 +122,7 @@ const formSchema = z.object({
 });
 
 const Kyc = () => {
-    
+
     const [selectedEventId, setSelectedEventId] = useState<number>(1);
     const router = useRouter();
 
@@ -159,7 +159,7 @@ const Kyc = () => {
                                 className={`relative flex flex-col items-center justify-center w-[130px] md:items-start pt-[3px] rounded-[44px] md:rounded-lg md:w-[240px] md:px-[12px] px-[31.5px] md:py-[16.5px] cursor-pointer duration-300 ${selectedEventId === event.id
                                     ? "gradient-slate text-[#13FF7A] font-extrabold md:text-base text-sm gradient-border-rounded"
                                     : "gradient-slate font-normal md:text-base text-sm border-muted"
-                                }`}
+                                    }`}
                             >
                                 <p className="md:m-0 my-[12px] font-normal md:text-base text-sm">
                                     {event.title}
@@ -168,7 +168,7 @@ const Kyc = () => {
                         ))}
                     </div>
 
-                  
+
                     <div>
                         {selectedEventId === 1 && <IndividualInfo />}
                         {selectedEventId === 2 && <Business />}

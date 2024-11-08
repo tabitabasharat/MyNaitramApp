@@ -188,22 +188,22 @@ const Executive = () => {
 
     return (
         <div>
-              <div className="flex mb-[24px] lg:mb-[32px] justify-start">
-            <Button
-            //   disabled={EventsData?.events?.length <= 0}
-              type="submit"
-              className="max-w-fit h-[36px] gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
+            <div className="flex mb-[24px] lg:mb-[32px] justify-start">
+                <Button
+                    //   disabled={EventsData?.events?.length <= 0}
+                    type="submit"
+                    className="max-w-fit h-[36px] gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
             py-[12px] px-[12px] text-sm md:text-base md:w-fit
             disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <Image
-                src={add}
-                alt="add"
-                className="me-[8px] w-[14px] h-[14px]"
-              />{" "}
-              <p className="text-[11px] font-extrabold"></p>
-              Add Executive            </Button>
-          </div>
+                >
+                    <Image
+                        src={add}
+                        alt="add"
+                        className="me-[8px] w-[14px] h-[14px]"
+                    />{" "}
+                    <p className="text-[11px] font-extrabold"></p>
+                    Add Executive            </Button>
+            </div>
             <div className="flex gap-[30px] flex-col md:gap-[70px]">
                 <Form {...form}>
                     <form
@@ -223,7 +223,7 @@ const Executive = () => {
                                             >
                                                 <div className="flex flex-col">
                                                     <p className="text-[12px] font-bold text-[#8F8F8F] uppercase">
-                                                    RELATIONSHIP WITH COMPANY                                                    </p>
+                                                        RELATIONSHIP WITH COMPANY                                                    </p>
                                                     <p>Select Relationship </p>
                                                 </div>
                                                 <Image
@@ -249,8 +249,8 @@ const Executive = () => {
                                                                     className={`text-[16px] font-normal items-center ${categoryTypes?.some(
                                                                         (o: any) => o.label === option.label
                                                                     )
-                                                                            ? "text-[#00d059]"
-                                                                            : "text-[#FFFFFF]"
+                                                                        ? "text-[#00d059]"
+                                                                        : "text-[#FFFFFF]"
                                                                         }`}
                                                                 >
                                                                     {option.label}
@@ -275,22 +275,22 @@ const Executive = () => {
                                     )}
                                 />
                             </div>
-                     
+
                         </div>
                         <div className="lg:flex w-full  gap-[24px]">
-                        <div className="w-full">
+                            <div className="w-full">
                                 <FormField
                                     control={form.control}
                                     name="lastname"
                                     render={({ field }) => (
                                         <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
                                             <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                                            FISRT NAME                                            </FormLabel>
+                                                FISRT NAME                                            </FormLabel>
                                             <Image
-                                                    src={user}
-                                                    alt="img"
-                                                    className="absolute right-3 top-[30%]"
-                                                />
+                                                src={user}
+                                                alt="img"
+                                                className="absolute right-3 top-[30%]"
+                                            />
                                             <FormControl>
                                                 <Input
                                                     placeholder="Enter First Name"
@@ -327,58 +327,58 @@ const Executive = () => {
                                     )}
                                 />
                             </div>
-                                <div className="w-full md:mb-[30px]">
-                                    <FormField
-                                        control={form.control}
-                                        name="name"
-                                        render={({ field }) => (
-                                            <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
-                                                <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                                                    LAST NAME
-                                                </FormLabel>
-                                                <Image
-                                                    src={user}
-                                                    alt="img"
-                                                    className="absolute right-3 top-[30%]"
+                            <div className="w-full md:mb-[30px]">
+                                <FormField
+                                    control={form.control}
+                                    name="name"
+                                    render={({ field }) => (
+                                        <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                                            <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                                                LAST NAME
+                                            </FormLabel>
+                                            <Image
+                                                src={user}
+                                                alt="img"
+                                                className="absolute right-3 top-[30%]"
+                                            />
+                                            <FormControl className="text-[white]">
+                                                <Input
+                                                    placeholder="Enter Last Name"
+                                                    className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                                                    {...field}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        // Allow the input, but prevent leading space
+                                                        if (value.trimStart().length === 0) {
+                                                            // If input is only spaces, set to empty
+                                                            setName("");
+                                                            field.onChange("");
+                                                        } else {
+                                                            setName(value);
+                                                            field.onChange(value);
+                                                        }
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        // Prevent leading space
+                                                        if (e.key === " " && field.value.length === 0) {
+                                                            e.preventDefault();
+                                                        }
+                                                        // Allow letters and spaces
+                                                        if (
+                                                            !/^[A-Za-z\s]*$/.test(e.key) &&
+                                                            !["Backspace", "Tab"].includes(e.key)
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                 />
-                                                <FormControl className="text-[white]">
-                                                    <Input
-                                                        placeholder="Enter Last Name"
-                                                        className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
-                                                        {...field}
-                                                        onChange={(e) => {
-                                                            const value = e.target.value;
-                                                            // Allow the input, but prevent leading space
-                                                            if (value.trimStart().length === 0) {
-                                                                // If input is only spaces, set to empty
-                                                                setName("");
-                                                                field.onChange("");
-                                                            } else {
-                                                                setName(value);
-                                                                field.onChange(value);
-                                                            }
-                                                        }}
-                                                        onKeyDown={(e) => {
-                                                            // Prevent leading space
-                                                            if (e.key === " " && field.value.length === 0) {
-                                                                e.preventDefault();
-                                                            }
-                                                            // Allow letters and spaces
-                                                            if (
-                                                                !/^[A-Za-z\s]*$/.test(e.key) &&
-                                                                !["Backspace", "Tab"].includes(e.key)
-                                                            ) {
-                                                                e.preventDefault();
-                                                            }
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
+                        </div>
                         <div className="flex justify-start">
                             <Button
                                 type="submit"
