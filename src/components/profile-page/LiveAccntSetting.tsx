@@ -218,6 +218,10 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
     }
   }
 
+  const handleGoogleLogin = () => {
+    window.location.href = "/api/auth/google";
+  };
+
   return (
     <>
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
@@ -425,7 +429,10 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                             ✔
                           </FormLabel>
                         ) : (
-                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          <FormLabel
+                            onClick={handleGoogleLogin}
+                            className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center"
+                          >
                             Verify
                           </FormLabel>
                         )}
