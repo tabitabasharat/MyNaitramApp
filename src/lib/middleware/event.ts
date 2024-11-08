@@ -418,3 +418,66 @@ export const FollowPromoterStatus = createAsyncThunk("FollowPromoterStatus", asy
     };
   }
 });
+
+export const createForm = createAsyncThunk("createForm", async (data: any) => {
+  try {
+    console.log("Inside the reason createForm");
+
+    const res = await api.post(`${API_URL}/event/createForm`, data);
+    console.log("Iside the creatForm status ", res);
+
+    return {
+      status: res?.status,
+      data: res?.data,
+    };
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
+  }
+});
+
+export const deleteEvent = createAsyncThunk("deleteEvent", async (data: any) => {
+  try {
+    console.log("Inside the Delete Event");
+
+    const { userId, eventId } = data;
+
+    const res = await api.delete(`${API_URL}/event/deleteEvent/${eventId}/${userId}`, data);
+    console.log("Iside the Delete Event status ", res);
+
+    return {
+      status: res?.status,
+      data: res?.data,
+    };
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
+  }
+});
+
+export const stopTicketSales = createAsyncThunk("stopTicketSales", async (data: any) => {
+  try {
+    console.log("Inside the Stop Sales");
+    console.log("Body Data to stop Sales ", data);
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    const res = await api.post(`${API_URL}/event/stopTicketSales`, data, { headers });
+    console.log("Iside the Stop Sales status ", res);
+
+    return {
+      status: res?.status,
+      data: res?.data,
+    };
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
+  }
+});
