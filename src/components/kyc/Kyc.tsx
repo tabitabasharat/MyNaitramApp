@@ -55,15 +55,16 @@ type Event = {
     id: number;
     title: string;
     url: string;
-  }; 
+};
 
 const eventImages = [
-    { id: 1, title: "Individual", url: "/kyc/individual-info" },
-    { id: 2, title: "Business" ,url: "/kyc/business" },
-    { id: 3, title: "Representative",url: "/kyc/representative"  },
-    { id: 4, title: "Owners",url: "/kyc/owner"  },
-    { id: 5, title: "Executive",url: "/kyc/executive" },
+    { id: 1, title: "Individual" },
+    { id: 2, title: "Business" },
+    { id: 3, title: "Representative" },
+    { id: 4, title: "Owners" },
+    { id: 5, title: "Executive" },
 ];
+
 
 const formSchema = z.object({
     email: z
@@ -121,12 +122,12 @@ const formSchema = z.object({
 });
 
 const Kyc = () => {
+    
     const [selectedEventId, setSelectedEventId] = useState<number>(1);
     const router = useRouter();
 
-    const handleSelect = (id: number, url: string) => {
-      setSelectedEventId(id);
-      router.push(url); // Navigate to the specified URL
+    const handleSelect = (id: number) => {
+        setSelectedEventId(id);
     };
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -151,41 +152,30 @@ const Kyc = () => {
                 </h1>
                 <div className="flex gap-[30px] flex-col md:gap-[70px]">
                     <div className="w-full flex whitespace-nowrap overflow-y-auto scrollbar-hide flex-nowrap md:gap-[12px] gap-[5px] events">
-                        {/* {eventImages.map((event) => (
+                        {eventImages.map((event) => (
                             <div
                                 key={event.id}
                                 onClick={() => handleSelect(event.id)}
                                 className={`relative flex flex-col items-center justify-center w-[130px] md:items-start pt-[3px] rounded-[44px] md:rounded-lg md:w-[240px] md:px-[12px] px-[31.5px] md:py-[16.5px] cursor-pointer duration-300 ${selectedEventId === event.id
                                     ? "gradient-slate text-[#13FF7A] font-extrabold md:text-base text-sm gradient-border-rounded"
                                     : "gradient-slate font-normal md:text-base text-sm border-muted"
-                                    }`}
+                                }`}
                             >
                                 <p className="md:m-0 my-[12px] font-normal md:text-base text-sm">
                                     {event.title}
                                 </p>
                             </div>
-                        ))} */}
-                          {eventImages.map((event) => (
-        <div
-          key={event.id}
-          onClick={() => handleSelect(event.id, event.url)}
-          className={`relative flex flex-col items-center justify-center w-[130px] md:items-start pt-[3px] rounded-[44px] md:rounded-lg md:w-[240px] md:px-[12px] px-[31.5px] md:py-[16.5px] cursor-pointer duration-300 ${
-            selectedEventId === event.id
-              ? "gradient-slate text-[#13FF7A] font-extrabold md:text-base text-sm gradient-border-rounded"
-              : "gradient-slate font-normal md:text-base text-sm border-muted"
-          }`}
-        >
-          <p className="md:m-0 my-[12px] font-normal md:text-base text-sm">
-            {event.title}
-          </p>
-        </div>
-      ))}
+                        ))}
                     </div>
-                    {/* <IndividualInfo /> */}
-{/* <Business/> */}
-{/* <Representative/> */}
-<Owners/>
-{/* <Executive/> */}
+
+                  
+                    <div>
+                        {selectedEventId === 1 && <IndividualInfo />}
+                        {selectedEventId === 2 && <Business />}
+                        {selectedEventId === 3 && <Representative />}
+                        {selectedEventId === 4 && <Owners />}
+                        {selectedEventId === 5 && <Executive />}
+                    </div>
                 </div>
             </div>
         </section>
