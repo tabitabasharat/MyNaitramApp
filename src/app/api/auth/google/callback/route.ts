@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
     */
 
     // Redirect to success page with user data
-    return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/auth/success?user=${encodeURIComponent(JSON.stringify(user))}`);
+    return NextResponse.redirect(`${process.env.NEXTAUTH_URL}?user=${encodeURIComponent(JSON.stringify(user))}`);
   } catch (error) {
     console.error("Google callback error:", error);
     return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/auth/error?error=Failed to authenticate with Google`);
