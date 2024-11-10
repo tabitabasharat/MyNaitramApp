@@ -82,7 +82,7 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
 
                     {/* Edit icon positioned outside of the Link */}
                     <div
-                      className="absolute bottom-4 right-4 z-[50]"
+                      className="absolute bottom-4 right-4 z-[999]"
                       onClick={(e) => {
                         e.stopPropagation();
                         setPOpUpOpen(isPopUpOPen === index ? null : index);
@@ -90,7 +90,12 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                     >
                       <Image className="z-[50]" src={edit} alt="edit" />
                       {isPopUpOPen === index && (
-                        <div className="absolute bg-gradient-to-t from-[#1A1A1A] to-[#0F0F0F] border-transparent border-[1px] border-t-white/6 border-b-white/6 w-[150px] rounded flex flex-col justify-center items-start pl-2 pt-2 pb-2">
+                        <div
+                          style={{
+                            background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+                          }}
+                          className="mt-[-130px] ml-[-140px] absolute shadow-lg ring-1 ring-black ring-opacity-5 border-transparent border-[1px] border-t-white/6 border-b-white/6 w-[150px] rounded flex flex-col justify-center items-start pl-2 pt-2 pb-2 z-[999]"
+                        >
                           {/* Your links or options here */}
                           <Link
                             href={`/management/edit-event/${event.id}`}
@@ -108,7 +113,7 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                             onClick={(e) => {
                               if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
                                 e.preventDefault(); // Prevent navigation
-                                ErrorToast("You cannot edit this event because tickets from this event have been sold already");
+                                ErrorToast("You cannot delete this event because tickets from this event have been sold already");
                               }
                             }}
                           >
@@ -119,7 +124,7 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                             onClick={(e) => {
                               if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
                                 e.preventDefault(); // Prevent navigation
-                                ErrorToast("You cannot edit this event because tickets from this event have been sold already");
+                                ErrorToast("You cannot stopSales this event because tickets from this event have been sold already");
                               }
                             }}
                           >
