@@ -1,14 +1,9 @@
 import NextAuth from "next-auth";
-
-import Google from "next-auth/providers/google";
-import Facebook from "next-auth/providers/facebook";
-import Instagram from "next-auth/providers/instagram";
-import Twitter from "next-auth/providers/twitter";
-import LinkedIn from "next-auth/providers/linkedin";
+import GoogleProvider from "next-auth/providers/google";
 
 export default NextAuth({
   providers: [
-    Google({
+    GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       authorization: {
@@ -17,6 +12,7 @@ export default NextAuth({
         },
       },
     }),
+    // Add other providers here
   ],
   callbacks: {
     async signIn({ account, profile }) {
