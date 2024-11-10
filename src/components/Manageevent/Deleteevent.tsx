@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 
 import { getEventByEventId, createForm, deleteEvent } from "@/lib/middleware/event"; // First Import the API function method
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"; // Second Import the selector and dispatch
@@ -126,23 +126,23 @@ function Deletevent() {
                   control={form.control}
                   name="reasontext"
                   render={({ field }) => (
-                    <FormItem className="relative w-[60%] sm:min-w-full space-y-0">
-                      {/* text-[16px] font-extrabold leading-[19.2px] text-left underline decoration-skip-ink-none */}
+                    <FormItem className="relative w-full md:w-[65%] space-y-0">
                       <FormLabel className="text-[16px] font-extrabold leading-[19.2px] text-left absolute left-3  uppercase pt-[16px] pb-[4px]">
                         Reason For Delete Event
                       </FormLabel>
                       <FormControl>
-                        <Input
+                        <Textarea
                           placeholder="Enter Reason"
-                          className="pt-12 pb-[20rem] text-[12px] font-bold placeholder:text-[12px] placeholder:font-bold placeholder:leading-[16.2px] placeholder:text-left placeholder:text-[#8F8F8F]"
                           {...field}
+                          value={reasonData}
+                          className="pt-11 text-[12px] font-bold placeholder:text-[12px] placeholder:font-bold placeholder:leading-[16.2px] placeholder:text-left placeholder:text-[#8F8F8F]"
                           onChange={(e) => {
                             setReasonDataToDelete(e.target.value);
                             field.onChange(e);
                           }}
+                          style={{ resize: "none", height: "210px" }}
                         />
                       </FormControl>
-
                       <FormMessage />
                     </FormItem>
                   )}
@@ -150,8 +150,8 @@ function Deletevent() {
               </div>
             </form>
           </Form>
-          <div className="flex gap-[20px] mt-[50px]">
-            <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate">
+          <div className="flex gap-[20px] mt-[50px] justify-center items-center w-full md:justify-start">
+            <div className="flex justify-center items-center rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate text-[#00A849]">
               Cancel
             </div>
             <div onClick={() => CreateForm()} className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] bg-red-500 p-[12px]">

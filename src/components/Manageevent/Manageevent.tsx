@@ -17,6 +17,11 @@ import EventCard from "../reusable-components/EventCard";
 import { useState, useEffect } from "react";
 import { getEventsByUID } from "@/lib/middleware/organizer";
 import { ErrorToast } from "../reusable-components/Toaster/Toaster";
+
+import editEventIcon from "@/assets/editEventIcon.svg";
+import deleteEventIcon from "@/assets/deleteEventIcon.svg";
+import stopSalesIcon from "@/assets/stopEventSalesIcon.svg";
+
 function Manageevent({ events, eventType, title, img, eventId, height = "345px", width = "100%" }: any) {
   const dispatch = useAppDispatch();
   const [isPopUpOPen, setPOpUpOpen] = useState<number | null>(null);
@@ -94,10 +99,11 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                           style={{
                             background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
                           }}
-                          className="mt-[-130px] ml-[-140px] absolute shadow-lg ring-1 ring-black ring-opacity-5 border-transparent border-[1px] border-t-white/6 border-b-white/6 w-[150px] rounded flex flex-col justify-center items-start pl-2 pt-2 pb-2 z-[999]"
+                          className="mt-[-190px] ml-[-130px] absolute shadow-lg ring-1 ring-black ring-opacity-5 border-transparent border-[1px] border-t-white/6 border-b-white/6 rounded-[12px] flex flex-col gap-[9px] justify-center items-start pl-[24px] pt-[24px] pb-[24px] pr-[24px] z-[999] w-auto"
                         >
                           {/* Your links or options here */}
                           <Link
+                            className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-full"
                             href={`/management/edit-event/${event.id}`}
                             onClick={(e) => {
                               if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
@@ -106,9 +112,11 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                               }
                             }}
                           >
-                            Edit
+                            <Image src={editEventIcon} alt="Edit" className="w-[12px] h-[12px] mb-[2px]" />
+                            Edit Event
                           </Link>
                           <Link
+                            className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-full"
                             href={`/management/delete-event/${event.id}`}
                             onClick={(e) => {
                               if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
@@ -117,9 +125,11 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                               }
                             }}
                           >
-                            Delete
+                            <Image src={deleteEventIcon} alt="Edit" className="w-[12px] h-[12px] mb-[2px]" />
+                            Delete Event
                           </Link>
                           <Link
+                            className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-full"
                             href={`/management/stopsales/${event.id}`}
                             onClick={(e) => {
                               if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
@@ -128,6 +138,7 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                               }
                             }}
                           >
+                            <Image src={stopSalesIcon} alt="Edit" className="w-[12px] h-[12px] mb-[2px]" />
                             Stop Sales
                           </Link>
                         </div>

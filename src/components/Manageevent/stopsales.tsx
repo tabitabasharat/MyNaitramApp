@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 
 import { getEventByEventId, stopTicketSales } from "@/lib/middleware/event"; // First Import the API function method
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"; // Second Import the selector and dispatch
@@ -109,14 +109,16 @@ function StopSales() {
                         reason for Stop sales
                       </FormLabel>
                       <FormControl>
-                        <Input
+                        <Textarea
                           placeholder="Enter Reason"
-                          className="pt-12 pb-[20rem] text-[12px] font-bold placeholder:text-[12px] placeholder:font-bold placeholder:leading-[16.2px] placeholder:text-left placeholder:text-[#8F8F8F]"
+                          className="pt-11 text-[12px] font-bold placeholder:text-[12px] placeholder:font-bold placeholder:leading-[16.2px] placeholder:text-left placeholder:text-[#8F8F8F]"
                           {...field}
+                          value={reasonData}
                           onChange={(e) => {
                             setReasonDataToStop(e.target.value);
                             field.onChange(e);
                           }}
+                          style={{ resize: "none", height: "210px" }}
                         />
                       </FormControl>
 
