@@ -204,10 +204,10 @@ const Business = () => {
                             const value = e.target.value;
                             // Prevent leading space
                             if (value.trimStart().length === 0) {
-                              setLastName("");
+                              setCompName("");
                               field.onChange("");
                             } else {
-                              setLastName(value);
+                              setCompName(value);
                               field.onChange(value);
                             }
                           }}
@@ -244,7 +244,7 @@ const Business = () => {
                           className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                           {...field}
                           onChange={(e) => {
-                            setEmail(e.target.value);
+                            setUTR(e.target.value);
                             field.onChange(e);
                           }}
                         />
@@ -271,10 +271,10 @@ const Business = () => {
                             const value = e.target.value;
                             // Prevent leading space
                             if (value.trimStart().length === 0) {
-                              setOrgName("");
+                              setCompURL("");
                               field.onChange("");
                             } else {
-                              setOrgName(value);
+                              setCompURL(value);
                               field.onChange(value);
                             }
                           }}
@@ -314,7 +314,7 @@ const Business = () => {
                           className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                           {...field}
                           onChange={(e) => {
-                            setContactNo(e.target.value);
+                            setAdd_1(e.target.value);
                             field.onChange(e);
                           }}
                           onKeyDown={(e) => {
@@ -346,10 +346,10 @@ const Business = () => {
                             const value = e.target.value;
                             // Prevent leading space
                             if (value.trimStart().length === 0) {
-                              setRole("");
+                              setAdd_2("");
                               field.onChange("");
                             } else {
-                              setRole(value);
+                              setAdd_2(value);
                               field.onChange(value);
                             }
                           }}
@@ -389,10 +389,10 @@ const Business = () => {
                             const value = e.target.value;
                             // Prevent leading space
                             if (value.trimStart().length === 0) {
-                              setRole("");
+                              setCity("");
                               field.onChange("");
                             } else {
-                              setRole(value);
+                              setCity(value);
                               field.onChange(value);
                             }
                           }}
@@ -430,10 +430,10 @@ const Business = () => {
                             const value = e.target.value;
                             // Prevent leading space
                             if (value.trimStart().length === 0) {
-                              setRole("");
+                              setPostalCode("");
                               field.onChange("");
                             } else {
-                              setRole(value);
+                              setPostalCode(value);
                               field.onChange(value);
                             }
                           }}
@@ -473,7 +473,7 @@ const Business = () => {
                           className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                           {...field}
                           onChange={(e) => {
-                            setContactNo(e.target.value);
+                            setCountry(e.target.value);
                             field.onChange(e);
                           }}
                           onKeyDown={(e) => {
