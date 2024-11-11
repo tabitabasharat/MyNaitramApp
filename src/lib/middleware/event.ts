@@ -138,7 +138,7 @@ export const getViewAllEvent = createAsyncThunk("getViewAllEvent", async (data: 
     const res = await api.get(
       `${API_URL}/event/getEventsAll?page=${data?.page ? data?.page : 1}&limit=${data?.limit ? data?.limit : 12}&category=${data?.category}&Free=${
         data?.free
-      }&startDate=${data?.startDate}&endDate=${data?.endDate}`
+      }&startDate=${data?.startDate}&endDate=${data?.endDate}&minPrice=${data?.minPrice}&maxPrice=${data?.maxPrice}`
     );
 
     // const res = await api.get(
@@ -195,7 +195,7 @@ export const getViewPastEvents = createAsyncThunk("getViewPastEvents", async (da
     const res = await api.get(
       `${API_URL}/event/getPastEvents?page=${data?.page ? data?.page : 1}&limit=${data?.limit ? data?.limit : 12}&category=${data?.category}&Free=${
         data?.free
-      }&startDate=${data?.startDate}&endDate=${data?.endDate}`
+      }&startDate=${data?.startDate}&endDate=${data?.endDate}&minPrice=${data?.minPrice}&maxPrice=${data?.maxPrice}`
     );
     console.log("inside get Past Events ", res);
     // localStorage.setItem("token", res?.data?.token);
@@ -254,7 +254,7 @@ export const getLiveEventById = createAsyncThunk("getLiveEventById", async (data
     const res = await api.get(
       `${API_URL}/event/getLiveEvents/${data?.userId}?page=${data?.page ? data?.page : 1}&limit=${data?.limit ? data?.limit : 12}&category=${
         data?.category
-      }&Free=${data?.free}&startDate=${data?.startDate}&endDate=${data?.endDate}`
+      }&Free=${data?.free}&startDate=${data?.startDate}&endDate=${data?.endDate}&minPrice=${data?.minPrice}&maxPrice=${data?.maxPrice}`
     );
     // const res = await api.get(
     //   `${API_URL}/event/getLiveEvents/${data?.userId}?page=${
