@@ -11,4 +11,6 @@
 // export const API_URL ="https://staggingbe.blockmoblabs.com"
 
 // export const API_URL = "https://staggingbe.blockmoblabs.com";
-export const API_URL = "https://stagingbe.dotskulls.com";
+// export const API_URL = "https://stagingbe.dotskulls.com";
+
+export const API_URL = "https://something.dotskulls.com";
