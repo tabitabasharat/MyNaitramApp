@@ -72,6 +72,7 @@ const StayInformed = () => {
             title={filteredEvent[0]?.name}
             eventId={filteredEvent[0]?.id}
             price="0"
+            showPrice={false}
           />
         </div>
       )}
@@ -87,6 +88,7 @@ const StayInformed = () => {
               title={filteredEventRoof[0]?.name}
               eventId={filteredEventRoof[0]?.id}
               price="0"
+              showPrice={false}
             />
           )}
           {/* <EventCard height="600px" img={events[12].img} title={events[12].title} /> */}
@@ -100,6 +102,7 @@ const StayInformed = () => {
               title={filteredEventVerified[0]?.name}
               eventId={filteredEventVerified[0]?.id}
               price="0"
+              showPrice={false}
             />
           )}
         </div>

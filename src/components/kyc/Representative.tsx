@@ -187,25 +187,25 @@ const Representative = () => {
     return (
         <div>
             <div className="flex gap-[30px] flex-col md:gap-[70px]">
-            <Form {...form}>
-                        <form
-                            className=" w-full"
-                        //  onSubmit={form.handleSubmit(login)}
-                        >
-                                   <div className="lg:flex w-full  gap-[24px]">
-                                <div className="w-[49%]">
+                <Form {...form}>
+                    <form
+                        className=" w-full"
+                    //  onSubmit={form.handleSubmit(login)}
+                    >
+                        <div className="lg:flex w-full  gap-[24px]">
+                            <div className="w-full lg:w-[49%]" >
                                 <FormField
                                     control={form.control}
                                     name="name"
                                     render={({ field }) => (
-                                        <FormItem className="relative mb-[16px] md:mb-4 w-full rounded-md border border-[#292929] gradient-slate py-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                                        <FormItem className="relative mb-[16px] md:mb-4 w-full rounded-md border border-[#292929] gradient-slate py-[8px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                                             <div
                                                 className="flex items-center justify-between"
                                                 onClick={handleCatDropdownToggle}
                                             >
                                                 <div className="flex flex-col">
                                                     <p className="text-[12px] font-bold text-[#8F8F8F] uppercase">
-                                                    RELATIONSHIP WITH COMPANY
+                                                        RELATIONSHIP WITH COMPANY
                                                     </p>
                                                     <p>Select Relationship </p>
                                                 </div>
@@ -232,8 +232,8 @@ const Representative = () => {
                                                                     className={`text-[16px] font-normal items-center ${categoryTypes?.some(
                                                                         (o: any) => o.label === option.label
                                                                     )
-                                                                            ? "text-[#00d059]"
-                                                                            : "text-[#FFFFFF]"
+                                                                        ? "text-[#00d059]"
+                                                                        : "text-[#FFFFFF]"
                                                                         }`}
                                                                 >
                                                                     {option.label}
@@ -257,416 +257,416 @@ const Representative = () => {
                                         </FormItem>
                                     )}
                                 />
-                                </div>
                             </div>
-                            <div className="lg:flex w-full  gap-[24px]">
-                                <div className="w-full">
-                                    <FormField
-                                        control={form.control}
-                                        name="name"
-                                        render={({ field }) => (
-                                            <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
-                                                <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                                                    FIRST NAME
-                                                </FormLabel>
-                                                <Image
-                                                    src={user}
-                                                    alt="img"
-                                                    className="absolute right-3 top-[30%]"
-                                                />
-                                                <FormControl className="text-[white]">
-                                                    <Input
-                                                        placeholder="Enter First Name"
-                                                        className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
-                                                        {...field}
-                                                        onChange={(e) => {
-                                                            const value = e.target.value;
-                                                            // Allow the input, but prevent leading space
-                                                            if (value.trimStart().length === 0) {
-                                                                // If input is only spaces, set to empty
-                                                                setName("");
-                                                                field.onChange("");
-                                                            } else {
-                                                                setName(value);
-                                                                field.onChange(value);
-                                                            }
-                                                        }}
-                                                        onKeyDown={(e) => {
-                                                            // Prevent leading space
-                                                            if (e.key === " " && field.value.length === 0) {
-                                                                e.preventDefault();
-                                                            }
-                                                            // Allow letters and spaces
-                                                            if (
-                                                                !/^[A-Za-z\s]*$/.test(e.key) &&
-                                                                !["Backspace", "Tab"].includes(e.key)
-                                                            ) {
-                                                                e.preventDefault();
-                                                            }
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-                                <div className="w-full">
-                                    <FormField
-                                        control={form.control}
-                                        name="lastname"
-                                        render={({ field }) => (
-                                            <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
-                                                <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                                                    LAST NAME
-                                                </FormLabel>
-                                                <Image
-                                                    src={user}
-                                                    alt="img"
-                                                    className="absolute right-3 top-[30%]"
-                                                />
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Enter Last Name"
-                                                        className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
-                                                        {...field}
-                                                        onChange={(e) => {
-                                                            const value = e.target.value;
-                                                            // Prevent leading space
-                                                            if (value.trimStart().length === 0) {
-                                                                setLastName("");
-                                                                field.onChange("");
-                                                            } else {
-                                                                setLastName(value);
-                                                                field.onChange(value);
-                                                            }
-                                                        }}
-                                                        onKeyDown={(e) => {
-                                                            // Prevent leading space
-                                                            if (e.key === " " && field.value.length === 0) {
-                                                                e.preventDefault();
-                                                            }
-                                                            // Allow letters and spaces
-                                                            if (
-                                                                !/^[A-Za-z\s]*$/.test(e.key) &&
-                                                                !["Backspace", "Tab"].includes(e.key)
-                                                            ) {
-                                                                e.preventDefault();
-                                                            }
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-                            </div>
-                            <div className="lg:flex w-full  gap-[24px]">
-                                <div className="w-full">
+                        </div>
+                        <div className="lg:flex w-full  gap-[24px]">
+                            <div className="w-full">
                                 <FormField
-                                        control={form.control}
-                                        name="organization"
-                                        render={({ field }) => (
-                                            <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
-                                                <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                                                    DATE OF BIRTH                                                    </FormLabel>
-                                                <Image
-                                                    src={dob}
-                                                    alt="img"
-                                                    className="absolute right-3 top-[30%]"
+                                    control={form.control}
+                                    name="name"
+                                    render={({ field }) => (
+                                        <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                                            <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                                                FIRST NAME
+                                            </FormLabel>
+                                            <Image
+                                                src={user}
+                                                alt="img"
+                                                className="absolute right-3 top-[30%]"
+                                            />
+                                            <FormControl className="text-[white]">
+                                                <Input
+                                                    placeholder="Enter First Name"
+                                                    className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                                                    {...field}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        // Allow the input, but prevent leading space
+                                                        if (value.trimStart().length === 0) {
+                                                            // If input is only spaces, set to empty
+                                                            setName("");
+                                                            field.onChange("");
+                                                        } else {
+                                                            setName(value);
+                                                            field.onChange(value);
+                                                        }
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        // Prevent leading space
+                                                        if (e.key === " " && field.value.length === 0) {
+                                                            e.preventDefault();
+                                                        }
+                                                        // Allow letters and spaces
+                                                        if (
+                                                            !/^[A-Za-z\s]*$/.test(e.key) &&
+                                                            !["Backspace", "Tab"].includes(e.key)
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                 />
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Enter DOB"
-                                                        className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
-                                                        {...field}
-                                                        onChange={(e) => {
-                                                            const value = e.target.value;
-                                                            // Prevent leading space
-                                                            if (value.trimStart().length === 0) {
-                                                                setOrgName("");
-                                                                field.onChange("");
-                                                            } else {
-                                                                setOrgName(value);
-                                                                field.onChange(value);
-                                                            }
-                                                        }}
-                                                        onKeyDown={(e) => {
-                                                            // Prevent leading space
-                                                            if (e.key === " " && field.value.length === 0) {
-                                                                e.preventDefault();
-                                                            }
-                                                            // Allow letters, numbers, and spaces
-                                                            if (
-                                                                !/^[A-Za-z0-9\s]*$/.test(e.key) &&
-                                                                !["Backspace", "Tab"].includes(e.key)
-                                                            ) {
-                                                                e.preventDefault();
-                                                            }
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-                                <div className="w-full">
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="w-full">
                                 <FormField
-                                        control={form.control}
-                                        name="role"
-                                        render={({ field }) => (
-                                            <FormItem className="relative  mb-[16px] md:mb-4 space-y-0">
-                                                <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                                                    ADDRESS 1                                                     </FormLabel>
-                                                <Image
-                                                    src={organization}
-                                                    alt="img"
-                                                    className="absolute right-3 top-[30%]"
+                                    control={form.control}
+                                    name="lastname"
+                                    render={({ field }) => (
+                                        <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                                            <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                                                LAST NAME
+                                            </FormLabel>
+                                            <Image
+                                                src={user}
+                                                alt="img"
+                                                className="absolute right-3 top-[30%]"
+                                            />
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Enter Last Name"
+                                                    className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                                                    {...field}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        // Prevent leading space
+                                                        if (value.trimStart().length === 0) {
+                                                            setLastName("");
+                                                            field.onChange("");
+                                                        } else {
+                                                            setLastName(value);
+                                                            field.onChange(value);
+                                                        }
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        // Prevent leading space
+                                                        if (e.key === " " && field.value.length === 0) {
+                                                            e.preventDefault();
+                                                        }
+                                                        // Allow letters and spaces
+                                                        if (
+                                                            !/^[A-Za-z\s]*$/.test(e.key) &&
+                                                            !["Backspace", "Tab"].includes(e.key)
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                 />
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Enter Address 1"
-                                                        className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
-                                                        {...field}
-                                                        onChange={(e) => {
-                                                            const value = e.target.value;
-                                                            // Prevent leading space
-                                                            if (value.trimStart().length === 0) {
-                                                                setRole("");
-                                                                field.onChange("");
-                                                            } else {
-                                                                setRole(value);
-                                                                field.onChange(value);
-                                                            }
-                                                        }}
-                                                        onKeyDown={(e) => {
-                                                            // Prevent leading space
-                                                            if (e.key === " " && field.value.length === 0) {
-                                                                e.preventDefault();
-                                                            }
-                                                            // Allow only letters and spaces
-                                                            if (
-                                                                !/^[A-Za-z\s]*$/.test(e.key) &&
-                                                                !["Backspace", "Tab"].includes(e.key)
-                                                            ) {
-                                                                e.preventDefault();
-                                                            }
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
-                                                    <div className="lg:flex w-full mb-[16px] md:mb-4 gap-[24px]">
-                                <div className="w-full ">
-                                    <FormField
-                                        control={form.control}
-                                        name="role"
-                                        render={({ field }) => (
-                                            <FormItem className="relative  mb-[16px] md:mb-4 space-y-0">
-                                                <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                                                    ADDRESS 2
-                                                </FormLabel>
-                                                <Image
-                                                    src={organization}
-                                                    alt="img"
-                                                    className="absolute right-3 top-[30%]"
+                        </div>
+                        <div className="lg:flex w-full  gap-[24px]">
+                            <div className="w-full">
+                                <FormField
+                                    control={form.control}
+                                    name="organization"
+                                    render={({ field }) => (
+                                        <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                                            <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                                                DATE OF BIRTH                                                    </FormLabel>
+                                            <Image
+                                                src={dob}
+                                                alt="img"
+                                                className="absolute right-3 top-[30%]"
+                                            />
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Enter DOB"
+                                                    className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                                                    {...field}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        // Prevent leading space
+                                                        if (value.trimStart().length === 0) {
+                                                            setOrgName("");
+                                                            field.onChange("");
+                                                        } else {
+                                                            setOrgName(value);
+                                                            field.onChange(value);
+                                                        }
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        // Prevent leading space
+                                                        if (e.key === " " && field.value.length === 0) {
+                                                            e.preventDefault();
+                                                        }
+                                                        // Allow letters, numbers, and spaces
+                                                        if (
+                                                            !/^[A-Za-z0-9\s]*$/.test(e.key) &&
+                                                            !["Backspace", "Tab"].includes(e.key)
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                 />
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Enter Address 2"
-                                                        className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
-                                                        {...field}
-                                                        onChange={(e) => {
-                                                            const value = e.target.value;
-                                                            // Prevent leading space
-                                                            if (value.trimStart().length === 0) {
-                                                                setRole("");
-                                                                field.onChange("");
-                                                            } else {
-                                                                setRole(value);
-                                                                field.onChange(value);
-                                                            }
-                                                        }}
-                                                        onKeyDown={(e) => {
-                                                            // Prevent leading space
-                                                            if (e.key === " " && field.value.length === 0) {
-                                                                e.preventDefault();
-                                                            }
-                                                            // Allow only letters and spaces
-                                                            if (
-                                                                !/^[A-Za-z\s]*$/.test(e.key) &&
-                                                                !["Backspace", "Tab"].includes(e.key)
-                                                            ) {
-                                                                e.preventDefault();
-                                                            }
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="w-full">
+                                <FormField
+                                    control={form.control}
+                                    name="role"
+                                    render={({ field }) => (
+                                        <FormItem className="relative  mb-[16px] md:mb-4 space-y-0">
+                                            <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                                                ADDRESS 1                                                     </FormLabel>
+                                            <Image
+                                                src={organization}
+                                                alt="img"
+                                                className="absolute right-3 top-[30%]"
+                                            />
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Enter Address 1"
+                                                    className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                                                    {...field}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        // Prevent leading space
+                                                        if (value.trimStart().length === 0) {
+                                                            setRole("");
+                                                            field.onChange("");
+                                                        } else {
+                                                            setRole(value);
+                                                            field.onChange(value);
+                                                        }
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        // Prevent leading space
+                                                        if (e.key === " " && field.value.length === 0) {
+                                                            e.preventDefault();
+                                                        }
+                                                        // Allow only letters and spaces
+                                                        if (
+                                                            !/^[A-Za-z\s]*$/.test(e.key) &&
+                                                            !["Backspace", "Tab"].includes(e.key)
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                        </div>
+                        <div className="lg:flex w-full mb-[16px] md:mb-4 gap-[24px]">
+                            <div className="w-full ">
+                                <FormField
+                                    control={form.control}
+                                    name="role"
+                                    render={({ field }) => (
+                                        <FormItem className="relative  mb-[16px] md:mb-4 space-y-0">
+                                            <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                                                ADDRESS 2
+                                            </FormLabel>
+                                            <Image
+                                                src={organization}
+                                                alt="img"
+                                                className="absolute right-3 top-[30%]"
+                                            />
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Enter Address 2"
+                                                    className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                                                    {...field}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        // Prevent leading space
+                                                        if (value.trimStart().length === 0) {
+                                                            setRole("");
+                                                            field.onChange("");
+                                                        } else {
+                                                            setRole(value);
+                                                            field.onChange(value);
+                                                        }
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        // Prevent leading space
+                                                        if (e.key === " " && field.value.length === 0) {
+                                                            e.preventDefault();
+                                                        }
+                                                        // Allow only letters and spaces
+                                                        if (
+                                                            !/^[A-Za-z\s]*$/.test(e.key) &&
+                                                            !["Backspace", "Tab"].includes(e.key)
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
 
-                                <div className="w-full">
-                                    <FormField
-                                        control={form.control}
-                                        name="cell"
-                                        render={({ field }) => (
-                                            <FormItem className="relative  mb-[16px] md:mb-4 space-y-0">
-                                                <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                                                    TOWN/CITY
-                                                </FormLabel>
-                                                <Image
-                                                    src={location}
-                                                    alt="img"
-                                                    className="absolute right-3 top-[30%]"
+                            <div className="w-full">
+                                <FormField
+                                    control={form.control}
+                                    name="cell"
+                                    render={({ field }) => (
+                                        <FormItem className="relative  mb-[16px] md:mb-4 space-y-0">
+                                            <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                                                TOWN/CITY
+                                            </FormLabel>
+                                            <Image
+                                                src={location}
+                                                alt="img"
+                                                className="absolute right-3 top-[30%]"
+                                            />
+                                            <FormControl>
+                                                <Input
+                                                    type="tel"
+                                                    inputMode="numeric"
+                                                    pattern="\d*"
+                                                    placeholder="Enter Town/City"
+                                                    className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                                                    {...field}
+                                                    onChange={(e) => {
+                                                        setContactNo(e.target.value);
+                                                        field.onChange(e);
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        if (
+                                                            e.key.match(/[^0-9]/) &&
+                                                            ![
+                                                                "Backspace",
+                                                                "ArrowLeft",
+                                                                "ArrowRight",
+                                                            ].includes(e.key)
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                 />
-                                                <FormControl>
-                                                    <Input
-                                                        type="tel"
-                                                        inputMode="numeric"
-                                                        pattern="\d*"
-                                                        placeholder="Enter Town/City"
-                                                        className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
-                                                        {...field}
-                                                        onChange={(e) => {
-                                                            setContactNo(e.target.value);
-                                                            field.onChange(e);
-                                                        }}
-                                                        onKeyDown={(e) => {
-                                                            if (
-                                                                e.key.match(/[^0-9]/) &&
-                                                                ![
-                                                                    "Backspace",
-                                                                    "ArrowLeft",
-                                                                    "ArrowRight",
-                                                                ].includes(e.key)
-                                                            ) {
-                                                                e.preventDefault();
-                                                            }
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
-                            <div className="lg:flex w-full md:mb-[32px] mb-[60px] gap-[24px]">
-                                <div className="w-full ">
-                                    <FormField
-                                        control={form.control}
-                                        name="role"
-                                        render={({ field }) => (
-                                            <FormItem className="relative  mb-[16px] md:mb-4 space-y-0">
-                                                <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                                                    POSTAL CODE
-                                                </FormLabel>
-                                                <Image
-                                                    src={postalcode}
-                                                    alt="img"
-                                                    className="absolute right-3 top-[30%]"
+                        </div>
+                        <div className="lg:flex w-full md:mb-[32px] mb-[60px] gap-[24px]">
+                            <div className="w-full ">
+                                <FormField
+                                    control={form.control}
+                                    name="role"
+                                    render={({ field }) => (
+                                        <FormItem className="relative  mb-[16px] md:mb-4 space-y-0">
+                                            <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                                                POSTAL CODE
+                                            </FormLabel>
+                                            <Image
+                                                src={postalcode}
+                                                alt="img"
+                                                className="absolute right-3 top-[30%]"
+                                            />
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Enter Postal Code"
+                                                    className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                                                    {...field}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        // Prevent leading space
+                                                        if (value.trimStart().length === 0) {
+                                                            setRole("");
+                                                            field.onChange("");
+                                                        } else {
+                                                            setRole(value);
+                                                            field.onChange(value);
+                                                        }
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        // Prevent leading space
+                                                        if (e.key === " " && field.value.length === 0) {
+                                                            e.preventDefault();
+                                                        }
+                                                        // Allow only letters and spaces
+                                                        if (
+                                                            !/^[A-Za-z\s]*$/.test(e.key) &&
+                                                            !["Backspace", "Tab"].includes(e.key)
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                 />
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Enter Postal Code"
-                                                        className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
-                                                        {...field}
-                                                        onChange={(e) => {
-                                                            const value = e.target.value;
-                                                            // Prevent leading space
-                                                            if (value.trimStart().length === 0) {
-                                                                setRole("");
-                                                                field.onChange("");
-                                                            } else {
-                                                                setRole(value);
-                                                                field.onChange(value);
-                                                            }
-                                                        }}
-                                                        onKeyDown={(e) => {
-                                                            // Prevent leading space
-                                                            if (e.key === " " && field.value.length === 0) {
-                                                                e.preventDefault();
-                                                            }
-                                                            // Allow only letters and spaces
-                                                            if (
-                                                                !/^[A-Za-z\s]*$/.test(e.key) &&
-                                                                !["Backspace", "Tab"].includes(e.key)
-                                                            ) {
-                                                                e.preventDefault();
-                                                            }
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
 
-                                <div className="w-full">
-                                    <FormField
-                                        control={form.control}
-                                        name="cell"
-                                        render={({ field }) => (
-                                            <FormItem className="relative  mb-[16px] md:mb-4 space-y-0">
-                                                <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                                                    COUNTRY                                                    </FormLabel>
-                                                <Image
-                                                    src={country}
-                                                    alt="img"
-                                                    className="absolute right-3 top-[30%]"
+                            <div className="w-full">
+                                <FormField
+                                    control={form.control}
+                                    name="cell"
+                                    render={({ field }) => (
+                                        <FormItem className="relative  mb-[16px] md:mb-4 space-y-0">
+                                            <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
+                                                COUNTRY                                                    </FormLabel>
+                                            <Image
+                                                src={country}
+                                                alt="img"
+                                                className="absolute right-3 top-[30%]"
+                                            />
+                                            <FormControl>
+                                                <Input
+                                                    type="tel"
+                                                    inputMode="numeric"
+                                                    pattern="\d*"
+                                                    placeholder="Enter Country"
+                                                    className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                                                    {...field}
+                                                    onChange={(e) => {
+                                                        setContactNo(e.target.value);
+                                                        field.onChange(e);
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        if (
+                                                            e.key.match(/[^0-9]/) &&
+                                                            ![
+                                                                "Backspace",
+                                                                "ArrowLeft",
+                                                                "ArrowRight",
+                                                            ].includes(e.key)
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                 />
-                                                <FormControl>
-                                                    <Input
-                                                        type="tel"
-                                                        inputMode="numeric"
-                                                        pattern="\d*"
-                                                        placeholder="Enter Country"
-                                                        className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
-                                                        {...field}
-                                                        onChange={(e) => {
-                                                            setContactNo(e.target.value);
-                                                            field.onChange(e);
-                                                        }}
-                                                        onKeyDown={(e) => {
-                                                            if (
-                                                                e.key.match(/[^0-9]/) &&
-                                                                ![
-                                                                    "Backspace",
-                                                                    "ArrowLeft",
-                                                                    "ArrowRight",
-                                                                ].includes(e.key)
-                                                            ) {
-                                                                e.preventDefault();
-                                                            }
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
-                            <div className="flex justify-start">
-                                <Button
-                                    type="submit"
-                                    className="w-full sm:w-[200px] font-extrabold py-[12px] text-base"
-                                >
-                                    Next
-                                </Button>
-                            </div>
-                        </form>
-                    </Form>
+                        </div>
+                        <div className="flex justify-start">
+                            <Button
+                                type="submit"
+                                className="w-full sm:w-[200px] font-extrabold py-[12px] text-base"
+                            >
+                                Next
+                            </Button>
+                        </div>
+                    </form>
+                </Form>
             </div>
         </div>
     );

@@ -19,6 +19,7 @@ const EventCard = ({
   price,
   height = "345px",
   width = "100%",
+  showPrice = true,
 }: {
   img: string;
   title: string;
@@ -28,6 +29,7 @@ const EventCard = ({
   eventType: any;
   likedEvents: any;
   price: string;
+  showPrice?: boolean;
 }) => {
   // const imageUrl = img
   //   ? img.startsWith("http") || img.startsWith("https")
@@ -143,7 +145,7 @@ const EventCard = ({
 
           <div className="absolute flex justify-between gap-[2rem] h-full items-end z-[2] p-4 top-0 w-full">
             <p className="font-bold text-white text-xl">{title}</p>
-            <p className="text-[#00D059]">{setPriceIndications(price)}</p>
+            {showPrice ? <p className="text-[#00D059]">{setPriceIndications(price)}</p> : <></>}
             {userToken && (
               <Link href="javascript:void(0)">
                 {/* <div onClick={handleHeartClick} className="cursor-pointer">

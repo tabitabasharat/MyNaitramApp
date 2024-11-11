@@ -186,6 +186,8 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
       startDate: chosenDate ? formatChosenDate(chosenDate) : null,
       endDate: chosenEndDate ? formatChosenDate(chosenEndDate) : null,
       userId: userId,
+      minPrice: startPrice,
+      maxPrice: endPrice,
     };
 
     if (data.category) {
@@ -195,7 +197,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
     dispatch(getViewAllEvent(data));
     dispatch(getViewPastEvents(data));
     dispatch(getLiveEventById(data));
-  }, [dispatch, selectedCategories, chosenEndDate, chosenDate, isFree]);
+  }, [dispatch, selectedCategories, chosenEndDate, chosenDate, isFree, startPrice, endPrice]);
 
   const formatChosenDate = (date: Date | null): string => {
     if (!date) return "";
