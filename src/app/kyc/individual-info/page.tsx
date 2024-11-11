@@ -1,3 +1,5 @@
+"use client";
+
 import IndividualInfo from "@/components/kyc/IndividualInfo";
 
 const page = () => {
