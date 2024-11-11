@@ -37,13 +37,7 @@ import organization from "@/assets/Buildings.svg";
 import cell from "@/assets/cell.svg";
 import "../homepage/sections/viewevents.css";
 import tick from "../../assets/fi-rr-check.svg";
-const eventImages = [
-  { id: 1, title: "Individual" },
-  { id: 2, title: "Business" },
-  { id: 3, title: "Representative" },
-  { id: 4, title: "Owners" },
-  { id: 5, title: "Executive" },
-];
+
 type CateOption = {
   // id: number;
   label: string;
@@ -86,7 +80,6 @@ const formSchema = z.object({
 });
 
 const Business = () => {
-  const [selectedEventId, setSelectedEventId] = useState<number>(1);
   const [compName, setCompName] = useState("");
   const [UTR, setUTR] = useState("");
   const [compURL, setCompURL] = useState("");
@@ -99,9 +92,6 @@ const Business = () => {
   const [categoryTypes, setCategoryTypes] = useState<any>([]);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
 
-  const handleSelect = (id: number) => {
-    setSelectedEventId(id);
-  };
   const handleCateOptionToggle = (option: any) => {
     setCategoryTypes((prev: any) => {
       if (prev.some((o: any) => o.label === option.label)) {
@@ -299,20 +289,13 @@ const Business = () => {
                       <Image src={organization} alt="img" className="absolute right-3 top-[30%]" />
                       <FormControl>
                         <Input
-                          type="tel"
-                          inputMode="numeric"
-                          pattern="\d*"
+                          type="address"
                           placeholder="Enter Address 1    "
                           className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                           {...field}
                           onChange={(e) => {
                             setAdd_1(e.target.value);
                             field.onChange(e);
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key.match(/[^0-9]/) && !["Backspace", "ArrowLeft", "ArrowRight"].includes(e.key)) {
-                              e.preventDefault();
-                            }
                           }}
                         />
                       </FormControl>
@@ -331,6 +314,7 @@ const Business = () => {
                       <Image src={organization} alt="img" className="absolute right-3 top-[30%]" />
                       <FormControl>
                         <Input
+                          type="address"
                           placeholder="Enter Address 2"
                           className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                           {...field}
@@ -348,10 +332,6 @@ const Business = () => {
                           onKeyDown={(e) => {
                             // Prevent leading space
                             if (e.key === " " && field.value.length === 0) {
-                              e.preventDefault();
-                            }
-                            // Allow only letters and spaces
-                            if (!/^[A-Za-z\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
                               e.preventDefault();
                             }
                           }}
@@ -374,6 +354,7 @@ const Business = () => {
                       <Image src={location} alt="img" className="absolute right-3 top-[30%]" />
                       <FormControl>
                         <Input
+                          type="city"
                           placeholder="Enter Town/City"
                           className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                           {...field}
@@ -391,10 +372,6 @@ const Business = () => {
                           onKeyDown={(e) => {
                             // Prevent leading space
                             if (e.key === " " && field.value.length === 0) {
-                              e.preventDefault();
-                            }
-                            // Allow only letters and spaces
-                            if (!/^[A-Za-z\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
                               e.preventDefault();
                             }
                           }}
@@ -434,10 +411,6 @@ const Business = () => {
                             if (e.key === " " && field.value.length === 0) {
                               e.preventDefault();
                             }
-                            // Allow only letters and spaces
-                            if (!/^[A-Za-z\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
-                              e.preventDefault();
-                            }
                           }}
                         />
                       </FormControl>
@@ -469,7 +442,8 @@ const Business = () => {
                             field.onChange(e);
                           }}
                           onKeyDown={(e) => {
-                            if (e.key.match(/[^0-9]/) && !["Backspace", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+                            // Allow only letters and spaces
+                            if (!/^[A-Za-z\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
                               e.preventDefault();
                             }
                           }}
