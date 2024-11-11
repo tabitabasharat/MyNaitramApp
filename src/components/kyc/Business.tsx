@@ -44,31 +44,18 @@ type CateOption = {
 };
 
 const optionscate: CateOption[] = [
-  { label: "Music" },
-  { label: "Business" },
-  { label: "Food & Drink" },
-  { label: "Community" },
-  { label: "Arts" },
-  { label: "Film & Media" },
-  { label: "Sports & Fitness" },
-  { label: "Health" },
-  { label: "Science & Tech" },
-  { label: "Travel & utdoor" },
-  { label: "Charities & Causes" },
-  { label: "Spirituality" },
-  { label: "Seasonal" },
-  { label: "Government" },
-  { label: "Fashion" },
-  { label: "Home & Lifestyle" },
-  { label: "Auto, Boat & Air" },
-  { label: "Hobbies" },
-  { label: "Family & Education" },
-  { label: "School Activities" },
+  { label: "Business 1" },
+  { label: "Business 2" },
+  { label: "Business 3" },
+  { label: "Business 4" },
+  { label: "Business 5" },
   { label: "Other" },
 ];
 
 const formSchema = z.object({
-  eventcatagory: z.string().min(1, { message: "Event Catgory cannot be empty." }),
+  eventcatagory: z.object({
+    label: z.string().min(1, { message: "Category cannot be empty" }),
+  }),
   companyname: z.string().min(1, { message: "Last name cannot be empty." }),
   utr: z.string().min(1, { message: "UTR cannot be empty." }),
   companylink: z.string().min(1, { message: "Organization link cannot be empty." }).url({ message: "Invalid URL format." }),
@@ -79,7 +66,12 @@ const formSchema = z.object({
   country: z.string().min(1, { message: "City cannot be empty." }),
 });
 
-const Business = () => {
+// Define the prop types for the child component
+interface ChildComponentProps {
+  onNextBtnClicked: (newState: number) => void;
+}
+
+const Business = ({ onNextBtnClicked }: ChildComponentProps) => {
   const [compName, setCompName] = useState("");
   const [UTR, setUTR] = useState("");
   const [compURL, setCompURL] = useState("");
@@ -89,23 +81,12 @@ const Business = () => {
   const [POSTAL, setPostalCode] = useState("");
   const [COUNTRY, setCountry] = useState("");
 
-  const [categoryTypes, setCategoryTypes] = useState<any>([]);
+  const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(null);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
+  const [categoryAlert, setCategoryAlert] = useState<any>(false);
 
-  const handleCateOptionToggle = (option: any) => {
-    setCategoryTypes((prev: any) => {
-      if (prev.some((o: any) => o.label === option.label)) {
-        return prev.filter((o: any) => o.label !== option.label);
-      }
-
-      if (prev.length < 4) {
-        return [...prev, option];
-      }
-
-      // ErrorToast("You can only select 4 categories at a time")
-      return prev;
-    });
-  };
+  const [isCustomCatgory, setIsCustomCategory] = useState<boolean>(false);
+  const [customCategotyInput, setCustomCatgoryInput] = useState<string>("");
 
   const handleCatDropdownToggle = () => {
     setIsCatDropdownOpen((prev) => !prev);
@@ -113,7 +94,9 @@ const Business = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      eventcatagory: "",
+      eventcatagory: {
+        label: "Some Category",
+      },
       companyname: "",
       utr: "",
       companylink: "",
@@ -125,14 +108,58 @@ const Business = () => {
     },
   });
 
+  const handleCateOptionToggle = (option: any) => {
+    if (option.label === "Other") {
+      setIsCustomCategory(true);
+      setCategoryTypes(null);
+    } else if (option.label === categoryTypes?.label) {
+      // setCategoryTypes(null);
+      setIsCatDropdownOpen(false);
+      return;
+    } else {
+      setCategoryTypes({ label: option.label });
+      setCustomCatgoryInput("");
+      setIsCustomCategory(false);
+      setCategoryAlert(false);
+      setIsCatDropdownOpen(false);
+    }
+    // Update the form field's value with the selected category
+    form.setValue("eventcatagory", option); // Use the form controller to set the value
+    form.clearErrors("eventcatagory"); // Clear any errors once a selection is made
+  };
+
+  const handleCustomCatgory = (e: any) => {
+    const inputValue = e.target.value;
+    setCustomCatgoryInput(inputValue);
+    setCategoryAlert(false);
+
+    // Update the form field's value with the selected category
+    form.setValue("eventcatagory", { label: inputValue }); // Use the form controller to set the value
+    form.clearErrors("eventcatagory"); // Clear any errors once a selection is made
+  };
+
+  const handleCustomCatBtn = () => {
+    if (customCategotyInput === "") {
+      setCategoryAlert(true);
+    } else {
+      setCategoryTypes({ label: customCategotyInput });
+      // setCustomCatgoryInput("");
+      setIsCustomCategory(false);
+      setCategoryAlert(false);
+      setIsCatDropdownOpen(false);
+    }
+  };
+
+  function EventCreation(values: z.infer<typeof formSchema>) {
+    console.log("form values are as ====> ", values);
+    onNextBtnClicked(3);
+  }
+
   return (
     <div>
       <div className="flex gap-[30px] flex-col md:gap-[70px]">
         <Form {...form}>
-          <form
-            className=" w-full"
-            //  onSubmit={form.handleSubmit(login)}
-          >
+          <form className=" w-full" onSubmit={form.handleSubmit(EventCreation)}>
             <div className="lg:flex w-full  gap-[24px]">
               <div className="w-full">
                 <FormField
@@ -143,7 +170,7 @@ const Business = () => {
                       <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
                         <div className="flex flex-col">
                           <p className="text-[12px] font-bold text-[#8F8F8F] uppercase">BUSINESS TYPE</p>
-                          <p>Select Business Type</p>
+                          <p>{categoryTypes ? categoryTypes?.label : "Select Business Type"}</p>
                         </div>
                         <Image src={isCatDropdownOpen ? arrowdown : arrowdown} width={11} height={11} alt="arrow" />
                       </div>
@@ -161,15 +188,62 @@ const Business = () => {
                                 </p> */}
                                 <p
                                   className={`text-[16px] font-normal items-center ${
-                                    categoryTypes?.some((o: any) => o.label === option.label) ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                    categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
                                   }`}
                                 >
                                   {option.label}
                                 </p>
                               </div>
-                              {categoryTypes?.some((o: any) => o.label === option.label) && <Image src={tick} width={10} height={10} alt="tick" />}
+                              {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
                             </div>
                           ))}
+                          {isCustomCatgory && (
+                            <>
+                              {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
+                              <div
+                                style={{
+                                  width: "100%",
+                                  marginTop: "10px",
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  gap: "20px",
+                                }}
+                              >
+                                <input
+                                  type="text"
+                                  placeholder="Enter the Category name"
+                                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e)}
+                                  value={customCategotyInput}
+                                  style={{
+                                    width: "100%",
+                                    paddingLeft: "5px",
+                                    paddingTop: "5px",
+                                    paddingBottom: "5px",
+                                    borderRadius: "6px",
+                                  }}
+                                />
+                                <button
+                                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                                    e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                    handleCustomCatBtn();
+                                  }}
+                                  style={{
+                                    background: "green",
+                                    paddingLeft: "10px",
+                                    paddingRight: "10px",
+                                    lineHeight: "10px",
+                                    paddingTop: "10px",
+                                    paddingBottom: "10px",
+                                    borderRadius: "5px",
+                                    marginRight: "5px",
+                                  }}
+                                >
+                                  Add
+                                </button>
+                              </div>
+                            </>
+                          )}
                         </div>
                       )}
                       <FormMessage />
@@ -431,9 +505,7 @@ const Business = () => {
                       <Image src={country} alt="img" className="absolute right-3 top-[30%]" />
                       <FormControl>
                         <Input
-                          type="tel"
-                          inputMode="numeric"
-                          pattern="\d*"
+                          type="country"
                           placeholder="Enter Country"
                           className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                           {...field}

@@ -146,6 +146,7 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
         return [];
     }
   };
+
   useEffect(() => {
     console.log("Selected Event:", selectedEvent);
     console.log("Current Images:", currentImages);

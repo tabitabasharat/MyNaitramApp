@@ -155,7 +155,7 @@ const Kyc = () => {
 
           <div>
             {selectedEventId === 1 && <IndividualInfo onNextBtnClicked={handleSelect} />}
-            {selectedEventId === 2 && <Business />}
+            {selectedEventId === 2 && <Business onNextBtnClicked={handleSelect} />}
             {selectedEventId === 3 && <Representative />}
             {selectedEventId === 4 && <Owners />}
             {selectedEventId === 5 && <Executive />}
