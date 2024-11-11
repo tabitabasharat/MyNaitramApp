@@ -1,6 +1,6 @@
-import IndividualInfo from "@/components/kyc/IndividualInfo"
+import IndividualInfo from "@/components/kyc/IndividualInfo";
 
-const page =()=>{
-    return <IndividualInfo/>
-} 
-export default page
+const page = () => {
+  return <IndividualInfo onNextBtnClicked={() => {}} />;
+};
+export default page;

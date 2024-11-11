@@ -216,10 +216,6 @@ const Business = () => {
                             if (e.key === " " && field.value.length === 0) {
                               e.preventDefault();
                             }
-                            // Allow letters and spaces
-                            if (!/^[A-Za-z\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
-                              e.preventDefault();
-                            }
                           }}
                         />
                       </FormControl>
@@ -281,10 +277,6 @@ const Business = () => {
                           onKeyDown={(e) => {
                             // Prevent leading space
                             if (e.key === " " && field.value.length === 0) {
-                              e.preventDefault();
-                            }
-                            // Allow letters, numbers, and spaces
-                            if (!/^[A-Za-z0-9\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
                               e.preventDefault();
                             }
                           }}
