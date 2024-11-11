@@ -1,45 +1,109 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
+import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
+import TwitterProvider from "next-auth/providers/twitter";
+import LinkedInProvider from "next-auth/providers/linkedin";
+import InstagramProvider from "next-auth/providers/instagram";
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      authorization: {
-        params: {
-          scope: "https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/userinfo.profile",
-        },
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID!,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+      profile(profile) {
+        return {
+          id: profile.id,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture?.data?.url,
+          verifiedSocials: { facebook: true },
+        };
       },
     }),
-    // Add other providers here
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          scope: "openid email profile https://www.googleapis.com/auth/youtube.readonly",
+        },
+      },
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          verifiedSocials: { google: true },
+        };
+      },
+    }),
+    TwitterProvider({
+      clientId: process.env.TWITTER_CLIENT_ID!,
+      clientSecret: process.env.TWITTER_CLIENT_SECRET!,
+      version: "2.0",
+      profile(profile) {
+        return {
+          id: profile.data.id,
+          name: profile.data.name,
+          email: profile.data.email,
+          image: profile.data.profile_image_url,
+          verifiedSocials: { twitter: true },
+        };
+      },
+    }),
+    LinkedInProvider({
+      clientId: process.env.LINKEDIN_CLIENT_ID!,
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          verifiedSocials: { linkedin: true },
+        };
+      },
+    }),
+    InstagramProvider({
+      clientId: process.env.INSTAGRAM_CLIENT_ID!,
+      clientSecret: process.env.INSTAGRAM_CLIENT_SECRET!,
+      profile(profile: any) {
+        return {
+          id: profile.id,
+          name: profile.username,
+          image: profile.profile_picture,
+          verifiedSocials: { instagram: true },
+        };
+      },
+    }),
   ],
   callbacks: {
-    async signIn({ account, profile }) {
-      if (account?.provider === "google") {
-        // Access YouTube Data API to verify the user’s YouTube channel
-        const response = await fetch("https://www.googleapis.com/youtube/v3/channels?part=id,snippet&mine=true", {
-          headers: {
-            Authorization: `Bearer ${account?.access_token}`,
-          },
-        });
-        const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-          // User has a verified YouTube channel
-          // Optionally store the YouTube channel ID or title for reference
-          const youtubeChannelId = data.items[0].id;
-          const youtubeChannelTitle = data.items[0].snippet.title;
-
-          // Perform your logic here to mark YouTube as verified in the database
-          // e.g., update the user’s verification status
-          console.log(`Verified YouTube channel: ${youtubeChannelTitle}`);
-        } else {
-          // User does not have a YouTube channel
-          return false; // This will prevent login if verification fails
-        }
+    async jwt({ token, user, account }) {
+      if (user && account) {
+        token.verifiedSocials = {
+          ...(token.verifiedSocials || {}),
+          [account.provider]: true,
+        };
       }
-      return true;
+      return token;
+    },
+    async session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          verifiedSocials: token.verifiedSocials,
+        },
+      };
     },
   },
-});
+  pages: {
+    signIn: "/auth/signin",
+    error: "/auth/error",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+};
+
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
