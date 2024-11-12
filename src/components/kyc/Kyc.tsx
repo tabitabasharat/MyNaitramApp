@@ -112,10 +112,15 @@ const formSchema = z.object({
 
 const Kyc = () => {
   const [selectedEventId, setSelectedEventId] = useState<number>(1);
+  const [formFullData, setFormFullData] = useState<any>([]);
   const router = useRouter();
 
-  const handleSelect = (id: number) => {
+  const handleSelect = (id: number, data: any) => {
     setSelectedEventId(id);
+    setFormFullData([...formFullData, data]);
+    if (id === 5) {
+      console.log("Overall Data is as ==> ", formFullData);
+    }
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -141,7 +146,7 @@ const Kyc = () => {
             {eventImages.map((event) => (
               <div
                 key={event.id}
-                onClick={() => handleSelect(event.id)}
+                // onClick={() => handleSelect(event.id)}
                 className={`relative flex flex-col items-center justify-center w-[130px] md:items-start pt-[3px] rounded-[44px] md:rounded-lg md:w-[240px] md:px-[12px] px-[31.5px] md:py-[16.5px] cursor-pointer duration-300 ${
                   selectedEventId === event.id
                     ? "gradient-slate text-[#13FF7A] font-extrabold md:text-base text-sm gradient-border-rounded"
@@ -156,9 +161,9 @@ const Kyc = () => {
           <div>
             {selectedEventId === 1 && <IndividualInfo onNextBtnClicked={handleSelect} />}
             {selectedEventId === 2 && <Business onNextBtnClicked={handleSelect} />}
-            {selectedEventId === 3 && <Representative />}
-            {selectedEventId === 4 && <Owners />}
-            {selectedEventId === 5 && <Executive />}
+            {selectedEventId === 3 && <Representative onNextBtnClicked={handleSelect} />}
+            {selectedEventId === 4 && <Owners onNextBtnClicked={handleSelect} />}
+            {selectedEventId === 5 && <Executive onNextBtnClicked={handleSelect} />}
           </div>
         </div>
       </div>

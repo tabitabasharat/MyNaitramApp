@@ -17,24 +17,15 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useState, useEffect, useRef } from "react";
-import ScreenLoader from "@/components/loader/Screenloader";
-import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
-import { styled } from "@mui/material/styles";
-
-import { usePathname } from "next/navigation";
-
+import { useState, useEffect } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import user from "@/assets/profile.svg";
 import arrowdown from "../../assets/arrow-down-drop.svg";
 import location from "@/assets/new location.svg";
-import dob from "@/assets/dob.svg";
 import country from "@/assets/country.svg";
 import postalcode from "@/assets/postal code.svg";
 import url from "@/assets/global url.svg";
 import urt from "@/assets/urt.svg";
 import organization from "@/assets/Buildings.svg";
-import cell from "@/assets/cell.svg";
 import "../homepage/sections/viewevents.css";
 import tick from "../../assets/fi-rr-check.svg";
 
@@ -68,7 +59,7 @@ const formSchema = z.object({
 
 // Define the prop types for the child component
 interface ChildComponentProps {
-  onNextBtnClicked: (newState: number) => void;
+  onNextBtnClicked: (newState: number, data: any) => void;
 }
 
 const Business = ({ onNextBtnClicked }: ChildComponentProps) => {
@@ -87,6 +78,8 @@ const Business = ({ onNextBtnClicked }: ChildComponentProps) => {
 
   const [isCustomCatgory, setIsCustomCategory] = useState<boolean>(false);
   const [customCategotyInput, setCustomCatgoryInput] = useState<string>("");
+
+  const [userID, setUserID] = useState<any>("");
 
   const handleCatDropdownToggle = () => {
     setIsCatDropdownOpen((prev) => !prev);
@@ -150,9 +143,32 @@ const Business = ({ onNextBtnClicked }: ChildComponentProps) => {
     }
   };
 
+  useEffect(() => {
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setUserID(userID);
+  }, []);
+
   function EventCreation(values: z.infer<typeof formSchema>) {
     console.log("form values are as ====> ", values);
-    onNextBtnClicked(3);
+    const businessFormData = {
+      userId: userID,
+      userType: "Business",
+      approved: false,
+      Businesses: [
+        {
+          BusinessType: values?.eventcatagory?.label,
+          companyName: values?.companyname,
+          UTR: values?.utr,
+          companyWebsite: values?.companylink,
+          Address1: values?.address1,
+          Address2: values?.address2,
+          City: values?.city,
+          postalCode: values?.postalcode,
+          Country: values?.country,
+        },
+      ],
+    };
+    onNextBtnClicked(3, businessFormData);
   }
 
   return (
@@ -306,6 +322,17 @@ const Business = ({ onNextBtnClicked }: ChildComponentProps) => {
                           onChange={(e) => {
                             setUTR(e.target.value);
                             field.onChange(e);
+                          }}
+                          onKeyDown={(e) => {
+                            // Prevent leading space
+                            if (e.key === " " && field.value.length === 0) {
+                              e.preventDefault();
+                            }
+
+                            // Prevent from taking Letters and symbols
+                            if (!/^[0-9]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
+                              e.preventDefault();
+                            }
                           }}
                         />
                       </FormControl>
@@ -527,7 +554,17 @@ const Business = ({ onNextBtnClicked }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="flex justify-start">
+            <div className="flex justify-between w-full">
+              <Button
+                type="button"
+                className="w-full sm:w-[200px] font-extrabold py-[12px] text-base"
+                onClick={() => {
+                  //   e.preventDefault();
+                  //   onNextBtnClicked(1);
+                }}
+              >
+                Back
+              </Button>
               <Button type="submit" className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
                 Next
               </Button>

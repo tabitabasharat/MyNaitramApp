@@ -1,28 +1,12 @@
 "use client";
 import Image from "next/image";
-import calender from "@/assets/Calender.svg";
-import calendercheck from "@/assets/Calender Check.svg";
-import calenderX from "@/assets/Calender X.svg";
-import calendercheckgreen from "@/assets/Calender Checkgreen.svg";
-import calenderXgreen from "@/assets/Calender Xgreen.svg";
-import caledndergreen from "@/assets/Calendergreen.svg";
 import { Button } from "@/components/ui/button";
 import { Envelope, Lock, User } from "@phosphor-icons/react/dist/ssr";
 import { Input } from "@/components/ui/input";
-import { updateOrganizerProfile } from "@/lib/middleware/organizer";
-import Link from "next/link";
-import { Textarea } from "@/components/ui/textarea";
-import Switch, { SwitchProps } from "@mui/material/Switch";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useState, useEffect, useRef } from "react";
-import ScreenLoader from "@/components/loader/Screenloader";
-import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
-import { styled } from "@mui/material/styles";
-
-import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import user from "@/assets/profile.svg";
@@ -32,7 +16,6 @@ import countryIMG from "@/assets/country.svg";
 import postalcode from "@/assets/postal code.svg";
 import url from "@/assets/global url.svg";
 import organization from "@/assets/Buildings.svg";
-import cell from "@/assets/cell.svg";
 import "../homepage/sections/viewevents.css";
 
 const formSchema = z.object({
@@ -67,7 +50,7 @@ const formSchema = z.object({
 
 // Define the prop types for the child component
 interface ChildComponentProps {
-  onNextBtnClicked: (newState: number) => void;
+  onNextBtnClicked: (newState: number, data: any) => void;
 }
 
 const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
@@ -81,6 +64,7 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [country, setCountry] = useState("");
+  const [userID, setUserID] = useState<any>("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -98,9 +82,33 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
     },
   });
 
+  useEffect(() => {
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setUserID(userID);
+  }, []);
+
   function EventCreation(values: z.infer<typeof formSchema>) {
     console.log("form values are as ====> ", values);
-    onNextBtnClicked(2);
+    const individualFormData = {
+      userId: userID,
+      userType: "Individual",
+      Individuals: [
+        {
+          FirstName: values?.firstname,
+          LastName: values?.lastname,
+          Email: values?.email,
+          DOB: values?.dob,
+          Address1: values?.address1,
+          Address2: values?.address2,
+          organizationWebsite: values?.organizationlink,
+          City: values?.city,
+          postalCode: values?.postalcode,
+          Country: values?.country,
+        },
+      ],
+      approved: false,
+    };
+    onNextBtnClicked(2, individualFormData);
   }
 
   return (
@@ -480,7 +488,7 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="flex justify-start">
+            <div className="flex justify-end w-full">
               <Button type="submit" className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
                 Next
               </Button>
