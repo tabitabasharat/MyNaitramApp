@@ -91,9 +91,6 @@ const formSchema = z.object({
         .min(1, { message: "Phone Number cannot be empty." })
         .max(15, { message: "Phone number cannot be more than 15 digits." })
         .regex(/^\d{1,15}$/, { message: "Phone number must be up to 15 digits." }),
-    // organization: z
-    //   .string()
-    //   .min(1, { message: "Organization name cannot be empty." }),
 
     organization: z
         .string()
