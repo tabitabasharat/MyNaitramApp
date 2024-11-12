@@ -532,6 +532,14 @@ function EditeventOnBack() {
 
   const [tagsParsedData, setTagsParsedData] = useState<any>([]);
 
+  const [isFbVerify, setFbVerify] = useState<boolean>(false);
+  const [isInstaVerify, setInstaVerify] = useState<boolean>(false);
+  const [isTeleVerify, setTeleVerify] = useState<boolean>(false);
+  const [isYtVerify, setYtVerify] = useState<boolean>(false);
+  const [isTikTokVerify, setTikTokVerify] = useState<boolean>(false);
+  const [isLinkedInVerify, setLinkedInVerify] = useState<boolean>(false);
+  const [isXVerify, setXVerify] = useState<boolean>(false);
+
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
     { id: 2, label: "Food and Beverages", image: img2 },
@@ -677,6 +685,12 @@ function EditeventOnBack() {
     setEventId(value);
     console.log("my event id is", value);
     dispatch(getEventByEventId(value));
+
+    // Check is there user Social Accounts verifyOrNot
+    setFbVerify(true);
+    setTikTokVerify(true);
+    setXVerify(true);
+    setYtVerify(true);
   }, []);
 
   const EventData = useAppSelector((state) => state?.getEventByEventID?.eventIdEvents?.data);
@@ -2745,6 +2759,15 @@ function EditeventOnBack() {
                   render={({ field }) => (
                     <FormItem className="relative w-full">
                       <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Facebook</FormLabel>
+                      {isFbVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2775,6 +2798,15 @@ function EditeventOnBack() {
                   render={({ field }) => (
                     <FormItem className="relative w-full">
                       <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Instagram</FormLabel>
+                      {isInstaVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2808,6 +2840,15 @@ function EditeventOnBack() {
                   render={({ field }) => (
                     <FormItem className="relative w-full">
                       <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Telegram</FormLabel>
+                      {isTeleVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2838,6 +2879,15 @@ function EditeventOnBack() {
                   render={({ field }) => (
                     <FormItem className="relative w-full">
                       <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Youtube</FormLabel>
+                      {isYtVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2869,6 +2919,15 @@ function EditeventOnBack() {
                   render={({ field }) => (
                     <FormItem className="relative w-full">
                       <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Tiktok</FormLabel>
+                      {isTikTokVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2899,6 +2958,15 @@ function EditeventOnBack() {
                   render={({ field }) => (
                     <FormItem className="relative w-full">
                       <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Linkedin</FormLabel>
+                      {isLinkedInVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2930,6 +2998,15 @@ function EditeventOnBack() {
                   render={({ field }) => (
                     <FormItem className="relative w-full">
                       <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Twitter</FormLabel>
+                      {isXVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"

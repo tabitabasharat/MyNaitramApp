@@ -60,7 +60,6 @@
 //   );
 // }
 
-
 import "./globals.css";
 
 import type { Metadata } from "next";
@@ -113,19 +112,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const clientId =
-    "423487913735-4r2snu681msvd6nl8lt4leu29fmjuo82.apps.googleusercontent.com";
+  const clientId = "423487913735-4r2snu681msvd6nl8lt4leu29fmjuo82.apps.googleusercontent.com";
 
   return (
     <>
       <GoogleOAuthProvider clientId={clientId}>
         <StoreProvider>
           <html lang="en">
-            <body
-              className={`${baseFont.variable} ${poppins.variable} font-sans bg-black text-white overflow-x-clip`}
-            >
-              {children}
-            </body>
+            <body className={`${baseFont.variable} ${poppins.variable} font-sans bg-black text-white overflow-x-clip`}>{children}</body>
           </html>
         </StoreProvider>
       </GoogleOAuthProvider>

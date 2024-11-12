@@ -1,51 +1,40 @@
 "use client";
-import TextField from "@mui/material/TextField";
-
 import whitefree from "@/assets/Wallet/white free.svg";
 import greenfree from "@/assets/Wallet/Green free.svg";
 import LocationAutocomplete from "@/components/create-event/Locationinput";
-import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
 import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
-import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
 import React from "react";
 import "@/components/create-event/CreateEvent.css";
 import Image from "next/image";
 import ufo from "@/assets/UFO_SVG.png";
 import cam from "@/assets/Camera.svg";
-import bgframe from "@/assets/uploadFrame.svg";
 import newCover from "@/assets/Frame 1597878544 (1).svg";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef, useEffect } from "react";
-import Editicon from "@/assets/Editicon.svg";
-// import addicon from "@/assets/add-icon.svg";
+
 import addicon from "@/assets/Wallet/Plus.svg";
-import Backward from "@/components/Backward/Backward";
+
 import deleteicon from "@/assets/Wallet/delete-icon.svg";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
-import { useForm, Controller } from "react-hook-form";
-import { UploadSimple } from "@phosphor-icons/react/dist/ssr";
-import axios from "axios";
+import { useForm } from "react-hook-form";
+
 import { API_URL } from "@/lib/client";
 import crossicon from "@/assets/cross-img-icon.svg";
-// import { DatePicker } from "@/components/organisms/DatePicker";
 
 import { useRouter } from "next/navigation";
 
-import TimePicker from "react-time-picker";
-
 import "react-time-picker/dist/TimePicker.css";
-// import 'react-clock/dist/Clock.css';
+
 import "react-datepicker/dist/react-datepicker.css";
 
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
-import bgframe2 from "@/assets/uploadframe2.svg";
+
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "@/components/loader/Screenloader";
 import { createevent } from "@/lib/middleware/event";
@@ -73,9 +62,7 @@ import img18 from "@/assets/Whats-Included/option18.svg";
 import img19 from "@/assets/Whats-Included/option19.svg";
 import img20 from "@/assets/Whats-Included/option20.svg";
 import tick from "@/assets/fi-rr-check.svg";
-import { updateEvent } from "@/lib/middleware/event";
-import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
-import { AnyAaaaRecord } from "dns";
+
 import Editor from "@/components/reusable-components/Editor";
 
 import dayjs from "dayjs";
@@ -84,13 +71,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import calendaricon from "@/assets/calender.svg";
-// import styled from "styled-components";
+
 import styled from "styled-components";
 import { useTheme } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import { addHours } from "date-fns";
-import { color } from "framer-motion";
 
 type TicketTypeOption = {
   id: number;
@@ -107,41 +92,6 @@ type TicketType = {
 type cateOption = {
   id: number;
   label: string;
-};
-type Category = {
-  options: cateOption[];
-  dropdown: any;
-};
-
-const categorySchema = z.object({
-  options: z
-    .array(
-      z.object({
-        id: z.number(),
-        label: z.string(),
-      })
-    )
-    .min(1, { message: "Please select at least one option." }), // Ensure at least one option is selected
-  dropdown: z.boolean().optional(),
-});
-
-const isValidDateTime = (dateTimeString: string) => {
-  const dateTimeRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
-  if (!dateTimeRegex.test(dateTimeString)) return false;
-
-  const dateTimeParts = dateTimeString.split("T");
-  const [year, month, day] = dateTimeParts[0].split("-").map(Number);
-  const [hours, minutes] = dateTimeParts[1].split(":").map(Number);
-
-  const date = new Date(year, month - 1, day, hours, minutes);
-
-  return (
-    date.getFullYear() === year &&
-    date.getMonth() === month - 1 &&
-    date.getDate() === day &&
-    date.getHours() === hours &&
-    date.getMinutes() === minutes
-  );
 };
 
 const formSchema = z.object({
@@ -167,68 +117,15 @@ const formSchema = z.object({
 
   eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
 
-  // compticketno: z
-  //   .string()
-  //   .min(1, { message: "Complimentary ticket number cannot be empty." }),
-  fburl: z.string().url({ message: "Invalid Facebook URL." }).min(1, { message: "Facebook URL cannot be empty." }),
-  instaurl: z.string().url({ message: "Invalid Instagram URL." }).min(1, { message: "Instagram URL cannot be empty." }),
-  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).min(1, { message: "YouTube URL cannot be empty." }),
-  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).min(1, { message: "TikTok URL cannot be empty." }),
-  linkedinurl: z.string().url({ message: "Invalid Linkedin URL." }).min(1, { message: "Linkedin URL cannot be empty." }),
-  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).min(1, { message: "Twitter URL cannot be empty." }),
-  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).min(1, { message: "Telegram URL cannot be empty." }),
-  // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+  fburl: z.string().url({ message: "Invalid Facebook URL." }).optional(),
+  instaurl: z.string().url({ message: "Invalid Instagram URL." }).optional(),
+  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).optional(),
+  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).optional(),
+  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
+  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).optional(),
+  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).optional(),
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
-  // selected: z.string(),
-  // tickets: z.array(
-  //   z.object({
-  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //     price: z
-  //       .string()
-  //       .min(1, { message: "Ticket price must be greater than 0." }),
-  //     no: z
-  //       .string()
-  //       .min(1, { message: "Number of tickets must be greater than 0." }),
-  //   })
-  // ),
-
-  // ticketss: z.array(
-  //   z
-  //     .object({
-  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //       // price: z.union([z.string(), z.number()]).optional(),
-  //       price: z.string().min(1, { message: "Ticket price cannot be empty." }),
-  //       no: z
-  //         .union([z.string(), z.number()])
-  //         .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-  //           message: "Number of tickets must be greater than 0.",
-  //           path: ["no"],
-  //         }),
-  //       selected: z.string().optional(),
-  //     })
-  //     .refine(
-  //       (data) => {
-  //         if (data.selected === "paid") {
-  //           const priceIsValid =
-  //             data.price !== undefined &&
-  //             ((typeof data.price === "string" && data.price.trim() !== "") ||
-  //               (typeof data.price === "number" && data.price > 0));
-
-  //           return priceIsValid;
-
-  //         } else if (data.selected === "free") {
-  //           return data.price === undefined; // Price must be undefined for free tickets
-  //         }
-  //         return true; // If neither selected, pass validation
-  //       },
-  //       {
-  //         message:
-  //           "Price is required for paid tickets and should not be present for free tickets.",
-  //         path: ["price"],
-  //       }
-  //     )
-  // ),
   tickets: z.array(
     z
       .object({
@@ -287,81 +184,15 @@ const formSchema2 = z.object({
 
   eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
 
-  // compticketno: z
-  //   .string()
-  //   .min(1, { message: "Complimentary ticket number cannot be empty." }),
-  fburl: z.string().url({ message: "Invalid Facebook URL." }).min(1, { message: "Facebook URL cannot be empty." }),
-  instaurl: z.string().url({ message: "Invalid Instagram URL." }).min(1, { message: "Instagram URL cannot be empty." }),
-  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).min(1, { message: "YouTube URL cannot be empty." }),
-  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).min(1, { message: "TikTok URL cannot be empty." }),
-  linkedinurl: z.string().url({ message: "Invalid Linkedin URL." }).min(1, { message: "Linkedin URL cannot be empty." }),
-  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).min(1, { message: "Twitter URL cannot be empty." }),
-  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).min(1, { message: "Telegram URL cannot be empty." }),
-  // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+  fburl: z.string().url({ message: "Invalid Facebook URL." }).optional(),
+  instaurl: z.string().url({ message: "Invalid Instagram URL." }).optional(),
+  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).optional(),
+  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).optional(),
+  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
+  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).optional(),
+  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).optional(),
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
-  // selected: z.string(),
-  // tickets: z.array(
-  //   z.object({
-  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //     price: z.string().min(1, { message: "Ticket price cannot be empty." }),
-  //     no: z
-  //       .string()
-  //       .min(1, { message: "Number of tickets must be greater than 0." }),
-  //   })
-  // ),
-  // tickets: z.array(
-  //   z.object({
-  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //     price: z.string().optional(),
-  //     no: z.string().min(1, { message: "Number of tickets must be greater than 0." }),
-  //     selected: z.string().optional(),
-  //   }).refine((data) => {
-
-  //     if (data.selected === "paid" && (!data.price || data.price.trim() === "")) {
-  //       return false;
-  //     }
-  //     return true;
-  //   }, {
-  //     message: "Price is required .",
-  //     path: ['price']
-  //   })
-  // ),
-
-  // ticketss: z.array(
-  //   z
-  //     .object({
-  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //       price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
-  //       no: z.union([
-  //         z.string().refine((val) => Number(val) > 0, {
-  //           message: "Number of tickets must be greater than 0.",
-  //         }),
-  //         z
-  //           .number()
-  //           .min(1, { message: "Number of tickets must be greater than 0." }),
-  //       ]),
-  //       selected: z.string().optional(),
-  //     })
-  //     .refine(
-  //       (data) => {
-  //         // Validate price based on selection
-  //         if (data.selected === "paid") {
-  //           const priceIsValid =
-  //             data.price !== undefined &&
-  //             ((typeof data.price === "string" && data.price.trim() !== "") ||
-  //               (typeof data.price === "number" && data.price > 0));
-
-  //           return priceIsValid;
-  //         }
-  //         return true; // Skip price validation for free tickets
-  //       },
-  //       {
-  //         message: "Price is required for paid tickets.",
-  //         path: ["price"], // Specify the path for the error
-  //       }
-  //     )
-  // ),
   tickets: z.array(
     z
       .object({
@@ -533,10 +364,6 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
     }
   }
 
-  //  & .MuiDialog-paper {
-  //  background-color: #eaea87;
-  //  }
-
   & .MuiIconButton-root {
     // color: #808080;
     color: #ffffff;
@@ -544,10 +371,8 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
 
   & .MuiInputBase-root {
     border: 1px solid transparent;
-    // border-radius: 8px;
     border: none;
 
-    // background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a);
     color: #ffffff;
     width: 100%;
   }
@@ -590,14 +415,11 @@ function OganizerCreateEvent() {
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [isPreviewModalOpen, setisPreviewModalOpen] = useState(false);
   const [actionType, setActionType] = useState("");
-  // const [eventAllData, setEventAllData] = useState<EventData>({});
+
   const [eventAllData, setEventAllData] = useState<EventData | null>(null);
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
-  const fileInputRef = useRef(null);
   const fileInputRef2 = useRef(null);
-  const [dropdown, setDropdown] = useState(true);
-  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
 
   const [userid, setUserid] = useState<any>("");
   const [Eventname, setEventname] = useState("");
@@ -646,14 +468,14 @@ function OganizerCreateEvent() {
   const [CoverImg, setCoverImg] = useState("");
   const [CoverImgName, setCoverImgName] = useState<any>("");
 
-  const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
-  const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
-  const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
-  const [TelegramUrl, setTelegramUrl] = useState("https://t.me/");
-  const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
+  const [FBUrl, setFBUrl] = useState("Enter URL");
+  const [InstaUrl, setInstaUrl] = useState("Enter URL");
+  const [TwitterUrl, setTwitterUrl] = useState("Enter URL");
+  const [TelegramUrl, setTelegramUrl] = useState("Enter URL");
+  const [YoutubeUrl, setYoutubeUrl] = useState("Enter URL");
 
-  const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
-  const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
+  const [tiktokUrl, settiktokUrl] = useState("Enter URL");
+  const [linkedinUrl, setlinkedinUrl] = useState("Enter URL");
   const [eventsFiles, setEventsFile] = useState<any>([]);
 
   const router = useRouter();
@@ -668,16 +490,7 @@ function OganizerCreateEvent() {
       selected: "free",
     },
   ]);
-  // const [ticketTypes, setTicketTypes] = useState([
-  //   {
-  //     type: "",
-  //     price: "",
-  //     no: "",
-  //     selected: "free",
-  //     dropdown: true,
-  //     options: [],
-  //   },
-  // ]);
+
   const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(null);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
 
@@ -688,10 +501,13 @@ function OganizerCreateEvent() {
   const [isCustomCatgory, setIsCustomCategory] = useState<boolean>(false);
   const [customCategotyInput, setCustomCatgoryInput] = useState<string>("");
 
-  const isValidDate = (dateString: string): boolean => {
-    const date = new Date(dateString);
-    return !isNaN(date.getTime()); // Check if the date is valid
-  };
+  const [isFbVerify, setFbVerify] = useState<boolean>(false);
+  const [isInstaVerify, setInstaVerify] = useState<boolean>(false);
+  const [isTeleVerify, setTeleVerify] = useState<boolean>(false);
+  const [isYtVerify, setYtVerify] = useState<boolean>(false);
+  const [isTikTokVerify, setTikTokVerify] = useState<boolean>(false);
+  const [isLinkedInVerify, setLinkedInVerify] = useState<boolean>(false);
+  const [isXVerify, setXVerify] = useState<boolean>(false);
 
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
@@ -863,19 +679,10 @@ function OganizerCreateEvent() {
     );
   };
 
-  // const handlecateDropdown = (index: number) => {
-  //   setCategoryTypes((prevCategories) =>
-  //     prevCategories.map((category, i) =>
-  //       i === index ? { ...category, dropdown: !category.dropdown } : category
-  //     )
-  //   );
-  // };
-
   const handleCatDropdownToggle = () => {
     setIsCatDropdownOpen((prev) => !prev);
   };
-  const defaultStartDate = dayjs().format("YYYY-MM-DDTHH:mm");
-  // const defaultEndDate = dayjs(TicketStartDate).add(1, 'hour').format("YYYY-MM-DDTHH:mm");
+
   const form = useForm<z.infer<typeof formSchema | typeof formSchema2>>({
     resolver: zodResolver(selected === "free" ? formSchema2 : formSchema),
     defaultValues: {
@@ -896,23 +703,16 @@ function OganizerCreateEvent() {
       eventdescription: "",
 
       // compticketno: "",
-      fburl: "https://www.facebook.com/",
-      instaurl: "https://instagram.com/",
-      youtubeurl: "https://www.youtube.com/",
-      twitterurl: "https://www.x.com/",
-      telegramurl: "https://t.me/",
-      tiktokurl: "https://www.tiktok.com/@",
-      linkedinurl: "https://linkedin.com/in/",
+      fburl: "",
+      instaurl: "",
+      youtubeurl: "",
+      twitterurl: "",
+      telegramurl: "",
+      tiktokurl: "",
+      linkedinurl: "",
       tickets: [],
     },
   });
-
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files) {
-  //     const filesArray = Array.from(event.target.files);
-  //     setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]);
-  //   }
-  // };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -970,21 +770,6 @@ function OganizerCreateEvent() {
     setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, [field]: value } : ticket)));
   };
 
-  // const handleAddTicketType = (e: any) => {
-  //   e.preventDefault();
-  //   setTicketTypes((prevTickets) => [
-  //     ...prevTickets,
-  //     {
-  //       type: "",
-  //       price: 0,
-  //       no: 0,
-  //       options: [],
-
-  //       dropdown: true,
-  //       selected: "free",
-  //     },
-  //   ]);
-  // };
   const handleAddTicketType = (e: any) => {
     e.preventDefault();
     setTicketTypes((prevTickets) => [
@@ -1009,175 +794,6 @@ function OganizerCreateEvent() {
     form.setValue("tickets", updatedTicketTypes); // Update form state
   };
 
-  // const handleDeleteTicketType = (index: number) => {
-  //   // Prevent deleting the first ticket type
-  //   if (index === 0) return;
-
-  //   // Filter out the ticket at the specified index
-  //   setTicketTypes((prevTickets) =>
-  //     prevTickets.filter((_, i) => i !== index)
-  //   );
-  // };
-
-  // const handleCoverSingleFileChange = async (
-  //   e: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   const file = e.target.files?.[0];
-  //   const filename = file?.name;
-  //   setCoverImgName(filename);
-  //   if (file) {
-  //     setLoader(true);
-
-  //     try {
-  //       const formData = new FormData();
-  //       formData.append("file", file);
-  //       const res: any = await api.post(
-  //         `${API_URL}/upload/uploadimage`,
-  //         formData,
-  //         {
-  //           headers: {
-  //             "Content-Type": "multipart/form-data",
-  //           },
-  //         }
-  //       );
-
-  //       if (res.status === 200) {
-  //         setLoader(false);
-
-  //         form.setValue("eventcoverimg", res?.data?.data);
-  //         setCoverImageWarning(false);
-
-  //         setCoverImg(res?.data?.data);
-  //         SuccessToast("Cover Event Image Uploaded Successfully");
-  //       } else {
-  //         setLoader(false);
-  //         ErrorToast(res?.payload?.message || "Error uploading image");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //     }
-  //   }
-  // };
-
-  const handleCoverSingleFileChangeQuality = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    const filename = file?.name;
-    setCoverImgName(filename);
-
-    if (file) {
-      setLoader(true);
-
-      // Validation for file size
-      const maxSize = 5 * 1024 * 1024; // 5 MB
-      if (file.size > maxSize) {
-        setLoader(false);
-        ErrorToast("File size exceeds 5 MB. Please upload a smaller image.");
-        return;
-      }
-
-      // Create a URL for the file
-      const imgUrl = URL.createObjectURL(file);
-      const img = new window.Image(); // Use window.Image to avoid TypeScript confusion
-
-      img.onload = async () => {
-        const { width, height } = img;
-
-        // Check minimum dimensions
-        const minWidth = 330; // Minimum width
-        const minHeight = 330; // Minimum height
-        if (width < minWidth || height < minHeight) {
-          setLoader(false);
-          ErrorToast(
-            // `Image quality is too low. Minimum dimensions are ${minWidth}x${minHeight} pixels.`
-            ` Upload an image with at least ${minWidth}x${minHeight} pixels for better quality.`
-          );
-          return;
-        }
-
-        // Proceed with uploading if all checks pass
-        try {
-          const formData = new FormData();
-          formData.append("file", file);
-
-          const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-
-          if (res.status === 200) {
-            setLoader(false);
-            form.setValue("eventcoverimg", res?.data?.data);
-            // setCoverImageWarning(false);
-            setCoverImg(res?.data?.data);
-            SuccessToast("Cover Event Image Uploaded Successfully");
-          } else {
-            setLoader(false);
-            ErrorToast(res?.payload?.message || "Error uploading image");
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          setLoader(false);
-          ErrorToast("An error occurred while uploading the image.");
-        }
-      };
-
-      img.onerror = () => {
-        setLoader(false);
-        ErrorToast("Failed to load the image.");
-      };
-
-      // Set the source of the image to trigger loading
-      img.src = imgUrl;
-    }
-  };
-
-  const handleCoverSingleFileChangeSize = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    const filename = file?.name;
-    setCoverImgName(filename);
-
-    if (file) {
-      setLoader(true);
-
-      // Validation for file size
-      const maxSize = 5 * 1024 * 1024; // 5 MB
-
-      if (file.size > maxSize) {
-        setLoader(false);
-        setCoverImageWarning(true);
-        ErrorToast("File size exceeds 5 MB. Please upload a smaller image.");
-        return;
-      }
-
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-
-        const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-
-        if (res.status === 200) {
-          setLoader(false);
-          form.setValue("eventcoverimg", res?.data?.data);
-          setCoverImageWarning(false);
-          setCoverImg(res?.data?.data);
-          SuccessToast("Cover Event Image Uploaded Successfully");
-        } else {
-          setLoader(false);
-          ErrorToast(res?.payload?.message || "Error uploading image");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        setLoader(false);
-        ErrorToast("An error occurred while uploading the image.");
-      }
-    }
-  };
-
   const handleCoverSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const filename = file?.name;
@@ -1191,13 +807,6 @@ function OganizerCreateEvent() {
 
       img.onload = async () => {
         const { width, height } = img;
-
-        // const requiredSize = 1080;
-        // if (width !== requiredSize || height !== requiredSize) {
-        //   setLoader(false);
-        //   ErrorToast(`Image must be ${requiredSize}px x ${requiredSize}px.`);
-        //   return;
-        // }
 
         try {
           const formData = new FormData();
@@ -1243,21 +852,13 @@ function OganizerCreateEvent() {
   useEffect(() => {
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
+
+    // Check is there user Social Accounts verifyOrNot
+    setFbVerify(true);
+    setTikTokVerify(true);
+    setXVerify(true);
+    setYtVerify(true);
   }, []);
-
-  // const handleOptionChange = (index: number, type: string) => {
-  //   setTicketTypes((prevTickets) => {
-  //     const updatedTickets = prevTickets.map((ticket, i) =>
-  //       i === index ? { ...ticket, selected: type } : ticket
-  //     );
-
-  //     updatedTickets.forEach((ticket, i) => {
-  //       form.setValue(`tickets.${i}.selected`, ticket.selected);
-  //     });
-
-  //     return updatedTickets;
-  //   });
-  // };
 
   const handleOptionChange = (index: number, type: string) => {
     setTicketTypes((prevTickets) => {
@@ -1295,6 +896,7 @@ function OganizerCreateEvent() {
     });
   };
 
+  // Set state/form data to send in APIs
   const filteredTicketTypes = ticketTypes.map((ticket) => ({
     selected: ticket.selected,
 
@@ -1306,36 +908,6 @@ function OganizerCreateEvent() {
       label: option.label,
     })),
   }));
-
-  function extractDate(dateTime: string): string {
-    // Create a new Date object from the input string
-    const date = new Date(dateTime);
-
-    // Format the date to 'YYYY-MM-DD'
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-    const day = String(date.getDate()).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
-  }
-
-  function addTimeToDate(inputDate: string, hoursToAdd: number, minutesToAdd: number): string {
-    // Parse the input date
-    const date = new Date(inputDate);
-
-    // Add the specified hours and minutes
-    date.setHours(date.getHours() + hoursToAdd);
-    date.setMinutes(date.getMinutes() + minutesToAdd);
-
-    // Format the date in YYYY-MM-DDTHH:mm format
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
-  }
 
   const isCategorySelected = categoryTypes && categoryTypes.label !== "";
 
@@ -1396,7 +968,7 @@ function OganizerCreateEvent() {
         userId: userid,
         isFree: isFree,
         name: Eventname,
-        category: [categorylabels],
+        category: [categorylabels?.label],
         tags: chooseHashTags,
         eventDescription: Eventdescription,
         location: EventLocation,
@@ -1417,6 +989,8 @@ function OganizerCreateEvent() {
         linkedinUrl: linkedinUrl,
         eventmedia: imagesOfGallery,
       };
+
+      console.log("Ticket creation APi data is =======> ", data);
       dispatch(createevent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
           setLoader(false);
@@ -1452,13 +1026,6 @@ function OganizerCreateEvent() {
     const utcTicketEndTime = convertToUTC(TicketEndDate);
     // setTicketEndDate(utcTicketEndTime);
 
-    // const selectedCategories = categoryTypes.map((category) => ({
-    //   options: category.options.map((option) => ({
-    //     id: option.id,
-    //     label: option.label,
-    //   })),
-    // }));
-
     const categorylabels = categoryTypes;
     const eventhashtags = chooseHashTags;
 
@@ -1471,51 +1038,16 @@ function OganizerCreateEvent() {
       isFree: isFree,
 
       eventcategory: categorylabels?.label,
-      // eventtags: eventhashtags,
 
       eventstartdate: utcTicketStartTime,
       eventenddate: utcTicketEndTime,
 
       eventstarttime: utcEventStartTime,
       eventendtime: utcEventEndTime,
-
-      // utcEventStartTime: utcEventStartTime,
-      // utcEventEndtime: utcEventEndTime,
-
-      // utcTicketStartTime: utcTicketStartTime,
-      // utcTicketEndTime: utcTicketEndTime,
     };
     console.log("my updated values are", updatedValues);
 
     setEventAllData(updatedValues);
-    // if (updatedValues !== null)
-    //   {
-    //   const encodedEventData = encodeURIComponent(
-    //     JSON.stringify(updatedValues)
-    //   );
-    //   console.log("my encoded data", encodedEventData);
-    //   router.push(`/preview-event?eventData=${encodedEventData}`);
-    // } else {
-    //   console.log("error");
-    // }
-    // if (updatedValues !== null) {
-    //   try {
-    //     const encodedEventData = encodeURIComponent(JSON.stringify(updatedValues));
-    //     console.log("my encoded data", encodedEventData);
-
-    //     // Check if data length exceeds URL limit
-    //     if (encodedEventData.length < 2000) { // Example limit
-    //       router.push(`/preview-event?eventData=${encodedEventData}`);
-    //     } else {
-    //       console.error("Data is too large for URL. Consider alternative methods.");
-    //       // Use an alternative method such as local storage or POST request
-    //     }
-    //   } catch (error) {
-    //     console.error("Error encoding data", error);
-    //   }
-    // } else {
-    //   console.log("error");
-    // }
     if (updatedValues !== null) {
       localStorage.setItem("eventData", JSON.stringify(updatedValues));
       router.push("/preview-event");
@@ -1577,18 +1109,6 @@ function OganizerCreateEvent() {
   };
 
   console.log("my cat", categoryTypes);
-  // useEffect(() => {
-  //   const updateEventEndTime = () => {
-  //     if (EventStartTime) {
-  //       const adjustedEventStartTime = dayjs(EventStartTime).add(5, "hour");
-  //       const formattedEndTime = adjustedEventStartTime.format("YYYY-MM-DDTHH:mm");
-  //       setEventEndTime(formattedEndTime);
-  //       form.setValue("eventendtime", formattedEndTime);
-  //     }
-  //   };
-
-  //   updateEventEndTime();
-  // }, [EventStartTime, TicketStartDate, form]);
 
   const handleHashFieldInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.trim();
@@ -1659,7 +1179,6 @@ function OganizerCreateEvent() {
                   {" "}
                   Cover <span className="text-primary"> Artwork</span>
                 </h1>
-                {/* <Image src={Editicon} alt="Edit-icon" /> */}
               </div>
 
               <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
@@ -1669,8 +1188,6 @@ function OganizerCreateEvent() {
               className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head 
                relative  "
             >
-              {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
-
               <Image src={CoverImg || newCover} alt="bg-frame" className="w-full lg:w-[392px] lg:h-[392px] h-[345px] " width={100} height={345} />
 
               <label
@@ -1699,11 +1216,6 @@ function OganizerCreateEvent() {
                   onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
                 />
               </label>
-              {/* <p className="text-sm text-gray-500 mt-2">
-                Upload Guidelines: Maximum file size: <strong>5 MB</strong>,
-                Minimum resolution: <strong>800 x 600 pixels</strong>, Supported
-                formats: <strong>JPEG, PNG, GIF</strong> (animated).
-              </p> */}
             </div>
           </div>
 
@@ -1714,7 +1226,6 @@ function OganizerCreateEvent() {
                   {" "}
                   Gallery <span className="text-primary"> Media</span>
                 </h1>
-                {/* <Image src={Editicon} alt="Edit-icon" /> */}
               </div>
 
               <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
@@ -1778,14 +1289,10 @@ function OganizerCreateEvent() {
                       <Image src={cam} alt="pencil" />
                       <p className="text-[#00D059] text-sm font-extrabold">Upload Media</p>
                     </div>
-                    {/* <span className="pl-[0.75rem] uploadImageButton flex items-center">
-                    <Image src={cam} alt="pencil" /> {"Upload Media"}
-                  </span> */}
                     <input
                       type="file"
                       multiple
                       accept="image/*, video/*"
-                      // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
                       className="hidden "
                       id="galleryUpload"
                       onChange={handleFileChange}
@@ -1832,7 +1339,6 @@ function OganizerCreateEvent() {
         <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
           <Form {...form}>
             <form className=" w-full">
-              {/* Event Name and Catgory fields */}
               <div className="flex items-start gap-[24px] w-full common-container">
                 <FormField
                   control={form.control}
@@ -1856,7 +1362,6 @@ function OganizerCreateEvent() {
                     </FormItem>
                   )}
                 />
-                {/* //Event Catagory Input field */}
                 <FormField
                   control={form.control}
                   name="eventcategory"
@@ -1887,9 +1392,6 @@ function OganizerCreateEvent() {
                                 onClick={() => handleCateOptionToggle(option)}
                               >
                                 <div className="flex items-center gap-[10px]">
-                                  {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                    {option.label}
-                                  </p> */}
                                   <p
                                     className={`text-[16px] font-normal items-center ${
                                       categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
@@ -2082,85 +1584,6 @@ function OganizerCreateEvent() {
                           render={({ field }) => {
                             const currentDateTime = dayjs();
                             return (
-                              // <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                              //   <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
-                              //     Ticket Start Date & Time
-                              //   </FormLabel>
-                              //   <FormControl>
-                              //     <div className="w-full">
-                              //       <StyledDateTimePicker
-                              //         referenceDate={currentDateTime}
-                              //         formatDensity="spacious"
-                              //         onKeyDown={(e: any) => e.preventDefault()}
-                              //         autoOk={false}
-                              //         onChange={(e: any) => {
-                              //           if (e && e.isValid()) {
-                              //             const selectedDate = dayjs(
-                              //               e.format("YYYY-MM-DD")
-                              //             );
-                              //             const today =
-                              //               currentDateTime.startOf("day");
-
-                              //             if (
-                              //               selectedDate.isSame(today, "day")
-                              //             ) {
-                              //               const formattedDate =
-                              //                 e.format("YYYY-MM-DDTHH:mm");
-                              //               setTicketStartDate(formattedDate);
-                              //               field.onChange(formattedDate);
-                              //             } else {
-                              //               const formattedDate =
-                              //                 e.format("YYYY-MM-DDTHH:mm");
-                              //               setTicketStartDate(formattedDate);
-                              //               field.onChange(formattedDate);
-                              //             }
-                              //           }
-                              //         }}
-                              //         // Set minDateTime only if the selected date is today
-                              //         // minDateTime={
-                              //         //   field.value &&
-                              //         //   dayjs(field.value).isSame(
-                              //         //     currentDateTime,
-                              //         //     "day"
-                              //         //   )
-                              //         //     ? currentDateTime
-                              //         //     : null
-                              //         // }
-                              //         disablePast
-                              //         slots={{
-                              //           openPickerIcon: () => (
-                              //             <CalendarTodayIcon
-                              //               style={{
-                              //                 color: "#5e5e5e",
-                              //                 fontSize: "15px",
-                              //                 position: "absolute",
-                              //                 top: "-17px",
-                              //                 right: "5px",
-                              //               }}
-                              //             />
-                              //           ),
-                              //         }}
-                              //         slotProps={{
-                              //           tabs: { hidden: false },
-                              //           toolbar: {
-                              //             toolbarFormat: "YYYY",
-                              //             hidden: false,
-                              //           },
-                              //           calendarHeader: {
-                              //             sx: { color: "white" },
-                              //           },
-                              //           textField: {
-                              //             inputProps: { readOnly: true },
-                              //             placeholder:
-                              //               "MM / DD / YYYY HH:MM:AA",
-
-                              //           },
-                              //         }}
-                              //       />
-                              //     </div>
-                              //   </FormControl>
-                              //   <FormMessage />
-                              // </FormItem>
                               <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
                                 <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">Ticket Start Date & Time</FormLabel>
                                 <FormControl>
@@ -2230,55 +1653,6 @@ function OganizerCreateEvent() {
                           control={form.control}
                           name="eventenddate"
                           render={({ field }) => {
-                            // const adjustedticketStartTime = dayjs(TicketStartDate).add(12, "hour");
-                            // const minStartTime = dayjs(
-                            //   TicketStartDate || new Date()
-                            // );
-
-                            // const defaultStartTime = field.value
-                            //   ? dayjs(field.value)
-                            //   : minStartTime;
-
-                            // const isSameDay = minStartTime.isSame(
-                            //   defaultStartTime,
-                            //   "day"
-                            // );
-
-                            // const validStartTime = isSameDay
-                            //   ? minStartTime
-                            //   : null;
-                            //   let referenceTicketDate;
-                            // if (validStartTime) {
-                            //  referenceTicketDate = validStartTime.add(
-                            //     2,
-                            //     "minute"
-                            //   );
-                            // }
-
-                            // const minStartTime = dayjs(
-                            //   TicketStartDate || new Date()
-                            // ).add(12, "hour");
-
-                            // const defaultStartTime = field.value
-                            //   ? dayjs(field.value)
-                            //   : minStartTime;
-
-                            // const isSameDay = minStartTime.isSame(
-                            //   defaultStartTime,
-                            //   "day"
-                            // );
-                            // const validStartTime = isSameDay
-                            //   ? minStartTime
-                            //   : null;
-
-                            // let referenceTicketDate;
-                            // if (validStartTime) {
-                            //   referenceTicketDate = validStartTime.add(
-                            //     2,
-                            //     "minute"
-                            //   );
-                            // }
-
                             const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
 
                             // Default to the current time if the adjusted start time has passed
@@ -2353,97 +1727,9 @@ function OganizerCreateEvent() {
                     </LocalizationProvider>
                   </ThemeProvider>
                 </div>
-                {/* <FormField
-                  control={form.control}
-                  name="eventenddate"
-                  render={({ field }) => {
-                    const currentDateTime = new Date()
-                      .toISOString()
-                      .slice(0, 16);
-                    const ticketstartDate = TicketStartDate;
-
-                    const minDateTime =
-                      currentDateTime > ticketstartDate
-                        ? currentDateTime
-                        : ticketstartDate;
-                    return (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                          Ticketing End Date & time
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="datetime-local"
-                            aria-label="Date and time"
-                            placeholder="Enter End Date"
-                            className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                            {...field}
-                            onChange={(e) => {
-                              setTicketEndDate(e.target.value);
-                              field.onChange(e);
-                            }}
-                            min={TicketStartDate}
-                            // min={minDateTime}
-
-                            onKeyDown={(e) => e.preventDefault()}
-
-                            // max={extractDate(EventStartTime)}
-                          />
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
-                /> */}
               </div>
 
               <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                {/* <FormField
-                  control={form.control}
-                  name="eventstarttime"
-                  render={({ field }) => {
-                    const currentDateTime = new Date()
-                      .toISOString()
-                      .slice(0, 16);
-                    const ticketEndDate = TicketEndDate;
-
-                    const minDateTime =
-                      currentDateTime > ticketEndDate
-                        ? currentDateTime
-                        : ticketEndDate;
-                    return (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                          Event Start Date & time
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            onKeyDown={(e) => e.preventDefault()}
-                            type="datetime-local"
-                            aria-label="Date and time"
-                            placeholder="Enter Start Time"
-                            className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                            {...field}
-                            onChange={(e) => {
-                              setEventStartTime(e.target.value);
-                              field.onChange(e);
-                              console.log(
-                                "event start time inside",
-                                e.target.value
-                              );
-                            }}
-                            // min={addTimeToDate(TicketEndDate, 0, 0)}
-                            // min={minDateTime}
-                            min={TicketEndDate}
-                          />
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
-                /> */}
                 <div className="w-full">
                   <ThemeProvider theme={themeMui}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2543,16 +1829,9 @@ function OganizerCreateEvent() {
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">Event End Date & Time</FormLabel>
                                 <FormControl>
                                   <div className=" w-full" onClick={toggleEndEventTimePicker}>
-                                    {/* <div className=" w-full"> */}
-
                                     <StyledDateTimePicker
                                       open={isEndEventPickerOpen}
                                       referenceDate={defaultEndTime}
-                                      // value={
-                                      //   field.value
-                                      //     ? dayjs(field.value)
-                                      //     : defaultEndTime
-                                      // }
                                       formatDensity="spacious"
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
@@ -2611,381 +1890,7 @@ function OganizerCreateEvent() {
                     </LocalizationProvider>
                   </ThemeProvider>
                 </div>
-
-                {/* <FormField
-                  control={form.control}
-                  name="eventendtime"
-                  render={({ field }) => {
-                    console.log("Raw Event Start Time:", EventStartTime);
-                    const eventStartDate = EventStartTime
-                      ? new Date(EventStartTime)
-                      : null;
-
-                    // Calculate the minimum end date by adding 5 hours
-                    const minEndDate = eventStartDate
-                      ? new Date(eventStartDate.getTime() + 5 * 60 * 60 * 1000) // 5 hours in milliseconds
-                      : null;
-
-                    // Format the minimum end date to 'YYYY-MM-DDTHH:MM'
-                    const minEndDateString = minEndDate
-                      ? minEndDate.toISOString().slice(0, 16)
-                      : undefined;
-
-                    // Logging for debugging
-                    console.log("Event Start Date:", eventStartDate);
-                    console.log("Calculated Min End Date:", minEndDate);
-                    console.log("Min End Date String:", minEndDateString);
-                    return (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                          Event End Date & time
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            onKeyDown={(e) => e.preventDefault()}
-                            type="datetime-local"
-                            aria-label="Date and time"
-                            placeholder="Enter End Time"
-                            className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                            {...field}
-                            onChange={(e) => {
-                              setEventEndTime(e.target.value);
-                              field.onChange(e);
-                              console.log(
-                                "event end time inside",
-                                e.target.value
-                              );
-                            }}
-                            // min={EventStartTime}
-                            // min="2024-10-15T08:30"
-                            min={minEndDateString}
-                          />
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
-                /> */}
               </div>
-              {/* <>
-                <ThemeProvider theme={themeMui}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DateTimePicker"]}>
-                      <FormField
-                        control={form.control}
-                        name="eventendtime"
-                        render={({ field }) => {
-                          const adjustedEventStartTime = dayjs(EventStartTime).add(5, 'hour');
-                          return(
-                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[14px]">
-                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                              Event End Date & Time
-                            </FormLabel>
-                            <FormControl>
-                              <div className=" w-full">
-                                <StyledDateTimePicker
-                                  //  {...field}
-                                  // onChange={(e: any) => {
-                                  //   setEventEndTime(e);
-                                  //   field.onChange(e);
-                                  // }}
-
-                                  onChange={(e:any) => {
-                                    if (e && e.isValid()) {
-                                      const formattedDate = e.format('YYYY-MM-DDTHH:mm');
-                                      setEventEndTime(formattedDate);
-                                      field.onChange(formattedDate);
-                                    }
-                                  }}
-                                  //  label="Event End Date & Time"
-                                  // minDateTime={dayjs("2024-10-15T08:30")}
-                                  minDateTime={adjustedEventStartTime}
-
-                                  // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
-                                  slots={{
-                                    openPickerIcon: () => (
-                                      <CalendarTodayIcon
-                                        style={{
-                                          color: "#5e5e5e",
-                                          fontSize: "15px",
-                                          position: "absolute",
-                                          top: "-17px",
-                                          right: "5px",
-                                        }}
-                                      />
-                                    ),
-                                  }}
-                                  slotProps={{
-                                    tabs: {
-                                      hidden: false,
-                                    },
-                                    toolbar: {
-                                      toolbarFormat: "YYYY",
-                                      hidden: false,
-                                    },
-                                    calendarHeader: {
-                                      sx: { color: "white" },
-                                    },
-                                  }}
-                                />
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider>
-                </ThemeProvider>
-              </> */}
-              {/* <div className="flex w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
-                <div className="flex w-full lg:w-[350px] gap-[12px]">
-                  <div
-                    className={`lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] w-full lg:w-[331px] flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${
-                      selected === "free"
-                        ? "gradient-border-rounded text-[#00A849]"
-                        : ""
-                    }`}
-                    // onClick={() => setSelected("rewards")}
-                    onClick={() => handleOptionChange("free")}
-                  >
-                    {selected === "free" ? (
-                      <Image
-                        src={greenfree}
-                        className="pb-[8px] hidden md:block"
-                        alt="Green Ticket"
-                      />
-                    ) : (
-                      <Image
-                        src={whitefree}
-                        className="pb-[8px] hidden md:block"
-                        alt="Default Ticket"
-                      />
-                    )}
-                    <p>Free</p>
-                  </div>
-                </div>
-
-                <div
-                  className={`  lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] lg:w-[350px] flex w-full 
-                    md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] 
-                    md:pt-[16px] md:pb-[12px] cursor-pointer  ${
-                      selected === "paid"
-                        ? "gradient-border-rounded text-[#00A849] "
-                        : ""
-                    }`}
-                  // onClick={() => setSelected("rewardcollectables")}
-                  onClick={() => handleOptionChange("paid")}
-                >
-                  {selected === "paid" ? (
-                    <Image
-                      src={greenfree}
-                      className="pb-[8px] hidden md:block"
-                      alt="Green Collectibles"
-                    />
-                  ) : (
-                    <Image
-                      src={whitefree}
-                      className="pb-[8px] hidden md:block"
-                      alt="Default Collectibles"
-                    />
-                  )}
-                  <p>Paid</p>
-                </div>
-              </div> */}
-
-              {/* {
-                ticketTypes.length > 0 &&
-                ticketTypes.map((ticket, index) => (
-                  <div
-                    className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
-                    key={index}
-                  >
-                    <div className="flex items-center gap-[24px] common-container">
-                  
-                      <FormField
-                        control={form.control}
-                        name={`tickets.${index}.type`}
-                        render={({ field }) => (
-                          <FormItem className="relative w-full space-y-0">
-                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                              Event Ticket Type
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Enter Type"
-                                className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                                {...field}
-                                onChange={(e) => {
-                                  handleInputChange(
-                                    index,
-                                    "type",
-                                    e.target.value
-                                  );
-                                  field.onChange(e);
-                                }}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                   
-                     { selected !== "free" && 
-                      <FormField
-                        control={form.control}
-                        name={`tickets.${index}.price`}
-                        render={({ field }) => (
-                          <FormItem className="relative w-full space-y-0">
-                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                              Event Ticket Price (£)
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Enter Price"
-                                className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                                {...field}
-                                onChange={(e) => {
-                                  handleInputChange(
-                                    index,
-                                    "price",
-                                    parseFloat(e.target.value)
-                                  );
-                                  field.onChange(e);
-                                }}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                     }
-
-                   
-                      <FormField
-                        control={form.control}
-                        name={`tickets.${index}.no`}
-                        render={({ field }) => (
-                          <FormItem className="relative w-full space-y-0">
-                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                              Event Number of Tickets
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Enter No. of Tickets"
-                                className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                                {...field}
-                                onChange={(e) => {
-                                  handleInputChange(
-                                    index,
-                                    "no",
-                                    parseInt(e.target.value, 10)
-                                  );
-                                  field.onChange(e);
-                                }}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                
-                    <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                      <div
-                        className="flex items-center justify-between"
-                        onClick={() => handleDropdown(index)}
-                      >
-                        <p className="text-sm text-[#8F8F8F] uppercase">
-                          WHATS INCLUDED
-                        </p>
-                        <Image
-                          src={ticket?.dropdown ? arrowdown : arrowdown}
-                          width={11}
-                          height={11}
-                          alt="arrow"
-                        />
-                      </div>
-                      {ticket?.dropdown && (
-                        <div className="grid-container">
-                          {options?.map((option) => (
-                            <div
-                              key={option.id}
-                              className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
-                              onClick={() => handleOptionToggle(index, option)}
-                            >
-                              <div className="flex items-center gap-[10px]">
-                                <Image
-                                  src={option?.image}
-                                  width={16}
-                                  height={16}
-                                  alt="img"
-                                />
-                                <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                  {option.label}
-                                </p>
-                              </div>
-                              {ticket?.options?.some(
-                                (o) => o?.id === option?.id
-                              ) && (
-                                <Image
-                                  src={tick}
-                                  width={15}
-                                  height={15}
-                                  alt="tick"
-                                />
-                              )}
-                            </div>
-                          ))}
-                          <div className="column-separator"></div>{" "}
-                         
-                          <div className="column-separator"></div>
-                        </div>
-                      )}
-                    </div>
-                    {index != 0 && (
-                      <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
-                        <Button
-                          className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
-                          onClick={() => handleDeleteTicketType(index)}
-                        >
-                          <Image
-                            src={deleteicon}
-                            alt="delete-icon"
-                            height={12}
-                            width={12}
-                          />
-                          Delete Ticket Type
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                ))} */}
-
-              {/* <div className="flex justify-end items-center mt-[12px] ticket-btn">
-                  <Button
-                    style={{
-                      background:
-                        "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
-                    }}
-                    className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px]  rounded-full  
-               border-[0.86px] border-transparent text-[11px] font-extrabold"
-                    onClick={handleAddTicketType}
-                  >
-                    <Image
-                      src={addicon}
-                      alt="Add-icon"
-                      height={12}
-                      width={12}
-                    />
-                    Add Ticket Type
-                  </Button>
-                </div> */}
               <div className="flex  flex-col w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
                 {ticketTypes?.length > 0 &&
                   ticketTypes.map((ticket, index) => (
@@ -3079,16 +1984,6 @@ function OganizerCreateEvent() {
                                       handleInputChange(index, "price", parseFloat(e.target.value));
                                       field.onChange(e);
                                     }}
-
-                                    // onChange={(e) => {
-
-                                    //   handleInputChange(
-                                    //     index,
-                                    //     "price",
-                                    //     parseFloat(e.target.value)
-                                    //   );
-                                    //   field.onChange(e);
-                                    // }}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -3147,9 +2042,6 @@ function OganizerCreateEvent() {
                                     alt="img"
                                     className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
                                   />
-                                  {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                    {option.label}
-                                  </p> */}
                                   <p
                                     className={`text-[16px] font-normal items-center ${
                                       ticket?.options?.some((o) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
@@ -3158,16 +2050,6 @@ function OganizerCreateEvent() {
                                     {option.label}
                                   </p>
                                 </div>
-                                {/* {ticket?.options?.some(
-                                  (o) => o?.id === option?.id
-                                ) && (
-                                  <Image
-                                    src={tick}
-                                    width={15}
-                                    height={15}
-                                    alt="tick"
-                                  />
-                                )} */}
                               </div>
                             ))}
                             <div className="column-separator"></div> <div className="column-separator"></div>
@@ -3202,64 +2084,35 @@ function OganizerCreateEvent() {
                   </Button>
                 </div>
               </div>
-              {/* Add Ticket Type Button */}
-
-              {/* <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
-                <FormField
-                  control={form.control}
-                  name="compticketno"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Complimentary number of tickets
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min="0"
-                          onWheel={(e: any) => e.target.blur()}
-                          placeholder="Enter No. of Tickets"
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                          {...field}
-                          onChange={(e) => {
-                            setCompTicketNo(e.target.value);
-                            field.onChange(e);
-                          }}
-                          style={{
-                            appearance: "none", // Disable browser styling
-                            MozAppearance: "textfield", // Firefox
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div> */}
 
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
+                {/* Facebook Link INput */}
                 <FormField
                   control={form.control}
                   name="fburl"
                   render={({ field }) => (
-                    <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Facebook</FormLabel>
-                      <FormControl>
+                    <FormItem className="relative w-full flex justify-start items-center">
+                      <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Facebook
+                      </FormLabel>
+                      {isFbVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
+                      <FormControl className="flex items-center">
                         <Input
                           placeholder="Enter URL"
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
-                          {...field}
-                          // onChange={(e) => {
-                          //   setFBUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
+                          className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
+                          {...form}
                           onChange={(e) => {
                             const value = e.target.value;
-
-                            if (value.startsWith("https://www.facebook.com/")) {
-                              setFBUrl(value);
-                              field.onChange(value);
-                            }
+                            setFBUrl(value);
+                            field.onChange(value);
                           }}
                         />
                       </FormControl>
@@ -3273,25 +2126,29 @@ function OganizerCreateEvent() {
                   name="instaurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Instagram</FormLabel>
+                      <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Instagram
+                      </FormLabel>
+                      {isInstaVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
                           // value={InstaUrl}
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                          className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
-                          // onChange={(e) => {
-                          //   setInstaUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
-
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://instagram.com/")) {
-                              setInstaUrl(value);
-                              field.onChange(value);
-                            }
+                            setInstaUrl(value);
+                            field.onChange(value);
                           }}
                         />
                       </FormControl>
@@ -3300,31 +2157,34 @@ function OganizerCreateEvent() {
                   )}
                 />
               </div>
-
               <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
                 <FormField
                   control={form.control}
                   name="telegramurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Telegram</FormLabel>
+                      <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Telegram
+                      </FormLabel>
+                      {isTeleVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                          className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
-                          // onChange={(e) => {
-                          //   setTwitterUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
-
                           onChange={(e) => {
                             const value = e.target.value;
                             // Prevent the user from modifying the base URL
-                            if (value.startsWith("https://t.me/")) {
-                              setTelegramUrl(value);
-                              field.onChange(value);
-                            }
+                            setTelegramUrl(value);
+                            field.onChange(value);
                           }}
                         />
                       </FormControl>
@@ -3338,23 +2198,28 @@ function OganizerCreateEvent() {
                   name="youtubeurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Youtube</FormLabel>
+                      <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Youtube
+                      </FormLabel>
+                      {isYtVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
+                          className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
-                          // onChange={(e) => {
-                          //   setYoutubeUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://www.youtube.com/")) {
-                              setYoutubeUrl(value);
-                              field.onChange(value);
-                            }
+                            setYoutubeUrl(value);
+                            field.onChange(value);
                           }}
                         />
                       </FormControl>
@@ -3369,23 +2234,28 @@ function OganizerCreateEvent() {
                   name="tiktokurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Tiktok</FormLabel>
+                      <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Tiktok
+                      </FormLabel>
+                      {isTikTokVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                          className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
-                          // onChange={(e) => {
-                          //   settiktokUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://www.tiktok.com/@")) {
-                              settiktokUrl(value);
-                              field.onChange(value);
-                            }
+                            settiktokUrl(value);
+                            field.onChange(value);
                           }}
                         />
                       </FormControl>
@@ -3399,23 +2269,28 @@ function OganizerCreateEvent() {
                   name="linkedinurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Linkedin</FormLabel>
+                      <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Linkedin
+                      </FormLabel>
+                      {isLinkedInVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                          className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
-                          // onChange={(e) => {
-                          //   setlinkedinUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://linkedin.com/in/")) {
-                              setlinkedinUrl(value);
-                              field.onChange(value);
-                            }
+                            setlinkedinUrl(value);
+                            field.onChange(value);
                           }}
                         />
                       </FormControl>
@@ -3430,23 +2305,28 @@ function OganizerCreateEvent() {
                   name="twitterurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Twitter</FormLabel>
+                      <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
+                        Twitter
+                      </FormLabel>
+                      {isXVerify ? (
+                        <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
+                          ✔
+                        </FormLabel>
+                      ) : (
+                        <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          Verify
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
-                          className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF] "
+                          className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
-                          // onChange={(e) => {
-                          //   settiktokUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            if (value.startsWith("https://www.x.com")) {
-                              setTwitterUrl(value);
-                              field.onChange(value);
-                            }
+                            setTwitterUrl(value);
+                            field.onChange(value);
                           }}
                         />
                       </FormControl>
@@ -3459,9 +2339,6 @@ function OganizerCreateEvent() {
                 <div className="flex justify-end items-center  edit-btn">
                   <button
                     className="w-full lg:w-fit flex h-[52px] py-[17px] px-[55.25px] lg:py-[12px] lg:px-[68px] edit-btn justify-center items-center rounded-[44px] gap-[6px] gradient-bg gradient-border-edit "
-                    // onClick={handlePreviewClick}
-                    // onClick={() => setActionType("preview")}
-                    // disabled={!isCategorySelected}
                     onClick={(event) => handleFormSubmit(event, "preview")}
                     disabled={!isCategorySelected}
                   >
@@ -3472,7 +2349,6 @@ function OganizerCreateEvent() {
                   <Button
                     type="submit"
                     className="w-full lg:w-fit flex  justify-center items-center font-bold py-[17px] px-[55.25px] lg:py-[12px] lg:px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
-                    // onClick={() => setActionType("create")}
                     onClick={(event) => handleFormSubmit(event, "create")}
                     disabled={!isCategorySelected}
                   >
