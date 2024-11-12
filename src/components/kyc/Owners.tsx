@@ -17,6 +17,7 @@ import tick from "../../assets/fi-rr-check.svg";
 import percent from "@/assets/percent.svg";
 
 import { v4 as uuidv4 } from "uuid";
+import { Label } from "recharts";
 
 type CateOption = {
   label: string;
@@ -83,9 +84,10 @@ const formSchema = z.object({
 // Define the prop types for the child component
 interface ChildComponentProps {
   onNextBtnClicked: (newState: number, data: any) => void;
+  PageData?: any;
 }
 
-const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
+const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
   const [userID, setUserID] = useState<any>("");
   const [ownerForm, setOwnerForm] = useState<OwnerForm[]>([
     {
@@ -105,6 +107,39 @@ const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
     console.log("Initial form data is as ===> ", ownerForm);
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserID(userID);
+
+    if (Object.keys(PageData).length !== 0) {
+      console.log("Individual Form Backed value is as==> ", PageData);
+      form.reset({
+        ownerforms: PageData?.Owner?.map((_: any, index: number) => {
+          return {
+            eventcatagory: {
+              label: _.relationship,
+            },
+            percentageSchema: _.percentage,
+            firstname: _.FirstName,
+            lastname: _.LastName,
+          };
+        }),
+      });
+      ///////////////////////////////
+      const oldDateisAs = PageData?.Owner?.map((_: any, index: number) => {
+        return {
+          id: uuidv4(),
+          eventcatagory: { label: _.relationship },
+          firstname: _.FirstName,
+          lastname: _.LastName,
+          percentageSchema: _.percentage,
+          dropDown: false,
+          categoryalert: false,
+          iscustomcatgory: false,
+          customcategotyinput: "",
+        };
+      });
+      setOwnerForm(oldDateisAs);
+    } else {
+      console.log("Individual No Backed Code");
+    }
   }, []);
   //   useEffect(() => {
   //     console.log("Data is as now ===> ", ownerForm);
@@ -240,7 +275,7 @@ const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
       return {
         FirstName: value?.firstname,
         LastName: value?.lastname,
-        Email: "",
+        Email: "example@gmail.com",
         relationship: value?.eventcatagory?.label,
         percentage: value?.percentageSchema,
       };
@@ -256,23 +291,31 @@ const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
 
   return (
     <div>
-      <div className="flex mb-[24px] lg:mb-[32px] justify-start">
-        <Button
-          onClick={addMoreOwner}
-          className="max-w-fit h-[36px] gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
-            py-[12px] px-[12px] text-sm md:text-base md:w-fit
-            disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <Image src={add} alt="add" className="me-[8px] w-[14px] h-[14px]" />
-          Add Owners
-        </Button>
-      </div>
       <div className="flex gap-[30px] flex-col md:gap-[70px]">
         <Form {...form}>
           <form className=" w-full" onSubmit={form.handleSubmit(EventCreation)}>
             {ownerForm?.length > 0 &&
               ownerForm.map((ticketform, index) => (
                 <div key={index}>
+                  {index === ownerForm.length - 1 ? (
+                    <Button
+                      onClick={addMoreOwner}
+                      className="max-w-fit h-[36px] gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
+            py-[12px] px-[12px] text-sm md:text-base md:w-fit
+            disabled:cursor-not-allowed disabled:opacity-50 mb-[32px]"
+                    >
+                      <Image src={add} alt="add" className="me-[8px] w-[14px] h-[14px]" /> <p className="text-[11px] font-extrabold"></p>
+                      Add Owners{" "}
+                    </Button>
+                  ) : (
+                    <Button
+                      className=" bg-[#FF1717B2] text-white max-w-fit h-[36px] rounded-[44px] text-[11px] font-extrabold leading-[15.95px] text-left md:text-base md:w-fit disabled:cursor-not-allowed disabled:opacity-50 mb-[32px] flex gap-[8px]"
+                      onClick={(e) => handleRemoveOwner(e, ticketform?.id)}
+                    >
+                      <Image src={deleteicon} alt="delete-icon" height={16} width={16} />
+                      Remove Owner
+                    </Button>
+                  )}
                   {/* First inputs */}
                   <div key={index} className="lg:flex w-full  gap-[24px]">
                     {/* Owner types are here */}
@@ -419,7 +462,7 @@ const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
                   {/* Second Inputs */}
                   <div key={index} className="lg:flex w-full  gap-[24px]">
                     {/* Last name is here */}
-                    <div className="w-full md:mb-[30px]">
+                    <div className="w-full mb-0 md:mb-[30px]">
                       <FormField
                         control={form.control}
                         name={`ownerforms.${index}.lastname`}
@@ -532,27 +575,15 @@ const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
                       />
                     </div>
                   </div>
-
-                  {ownerForm?.length > 1 ? (
-                    <Button
-                      className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] mt-[-30px] mb-[35px]"
-                      onClick={(e) => handleRemoveOwner(e, ticketform?.id)}
-                    >
-                      <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
-                      Remove Owner
-                    </Button>
-                  ) : (
-                    <></>
-                  )}
                 </div>
               ))}
-            <div className="flex justify-between w-full">
+            <div className="flex flex-col gap-3 mt-5 justify-between w-full sm:flex-row sm:mt-0">
               <Button
                 type="button"
                 className="w-full sm:w-[200px] font-extrabold py-[12px] text-base"
                 onClick={() => {
                   //   e.preventDefault();
-                  //   onNextBtnClicked(3);
+                  onNextBtnClicked(3, { RepresentativeData: {} });
                 }}
               >
                 Back

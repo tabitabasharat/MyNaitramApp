@@ -51,9 +51,10 @@ const formSchema = z.object({
 // Define the prop types for the child component
 interface ChildComponentProps {
   onNextBtnClicked: (newState: number, data: any) => void;
+  pageData?: any;
 }
 
-const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
+const IndividualInfo = ({ onNextBtnClicked, pageData = {} }: ChildComponentProps) => {
   const [firstName, setFirstName] = useState("");
   const [lastNamr, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -85,6 +86,24 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
   useEffect(() => {
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserID(userID);
+
+    if (Object.keys(pageData).length !== 0) {
+      console.log("Individual Form Backed value is as==> ", pageData);
+      form.reset({
+        firstname: pageData?.Individuals[0]?.FirstName,
+        lastname: pageData?.Individuals[0]?.LastName,
+        address1: pageData?.Individuals[0]?.Address1,
+        address2: pageData?.Individuals[0]?.Address2,
+        city: pageData?.Individuals[0]?.City,
+        country: pageData?.Individuals[0]?.Country,
+        dob: pageData?.Individuals[0]?.DOB,
+        email: pageData?.Individuals[0]?.Email,
+        organizationlink: pageData?.Individuals[0]?.organizationWebsite,
+        postalcode: pageData?.Individuals[0]?.postalCode,
+      });
+    } else {
+      console.log("Individual No Backed Code");
+    }
   }, []);
 
   function EventCreation(values: z.infer<typeof formSchema>) {
@@ -488,7 +507,7 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="flex justify-end w-full">
+            <div className="flex flex-col gap-3 mt-5 justify-between w-full sm:flex-row sm:mt-0">
               <Button type="submit" className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
                 Next
               </Button>
