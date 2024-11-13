@@ -1,0 +1,18 @@
+.ManualEmail-button{
+  white-space: nowrap; 
+
+}
+.ManualEmail-button-div{
+padding: 8px 12px ;
+border: 1px solid;
+
+border-image-source: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
+
+background: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
+width: 161px !important;
+height: 32px;
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
