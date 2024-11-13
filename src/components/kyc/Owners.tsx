@@ -313,7 +313,7 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                       onClick={(e) => handleRemoveOwner(e, ticketform?.id)}
                     >
                       <Image src={deleteicon} alt="delete-icon" height={16} width={16} />
-                      Remove Owner
+                      Delete Owner
                     </Button>
                   )}
                   {/* First inputs */}

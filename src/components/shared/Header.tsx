@@ -372,7 +372,7 @@ const Header = () => {
           </div>
           <div>
             <Button
-              className="hidden p-[12px] py-[8px] font- font-extrabold text-base lg:block lg:mr-[12px] background-[#13FF7A] text-[#030303]"
+              className="hidden p-[12px] py-[8px] font- font-extrabold text-base lg:block background-[#13FF7A] text-[#030303]"
               onClick={() => handleHostToggle()}
             >
               Host Event

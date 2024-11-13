@@ -124,7 +124,7 @@ const Hero = () => {
       }}
       className="min-h-screen lg:h-screen bg-cover bg-no-repeat relative overflow-clip  pt-[10rem] lg:pt-0"
     >
-      <div className="flex flex-col lg:flex-row justify-between items-center h-full px-[24px] md:pxpx mx-2xl relative">
+      <div className="flex flex-col lg:flex-row justify-between items-center h-full pt-[150px] px-[24px] md:pxpx mx-2xl relative">
         <div className="lg:w-1/2 xl:w-[40%] z-[8] flex flex-col justify-center items-center lg:justify-start lg:items-start gap-[40px]">
           <div>
             <Reveal y={100} width="100%">
