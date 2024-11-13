@@ -38,9 +38,11 @@ import { Dispatch } from "redux";
 import { showLiveActivity, updateLiveActivity } from "@/lib/middleware/profile";
 import ScreenLoader from "../loader/Screenloader";
 import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
+
 import { useLinkedIn } from "react-linkedin-login-oauth2";
 import { debounce } from "lodash";
 import { LinkdinAuth } from "@/lib/middleware/signin";
+import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
   facebook: z.string().url({ message: "Invalid Facebook URL." }).optional(),
@@ -370,7 +372,10 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                             ✔
                           </FormLabel>
                         ) : (
-                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          <FormLabel
+                            onClick={() => signIn("facebook")}
+                            className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center"
+                          >
                             Verify
                           </FormLabel>
                         )}

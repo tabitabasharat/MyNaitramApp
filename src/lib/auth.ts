@@ -89,6 +89,7 @@ export const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }) {
+      console.log("Facebook Session data is as: ", session);
       return {
         ...session,
         user: {
