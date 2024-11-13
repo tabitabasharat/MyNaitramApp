@@ -69,9 +69,10 @@ const formSchema = z.object({
 // Define the prop types for the child component
 interface ChildComponentProps {
   onNextBtnClicked: (newState: number, data: any) => void;
+  PageData?: any;
 }
 
-const Executive = ({ onNextBtnClicked }: ChildComponentProps) => {
+const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
   const [userID, setUserID] = useState<any>("");
   const [executivForm, setExecutiveForm] = useState<ExecutiveForm[]>([
     {
@@ -89,11 +90,57 @@ const Executive = ({ onNextBtnClicked }: ChildComponentProps) => {
   useEffect(() => {
     console.log("Initial form data is as ===> ", executivForm);
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    console.log("Executive page as => ", PageData);
     setUserID(userID);
+
+    const userDatapPrev = localStorage.getItem("exeData");
+    const PreExecutiveData = userDatapPrev ? JSON.parse(userDatapPrev) : null;
+    console.log("Executoive data from local storage is ===> ", PreExecutiveData);
+    if (
+      PreExecutiveData &&
+      Array.isArray(PreExecutiveData?.executiveforms) &&
+      PreExecutiveData?.executiveforms.length > 0 &&
+      Object.keys(PreExecutiveData?.executiveforms[0]).length !== 0
+    ) {
+      console.log("Individual Form Backed value is as==> ", PageData);
+      form.reset({
+        executiveforms: PreExecutiveData?.executiveforms?.map((_: any, index: number) => {
+          console.log("Tyoe of Element is as ======> ", _);
+          if (Object.keys(_).length !== 0) {
+            return {
+              eventcatagory: {
+                label: _?.eventcatagory?.label || null,
+              },
+              firstname: _?.firstname,
+              lastname: _?.lastname,
+            };
+          }
+        }),
+      });
+      ///////////////////////////////
+      const oldDateisAs = PreExecutiveData?.executiveforms?.map((_: any, index: number) => {
+        if (Object.keys(_).length !== 0) {
+          return {
+            id: uuidv4(),
+            eventcatagory: { label: _?.eventcatagory?.label || null },
+            firstname: _?.firstname,
+            lastname: _?.lastname,
+            dropDown: false,
+            categoryalert: false,
+            iscustomcatgory: false,
+            customcategotyinput: "",
+          };
+        }
+      });
+      setExecutiveForm(oldDateisAs);
+    } else {
+      console.log("Individual No Backed Code");
+    }
   }, []);
-  useEffect(() => {
-    console.log("Data is as now ===> ", executivForm);
-  }, [executivForm]);
+
+  // useEffect(() => {
+  //   console.log("Data is as now ===> ", executivForm);
+  // }, [executivForm]);
 
   const handleCatDropdownToggle = (index: number) => {
     setExecutiveForm((prevTickets) =>
@@ -225,38 +272,46 @@ const Executive = ({ onNextBtnClicked }: ChildComponentProps) => {
       return {
         FirstName: value?.firstname,
         LastName: value?.lastname,
-        Email: "",
+        Email: "example@gmail.com",
         relationship: value?.eventcatagory?.label,
       };
     });
     const exectiveData = {
       userId: userID,
       userType: "Executive",
-      approved: false,
+      approved: true,
       Executive: executiveDataArrayObject,
     };
-    onNextBtnClicked(5, exectiveData);
+    onNextBtnClicked(6, exectiveData);
   }
 
   return (
     <div>
-      <div className="flex mb-[24px] lg:mb-[32px] justify-start">
-        <Button
-          onClick={addMoreExecuters}
-          className="max-w-fit h-[36px] gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
-            py-[12px] px-[12px] text-sm md:text-base md:w-fit
-            disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <Image src={add} alt="add" className="me-[8px] w-[14px] h-[14px]" /> <p className="text-[11px] font-extrabold"></p>
-          Add Executive{" "}
-        </Button>
-      </div>
       <div className="flex gap-[30px] flex-col md:gap-[70px]">
         <Form {...form}>
           <form className=" w-full" onSubmit={form.handleSubmit(EventCreation)}>
             {executivForm?.length > 0 &&
               executivForm.map((ticketform, index) => (
                 <div key={index}>
+                  {index === executivForm.length - 1 ? (
+                    <Button
+                      onClick={addMoreExecuters}
+                      className="max-w-fit h-[36px] gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
+            py-[12px] px-[12px] text-sm md:text-base md:w-fit
+            disabled:cursor-not-allowed disabled:opacity-50 mb-[32px]"
+                    >
+                      <Image src={add} alt="add" className="me-[8px] w-[14px] h-[14px]" /> <p className="text-[11px] font-extrabold"></p>
+                      Add Executive{" "}
+                    </Button>
+                  ) : (
+                    <Button
+                      className=" bg-[#FF1717B2] text-white max-w-fit h-[36px] rounded-[44px] text-[11px] font-extrabold leading-[15.95px] text-left md:text-base md:w-fit disabled:cursor-not-allowed disabled:opacity-50 mb-[32px] flex gap-[8px]"
+                      onClick={(e) => handleRemoveExecutive(e, ticketform?.id)}
+                    >
+                      <Image src={deleteicon} alt="delete-icon" height={16} width={16} />
+                      Delete Executive
+                    </Button>
+                  )}
                   <div className="lg:flex w-full  gap-[24px]">
                     <div className="lg:w-[49%]">
                       <FormField
@@ -445,25 +500,20 @@ const Executive = ({ onNextBtnClicked }: ChildComponentProps) => {
                       />
                     </div>
                   </div>
-                  {executivForm?.length > 1 ? (
-                    <Button
-                      className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] mt-[-30px] mb-[35px]"
-                      onClick={(e) => handleRemoveExecutive(e, ticketform?.id)}
-                    >
-                      <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
-                      Delete Executive                    </Button>
-                  ) : (
-                    <></>
-                  )}
                 </div>
               ))}
-            <div className="flex justify-between w-full">
+            <div className="flex flex-col gap-3 mt-5 justify-between w-full sm:flex-row sm:mt-0">
               <Button
                 type="button"
                 className="w-full sm:w-[200px] font-extrabold py-[12px] text-base"
                 onClick={() => {
                   //   e.preventDefault();
-                  // onNextBtnClicked(4);
+                  onNextBtnClicked(4, { OwnerData: {} });
+                  console.log("RRRRRRRRRRRRRRRR===> ", form.getValues());
+                  const exeData = form
+                    .getValues()
+                    ?.executiveforms?.filter((fieldObject, index) => fieldObject?.eventcatagory && fieldObject?.firstname && fieldObject?.lastname);
+                  localStorage.setItem("exeData", JSON.stringify({ executiveforms: exeData }));
                 }}
               >
                 Back

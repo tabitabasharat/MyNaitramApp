@@ -61,9 +61,10 @@ const formSchema = z.object({
 // Define the prop types for the child component
 interface ChildComponentProps {
   onNextBtnClicked: (newState: number, data: any) => void;
+  PageData?: any;
 }
 
-const Representative = ({ onNextBtnClicked }: ChildComponentProps) => {
+const Representative = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
   const [firstName, setFirstName] = useState("");
   const [lastNamr, setLastName] = useState("");
   const [DOB, setDob] = useState("");
@@ -148,6 +149,26 @@ const Representative = ({ onNextBtnClicked }: ChildComponentProps) => {
   useEffect(() => {
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserID(userID);
+
+    if (Object.keys(PageData).length !== 0) {
+      console.log("Individual Form Backed value is as==> ", PageData);
+      form.reset({
+        eventcatagory: {
+          label: PageData?.Representative[0]?.relationship,
+        },
+        firstname: PageData?.Representative[0]?.FirstName,
+        lastname: PageData?.Representative[0]?.LastName,
+        address1: PageData?.Representative[0]?.Address1,
+        address2: PageData?.Representative[0]?.Address2,
+        postalcode: PageData?.Representative[0]?.postalCode,
+        dob: PageData?.Representative[0]?.DOB,
+        city: PageData?.Representative[0]?.City,
+        country: PageData?.Representative[0]?.Country,
+      });
+      setCategoryTypes({ label: PageData?.Representative[0]?.relationship.toString() });
+    } else {
+      console.log("Individual No Backed Code");
+    }
   }, []);
 
   function EventCreation(values: z.infer<typeof formSchema>) {
@@ -156,18 +177,20 @@ const Representative = ({ onNextBtnClicked }: ChildComponentProps) => {
       userId: userID,
       userType: "Representative",
       approved: false,
-      Representative: {
-        FirstName: values?.firstname,
-        LastName: values?.lastname,
-        Email: "",
-        DOB: values?.dob,
-        Address1: values?.address1,
-        Address2: values?.address2,
-        City: values?.city,
-        postalCode: values?.postalcode,
-        Country: values?.country,
-        relationship: values?.eventcatagory?.label,
-      },
+      Representative: [
+        {
+          FirstName: values?.firstname,
+          LastName: values?.lastname,
+          Email: "example@gmail.com",
+          DOB: values?.dob,
+          Address1: values?.address1,
+          Address2: values?.address2,
+          City: values?.city,
+          postalCode: values?.postalcode,
+          Country: values?.country,
+          relationship: values?.eventcatagory?.label,
+        },
+      ],
     };
     onNextBtnClicked(4, representativeData);
   }
@@ -584,13 +607,13 @@ const Representative = ({ onNextBtnClicked }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="flex justify-between w-full">
+            <div className="flex flex-col gap-3 mt-5 justify-between w-full sm:flex-row sm:mt-0">
               <Button
                 type="button"
                 className="w-full sm:w-[200px] font-extrabold py-[12px] text-base"
                 onClick={() => {
                   //   e.preventDefault();
-                  //   onNextBtnClicked(2);
+                  onNextBtnClicked(2, { BusinessData: {} });
                 }}
               >
                 Back
