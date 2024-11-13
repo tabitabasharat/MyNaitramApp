@@ -339,9 +339,8 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
                                   >
                                     <div className="flex items-center gap-[10px]">
                                       <p
-                                        className={`text-[16px] font-normal items-center ${
-                                          ticketform?.eventcatagory?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                        }`}
+                                        className={`text-[16px] font-normal items-center ${ticketform?.eventcatagory?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                          }`}
                                       >
                                         {option.label}
                                       </p>

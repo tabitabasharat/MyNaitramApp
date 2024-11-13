@@ -313,7 +313,7 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                       onClick={(e) => handleRemoveOwner(e, ticketform?.id)}
                     >
                       <Image src={deleteicon} alt="delete-icon" height={16} width={16} />
-                      Remove Owner
+                      Delete Owner
                     </Button>
                   )}
                   {/* First inputs */}
@@ -345,9 +345,8 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                                   >
                                     <div className="flex items-center gap-[10px]">
                                       <p
-                                        className={`text-[16px] font-normal items-center ${
-                                          ticketform?.eventcatagory?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                        }`}
+                                        className={`text-[16px] font-normal items-center ${ticketform?.eventcatagory?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                          }`}
                                       >
                                         {option.label}
                                       </p>
@@ -427,7 +426,6 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                                 {...field}
                                 onChange={(e) => {
                                   const value = e.target.value;
-                                  // Prevent leading space
                                   if (value.trimStart().length === 0) {
                                     setOwnerForm((prevTickets) =>
                                       prevTickets.map((formObject, i) => (i === index ? { ...formObject, firstname: "" } : formObject))
@@ -441,7 +439,6 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                                   }
                                 }}
                                 onKeyDown={(e) => {
-                                  // Prevent leading space
                                   if (e.key === " " && field.value.length === 0) {
                                     e.preventDefault();
                                   }
