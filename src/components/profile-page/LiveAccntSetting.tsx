@@ -35,13 +35,10 @@ import { useForm } from "react-hook-form";
 import { useState, useEffect, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { Dispatch } from "redux";
-import bgblur from "../../assets/Blur Green.png";
 import { showLiveActivity, updateLiveActivity } from "@/lib/middleware/profile";
 import ScreenLoader from "../loader/Screenloader";
 import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
-import { isAction } from "redux";
 import { useLinkedIn } from "react-linkedin-login-oauth2";
-import { useDispatch } from "react-redux";
 import { debounce } from "lodash";
 import { LinkdinAuth } from "@/lib/middleware/signin";
 
@@ -282,9 +279,10 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
   // 2nd call
   const { linkedInLogin } = useLinkedIn({
     clientId: "77oc0z5qmkqij2",
-    redirectUri: `https://webapp.pocketfiler.com/linkedin`,
+    redirectUri: `http://localhost:3000/linkedin`,
     scope: "openid,profile,email",
     onSuccess: (code) => {
+      console.log("this is code", code);
       if (!loading) {
         try {
           const data = {
@@ -485,7 +483,13 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                           </FormLabel>
                         ) : (
                           <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
-                            Verify
+                            <Link
+                              href={
+                                "https://oauth.telegram.org/auth?bot_id=7630464152&origin=https://link.magnuscapital.ai/signup&embed=1&request_access=write"
+                              }
+                            >
+                              Verify
+                            </Link>
                           </FormLabel>
                         )}
                         <FormControl>
