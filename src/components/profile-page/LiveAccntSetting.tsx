@@ -32,13 +32,19 @@ import { usePathname } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { Dispatch } from "redux";
 import bgblur from "../../assets/Blur Green.png";
 import { showLiveActivity, updateLiveActivity } from "@/lib/middleware/profile";
 import ScreenLoader from "../loader/Screenloader";
 import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
 import { isAction } from "redux";
+import { useLinkedIn } from "react-linkedin-login-oauth2";
+import { useDispatch } from "react-redux";
+import { debounce } from "lodash";
+import { LinkdinAuth } from "@/lib/middleware/signin";
+
 const formSchema = z.object({
   facebook: z.string().url({ message: "Invalid Facebook URL." }).optional(),
   insta: z.string().url({ message: "Invalid Instagram URL." }).optional(),
@@ -48,6 +54,28 @@ const formSchema = z.object({
   twitter: z.string().url({ message: "Invalid Twitter URL." }).optional(),
   telegram: z.string().url({ message: "Invalid Telegram URL." }).optional(),
 });
+
+// Define interfaces for your data structures
+interface LinkedInAuthData {
+  // Add the properties that your auth data contains
+  code?: string;
+  // ... other properties
+}
+
+interface LinkedInAuthResponse {
+  payload: {
+    status: number;
+    data?: {
+      id: string;
+      profileUpdate: boolean;
+    };
+    token?: string;
+    message?: string;
+  };
+}
+
+// If you're using a custom dispatch type with your actions
+type AppDispatch = Dispatch<any>;
 
 const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; setPopupOpen?: any }) => {
   const router = useRouter();
@@ -69,6 +97,8 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
   const [isTikTokVerify, setTikTokVerify] = useState<boolean>(false);
   const [isLinkedInVerify, setLinkedInVerify] = useState<boolean>(false);
   const [isXVerify, setXVerify] = useState<boolean>(false);
+
+  const [loading, setLoading] = useState(false);
 
   const myliveActivity = useAppSelector((state) => state?.getProfileLiveActivity?.LiveActivity?.data);
 
@@ -222,6 +252,64 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
     window.location.href = "/api/auth/google";
   };
 
+  // 3 call
+  const debouncedLinkedInLogin = useCallback(
+    debounce((data: LinkedInAuthData) => {
+      dispatch(LinkdinAuth(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          console.log("this is response", res);
+          setLoader(false);
+          localStorage.setItem("LinkedIn_id", res?.payload?.data?.id || "");
+          localStorage.setItem("LinkedTokentoken", res?.payload?.token || "");
+          SuccessToast("Linkedin login");
+
+          // localStorage.setItem("profileupdate", res?.payload?.data?.profileUpdate);
+
+          if (res?.payload?.data?.profileUpdate) {
+            console.log("LinkedIn verification is suucessfull...! (If)");
+          } else {
+            console.log("LinkedIN verifcation is suceesfful..! (Else)");
+          }
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    }, 300),
+    []
+  );
+
+  // 2nd call
+  const { linkedInLogin } = useLinkedIn({
+    clientId: "77oc0z5qmkqij2",
+    redirectUri: `https://webapp.pocketfiler.com/linkedin`,
+    scope: "openid,profile,email",
+    onSuccess: (code) => {
+      if (!loading) {
+        try {
+          const data = {
+            code: code,
+          };
+          debouncedLinkedInLogin(data);
+        } catch (error) {
+          console.error("Error:", error);
+        } finally {
+        }
+      }
+    },
+
+    onError: (error) => {
+      console.log("error", error);
+    },
+  });
+
+  // 1st Call
+  async function LinkdinAuthLogin() {
+    try {
+      await linkedInLogin();
+    } catch (error) {}
+  }
+
   return (
     <>
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
@@ -357,7 +445,10 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                             ✔
                           </FormLabel>
                         ) : (
-                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          <FormLabel
+                            onClick={() => LinkdinAuthLogin()}
+                            className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center"
+                          >
                             Verify
                           </FormLabel>
                         )}
