@@ -153,7 +153,10 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
     defaultValues: {
       executiveforms: [],
     },
+    mode: "onChange",
   });
+
+  const { isValid } = form.formState;
 
   const handleCateOptionToggle = (option: any, index: number) => {
     setExecutiveForm((prevForm) =>
@@ -296,23 +299,26 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
                   {index === executivForm.length - 1 ? (
                     <Button
                       onClick={addMoreExecuters}
-                      className="max-w-fit h-[36px] gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
+                      className={`max-w-fit h-[36px] gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
             py-[12px] px-[12px] text-sm md:text-base md:w-fit
-            disabled:cursor-not-allowed disabled:opacity-50 mb-[32px]"
+            disabled:cursor-not-allowed disabled:opacity-50 mb-[32px] ${index !== 0 ? "mt-[50px]" : ""}`}
                     >
                       <Image src={add} alt="add" className="me-[8px] w-[14px] h-[14px]" /> <p className="text-[11px] font-extrabold"></p>
                       Add Executive{" "}
                     </Button>
                   ) : (
                     <Button
-                      className=" bg-[#FF1717B2] text-white max-w-fit h-[36px] rounded-[44px] text-[11px] font-extrabold leading-[15.95px] text-left md:text-base md:w-fit disabled:cursor-not-allowed disabled:opacity-50 mb-[32px] flex gap-[8px]"
+                      className={`bg-[#FF1717B2] text-white max-w-fit h-[36px] rounded-[44px] text-[11px] font-extrabold leading-[15.95px] text-left md:text-base md:w-fit disabled:cursor-not-allowed disabled:opacity-50 mb-[32px] flex gap-[8px] ${
+                        index !== 0 ? "mt-[50px]" : ""
+                      }`}
                       onClick={(e) => handleRemoveExecutive(e, ticketform?.id)}
                     >
                       <Image src={deleteicon} alt="delete-icon" height={16} width={16} />
                       Delete Executive
                     </Button>
                   )}
-                  <div className="lg:flex w-full  gap-[24px]">
+                  <div className="lg:flex w-full mb-[8px] gap-[24px]">
+                    {/* Drop Down */}
                     <div className="lg:w-[49%]">
                       <FormField
                         control={form.control}
@@ -404,7 +410,8 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
                       />
                     </div>
                   </div>
-                  <div className="lg:flex w-full  gap-[24px]">
+                  <div className="lg:flex w-full mb-[8px] gap-[24px]">
+                    {/* First Name */}
                     <div className="w-full">
                       <FormField
                         control={form.control}
@@ -452,7 +459,8 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
                         )}
                       />
                     </div>
-                    <div className="w-full md:mb-[30px]">
+                    {/* Last name */}
+                    <div className="w-full">
                       <FormField
                         control={form.control}
                         name={`executiveforms.${index}.lastname`}
@@ -519,7 +527,7 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
               >
                 Back
               </Button>
-              <Button type="submit" className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
+              <Button type="submit" disabled={!isValid} className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
                 Submit
               </Button>
             </div>

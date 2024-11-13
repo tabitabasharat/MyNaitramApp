@@ -81,7 +81,10 @@ const IndividualInfo = ({ onNextBtnClicked, pageData = {} }: ChildComponentProps
       city: "",
       country: "",
     },
+    mode: "onChange", // Enable real-time validation
   });
+
+  const { isValid } = form.formState;
 
   useEffect(() => {
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -135,7 +138,7 @@ const IndividualInfo = ({ onNextBtnClicked, pageData = {} }: ChildComponentProps
       <div className="flex gap-[30px] flex-col md:gap-[70px]">
         <Form {...form}>
           <form className=" w-full" onSubmit={form.handleSubmit(EventCreation)}>
-            <div className="lg:flex w-full  gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -220,7 +223,7 @@ const IndividualInfo = ({ onNextBtnClicked, pageData = {} }: ChildComponentProps
                 />
               </div>
             </div>
-            <div className="lg:flex w-full  gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -291,7 +294,7 @@ const IndividualInfo = ({ onNextBtnClicked, pageData = {} }: ChildComponentProps
                 />
               </div>
             </div>
-            <div className="lg:flex w-full mb-[16px] md:mb-4 gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -360,7 +363,7 @@ const IndividualInfo = ({ onNextBtnClicked, pageData = {} }: ChildComponentProps
                 />
               </div>
             </div>
-            <div className="lg:flex w-full mb-[16px] md:mb-4 gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full ">
                 <FormField
                   control={form.control}
@@ -430,7 +433,7 @@ const IndividualInfo = ({ onNextBtnClicked, pageData = {} }: ChildComponentProps
                 />
               </div>
             </div>
-            <div className="lg:flex w-full md:mb-[32px] mb-[60px] gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full ">
                 <FormField
                   control={form.control}
@@ -507,8 +510,8 @@ const IndividualInfo = ({ onNextBtnClicked, pageData = {} }: ChildComponentProps
                 />
               </div>
             </div>
-            <div className="flex flex-col gap-3 mt-5 justify-between w-full sm:flex-row sm:mt-0">
-              <Button type="submit" className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
+            <div className="flex flex-col gap-3 mt-5 justify-end w-full sm:flex-row sm:mt-0">
+              <Button type="submit" disabled={!isValid} className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
                 Next
               </Button>
             </div>

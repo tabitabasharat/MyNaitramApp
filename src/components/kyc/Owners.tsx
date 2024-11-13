@@ -154,7 +154,10 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
     defaultValues: {
       ownerforms: [],
     },
+    mode: "onChange",
   });
+
+  const { isValid } = form.formState;
 
   const handleCateOptionToggle = (option: any, index: number) => {
     setOwnerForm((prevForm) =>
@@ -300,16 +303,18 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                   {index === ownerForm.length - 1 ? (
                     <Button
                       onClick={addMoreOwner}
-                      className="max-w-fit h-[36px] gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
-            py-[12px] px-[12px] text-sm md:text-base md:w-fit
-            disabled:cursor-not-allowed disabled:opacity-50 mb-[32px]"
+                      className={`max-w-fit h-[36px] gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold py-[12px] px-[12px] text-sm md:text-base md:w-fit disabled:cursor-not-allowed disabled:opacity-50 mb-[32px] ${
+                        index !== 0 ? "mt-[50px]" : ""
+                      }`}
                     >
                       <Image src={add} alt="add" className="me-[8px] w-[14px] h-[14px]" /> <p className="text-[11px] font-extrabold"></p>
                       Add Owners{" "}
                     </Button>
                   ) : (
                     <Button
-                      className=" bg-[#FF1717B2] text-white max-w-fit h-[36px] rounded-[44px] text-[11px] font-extrabold leading-[15.95px] text-left md:text-base md:w-fit disabled:cursor-not-allowed disabled:opacity-50 mb-[32px] flex gap-[8px]"
+                      className={`bg-[#FF1717B2] text-white max-w-fit h-[36px] rounded-[44px] text-[11px] font-extrabold leading-[15.95px] text-left md:text-base md:w-fit disabled:cursor-not-allowed disabled:opacity-50 mb-[32px] flex gap-[8px] ${
+                        index !== 0 ? "mt-[50px]" : ""
+                      }`}
                       onClick={(e) => handleRemoveOwner(e, ticketform?.id)}
                     >
                       <Image src={deleteicon} alt="delete-icon" height={16} width={16} />
@@ -317,7 +322,7 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                     </Button>
                   )}
                   {/* First inputs */}
-                  <div key={index} className="lg:flex w-full  gap-[24px]">
+                  <div key={index} className="lg:flex w-full mb-[8px] gap-[24px]">
                     {/* Owner types are here */}
                     <div className="w-full">
                       <FormField
@@ -460,9 +465,9 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                   </div>
 
                   {/* Second Inputs */}
-                  <div key={index} className="lg:flex w-full  gap-[24px]">
+                  <div key={index} className="lg:flex w-full mb-[8px] gap-[24px]">
                     {/* Last name is here */}
-                    <div className="w-full mb-0 md:mb-[30px]">
+                    <div className="w-full">
                       <FormField
                         control={form.control}
                         name={`ownerforms.${index}.lastname`}
@@ -588,7 +593,7 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
               >
                 Back
               </Button>
-              <Button type="submit" className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
+              <Button type="submit" disabled={!isValid} className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
                 Next
               </Button>
             </div>
