@@ -1,28 +1,12 @@
 "use client";
 import Image from "next/image";
-import calender from "@/assets/Calender.svg";
-import calendercheck from "@/assets/Calender Check.svg";
-import calenderX from "@/assets/Calender X.svg";
-import calendercheckgreen from "@/assets/Calender Checkgreen.svg";
-import calenderXgreen from "@/assets/Calender Xgreen.svg";
-import caledndergreen from "@/assets/Calendergreen.svg";
 import { Button } from "@/components/ui/button";
 import { Envelope, Lock, User } from "@phosphor-icons/react/dist/ssr";
 import { Input } from "@/components/ui/input";
-import { updateOrganizerProfile } from "@/lib/middleware/organizer";
-import Link from "next/link";
-import { Textarea } from "@/components/ui/textarea";
-import Switch, { SwitchProps } from "@mui/material/Switch";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useState, useEffect, useRef } from "react";
-import ScreenLoader from "@/components/loader/Screenloader";
-import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
-import { styled } from "@mui/material/styles";
-
-import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import user from "@/assets/profile.svg";
@@ -32,7 +16,6 @@ import countryIMG from "@/assets/country.svg";
 import postalcode from "@/assets/postal code.svg";
 import url from "@/assets/global url.svg";
 import organization from "@/assets/Buildings.svg";
-import cell from "@/assets/cell.svg";
 import "../homepage/sections/viewevents.css";
 
 const formSchema = z.object({
@@ -67,10 +50,11 @@ const formSchema = z.object({
 
 // Define the prop types for the child component
 interface ChildComponentProps {
-  onNextBtnClicked: (newState: number) => void;
+  onNextBtnClicked: (newState: number, data: any) => void;
+  pageData?: any;
 }
 
-const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
+const IndividualInfo = ({ onNextBtnClicked, pageData = {} }: ChildComponentProps) => {
   const [firstName, setFirstName] = useState("");
   const [lastNamr, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -81,6 +65,7 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [country, setCountry] = useState("");
+  const [userID, setUserID] = useState<any>("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -96,11 +81,56 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
       city: "",
       country: "",
     },
+    mode: "onChange", // Enable real-time validation
   });
+
+  const { isValid } = form.formState;
+
+  useEffect(() => {
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setUserID(userID);
+
+    if (Object.keys(pageData).length !== 0) {
+      console.log("Individual Form Backed value is as==> ", pageData);
+      form.reset({
+        firstname: pageData?.Individuals[0]?.FirstName,
+        lastname: pageData?.Individuals[0]?.LastName,
+        address1: pageData?.Individuals[0]?.Address1,
+        address2: pageData?.Individuals[0]?.Address2,
+        city: pageData?.Individuals[0]?.City,
+        country: pageData?.Individuals[0]?.Country,
+        dob: pageData?.Individuals[0]?.DOB,
+        email: pageData?.Individuals[0]?.Email,
+        organizationlink: pageData?.Individuals[0]?.organizationWebsite,
+        postalcode: pageData?.Individuals[0]?.postalCode,
+      });
+    } else {
+      console.log("Individual No Backed Code");
+    }
+  }, []);
 
   function EventCreation(values: z.infer<typeof formSchema>) {
     console.log("form values are as ====> ", values);
-    onNextBtnClicked(2);
+    const individualFormData = {
+      userId: userID,
+      userType: "Individual",
+      Individuals: [
+        {
+          FirstName: values?.firstname,
+          LastName: values?.lastname,
+          Email: values?.email,
+          DOB: values?.dob,
+          Address1: values?.address1,
+          Address2: values?.address2,
+          organizationWebsite: values?.organizationlink,
+          City: values?.city,
+          postalCode: values?.postalcode,
+          Country: values?.country,
+        },
+      ],
+      approved: false,
+    };
+    onNextBtnClicked(2, individualFormData);
   }
 
   return (
@@ -108,7 +138,7 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
       <div className="flex gap-[30px] flex-col md:gap-[70px]">
         <Form {...form}>
           <form className=" w-full" onSubmit={form.handleSubmit(EventCreation)}>
-            <div className="lg:flex w-full  gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -193,7 +223,7 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="lg:flex w-full  gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -264,7 +294,7 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="lg:flex w-full mb-[16px] md:mb-4 gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -333,7 +363,7 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="lg:flex w-full mb-[16px] md:mb-4 gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full ">
                 <FormField
                   control={form.control}
@@ -403,7 +433,7 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="lg:flex w-full md:mb-[32px] mb-[60px] gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full ">
                 <FormField
                   control={form.control}
@@ -480,8 +510,8 @@ const IndividualInfo = ({ onNextBtnClicked }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="flex justify-start">
-              <Button type="submit" className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
+            <div className="flex flex-col gap-3 mt-5 justify-end w-full sm:flex-row sm:mt-0">
+              <Button type="submit" disabled={!isValid} className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
                 Next
               </Button>
             </div>

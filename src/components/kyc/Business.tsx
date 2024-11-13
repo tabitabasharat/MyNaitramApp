@@ -17,24 +17,15 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useState, useEffect, useRef } from "react";
-import ScreenLoader from "@/components/loader/Screenloader";
-import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
-import { styled } from "@mui/material/styles";
-
-import { usePathname } from "next/navigation";
-
+import { useState, useEffect } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import user from "@/assets/profile.svg";
 import arrowdown from "../../assets/arrow-down-drop.svg";
 import location from "@/assets/new location.svg";
-import dob from "@/assets/dob.svg";
 import country from "@/assets/country.svg";
 import postalcode from "@/assets/postal code.svg";
 import url from "@/assets/global url.svg";
 import urt from "@/assets/urt.svg";
 import organization from "@/assets/Buildings.svg";
-import cell from "@/assets/cell.svg";
 import "../homepage/sections/viewevents.css";
 import tick from "../../assets/fi-rr-check.svg";
 
@@ -44,33 +35,22 @@ type CateOption = {
 };
 
 const optionscate: CateOption[] = [
-  { label: "Music" },
-  { label: "Business" },
-  { label: "Food & Drink" },
-  { label: "Community" },
-  { label: "Arts" },
-  { label: "Film & Media" },
-  { label: "Sports & Fitness" },
-  { label: "Health" },
-  { label: "Science & Tech" },
-  { label: "Travel & utdoor" },
-  { label: "Charities & Causes" },
-  { label: "Spirituality" },
-  { label: "Seasonal" },
-  { label: "Government" },
-  { label: "Fashion" },
-  { label: "Home & Lifestyle" },
-  { label: "Auto, Boat & Air" },
-  { label: "Hobbies" },
-  { label: "Family & Education" },
-  { label: "School Activities" },
-  { label: "Other" },
+  { label: "Sole Proprietorship" },
+  { label: "Partnership" },
+  { label: "Limited Liability Company (LLC)" },
+  { label: "Government Agency" },
+  { label: "Non-Profit Organization" },
+  { label: "Private Limited Company (Ltd.)" },
+  { label: "Holding Company" },
+  // { label: "Other" },
 ];
 
 const formSchema = z.object({
-  eventcatagory: z.string().min(1, { message: "Event Catgory cannot be empty." }),
+  eventcatagory: z.object({
+    label: z.string().min(1, { message: "Category cannot be empty" }),
+  }),
   companyname: z.string().min(1, { message: "Last name cannot be empty." }),
-  utr: z.string().min(1, { message: "UTR cannot be empty." }),
+  utr: z.string().min(1, { message: "UTR cannot be empty." }).regex(/^\d+$/, { message: "UTR must only contain numbers." }),
   companylink: z.string().min(1, { message: "Organization link cannot be empty." }).url({ message: "Invalid URL format." }),
   address1: z.string().min(1, { message: "Address 1 cannot be empty." }),
   address2: z.string().min(1, { message: "Address 2 cannot be empty." }),
@@ -79,7 +59,13 @@ const formSchema = z.object({
   country: z.string().min(1, { message: "City cannot be empty." }),
 });
 
-const Business = () => {
+// Define the prop types for the child component
+interface ChildComponentProps {
+  onNextBtnClicked: (newState: number, data: any) => void;
+  PageData?: any;
+}
+
+const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
   const [compName, setCompName] = useState("");
   const [UTR, setUTR] = useState("");
   const [compURL, setCompURL] = useState("");
@@ -89,23 +75,14 @@ const Business = () => {
   const [POSTAL, setPostalCode] = useState("");
   const [COUNTRY, setCountry] = useState("");
 
-  const [categoryTypes, setCategoryTypes] = useState<any>([]);
+  const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(null);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
+  const [categoryAlert, setCategoryAlert] = useState<any>(false); //// remove
 
-  const handleCateOptionToggle = (option: any) => {
-    setCategoryTypes((prev: any) => {
-      if (prev.some((o: any) => o.label === option.label)) {
-        return prev.filter((o: any) => o.label !== option.label);
-      }
+  const [isCustomCatgory, setIsCustomCategory] = useState<boolean>(false); // remove
+  const [customCategotyInput, setCustomCatgoryInput] = useState<string>(""); // remove
 
-      if (prev.length < 4) {
-        return [...prev, option];
-      }
-
-      // ErrorToast("You can only select 4 categories at a time")
-      return prev;
-    });
-  };
+  const [userID, setUserID] = useState<any>("");
 
   const handleCatDropdownToggle = () => {
     setIsCatDropdownOpen((prev) => !prev);
@@ -113,7 +90,9 @@ const Business = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      eventcatagory: "",
+      eventcatagory: {
+        label: "Some Category",
+      },
       companyname: "",
       utr: "",
       companylink: "",
@@ -123,17 +102,107 @@ const Business = () => {
       postalcode: "",
       country: "",
     },
+    mode: "onChange",
   });
+
+  const { isValid } = form.formState;
+
+  const handleCateOptionToggle = (option: any) => {
+    if (option.label === "Other") {
+      // setIsCustomCategory(true);
+      // setCategoryTypes(null);
+    } else if (option.label === categoryTypes?.label) {
+      // setCategoryTypes(null);
+      setIsCatDropdownOpen(false);
+      return;
+    } else {
+      setCategoryTypes({ label: option.label });
+      // setCustomCatgoryInput("");
+      // setIsCustomCategory(false);
+      // setCategoryAlert(false);
+      setIsCatDropdownOpen(false);
+    }
+    // Update the form field's value with the selected category
+    form.setValue("eventcatagory", option); // Use the form controller to set the value
+    form.clearErrors("eventcatagory"); // Clear any errors once a selection is made
+  };
+
+  const handleCustomCatgory = (e: any) => {
+    const inputValue = e.target.value;
+    setCustomCatgoryInput(inputValue);
+    setCategoryAlert(false);
+
+    // Update the form field's value with the selected category
+    form.setValue("eventcatagory", { label: inputValue }); // Use the form controller to set the value
+    form.clearErrors("eventcatagory"); // Clear any errors once a selection is made
+  };
+
+  const handleCustomCatBtn = () => {
+    if (customCategotyInput === "") {
+      setCategoryAlert(true);
+    } else {
+      setCategoryTypes({ label: customCategotyInput });
+      // setCustomCatgoryInput("");
+      setIsCustomCategory(false);
+      setCategoryAlert(false);
+      setIsCatDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    setUserID(userID);
+
+    if (Object.keys(PageData).length !== 0) {
+      console.log("Individual Form Backed value is as==> ", PageData);
+      form.reset({
+        eventcatagory: {
+          label: PageData?.Businesses[0]?.BusinessType.toString(),
+        },
+        companyname: PageData?.Businesses[0]?.companyName,
+        utr: PageData?.Businesses[0]?.UTR,
+        companylink: PageData?.Businesses[0]?.companyWebsite,
+        address1: PageData?.Businesses[0]?.Address1,
+        address2: PageData?.Businesses[0]?.Address2,
+        city: PageData?.Businesses[0]?.City,
+        postalcode: PageData?.Businesses[0]?.postalCode,
+        country: PageData?.Businesses[0]?.Country,
+      });
+      setCategoryTypes({ label: PageData?.Businesses[0]?.BusinessType.toString() });
+    } else {
+      console.log("Individual No Backed Code");
+    }
+  }, []);
+
+  function EventCreation(values: z.infer<typeof formSchema>) {
+    console.log("form values are as ====> ", values);
+    const businessFormData = {
+      userId: userID,
+      userType: "Business",
+      approved: false,
+      Businesses: [
+        {
+          BusinessType: values?.eventcatagory?.label,
+          companyName: values?.companyname,
+          UTR: values?.utr,
+          companyWebsite: values?.companylink,
+          Address1: values?.address1,
+          Address2: values?.address2,
+          City: values?.city,
+          postalCode: values?.postalcode,
+          Country: values?.country,
+        },
+      ],
+    };
+    onNextBtnClicked(3, businessFormData);
+  }
 
   return (
     <div>
       <div className="flex gap-[30px] flex-col md:gap-[70px]">
         <Form {...form}>
-          <form
-            className=" w-full"
-            //  onSubmit={form.handleSubmit(login)}
-          >
-            <div className="lg:flex w-full  gap-[24px]">
+          <form className=" w-full" onSubmit={form.handleSubmit(EventCreation)}>
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -143,7 +212,7 @@ const Business = () => {
                       <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
                         <div className="flex flex-col">
                           <p className="text-[12px] font-bold text-[#8F8F8F] uppercase">BUSINESS TYPE</p>
-                          <p>Select Business Type</p>
+                          <p>{categoryTypes ? categoryTypes?.label : "Select Business Type"}</p>
                         </div>
                         <Image src={isCatDropdownOpen ? arrowdown : arrowdown} width={11} height={11} alt="arrow" />
                       </div>
@@ -161,15 +230,62 @@ const Business = () => {
                                 </p> */}
                                 <p
                                   className={`text-[16px] font-normal items-center ${
-                                    categoryTypes?.some((o: any) => o.label === option.label) ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                    categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
                                   }`}
                                 >
                                   {option.label}
                                 </p>
                               </div>
-                              {categoryTypes?.some((o: any) => o.label === option.label) && <Image src={tick} width={10} height={10} alt="tick" />}
+                              {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
                             </div>
                           ))}
+                          {/* {isCustomCatgory && (
+                            <>
+                              {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
+                              <div
+                                style={{
+                                  width: "100%",
+                                  marginTop: "10px",
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  gap: "20px",
+                                }}
+                              >
+                                <input
+                                  type="text"
+                                  placeholder="Enter the Category name"
+                                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e)}
+                                  value={customCategotyInput}
+                                  style={{
+                                    width: "100%",
+                                    paddingLeft: "5px",
+                                    paddingTop: "5px",
+                                    paddingBottom: "5px",
+                                    borderRadius: "6px",
+                                  }}
+                                />
+                                <button
+                                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                                    e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                    handleCustomCatBtn();
+                                  }}
+                                  style={{
+                                    background: "green",
+                                    paddingLeft: "10px",
+                                    paddingRight: "10px",
+                                    lineHeight: "10px",
+                                    paddingTop: "10px",
+                                    paddingBottom: "10px",
+                                    borderRadius: "5px",
+                                    marginRight: "5px",
+                                  }}
+                                >
+                                  Add
+                                </button>
+                              </div>
+                            </>
+                          )} */}
                         </div>
                       )}
                       <FormMessage />
@@ -215,7 +331,7 @@ const Business = () => {
                 />
               </div>
             </div>
-            <div className="lg:flex w-full  gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -232,6 +348,17 @@ const Business = () => {
                           onChange={(e) => {
                             setUTR(e.target.value);
                             field.onChange(e);
+                          }}
+                          onKeyDown={(e) => {
+                            // Prevent leading space
+                            if (e.key === " " && field.value.length === 0) {
+                              e.preventDefault();
+                            }
+
+                            // Prevent from taking Letters and symbols
+                            if (!/^[0-9]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
+                              e.preventDefault();
+                            }
                           }}
                         />
                       </FormControl>
@@ -278,7 +405,7 @@ const Business = () => {
                 />
               </div>
             </div>
-            <div className="lg:flex w-full mb-[16px] md:mb-4 gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -343,7 +470,7 @@ const Business = () => {
                 />
               </div>
             </div>
-            <div className="lg:flex w-full mb-[16px] md:mb-4 gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full ">
                 <FormField
                   control={form.control}
@@ -420,7 +547,7 @@ const Business = () => {
                 />
               </div>
             </div>
-            <div className="lg:flex w-full md:mb-[32px] mb-[60px] gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full lg:w-[49%]">
                 <FormField
                   control={form.control}
@@ -431,9 +558,7 @@ const Business = () => {
                       <Image src={country} alt="img" className="absolute right-3 top-[30%]" />
                       <FormControl>
                         <Input
-                          type="tel"
-                          inputMode="numeric"
-                          pattern="\d*"
+                          type="country"
                           placeholder="Enter Country"
                           className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                           {...field}
@@ -455,8 +580,18 @@ const Business = () => {
                 />
               </div>
             </div>
-            <div className="flex justify-start">
-              <Button type="submit" className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
+            <div className="flex flex-col gap-3 mt-5 justify-between w-full sm:flex-row sm:mt-0">
+              <Button
+                type="button"
+                className="ww-full sm:w-[200px] font-extrabold py-[12px] text-base"
+                onClick={() => {
+                  //   e.preventDefault();
+                  onNextBtnClicked(1, { IndividualData: {} });
+                }}
+              >
+                Back
+              </Button>
+              <Button type="submit" disabled={!isValid} className="ww-full sm:w-[200px] font-extrabold py-[12px] text-base">
                 Next
               </Button>
             </div>
