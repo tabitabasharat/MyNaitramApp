@@ -256,7 +256,7 @@ const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
 
   return (
     <div>
-      <div className="flex mb-[24px] lg:mb-[32px] justify-start">
+      {/* <div className="flex mb-[24px] lg:mb-[32px] justify-start">
         <Button
           onClick={addMoreOwner}
           className="max-w-fit h-[36px] gradient-border-btn rounded-[44px] bg-[black] text-[#00D059] font-extrabold 
@@ -266,13 +266,30 @@ const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
           <Image src={add} alt="add" className="me-[8px] w-[14px] h-[14px]" />
           Add Owners
         </Button>
-      </div>
+      </div> */}
       <div className="flex gap-[30px] flex-col md:gap-[70px]">
         <Form {...form}>
           <form className=" w-full" onSubmit={form.handleSubmit(EventCreation)}>
             {ownerForm?.length > 0 &&
               ownerForm.map((ticketform, index) => (
                 <div key={index}>
+                  {
+                    index === 0 ? <Button
+                      onClick={addMoreOwner}
+                      className="max-w-fit h-[36px] gradient-border-btn rounded-[44px] mt-[30px] mb-[24px] md:mb-[30px] bg-[black] text-[#00D059] font-extrabold
+            py-[12px] px-[12px] text-sm md:text-base md:w-fit
+            disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      <Image src={add} alt="add" className="me-[8px] w-[14px] h-[14px]" /> <p className="text-[11px] font-extrabold"></p>
+                      Add Owners{" "}
+                    </Button> : <Button
+                      className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] mt-[30px] mb-[24px] md:mt-[70px] md:mb-[30px]"
+                      onClick={(e) => handleRemoveOwner(e, ticketform?.id)}
+                    >
+                      <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
+                      Delete Owner
+                    </Button>
+                  }
                   {/* First inputs */}
                   <div key={index} className="lg:flex w-full  gap-[24px]">
                     {/* Owner types are here */}
@@ -302,9 +319,8 @@ const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
                                   >
                                     <div className="flex items-center gap-[10px]">
                                       <p
-                                        className={`text-[16px] font-normal items-center ${
-                                          ticketform?.eventcatagory?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                        }`}
+                                        className={`text-[16px] font-normal items-center ${ticketform?.eventcatagory?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                          }`}
                                       >
                                         {option.label}
                                       </p>
@@ -384,7 +400,6 @@ const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
                                 {...field}
                                 onChange={(e) => {
                                   const value = e.target.value;
-                                  // Prevent leading space
                                   if (value.trimStart().length === 0) {
                                     setOwnerForm((prevTickets) =>
                                       prevTickets.map((formObject, i) => (i === index ? { ...formObject, firstname: "" } : formObject))
@@ -398,7 +413,6 @@ const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
                                   }
                                 }}
                                 onKeyDown={(e) => {
-                                  // Prevent leading space
                                   if (e.key === " " && field.value.length === 0) {
                                     e.preventDefault();
                                   }
@@ -532,8 +546,7 @@ const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
                       />
                     </div>
                   </div>
-
-                  {ownerForm?.length > 1 ? (
+                  {/* {ownerForm?.length > 1 ? (
                     <Button
                       className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] mt-[-30px] mb-[35px]"
                       onClick={(e) => handleRemoveOwner(e, ticketform?.id)}
@@ -542,8 +555,9 @@ const Owners = ({ onNextBtnClicked }: ChildComponentProps) => {
                       Remove Owner
                     </Button>
                   ) : (
-                    <></>
-                  )}
+                  <></>
+                  ) */}
+
                 </div>
               ))}
             <div className="flex justify-between w-full">

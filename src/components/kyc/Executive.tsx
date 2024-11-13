@@ -284,9 +284,8 @@ const Executive = ({ onNextBtnClicked }: ChildComponentProps) => {
                                   >
                                     <div className="flex items-center gap-[10px]">
                                       <p
-                                        className={`text-[16px] font-normal items-center ${
-                                          ticketform?.eventcatagory?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                        }`}
+                                        className={`text-[16px] font-normal items-center ${ticketform?.eventcatagory?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                          }`}
                                       >
                                         {option.label}
                                       </p>
@@ -452,8 +451,7 @@ const Executive = ({ onNextBtnClicked }: ChildComponentProps) => {
                       onClick={(e) => handleRemoveExecutive(e, ticketform?.id)}
                     >
                       <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
-                      Remove Owner
-                    </Button>
+                      Delete Executive                    </Button>
                   ) : (
                     <></>
                   )}
