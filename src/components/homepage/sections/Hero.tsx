@@ -223,7 +223,7 @@ const Hero = () => {
             </div>
           </Reveal>
         </div>
-        <FadeReveal extraStyle="z-[5] w-[500px] scale-[2] lg:scale-[3] translate-y-[33%] lg:translate-x-[-20%]">
+        <FadeReveal extraStyle="z-[5] w-[500px] scale-[2] lg:scale-[3] translate-y-[28%] lg:translate-x-[-20%]">
           <Image
             src={heroImg}
             className=" mt-[60px] mr-[50px]"
