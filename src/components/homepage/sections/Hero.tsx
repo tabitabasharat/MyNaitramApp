@@ -173,12 +173,6 @@ const Hero = () => {
                         <Image src={ticket} alt="ticket" className="absolute left-3 top-1/2 transform -translate-y-1/2 " />
                         <FormControl>
                           <input
-                            // placeholder="Search by Ticket ID Number / Transaction ID"
-                            // placeholder={
-                            //   isMobile
-                            //     ? "Search by Ticket ID Num..."
-                            //     : "Search by Ticket ID Number / Transaction ID"
-                            // }
                             placeholder={placeholderText}
                             className="placeholder:text-white placeholder:w-full focus:border-green-500 hover:border-green-500 focus:ring-0 focus:outline-none w-full
                                backdrop-blur-18 bg-opacity-40 bg-black rounded-[44px] placeholder:text-sm  placeholder:font-[300] pb-[12px] pt-[12px] pl-[45px] pr-[45px]
