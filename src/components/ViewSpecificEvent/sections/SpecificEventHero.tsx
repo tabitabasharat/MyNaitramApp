@@ -320,7 +320,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                 <Image src={shareicon} sizes="16px" alt="share icon" />
                 <p>Share</p>
               </button>
-              <div className="relative">
+              {/* <div className="relative">
                 <Image
                   src={menuicon}
                   className="w-[36px] h-[36px] cursor-pointer"
@@ -356,7 +356,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                     </ul>
                   </div>
                 )}
-              </div>
+              </div> */}
             </div>
             {sharemodal && (
               <ShareModal
