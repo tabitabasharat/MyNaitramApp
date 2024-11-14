@@ -34,6 +34,10 @@ import { API_URL } from "@/lib/client";
 import crossicon from "@/assets/cross-img-icon.svg";
 // import { DatePicker } from "@/components/organisms/DatePicker";
 import ManualEmailForm from "./ManualEmailForm";
+import PasswordedDiscountForm from "./PasswordedDiscountForm";
+import Whitelist from "./Whitelist";
+import RsvpTicketing from "./RsvpTicketing";
+
 import { useRouter } from "next/navigation";
 
 import TimePicker from "react-time-picker";
@@ -1049,16 +1053,46 @@ function OganizerCreateEvent() {
       )
     );
   };
+
+
+  const [showWhitelistForm, setShowWhitelistForm] = useState(false);
+  const [showPasswordedDiscountForm, setShowPasswordedDiscountForm] = useState(false);
+  const [showPrivateEventForm, setShowPrivateEventForm] = useState(false);
   const handleTicketOptionSelect = (index: number, option: TicketOption) => {
     setTicketdiffTypes((prev) =>
       prev.map((ticket, i) =>
         i === index
-          ? { ...ticket, selectedTicketOption: option, isTicketOptionsDropdownOpen: false }
+          ? {
+            ...ticket,
+            selectedTicketOption: option,
+            isTicketOptionsDropdownOpen: false
+          }
           : ticket
       )
     );
-  };
 
+
+    if (option.label === "Whitelist / Waitlist Event Ticketing") {
+
+      setShowWhitelistForm(true);
+      setShowPasswordedDiscountForm(false);
+      setShowPrivateEventForm(false);
+    }
+
+
+    if (option.label === "Passworded / Discounted Voucher Event Ticketing") {
+
+      setShowPasswordedDiscountForm(true);
+      setShowWhitelistForm(false);
+      setShowPrivateEventForm(false);
+    }
+    if (option.label === "Private Event Ticketing") {
+
+      setShowPrivateEventForm(true);
+      setShowPasswordedDiscountForm(false);
+      setShowWhitelistForm(false);
+    }
+  };
 
 
 
@@ -1205,6 +1239,10 @@ function OganizerCreateEvent() {
       });
     }
   };
+
+
+
+
 
   const handleFileChangeapi = async () => {
     if (galleryFiles) {
@@ -1968,6 +2006,15 @@ function OganizerCreateEvent() {
   useEffect(() => {
     console.log("filterHash updated:", filterHash);
   }, [filterHash]);
+
+
+
+  const handleLimitChange = (value: string) => {
+    console.log('Whitelist Limit:', value);
+  };
+
+
+
 
   return (
     <section
@@ -3009,6 +3056,9 @@ function OganizerCreateEvent() {
           </div>
           <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
         </div>
+
+
+
         <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
           <Form {...form}>
             {ticketdiffTypes.map((ticket, index) => (
@@ -3556,41 +3606,43 @@ function OganizerCreateEvent() {
                   </div>
                 </div>
 
+                
+                
 
+                <div className={`flex items-center gap-[24px] ${showWhitelistForm ? 'common-container' : 'lg:gap-[24px] md:w-[49%] xl:gap-[24px] gap-[24px] w-full mt-[24px] common-container'}`} style={{alignItems:"end"}}>
+              
+                  <FormField
+                    control={form.control}
+                    name={`ticketdiffTypes.${index}.whatincluded`}
+                    render={({ field }) => (
+                      <FormItem className="relative w-full space-y-0" >
+                        <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3  uppercase pt-[16px] pb-[4px]">What Included <span style={{ color: "#BA0202" }}>*</span></FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter What’s Included"
+                            className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]  "
+                            {...field}
+                            onChange={(e) => {
+                              setwhatincluded(e.target.value);
+                              field.onChange(e);
 
+                            }}
+                          />
+                        </FormControl>
 
-                <form className=" w-full">
-                  {/* Event Name and Catgory fields */}
-                  <div className="flex items-start lg:gap-[24px] md:w-[49%] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
-                    <FormField
-                      control={form.control}
-                      name={`ticketdiffTypes.${index}.whatincluded`}
-                      render={({ field }) => (
-                        <FormItem className="relative w-full space-y-0" style={{ marginTop: "24px" }} >
-                          <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3  uppercase pt-[16px] pb-[4px]">What Included <span style={{ color: "#BA0202" }}>*</span></FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Enter What’s Included"
-                              className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]  "
-                              {...field}
-                              onChange={(e) => {
-                                setwhatincluded(e.target.value);
-                                field.onChange(e);
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                              }}
-                            />
-                          </FormControl>
+                  {showWhitelistForm && <Whitelist onLimitChange={handleLimitChange} />}
 
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                 
-                </form>
+                </div>
 
-                <ManualEmailForm />
+               < RsvpTicketing/>
 
+                {showPrivateEventForm && <ManualEmailForm />}
+                {showPasswordedDiscountForm && <PasswordedDiscountForm />}
 
 
                 {index !== 0 && (

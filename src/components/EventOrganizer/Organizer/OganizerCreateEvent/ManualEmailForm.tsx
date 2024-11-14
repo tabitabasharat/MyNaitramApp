@@ -105,7 +105,7 @@ const ManualEmailForm = () => {
                                         type="email"
                                         value={email}
                                         onChange={(e) => handleEmailChange(index, e.target.value)}
-                                        placeholder= {`Enter Email ${index + 1}`}
+                                        placeholder={`Enter Email ${index + 1}`}
                                         required
                                         style={{ marginRight: '8px' }}
                                     />
@@ -162,7 +162,7 @@ const ManualEmailForm = () => {
                     <p style={{ marginBottom: '10px', color: "#8F8F8F", fontSize: "12px" }}>Upload CSV File</p>
 
 
-                    <input type="file" accept=".csv" onChange={handleCSVChange} style={{marginRight:"20px"}} className=' text-[16px]'  />
+                    <input type="file" accept=".csv" onChange={handleCSVChange} style={{ marginRight: "20px" }} className=' text-[16px]' />
                 </div>
             )}
         </div>
