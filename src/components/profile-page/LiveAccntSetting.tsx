@@ -38,9 +38,6 @@ import { Dispatch } from "redux";
 import { showLiveActivity, updateLiveActivity } from "@/lib/middleware/profile";
 import ScreenLoader from "../loader/Screenloader";
 import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
-import { useLinkedIn } from "react-linkedin-login-oauth2";
-import { debounce } from "lodash";
-import { LinkdinAuth } from "@/lib/middleware/signin";
 
 const formSchema = z.object({
   facebook: z.string().url({ message: "Invalid Facebook URL." }).optional(),
@@ -245,69 +242,6 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
     }
   }
 
-  const handleGoogleLogin = () => {
-    window.location.href = "/api/auth/google";
-  };
-
-  // 3 call
-  const debouncedLinkedInLogin = useCallback(
-    debounce((data: LinkedInAuthData) => {
-      dispatch(LinkdinAuth(data)).then((res: any) => {
-        if (res?.payload?.status === 200) {
-          console.log("this is response", res);
-          setLoader(false);
-          localStorage.setItem("LinkedIn_id", res?.payload?.data?.id || "");
-          localStorage.setItem("LinkedTokentoken", res?.payload?.token || "");
-          SuccessToast("Linkedin login");
-
-          // localStorage.setItem("profileupdate", res?.payload?.data?.profileUpdate);
-
-          if (res?.payload?.data?.profileUpdate) {
-            console.log("LinkedIn verification is suucessfull...! (If)");
-          } else {
-            console.log("LinkedIN verifcation is suceesfful..! (Else)");
-          }
-        } else {
-          setLoader(false);
-          ErrorToast(res?.payload?.message);
-        }
-      });
-    }, 300),
-    []
-  );
-
-  // 2nd call
-  const { linkedInLogin } = useLinkedIn({
-    clientId: "77oc0z5qmkqij2",
-    redirectUri: `http://localhost:3000/linkedin`,
-    scope: "openid,profile,email",
-    onSuccess: (code) => {
-      console.log("this is code", code);
-      if (!loading) {
-        try {
-          const data = {
-            code: code,
-          };
-          debouncedLinkedInLogin(data);
-        } catch (error) {
-          console.error("Error:", error);
-        } finally {
-        }
-      }
-    },
-
-    onError: (error) => {
-      console.log("error", error);
-    },
-  });
-
-  // 1st Call
-  async function LinkdinAuthLogin() {
-    try {
-      await linkedInLogin();
-    } catch (error) {}
-  }
-
   return (
     <>
       {/* <Image src={bgblur} className="absolute bottom-[0px]"/> */}
@@ -370,7 +304,10 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                             ✔
                           </FormLabel>
                         ) : (
-                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          <FormLabel
+                            // onClick={}
+                            className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center"
+                          >
                             Verify
                           </FormLabel>
                         )}
@@ -444,7 +381,7 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                           </FormLabel>
                         ) : (
                           <FormLabel
-                            onClick={() => LinkdinAuthLogin()}
+                            // onClick={}
                             className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center"
                           >
                             Verify
@@ -483,13 +420,13 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                           </FormLabel>
                         ) : (
                           <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
-                            <Link
+                            {/* <Link
                               href={
                                 "https://oauth.telegram.org/auth?bot_id=7630464152&origin=https://link.magnuscapital.ai/signup&embed=1&request_access=write"
                               }
-                            >
-                              Verify
-                            </Link>
+                            > */}
+                            Verify
+                            {/* </Link> */}
                           </FormLabel>
                         )}
                         <FormControl>
@@ -525,7 +462,7 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                           </FormLabel>
                         ) : (
                           <FormLabel
-                            onClick={handleGoogleLogin}
+                            // onClick={}
                             className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center"
                           >
                             Verify

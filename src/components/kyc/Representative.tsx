@@ -102,7 +102,10 @@ const Representative = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps
       city: "",
       country: "",
     },
+    mode: "onChange",
   });
+
+  const { isValid } = form.formState;
 
   const handleCateOptionToggle = (option: any) => {
     if (option.label === "Other") {
@@ -200,7 +203,7 @@ const Representative = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps
       <div className="flex gap-[30px] flex-col md:gap-[70px]">
         <Form {...form}>
           <form className=" w-full" onSubmit={form.handleSubmit(EventCreation)}>
-            <div className="lg:flex w-full  gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full lg:w-[49%]">
                 <FormField
                   control={form.control}
@@ -292,7 +295,7 @@ const Representative = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps
                 />
               </div>
             </div>
-            <div className="lg:flex w-full  gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -379,7 +382,7 @@ const Representative = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps
                 />
               </div>
             </div>
-            <div className="lg:flex w-full  gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -464,7 +467,7 @@ const Representative = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps
                 />
               </div>
             </div>
-            <div className="lg:flex w-full mb-[16px] md:mb-4 gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full ">
                 <FormField
                   control={form.control}
@@ -536,7 +539,7 @@ const Representative = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps
                 />
               </div>
             </div>
-            <div className="lg:flex w-full md:mb-[32px] mb-[60px] gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full ">
                 <FormField
                   control={form.control}
@@ -618,7 +621,7 @@ const Representative = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps
               >
                 Back
               </Button>
-              <Button type="submit" className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
+              <Button type="submit" disabled={!isValid} className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
                 Next
               </Button>
             </div>

@@ -12,7 +12,8 @@ import "./EventHero.css";
 import EventsHeroSlide from "./EventsHeroSlide";
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-
+import menuicon from "@/assets/sharemenu.svg"
+import reporticon from "@/assets/fi_2602490.svg"
 import Image from "next/image";
 
 import { getEventByEventId, getEventCount } from "@/lib/middleware/event";
@@ -30,6 +31,7 @@ import { Button } from "@/components/ui/button";
 import GradientBorder from "@/components/ui/gradient-border";
 import Followpromoter from "@/components/reusable-components/FollowPromoter";
 import { useRouter } from "next/navigation";
+import feedback from "@/assets/fi_1628629.svg"
 import {
   Lock,
   DownloadSimple,
@@ -90,6 +92,31 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     (state) => state?.getEventByEventID?.eventIdEvents?.data
   );
   const userLoading = useAppSelector((state) => state?.getEventByEventID);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState<string | null>(null);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  const handleLinkClick = (link: string) => {
+    setActiveLink(link);
+    setIsDropdownOpen(false); // Optional: Close dropdown on selection
+  };
+
+  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // const [activeLink, setActiveLink] = useState<string | null>(null);
+  // const [isOpen, setIsOpen] = useState<any>(false);
+
+  // const handleLinkClick = (link: string) => {
+  //   setActiveLink(link);
+  //   setIsOpen(false); // Optional: close the menu after selection
+  // };
+
+
+  // const toggleDropdown = () => {
+  //   setIsDropdownOpen((prev) => !prev);
+  // };
 
   console.log("my data", EventData);
   const settings: any = {
@@ -243,20 +270,20 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   useEffect(() => {
     const myuserid =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
-   
+
     // dispatch(getEventCount(userId));
-   
+
 
     const data = {
       followId: EventData?.userId,
       userId: myuserid,
     };
     dispatch(getFollowingPromoters(data));
-   
+
     // dispatch(getOrganizerSocialProfile(userId));
   }, []);
 
-  console.log(EventData,"this is my event data")
+  console.log(EventData, "this is my event data")
 
   return (
     <section className="bg-img ">
@@ -283,16 +310,47 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                 <span>{EventData?.name}</span>
               </p>
             </div>
-            <div className="">
+            <div className="flex gap-[11px] relative">
               <button
                 className="bg-[#13FF7A] text-sm font-extrabold flex w-full sm:w-fit justify-center p-[10px] gap-[6px] rounded-[100px] text-[black]"
                 onClick={copyUrlToClipboard}
-                // onClick={()=> handleShare()}
               >
-                {" "}
-                <Image src={shareicon} sizes="16px" alt="share icon" />{" "}
-                <p> Share</p>
+                <Image src={shareicon} sizes="16px" alt="share icon" />
+                <p>Share</p>
               </button>
+              <div className="relative">
+                <Image
+                  src={menuicon}
+                  className="w-[36px] h-[36px] cursor-pointer"
+                  alt="share-menu-icon"
+                  onClick={toggleDropdown}
+                />
+                {isDropdownOpen && (
+                  <div
+                    style={{
+                      background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+                    }}
+                    className="absolute top-full right-0 mt-[8px] w-[150px] border-none rounded-md shadow-lg"
+                  >
+                    <ul className="flex flex-col p-2">
+                      <li
+                        onClick={() => handleLinkClick("Report")}
+                        className={`block text-start p-2 flex gap-[8px] text-green-500 cursor-pointer text-sm ${activeLink === "Report" ? "text-green-500" : "text-white"
+                          }`}
+                      >
+                      <Image src={reporticon} alt="report"/> <p>Report</p>  
+                      </li>
+                      <li
+                        onClick={() => handleLinkClick("Feedback")}
+                        className={`block text-start p-2 flex gap-[8px] cursor-pointer text-sm ${activeLink === "Feedback" ? "text-green-500" : "text-white"
+                          }`}
+                      >
+                       <Image src={feedback} alt="feedback"/> <p>Feedback</p> 
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
             {sharemodal && (
               <ShareModal
@@ -346,37 +404,37 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   ticketLength={EventData?.tickets?.length}
                   ticketEndDate={EventData?.ticketEndDate}
                   ticketStartDate={EventData?.ticketStartDate}
-                  soldout={EventData?.tickets.every((ticket:any) => ticket.no === 0)}
+                  soldout={EventData?.tickets.every((ticket: any) => ticket.no === 0)}
                   // ticketStartPrice={
                   //   EventData?.tickets?.length === 1
                   //     ? "0"
                   //     : EventData?.tickets[0]?.price
                   // }
 
-                  ticketStartPrice = {
+                  ticketStartPrice={
                     EventData?.tickets?.length === 1
                       ? Number(EventData?.tickets[0]?.price) // Return the price of the single ticket as a number
                       : EventData?.tickets && EventData?.tickets.length > 0
                         ? Math.min(
-                            ...EventData?.tickets.map((ticket: any) => {
-                              const price = Number(ticket.price); // Convert price to number
-                              return isNaN(price) ? Infinity : price; // Return Infinity if price is NaN
-                            })
-                          ).toString() // Find the lowest price and convert to string
+                          ...EventData?.tickets.map((ticket: any) => {
+                            const price = Number(ticket.price); // Convert price to number
+                            return isNaN(price) ? Infinity : price; // Return Infinity if price is NaN
+                          })
+                        ).toString() // Find the lowest price and convert to string
                         : "0" // Default to "0" if there are no tickets
                   }
 
-                 
+
                   // ticketEndPrice={
                   //   EventData?.tickets[EventData?.tickets.length - 1]?.price
                   // }
-                 
+
 
                   ticketEndPrice={
                     EventData?.tickets && EventData?.tickets?.length > 0
                       ? Math.max(
-                          ...EventData.tickets.map((ticket:any) => Number(ticket.price) || 0)
-                        )
+                        ...EventData.tickets.map((ticket: any) => Number(ticket.price) || 0)
+                      )
                       : 0 // Default to 0 if there are no tickets
                   }
                   // handleBulletClick={() => handleBulletClick(event)}
@@ -414,16 +472,16 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                         {EventData?.eventmedia?.map((item: any, index: any) => (
                           <div key={index} className="w-full">
                             {item.endsWith(".mp4") ||
-                            item.endsWith(".avi") ||
-                            item.endsWith(".mov") ||
-                            item.endsWith(".mkv") ? (
+                              item.endsWith(".avi") ||
+                              item.endsWith(".mov") ||
+                              item.endsWith(".mkv") ? (
                               <video
                                 src={item}
                                 width={330}
                                 height={300}
                                 className="w-full h-[296px] slider-img object-contain "
                                 controls
-                                // alt={`Slide ${index + 1}`}
+                              // alt={`Slide ${index + 1}`}
                               />
                             ) : (
                               <Image
@@ -546,7 +604,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                           </>
                         )} */}
                         {new Date() >= new Date(EventData?.startTime) &&
-                        eventAttendy?.length > 0 ? (
+                          eventAttendy?.length > 0 ? (
                           <>
                             {eventAttendy[0]?.fullname} and{" "}
                             {eventAttendy.length - 1} others going

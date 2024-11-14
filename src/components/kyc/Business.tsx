@@ -35,12 +35,14 @@ type CateOption = {
 };
 
 const optionscate: CateOption[] = [
-  { label: "Business 1" },
-  { label: "Business 2" },
-  { label: "Business 3" },
-  { label: "Business 4" },
-  { label: "Business 5" },
-  { label: "Other" },
+  { label: "Sole Proprietorship" },
+  { label: "Partnership" },
+  { label: "Limited Liability Company (LLC)" },
+  { label: "Government Agency" },
+  { label: "Non-Profit Organization" },
+  { label: "Private Limited Company (Ltd.)" },
+  { label: "Holding Company" },
+  // { label: "Other" },
 ];
 
 const formSchema = z.object({
@@ -48,7 +50,7 @@ const formSchema = z.object({
     label: z.string().min(1, { message: "Category cannot be empty" }),
   }),
   companyname: z.string().min(1, { message: "Last name cannot be empty." }),
-  utr: z.string().min(1, { message: "UTR cannot be empty." }),
+  utr: z.string().min(1, { message: "UTR cannot be empty." }).regex(/^\d+$/, { message: "UTR must only contain numbers." }),
   companylink: z.string().min(1, { message: "Organization link cannot be empty." }).url({ message: "Invalid URL format." }),
   address1: z.string().min(1, { message: "Address 1 cannot be empty." }),
   address2: z.string().min(1, { message: "Address 2 cannot be empty." }),
@@ -75,10 +77,10 @@ const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
 
   const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(null);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
-  const [categoryAlert, setCategoryAlert] = useState<any>(false);
+  const [categoryAlert, setCategoryAlert] = useState<any>(false); //// remove
 
-  const [isCustomCatgory, setIsCustomCategory] = useState<boolean>(false);
-  const [customCategotyInput, setCustomCatgoryInput] = useState<string>("");
+  const [isCustomCatgory, setIsCustomCategory] = useState<boolean>(false); // remove
+  const [customCategotyInput, setCustomCatgoryInput] = useState<string>(""); // remove
 
   const [userID, setUserID] = useState<any>("");
 
@@ -100,21 +102,24 @@ const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
       postalcode: "",
       country: "",
     },
+    mode: "onChange",
   });
+
+  const { isValid } = form.formState;
 
   const handleCateOptionToggle = (option: any) => {
     if (option.label === "Other") {
-      setIsCustomCategory(true);
-      setCategoryTypes(null);
+      // setIsCustomCategory(true);
+      // setCategoryTypes(null);
     } else if (option.label === categoryTypes?.label) {
       // setCategoryTypes(null);
       setIsCatDropdownOpen(false);
       return;
     } else {
       setCategoryTypes({ label: option.label });
-      setCustomCatgoryInput("");
-      setIsCustomCategory(false);
-      setCategoryAlert(false);
+      // setCustomCatgoryInput("");
+      // setIsCustomCategory(false);
+      // setCategoryAlert(false);
       setIsCatDropdownOpen(false);
     }
     // Update the form field's value with the selected category
@@ -197,7 +202,7 @@ const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
       <div className="flex gap-[30px] flex-col md:gap-[70px]">
         <Form {...form}>
           <form className=" w-full" onSubmit={form.handleSubmit(EventCreation)}>
-            <div className="lg:flex w-full  gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -234,7 +239,7 @@ const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                               {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
                             </div>
                           ))}
-                          {isCustomCatgory && (
+                          {/* {isCustomCatgory && (
                             <>
                               {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
                               <div
@@ -280,7 +285,7 @@ const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                                 </button>
                               </div>
                             </>
-                          )}
+                          )} */}
                         </div>
                       )}
                       <FormMessage />
@@ -326,7 +331,7 @@ const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="lg:flex w-full  gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -400,7 +405,7 @@ const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="lg:flex w-full mb-[16px] md:mb-4 gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -465,7 +470,7 @@ const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="lg:flex w-full mb-[16px] md:mb-4 gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full ">
                 <FormField
                   control={form.control}
@@ -542,7 +547,7 @@ const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                 />
               </div>
             </div>
-            <div className="lg:flex w-full md:mb-[32px] mb-[60px] gap-[24px]">
+            <div className="lg:flex w-full mb-[8px] gap-[24px]">
               <div className="w-full lg:w-[49%]">
                 <FormField
                   control={form.control}
@@ -586,7 +591,7 @@ const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
               >
                 Back
               </Button>
-              <Button type="submit" className="ww-full sm:w-[200px] font-extrabold py-[12px] text-base">
+              <Button type="submit" disabled={!isValid} className="ww-full sm:w-[200px] font-extrabold py-[12px] text-base">
                 Next
               </Button>
             </div>

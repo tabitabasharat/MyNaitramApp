@@ -188,21 +188,3 @@ export const StayInformedEmail = createAsyncThunk("StayInformedEmail", async (da
     };
   }
 });
-
-export const LinkdinAuth = createAsyncThunk("LinkdinAuth", async (data: any) => {
-  try {
-    console.log(" Inside Linkedin modal");
-    const res = await api.post(`https://backend.pocketfiler.com/linkedin/login`, data);
-    // localStorage.setItem("token", res?.data?.token);
-    return {
-      status: res?.status,
-      data: res?.data?.data,
-      token: res?.data?.token,
-    };
-  } catch (error: any) {
-    return {
-      message: error?.response?.data?.error,
-      status: error?.response?.status,
-    };
-  }
-});

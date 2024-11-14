@@ -134,14 +134,15 @@ const Header = () => {
       ],
     },
     { id: 3, title: "Events", url: "/viewallevents" },
-    // { id: 4, title: "Host", url: "/organizer-event/event-dashboard" },
-    {
-      id: 4,
-      title: "Rewards",
-      url: "/reward",
-      subLinks: [{ title: "Wallet", url: "/wallet" }],
-    },
+    { id: 4, title: "Rewards", url: "/reward" },
+    // {
+    //   id: 4,
+    //   title: "Rewards",
+    //   url: "/reward",
+    //   subLinks: [{ title: "Wallet", url: "/wallet" }],
+    // },
     { id: 5, title: "Get Sponsored", url: "/get-sponsor" },
+    { id: 6, title: "My Tickets", url: "/wallet" },
   ];
   useEffect(() => {
     const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -274,7 +275,8 @@ const Header = () => {
                 </Link>
 
                 {/* Toggle arrows only for IDs 2 and 4 */}
-                {(link.id === 2 || link.id === 4) && (
+                {/* {(link.id === 2 || link.id === 4) && ( */}
+                {(link.id === 2) && (
                   <Image
                     src={openDropdown === link.id ? arrowup : arrowdown} // Change icon based on state
                     alt={`${link.title} Arrow`}
@@ -307,7 +309,6 @@ const Header = () => {
         </nav>
 
         <div className="flex lg:gap-[10px] items-center">
-          {/* verify ticket button */}
           <div className="hidden lg:block">
             <Button
               onClick={() => {
@@ -348,7 +349,6 @@ const Header = () => {
           {/* Bell, UserImage, and DropDown */}
           {isLoggedIn && token && (
             <div className="relative mr-[12px] md:mr-[12px] lg:ms-0 lg:mr-[12px] xl:mr-- flex items-center lg:gap-[8px] gap-[10px] h-full cursor-pointer">
-              {/* Bell (Notification) Image */}
               <Popover open={notifPopupOpen} onOpenChange={setNotifPopupOpen}>
                 <PopoverTrigger asChild className="relative z-[1200] cursor-pointer">
                   {Unreadnotification || UnreadnotificationOrg ? (
@@ -427,22 +427,7 @@ const Header = () => {
                           </svg>
                         </button>
                       </div>
-                      {/* Dropdown Menu */}
-                      {/* {isOpen && (
-                        <div       style={{
-                          background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
-                        }} className="absolute w-[179px] right-0 z-10 mt-4 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                          <div className="flex gap-[9px] justify-center p-[24px] flex-col">
-                            <a href="#" className="block text-start text-sm text-white hover:bg-gray-100">
-                              Organizer Profile                            </a>
-                            <a href="#" className="block text-start text-sm text-white hover:bg-gray-100">
-                              User Profile                            </a>
-                          </div>
-                        </div>
-                      )} */}
                       <div>
-                        {/* <button onClick={() => setIsOpen(!isOpen)}>Toggle Menu</button> */}
-
                         {isOpen && (
                           <div
                             style={{
@@ -454,9 +439,9 @@ const Header = () => {
                               <Link
                                 href="/organizer-event/event-dashboard"
                                 onClick={() => handleLinkClick("Organizer Profile")}
-                                className={`block text-start text-sm ${activeLink === "Organizer Profile" ? "text-green-500" : "text-white"}`}
+                                className={`block text-start text-sm ${activeLink === "Organizer Profile" ? " text-green-500" : "text-white"}`}
                               >
-                                Organizer Profile
+                                Organiser Profile
                               </Link>
                               <Link
                                 href="/profile/profile-main"
