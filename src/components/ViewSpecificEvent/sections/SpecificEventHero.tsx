@@ -13,7 +13,8 @@ import EventsHeroSlide from "./EventsHeroSlide";
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import menuicon from "@/assets/sharemenu.svg"
-import reporticon from "@/assets/fi_2602490.svg"
+import reporticon from "@/assets/fi_2602490-1.svg"
+import reporticongreen from "@/assets/fi_2602490.svg"
 import Image from "next/image";
 
 import { getEventByEventId, getEventCount } from "@/lib/middleware/event";
@@ -32,6 +33,7 @@ import GradientBorder from "@/components/ui/gradient-border";
 import Followpromoter from "@/components/reusable-components/FollowPromoter";
 import { useRouter } from "next/navigation";
 import feedback from "@/assets/fi_1628629.svg"
+import feedbackgreen from "@/assets/fi_1628629-1.svg"
 import {
   Lock,
   DownloadSimple,
@@ -338,14 +340,18 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                         className={`block text-start p-2 flex gap-[8px] text-green-500 cursor-pointer text-sm ${activeLink === "Report" ? "text-green-500" : "text-white"
                           }`}
                       >
-                      <Image src={reporticon} alt="report"/> <p>Report</p>  
+                        <Image
+                          src={activeLink === "Report" ? reporticongreen :  reporticon }
+                          alt="report-icon"
+                        />
+                        <p>Report</p>
                       </li>
                       <li
                         onClick={() => handleLinkClick("Feedback")}
                         className={`block text-start p-2 flex gap-[8px] cursor-pointer text-sm ${activeLink === "Feedback" ? "text-green-500" : "text-white"
                           }`}
                       >
-                       <Image src={feedback} alt="feedback"/> <p>Feedback</p> 
+                        <Image src={activeLink === "Feedback"? feedbackgreen :feedback} alt="feedback" /> <p>Feedback</p>
                       </li>
                     </ul>
                   </div>
