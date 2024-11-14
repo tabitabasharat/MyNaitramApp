@@ -162,22 +162,6 @@ const Hero = () => {
                 <DownloadSimple size={20} weight="bold" />
                 <p className=" font-extrabold text-sm"> Download App</p>
               </Button>
-              {/* <div>
-                <Button
-                  onClick={handleTogglePopup}
-                  className="flex items-center gap-[0.5rem]"
-                >
-                  <DownloadSimple size={20} weight="bold" />
-                  <p className="pt-[3px]"> pop ups</p>
-                </Button>
-                {isClaimOpen && (
-                  <Receviepayment
-                    onClose={() => setIsClaimOpen(false)} // This will close the popup
-                    open={isClaimOpen} // Pass the current state to open the popup
-                    collectibleID={collectID} // Pass collectible ID if needed
-                  />
-                )}
-              </div> */}
             </div>
           </Reveal>
           <Reveal y={100} width="100%">
