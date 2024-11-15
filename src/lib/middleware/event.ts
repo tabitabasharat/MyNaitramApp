@@ -304,6 +304,7 @@ export const updateEvent = createAsyncThunk("updateEvent", async (data: any) => 
       linkedinUrl: data?.linkedinUrl,
       eventmedia: data?.eventmedia,
       tags: data?.tags,
+      stopBy: data?.stopBy,
     });
     console.log("inside update Event", res);
     // localStorage.setItem("token", res?.data?.token);
@@ -464,11 +465,8 @@ export const stopTicketSales = createAsyncThunk("stopTicketSales", async (data: 
   try {
     console.log("Inside the Stop Sales");
     console.log("Body Data to stop Sales ", data);
-    const headers = {
-      "Content-Type": "application/json",
-    };
 
-    const res = await api.post(`${API_URL}/event/stopTicketSales`, data, { headers });
+    const res = await api.post(`${API_URL}/event/stopTicketSales`, data);
     console.log("Iside the Stop Sales status ", res);
 
     return {

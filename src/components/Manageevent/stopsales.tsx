@@ -58,16 +58,16 @@ function StopSales() {
       console.log("my values", values);
       try {
         const data = {
-          eventId: eventID,
-          userId: userID,
-          text: reasonData || "",
+          eventId: parseInt(eventID, 10),
+          userId: parseInt(userID, 10),
+          // text: reasonData || "",
         };
         console.log("This is reason Data ====> ", data);
         dispatch(stopTicketSales(data)).then((res: any) => {
           console.log("Stop sales status ===> ", res?.payload?.status);
           if (res?.payload?.status === 200) {
             console.log("Stop Sales of ticket succesfully");
-            SuccessToast(res?.payload?.message);
+            SuccessToast(res?.message);
             router.push("/management");
           } else {
             ErrorToast(res?.payload?.body?.message);

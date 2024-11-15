@@ -990,6 +990,7 @@ function OganizerCreateEvent() {
         tiktokUrl: tiktokUrl,
         linkedinUrl: linkedinUrl,
         eventmedia: imagesOfGallery,
+        stopBy: false,
       };
 
       console.log("Ticket creation APi data is =======> ", data);

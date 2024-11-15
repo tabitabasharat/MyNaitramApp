@@ -133,6 +133,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
         tiktokUrl: eventAllData?.tiktokurl,
         linkedinUrl: eventAllData?.linkedinurl,
         eventmedia: eventAllData?.eventmedia,
+        stopBy: false,
       };
       dispatch(createevent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {

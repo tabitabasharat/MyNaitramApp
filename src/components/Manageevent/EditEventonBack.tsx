@@ -1301,6 +1301,7 @@ function EditeventOnBack() {
         tiktokUrl: tiktokUrl || "",
         linkedinUrl: linkedinUrl || "",
         eventmedia: updatedEventMedia,
+        stopBy: false,
       };
       console.log("my data", InstaUrl);
       console.log("my datas", Eventdata?.instaurl);
