@@ -413,7 +413,7 @@ function OganizerCreateEvent() {
 
   const [categoryAlert, setCategoryAlert] = useState<any>(false);
   const [catLength, setCatLength] = useState<boolean>(false);
-  // const [spaceError, setSpaceError] = useState<boolean>(false);
+  const [spaceError, setSpaceError] = useState<boolean>(false);
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [isPreviewModalOpen, setisPreviewModalOpen] = useState(false);
   const [actionType, setActionType] = useState("");
@@ -1089,9 +1089,10 @@ function OganizerCreateEvent() {
   };
 
   const handleCustomCatgory = (e: any) => {
-    const inputValue = e.target.value.trim();
+    const inputValue = e.target.value;
 
-    if (inputValue === "") {
+    if (inputValue.endsWith(" ") && inputValue.length !== 0) {
+      setSpaceError(true);
       return;
     }
 
@@ -1099,9 +1100,9 @@ function OganizerCreateEvent() {
       setCatLength(true);
       return;
     }
-    // setSpaceError(false);
+    setSpaceError(false);
     setCatLength(false);
-    setCustomCatgoryInput(inputValue);
+    setCustomCatgoryInput(inputValue.trim());
     setCategoryAlert(false);
 
     // Update the form field's value with the selected category
@@ -1402,7 +1403,7 @@ function OganizerCreateEvent() {
                               <>
                                 {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
                                 {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
-                                {/* {spaceError == true && <p className="text-[red] text-[16px]">Put Only Single word!</p>} */}
+                                {spaceError == true && <p className="text-[red] text-[16px]">Put only single word!</p>}
                                 <div
                                   style={{
                                     width: "100%",
@@ -1503,29 +1504,6 @@ function OganizerCreateEvent() {
                 />
               </div>
 
-              {/* Location Field */}
-              <div className="mt-[24px]">
-                <FormField
-                  control={form.control}
-                  name="eventlocation"
-                  render={({ field }) => (
-                    <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">Event Location</FormLabel>
-                      <FormControl>
-                        <LocationAutocomplete
-                          onLocationSelect={(location) => {
-                            setEventLocation(location);
-                            field.onChange(location);
-                          }}
-                          value={field.value}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
               {/* Hastags Inputs fields Field */}
               <div className="mt-[24px]">
                 <FormField
@@ -1583,6 +1561,29 @@ function OganizerCreateEvent() {
                         <></>
                       )}
                       {/* <FormMessage /> */}
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Location Field */}
+              <div className="mt-[24px]">
+                <FormField
+                  control={form.control}
+                  name="eventlocation"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">Event Location</FormLabel>
+                      <FormControl>
+                        <LocationAutocomplete
+                          onLocationSelect={(location) => {
+                            setEventLocation(location);
+                            field.onChange(location);
+                          }}
+                          value={field.value}
+                        />
+                      </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
