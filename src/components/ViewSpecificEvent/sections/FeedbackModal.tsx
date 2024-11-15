@@ -76,7 +76,6 @@ const FeedbackModal: React.FC<ReportProps> = ({ open, onClose }) => {
                                                 }
                                             }}
                                             onKeyDown={(e) => {
-                                                // Prevent leading space
                                                 if (
                                                     e.key === " " &&
                                                     field.value.trim().length === 0
