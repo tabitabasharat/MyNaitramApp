@@ -327,7 +327,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   alt="share-menu-icon"
                   onClick={toggleDropdown}
                 />
-                {isDropdownOpen && (
+                {/* {isDropdownOpen && (
                   <div
                     style={{
                       background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
@@ -355,7 +355,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                       </li>
                     </ul>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
             {sharemodal && (
