@@ -412,6 +412,7 @@ function OganizerCreateEvent() {
   const [selected, setSelected] = useState<SelectedOption>("free");
 
   const [categoryAlert, setCategoryAlert] = useState<any>(false);
+  const [catLength, setCatLength] = useState<boolean>(false);
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [isPreviewModalOpen, setisPreviewModalOpen] = useState(false);
   const [actionType, setActionType] = useState("");
@@ -534,6 +535,7 @@ function OganizerCreateEvent() {
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
 
   const optionscate: CateOption[] = [
+    { label: "Other" },
     { label: "Music" },
     { label: "Business" },
     { label: "Food & Drink" },
@@ -554,7 +556,6 @@ function OganizerCreateEvent() {
     { label: "Hobbies" },
     { label: "Family & Education" },
     { label: "School Activities" },
-    { label: "Other" },
   ];
 
   const hashtags: string[] = [
@@ -1088,6 +1089,11 @@ function OganizerCreateEvent() {
 
   const handleCustomCatgory = (e: any) => {
     const inputValue = e.target.value;
+    if (inputValue.length > 15) {
+      setCatLength(true);
+      return;
+    }
+    setCatLength(false);
     setCustomCatgoryInput(inputValue);
     setCategoryAlert(false);
 
@@ -1385,27 +1391,10 @@ function OganizerCreateEvent() {
                       {isCatDropdownOpen && (
                         <>
                           <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                            {optionscate?.map((option: any) => (
-                              <div
-                                key={option.label}
-                                className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                onClick={() => handleCateOptionToggle(option)}
-                              >
-                                <div className="flex items-center gap-[10px]">
-                                  <p
-                                    className={`text-[16px] font-normal items-center ${
-                                      categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                    }`}
-                                  >
-                                    {option.label}
-                                  </p>
-                                </div>
-                                {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
-                              </div>
-                            ))}
                             {isCustomCatgory && (
                               <>
                                 {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
+                                {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
                                 <div
                                   style={{
                                     width: "100%",
@@ -1450,6 +1439,24 @@ function OganizerCreateEvent() {
                                 </div>
                               </>
                             )}
+                            {optionscate?.map((option: any) => (
+                              <div
+                                key={option.label}
+                                className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                onClick={() => handleCateOptionToggle(option)}
+                              >
+                                <div className="flex items-center gap-[10px]">
+                                  <p
+                                    className={`text-[16px] font-normal items-center ${
+                                      categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                    }`}
+                                  >
+                                    {option.label}
+                                  </p>
+                                </div>
+                                {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
+                              </div>
+                            ))}
                           </div>
                         </>
                       )}
