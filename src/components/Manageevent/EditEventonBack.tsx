@@ -522,6 +522,7 @@ function EditeventOnBack() {
   const isCategorySelected = categoryTypes && categoryTypes.label !== "";
 
   const [categoryAlert, setCategoryAlert] = useState<any>(false);
+  const [catLength, setCatLength] = useState<boolean>(false);
 
   const [chooseHashTags, setChoosenHashtags] = useState<any>([]);
   const [filterHash, setFilterHash] = useState<any>([]);
@@ -563,6 +564,7 @@ function EditeventOnBack() {
     { id: 20, label: "Ticketing & Registration", image: img20 },
   ];
   const optionscate: CateOption[] = [
+    { label: "Other" },
     { label: "Music" },
     { label: "Business" },
     { label: "Food & Drink" },
@@ -583,7 +585,6 @@ function EditeventOnBack() {
     { label: "Hobbies" },
     { label: "Family & Education" },
     { label: "School Activities" },
-    { label: "Other" },
   ];
 
   // Defined Hashtags
@@ -828,11 +829,13 @@ function EditeventOnBack() {
       setCategoryTypes(null);
     } else if (option.label === categoryTypes?.label) {
       // setCategoryTypes(null);
+      setIsCatDropdownOpen(false);
     } else {
       setCategoryTypes({ label: option.label });
       setCustomCatgoryInput("");
       setIsCustomCategory(false);
       setCategoryAlert(false);
+      setIsCatDropdownOpen(false);
     }
     // Update the form field's value with the selected category
     form.setValue("eventcategory", option); // Use the form controller to set the value
@@ -841,6 +844,12 @@ function EditeventOnBack() {
 
   const handleCustomCatgory = (e: any) => {
     const inputValue = e.target.value;
+
+    if (inputValue.length > 15) {
+      setCatLength(true);
+      return;
+    }
+    setCatLength(false);
     setCustomCatgoryInput(inputValue);
     setCategoryAlert(false);
 
@@ -857,6 +866,7 @@ function EditeventOnBack() {
       // setCustomCatgoryInput("");
       setIsCustomCategory(false);
       setCategoryAlert(false);
+      setIsCatDropdownOpen(false);
     }
   };
 
@@ -1929,41 +1939,10 @@ function EditeventOnBack() {
                       </div>
                       {isCatDropdownOpen && (
                         <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                          {optionscate?.map((option) => (
-                            <div
-                              key={option.label}
-                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                              onClick={() => handleCateOptionToggle(option)}
-                            >
-                              <div className="flex items-center gap-[10px]">
-                                {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                  {option.label}
-                                </p> */}
-
-                                <p
-                                  className={`text-[16px] font-normal items-center ${
-                                    categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                  }`}
-                                >
-                                  {option.label}
-                                </p>
-                              </div>
-                              {/* {categoryTypes?.some(
-                                (o: any) => o.label === option.label
-                              ) && (
-                                <Image
-                                  src={tick}
-                                  width={10}
-                                  height={10}
-                                  alt="tick"
-                                />
-                              )} */}
-                              {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
-                            </div>
-                          ))}
                           {isCustomCatgory && (
                             <>
                               {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
+                              {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
                               <div
                                 style={{
                                   width: "100%",
@@ -2008,6 +1987,38 @@ function EditeventOnBack() {
                               </div>
                             </>
                           )}
+                          {optionscate?.map((option) => (
+                            <div
+                              key={option.label}
+                              className="flex items-center justify-between pt-[8px] cursor-pointer"
+                              onClick={() => handleCateOptionToggle(option)}
+                            >
+                              <div className="flex items-center gap-[10px]">
+                                {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                  {option.label}
+                                </p> */}
+
+                                <p
+                                  className={`text-[16px] font-normal items-center ${
+                                    categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                  }`}
+                                >
+                                  {option.label}
+                                </p>
+                              </div>
+                              {/* {categoryTypes?.some(
+                                (o: any) => o.label === option.label
+                              ) && (
+                                <Image
+                                  src={tick}
+                                  width={10}
+                                  height={10}
+                                  alt="tick"
+                                />
+                              )} */}
+                              {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
+                            </div>
+                          ))}
                         </div>
                       )}
                       <FormMessage />
@@ -3077,7 +3088,7 @@ function EditeventOnBack() {
                   >
                     Submit
                   </Button>
-                </div>
+                </div>add
               </div> */}
             </form>
           </Form>

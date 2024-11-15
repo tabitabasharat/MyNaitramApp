@@ -432,7 +432,9 @@ function Editevent() {
 
   const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(EventData?.category[0] || null);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
+
   const [categoryAlert, setCategoryAlert] = useState<any>(false);
+  const [catLength, setCatLength] = useState<boolean>(false);
 
   const [isCustomCatgory, setIsCustomCategory] = useState<boolean>(false);
   const [customCategotyInput, setCustomCatgoryInput] = useState<string>("");
@@ -442,6 +444,7 @@ function Editevent() {
   const [hashINputValue, setHashTagValue] = useState<string>("");
 
   const optionscate: CateOption[] = [
+    { label: "Other" },
     { label: "Music" },
     { label: "Business" },
     { label: "Food & Drink" },
@@ -462,7 +465,6 @@ function Editevent() {
     { label: "Hobbies" },
     { label: "Family & Education" },
     { label: "School Activities" },
-    { label: "Other" },
   ];
 
   const options: Option[] = [
@@ -622,6 +624,12 @@ function Editevent() {
 
   const handleCustomCatgory = (e: any) => {
     const inputValue = e.target.value;
+    if (inputValue.length > 15) {
+      setCatLength(true);
+      return;
+    }
+
+    setCatLength(false);
     setCustomCatgoryInput(inputValue);
     setCategoryAlert(false);
 
@@ -1709,30 +1717,10 @@ function Editevent() {
                       </div>
                       {isCatDropdownOpen && (
                         <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                          {optionscate?.map((option) => (
-                            <div
-                              key={option.label}
-                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                              onClick={() => handleCateOptionToggle(option)}
-                            >
-                              <div className="flex items-center gap-[10px]">
-                                {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                  {option.label}
-                                </p> */}
-                                <p
-                                  className={`text-[16px] font-normal items-center ${
-                                    categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                  }`}
-                                >
-                                  {option.label}
-                                </p>
-                              </div>
-                              {categoryTypes?.label === option.label && <Image src={tick} width={10} height={10} alt="tick" />}
-                            </div>
-                          ))}
                           {isCustomCatgory && (
                             <>
                               {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
+                              {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
                               <div
                                 style={{
                                   width: "100%",
@@ -1777,6 +1765,27 @@ function Editevent() {
                               </div>
                             </>
                           )}
+                          {optionscate?.map((option) => (
+                            <div
+                              key={option.label}
+                              className="flex items-center justify-between pt-[8px] cursor-pointer"
+                              onClick={() => handleCateOptionToggle(option)}
+                            >
+                              <div className="flex items-center gap-[10px]">
+                                {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                  {option.label}
+                                </p> */}
+                                <p
+                                  className={`text-[16px] font-normal items-center ${
+                                    categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                  }`}
+                                >
+                                  {option.label}
+                                </p>
+                              </div>
+                              {categoryTypes?.label === option.label && <Image src={tick} width={10} height={10} alt="tick" />}
+                            </div>
+                          ))}
                         </div>
                       )}
                       <FormMessage />
