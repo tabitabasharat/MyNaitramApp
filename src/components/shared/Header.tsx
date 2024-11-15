@@ -135,13 +135,13 @@ const Header = () => {
       ],
     },
     { id: 3, title: "Events", url: "/viewallevents" },
-    { id: 4, title: "Rewards", url: "/reward" },
-    // {
-    //   id: 4,
-    //   title: "Rewards",
-    //   url: "/reward",
-    //   subLinks: [{ title: "Wallet", url: "/wallet" }],
-    // },
+    // { id: 4, title: "Rewards", url: "/reward" },
+    {
+      id: 4,
+      title: "Rewards",
+      url: "/reward",
+      subLinks: [{ title: "Wallet", url: "/wallet" }],
+    },
     { id: 5, title: "Get Sponsored", url: "/get-sponsor" },
     { id: 6, title: "My Tickets", url: "/wallet" },
   ];
@@ -278,7 +278,7 @@ const Header = () => {
 
                 {/* Toggle arrows only for IDs 2 and 4 */}
                 {/* {(link.id === 2 || link.id === 4) && ( */}
-                {link.id === 2 && (
+                {link.subLinks && (
                   <Image
                     src={openDropdown === link.id ? arrowup : arrowdown} // Change icon based on state
                     alt={`${link.title} Arrow`}
@@ -300,7 +300,11 @@ const Header = () => {
               {link.subLinks && openDropdown === link.id && (
                 <div className="absolute left-0 mt-2 text-base font-bold gradient-slate bg-white shadow-lg rounded-md z-10">
                   {link.subLinks.map((subLink, j) => (
-                    <Link key={j} href={subLink.url} className="block px-4 py-2 hover:gradient-slate active:text-[#00D059] active:gradient-slate">
+                    <Link
+                      key={j}
+                      href={subLink.url}
+                      className="block px-4 py-2 hover:gradient-slate active:text-[#00D059] active:gradient-slate hover:text-[#00D059] text-sm"
+                    >
                       {subLink.title}
                     </Link>
                   ))}
@@ -441,14 +445,18 @@ const Header = () => {
                               <Link
                                 href="/organizer-event/event-dashboard"
                                 onClick={() => handleLinkClick("Organizer Profile")}
-                                className={`block text-start text-sm ${activeLink === "Organizer Profile" ? " text-green-500" : "text-white"}`}
+                                className={`block text-start text-sm hover:text-green-500 ${
+                                  activeLink === "Organizer Profile" ? " text-green-500" : "text-white"
+                                }`}
                               >
                                 Organiser Profile
                               </Link>
                               <Link
                                 href="/profile/profile-main"
                                 onClick={() => handleLinkClick("User Profile")}
-                                className={`block text-start text-sm ${activeLink === "User Profile" ? "text-green-500" : "text-white"}`}
+                                className={`block text-start text-sm hover:text-green-500 ${
+                                  activeLink === "User Profile" ? "text-green-500" : "text-white"
+                                }`}
                               >
                                 User Profile
                               </Link>

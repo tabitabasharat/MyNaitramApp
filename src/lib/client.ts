@@ -13,6 +13,8 @@
 // export const API_URL ="https://staggingbe.blockmoblabs.com"
 
 // export const API_URL = "https://staggingbe.blockmoblabs.com";
+
+// This is for develpoment and testing use this
 export const API_URL = "https://stagingbe.dotskulls.com";
 
 // export const API_URL = "https://something.dotskulls.com";
