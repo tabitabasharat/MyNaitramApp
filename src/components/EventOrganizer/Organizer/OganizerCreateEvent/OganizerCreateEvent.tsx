@@ -1058,6 +1058,9 @@ function OganizerCreateEvent() {
   const [showWhitelistForm, setShowWhitelistForm] = useState(false);
   const [showPasswordedDiscountForm, setShowPasswordedDiscountForm] = useState(false);
   const [showPrivateEventForm, setShowPrivateEventForm] = useState(false);
+  const [showFestivalForm, setShowFestivalForm] = useState(false);
+  const [showRspvForm, setShowRspvForm] = useState(false);
+  const [showCustomForm, setCustomForm] = useState(false);
   const handleTicketOptionSelect = (index: number, option: TicketOption) => {
     setTicketdiffTypes((prev) =>
       prev.map((ticket, i) =>
@@ -1073,24 +1076,55 @@ function OganizerCreateEvent() {
 
 
     if (option.label === "Whitelist / Waitlist Event Ticketing") {
-
       setShowWhitelistForm(true);
       setShowPasswordedDiscountForm(false);
       setShowPrivateEventForm(false);
+      setShowFestivalForm(false)
+      setShowRspvForm(false)
+      setCustomForm(false)
     }
 
 
     if (option.label === "Passworded / Discounted Voucher Event Ticketing") {
-
       setShowPasswordedDiscountForm(true);
       setShowWhitelistForm(false);
       setShowPrivateEventForm(false);
+      setShowFestivalForm(false)
+      setShowRspvForm(false)
+      setCustomForm(false)
     }
     if (option.label === "Private Event Ticketing") {
-
       setShowPrivateEventForm(true);
       setShowPasswordedDiscountForm(false);
       setShowWhitelistForm(false);
+      setShowFestivalForm(false)
+      setShowRspvForm(false)
+      setCustomForm(false)
+    }
+    if (option.label === "Festivals / Multi-Day Tickets / Season Passes") {
+      setShowFestivalForm(true);
+      setShowPasswordedDiscountForm(false);
+      setShowWhitelistForm(false);
+      setShowPrivateEventForm(false)
+      setShowRspvForm(false)
+      setCustomForm(false)
+    }
+    if (option.label === "RSVP Ticketing") {
+      setShowRspvForm(true)
+      setShowFestivalForm(false);
+      setShowPasswordedDiscountForm(false);
+      setShowWhitelistForm(false);
+      setShowPrivateEventForm(false)
+      setCustomForm(false)
+    }
+    if (option.label === "Make your own custom ticket type") {
+      setCustomForm(true)
+      setShowRspvForm(false)
+      setShowFestivalForm(false);
+      setShowPasswordedDiscountForm(false);
+      setShowWhitelistForm(false);
+      setShowPrivateEventForm(false)
+
     }
   };
 
@@ -3078,7 +3112,7 @@ function OganizerCreateEvent() {
                         >
                           <div className="flex flex-col">
                             <p className="text-[16px] font-bold text-[#FFFFFF] pb-[4px] uppercase">
-                              Ticket Type <span style={{ color: "#BA0202" }}>*</span>
+                              Event Ticket Type <span style={{ color: "#BA0202" }}>*</span>
                             </p>
                             <p className="text-[12px] font-extrabold text-[#8F8F8F]">
                               {ticket.selectedTicketOption
@@ -3122,47 +3156,48 @@ function OganizerCreateEvent() {
                     )}
                   />
 
+                  {!showRspvForm && (
 
-
-                  <FormField
-                    control={form.control}
-                    name={`ticketdiffTypes.${index}.freeOrPaid`}
-                    render={({ field }) => (
-                      <FormItem
-                        className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        <div className="flex items-center justify-between" onClick={() => handleFreePaidDropdownToggle(index)}>
-                          <div className="flex flex-col">
-                            <p className="text-[16px] font-bold text-[#FFFFFF] pb-[4px] uppercase">
-                              Paid or Free <span style={{ color: "#BA0202" }}>*</span>
-                            </p>
-                            <p className="text-[12px] font-extrabold text-[#8F8F8F]">
-                              {selectedFreePaidOptions[index] ? selectedFreePaidOptions[index].label : "Enter Ticket Type"}
-                            </p>
+                    <FormField
+                      control={form.control}
+                      name={`ticketdiffTypes.${index}.freeOrPaid`}
+                      render={({ field }) => (
+                        <FormItem
+                          className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          <div className="flex items-center justify-between" onClick={() => handleFreePaidDropdownToggle(index)}>
+                            <div className="flex flex-col">
+                              <p className="text-[16px] font-bold text-[#FFFFFF] pb-[4px] uppercase">
+                                Paid or Free <span style={{ color: "#BA0202" }}>*</span>
+                              </p>
+                              <p className="text-[12px] font-extrabold text-[#8F8F8F]">
+                                {selectedFreePaidOptions[index] ? selectedFreePaidOptions[index].label : "Enter Ticket Type"}
+                              </p>
+                            </div>
+                            <Image src={isFreePaidDropdownOpen[index] ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                           </div>
-                          <Image src={isFreePaidDropdownOpen[index] ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
-                        </div>
 
-                        {isFreePaidDropdownOpen[index] && (
-                          <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                            {freepaidOption.map((option) => (
-                              <div
-                                key={option.label}
-                                className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                onClick={() => handleFreePaidOptionSelect(index, option)}
-                              >
-                                <p className={`text-[16px] font-normal items-center ${selectedFreePaidOptions[index]?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"}`}>
-                                  {option.label}
-                                </p>
-                                {selectedFreePaidOptions[index]?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                          {isFreePaidDropdownOpen[index] && (
+                            <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                              {freepaidOption.map((option) => (
+                                <div
+                                  key={option.label}
+                                  className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                  onClick={() => handleFreePaidOptionSelect(index, option)}
+                                >
+                                  <p className={`text-[16px] font-normal items-center ${selectedFreePaidOptions[index]?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"}`}>
+                                    {option.label}
+                                  </p>
+                                  {selectedFreePaidOptions[index]?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
 
                 </div>
                 <form className=" w-full">
@@ -3196,451 +3231,467 @@ function OganizerCreateEvent() {
 
 
 
+                {!showRspvForm && (
+                  <div className="flex items-center gap-[24px] common-container">
 
-                <div className="flex items-center gap-[24px] common-container">
-
-                  {selectedFreePaidOptions[index]?.label === "Paid" && (
+                    {selectedFreePaidOptions[index]?.label === "Paid" && (
+                      <FormField
+                        control={form.control}
+                        name={`ticketdiffTypes.${index}.ticketprice`}
+                        render={({ field }) => (
+                          <FormItem className="relative w-full space-y-0" style={{ marginTop: "24px" }}>
+                            <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3 uppercase pt-[16px] pb-[4px]">
+                              Event Ticket Price <span style={{ color: "#BA0202" }}>*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter Event Ticket Price"
+                                className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]"
+                                {...field}
+                                onChange={(e) => {
+                                  setticketPrice(e.target.value);
+                                  field.onChange(e);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
                     <FormField
                       control={form.control}
-                      name={`ticketdiffTypes.${index}.ticketprice`}
+                      name={`ticketdiffTypes.${index}.numberticket`}
                       render={({ field }) => (
-                        <FormItem className="relative w-full space-y-0" style={{ marginTop: "24px" }}>
-                          <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3 uppercase pt-[16px] pb-[4px]">
-                            Event Ticket Price <span style={{ color: "#BA0202" }}>*</span>
+                        <FormItem className="relative w-full space-y-0 " style={{ marginTop: "24px" }} >
+                          <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3  uppercase pt-[16px] pb-[4px]">
+                            EVENT number of tickets <span style={{ color: "#BA0202" }}>*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
+                              type="number"
+                              onWheel={(e: any) => e.target.blur()}
                               placeholder="Enter Event Ticket Price"
                               className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]"
                               {...field}
                               onChange={(e) => {
-                                setticketPrice(e.target.value);
+                                const value = e.target.value;
+
+
+                                if (!/^\d*$/.test(value)) {
+                                  e.target.value = value.replace(/[^\d]/g, "");
+                                }
+
                                 field.onChange(e);
                               }}
                             />
                           </FormControl>
+
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  )}
-                  <FormField
-                    control={form.control}
-                    name={`ticketdiffTypes.${index}.numberticket`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0 " style={{ marginTop: "24px" }} >
-                        <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                          EVENT number of tickets <span style={{ color: "#BA0202" }}>*</span>
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            onWheel={(e: any) => e.target.blur()}
-                            placeholder="Enter Event Ticket Price"
-                            className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]"
-                            {...field}
-                            onChange={(e) => {
-                              const value = e.target.value;
 
-
-                              if (!/^\d*$/.test(value)) {
-                                e.target.value = value.replace(/[^\d]/g, "");
-                              }
-
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                </div>
-
-
-
-
-                <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                  <div className="w-full">
-                    <ThemeProvider theme={themeMui}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={["DateTimePicker"]}>
-                          <FormField
-                            control={form.control}
-                            name={`ticketdiffTypes.${index}.eventstartdate`}
-                            render={({ field }) => {
-                              const currentDateTime = dayjs();
-                              return (
-
-                                <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                  <FormLabel className="text-[16px] font-bold text-[#FFFFFF]  uppercase pb-[4px]">Ticket Start Date & Time <span style={{ color: "#BA0202" }}>*</span></FormLabel>
-                                  <FormControl>
-                                    {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                    <div className="w-full" onClick={() => toggleDateTimePicker(index)}>
-                                      {" "}
-                                      {/* Attach click event here */}
-                                      <StyledDateTimePicker
-                                        open={isPickerOpen} // Control the open state with local state
-                                        referenceDate={currentDateTime}
-                                        formatDensity="spacious"
-                                        onKeyDown={(e: any) => e.preventDefault()}
-                                        autoOk={false}
-                                        onChange={(e: any) => {
-                                          if (e && e.isValid()) {
-                                            const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                            setTicketStartDate(formattedDate);
-                                            field.onChange(formattedDate);
-                                            setIsPickerOpen(prevState => ({
-                                              ...prevState,
-                                              [index]: false,  // Close the picker for the specific index
-                                            }));
-                                          }
-                                        }}
-                                        disablePast
-                                        slots={{
-                                          openPickerIcon: () => (
-                                            <CalendarTodayIcon
-                                              style={{
-                                                color: "#5e5e5e",
-                                                fontSize: "15px",
-                                                position: "absolute",
-                                                top: "-17px",
-                                                right: "5px",
-                                              }}
-                                            />
-                                          ),
-                                        }}
-                                        slotProps={{
-                                          tabs: { hidden: false },
-                                          toolbar: {
-                                            toolbarFormat: "YYYY",
-                                            hidden: false,
-                                          },
-                                          calendarHeader: {
-                                            sx: { color: "white" },
-                                          },
-                                          textField: {
-                                            inputProps: { readOnly: true },
-                                            placeholder: "MM / DD / YYYY HH:MM:AA",
-                                          },
-                                        }}
-                                      />
-                                    </div>
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              );
-                            }}
-                          />
-                        </DemoContainer>
-                      </LocalizationProvider>
-                    </ThemeProvider>
-                  </div>
-                  <div className="w-full">
-                    <ThemeProvider theme={themeMui}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={["DateTimePicker"]}>
-                          <FormField
-                            control={form.control}
-                            name={`ticketdiffTypes.${index}.eventenddate`}
-                            render={({ field }) => {
-
-
-                              const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
-
-                              // Default to the current time if the adjusted start time has passed
-                              const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
-
-                              return (
-                                <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                  <FormLabel className="text-[16px] font-bold text-[#FFFFFF]  uppercase  pb-[4px] ">Ticket End Date & Time <span style={{ color: "#BA0202" }}>*</span></FormLabel>
-                                  <FormControl>
-                                    <div className=" w-full" onClick={() => toggleEndDateTimePicker(index)}>
-                                      {/* <div className=" w-full" > */}
-
-                                      <StyledDateTimePicker
-                                        open={isEndDatePickerOpen}
-                                        // value={validStartTime}
-                                        formatDensity="spacious"
-                                        // referenceDate={referenceTicketDate}
-                                        referenceDate={defaultEndTime}
-                                        onKeyDown={(e: any) => e.preventDefault()}
-                                        onChange={(e: any) => {
-
-                                          if (e && e.isValid()) {
-                                            const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                            setTicketEndDate(formattedDate);
-                                            field.onChange(formattedDate);
-                                            setIsEndDatePickerOpen(prevState => ({
-                                              ...prevState,
-                                              [index]: false,  // Close the picker for the specific index
-                                            }));
-                                          }
-                                        }}
-                                        //  label="Event End Date & Time"
-                                        disablePast
-                                        // minDateTime={validStartTime}
-                                        // minDateTime={minStartTime}
-                                        minDateTime={adjustedEventStartTime}
-                                        // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
-                                        slots={{
-                                          openPickerIcon: () => (
-                                            <CalendarTodayIcon
-                                              style={{
-                                                color: "#5e5e5e",
-                                                fontSize: "15px",
-                                                position: "absolute",
-                                                top: "-17px",
-                                                right: "5px",
-                                              }}
-                                            />
-                                          ),
-                                        }}
-                                        slotProps={{
-                                          tabs: {
-                                            hidden: true,
-                                          },
-                                          toolbar: {
-                                            toolbarFormat: "YYYY",
-                                            hidden: false,
-                                          },
-                                          calendarHeader: {
-                                            sx: { color: "white" },
-                                          },
-                                          textField: {
-                                            inputProps: { readOnly: true },
-                                            placeholder: "MM / DD / YYYY HH:MM:AA ",
-                                          },
-                                        }}
-                                      />
-                                    </div>
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              );
-                            }}
-                          />
-                        </DemoContainer>
-                      </LocalizationProvider>
-                    </ThemeProvider>
                   </div>
 
-                </div>
+                )}
+
+                {!showRspvForm && (
+                  <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+                    <div className="w-full">
+                      <ThemeProvider theme={themeMui}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DateTimePicker"]}>
+                            <FormField
+                              control={form.control}
+                              name={`ticketdiffTypes.${index}.eventstartdate`}
+                              render={({ field }) => {
+                                const currentDateTime = dayjs();
+                                return (
+
+                                  <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
+                                    <FormLabel className="text-[16px] font-bold text-[#FFFFFF]  uppercase pb-[4px]">Ticket Start Date & Time <span style={{ color: "#BA0202" }}>*</span></FormLabel>
+                                    <FormControl>
+                                      {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
+                                      <div className="w-full" onClick={() => toggleDateTimePicker(index)}>
+                                        {" "}
+                                        {/* Attach click event here */}
+                                        <StyledDateTimePicker
+                                          open={isPickerOpen} // Control the open state with local state
+                                          referenceDate={currentDateTime}
+                                          formatDensity="spacious"
+                                          onKeyDown={(e: any) => e.preventDefault()}
+                                          autoOk={false}
+                                          onChange={(e: any) => {
+                                            if (e && e.isValid()) {
+                                              const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                              setTicketStartDate(formattedDate);
+                                              field.onChange(formattedDate);
+                                              setIsPickerOpen(prevState => ({
+                                                ...prevState,
+                                                [index]: false,  // Close the picker for the specific index
+                                              }));
+                                            }
+                                          }}
+                                          disablePast
+                                          slots={{
+                                            openPickerIcon: () => (
+                                              <CalendarTodayIcon
+                                                style={{
+                                                  color: "#5e5e5e",
+                                                  fontSize: "15px",
+                                                  position: "absolute",
+                                                  top: "-17px",
+                                                  right: "5px",
+                                                }}
+                                              />
+                                            ),
+                                          }}
+                                          slotProps={{
+                                            tabs: { hidden: false },
+                                            toolbar: {
+                                              toolbarFormat: "YYYY",
+                                              hidden: false,
+                                            },
+                                            calendarHeader: {
+                                              sx: { color: "white" },
+                                            },
+                                            textField: {
+                                              inputProps: { readOnly: true },
+                                              placeholder: "MM / DD / YYYY HH:MM:AA",
+                                            },
+                                          }}
+                                        />
+                                      </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                );
+                              }}
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
+                      </ThemeProvider>
+                    </div>
+                    <div className="w-full">
+                      <ThemeProvider theme={themeMui}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DateTimePicker"]}>
+                            <FormField
+                              control={form.control}
+                              name={`ticketdiffTypes.${index}.eventenddate`}
+                              render={({ field }) => {
 
 
+                                const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
 
+                                // Default to the current time if the adjusted start time has passed
+                                const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
 
-                <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+                                return (
+                                  <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                    <FormLabel className="text-[16px] font-bold text-[#FFFFFF]  uppercase  pb-[4px] ">Ticket End Date & Time <span style={{ color: "#BA0202" }}>*</span></FormLabel>
+                                    <FormControl>
+                                      <div className=" w-full" onClick={() => toggleEndDateTimePicker(index)}>
+                                        {/* <div className=" w-full" > */}
 
-                  <div className="w-full">
-                    <ThemeProvider theme={themeMui}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={["DateTimePicker"]}>
-                          <FormField
-                            control={form.control}
-                            name={`ticketdiffTypes.${index}.eventstarttime`}
-                            render={({ field }) => {
-                              const minStartTime = dayjs(TicketEndDate || new Date());
+                                        <StyledDateTimePicker
+                                          open={isEndDatePickerOpen}
+                                          // value={validStartTime}
+                                          formatDensity="spacious"
+                                          // referenceDate={referenceTicketDate}
+                                          referenceDate={defaultEndTime}
+                                          onKeyDown={(e: any) => e.preventDefault()}
+                                          onChange={(e: any) => {
 
-                              const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
+                                            if (e && e.isValid()) {
+                                              const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                              setTicketEndDate(formattedDate);
+                                              field.onChange(formattedDate);
+                                              setIsEndDatePickerOpen(prevState => ({
+                                                ...prevState,
+                                                [index]: false,  // Close the picker for the specific index
+                                              }));
+                                            }
+                                          }}
+                                          //  label="Event End Date & Time"
+                                          disablePast
+                                          // minDateTime={validStartTime}
+                                          // minDateTime={minStartTime}
+                                          minDateTime={adjustedEventStartTime}
+                                          // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                          slots={{
+                                            openPickerIcon: () => (
+                                              <CalendarTodayIcon
+                                                style={{
+                                                  color: "#5e5e5e",
+                                                  fontSize: "15px",
+                                                  position: "absolute",
+                                                  top: "-17px",
+                                                  right: "5px",
+                                                }}
+                                              />
+                                            ),
+                                          }}
+                                          slotProps={{
+                                            tabs: {
+                                              hidden: true,
+                                            },
+                                            toolbar: {
+                                              toolbarFormat: "YYYY",
+                                              hidden: false,
+                                            },
+                                            calendarHeader: {
+                                              sx: { color: "white" },
+                                            },
+                                            textField: {
+                                              inputProps: { readOnly: true },
+                                              placeholder: "MM / DD / YYYY HH:MM:AA ",
+                                            },
+                                          }}
+                                        />
+                                      </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                );
+                              }}
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
+                      </ThemeProvider>
+                    </div>
 
-                              const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
-
-                              const referenceEventDate = validStartTime.add(10, "minute");
-
-                              return (
-                                <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                  <FormLabel className="text-[16px] font-bold text-[#FFFFFF] uppercase  pb-[4px] ">Event Start Date & Time <span style={{ color: "#BA0202" }}>*</span></FormLabel>
-                                  <FormControl>
-                                    <div className="w-full" onClick={() => toggleStartEventTimePicker(index)}>
-
-                                      {/* <div className=" w-full"> */}
-
-                                      <StyledDateTimePicker
-                                        open={isStartEventPickerOpen[index]}
-                                        //  value={validStartTime}
-                                        formatDensity="spacious"
-                                        referenceDate={referenceEventDate}
-                                        onKeyDown={(e: any) => e.preventDefault()}
-                                        onChange={(e: any) => {
-                                          if (e && e.isValid()) {
-                                            const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                            setEventStartTime(formattedDate);
-                                            field.onChange(formattedDate);
-                                            setIsStartEventPickerOpen(prevState => ({
-                                              ...prevState,
-                                              [index]: false,  // Close the picker for the specific index
-                                            }));
-                                          }
-                                        }}
-                                        minDateTime={minStartTime}
-                                        slots={{
-                                          openPickerIcon: () => (
-                                            <CalendarTodayIcon
-                                              style={{
-                                                color: "#5e5e5e",
-                                                fontSize: "15px",
-                                                position: "absolute",
-                                                top: "-17px",
-                                                right: "5px",
-                                              }}
-                                            />
-                                          ),
-                                        }}
-                                        slotProps={{
-                                          tabs: {
-                                            hidden: false,
-                                          },
-                                          toolbar: {
-                                            toolbarFormat: "YYYY",
-                                            hidden: false,
-                                          },
-                                          calendarHeader: {
-                                            sx: { color: "white" },
-                                          },
-                                          textField: {
-                                            inputProps: { readOnly: true },
-                                            placeholder: "MM / DD / YYYY HH:MM:AA",
-                                          },
-                                        }}
-                                      />
-                                    </div>
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              );
-                            }}
-                          />
-                        </DemoContainer>
-                      </LocalizationProvider>
-                    </ThemeProvider>
                   </div>
 
-                  <div className="w-full">
-                    <ThemeProvider theme={themeMui}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={["DateTimePicker"]}>
-                          <FormField
-                            control={form.control}
-                            name={`ticketdiffTypes.${index}.eventendtime`}
-                            render={({ field }) => {
-                              const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
+                )}
 
-                              const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+                {!showRspvForm && (
+                  <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
 
-                              return (
-                                <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                  <FormLabel className="text-[16px] font-bold text-[#FFFFFF]  uppercase  pb-[4px]">Event End Date & Time <span style={{ color: "#BA0202" }}>*</span></FormLabel>
-                                  <FormControl>
-                                    <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
-                                      {/* <div className=" w-full"> */}
+                    <div className="w-full">
+                      <ThemeProvider theme={themeMui}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DateTimePicker"]}>
+                            <FormField
+                              control={form.control}
+                              name={`ticketdiffTypes.${index}.eventstarttime`}
+                              render={({ field }) => {
+                                const minStartTime = dayjs(TicketEndDate || new Date());
 
-                                      <StyledDateTimePicker
-                                        open={isEndEventPickerOpen}
-                                        referenceDate={defaultEndTime}
-                                        // value={
-                                        //   field.value
-                                        //     ? dayjs(field.value)
-                                        //     : defaultEndTime
-                                        // }
-                                        formatDensity="spacious"
-                                        onKeyDown={(e: any) => e.preventDefault()}
-                                        onChange={(e: any) => {
-                                          if (e && e.isValid()) {
-                                            const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                            setEventEndTime(formattedDate);
-                                            field.onChange(formattedDate);
-                                            setIsEndEventPickerOpen(prevState => ({
-                                              ...prevState,
-                                              [index]: false,  // Close the picker for the specific index
-                                            }));
-                                          }
-                                        }}
-                                        disablePast
-                                        //  label="Event End Date & Time"
-                                        // minDateTime={dayjs("2024-10-15T08:30")}
-                                        minDateTime={adjustedEventStartTime}
-                                        // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
-                                        slots={{
-                                          openPickerIcon: () => (
-                                            <CalendarTodayIcon
-                                              style={{
-                                                color: "#5e5e5e",
-                                                fontSize: "15px",
-                                                position: "absolute",
-                                                top: "-17px",
-                                                right: "5px",
-                                              }}
-                                            />
-                                          ),
-                                        }}
-                                        slotProps={{
-                                          tabs: {
-                                            hidden: false,
-                                          },
-                                          toolbar: {
-                                            toolbarFormat: "YYYY",
-                                            hidden: false,
-                                          },
-                                          calendarHeader: {
-                                            sx: { color: "white" },
-                                          },
-                                          textField: {
-                                            inputProps: { readOnly: true },
-                                            placeholder: "MM / DD / YYYY HH:MM:AA",
-                                          },
-                                        }}
-                                      />
-                                    </div>
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              );
-                            }}
-                          />
-                        </DemoContainer>
-                      </LocalizationProvider>
-                    </ThemeProvider>
+                                const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
+
+                                const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
+
+                                const referenceEventDate = validStartTime.add(10, "minute");
+
+                                return (
+                                  <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                    <FormLabel className="text-[16px] font-bold text-[#FFFFFF] uppercase  pb-[4px] ">Event Start Date & Time <span style={{ color: "#BA0202" }}>*</span></FormLabel>
+                                    <FormControl>
+                                      <div className="w-full" onClick={() => toggleStartEventTimePicker(index)}>
+
+                                        {/* <div className=" w-full"> */}
+
+                                        <StyledDateTimePicker
+                                          open={isStartEventPickerOpen[index]}
+                                          //  value={validStartTime}
+                                          formatDensity="spacious"
+                                          referenceDate={referenceEventDate}
+                                          onKeyDown={(e: any) => e.preventDefault()}
+                                          onChange={(e: any) => {
+                                            if (e && e.isValid()) {
+                                              const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                              setEventStartTime(formattedDate);
+                                              field.onChange(formattedDate);
+                                              setIsStartEventPickerOpen(prevState => ({
+                                                ...prevState,
+                                                [index]: false,  // Close the picker for the specific index
+                                              }));
+                                            }
+                                          }}
+                                          minDateTime={minStartTime}
+                                          slots={{
+                                            openPickerIcon: () => (
+                                              <CalendarTodayIcon
+                                                style={{
+                                                  color: "#5e5e5e",
+                                                  fontSize: "15px",
+                                                  position: "absolute",
+                                                  top: "-17px",
+                                                  right: "5px",
+                                                }}
+                                              />
+                                            ),
+                                          }}
+                                          slotProps={{
+                                            tabs: {
+                                              hidden: false,
+                                            },
+                                            toolbar: {
+                                              toolbarFormat: "YYYY",
+                                              hidden: false,
+                                            },
+                                            calendarHeader: {
+                                              sx: { color: "white" },
+                                            },
+                                            textField: {
+                                              inputProps: { readOnly: true },
+                                              placeholder: "MM / DD / YYYY HH:MM:AA",
+                                            },
+                                          }}
+                                        />
+                                      </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                );
+                              }}
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
+                      </ThemeProvider>
+                    </div>
+
+                    <div className="w-full">
+                      <ThemeProvider theme={themeMui}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DateTimePicker"]}>
+                            <FormField
+                              control={form.control}
+                              name={`ticketdiffTypes.${index}.eventendtime`}
+                              render={({ field }) => {
+                                const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
+
+                                const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+
+                                return (
+                                  <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                    <FormLabel className="text-[16px] font-bold text-[#FFFFFF]  uppercase  pb-[4px]">Event End Date & Time <span style={{ color: "#BA0202" }}>*</span></FormLabel>
+                                    <FormControl>
+                                      <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
+                                        {/* <div className=" w-full"> */}
+
+                                        <StyledDateTimePicker
+                                          open={isEndEventPickerOpen}
+                                          referenceDate={defaultEndTime}
+                                          // value={
+                                          //   field.value
+                                          //     ? dayjs(field.value)
+                                          //     : defaultEndTime
+                                          // }
+                                          formatDensity="spacious"
+                                          onKeyDown={(e: any) => e.preventDefault()}
+                                          onChange={(e: any) => {
+                                            if (e && e.isValid()) {
+                                              const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                              setEventEndTime(formattedDate);
+                                              field.onChange(formattedDate);
+                                              setIsEndEventPickerOpen(prevState => ({
+                                                ...prevState,
+                                                [index]: false,  // Close the picker for the specific index
+                                              }));
+                                            }
+                                          }}
+                                          disablePast
+                                          //  label="Event End Date & Time"
+                                          // minDateTime={dayjs("2024-10-15T08:30")}
+                                          minDateTime={adjustedEventStartTime}
+                                          // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                          slots={{
+                                            openPickerIcon: () => (
+                                              <CalendarTodayIcon
+                                                style={{
+                                                  color: "#5e5e5e",
+                                                  fontSize: "15px",
+                                                  position: "absolute",
+                                                  top: "-17px",
+                                                  right: "5px",
+                                                }}
+                                              />
+                                            ),
+                                          }}
+                                          slotProps={{
+                                            tabs: {
+                                              hidden: false,
+                                            },
+                                            toolbar: {
+                                              toolbarFormat: "YYYY",
+                                              hidden: false,
+                                            },
+                                            calendarHeader: {
+                                              sx: { color: "white" },
+                                            },
+                                            textField: {
+                                              inputProps: { readOnly: true },
+                                              placeholder: "MM / DD / YYYY HH:MM:AA",
+                                            },
+                                          }}
+                                        />
+                                      </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                );
+                              }}
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
+                      </ThemeProvider>
+                    </div>
                   </div>
-                </div>
+                )}
 
-                
-                
+                {showFestivalForm &&
+                  <div className="flex justify-end items-center mt-[24px]">
+                    <Button
+                      style={{
+                        height: "32px",
+                        background: "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                      }}
+                      className="flex items-center justify-center bg-[#0F0F0F] text-[#00D059] h-[32px] px-[26px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
 
-                <div className={`flex items-center gap-[24px] ${showWhitelistForm ? 'common-container' : 'lg:gap-[24px] md:w-[49%] xl:gap-[24px] gap-[24px] w-full mt-[24px] common-container'}`} style={{alignItems:"end"}}>
-              
-                  <FormField
-                    control={form.control}
-                    name={`ticketdiffTypes.${index}.whatincluded`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0" >
-                        <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3  uppercase pt-[16px] pb-[4px]">What Included <span style={{ color: "#BA0202" }}>*</span></FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter What’s Included"
-                            className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]  "
-                            {...field}
-                            onChange={(e) => {
-                              setwhatincluded(e.target.value);
-                              field.onChange(e);
+                    >
+                      <Image src={addicon} alt="Add-icon" height={12.5} width={12.5} />
+                      Add Events Timing
+                    </Button>
+                  </div>
+                }
 
-                            }}
-                          />
-                        </FormControl>
 
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                {!showRspvForm && (
+                  <div className={`flex items-center gap-[24px] ${showWhitelistForm ? 'common-container' : 'lg:gap-[24px] md:w-[49%] xl:gap-[24px] gap-[24px] w-full mt-[24px] common-container'}`} style={{ alignItems: "end" }}>
 
-                  {showWhitelistForm && <Whitelist onLimitChange={handleLimitChange} />}
+                    <FormField
+                      control={form.control}
+                      name={`ticketdiffTypes.${index}.whatincluded`}
+                      render={({ field }) => (
+                        <FormItem className="relative w-full space-y-0" >
+                          <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3  uppercase pt-[16px] pb-[4px]">What Included <span style={{ color: "#BA0202" }}>*</span></FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter What’s Included"
+                              className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]  "
+                              {...field}
+                              onChange={(e) => {
+                                setwhatincluded(e.target.value);
+                                field.onChange(e);
 
-                </div>
+                              }}
+                            />
+                          </FormControl>
 
-               < RsvpTicketing/>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
+                    {showWhitelistForm && <Whitelist onLimitChange={handleLimitChange} />}
+
+                  </div>
+                )}
+
+                {showRspvForm && < RsvpTicketing />}
                 {showPrivateEventForm && <ManualEmailForm />}
                 {showPasswordedDiscountForm && <PasswordedDiscountForm />}
 
