@@ -436,6 +436,8 @@ function Editevent() {
   const [categoryAlert, setCategoryAlert] = useState<any>(false);
   const [catLength, setCatLength] = useState<boolean>(false);
 
+  const [spaceError, setSpaceError] = useState<boolean>(false);
+
   const [isCustomCatgory, setIsCustomCategory] = useState<boolean>(false);
   const [customCategotyInput, setCustomCatgoryInput] = useState<string>("");
 
@@ -624,13 +626,21 @@ function Editevent() {
 
   const handleCustomCatgory = (e: any) => {
     const inputValue = e.target.value;
+
+    if (inputValue.endsWith(" ") && inputValue.length !== 0) {
+      setSpaceError(true);
+      return;
+    }
+
     if (inputValue.length > 15) {
       setCatLength(true);
       return;
     }
 
+    setSpaceError(false);
+
     setCatLength(false);
-    setCustomCatgoryInput(inputValue);
+    setCustomCatgoryInput(inputValue.trim());
     setCategoryAlert(false);
 
     // Update the form field's value with the selected category
@@ -1721,6 +1731,7 @@ function Editevent() {
                             <>
                               {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
                               {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
+                              {spaceError == true && <p className="text-[red] text-[16px]">Put only single word!</p>}
                               <div
                                 style={{
                                   width: "100%",
