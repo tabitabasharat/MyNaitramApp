@@ -31,7 +31,7 @@ const Collectiontable = () => {
 
   console.log("my data", myData);
 
-  const imageUrl = myData?.image?.startsWith("http" || "https")
+  const imageUrl = myData?.image?.startsWith("http" )
     ? myData?.image
     : leftimg;
 

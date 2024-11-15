@@ -15,6 +15,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/profile/FAQ",
     "/organizer-event/payout-detail/cryptowallet",
     "/profile/Delete-account",
+    "/side-drawer",
     // "/social-profile",
     "/organizer-event/event-dashboard",
     "/organizer-event/profile",

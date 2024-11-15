@@ -26,6 +26,7 @@ import Menu from "./Menu";
 import ProfileSidebar from "@/components/profile-page/ProfileSideBar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import NotificationPopUp from "../notifications/NotificationPopUp";
+import logout from "../../assets/logout.svg";
 
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -154,7 +155,7 @@ const Header = () => {
     dispatch(showProfile(userid));
   }, []);
 
-  const logout = () => {
+  const Logout = () => {
     localStorage.clear();
     setToken("");
     dispatch({ type: "LOGOUT" });
@@ -238,6 +239,7 @@ const Header = () => {
       console.error("Error:", error);
     }
   }
+
   return (
     <>
       <AnimatePresence mode="wait">
@@ -276,7 +278,7 @@ const Header = () => {
 
                 {/* Toggle arrows only for IDs 2 and 4 */}
                 {/* {(link.id === 2 || link.id === 4) && ( */}
-                {(link.id === 2) && (
+                {link.id === 2 && (
                   <Image
                     src={openDropdown === link.id ? arrowup : arrowdown} // Change icon based on state
                     alt={`${link.title} Arrow`}
@@ -450,6 +452,14 @@ const Header = () => {
                               >
                                 User Profile
                               </Link>
+                            </div>
+                            <div className="w-full flex justify-center items-center mt-[-10px] mb-[10px]">
+                              <button
+                                className="text-[white] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] rounded-md py-[7px] px-[13px]"
+                                onClick={Logout}
+                              >
+                                <Image src={logout} className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]" alt="img" /> Log out
+                              </button>
                             </div>
                           </div>
                         )}

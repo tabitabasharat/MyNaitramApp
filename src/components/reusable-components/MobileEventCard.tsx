@@ -24,7 +24,7 @@ const MobileEventCard = ({
   ticketPrice: any;
   likedEvents:any;
 }) => {
-  const imageUrl = img?.startsWith("http" || "https") ? img : fallbackImage.src;
+  const imageUrl = img?.startsWith("http") ? img : fallbackImage.src;
   console.log("image src is", imageUrl);
 
   const [liked, setLiked] = useState(false);

@@ -74,10 +74,6 @@ const Menu = ({
     //   name: "Rewards",
     //   href: "/reward",
     // },
-    {
-      name: "Get Sponsored",
-      href: "/get-sponsor",
-    },
   ];
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [token, setToken] = useState<any>();
@@ -183,7 +179,7 @@ const Menu = ({
                     </Link>
 
                     {/* Arrow for dropdown toggle */}
-                    {(link.id === 2 || link.id === 4) && (
+                    {(link.id === 2 ) && (
                       <div
                         className="ml-2 cursor-pointer"
                         onClick={() => handleDropdownToggle(link.id)} // Toggle dropdown

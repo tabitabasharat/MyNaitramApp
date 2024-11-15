@@ -16,7 +16,7 @@ import menuicon from "@/assets/sharemenu.svg"
 import reporticon from "@/assets/fi_2602490-1.svg"
 import reporticongreen from "@/assets/fi_2602490.svg"
 import Image from "next/image";
-
+import Report from "@/components/ViewSpecificEvent/sections/ReportModal"
 import { getEventByEventId, getEventCount } from "@/lib/middleware/event";
 import { getEventAttend } from "@/lib/middleware/event";
 import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
@@ -43,6 +43,7 @@ import {
   ArrowLeft,
   Heart,
 } from "@phosphor-icons/react/dist/ssr";
+import FeedbackModal from "./FeedbackModal";
 import ScreenLoader from "@/components/loader/Screenloader";
 import {
   SuccessToast,
@@ -58,6 +59,7 @@ import {
   getOrganizerByID,
   getOrganizerSocialProfile,
 } from "@/lib/middleware/organizer";
+import BuyTicketModal from "@/components/checkout/BuyTicketModal";
 
 const CustomPrevArrow = (props: any) => (
   <div
@@ -96,14 +98,22 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   const userLoading = useAppSelector((state) => state?.getEventByEventID);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeLink, setActiveLink] = useState<string | null>(null);
+  const [modalContent, setModalContent] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleLinkClick = (link: string) => {
+    setActiveLink(link); // Set the active link
+    setIsModalOpen(true); // Open the modal
+    setModalContent(link); // Set the modal content to either 'Report' or 'Feedback'
+    setIsDropdownOpen(false); // Close the dropdown after clicking a link
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
-  };
-
-  const handleLinkClick = (link: string) => {
-    setActiveLink(link);
-    setIsDropdownOpen(false); // Optional: Close dropdown on selection
   };
 
   // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -327,7 +337,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   alt="share-menu-icon"
                   onClick={toggleDropdown}
                 />
-                {/* {isDropdownOpen && (
+                {isDropdownOpen && (
                   <div
                     style={{
                       background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
@@ -341,7 +351,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                           }`}
                       >
                         <Image
-                          src={activeLink === "Report" ? reporticongreen :  reporticon }
+                          src={activeLink === "Report" ? reporticongreen : reporticon}
                           alt="report-icon"
                         />
                         <p>Report</p>
@@ -351,11 +361,26 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                         className={`block text-start p-2 flex gap-[8px] cursor-pointer text-sm ${activeLink === "Feedback" ? "text-green-500" : "text-white"
                           }`}
                       >
-                        <Image src={activeLink === "Feedback"? feedbackgreen :feedback} alt="feedback" /> <p>Feedback</p>
+                        <Image src={activeLink === "Feedback" ? feedbackgreen : feedback} alt="feedback" /> <p>Feedback</p>
                       </li>
                     </ul>
                   </div>
+                )}
+                {/* {isModalOpen && (
+                 <Report
+                 open={isModalOpen} onClose={() => setIsModalOpen(false)}
+                //  onClose={() => setShareModal(false)}
+                //  open={() => setShareModal(true)}  
+                 />
                 )} */}
+                {isModalOpen && modalContent === "Report" && (
+                  <Report open={isModalOpen} onClose={() => setIsModalOpen(false)} />
+                )}
+
+                {/* Add a Feedback Modal here if needed */}
+                {isModalOpen && modalContent === "Feedback" && (
+                  <FeedbackModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
+                )}
               </div>
             </div>
             {sharemodal && (
@@ -416,7 +441,6 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   //     ? "0"
                   //     : EventData?.tickets[0]?.price
                   // }
-
                   ticketStartPrice={
                     EventData?.tickets?.length === 1
                       ? Number(EventData?.tickets[0]?.price) // Return the price of the single ticket as a number
