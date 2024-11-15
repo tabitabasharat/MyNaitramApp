@@ -51,20 +51,25 @@ const Menu = ({
         { title: "Download App", href: "/download-app" },
       ],
     },
-    {
-      name: "Events",
-      href: "/viewallevents",
-    },
-
-    {
-      title: "Rewards",
-      href: "/reward",
-      id: 4,
-      subLinks: [
-        { title: "Wallet", href: "/wallet" },
-        // { title: "Download App", href: "/download-app" },
-      ],
-    },
+    { id: 3, title: "Events", url: "/viewallevents" },
+    { id: 4, title: "Rewards", url: "/reward" },
+    // {
+    //   id: 4,
+    //   title: "Rewards",
+    //   url: "/reward",
+    //   subLinks: [{ title: "Wallet", url: "/wallet" }],
+    // },
+    { id: 5, title: "Get Sponsored", url: "/get-sponsor" },
+    { id: 6, title: "My Tickets", url: "/wallet" },
+    // {
+    //   title: "Rewards",
+    //   href: "/reward",
+    //   id: 4,
+    //   subLinks: [
+    //     { title: "Wallet", href: "/wallet" },
+    //     // { title: "Download App", href: "/download-app" },
+    //   ],
+    // },
     // {
     //   name: "Rewards",
     //   href: "/reward",
