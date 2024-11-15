@@ -413,6 +413,7 @@ function OganizerCreateEvent() {
 
   const [categoryAlert, setCategoryAlert] = useState<any>(false);
   const [catLength, setCatLength] = useState<boolean>(false);
+  // const [spaceError, setSpaceError] = useState<boolean>(false);
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [isPreviewModalOpen, setisPreviewModalOpen] = useState(false);
   const [actionType, setActionType] = useState("");
@@ -1088,11 +1089,17 @@ function OganizerCreateEvent() {
   };
 
   const handleCustomCatgory = (e: any) => {
-    const inputValue = e.target.value;
+    const inputValue = e.target.value.trim();
+
+    if (inputValue === "") {
+      return;
+    }
+
     if (inputValue.length > 15) {
       setCatLength(true);
       return;
     }
+    // setSpaceError(false);
     setCatLength(false);
     setCustomCatgoryInput(inputValue);
     setCategoryAlert(false);
@@ -1395,6 +1402,7 @@ function OganizerCreateEvent() {
                               <>
                                 {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
                                 {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
+                                {/* {spaceError == true && <p className="text-[red] text-[16px]">Put Only Single word!</p>} */}
                                 <div
                                   style={{
                                     width: "100%",

@@ -843,7 +843,11 @@ function EditeventOnBack() {
   };
 
   const handleCustomCatgory = (e: any) => {
-    const inputValue = e.target.value;
+    const inputValue = e.target.value.trim();
+
+    if (inputValue === "") {
+      return;
+    }
 
     if (inputValue.length > 15) {
       setCatLength(true);
