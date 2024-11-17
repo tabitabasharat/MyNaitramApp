@@ -1,0 +1,55 @@
+.ManualEmail-button{
+  white-space: nowrap; 
+
+}
+.ManualEmail-button-div{
+padding: 8px 12px ;
+border: 1px solid;
+
+border-image-source: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
+
+background: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
+width: 161px !important;
+height: 32px;
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+
+.checkbox {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #8f8f8f;
+  background-color: transparent;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+
+.checkbox:checked {
+  background-color: #087336;
+  border-color: #087336;
+}
+
+
+.checkbox:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;   
+  left: 50%;  
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: white;
+
+
+  transform: translate(-50%, -50%);
+}
+
