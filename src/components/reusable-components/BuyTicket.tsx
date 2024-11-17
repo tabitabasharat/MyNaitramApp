@@ -196,7 +196,11 @@ const BuyTicket = ({
                       }
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
-                    disabled={new Date() < new Date(ticketStartTime) || new Date() > new Date(ticketEndTime) || soldout || checkSalesStop()}
+                    disabled={
+                      userId != userIds
+                        ? new Date() < new Date(ticketStartTime) || new Date() > new Date(ticketEndTime) || soldout || checkSalesStop()
+                        : false
+                    }
                   >
                     {soldout ? "Sold out" : userId != userIds ? (salesStop ? "Sales are stopped" : "Buy Ticket") : "Manage Event"}
                   </Button>
