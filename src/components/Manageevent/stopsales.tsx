@@ -67,7 +67,7 @@ function StopSales() {
           console.log("Stop sales status ===> ", res?.payload?.status);
           if (res?.payload?.status === 200) {
             console.log("Stop Sales of ticket succesfully");
-            SuccessToast(res?.message);
+            SuccessToast("Ticket sales resumed");
             router.push("/management");
           } else {
             ErrorToast(res?.payload?.body?.message);
