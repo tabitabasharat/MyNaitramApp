@@ -29,7 +29,8 @@ function StopSales() {
   const [eventID, setEventID] = useState<string>("");
   const [userID, setUserid] = useState<string>("");
   const [reasonData, setReasonDataToStop] = useState("");
-  const [loader, setLoader] = useState<boolean>(isEventDataLoading); // First let the Event Data loading properly
+  const [loader, setLoader] = useState<boolean>(false); // First let the Event Data loading properly
+  const [salesStop, setSalesStop] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,11 +50,23 @@ function StopSales() {
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID || "");
     console.log("user ID logged in is", userID);
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (EventData) {
+      console.log("EventData updated:", EventData);
+      setSalesStop(EventData?.stopBy || false);
+    }
+  }, [EventData]);
+
+  useEffect(() => {
+    setLoader(isEventDataLoading); // Update loader whenever loading status changes
+  }, [isEventDataLoading]);
 
   async function StopSalesMethod() {
     console.log("My EVENT DATA IS AS ===> ", EventData, "AND Event ID is as ===> ", eventID);
     if (EventData?.id.toString() === eventID) {
+      setLoader(true);
       const values = form.getValues();
       console.log("my values", values);
       try {
@@ -66,19 +79,23 @@ function StopSales() {
         dispatch(stopTicketSales(data)).then((res: any) => {
           console.log("Stop sales status ===> ", res?.payload?.status);
           if (res?.payload?.status === 200) {
+            setLoader(false);
             console.log("Stop Sales of ticket succesfully");
-            SuccessToast("Ticket sales resumed");
+            SuccessToast(salesStop ? "Ticket sales resumed" : "Ticket sales stoped");
             router.push("/management");
           } else {
+            setLoader(false);
             ErrorToast(res?.payload?.body?.message);
           }
         });
       } catch (error) {
+        setLoader(false);
         console.error("Error:", error);
         ErrorToast(error);
         ErrorToast("Error while Creating Form");
       }
     } else {
+      setLoader(false);
       ErrorToast("Event not Found");
       router.push("/management");
     }
@@ -130,14 +147,14 @@ function StopSales() {
             </form>
           </Form>
           <div className="flex gap-[20px] mt-[50px] justify-center items-center w-full md:justify-start">
-            <div className="flex justify-center items-center rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate text-[#00A849]">
+            <div className="flex justify-center items-center rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate text-[#00A849] cursor-pointer">
               Cancel
             </div>
             <div
               onClick={() => StopSalesMethod()}
-              className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] bg-red-500 p-[12px]"
+              className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] bg-red-500 p-[12px] cursor-pointer hover:opacity-[80%]"
             >
-              Stop Sales
+              {salesStop ? "Resume Sales" : "Stop Sales"}
             </div>
           </div>
         </div>

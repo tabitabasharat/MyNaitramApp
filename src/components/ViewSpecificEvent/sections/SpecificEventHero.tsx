@@ -12,9 +12,9 @@ import "./EventHero.css";
 import EventsHeroSlide from "./EventsHeroSlide";
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import menuicon from "@/assets/sharemenu.svg"
-import reporticon from "@/assets/fi_2602490-1.svg"
-import reporticongreen from "@/assets/fi_2602490.svg"
+import menuicon from "@/assets/sharemenu.svg";
+import reporticon from "@/assets/fi_2602490-1.svg";
+import reporticongreen from "@/assets/fi_2602490.svg";
 import Image from "next/image";
 
 import { getEventByEventId, getEventCount } from "@/lib/middleware/event";
@@ -32,49 +32,23 @@ import { Button } from "@/components/ui/button";
 import GradientBorder from "@/components/ui/gradient-border";
 import Followpromoter from "@/components/reusable-components/FollowPromoter";
 import { useRouter } from "next/navigation";
-import feedback from "@/assets/fi_1628629.svg"
-import feedbackgreen from "@/assets/fi_1628629-1.svg"
-import {
-  Lock,
-  DownloadSimple,
-  UsersThree,
-  Ticket,
-  DeviceMobile,
-  ArrowLeft,
-  Heart,
-} from "@phosphor-icons/react/dist/ssr";
+import feedback from "@/assets/fi_1628629.svg";
+import feedbackgreen from "@/assets/fi_1628629-1.svg";
+import { Lock, DownloadSimple, UsersThree, Ticket, DeviceMobile, ArrowLeft, Heart } from "@phosphor-icons/react/dist/ssr";
 import ScreenLoader from "@/components/loader/Screenloader";
-import {
-  SuccessToast,
-  ErrorToast,
-} from "@/components/reusable-components/Toaster/Toaster";
+import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
 import { checkEventTicketStatus } from "@/lib/middleware/liveactivity";
-import {
-  FollowPromoter,
-  getFollowingPromoters,
-  UnFollowPromoter,
-} from "@/lib/middleware/liveactivity";
-import {
-  getOrganizerByID,
-  getOrganizerSocialProfile,
-} from "@/lib/middleware/organizer";
+import { FollowPromoter, getFollowingPromoters, UnFollowPromoter } from "@/lib/middleware/liveactivity";
+import { getOrganizerByID, getOrganizerSocialProfile } from "@/lib/middleware/organizer";
 
 const CustomPrevArrow = (props: any) => (
-  <div
-    style={{ cursor: "pointer" }}
-    className="custom-arrow custom-prev-arrow"
-    onClick={props.onClick}
-  >
+  <div style={{ cursor: "pointer" }} className="custom-arrow custom-prev-arrow" onClick={props.onClick}>
     <Image src={leftarrow} width={60} height={60} alt="right arrow" />
   </div>
 );
 
 const CustomNextArrow = (props: any) => (
-  <div
-    style={{ cursor: "pointer" }}
-    className="custom-arrow custom-next-arrow"
-    onClick={props.onClick}
-  >
+  <div style={{ cursor: "pointer" }} className="custom-arrow custom-next-arrow" onClick={props.onClick}>
     <Image src={rightarrow} width={60} height={60} alt="left arrow" />
   </div>
 );
@@ -90,9 +64,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
   const dispatch: any = useAppDispatch();
   const [isAbout, setisAbout] = useState(false);
-  const EventData = useAppSelector(
-    (state) => state?.getEventByEventID?.eventIdEvents?.data
-  );
+  const EventData = useAppSelector((state) => state?.getEventByEventID?.eventIdEvents?.data);
   const userLoading = useAppSelector((state) => state?.getEventByEventID);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeLink, setActiveLink] = useState<string | null>(null);
@@ -114,7 +86,6 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   //   setActiveLink(link);
   //   setIsOpen(false); // Optional: close the menu after selection
   // };
-
 
   // const toggleDropdown = () => {
   //   setIsDropdownOpen((prev) => !prev);
@@ -145,8 +116,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   //   arrows: EventData?.eventmedia?.length > 1 ? true : false,
   // };
   useEffect(() => {
-    const currentUrl: any =
-      typeof window !== "undefined" ? window.location.href : null;
+    const currentUrl: any = typeof window !== "undefined" ? window.location.href : null;
 
     if (currentUrl) {
       const url = new URL(currentUrl);
@@ -202,11 +172,9 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   async function handleLiveActivity() {
     setLoader(true);
 
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("my id is", userID);
-    const currentUrl: string =
-      typeof window !== "undefined" ? window.location.href : "";
+    const currentUrl: string = typeof window !== "undefined" ? window.location.href : "";
     const urlParts: string[] = currentUrl.split("/");
     const value: string = urlParts[urlParts.length - 1].split("?")[0];
     try {
@@ -222,13 +190,9 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
           if (res?.payload?.data?.statusCode === false) {
             console.log("status success", res?.payload?.data);
-            ErrorToast(
-              "You can't access Live Activity before buying a ticket for this event"
-            );
+            ErrorToast("You can't access Live Activity before buying a ticket for this event");
           } else {
-            router.push(
-              `/events/event-detail/live-activity/${EventData?.id}?eventName=${EventData?.name}&userId=${EventData?.userId}`
-            );
+            router.push(`/events/event-detail/live-activity/${EventData?.id}?eventName=${EventData?.name}&userId=${EventData?.userId}`);
           }
         } else {
           setLoader(false);
@@ -241,19 +205,14 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     }
   }
 
-  const eventAttendy = useAppSelector(
-    (state: any) => state?.getAllAttend?.attend?.data
-  );
+  const eventAttendy = useAppSelector((state: any) => state?.getAllAttend?.attend?.data);
 
-  const eventAttend = useAppSelector(
-    (state: any) => state?.getAllAttend?.attend
-  );
+  const eventAttend = useAppSelector((state: any) => state?.getAllAttend?.attend);
 
   console.log("this is event attendees", eventAttendy);
 
   useEffect(() => {
-    const myuserid =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const myuserid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
 
     // dispatch(getEventCount(userId));
     // dispatch(getOrganizerByID(EventData?.userId));
@@ -270,11 +229,9 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   }, [EventData]);
 
   useEffect(() => {
-    const myuserid =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const myuserid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
 
     // dispatch(getEventCount(userId));
-
 
     const data = {
       followId: EventData?.userId,
@@ -285,7 +242,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     // dispatch(getOrganizerSocialProfile(userId));
   }, []);
 
-  console.log(EventData, "this is my event data")
+  console.log(EventData, "this is my event data");
 
   return (
     <section className="bg-img ">
@@ -308,8 +265,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                 <ArrowLeft size={22} />
               </button>
               <p>
-                <span className="text-[#BFBFBF]">Event</span> /{" "}
-                <span>{EventData?.name}</span>
+                <span className="text-[#BFBFBF]">Event</span> / <span>{EventData?.name}</span>
               </p>
             </div>
             <div className="flex gap-[11px] relative">
@@ -358,36 +314,18 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                 )}
               </div> */}
             </div>
-            {sharemodal && (
-              <ShareModal
-                onClose={() => setShareModal(false)}
-                open={() => setShareModal(true)}
-                eventUrl={copiedUrl}
-              />
-            )}
+            {sharemodal && <ShareModal onClose={() => setShareModal(false)} open={() => setShareModal(true)} eventUrl={copiedUrl} />}
           </div>
           <div className="flex gap-[40px] event-spacing-adjustment flex-col lg:flex-row">
             <div className="">
               <div className="lhs-hero w-full lg:w-[392px]  flex items-center justify-center flex-col relative ">
-                <Image
-                  src={EventData?.coverEventImage}
-                  alt="takeover"
-                  width={392}
-                  height={200}
-                  className="img-center rounded-lg relative"
-                />
+                <Image src={EventData?.coverEventImage} alt="takeover" width={392} height={200} className="img-center rounded-lg relative" />
 
                 {/* <div className="bg-white/20 p-[1rem] rounded-full backdrop-blur-lg webkit-header-blur w-fit absolute right-[24px] bottom-0">
                 <Heart size={23} weight="fill" />
               </div> */}
 
-                {EventData?.userId && (
-                  <Followpromoter
-                    EventData={EventData}
-                    userId={EventData?.userId}
-                    eventName={EventData?.name}
-                  />
-                )}
+                {EventData?.userId && <Followpromoter EventData={EventData} userId={EventData?.userId} eventName={EventData?.name} />}
               </div>
             </div>
 
@@ -411,6 +349,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   ticketEndDate={EventData?.ticketEndDate}
                   ticketStartDate={EventData?.ticketStartDate}
                   soldout={EventData?.tickets.every((ticket: any) => ticket.no === 0)}
+                  salesStop={EventData?.stopBy || false}
                   // ticketStartPrice={
                   //   EventData?.tickets?.length === 1
                   //     ? "0"
@@ -421,26 +360,21 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                     EventData?.tickets?.length === 1
                       ? Number(EventData?.tickets[0]?.price) // Return the price of the single ticket as a number
                       : EventData?.tickets && EventData?.tickets.length > 0
-                        ? Math.min(
+                      ? Math.min(
                           ...EventData?.tickets.map((ticket: any) => {
                             const price = Number(ticket.price); // Convert price to number
                             return isNaN(price) ? Infinity : price; // Return Infinity if price is NaN
                           })
                         ).toString() // Find the lowest price and convert to string
-                        : "0" // Default to "0" if there are no tickets
+                      : "0" // Default to "0" if there are no tickets
                   }
-
-
                   // ticketEndPrice={
                   //   EventData?.tickets[EventData?.tickets.length - 1]?.price
                   // }
 
-
                   ticketEndPrice={
                     EventData?.tickets && EventData?.tickets?.length > 0
-                      ? Math.max(
-                        ...EventData.tickets.map((ticket: any) => Number(ticket.price) || 0)
-                      )
+                      ? Math.max(...EventData.tickets.map((ticket: any) => Number(ticket.price) || 0))
                       : 0 // Default to 0 if there are no tickets
                   }
                   // handleBulletClick={() => handleBulletClick(event)}
@@ -471,38 +405,34 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
               </div>
             )} */}
 
-                {EventData?.eventmedia?.length > 0 &&
-                  Array.isArray(EventData?.eventmedia) && (
-                    <div className="w-[665px] event-width-adjustment h-[350px] mt-[48px] slider-main-div">
-                      <Slider {...settings}>
-                        {EventData?.eventmedia?.map((item: any, index: any) => (
-                          <div key={index} className="w-full">
-                            {item.endsWith(".mp4") ||
-                              item.endsWith(".avi") ||
-                              item.endsWith(".mov") ||
-                              item.endsWith(".mkv") ? (
-                              <video
-                                src={item}
-                                width={330}
-                                height={300}
-                                className="w-full h-[296px] slider-img object-contain "
-                                controls
+                {EventData?.eventmedia?.length > 0 && Array.isArray(EventData?.eventmedia) && (
+                  <div className="w-[665px] event-width-adjustment h-[350px] mt-[48px] slider-main-div">
+                    <Slider {...settings}>
+                      {EventData?.eventmedia?.map((item: any, index: any) => (
+                        <div key={index} className="w-full">
+                          {item.endsWith(".mp4") || item.endsWith(".avi") || item.endsWith(".mov") || item.endsWith(".mkv") ? (
+                            <video
+                              src={item}
+                              width={330}
+                              height={300}
+                              className="w-full h-[296px] slider-img object-contain "
+                              controls
                               // alt={`Slide ${index + 1}`}
-                              />
-                            ) : (
-                              <Image
-                                src={item}
-                                width={330}
-                                height={300}
-                                className="w-full object-contain h-[350px] slider-img "
-                                alt={`Slide ${index + 1}`}
-                              />
-                            )}
-                          </div>
-                        ))}
-                      </Slider>
-                    </div>
-                  )}
+                            />
+                          ) : (
+                            <Image
+                              src={item}
+                              width={330}
+                              height={300}
+                              className="w-full object-contain h-[350px] slider-img "
+                              alt={`Slide ${index + 1}`}
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </Slider>
+                  </div>
+                )}
 
                 {/* LIVE ACTIVITY */}
                 <GradientBorder className="mt-[48px] w-full ">
@@ -547,60 +477,44 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                         </div>
                       )} */}
 
-                      {eventAttendy?.length > 0 &&
-                        eventAttend?.data?.some(
-                          (attendee: any) => attendee?.profilePicture
-                        ) && (
-                          <div className="flex -space-x-3">
-                            {(() => {
-                              // Function to randomly select one of the three avatars
-                              const getRandomAvatar = () => {
-                                const avatars = [Avatar1, Avatar2, Avatar3];
-                                return avatars[
-                                  Math.floor(Math.random() * avatars.length)
-                                ];
-                              };
+                      {eventAttendy?.length > 0 && eventAttend?.data?.some((attendee: any) => attendee?.profilePicture) && (
+                        <div className="flex -space-x-3">
+                          {(() => {
+                            // Function to randomly select one of the three avatars
+                            const getRandomAvatar = () => {
+                              const avatars = [Avatar1, Avatar2, Avatar3];
+                              return avatars[Math.floor(Math.random() * avatars.length)];
+                            };
 
-                              // Filter to get attendees with profile pictures
-                              const attendeesWithPictures =
-                                eventAttend.data.filter(
-                                  (attendee: any) => attendee?.profilePicture
-                                );
+                            // Filter to get attendees with profile pictures
+                            const attendeesWithPictures = eventAttend.data.filter((attendee: any) => attendee?.profilePicture);
 
-                              // Shuffle the array of attendees with profile pictures
-                              const shuffledAttendees =
-                                attendeesWithPictures.sort(
-                                  () => 0.5 - Math.random()
-                                );
+                            // Shuffle the array of attendees with profile pictures
+                            const shuffledAttendees = attendeesWithPictures.sort(() => 0.5 - Math.random());
 
-                              // Slice the shuffled array to get up to 3 random attendees
-                              const selectedAttendees = shuffledAttendees.slice(
-                                0,
-                                3
-                              );
+                            // Slice the shuffled array to get up to 3 random attendees
+                            const selectedAttendees = shuffledAttendees.slice(0, 3);
 
-                              // If there are fewer than 3 attendees with pictures, fill with random avatars
-                              while (selectedAttendees.length < 3) {
-                                selectedAttendees.push({
-                                  profilePicture: getRandomAvatar(),
-                                });
-                              }
+                            // If there are fewer than 3 attendees with pictures, fill with random avatars
+                            while (selectedAttendees.length < 3) {
+                              selectedAttendees.push({
+                                profilePicture: getRandomAvatar(),
+                              });
+                            }
 
-                              return selectedAttendees.map(
-                                (attendee: any, index: any) => (
-                                  <Image
-                                    key={index}
-                                    src={attendee?.profilePicture}
-                                    width={48}
-                                    height={48}
-                                    alt="avatar"
-                                    className="rounded-full border border-[#034C22] z-[1] size-[48px]"
-                                  />
-                                )
-                              );
-                            })()}
-                          </div>
-                        )}
+                            return selectedAttendees.map((attendee: any, index: any) => (
+                              <Image
+                                key={index}
+                                src={attendee?.profilePicture}
+                                width={48}
+                                height={48}
+                                alt="avatar"
+                                className="rounded-full border border-[#034C22] z-[1] size-[48px]"
+                              />
+                            ));
+                          })()}
+                        </div>
+                      )}
 
                       <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
                         {/* {eventAttendy?.length > 0 && (
@@ -609,17 +523,13 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                             {eventAttendy?.length - 1} others going
                           </>
                         )} */}
-                        {new Date() >= new Date(EventData?.startTime) &&
-                          eventAttendy?.length > 0 ? (
+                        {new Date() >= new Date(EventData?.startTime) && eventAttendy?.length > 0 ? (
                           <>
-                            {eventAttendy[0]?.fullname} and{" "}
-                            {eventAttendy.length - 1} others going
+                            {eventAttendy[0]?.fullname} and {eventAttendy.length - 1} others going
                           </>
                         ) : null}
                       </h3>
-                      <p className="text-[#BFBFBF] text-[12px] pt-[4px]">
-                        Tap to see the live activities
-                      </p>
+                      <p className="text-[#BFBFBF] text-[12px] pt-[4px]">Tap to see the live activities</p>
 
                       <Button
                         className={`flex items-center gap-[0.5rem] text-[14px] font-extrabold rounded-full 

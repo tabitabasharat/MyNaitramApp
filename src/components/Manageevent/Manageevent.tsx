@@ -99,11 +99,11 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                           style={{
                             background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
                           }}
-                          className="mt-[-190px] ml-[-130px] absolute shadow-lg ring-1 ring-black ring-opacity-5 border-transparent border-[1px] border-t-white/6 border-b-white/6 rounded-[12px] flex flex-col gap-[9px] justify-center items-start pl-[24px] pt-[24px] pb-[24px] pr-[24px] z-[999] w-auto"
+                          className="mt-[-190px] ml-[-130px] absolute shadow-lg ring-1 ring-black ring-opacity-5 border-transparent border-[1px] border-t-white/6 border-b-white/6 rounded-[12px] flex flex-col gap-[9px] justify-center items-start pl-[24px] pt-[24px] pb-[24px] pr-[24px] z-[999] w-fit"
                         >
                           {/* Your links or options here */}
                           <Link
-                            className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-full"
+                            className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-fit whitespace-nowrap hover:text-[#00D059]"
                             href={`/management/edit-event/${event.id}`}
                             onClick={(e) => {
                               if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
@@ -116,7 +116,7 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                             Edit Event
                           </Link>
                           <Link
-                            className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-full"
+                            className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-fit whitespace-nowrap hover:text-[#00D059]"
                             href={`/management/delete-event/${event.id}`}
                             onClick={(e) => {
                               if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
@@ -129,7 +129,7 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                             Delete Event
                           </Link>
                           <Link
-                            className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-full"
+                            className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-fit whitespace-nowrap hover:text-[#00D059]"
                             href={`/management/stopsales/${event.id}`}
                             onClick={(e) => {
                               if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
@@ -139,7 +139,7 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                             }}
                           >
                             <Image src={stopSalesIcon} alt="Edit" className="w-[12px] h-[12px] mb-[2px]" />
-                            Stop Sales
+                            {event.stopBy ? "Resume Sales" : "Stop Sales"}
                           </Link>
                         </div>
                       )}
