@@ -349,6 +349,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   ticketEndDate={EventData?.ticketEndDate}
                   ticketStartDate={EventData?.ticketStartDate}
                   soldout={EventData?.tickets.every((ticket: any) => ticket.no === 0)}
+                  salesStop={EventData?.stopBy || false}
                   // ticketStartPrice={
                   //   EventData?.tickets?.length === 1
                   //     ? "0"

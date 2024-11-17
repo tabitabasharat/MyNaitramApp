@@ -5,7 +5,7 @@ import Backward from "../Backward/Backward";
 
 import { useRouter } from "next/navigation";
 
-import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
+import { SuccessToast, ErrorToast, WarningToast } from "../reusable-components/Toaster/Toaster";
 import ScreenLoader from "../loader/Screenloader";
 
 import { useForm } from "react-hook-form";
@@ -23,12 +23,14 @@ const formSchema = z.object({
 
 function Deletevent() {
   const EventData = useAppSelector((state) => state?.getEventByEventID?.eventIdEvents?.data); // 5th Get data through slector from get API method imported previousely
+  const isEventDataLoading = useAppSelector((state) => state?.getEventByEventID?.loading);
   const router = useRouter();
   const dispatch = useAppDispatch(); // 3rd Make dispatch Object
   const [eventID, setEventID] = useState<string>("");
   const [userID, setUserid] = useState<string>("");
   const [reasonData, setReasonDataToDelete] = useState("");
   const [loader, setLoader] = useState<boolean>(false);
+  const [isSellingSarted, setIsSellingSarted] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,10 +50,20 @@ function Deletevent() {
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID || "");
     console.log("user ID logged in is", userID);
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (EventData) {
+      console.log("EventData updated:", EventData);
+      setIsSellingSarted(Object.keys(EventData?.totalSoldOut).length > 0 || false);
+    }
+  }, [EventData]);
+
+  useEffect(() => {
+    setLoader(isEventDataLoading); // Update loader whenever loading status changes
+  }, [isEventDataLoading]);
 
   async function deleteSingleEvent(data: any) {
-    setLoader(true);
     try {
       dispatch(deleteEvent(data)).then((res: any) => {
         if (res?.payload?.status === 200) {
@@ -65,43 +77,52 @@ function Deletevent() {
         }
       });
     } catch (error) {
+      setLoader(false);
       console.error("Error:", error);
       ErrorToast(error);
       ErrorToast("Error while deleting");
     }
   }
-  async function CreateForm() {
-    if (eventID === EventData?.id.toString()) {
-      const values = form.getValues();
-      console.log("my values", values);
-      try {
-        const data = {
-          eventId: eventID,
-          userId: userID,
-          text: reasonData || "",
-        };
 
-        console.log("This is reason Data ====> ", data);
-        dispatch(createForm(data)).then((res: any) => {
-          if (res?.payload?.status === 201) {
-            console.log("Form created succesfully");
-            const eventUserData = {
-              userId: userID,
-              eventId: eventID,
-            };
-            deleteSingleEvent(eventUserData);
-            //   SuccessToast("Ticket Deleted succesfully");
-            //   router.push("/management");
-          } else {
-            ErrorToast(res?.payload?.message);
-          }
-        });
-      } catch (error) {
-        console.error("Error:", error);
-        ErrorToast(error);
-        ErrorToast("Error while Creating Form");
+  async function CreateForm() {
+    setLoader(true);
+    if (eventID === EventData?.id.toString()) {
+      if (!isSellingSarted || reasonData) {
+        const values = form.getValues();
+        console.log("my values", values);
+        try {
+          const data = {
+            eventId: eventID,
+            userId: userID,
+            text: reasonData || "Deleted as sales not started yet!",
+          };
+
+          console.log("This is reason Data ====> ", data);
+          dispatch(createForm(data)).then((res: any) => {
+            if (res?.payload?.status === 201) {
+              console.log("Form created succesfully");
+              const eventUserData = {
+                userId: userID,
+                eventId: eventID,
+              };
+              deleteSingleEvent(eventUserData);
+              //   SuccessToast("Ticket Deleted succesfully");
+              //   router.push("/management");
+            } else {
+              setLoader(false);
+              ErrorToast(res?.payload?.message);
+            }
+          });
+        } catch (error) {
+          console.error("Error:", error);
+          ErrorToast(error);
+          ErrorToast("Error while Creating Form");
+        }
+      } else {
+        WarningToast("As Sales is Started, You have to provide the reason to delete the Event!");
       }
     } else {
+      setLoader(false);
       ErrorToast("Event not Found");
       router.push("/management");
     }
@@ -151,10 +172,13 @@ function Deletevent() {
             </form>
           </Form>
           <div className="flex gap-[20px] mt-[50px] justify-center items-center w-full md:justify-start">
-            <div className="flex justify-center items-center rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate text-[#00A849]">
+            <div className="flex justify-center items-center rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate text-[#00A849] cursor-pointer">
               Cancel
             </div>
-            <div onClick={() => CreateForm()} className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] bg-red-500 p-[12px]">
+            <div
+              onClick={() => CreateForm()}
+              className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] bg-red-500 p-[12px] cursor-pointer hover:opacity-[80%]"
+            >
               Delete
             </div>
           </div>

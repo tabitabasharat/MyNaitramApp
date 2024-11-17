@@ -1114,6 +1114,7 @@ function Editevent() {
         linkedinUrl: linkedinUrl || EventData?.linkedinUrl || "",
         telegramUrl: telegramUrl || EventData?.telegramUrl || "",
         eventmedia: updatedEventMedia || EventData?.eventmedia || "",
+        stopBy: EventData?.stopBy || false,
       };
 
       console.log("This is data here =====> ", data);
