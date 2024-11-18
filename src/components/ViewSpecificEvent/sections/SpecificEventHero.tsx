@@ -322,6 +322,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                     </ul>
                   </div>
                 )}
+<<<<<<< HEAD
                 {/* {isModalOpen && (
                  <Report
                  open={isModalOpen} onClose={() => setIsModalOpen(false)}
@@ -333,6 +334,9 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
               {/* Add a Feedback Modal here if needed */}
               {isModalOpen && modalContent === "Feedback" && <FeedbackModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+=======
+              </div> */}
+>>>>>>> a77c72968697e9a78a41c409bfd531bed49a042a
             </div>
             {sharemodal && <ShareModal onClose={() => setShareModal(false)} open={() => setShareModal(true)} eventUrl={copiedUrl} />}
           </div>

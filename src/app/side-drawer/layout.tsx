@@ -18,7 +18,7 @@ export default function RootLayout({
           ? { position: "relative" }
           : { position: "relative", overflow: "hidden", height:"125vh"}
       }
-      className="flex main-box mx-2xl py-[8rem] px-[34px] lg:py-[9rem] xl:gap-12 lg:min-h-[110vh]"
+      className="flex main-box mx-2xl py-[8rem] px-[34px] lg:py-[9rem] xl:gap-12 lg:min-h-[135vh]"
     >
       <div
         style={isMobile?{ position: "relative" }:{ position: "relative", zIndex: "9" }}
@@ -40,7 +40,7 @@ export default function RootLayout({
           <div
             style={{
               width: "860px",
-              height: "875px",
+              height: "880px",
               background:
                 "radial-gradient(circle at center, rgba(15, 255, 119, 0.32), rgba(0, 0, 0, 0))",
               filter: "blur(100px)",

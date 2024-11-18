@@ -15,6 +15,7 @@ const config = {
       },
     },
     extend: {
+      
       boxShadow: {
         custom: "0px 5px 30px rgba(255, 255, 255, 0.2)",
       },

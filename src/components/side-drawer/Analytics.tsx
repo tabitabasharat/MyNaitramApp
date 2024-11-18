@@ -61,6 +61,7 @@ import { useAppDispatch } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
 import { Poppins } from "next/font/google";
 
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -121,7 +122,7 @@ const Analytics: React.FC<Props> = ({ window, children }) => {
       {
         text: "Event Analytics",
         icon: chats,
-        url: "/profile/LiveAccntSettings",
+        url: "/side-drawer/event-analytics",
       },
     ];
   
@@ -159,11 +160,6 @@ const Analytics: React.FC<Props> = ({ window, children }) => {
                   onClick={handleDrawerClose}
                 />
               )}
-              {/* <Link href="/profile/profile-main">
-                <h3 className="text-[20px] ps-[6px] font-extrabold pt-[0px]">
-                  Profile
-                </h3>
-              </Link> */}
             </div>
             <div>
               <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[11px]">
@@ -201,69 +197,7 @@ const Analytics: React.FC<Props> = ({ window, children }) => {
               </div>
             </div>
           </List>
-          {/* <Divider />
-          <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-            <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-bold mb-[8px]">
-              SUPPORT
-            </h3>
-            <div className="text-xl font-bold">
-              {helpItems.map((item) => (
-                <Link href={item.url} key={item.text}>
-                  <ListItem
-                    className={`text-xl font-bold ${
-                      activeItem === item.text ? "gradient-border rounded-lg" : ""
-                    }`}
-                    disablePadding
-                    onClick={() => handleItemClick(item.text)}
-                  >
-                    <ListItemButton className=" flex items-center">
-                      <ListItemIcon style={{ minWidth: "0pc" }} className=" pr-2">
-                        <Image
-                          src={item.icon}
-                          alt={item.text}
-                          width={16}
-                          height={16}
-                        />
-                      </ListItemIcon>
-                      <ListItemText primary={item.text} />
-                    </ListItemButton>
-                  </ListItem>
-                </Link>
-              ))}
-            </div>
-          </List>
-          <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-            <h3 className="text-[#FFFFFF99] text-sm ps-[9px] font-bold mb-[8px]">
-              ABOUT
-            </h3>
-            <Link href="/profile/Delete-account">
-              <ListItem
-                className={`text-xl font-bold ${
-                  activeItem === "Delete Account"
-                    ? "gradient-border rounded-lg"
-                    : ""
-                }`}
-                disablePadding
-                onClick={() => handleItemClick("Delete Account")}
-              >
-                <ListItemButton className="p-[10px]">
-                  <ListItemIcon
-                    style={{ minWidth: "0px" }}
-                    className="min-w-0 pr-2"
-                  >
-                    <Image
-                      src={delaccnt}
-                      alt="Delete Account"
-                      width={16}
-                      height={16}
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary="Delete Account" />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-          </List> */}
-          <div className="mt-[180px] pb-[50px] md:mt-[230px]">
+          {/* <div className="mt-[180px] pb-[50px] md:mt-[230px]">
           <button
             className="text-[white] mb-[50px] hover:opacity-80 duration-300 md:me-[21px] 
             me-[32px] flex justify-center items-center text-[11px] md:text-base font-bold
@@ -277,7 +211,7 @@ const Analytics: React.FC<Props> = ({ window, children }) => {
             />{" "}
             Log out
           </button>
-        </div>
+        </div> */}
         </div>
       </>
     );
@@ -285,59 +219,6 @@ const Analytics: React.FC<Props> = ({ window, children }) => {
     const container =
       typeof window !== "undefined" ? window().document.body : null;
     const theme = useTheme();
-    // const { window } = props;
-    // const [mobileOpen, setMobileOpen] = React.useState(false);
-    // const [isClosing, setIsClosing] = React.useState(false);
-  
-    // const handleDrawerClose = () => {
-    //   setIsClosing(true);
-    //   setMobileOpen(false);
-    // };
-  
-    // const handleDrawerTransitionEnd = () => {
-    //   setIsClosing(false);
-    // };
-  
-    // const handleDrawerToggle = () => {
-    //   if (!isClosing) {
-    //     setMobileOpen(!mobileOpen);
-    //   }
-    // };
-  
-    // const drawer = (
-    //   <div>
-    //     <Toolbar />
-    //     <Divider />
-    //     <List>
-    //       {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-    //         <ListItem key={text} disablePadding>
-    //           <ListItemButton>
-    //             <ListItemIcon>
-    //               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-    //             </ListItemIcon>
-    //             <ListItemText primary={text} />
-    //           </ListItemButton>
-    //         </ListItem>
-    //       ))}
-    //     </List>
-    //     <Divider />
-    //     <List>
-    //       {['All mail', 'Trash', 'Spam'].map((text, index) => (
-    //         <ListItem key={text} disablePadding>
-    //           <ListItemButton>
-    //             <ListItemIcon>
-    //               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-    //             </ListItemIcon>
-    //             <ListItemText primary={text} />
-    //           </ListItemButton>
-    //         </ListItem>
-    //       ))}
-    //     </List>
-    //   </div>
-    // );
-  
-    // // Remove this const when copying and pasting into your project.
-    // const container = window !== undefined ? () => window().document.body : undefined;
   
     return (
         <Box sx={{ display: "flex" }}>
@@ -349,14 +230,14 @@ const Analytics: React.FC<Props> = ({ window, children }) => {
             marginTop: "80px",
             boxShadow: "none",
             "& .MuiToolbar-root": {
-              minHeight: isSmallScreen ? "56px" : "64px",
+              minHeight: isSmallScreen ? "70px" : "64px",
             },
           }}
         >
           <Toolbar
             sx={{
               "& .MuiToolbar-root": {
-                minHeight: isSmallScreen ? "56px" : "64px",
+                minHeight: isSmallScreen ? "70px" : "64px",
               },
             }}
           >
