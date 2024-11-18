@@ -23,10 +23,20 @@ import Editicon from "@/assets/Editicon.svg";
 import addicon from "@/assets/Wallet/Plus.svg";
 import Backward from "@/components/Backward/Backward";
 import deleteicon from "@/assets/Wallet/delete-icon.svg";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "@/components/reusable-components/Toaster/Toaster";
 import { useForm, Controller } from "react-hook-form";
 import { UploadSimple } from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
@@ -156,16 +166,28 @@ const formSchema = z.object({
     label: z.string().min(1, { message: "Category cannot be empty" }),
   }),
 
-  eventlocation: z.string().min(1, { message: "Event location cannot be empty." }),
-  eventstartdate: z.string().min(1, { message: "Ticket start date cannot be empty." }),
+  eventlocation: z
+    .string()
+    .min(1, { message: "Event location cannot be empty." }),
+  eventstartdate: z
+    .string()
+    .min(1, { message: "Ticket start date cannot be empty." }),
 
-  eventenddate: z.string().min(1, { message: "Ticket end date  cannot be empty." }),
+  eventenddate: z
+    .string()
+    .min(1, { message: "Ticket end date  cannot be empty." }),
 
-  eventstarttime: z.string().min(1, { message: "Event start time cannot be empty." }),
+  eventstarttime: z
+    .string()
+    .min(1, { message: "Event start time cannot be empty." }),
 
-  eventendtime: z.string().min(1, { message: "Event end time cannot be empty." }),
+  eventendtime: z
+    .string()
+    .min(1, { message: "Event end time cannot be empty." }),
 
-  eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
+  eventdescription: z
+    .string()
+    .min(1, { message: "Event description cannot be empty." }),
 
   // compticketno: z
   //   .string()
@@ -238,7 +260,9 @@ const formSchema = z.object({
           z.string().refine((val) => Number(val) > 0, {
             message: "Number of tickets must be greater than 0.",
           }),
-          z.number().min(1, { message: "Number of tickets must be greater than 0." }),
+          z
+            .number()
+            .min(1, { message: "Number of tickets must be greater than 0." }),
         ]),
         selected: z.string().optional(),
       })
@@ -248,7 +272,9 @@ const formSchema = z.object({
           if (data.selected === "paid") {
             const priceIsValid =
               data.price !== undefined &&
-              ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
+              ((typeof data.price === "string" &&
+                data.price.trim() !== "" &&
+                Number(data.price) > 0) ||
                 (typeof data.price === "number" && data.price > 0));
 
             return priceIsValid;
@@ -276,16 +302,28 @@ const formSchema2 = z.object({
     label: z.string().min(1, { message: "Category cannot be empty" }),
   }),
 
-  eventlocation: z.string().min(1, { message: "Event location cannot be empty." }),
-  eventstartdate: z.string().min(1, { message: "Ticket start date cannot be empty." }),
+  eventlocation: z
+    .string()
+    .min(1, { message: "Event location cannot be empty." }),
+  eventstartdate: z
+    .string()
+    .min(1, { message: "Ticket start date cannot be empty." }),
 
-  eventenddate: z.string().min(1, { message: "Ticket end date  cannot be empty." }),
+  eventenddate: z
+    .string()
+    .min(1, { message: "Ticket end date  cannot be empty." }),
 
-  eventstarttime: z.string().min(1, { message: "Event start time cannot be empty." }),
+  eventstarttime: z
+    .string()
+    .min(1, { message: "Event start time cannot be empty." }),
 
-  eventendtime: z.string().min(1, { message: "Event end time cannot be empty." }),
+  eventendtime: z
+    .string()
+    .min(1, { message: "Event end time cannot be empty." }),
 
-  eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
+  eventdescription: z
+    .string()
+    .min(1, { message: "Event description cannot be empty." }),
 
   // compticketno: z
   //   .string()
@@ -371,7 +409,9 @@ const formSchema2 = z.object({
           z.string().refine((val) => Number(val) > 0, {
             message: "Number of tickets must be greater than 0.",
           }),
-          z.number().min(1, { message: "Number of tickets must be greater than 0." }),
+          z
+            .number()
+            .min(1, { message: "Number of tickets must be greater than 0." }),
         ]),
         selected: z.string().optional(),
       })
@@ -381,7 +421,9 @@ const formSchema2 = z.object({
           if (data.selected === "paid") {
             const priceIsValid =
               data.price !== undefined &&
-              ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
+              ((typeof data.price === "string" &&
+                data.price.trim() !== "" &&
+                Number(data.price) > 0) ||
                 (typeof data.price === "number" && data.price > 0));
 
             return priceIsValid;
@@ -577,7 +619,14 @@ function OganizerCreateEvent() {
   const theme = useTheme();
 
   function MuiIcon() {
-    return <Image src={calendaricon} alt="Date picker opening icon" width={20} className="opacity-90" />;
+    return (
+      <Image
+        src={calendaricon}
+        alt="Date picker opening icon"
+        width={20}
+        className="opacity-90"
+      />
+    );
   }
   const onKeyDown = (e: any) => {
     e.preventDefault();
@@ -678,7 +727,9 @@ function OganizerCreateEvent() {
   //     options: [],
   //   },
   // ]);
-  const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(null);
+  const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(
+    null
+  );
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
 
   const [chooseHashTags, setChoosenHashtags] = useState<any>([]);
@@ -844,7 +895,10 @@ function OganizerCreateEvent() {
     const utcMinutes = localDate.getUTCMinutes();
 
     // Format the components to match the 'yyyy-MM-ddTHH:mm' format
-    const formattedUTC = `${utcYear}-${String(utcMonth).padStart(2, "0")}-${String(utcDate).padStart(2, "0")}T${String(utcHours).padStart(
+    const formattedUTC = `${utcYear}-${String(utcMonth).padStart(
+      2,
+      "0"
+    )}-${String(utcDate).padStart(2, "0")}T${String(utcHours).padStart(
       2,
       "0"
     )}:${String(utcMinutes).padStart(2, "0")}`;
@@ -853,7 +907,11 @@ function OganizerCreateEvent() {
   }
 
   const handleDropdown = (index: number) => {
-    setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket)));
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket, i) =>
+        i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
+      )
+    );
   };
 
   const handleOptionToggle = (index: number, option: TicketTypeOption) => {
@@ -953,7 +1011,10 @@ function OganizerCreateEvent() {
 
         filesArray.forEach((file) => formData.append("files", file));
 
-        const res: any = await api.post(`${API_URL}/upload/uploadMultiple`, formData);
+        const res: any = await api.post(
+          `${API_URL}/upload/uploadMultiple`,
+          formData
+        );
 
         if (res?.status === 200) {
           setLoader(false);
@@ -974,8 +1035,16 @@ function OganizerCreateEvent() {
 
   console.log("Form errors:", form.formState.errors);
 
-  const handleInputChange = (index: number, field: keyof TicketType, value: string | number | TicketTypeOption[]) => {
-    setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, [field]: value } : ticket)));
+  const handleInputChange = (
+    index: number,
+    field: keyof TicketType,
+    value: string | number | TicketTypeOption[]
+  ) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket, i) =>
+        i === index ? { ...ticket, [field]: value } : ticket
+      )
+    );
   };
 
   // const handleAddTicketType = (e: any) => {
@@ -1067,7 +1136,9 @@ function OganizerCreateEvent() {
   //   }
   // };
 
-  const handleCoverSingleFileChangeQuality = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCoverSingleFileChangeQuality = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
@@ -1107,11 +1178,15 @@ function OganizerCreateEvent() {
           const formData = new FormData();
           formData.append("file", file);
 
-          const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
+          const res: any = await api.post(
+            `${API_URL}/upload/uploadimage`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
 
           if (res.status === 200) {
             setLoader(false);
@@ -1140,7 +1215,9 @@ function OganizerCreateEvent() {
     }
   };
 
-  const handleCoverSingleFileChangeSize = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCoverSingleFileChangeSize = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
@@ -1162,11 +1239,15 @@ function OganizerCreateEvent() {
         const formData = new FormData();
         formData.append("file", file);
 
-        const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const res: any = await api.post(
+          `${API_URL}/upload/uploadimage`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
         if (res.status === 200) {
           setLoader(false);
@@ -1186,7 +1267,9 @@ function OganizerCreateEvent() {
     }
   };
 
-  const handleCoverSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCoverSingleFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
@@ -1211,11 +1294,15 @@ function OganizerCreateEvent() {
           const formData = new FormData();
           formData.append("file", file);
 
-          const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
+          const res: any = await api.post(
+            `${API_URL}/upload/uploadimage`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
 
           if (res.status === 200) {
             setLoader(false);
@@ -1249,7 +1336,8 @@ function OganizerCreateEvent() {
   };
 
   useEffect(() => {
-    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
 
     // Check is there user Social Accounts verifyOrNot
@@ -1300,7 +1388,10 @@ function OganizerCreateEvent() {
       // Update form values accordingly
       updatedTickets.forEach((ticket, i) => {
         form.setValue(`tickets.${i}.selected`, ticket.selected);
-        form.setValue(`tickets.${i}.price`, ticket.price !== "" ? ticket.price : undefined); // Set to undefined if empty
+        form.setValue(
+          `tickets.${i}.price`,
+          ticket.price !== "" ? ticket.price : undefined
+        ); // Set to undefined if empty
         form.setValue(`tickets.${i}.no`, ticket.no);
         form.setValue(`tickets.${i}.type`, ticket.type);
       });
@@ -1333,7 +1424,11 @@ function OganizerCreateEvent() {
     return `${year}-${month}-${day}`;
   }
 
-  function addTimeToDate(inputDate: string, hoursToAdd: number, minutesToAdd: number): string {
+  function addTimeToDate(
+    inputDate: string,
+    hoursToAdd: number,
+    minutesToAdd: number
+  ): string {
     // Parse the input date
     const date = new Date(inputDate);
 
@@ -1359,7 +1454,9 @@ function OganizerCreateEvent() {
   console.log("my utc event start time is", utcEventStartTime);
   console.log("my  event start time is", EventStartTime);
 
-  async function EventCreation(values: z.infer<typeof formSchema | typeof formSchema2>) {
+  async function EventCreation(
+    values: z.infer<typeof formSchema | typeof formSchema2>
+  ) {
     setLoader(true);
     const categorylabels = categoryTypes;
     const eventhashtags = chooseHashTags;
@@ -1449,7 +1546,9 @@ function OganizerCreateEvent() {
       ErrorToast(error);
     }
   }
-  async function handlePreviewClick(values: z.infer<typeof formSchema | typeof formSchema2>) {
+  async function handlePreviewClick(
+    values: z.infer<typeof formSchema | typeof formSchema2>
+  ) {
     console.log("New Preview Tags are as======> ", chooseHashTags);
     // setLoader(true);
     setisWalletModalOpen(false);
@@ -1613,7 +1712,9 @@ function OganizerCreateEvent() {
     if (inputValue === "") {
       setFilterHash([]);
     } else {
-      const filtered = hashtags.filter((hashtag) => hashtag.trim().toLowerCase().startsWith(inputValue.toLowerCase()));
+      const filtered = hashtags.filter((hashtag) =>
+        hashtag.trim().toLowerCase().startsWith(inputValue.toLowerCase())
+      );
       setFilterHash(() => (filtered.length === 0 ? [inputValue] : filtered));
     }
 
@@ -1625,7 +1726,11 @@ function OganizerCreateEvent() {
     setFilterHash([]);
     setHashTagValue("");
 
-    if (hashTag.length >= 2 && !chooseHashTags.includes(`#${hashTag}`) && chooseHashTags.length < 5) {
+    if (
+      hashTag.length >= 2 &&
+      !chooseHashTags.includes(`#${hashTag}`) &&
+      chooseHashTags.length < 5
+    ) {
       setChoosenHashtags([...chooseHashTags, `#${hashTag}`]);
 
       // Get current eventHashtags from form and add the new hashtag
@@ -1645,11 +1750,15 @@ function OganizerCreateEvent() {
   };
 
   const removeTag = (ht: string): void => {
-    setChoosenHashtags((prevTags: string[]): string[] => prevTags.filter((tag: string) => tag !== ht));
+    setChoosenHashtags((prevTags: string[]): string[] =>
+      prevTags.filter((tag: string) => tag !== ht)
+    );
     const currentHasTag = ht.replace("#", "");
     // Get the current eventHashtags from the form, filter out the removed hashtag, and update the form
     const currentHashtags = form.getValues("eventHashtags") || [];
-    const updatedHashtags = currentHashtags.filter((tag: string) => tag !== currentHasTag);
+    const updatedHashtags = currentHashtags.filter(
+      (tag: string) => tag !== currentHasTag
+    );
     form.setValue("eventHashtags", updatedHashtags);
   };
 
@@ -1660,7 +1769,8 @@ function OganizerCreateEvent() {
   return (
     <section
       style={{
-        backgroundImage: "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
+        backgroundImage:
+          "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
         backgroundPosition: "center",
       }}
       className="min-h-screen  bg-cover bg-no-repeat  pb-[80px] pt-[120px] lg:pt-[120px] "
@@ -1678,7 +1788,13 @@ function OganizerCreateEvent() {
                 {/* <Image src={Editicon} alt="Edit-icon" /> */}
               </div>
 
-              <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
+              <Image
+                src={ufo}
+                width={350}
+                height={350}
+                className="absolute right-[0] bottom-0"
+                alt="ufo"
+              />
             </div>
 
             <div
@@ -1687,7 +1803,13 @@ function OganizerCreateEvent() {
             >
               {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
 
-              <Image src={CoverImg || newCover} alt="bg-frame" className="w-full lg:w-[392px] lg:h-[392px] h-[345px] " width={100} height={345} />
+              <Image
+                src={CoverImg || newCover}
+                alt="bg-frame"
+                className="w-full lg:w-[392px] lg:h-[392px] h-[345px] "
+                width={100}
+                height={345}
+              />
 
               <label
                 htmlFor="uploadcover"
@@ -1703,7 +1825,9 @@ function OganizerCreateEvent() {
                    gradient-bg gradient-border-edit p-[12px] gradient-slate"
                 >
                   <Image src={cam} alt="pencil" />
-                  <p className="text-[#00D059] text-sm font-extrabold ">Upload Image</p>
+                  <p className="text-[#00D059] text-sm font-extrabold ">
+                    Upload Image
+                  </p>
                 </div>
 
                 <input
@@ -1733,11 +1857,19 @@ function OganizerCreateEvent() {
                 {/* <Image src={Editicon} alt="Edit-icon" /> */}
               </div>
 
-              <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
+              <Image
+                src={ufo}
+                width={350}
+                height={350}
+                className="absolute right-[0] bottom-0"
+                alt="ufo"
+              />
             </div>
             <div
               className={`gradient-slate w-full pt-[16px] pb-[16px] px-[24px] h-[270px] lg:h-[424px] create-container-head relative${
-                galleryFiles.length > 0 ? " block" : "flex items-center justify-center"
+                galleryFiles.length > 0
+                  ? " block"
+                  : "flex items-center justify-center"
               }`}
             >
               {galleryFiles?.length > 0 ? (
@@ -1748,7 +1880,10 @@ function OganizerCreateEvent() {
                         const isVideo = file.type.startsWith("video/");
                         const isImage = file.type.startsWith("image/");
                         return (
-                          <div key={index} className="relative  h-[57px] w-[57px] lg:w-[120px] lg:h-[120px]  rounded-[12px]">
+                          <div
+                            key={index}
+                            className="relative  h-[57px] w-[57px] lg:w-[120px] lg:h-[120px]  rounded-[12px]"
+                          >
                             {isVideo ? (
                               <video
                                 src={window.URL.createObjectURL(file)}
@@ -1768,10 +1903,21 @@ function OganizerCreateEvent() {
                                 height={120}
                               />
                             ) : (
-                              <p className="w-full h-full flex items-center justify-center text-red-500">Unsupported media type</p>
+                              <p className="w-full h-full flex items-center justify-center text-red-500">
+                                Unsupported media type
+                              </p>
                             )}
-                            <button type="button" onClick={() => removeImage(index)} className="trash_button">
-                              <Image src={crossicon} alt="remove" width={20} height={20} />
+                            <button
+                              type="button"
+                              onClick={() => removeImage(index)}
+                              className="trash_button"
+                            >
+                              <Image
+                                src={crossicon}
+                                alt="remove"
+                                width={20}
+                                height={20}
+                              />
                             </button>
                           </div>
                         );
@@ -1782,7 +1928,13 @@ function OganizerCreateEvent() {
                     htmlFor="galleryUpload"
                     className={`pb-3 gallery-box-same border-none font-bold border border-[#292929]
                       placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end 
-                      ${galleryFiles.length >= 10 ? "opacity-50 cursor-not-allowed" : galleryFiles.length > 0 ? "gallery-box" : "pt-9 gallery-top"}`}
+                      ${
+                        galleryFiles.length >= 10
+                          ? "opacity-50 cursor-not-allowed"
+                          : galleryFiles.length > 0
+                          ? "gallery-box"
+                          : "pt-9 gallery-top"
+                      }`}
                   >
                     <div
                       className=" flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate disabled:cursor-not-allowed disabled:opacity-50"
@@ -1792,7 +1944,9 @@ function OganizerCreateEvent() {
                       }}
                     >
                       <Image src={cam} alt="pencil" />
-                      <p className="text-[#00D059] text-sm font-extrabold">Upload Media</p>
+                      <p className="text-[#00D059] text-sm font-extrabold">
+                        Upload Media
+                      </p>
                     </div>
                     {/* <span className="pl-[0.75rem] uploadImageButton flex items-center">
                     <Image src={cam} alt="pencil" /> {"Upload Media"}
@@ -1815,19 +1969,32 @@ function OganizerCreateEvent() {
                     className="  py-[24px]  flex items-center flex-col gap-[12px] justify-center w-[345px] rounded-[12px]
                    gradient-slate box-shadow-inset-empty  border-gradient-emptyF"
                   >
-                    <p className="text-[16px] text-extrabold">There's No Gallery Media</p>
+                    <p className="text-[16px] text-extrabold">
+                      There's No Gallery Media
+                    </p>
                     <label
                       htmlFor="galleryUpload"
                       className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end  ${
-                        galleryFiles.length > 0 ? " gallery-box" : " gallery-tops"
+                        galleryFiles.length > 0
+                          ? " gallery-box"
+                          : " gallery-tops"
                       }`}
                     >
                       <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
                         <Image src={cam} alt="pencil" />
-                        <p className="text-[#00D059] text-sm font-extrabold">Upload Media</p>
+                        <p className="text-[#00D059] text-sm font-extrabold">
+                          Upload Media
+                        </p>
                       </div>
 
-                      <input type="file" multiple accept="image/*, video/*" className="hidden" id="galleryUpload" onChange={handleFileChange} />
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*, video/*"
+                        className="hidden"
+                        id="galleryUpload"
+                        onChange={handleFileChange}
+                      />
                     </label>
                   </div>
                 </div>
@@ -1835,6 +2002,7 @@ function OganizerCreateEvent() {
             </div>
           </div>
         </div>
+
         <div className="px-[24px] py-[16px] relative create-container mt-[32px] ">
           <div className="flex justify-between">
             <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
@@ -1843,8 +2011,15 @@ function OganizerCreateEvent() {
             </h1>
           </div>
 
-          <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
+          <Image
+            src={ufo}
+            width={350}
+            height={350}
+            className="absolute right-[0] bottom-0"
+            alt="ufo"
+          />
         </div>
+
         <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
           <Form {...form}>
             <form className=" w-full">
@@ -1855,7 +2030,9 @@ function OganizerCreateEvent() {
                   name="eventname"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">Event Name</FormLabel>
+                      <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
+                        Event Name
+                      </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Event Name"
@@ -1883,14 +2060,26 @@ function OganizerCreateEvent() {
                     file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                      disabled:opacity-50"
                     >
-                      <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
+                      <div
+                        className="flex items-center justify-between"
+                        onClick={handleCatDropdownToggle}
+                      >
                         <div className="flex flex-col">
-                          <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT category</p>
+                          <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">
+                            EVENT category
+                          </p>
                           <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                            {categoryTypes ? categoryTypes?.label : "Select Event Category"}
+                            {categoryTypes
+                              ? categoryTypes?.label
+                              : "Select Event Category"}
                           </p>
                         </div>
-                        <Image src={isCatDropdownOpen ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                        <Image
+                          src={isCatDropdownOpen ? arrowup : arrowdown}
+                          width={11}
+                          height={11}
+                          alt="arrow"
+                        />
                       </div>
 
                       {isCatDropdownOpen && (
@@ -1908,18 +2097,31 @@ function OganizerCreateEvent() {
                                   </p> */}
                                   <p
                                     className={`text-[16px] font-normal items-center ${
-                                      categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                      categoryTypes?.label === option.label
+                                        ? "text-[#00d059]"
+                                        : "text-[#FFFFFF]"
                                     }`}
                                   >
                                     {option.label}
                                   </p>
                                 </div>
-                                {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
+                                {categoryTypes?.label === option.label && (
+                                  <Image
+                                    src={tick}
+                                    width={16}
+                                    height={16}
+                                    alt="tick"
+                                  />
+                                )}
                               </div>
                             ))}
                             {isCustomCatgory && (
                               <>
-                                {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
+                                {categoryAlert == true && (
+                                  <p className="text-[red] text-[16px]">
+                                    Input is empty!
+                                  </p>
+                                )}
                                 <div
                                   style={{
                                     width: "100%",
@@ -1933,7 +2135,9 @@ function OganizerCreateEvent() {
                                   <input
                                     type="text"
                                     placeholder="Enter the Category name"
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e)}
+                                    onChange={(
+                                      e: React.ChangeEvent<HTMLInputElement>
+                                    ) => handleCustomCatgory(e)}
                                     value={customCategotyInput}
                                     style={{
                                       width: "100%",
@@ -1944,7 +2148,9 @@ function OganizerCreateEvent() {
                                     }}
                                   />
                                   <button
-                                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                                    onClick={(
+                                      e: React.MouseEvent<HTMLButtonElement>
+                                    ) => {
                                       e.preventDefault(); // Prevents default action (optional if button is not inside a form)
                                       handleCustomCatBtn();
                                     }}
@@ -1980,7 +2186,9 @@ function OganizerCreateEvent() {
                   name="eventdescription"
                   render={({ field }) => (
                     <FormItem className="relative w-full gradient-slate-input space-y-0  h-[280px]  pb-3">
-                      <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">Event Description</FormLabel>
+                      <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                        Event Description
+                      </FormLabel>
                       <FormControl className="relative  ">
                         <div className=" absolute inset-0 pb-3 overflow-y-auto scrollbar-hide top-[28px] h-[240px] no-scrollbar">
                           <Editor
@@ -2003,13 +2211,15 @@ function OganizerCreateEvent() {
               </div>
 
               {/* Location Field */}
-              <div className="mt-[24px]">
+              <div className="mt-[24px] max-w-[468px]">
                 <FormField
                   control={form.control}
                   name="eventlocation"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">Event Location</FormLabel>
+                      <FormLabel className="event-label-custom absolute  left-3 uppercase pt-[16px] pb-[4px]">
+                        Event Location<span className="text-[#BA0202]"> *</span>
+                      </FormLabel>
                       <FormControl>
                         <LocationAutocomplete
                           onLocationSelect={(location) => {
@@ -2026,10 +2236,10 @@ function OganizerCreateEvent() {
               </div>
 
               {/* Hastags Inputs fields Field */}
-              <div className="mt-[24px]">
+              {/* <div className="mt-[24px]">
                 <FormField
                   control={form.control}
-                  name="eventHashtags" // Form field name
+                  name="eventHashtags" 
                   render={({ field }) => (
                     <FormItem className="relative w-ful w-full rounded-md border border-[#292929] gradient-slate px-3 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-4 pb-2">
                       <FormLabel className="text-sm text-gray-500 left-3 uppercase pt-[16px] pb-[0px]">Hashtags</FormLabel>
@@ -2063,7 +2273,7 @@ function OganizerCreateEvent() {
                               <div
                                 key={index}
                                 className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                // onClick={() => handleCateOptionToggle(option)}
+                               
                               >
                                 <div className="flex items-center gap-[10px]">
                                   <p
@@ -2081,12 +2291,12 @@ function OganizerCreateEvent() {
                       ) : (
                         <></>
                       )}
-                      {/* <FormMessage /> */}
+                    
                     </FormItem>
                   )}
                 />
-              </div>
-
+              </div> */}
+              {/* 
               <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
                 <div className="w-full">
                   <ThemeProvider theme={themeMui}>
@@ -2097,147 +2307,73 @@ function OganizerCreateEvent() {
                           name="eventstartdate"
                           render={({ field }) => {
                             const currentDateTime = dayjs();
-                            return (
-                              // <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                              //   <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
-                              //     Ticket Start Date & Time
-                              //   </FormLabel>
-                              //   <FormControl>
-                              //     <div className="w-full">
-                              //       <StyledDateTimePicker
-                              //         referenceDate={currentDateTime}
-                              //         formatDensity="spacious"
-                              //         onKeyDown={(e: any) => e.preventDefault()}
-                              //         autoOk={false}
-                              //         onChange={(e: any) => {
-                              //           if (e && e.isValid()) {
-                              //             const selectedDate = dayjs(
-                              //               e.format("YYYY-MM-DD")
-                              //             );
-                              //             const today =
-                              //               currentDateTime.startOf("day");
+                            return (    <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
+                              <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">Ticket Start Date & Time</FormLabel>
+                              <FormControl>
+                    
+                                <div className="w-full" onClick={toggleDateTimePicker}>
+                                  {" "}
+                                 
+                                  <StyledDateTimePicker
+                                    open={isPickerOpen} 
+                                    referenceDate={currentDateTime}
+                                    formatDensity="spacious"
+                                    onKeyDown={(e: any) => e.preventDefault()}
+                                    autoOk={false}
+                                    onChange={(e: any) => {
+                                      if (e && e.isValid()) {
+                                        const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                        setTicketStartDate(formattedDate);
+                                        field.onChange(formattedDate);
+                                        setIsPickerOpen(false); 
+                                      }
+                                    }}
+                                    disablePast
+                                    slots={{
+                                      openPickerIcon: () => (
+                                        <CalendarTodayIcon
+                                          style={{
+                                            color: "#5e5e5e",
+                                            fontSize: "15px",
+                                            position: "absolute",
+                                            top: "-17px",
+                                            right: "5px",
+                                          }}
+                                        />
+                                      ),
+                                    }}
+                                    slotProps={{
+                                      tabs: { hidden: false },
+                                      toolbar: {
+                                        toolbarFormat: "YYYY",
+                                        hidden: false,
+                                      },
+                                      calendarHeader: {
+                                        sx: { color: "white" },
+                                      },
+                                      textField: {
+                                        inputProps: { readOnly: true },
+                                        placeholder: "MM / DD / YYYY HH:MM:AA",
+                                      },
+                                    }}
+                                  />
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          );
 
-                              //             if (
-                              //               selectedDate.isSame(today, "day")
-                              //             ) {
-                              //               const formattedDate =
-                              //                 e.format("YYYY-MM-DDTHH:mm");
-                              //               setTicketStartDate(formattedDate);
-                              //               field.onChange(formattedDate);
-                              //             } else {
-                              //               const formattedDate =
-                              //                 e.format("YYYY-MM-DDTHH:mm");
-                              //               setTicketStartDate(formattedDate);
-                              //               field.onChange(formattedDate);
-                              //             }
-                              //           }
-                              //         }}
-                              //         // Set minDateTime only if the selected date is today
-                              //         // minDateTime={
-                              //         //   field.value &&
-                              //         //   dayjs(field.value).isSame(
-                              //         //     currentDateTime,
-                              //         //     "day"
-                              //         //   )
-                              //         //     ? currentDateTime
-                              //         //     : null
-                              //         // }
-                              //         disablePast
-                              //         slots={{
-                              //           openPickerIcon: () => (
-                              //             <CalendarTodayIcon
-                              //               style={{
-                              //                 color: "#5e5e5e",
-                              //                 fontSize: "15px",
-                              //                 position: "absolute",
-                              //                 top: "-17px",
-                              //                 right: "5px",
-                              //               }}
-                              //             />
-                              //           ),
-                              //         }}
-                              //         slotProps={{
-                              //           tabs: { hidden: false },
-                              //           toolbar: {
-                              //             toolbarFormat: "YYYY",
-                              //             hidden: false,
-                              //           },
-                              //           calendarHeader: {
-                              //             sx: { color: "white" },
-                              //           },
-                              //           textField: {
-                              //             inputProps: { readOnly: true },
-                              //             placeholder:
-                              //               "MM / DD / YYYY HH:MM:AA",
 
-                              //           },
-                              //         }}
-                              //       />
-                              //     </div>
-                              //   </FormControl>
-                              //   <FormMessage />
-                              // </FormItem>
-                              <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">Ticket Start Date & Time</FormLabel>
-                                <FormControl>
-                                  {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                  <div className="w-full" onClick={toggleDateTimePicker}>
-                                    {" "}
-                                    {/* Attach click event here */}
-                                    <StyledDateTimePicker
-                                      open={isPickerOpen} // Control the open state with local state
-                                      referenceDate={currentDateTime}
-                                      formatDensity="spacious"
-                                      onKeyDown={(e: any) => e.preventDefault()}
-                                      autoOk={false}
-                                      onChange={(e: any) => {
-                                        if (e && e.isValid()) {
-                                          const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                          setTicketStartDate(formattedDate);
-                                          field.onChange(formattedDate);
-                                          setIsPickerOpen(false); // Close the picker after selection
-                                        }
-                                      }}
-                                      disablePast
-                                      slots={{
-                                        openPickerIcon: () => (
-                                          <CalendarTodayIcon
-                                            style={{
-                                              color: "#5e5e5e",
-                                              fontSize: "15px",
-                                              position: "absolute",
-                                              top: "-17px",
-                                              right: "5px",
-                                            }}
-                                          />
-                                        ),
-                                      }}
-                                      slotProps={{
-                                        tabs: { hidden: false },
-                                        toolbar: {
-                                          toolbarFormat: "YYYY",
-                                          hidden: false,
-                                        },
-                                        calendarHeader: {
-                                          sx: { color: "white" },
-                                        },
-                                        textField: {
-                                          inputProps: { readOnly: true },
-                                          placeholder: "MM / DD / YYYY HH:MM:AA",
-                                        },
-                                      }}
-                                    />
-                                  </div>
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            );
-                          }}
+       
+                        }}
                         />
                       </DemoContainer>
                     </LocalizationProvider>
                   </ThemeProvider>
                 </div>
+           
+           
+           
                 <div className="w-full">
                   <ThemeProvider theme={themeMui}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2246,58 +2382,8 @@ function OganizerCreateEvent() {
                           control={form.control}
                           name="eventenddate"
                           render={({ field }) => {
-                            // const adjustedticketStartTime = dayjs(TicketStartDate).add(12, "hour");
-                            // const minStartTime = dayjs(
-                            //   TicketStartDate || new Date()
-                            // );
-
-                            // const defaultStartTime = field.value
-                            //   ? dayjs(field.value)
-                            //   : minStartTime;
-
-                            // const isSameDay = minStartTime.isSame(
-                            //   defaultStartTime,
-                            //   "day"
-                            // );
-
-                            // const validStartTime = isSameDay
-                            //   ? minStartTime
-                            //   : null;
-                            //   let referenceTicketDate;
-                            // if (validStartTime) {
-                            //  referenceTicketDate = validStartTime.add(
-                            //     2,
-                            //     "minute"
-                            //   );
-                            // }
-
-                            // const minStartTime = dayjs(
-                            //   TicketStartDate || new Date()
-                            // ).add(12, "hour");
-
-                            // const defaultStartTime = field.value
-                            //   ? dayjs(field.value)
-                            //   : minStartTime;
-
-                            // const isSameDay = minStartTime.isSame(
-                            //   defaultStartTime,
-                            //   "day"
-                            // );
-                            // const validStartTime = isSameDay
-                            //   ? minStartTime
-                            //   : null;
-
-                            // let referenceTicketDate;
-                            // if (validStartTime) {
-                            //   referenceTicketDate = validStartTime.add(
-                            //     2,
-                            //     "minute"
-                            //   );
-                            // }
-
                             const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
 
-                            // Default to the current time if the adjusted start time has passed
                             const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
 
                             return (
@@ -2305,13 +2391,11 @@ function OganizerCreateEvent() {
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">Ticket End Date & Time</FormLabel>
                                 <FormControl>
                                   <div className=" w-full" onClick={toggleEndDateTimePicker}>
-                                    {/* <div className=" w-full" > */}
-
+                
                                     <StyledDateTimePicker
                                       open={isEndDatePickerOpen}
-                                      // value={validStartTime}
                                       formatDensity="spacious"
-                                      // referenceDate={referenceTicketDate}
+                                    
                                       referenceDate={defaultEndTime}
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
@@ -2322,12 +2406,11 @@ function OganizerCreateEvent() {
                                           setIsEndDatePickerOpen(false);
                                         }
                                       }}
-                                      //  label="Event End Date & Time"
+                                  
                                       disablePast
-                                      // minDateTime={validStartTime}
-                                      // minDateTime={minStartTime}
+                                     
                                       minDateTime={adjustedEventStartTime}
-                                      // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                     
                                       slots={{
                                         openPickerIcon: () => (
                                           <CalendarTodayIcon
@@ -2369,7 +2452,130 @@ function OganizerCreateEvent() {
                     </LocalizationProvider>
                   </ThemeProvider>
                 </div>
-                {/* <FormField
+                </div> */}
+
+              {
+                // <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
+                //   <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
+                //     Ticket Start Date & Time
+                //   </FormLabel>
+                //   <FormControl>
+                //     <div className="w-full">
+                //       <StyledDateTimePicker
+                //         referenceDate={currentDateTime}
+                //         formatDensity="spacious"
+                //         onKeyDown={(e: any) => e.preventDefault()}
+                //         autoOk={false}
+                //         onChange={(e: any) => {
+                //           if (e && e.isValid()) {
+                //             const selectedDate = dayjs(
+                //               e.format("YYYY-MM-DD")
+                //             );
+                //             const today =
+                //               currentDateTime.startOf("day");
+                //             if (
+                //               selectedDate.isSame(today, "day")
+                //             ) {
+                //               const formattedDate =
+                //                 e.format("YYYY-MM-DDTHH:mm");
+                //               setTicketStartDate(formattedDate);
+                //               field.onChange(formattedDate);
+                //             } else {
+                //               const formattedDate =
+                //                 e.format("YYYY-MM-DDTHH:mm");
+                //               setTicketStartDate(formattedDate);
+                //               field.onChange(formattedDate);
+                //             }
+                //           }
+                //         }}
+                //         // Set minDateTime only if the selected date is today
+                //         // minDateTime={
+                //         //   field.value &&
+                //         //   dayjs(field.value).isSame(
+                //         //     currentDateTime,
+                //         //     "day"
+                //         //   )
+                //         //     ? currentDateTime
+                //         //     : null
+                //         // }
+                //         disablePast
+                //         slots={{
+                //           openPickerIcon: () => (
+                //             <CalendarTodayIcon
+                //               style={{
+                //                 color: "#5e5e5e",
+                //                 fontSize: "15px",
+                //                 position: "absolute",
+                //                 top: "-17px",
+                //                 right: "5px",
+                //               }}
+                //             />
+                //           ),
+                //         }}
+                //         slotProps={{
+                //           tabs: { hidden: false },
+                //           toolbar: {
+                //             toolbarFormat: "YYYY",
+                //             hidden: false,
+                //           },
+                //           calendarHeader: {
+                //             sx: { color: "white" },
+                //           },
+                //           textField: {
+                //             inputProps: { readOnly: true },
+                //             placeholder:
+                //               "MM / DD / YYYY HH:MM:AA",
+                //           },
+                //         }}
+                //       />
+                //     </div>
+                //   </FormControl>
+                //   <FormMessage />
+                // </FormItem>
+                // const adjustedticketStartTime = dayjs(TicketStartDate).add(12, "hour");
+                // const minStartTime = dayjs(
+                //   TicketStartDate || new Date()
+                // );
+                // const defaultStartTime = field.value
+                //   ? dayjs(field.value)
+                //   : minStartTime;
+                // const isSameDay = minStartTime.isSame(
+                //   defaultStartTime,
+                //   "day"
+                // );
+                // const validStartTime = isSameDay
+                //   ? minStartTime
+                //   : null;
+                //   let referenceTicketDate;
+                // if (validStartTime) {
+                //  referenceTicketDate = validStartTime.add(
+                //     2,
+                //     "minute"
+                //   );
+                // }
+                // const minStartTime = dayjs(
+                //   TicketStartDate || new Date()
+                // ).add(12, "hour");
+                // const defaultStartTime = field.value
+                //   ? dayjs(field.value)
+                //   : minStartTime;
+                // const isSameDay = minStartTime.isSame(
+                //   defaultStartTime,
+                //   "day"
+                // );
+                // const validStartTime = isSameDay
+                //   ? minStartTime
+                //   : null;
+                // let referenceTicketDate;
+                // if (validStartTime) {
+                //   referenceTicketDate = validStartTime.add(
+                //     2,
+                //     "minute"
+                //   );
+                // }
+              }
+
+              {/* <FormField
                   control={form.control}
                   name="eventenddate"
                   render={({ field }) => {
@@ -2412,10 +2618,8 @@ function OganizerCreateEvent() {
                     );
                   }}
                 /> */}
-              </div>
 
-              <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                {/* <FormField
+              {/* <FormField
                   control={form.control}
                   name="eventstarttime"
                   render={({ field }) => {
@@ -2460,7 +2664,7 @@ function OganizerCreateEvent() {
                     );
                   }}
                 /> */}
-                <div className="w-full">
+              {/* <div className="w-full">
                   <ThemeProvider theme={themeMui}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DemoContainer components={["DateTimePicker"]}>
@@ -2481,11 +2685,11 @@ function OganizerCreateEvent() {
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">Event Start Date & Time</FormLabel>
                                 <FormControl>
                                   <div className=" w-full" onClick={toggleStartEventTimePicker}>
-                                    {/* <div className=" w-full"> */}
+                                  
 
                                     <StyledDateTimePicker
                                       open={isStartEventPickerOpen}
-                                      //  value={validStartTime}
+                                    
                                       formatDensity="spacious"
                                       referenceDate={referenceEventDate}
                                       onKeyDown={(e: any) => e.preventDefault()}
@@ -2497,9 +2701,9 @@ function OganizerCreateEvent() {
                                           setIsStartEventPickerOpen(false);
                                         }
                                       }}
-                                      //  label="Event End Date & Time"
+                                   
                                       minDateTime={minStartTime}
-                                      // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                     
                                       slots={{
                                         openPickerIcon: () => (
                                           <CalendarTodayIcon
@@ -2540,9 +2744,9 @@ function OganizerCreateEvent() {
                       </DemoContainer>
                     </LocalizationProvider>
                   </ThemeProvider>
-                </div>
+                </div> */}
 
-                <div className="w-full">
+              {/* <div className="w-full">
                   <ThemeProvider theme={themeMui}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DemoContainer components={["DateTimePicker"]}>
@@ -2559,16 +2763,12 @@ function OganizerCreateEvent() {
                                 <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">Event End Date & Time</FormLabel>
                                 <FormControl>
                                   <div className=" w-full" onClick={toggleEndEventTimePicker}>
-                                    {/* <div className=" w-full"> */}
+                                   
 
                                     <StyledDateTimePicker
                                       open={isEndEventPickerOpen}
                                       referenceDate={defaultEndTime}
-                                      // value={
-                                      //   field.value
-                                      //     ? dayjs(field.value)
-                                      //     : defaultEndTime
-                                      // }
+                                  
                                       formatDensity="spacious"
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
@@ -2582,10 +2782,9 @@ function OganizerCreateEvent() {
                                         }
                                       }}
                                       disablePast
-                                      //  label="Event End Date & Time"
-                                      // minDateTime={dayjs("2024-10-15T08:30")}
+                                    
                                       minDateTime={adjustedEventStartTime}
-                                      // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                  
                                       slots={{
                                         openPickerIcon: () => (
                                           <CalendarTodayIcon
@@ -2626,9 +2825,9 @@ function OganizerCreateEvent() {
                       </DemoContainer>
                     </LocalizationProvider>
                   </ThemeProvider>
-                </div>
+                </div> */}
 
-                {/* <FormField
+              {/* <FormField
                   control={form.control}
                   name="eventendtime"
                   render={({ field }) => {
@@ -2683,7 +2882,7 @@ function OganizerCreateEvent() {
                     );
                   }}
                 /> */}
-              </div>
+
               {/* <>
                 <ThemeProvider theme={themeMui}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -3002,11 +3201,11 @@ function OganizerCreateEvent() {
                     Add Ticket Type
                   </Button>
                 </div> */}
-              <div className="flex  flex-col w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
+              {/* <div className="flex  flex-col w-full pb-[16px] gap-[10px] lg:gap-[24px] mt-[24px]">
                 {ticketTypes?.length > 0 &&
                   ticketTypes.map((ticket, index) => (
                     <div className="flex flex-col gap-[12px] w-full mt-[24px] common-container" key={index}>
-                      {/* Free and Paid Selection */}
+                
                       <div className="flex w-full gap-[12px]">
                         <div
                           className={`w-full lg:w-[350px] gradient-slate md:rounded-lg rounded-[44px] px-[12px] flex md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] cursor-pointer ${
@@ -3037,9 +3236,8 @@ function OganizerCreateEvent() {
                         </div>
                       </div>
 
-                      {/* Ticket Form Fields */}
                       <div className="flex items-center gap-[24px] common-container">
-                        {/* Event Ticket Type Field */}
+                  
                         <FormField
                           control={form.control}
                           name={`tickets.${index}.type`}
@@ -3064,7 +3262,7 @@ function OganizerCreateEvent() {
                           )}
                         />
 
-                        {/* Event Ticket Price Field - Show Only for Paid Tickets */}
+                      
                         {ticket?.selected === "paid" && (
                           <FormField
                             control={form.control}
@@ -3096,15 +3294,6 @@ function OganizerCreateEvent() {
                                       field.onChange(e);
                                     }}
 
-                                    // onChange={(e) => {
-
-                                    //   handleInputChange(
-                                    //     index,
-                                    //     "price",
-                                    //     parseFloat(e.target.value)
-                                    //   );
-                                    //   field.onChange(e);
-                                    // }}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -3113,8 +3302,40 @@ function OganizerCreateEvent() {
                           />
                         )}
 
-                        {/* Event Number of Tickets Field */}
-                        <FormField
+                        </div>
+
+                        {index != 0 && (
+                        <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
+                          <Button
+                            className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
+                            onClick={() => handleDeleteTicketType(index)}
+                          >
+                            <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
+                            Delete Ticket Type
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+
+
+                <div className="flex justify-end items-center mt-[12px] ticket-btn">
+                  <Button
+                    style={{
+                      background:
+                        "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                    }}
+                    className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
+                    onClick={handleAddTicketType}
+                  >
+                    <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                    Add Ticket Type
+                  </Button>
+                </div>
+              </div> */}
+              {/* Event Number of Tickets Field */}
+              {/* <FormField
                           control={form.control}
                           name={`tickets.${index}.no`}
                           render={({ field }) => (
@@ -3138,11 +3359,10 @@ function OganizerCreateEvent() {
                               <FormMessage />
                             </FormItem>
                           )}
-                        />
-                      </div>
+                        /> */}
 
-                      {/* What's Included Section */}
-                      <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+              {/* What's Included Section */}
+              {/* <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                         <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
                           <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
                           <Image src={ticket?.dropdown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
@@ -3163,9 +3383,7 @@ function OganizerCreateEvent() {
                                     alt="img"
                                     className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
                                   />
-                                  {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                    {option.label}
-                                  </p> */}
+                               
                                   <p
                                     className={`text-[16px] font-normal items-center ${
                                       ticket?.options?.some((o) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
@@ -3174,50 +3392,13 @@ function OganizerCreateEvent() {
                                     {option.label}
                                   </p>
                                 </div>
-                                {/* {ticket?.options?.some(
-                                  (o) => o?.id === option?.id
-                                ) && (
-                                  <Image
-                                    src={tick}
-                                    width={15}
-                                    height={15}
-                                    alt="tick"
-                                  />
-                                )} */}
                               </div>
                             ))}
                             <div className="column-separator"></div> <div className="column-separator"></div>
                           </div>
                         )}
-                      </div>
-                      {index != 0 && (
-                        <div className="flex justify-end items-center mt-[12px] ticket-btn mt-2">
-                          <Button
-                            className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px] font-extrabold"
-                            onClick={() => handleDeleteTicketType(index)}
-                          >
-                            <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
-                            Delete Ticket Type
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                      </div> */}
 
-                <div className="flex justify-end items-center mt-[12px] ticket-btn">
-                  <Button
-                    style={{
-                      background:
-                        "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
-                    }}
-                    className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
-                    onClick={handleAddTicketType}
-                  >
-                    <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                    Add Ticket Type
-                  </Button>
-                </div>
-              </div>
               {/* Add Ticket Type Button */}
 
               {/* <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
@@ -3253,8 +3434,8 @@ function OganizerCreateEvent() {
                 />
               </div> */}
 
-              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
-                {/* Facebook Link INput */}
+              {/* <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
+             
                 <FormField
                   control={form.control}
                   name="fburl"
@@ -3329,8 +3510,8 @@ function OganizerCreateEvent() {
                     </FormItem>
                   )}
                 />
-              </div>
-              <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
+              </div> */}
+              {/* <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
                 <FormField
                   control={form.control}
                   name="telegramurl"
@@ -3353,14 +3534,11 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
-                          // onChange={(e) => {
-                          //   setTwitterUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
+                         
 
                           onChange={(e) => {
                             const value = e.target.value;
-                            // Prevent the user from modifying the base URL
+                           
                             setTelegramUrl(value);
                             field.onChange(value);
                           }}
@@ -3393,10 +3571,7 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
-                          // onChange={(e) => {
-                          //   setYoutubeUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
+                       
                           onChange={(e) => {
                             const value = e.target.value;
 
@@ -3433,10 +3608,7 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
-                          // onChange={(e) => {
-                          //   settiktokUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
+                         
                           onChange={(e) => {
                             const value = e.target.value;
 
@@ -3472,10 +3644,7 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
-                          // onChange={(e) => {
-                          //   setlinkedinUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
+                    
                           onChange={(e) => {
                             const value = e.target.value;
 
@@ -3512,10 +3681,7 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
-                          // onChange={(e) => {
-                          //   settiktokUrl(e.target.value);
-                          //   field.onChange(e);
-                          // }}
+                        
                           onChange={(e) => {
                             const value = e.target.value;
 
@@ -3533,9 +3699,7 @@ function OganizerCreateEvent() {
                 <div className="flex justify-end items-center  edit-btn">
                   <button
                     className="w-full lg:w-fit flex h-[52px] py-[17px] px-[55.25px] lg:py-[12px] lg:px-[68px] edit-btn justify-center items-center rounded-[44px] gap-[6px] gradient-bg gradient-border-edit "
-                    // onClick={handlePreviewClick}
-                    // onClick={() => setActionType("preview")}
-                    // disabled={!isCategorySelected}
+              
                     onClick={(event) => handleFormSubmit(event, "preview")}
                     disabled={!isCategorySelected}
                   >
@@ -3546,19 +3710,1136 @@ function OganizerCreateEvent() {
                   <Button
                     type="submit"
                     className="w-full lg:w-fit flex  justify-center items-center font-bold py-[17px] px-[55.25px] lg:py-[12px] lg:px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
-                    // onClick={() => setActionType("create")}
+              
                     onClick={(event) => handleFormSubmit(event, "create")}
                     disabled={!isCategorySelected}
                   >
                     Submit
                   </Button>
                 </div>
-              </div>
+              </div> */}
             </form>
           </Form>
         </div>
 
-        {isWalletModalOpen && <EventSubmmitModal onClose={() => setisWalletModalOpen(false)} open={() => setisWalletModalOpen(true)} />}
+        <div className="px-[24px] py-[16px] relative create-container mt-[32px] ">
+          <div className="flex justify-between">
+            <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
+              {" "}
+              Ticket <span className="text-primary">Sales & Payments</span>
+            </h1>
+          </div>
+
+          <Image
+            src={ufo}
+            width={350}
+            height={350}
+            className="absolute right-[0] bottom-0"
+            alt="ufo"
+          />
+        </div>
+        <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
+          <Form {...form}>
+            <form className=" w-full">
+              {/* Event Name and Catgory fields */}
+              <div className="flex items-start gap-[24px] w-full common-container">
+                <FormField
+                  control={form.control}
+                  name="eventcategory"
+                  render={({ field }) => (
+                    <FormItem
+                      className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                    pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                    file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                     disabled:opacity-50"
+                    >
+                      <div
+                        className="flex items-center justify-between"
+                        onClick={handleCatDropdownToggle}
+                      >
+                        <div className="flex flex-col">
+                          <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">
+                            EVENT category
+                          </p>
+                          <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                            {categoryTypes
+                              ? categoryTypes?.label
+                              : "Select Event Category"}
+                          </p>
+                        </div>
+                        <Image
+                          src={isCatDropdownOpen ? arrowup : arrowdown}
+                          width={11}
+                          height={11}
+                          alt="arrow"
+                        />
+                      </div>
+
+                      {isCatDropdownOpen && (
+                        <>
+                          <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                            {optionscate?.map((option: any) => (
+                              <div
+                                key={option.label}
+                                className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                onClick={() => handleCateOptionToggle(option)}
+                              >
+                                <div className="flex items-center gap-[10px]">
+                                  {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p> */}
+                                  <p
+                                    className={`text-[16px] font-normal items-center ${
+                                      categoryTypes?.label === option.label
+                                        ? "text-[#00d059]"
+                                        : "text-[#FFFFFF]"
+                                    }`}
+                                  >
+                                    {option.label}
+                                  </p>
+                                </div>
+                                {categoryTypes?.label === option.label && (
+                                  <Image
+                                    src={tick}
+                                    width={16}
+                                    height={16}
+                                    alt="tick"
+                                  />
+                                )}
+                              </div>
+                            ))}
+                            {isCustomCatgory && (
+                              <>
+                                {categoryAlert == true && (
+                                  <p className="text-[red] text-[16px]">
+                                    Input is empty!
+                                  </p>
+                                )}
+                                <div
+                                  style={{
+                                    width: "100%",
+                                    marginTop: "10px",
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    gap: "20px",
+                                  }}
+                                >
+                                  <input
+                                    type="text"
+                                    placeholder="Enter the Category name"
+                                    onChange={(
+                                      e: React.ChangeEvent<HTMLInputElement>
+                                    ) => handleCustomCatgory(e)}
+                                    value={customCategotyInput}
+                                    style={{
+                                      width: "100%",
+                                      paddingLeft: "5px",
+                                      paddingTop: "5px",
+                                      paddingBottom: "5px",
+                                      borderRadius: "6px",
+                                    }}
+                                  />
+                                  <button
+                                    onClick={(
+                                      e: React.MouseEvent<HTMLButtonElement>
+                                    ) => {
+                                      e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                      handleCustomCatBtn();
+                                    }}
+                                    style={{
+                                      background: "green",
+                                      paddingLeft: "10px",
+                                      paddingRight: "10px",
+                                      lineHeight: "10px",
+                                      paddingTop: "10px",
+                                      paddingBottom: "10px",
+                                      borderRadius: "5px",
+                                      marginRight: "5px",
+                                    }}
+                                  >
+                                    Add
+                                  </button>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* //Event Catagory Input field */}
+                <FormField
+                  control={form.control}
+                  name="eventcategory"
+                  render={({ field }) => (
+                    <FormItem
+                      className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                    pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                    file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                     disabled:opacity-50"
+                    >
+                      <div
+                        className="flex items-center justify-between"
+                        onClick={handleCatDropdownToggle}
+                      >
+                        <div className="flex flex-col">
+                          <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">
+                            EVENT category
+                          </p>
+                          <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                            {categoryTypes
+                              ? categoryTypes?.label
+                              : "Select Event Category"}
+                          </p>
+                        </div>
+                        <Image
+                          src={isCatDropdownOpen ? arrowup : arrowdown}
+                          width={11}
+                          height={11}
+                          alt="arrow"
+                        />
+                      </div>
+
+                      {isCatDropdownOpen && (
+                        <>
+                          <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                            {optionscate?.map((option: any) => (
+                              <div
+                                key={option.label}
+                                className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                onClick={() => handleCateOptionToggle(option)}
+                              >
+                                <div className="flex items-center gap-[10px]">
+                                  {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p> */}
+                                  <p
+                                    className={`text-[16px] font-normal items-center ${
+                                      categoryTypes?.label === option.label
+                                        ? "text-[#00d059]"
+                                        : "text-[#FFFFFF]"
+                                    }`}
+                                  >
+                                    {option.label}
+                                  </p>
+                                </div>
+                                {categoryTypes?.label === option.label && (
+                                  <Image
+                                    src={tick}
+                                    width={16}
+                                    height={16}
+                                    alt="tick"
+                                  />
+                                )}
+                              </div>
+                            ))}
+                            {isCustomCatgory && (
+                              <>
+                                {categoryAlert == true && (
+                                  <p className="text-[red] text-[16px]">
+                                    Input is empty!
+                                  </p>
+                                )}
+                                <div
+                                  style={{
+                                    width: "100%",
+                                    marginTop: "10px",
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    gap: "20px",
+                                  }}
+                                >
+                                  <input
+                                    type="text"
+                                    placeholder="Enter the Category name"
+                                    onChange={(
+                                      e: React.ChangeEvent<HTMLInputElement>
+                                    ) => handleCustomCatgory(e)}
+                                    value={customCategotyInput}
+                                    style={{
+                                      width: "100%",
+                                      paddingLeft: "5px",
+                                      paddingTop: "5px",
+                                      paddingBottom: "5px",
+                                      borderRadius: "6px",
+                                    }}
+                                  />
+                                  <button
+                                    onClick={(
+                                      e: React.MouseEvent<HTMLButtonElement>
+                                    ) => {
+                                      e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                      handleCustomCatBtn();
+                                    }}
+                                    style={{
+                                      background: "green",
+                                      paddingLeft: "10px",
+                                      paddingRight: "10px",
+                                      lineHeight: "10px",
+                                      paddingTop: "10px",
+                                      paddingBottom: "10px",
+                                      borderRadius: "5px",
+                                      marginRight: "5px",
+                                    }}
+                                  >
+                                    Add
+                                  </button>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Location Field */}
+              <div className="mt-[24px] ">
+                <FormField
+                  control={form.control}
+                  name="eventlocation"
+                  render={({ field }) => (
+                    <FormItem className="relative w-full space-y-0">
+                      <FormLabel className="event-label-custom absolute  left-3 uppercase pt-[16px] pb-[4px]">
+                        Event Location<span className="text-[#BA0202]"> *</span>
+                      </FormLabel>
+                      <FormControl>
+                        <LocationAutocomplete
+                          onLocationSelect={(location) => {
+                            setEventLocation(location);
+                            field.onChange(location);
+                          }}
+                          value={field.value}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+
+              <div className="mt-[24px] ">
+                {/* Event Name and Catgory fields */}
+                <div className="flex items-start gap-[24px] w-full common-container">
+                  <FormField
+                    control={form.control}
+                    name="eventcategory"
+                    render={({ field }) => (
+                      <FormItem
+                        className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                    pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                    file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                     disabled:opacity-50"
+                      >
+                        <div
+                          className="flex items-center justify-between"
+                          onClick={handleCatDropdownToggle}
+                        >
+                          <div className="flex flex-col">
+                            <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">
+                              EVENT category
+                            </p>
+                            <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                              {categoryTypes
+                                ? categoryTypes?.label
+                                : "Select Event Category"}
+                            </p>
+                          </div>
+                          <Image
+                            src={isCatDropdownOpen ? arrowup : arrowdown}
+                            width={11}
+                            height={11}
+                            alt="arrow"
+                          />
+                        </div>
+
+                        {isCatDropdownOpen && (
+                          <>
+                            <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                              {optionscate?.map((option: any) => (
+                                <div
+                                  key={option.label}
+                                  className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                  onClick={() => handleCateOptionToggle(option)}
+                                >
+                                  <div className="flex items-center gap-[10px]">
+                                    {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p> */}
+                                    <p
+                                      className={`text-[16px] font-normal items-center ${
+                                        categoryTypes?.label === option.label
+                                          ? "text-[#00d059]"
+                                          : "text-[#FFFFFF]"
+                                      }`}
+                                    >
+                                      {option.label}
+                                    </p>
+                                  </div>
+                                  {categoryTypes?.label === option.label && (
+                                    <Image
+                                      src={tick}
+                                      width={16}
+                                      height={16}
+                                      alt="tick"
+                                    />
+                                  )}
+                                </div>
+                              ))}
+                              {isCustomCatgory && (
+                                <>
+                                  {categoryAlert == true && (
+                                    <p className="text-[red] text-[16px]">
+                                      Input is empty!
+                                    </p>
+                                  )}
+                                  <div
+                                    style={{
+                                      width: "100%",
+                                      marginTop: "10px",
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      gap: "20px",
+                                    }}
+                                  >
+                                    <input
+                                      type="text"
+                                      placeholder="Enter the Category name"
+                                      onChange={(
+                                        e: React.ChangeEvent<HTMLInputElement>
+                                      ) => handleCustomCatgory(e)}
+                                      value={customCategotyInput}
+                                      style={{
+                                        width: "100%",
+                                        paddingLeft: "5px",
+                                        paddingTop: "5px",
+                                        paddingBottom: "5px",
+                                        borderRadius: "6px",
+                                      }}
+                                    />
+                                    <button
+                                      onClick={(
+                                        e: React.MouseEvent<HTMLButtonElement>
+                                      ) => {
+                                        e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                        handleCustomCatBtn();
+                                      }}
+                                      style={{
+                                        background: "green",
+                                        paddingLeft: "10px",
+                                        paddingRight: "10px",
+                                        lineHeight: "10px",
+                                        paddingTop: "10px",
+                                        paddingBottom: "10px",
+                                        borderRadius: "5px",
+                                        marginRight: "5px",
+                                      }}
+                                    >
+                                      Add
+                                    </button>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          </>
+                        )}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* //Event Catagory Input field */}
+                  <FormField
+                    control={form.control}
+                    name="eventcategory"
+                    render={({ field }) => (
+                      <FormItem
+                        className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                    pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                    file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                     disabled:opacity-50"
+                      >
+                        <div
+                          className="flex items-center justify-between"
+                          onClick={handleCatDropdownToggle}
+                        >
+                          <div className="flex flex-col">
+                            <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">
+                              EVENT category
+                            </p>
+                            <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                              {categoryTypes
+                                ? categoryTypes?.label
+                                : "Select Event Category"}
+                            </p>
+                          </div>
+                          <Image
+                            src={isCatDropdownOpen ? arrowup : arrowdown}
+                            width={11}
+                            height={11}
+                            alt="arrow"
+                          />
+                        </div>
+
+                        {isCatDropdownOpen && (
+                          <>
+                            <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                              {optionscate?.map((option: any) => (
+                                <div
+                                  key={option.label}
+                                  className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                  onClick={() => handleCateOptionToggle(option)}
+                                >
+                                  <div className="flex items-center gap-[10px]">
+                                    {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p> */}
+                                    <p
+                                      className={`text-[16px] font-normal items-center ${
+                                        categoryTypes?.label === option.label
+                                          ? "text-[#00d059]"
+                                          : "text-[#FFFFFF]"
+                                      }`}
+                                    >
+                                      {option.label}
+                                    </p>
+                                  </div>
+                                  {categoryTypes?.label === option.label && (
+                                    <Image
+                                      src={tick}
+                                      width={16}
+                                      height={16}
+                                      alt="tick"
+                                    />
+                                  )}
+                                </div>
+                              ))}
+                              {isCustomCatgory && (
+                                <>
+                                  {categoryAlert == true && (
+                                    <p className="text-[red] text-[16px]">
+                                      Input is empty!
+                                    </p>
+                                  )}
+                                  <div
+                                    style={{
+                                      width: "100%",
+                                      marginTop: "10px",
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      gap: "20px",
+                                    }}
+                                  >
+                                    <input
+                                      type="text"
+                                      placeholder="Enter the Category name"
+                                      onChange={(
+                                        e: React.ChangeEvent<HTMLInputElement>
+                                      ) => handleCustomCatgory(e)}
+                                      value={customCategotyInput}
+                                      style={{
+                                        width: "100%",
+                                        paddingLeft: "5px",
+                                        paddingTop: "5px",
+                                        paddingBottom: "5px",
+                                        borderRadius: "6px",
+                                      }}
+                                    />
+                                    <button
+                                      onClick={(
+                                        e: React.MouseEvent<HTMLButtonElement>
+                                      ) => {
+                                        e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                        handleCustomCatBtn();
+                                      }}
+                                      style={{
+                                        background: "green",
+                                        paddingLeft: "10px",
+                                        paddingRight: "10px",
+                                        lineHeight: "10px",
+                                        paddingTop: "10px",
+                                        paddingBottom: "10px",
+                                        borderRadius: "5px",
+                                        marginRight: "5px",
+                                      }}
+                                    >
+                                      Add
+                                    </button>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          </>
+                        )}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                {/* Event Name and Catgory fields */}
+                <div className="flex items-start gap-[24px] w-full common-container mt-[24px]">
+                  <FormField
+                    control={form.control}
+                    name="eventcategory"
+                    render={({ field }) => (
+                      <FormItem
+                        className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                    pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                    file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                     disabled:opacity-50"
+                      >
+                        <div
+                          className="flex items-center justify-between"
+                          onClick={handleCatDropdownToggle}
+                        >
+                          <div className="flex flex-col">
+                            <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">
+                              EVENT category
+                            </p>
+                            <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                              {categoryTypes
+                                ? categoryTypes?.label
+                                : "Select Event Category"}
+                            </p>
+                          </div>
+                          <Image
+                            src={isCatDropdownOpen ? arrowup : arrowdown}
+                            width={11}
+                            height={11}
+                            alt="arrow"
+                          />
+                        </div>
+
+                        {isCatDropdownOpen && (
+                          <>
+                            <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                              {optionscate?.map((option: any) => (
+                                <div
+                                  key={option.label}
+                                  className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                  onClick={() => handleCateOptionToggle(option)}
+                                >
+                                  <div className="flex items-center gap-[10px]">
+                                    {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p> */}
+                                    <p
+                                      className={`text-[16px] font-normal items-center ${
+                                        categoryTypes?.label === option.label
+                                          ? "text-[#00d059]"
+                                          : "text-[#FFFFFF]"
+                                      }`}
+                                    >
+                                      {option.label}
+                                    </p>
+                                  </div>
+                                  {categoryTypes?.label === option.label && (
+                                    <Image
+                                      src={tick}
+                                      width={16}
+                                      height={16}
+                                      alt="tick"
+                                    />
+                                  )}
+                                </div>
+                              ))}
+                              {isCustomCatgory && (
+                                <>
+                                  {categoryAlert == true && (
+                                    <p className="text-[red] text-[16px]">
+                                      Input is empty!
+                                    </p>
+                                  )}
+                                  <div
+                                    style={{
+                                      width: "100%",
+                                      marginTop: "10px",
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      gap: "20px",
+                                    }}
+                                  >
+                                    <input
+                                      type="text"
+                                      placeholder="Enter the Category name"
+                                      onChange={(
+                                        e: React.ChangeEvent<HTMLInputElement>
+                                      ) => handleCustomCatgory(e)}
+                                      value={customCategotyInput}
+                                      style={{
+                                        width: "100%",
+                                        paddingLeft: "5px",
+                                        paddingTop: "5px",
+                                        paddingBottom: "5px",
+                                        borderRadius: "6px",
+                                      }}
+                                    />
+                                    <button
+                                      onClick={(
+                                        e: React.MouseEvent<HTMLButtonElement>
+                                      ) => {
+                                        e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                        handleCustomCatBtn();
+                                      }}
+                                      style={{
+                                        background: "green",
+                                        paddingLeft: "10px",
+                                        paddingRight: "10px",
+                                        lineHeight: "10px",
+                                        paddingTop: "10px",
+                                        paddingBottom: "10px",
+                                        borderRadius: "5px",
+                                        marginRight: "5px",
+                                      }}
+                                    >
+                                      Add
+                                    </button>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          </>
+                        )}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* //Event Catagory Input field */}
+                  <FormField
+                    control={form.control}
+                    name="eventcategory"
+                    render={({ field }) => (
+                      <FormItem
+                        className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                    pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                    file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                     disabled:opacity-50"
+                      >
+                        <div
+                          className="flex items-center justify-between"
+                          onClick={handleCatDropdownToggle}
+                        >
+                          <div className="flex flex-col">
+                            <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">
+                              EVENT category
+                            </p>
+                            <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                              {categoryTypes
+                                ? categoryTypes?.label
+                                : "Select Event Category"}
+                            </p>
+                          </div>
+                          <Image
+                            src={isCatDropdownOpen ? arrowup : arrowdown}
+                            width={11}
+                            height={11}
+                            alt="arrow"
+                          />
+                        </div>
+
+                        {isCatDropdownOpen && (
+                          <>
+                            <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                              {optionscate?.map((option: any) => (
+                                <div
+                                  key={option.label}
+                                  className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                  onClick={() => handleCateOptionToggle(option)}
+                                >
+                                  <div className="flex items-center gap-[10px]">
+                                    {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p> */}
+                                    <p
+                                      className={`text-[16px] font-normal items-center ${
+                                        categoryTypes?.label === option.label
+                                          ? "text-[#00d059]"
+                                          : "text-[#FFFFFF]"
+                                      }`}
+                                    >
+                                      {option.label}
+                                    </p>
+                                  </div>
+                                  {categoryTypes?.label === option.label && (
+                                    <Image
+                                      src={tick}
+                                      width={16}
+                                      height={16}
+                                      alt="tick"
+                                    />
+                                  )}
+                                </div>
+                              ))}
+                              {isCustomCatgory && (
+                                <>
+                                  {categoryAlert == true && (
+                                    <p className="text-[red] text-[16px]">
+                                      Input is empty!
+                                    </p>
+                                  )}
+                                  <div
+                                    style={{
+                                      width: "100%",
+                                      marginTop: "10px",
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      gap: "20px",
+                                    }}
+                                  >
+                                    <input
+                                      type="text"
+                                      placeholder="Enter the Category name"
+                                      onChange={(
+                                        e: React.ChangeEvent<HTMLInputElement>
+                                      ) => handleCustomCatgory(e)}
+                                      value={customCategotyInput}
+                                      style={{
+                                        width: "100%",
+                                        paddingLeft: "5px",
+                                        paddingTop: "5px",
+                                        paddingBottom: "5px",
+                                        borderRadius: "6px",
+                                      }}
+                                    />
+                                    <button
+                                      onClick={(
+                                        e: React.MouseEvent<HTMLButtonElement>
+                                      ) => {
+                                        e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                        handleCustomCatBtn();
+                                      }}
+                                      style={{
+                                        background: "green",
+                                        paddingLeft: "10px",
+                                        paddingRight: "10px",
+                                        lineHeight: "10px",
+                                        paddingTop: "10px",
+                                        paddingBottom: "10px",
+                                        borderRadius: "5px",
+                                        marginRight: "5px",
+                                      }}
+                                    >
+                                      Add
+                                    </button>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          </>
+                        )}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                {/* Event Name and Catgory fields */}
+                <div className="flex items-start gap-[24px] w-full common-container mt-[24px]">
+                  <FormField
+                    control={form.control}
+                    name="eventcategory"
+                    render={({ field }) => (
+                      <FormItem
+                        className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                    pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                    file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                     disabled:opacity-50"
+                      >
+                        <div
+                          className="flex items-center justify-between"
+                          onClick={handleCatDropdownToggle}
+                        >
+                          <div className="flex flex-col">
+                            <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">
+                              EVENT category
+                            </p>
+                            <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                              {categoryTypes
+                                ? categoryTypes?.label
+                                : "Select Event Category"}
+                            </p>
+                          </div>
+                          <Image
+                            src={isCatDropdownOpen ? arrowup : arrowdown}
+                            width={11}
+                            height={11}
+                            alt="arrow"
+                          />
+                        </div>
+
+                        {isCatDropdownOpen && (
+                          <>
+                            <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                              {optionscate?.map((option: any) => (
+                                <div
+                                  key={option.label}
+                                  className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                  onClick={() => handleCateOptionToggle(option)}
+                                >
+                                  <div className="flex items-center gap-[10px]">
+                                    {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p> */}
+                                    <p
+                                      className={`text-[16px] font-normal items-center ${
+                                        categoryTypes?.label === option.label
+                                          ? "text-[#00d059]"
+                                          : "text-[#FFFFFF]"
+                                      }`}
+                                    >
+                                      {option.label}
+                                    </p>
+                                  </div>
+                                  {categoryTypes?.label === option.label && (
+                                    <Image
+                                      src={tick}
+                                      width={16}
+                                      height={16}
+                                      alt="tick"
+                                    />
+                                  )}
+                                </div>
+                              ))}
+                              {isCustomCatgory && (
+                                <>
+                                  {categoryAlert == true && (
+                                    <p className="text-[red] text-[16px]">
+                                      Input is empty!
+                                    </p>
+                                  )}
+                                  <div
+                                    style={{
+                                      width: "100%",
+                                      marginTop: "10px",
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      gap: "20px",
+                                    }}
+                                  >
+                                    <input
+                                      type="text"
+                                      placeholder="Enter the Category name"
+                                      onChange={(
+                                        e: React.ChangeEvent<HTMLInputElement>
+                                      ) => handleCustomCatgory(e)}
+                                      value={customCategotyInput}
+                                      style={{
+                                        width: "100%",
+                                        paddingLeft: "5px",
+                                        paddingTop: "5px",
+                                        paddingBottom: "5px",
+                                        borderRadius: "6px",
+                                      }}
+                                    />
+                                    <button
+                                      onClick={(
+                                        e: React.MouseEvent<HTMLButtonElement>
+                                      ) => {
+                                        e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                        handleCustomCatBtn();
+                                      }}
+                                      style={{
+                                        background: "green",
+                                        paddingLeft: "10px",
+                                        paddingRight: "10px",
+                                        lineHeight: "10px",
+                                        paddingTop: "10px",
+                                        paddingBottom: "10px",
+                                        borderRadius: "5px",
+                                        marginRight: "5px",
+                                      }}
+                                    >
+                                      Add
+                                    </button>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          </>
+                        )}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* //Event Catagory Input field */}
+                  <FormField
+                    control={form.control}
+                    name="eventcategory"
+                    render={({ field }) => (
+                      <FormItem
+                        className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                    pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                    file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                     disabled:opacity-50"
+                      >
+                        <div
+                          className="flex items-center justify-between"
+                          onClick={handleCatDropdownToggle}
+                        >
+                          <div className="flex flex-col">
+                            <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">
+                              EVENT category
+                            </p>
+                            <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                              {categoryTypes
+                                ? categoryTypes?.label
+                                : "Select Event Category"}
+                            </p>
+                          </div>
+                          <Image
+                            src={isCatDropdownOpen ? arrowup : arrowdown}
+                            width={11}
+                            height={11}
+                            alt="arrow"
+                          />
+                        </div>
+
+                        {isCatDropdownOpen && (
+                          <>
+                            <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                              {optionscate?.map((option: any) => (
+                                <div
+                                  key={option.label}
+                                  className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                  onClick={() => handleCateOptionToggle(option)}
+                                >
+                                  <div className="flex items-center gap-[10px]">
+                                    {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
+                                    {option.label}
+                                  </p> */}
+                                    <p
+                                      className={`text-[16px] font-normal items-center ${
+                                        categoryTypes?.label === option.label
+                                          ? "text-[#00d059]"
+                                          : "text-[#FFFFFF]"
+                                      }`}
+                                    >
+                                      {option.label}
+                                    </p>
+                                  </div>
+                                  {categoryTypes?.label === option.label && (
+                                    <Image
+                                      src={tick}
+                                      width={16}
+                                      height={16}
+                                      alt="tick"
+                                    />
+                                  )}
+                                </div>
+                              ))}
+                              {isCustomCatgory && (
+                                <>
+                                  {categoryAlert == true && (
+                                    <p className="text-[red] text-[16px]">
+                                      Input is empty!
+                                    </p>
+                                  )}
+                                  <div
+                                    style={{
+                                      width: "100%",
+                                      marginTop: "10px",
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      gap: "20px",
+                                    }}
+                                  >
+                                    <input
+                                      type="text"
+                                      placeholder="Enter the Category name"
+                                      onChange={(
+                                        e: React.ChangeEvent<HTMLInputElement>
+                                      ) => handleCustomCatgory(e)}
+                                      value={customCategotyInput}
+                                      style={{
+                                        width: "100%",
+                                        paddingLeft: "5px",
+                                        paddingTop: "5px",
+                                        paddingBottom: "5px",
+                                        borderRadius: "6px",
+                                      }}
+                                    />
+                                    <button
+                                      onClick={(
+                                        e: React.MouseEvent<HTMLButtonElement>
+                                      ) => {
+                                        e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                        handleCustomCatBtn();
+                                      }}
+                                      style={{
+                                        background: "green",
+                                        paddingLeft: "10px",
+                                        paddingRight: "10px",
+                                        lineHeight: "10px",
+                                        paddingTop: "10px",
+                                        paddingBottom: "10px",
+                                        borderRadius: "5px",
+                                        marginRight: "5px",
+                                      }}
+                                    >
+                                      Add
+                                    </button>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          </>
+                        )}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Location Field */}
+                <div className="mt-[24px]  ">
+                  <FormField
+                    control={form.control}
+                    name="eventlocation"
+                    render={({ field }) => (
+                      <FormItem className="relative w-full space-y-0">
+                        <FormLabel className="event-label-custom absolute  left-3 uppercase pt-[16px] pb-[4px]">
+                          Event Location
+                          <span className="text-[#BA0202]"> *</span>
+                        </FormLabel>
+                        <FormControl>
+                          <LocationAutocomplete
+                            onLocationSelect={(location) => {
+                              setEventLocation(location);
+                              field.onChange(location);
+                            }}
+                            value={field.value}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                </div>
+              </div>
+
+            </form>
+          </Form>
+        </div>
+
+        {isWalletModalOpen && (
+          <EventSubmmitModal
+            onClose={() => setisWalletModalOpen(false)}
+            open={() => setisWalletModalOpen(true)}
+          />
+        )}
       </div>
     </section>
   );
