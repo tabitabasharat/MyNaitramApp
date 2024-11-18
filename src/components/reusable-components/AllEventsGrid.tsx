@@ -114,7 +114,6 @@ const AllEventsGrid = ({ events, eventType }: any) => {
           </div>
         ))}
 
-      {/* Past Events */}
       {eventType === "Past Events" &&
         (events?.length > 0 ? (
           <>
