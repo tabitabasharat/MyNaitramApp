@@ -1,27 +1,35 @@
 "use client";
+import TextField from "@mui/material/TextField";
+
 import whitefree from "@/assets/Wallet/white free.svg";
 import greenfree from "@/assets/Wallet/Green free.svg";
 import LocationAutocomplete from "@/components/create-event/Locationinput";
+import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
 import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
+import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
 import React from "react";
 import "@/components/create-event/CreateEvent.css";
 import Image from "next/image";
 import ufo from "@/assets/UFO_SVG.png";
 import cam from "@/assets/Camera.svg";
+import bgframe from "@/assets/uploadFrame.svg";
 import newCover from "@/assets/Frame 1597878544 (1).svg";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef, useEffect } from "react";
-
+import Editicon from "@/assets/Editicon.svg";
+// import addicon from "@/assets/add-icon.svg";
 import addicon from "@/assets/Wallet/Plus.svg";
-
+import Backward from "@/components/Backward/Backward";
 import deleteicon from "@/assets/Wallet/delete-icon.svg";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
-import { useForm } from "react-hook-form";
-
+import { useForm, Controller } from "react-hook-form";
+import { UploadSimple } from "@phosphor-icons/react/dist/ssr";
+import axios from "axios";
 import { API_URL } from "@/lib/client";
 import crossicon from "@/assets/cross-img-icon.svg";
 // import { DatePicker } from "@/components/organisms/DatePicker";
@@ -32,14 +40,16 @@ import RsvpTicketing from "./RsvpTicketing";
 
 import { useRouter } from "next/navigation";
 
-import "react-time-picker/dist/TimePicker.css";
+import TimePicker from "react-time-picker";
 
+import "react-time-picker/dist/TimePicker.css";
+// import 'react-clock/dist/Clock.css';
 import "react-datepicker/dist/react-datepicker.css";
 
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
-
+import bgframe2 from "@/assets/uploadframe2.svg";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import ScreenLoader from "@/components/loader/Screenloader";
 import { createevent } from "@/lib/middleware/event";
@@ -67,7 +77,9 @@ import img18 from "@/assets/Whats-Included/option18.svg";
 import img19 from "@/assets/Whats-Included/option19.svg";
 import img20 from "@/assets/Whats-Included/option20.svg";
 import tick from "@/assets/fi-rr-check.svg";
-
+import { updateEvent } from "@/lib/middleware/event";
+import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
+import { AnyAaaaRecord } from "dns";
 import Editor from "@/components/reusable-components/Editor";
 
 import dayjs from "dayjs";
@@ -76,11 +88,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import calendaricon from "@/assets/calender.svg";
-
+// import styled from "styled-components";
 import styled from "styled-components";
 import { useTheme } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { addHours } from "date-fns";
+import { color } from "framer-motion";
 
 type TicketTypeOption = {
   id: number;
@@ -119,6 +133,41 @@ type cateOption = {
   id: number;
   label: string;
 };
+type Category = {
+  options: cateOption[];
+  dropdown: any;
+};
+
+const categorySchema = z.object({
+  options: z
+    .array(
+      z.object({
+        id: z.number(),
+        label: z.string(),
+      })
+    )
+    .min(1, { message: "Please select at least one option." }), // Ensure at least one option is selected
+  dropdown: z.boolean().optional(),
+});
+
+const isValidDateTime = (dateTimeString: string) => {
+  const dateTimeRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+  if (!dateTimeRegex.test(dateTimeString)) return false;
+
+  const dateTimeParts = dateTimeString.split("T");
+  const [year, month, day] = dateTimeParts[0].split("-").map(Number);
+  const [hours, minutes] = dateTimeParts[1].split(":").map(Number);
+
+  const date = new Date(year, month - 1, day, hours, minutes);
+
+  return (
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day &&
+    date.getHours() === hours &&
+    date.getMinutes() === minutes
+  );
+};
 
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
@@ -149,6 +198,9 @@ const formSchema = z.object({
   numberticket: z.string().min(1, { message: "Number Ticket cannot be empty." }),
   eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
 
+  // compticketno: z
+  //   .string()
+  //   .min(1, { message: "Complimentary ticket number cannot be empty." }),
   fburl: z.string().url({ message: "Invalid Facebook URL." }).optional(),
   instaurl: z.string().url({ message: "Invalid Instagram URL." }).optional(),
   youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).optional(),
@@ -156,8 +208,58 @@ const formSchema = z.object({
   linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
   twitterurl: z.string().url({ message: "Invalid Twitter URL." }).optional(),
   telegramurl: z.string().url({ message: "Invalid Telegram URL." }).optional(),
+  // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+  // selected: z.string(),
+  // tickets: z.array(
+  //   z.object({
+  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //     price: z
+  //       .string()
+  //       .min(1, { message: "Ticket price must be greater than 0." }),
+  //     no: z
+  //       .string()
+  //       .min(1, { message: "Number of tickets must be greater than 0." }),
+  //   })
+  // ),
+
+  // ticketss: z.array(
+  //   z
+  //     .object({
+  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //       // price: z.union([z.string(), z.number()]).optional(),
+  //       price: z.string().min(1, { message: "Ticket price cannot be empty." }),
+  //       no: z
+  //         .union([z.string(), z.number()])
+  //         .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+  //           message: "Number of tickets must be greater than 0.",
+  //           path: ["no"],
+  //         }),
+  //       selected: z.string().optional(),
+  //     })
+  //     .refine(
+  //       (data) => {
+  //         if (data.selected === "paid") {
+  //           const priceIsValid =
+  //             data.price !== undefined &&
+  //             ((typeof data.price === "string" && data.price.trim() !== "") ||
+  //               (typeof data.price === "number" && data.price > 0));
+
+  //           return priceIsValid;
+
+  //         } else if (data.selected === "free") {
+  //           return data.price === undefined; // Price must be undefined for free tickets
+  //         }
+  //         return true; // If neither selected, pass validation
+  //       },
+  //       {
+  //         message:
+  //           "Price is required for paid tickets and should not be present for free tickets.",
+  //         path: ["price"],
+  //       }
+  //     )
+  // ),
   tickets: z.array(
     z
       .object({
@@ -253,6 +355,9 @@ const formSchema2 = z.object({
 
   eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
 
+  // compticketno: z
+  //   .string()
+  //   .min(1, { message: "Complimentary ticket number cannot be empty." }),
   fburl: z.string().url({ message: "Invalid Facebook URL." }).optional(),
   instaurl: z.string().url({ message: "Invalid Instagram URL." }).optional(),
   youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).optional(),
@@ -260,8 +365,71 @@ const formSchema2 = z.object({
   linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
   twitterurl: z.string().url({ message: "Invalid Twitter URL." }).optional(),
   telegramurl: z.string().url({ message: "Invalid Telegram URL." }).optional(),
+  // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
+  // selected: z.string(),
+  // tickets: z.array(
+  //   z.object({
+  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //     price: z.string().min(1, { message: "Ticket price cannot be empty." }),
+  //     no: z
+  //       .string()
+  //       .min(1, { message: "Number of tickets must be greater than 0." }),
+  //   })
+  // ),
+  // tickets: z.array(
+  //   z.object({
+  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //     price: z.string().optional(),
+  //     no: z.string().min(1, { message: "Number of tickets must be greater than 0." }),
+  //     selected: z.string().optional(),
+  //   }).refine((data) => {
+
+  //     if (data.selected === "paid" && (!data.price || data.price.trim() === "")) {
+  //       return false;
+  //     }
+  //     return true;
+  //   }, {
+  //     message: "Price is required .",
+  //     path: ['price']
+  //   })
+  // ),
+
+  // ticketss: z.array(
+  //   z
+  //     .object({
+  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
+  //       price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
+  //       no: z.union([
+  //         z.string().refine((val) => Number(val) > 0, {
+  //           message: "Number of tickets must be greater than 0.",
+  //         }),
+  //         z
+  //           .number()
+  //           .min(1, { message: "Number of tickets must be greater than 0." }),
+  //       ]),
+  //       selected: z.string().optional(),
+  //     })
+  //     .refine(
+  //       (data) => {
+  //         // Validate price based on selection
+  //         if (data.selected === "paid") {
+  //           const priceIsValid =
+  //             data.price !== undefined &&
+  //             ((typeof data.price === "string" && data.price.trim() !== "") ||
+  //               (typeof data.price === "number" && data.price > 0));
+
+  //           return priceIsValid;
+  //         }
+  //         return true; // Skip price validation for free tickets
+  //       },
+  //       {
+  //         message: "Price is required for paid tickets.",
+  //         path: ["price"], // Specify the path for the error
+  //       }
+  //     )
+  // ),
   tickets: z.array(
     z
       .object({
@@ -473,6 +641,10 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
     }
   }
 
+  //  & .MuiDialog-paper {
+  //  background-color: #eaea87;
+  //  }
+
   & .MuiIconButton-root {
     // color: #808080;
     color: #ffffff;
@@ -480,8 +652,10 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
 
   & .MuiInputBase-root {
     border: 1px solid transparent;
+    // border-radius: 8px;
     border: none;
 
+    // background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a);
     color: #ffffff;
     width: 100%;
   }
@@ -521,16 +695,17 @@ function OganizerCreateEvent() {
   const [selected, setSelected] = useState<SelectedOption>("free");
 
   const [categoryAlert, setCategoryAlert] = useState<any>(false);
-  const [catLength, setCatLength] = useState<boolean>(false);
-  const [spaceError, setSpaceError] = useState<boolean>(false);
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
   const [isPreviewModalOpen, setisPreviewModalOpen] = useState(false);
   const [actionType, setActionType] = useState("");
-
+  // const [eventAllData, setEventAllData] = useState<EventData>({});
   const [eventAllData, setEventAllData] = useState<EventData | null>(null);
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
+  const fileInputRef = useRef(null);
   const fileInputRef2 = useRef(null);
+  const [dropdown, setDropdown] = useState(true);
+  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
 
   const [userid, setUserid] = useState<any>("");
   const [Eventname, setEventname] = useState("");
@@ -637,7 +812,16 @@ function OganizerCreateEvent() {
       selected: "free",
     },
   ]);
-
+  // const [ticketTypes, setTicketTypes] = useState([
+  //   {
+  //     type: "",
+  //     price: "",
+  //     no: "",
+  //     selected: "free",
+  //     dropdown: true,
+  //     options: [],
+  //   },
+  // ]);
   const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(null);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
 
@@ -690,7 +874,6 @@ function OganizerCreateEvent() {
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
 
   const optionscate: CateOption[] = [
-    { label: "Other" },
     { label: "Music" },
     { label: "Business" },
     { label: "Food & Drink" },
@@ -711,6 +894,7 @@ function OganizerCreateEvent() {
     { label: "Hobbies" },
     { label: "Family & Education" },
     { label: "School Activities" },
+    { label: "Other" },
   ];
 
   const hashtags: string[] = [
@@ -824,6 +1008,9 @@ function OganizerCreateEvent() {
   const [showWhitelistForm, setShowWhitelistForm] = useState(false);
   const [showPasswordedDiscountForm, setShowPasswordedDiscountForm] = useState(false);
   const [showPrivateEventForm, setShowPrivateEventForm] = useState(false);
+  const [showFestivalForm, setShowFestivalForm] = useState(false);
+  const [showRspvForm, setShowRspvForm] = useState(false);
+  const [showCustomForm, setCustomForm] = useState(false);
   const handleTicketOptionSelect = (index: number, option: TicketOption) => {
     setTicketdiffTypes((prev) =>
       prev.map((ticket, i) =>
@@ -960,7 +1147,8 @@ function OganizerCreateEvent() {
   const handleCatDropdownToggle = () => {
     setIsCatDropdownOpen((prev) => !prev);
   };
-
+  const defaultStartDate = dayjs().format("YYYY-MM-DDTHH:mm");
+  // const defaultEndDate = dayjs(TicketStartDate).add(1, 'hour').format("YYYY-MM-DDTHH:mm");
   const form = useForm<z.infer<typeof formSchema | typeof formSchema2>>({
     resolver: zodResolver(selected === "free" ? formSchema2 : formSchema),
     defaultValues: {
@@ -1000,6 +1188,13 @@ function OganizerCreateEvent() {
       ticketdiffTypes: [],
     },
   });
+
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     const filesArray = Array.from(event.target.files);
+  //     setGalleryFiles((prevFiles) => [...prevFiles, ...filesArray]);
+  //   }
+  // };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -1057,6 +1252,21 @@ function OganizerCreateEvent() {
     setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, [field]: value } : ticket)));
   };
 
+  // const handleAddTicketType = (e: any) => {
+  //   e.preventDefault();
+  //   setTicketTypes((prevTickets) => [
+  //     ...prevTickets,
+  //     {
+  //       type: "",
+  //       price: 0,
+  //       no: 0,
+  //       options: [],
+
+  //       dropdown: true,
+  //       selected: "free",
+  //     },
+  //   ]);
+  // };
   const handleAddTicketType = (e: any) => {
     e.preventDefault();
     setTicketTypes((prevTickets) => [
@@ -1124,6 +1334,175 @@ function OganizerCreateEvent() {
     setTicketdiffTypes(updatedTicketTypes);
   };
 
+  // const handleDeleteTicketType = (index: number) => {
+  //   // Prevent deleting the first ticket type
+  //   if (index === 0) return;
+
+  //   // Filter out the ticket at the specified index
+  //   setTicketTypes((prevTickets) =>
+  //     prevTickets.filter((_, i) => i !== index)
+  //   );
+  // };
+
+  // const handleCoverSingleFileChange = async (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const file = e.target.files?.[0];
+  //   const filename = file?.name;
+  //   setCoverImgName(filename);
+  //   if (file) {
+  //     setLoader(true);
+
+  //     try {
+  //       const formData = new FormData();
+  //       formData.append("file", file);
+  //       const res: any = await api.post(
+  //         `${API_URL}/upload/uploadimage`,
+  //         formData,
+  //         {
+  //           headers: {
+  //             "Content-Type": "multipart/form-data",
+  //           },
+  //         }
+  //       );
+
+  //       if (res.status === 200) {
+  //         setLoader(false);
+
+  //         form.setValue("eventcoverimg", res?.data?.data);
+  //         setCoverImageWarning(false);
+
+  //         setCoverImg(res?.data?.data);
+  //         SuccessToast("Cover Event Image Uploaded Successfully");
+  //       } else {
+  //         setLoader(false);
+  //         ErrorToast(res?.payload?.message || "Error uploading image");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //   }
+  // };
+
+  const handleCoverSingleFileChangeQuality = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    const filename = file?.name;
+    setCoverImgName(filename);
+
+    if (file) {
+      setLoader(true);
+
+      // Validation for file size
+      const maxSize = 5 * 1024 * 1024; // 5 MB
+      if (file.size > maxSize) {
+        setLoader(false);
+        ErrorToast("File size exceeds 5 MB. Please upload a smaller image.");
+        return;
+      }
+
+      // Create a URL for the file
+      const imgUrl = URL.createObjectURL(file);
+      const img = new window.Image(); // Use window.Image to avoid TypeScript confusion
+
+      img.onload = async () => {
+        const { width, height } = img;
+
+        // Check minimum dimensions
+        const minWidth = 330; // Minimum width
+        const minHeight = 330; // Minimum height
+        if (width < minWidth || height < minHeight) {
+          setLoader(false);
+          ErrorToast(
+            // `Image quality is too low. Minimum dimensions are ${minWidth}x${minHeight} pixels.`
+            ` Upload an image with at least ${minWidth}x${minHeight} pixels for better quality.`
+          );
+          return;
+        }
+
+        // Proceed with uploading if all checks pass
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+
+          if (res.status === 200) {
+            setLoader(false);
+            form.setValue("eventcoverimg", res?.data?.data);
+            // setCoverImageWarning(false);
+            setCoverImg(res?.data?.data);
+            SuccessToast("Cover Event Image Uploaded Successfully");
+          } else {
+            setLoader(false);
+            ErrorToast(res?.payload?.message || "Error uploading image");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          setLoader(false);
+          ErrorToast("An error occurred while uploading the image.");
+        }
+      };
+
+      img.onerror = () => {
+        setLoader(false);
+        ErrorToast("Failed to load the image.");
+      };
+
+      // Set the source of the image to trigger loading
+      img.src = imgUrl;
+    }
+  };
+
+  const handleCoverSingleFileChangeSize = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    const filename = file?.name;
+    setCoverImgName(filename);
+
+    if (file) {
+      setLoader(true);
+
+      // Validation for file size
+      const maxSize = 5 * 1024 * 1024; // 5 MB
+
+      if (file.size > maxSize) {
+        setLoader(false);
+        setCoverImageWarning(true);
+        ErrorToast("File size exceeds 5 MB. Please upload a smaller image.");
+        return;
+      }
+
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        if (res.status === 200) {
+          setLoader(false);
+          form.setValue("eventcoverimg", res?.data?.data);
+          setCoverImageWarning(false);
+          setCoverImg(res?.data?.data);
+          SuccessToast("Cover Event Image Uploaded Successfully");
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message || "Error uploading image");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        setLoader(false);
+        ErrorToast("An error occurred while uploading the image.");
+      }
+    }
+  };
+
   const handleCoverSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const filename = file?.name;
@@ -1137,6 +1516,13 @@ function OganizerCreateEvent() {
 
       img.onload = async () => {
         const { width, height } = img;
+
+        // const requiredSize = 1080;
+        // if (width !== requiredSize || height !== requiredSize) {
+        //   setLoader(false);
+        //   ErrorToast(`Image must be ${requiredSize}px x ${requiredSize}px.`);
+        //   return;
+        // }
 
         try {
           const formData = new FormData();
@@ -1190,6 +1576,20 @@ function OganizerCreateEvent() {
     setYtVerify(true);
   }, []);
 
+  // const handleOptionChange = (index: number, type: string) => {
+  //   setTicketTypes((prevTickets) => {
+  //     const updatedTickets = prevTickets.map((ticket, i) =>
+  //       i === index ? { ...ticket, selected: type } : ticket
+  //     );
+
+  //     updatedTickets.forEach((ticket, i) => {
+  //       form.setValue(`tickets.${i}.selected`, ticket.selected);
+  //     });
+
+  //     return updatedTickets;
+  //   });
+  // };
+
   const handleOptionChange = (index: number, type: string) => {
     setTicketTypes((prevTickets) => {
       const updatedTickets = prevTickets.map((ticket, i) => {
@@ -1226,7 +1626,6 @@ function OganizerCreateEvent() {
     });
   };
 
-  // Set state/form data to send in APIs
   const filteredTicketTypes = ticketTypes.map((ticket) => ({
     selected: ticket.selected,
 
@@ -1238,6 +1637,36 @@ function OganizerCreateEvent() {
       label: option.label,
     })),
   }));
+
+  function extractDate(dateTime: string): string {
+    // Create a new Date object from the input string
+    const date = new Date(dateTime);
+
+    // Format the date to 'YYYY-MM-DD'
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
+  function addTimeToDate(inputDate: string, hoursToAdd: number, minutesToAdd: number): string {
+    // Parse the input date
+    const date = new Date(inputDate);
+
+    // Add the specified hours and minutes
+    date.setHours(date.getHours() + hoursToAdd);
+    date.setMinutes(date.getMinutes() + minutesToAdd);
+
+    // Format the date in YYYY-MM-DDTHH:mm format
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
 
   const isCategorySelected = categoryTypes && categoryTypes.label !== "";
 
@@ -1318,7 +1747,6 @@ function OganizerCreateEvent() {
         tiktokUrl: tiktokUrl,
         linkedinUrl: linkedinUrl,
         eventmedia: imagesOfGallery,
-        stopBy: false,
       };
 
       console.log("Ticket creation APi data is =======> ", data);
@@ -1357,6 +1785,13 @@ function OganizerCreateEvent() {
     const utcTicketEndTime = convertToUTC(TicketEndDate);
     // setTicketEndDate(utcTicketEndTime);
 
+    // const selectedCategories = categoryTypes.map((category) => ({
+    //   options: category.options.map((option) => ({
+    //     id: option.id,
+    //     label: option.label,
+    //   })),
+    // }));
+
     const categorylabels = categoryTypes;
     const eventhashtags = chooseHashTags;
 
@@ -1369,16 +1804,51 @@ function OganizerCreateEvent() {
       isFree: isFree,
 
       eventcategory: categorylabels?.label,
+      // eventtags: eventhashtags,
 
       eventstartdate: utcTicketStartTime,
       eventenddate: utcTicketEndTime,
 
       eventstarttime: utcEventStartTime,
       eventendtime: utcEventEndTime,
+
+      // utcEventStartTime: utcEventStartTime,
+      // utcEventEndtime: utcEventEndTime,
+
+      // utcTicketStartTime: utcTicketStartTime,
+      // utcTicketEndTime: utcTicketEndTime,
     };
     console.log("my updated values are", updatedValues);
 
     setEventAllData(updatedValues);
+    // if (updatedValues !== null)
+    //   {
+    //   const encodedEventData = encodeURIComponent(
+    //     JSON.stringify(updatedValues)
+    //   );
+    //   console.log("my encoded data", encodedEventData);
+    //   router.push(`/preview-event?eventData=${encodedEventData}`);
+    // } else {
+    //   console.log("error");
+    // }
+    // if (updatedValues !== null) {
+    //   try {
+    //     const encodedEventData = encodeURIComponent(JSON.stringify(updatedValues));
+    //     console.log("my encoded data", encodedEventData);
+
+    //     // Check if data length exceeds URL limit
+    //     if (encodedEventData.length < 2000) { // Example limit
+    //       router.push(`/preview-event?eventData=${encodedEventData}`);
+    //     } else {
+    //       console.error("Data is too large for URL. Consider alternative methods.");
+    //       // Use an alternative method such as local storage or POST request
+    //     }
+    //   } catch (error) {
+    //     console.error("Error encoding data", error);
+    //   }
+    // } else {
+    //   console.log("error");
+    // }
     if (updatedValues !== null) {
       localStorage.setItem("eventData", JSON.stringify(updatedValues));
       router.push("/preview-event");
@@ -1419,19 +1889,7 @@ function OganizerCreateEvent() {
 
   const handleCustomCatgory = (e: any) => {
     const inputValue = e.target.value;
-
-    if (inputValue.endsWith(" ") && inputValue.length !== 0) {
-      setSpaceError(true);
-      return;
-    }
-
-    if (inputValue.length > 15) {
-      setCatLength(true);
-      return;
-    }
-    setSpaceError(false);
-    setCatLength(false);
-    setCustomCatgoryInput(inputValue.trim());
+    setCustomCatgoryInput(inputValue);
     setCategoryAlert(false);
 
     // Update the form field's value with the selected category
@@ -1452,6 +1910,18 @@ function OganizerCreateEvent() {
   };
 
   console.log("my cat", categoryTypes);
+  // useEffect(() => {
+  //   const updateEventEndTime = () => {
+  //     if (EventStartTime) {
+  //       const adjustedEventStartTime = dayjs(EventStartTime).add(5, "hour");
+  //       const formattedEndTime = adjustedEventStartTime.format("YYYY-MM-DDTHH:mm");
+  //       setEventEndTime(formattedEndTime);
+  //       form.setValue("eventendtime", formattedEndTime);
+  //     }
+  //   };
+
+  //   updateEventEndTime();
+  // }, [EventStartTime, TicketStartDate, form]);
 
   const handleHashFieldInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.trim();
@@ -1526,6 +1996,7 @@ function OganizerCreateEvent() {
                   {" "}
                   Cover <span className="text-primary"> Artwork</span>
                 </h1>
+                {/* <Image src={Editicon} alt="Edit-icon" /> */}
               </div>
 
               <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
@@ -1535,6 +2006,8 @@ function OganizerCreateEvent() {
               className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head 
                relative  "
             >
+              {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
+
               <Image src={CoverImg || newCover} alt="bg-frame" className="w-full lg:w-[392px] lg:h-[392px] h-[345px] " width={100} height={345} />
 
               <label
@@ -1563,6 +2036,11 @@ function OganizerCreateEvent() {
                   onChange={handleCoverSingleFileChange} // Ensure this handler function is defined to handle file changes
                 />
               </label>
+              {/* <p className="text-sm text-gray-500 mt-2">
+                Upload Guidelines: Maximum file size: <strong>5 MB</strong>,
+                Minimum resolution: <strong>800 x 600 pixels</strong>, Supported
+                formats: <strong>JPEG, PNG, GIF</strong> (animated).
+              </p> */}
             </div>
           </div>
 
@@ -1573,6 +2051,7 @@ function OganizerCreateEvent() {
                   {" "}
                   Gallery <span className="text-primary"> Media</span>
                 </h1>
+                {/* <Image src={Editicon} alt="Edit-icon" /> */}
               </div>
 
               <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
@@ -1636,10 +2115,14 @@ function OganizerCreateEvent() {
                       <Image src={cam} alt="pencil" />
                       <p className="text-[#00D059] text-sm font-extrabold">Upload Media</p>
                     </div>
+                    {/* <span className="pl-[0.75rem] uploadImageButton flex items-center">
+                    <Image src={cam} alt="pencil" /> {"Upload Media"}
+                  </span> */}
                     <input
                       type="file"
                       multiple
                       accept="image/*, video/*"
+                      // accept="image/png, image/jpg, image/jpeg, image/svg, video/mp4, video/avi, video/mov, video/mkv"
                       className="hidden "
                       id="galleryUpload"
                       onChange={handleFileChange}
@@ -1686,6 +2169,7 @@ function OganizerCreateEvent() {
         <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
           <Form {...form}>
             <form className=" w-full">
+              {/* Event Name and Catgory fields */}
               <div className="flex items-start gap-[24px] w-full common-container">
                 <FormField
                   control={form.control}
@@ -1709,6 +2193,7 @@ function OganizerCreateEvent() {
                     </FormItem>
                   )}
                 />
+                {/* //Event Catagory Input field */}
                 <FormField
                   control={form.control}
                   name="eventcategory"
@@ -1756,8 +2241,6 @@ function OganizerCreateEvent() {
                             {isCustomCatgory && (
                               <>
                                 {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
-                                {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
-                                {spaceError == true && <p className="text-[red] text-[16px]">Put only single word!</p>}
                                 <div
                                   style={{
                                     width: "100%",
@@ -1802,24 +2285,6 @@ function OganizerCreateEvent() {
                                 </div>
                               </>
                             )}
-                            {optionscate?.map((option: any) => (
-                              <div
-                                key={option.label}
-                                className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                onClick={() => handleCateOptionToggle(option)}
-                              >
-                                <div className="flex items-center gap-[10px]">
-                                  <p
-                                    className={`text-[16px] font-normal items-center ${
-                                      categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                    }`}
-                                  >
-                                    {option.label}
-                                  </p>
-                                </div>
-                                {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
-                              </div>
-                            ))}
                           </div>
                         </>
                       )}
@@ -2151,14 +2616,13 @@ function OganizerCreateEvent() {
                           control={form.control}
                           name="eventstarttime"
                           render={({ field }) => {
-                            const currentDateTime = dayjs();
-                            // const minStartTime = dayjs(TicketEndDate || new Date());
+                            const minStartTime = dayjs(TicketEndDate || new Date());
 
-                            // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
+                            const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
 
-                            // const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
+                            const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
 
-                            // const referenceEventDate = validStartTime.add(10, "minute");
+                            const referenceEventDate = validStartTime.add(10, "minute");
 
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
@@ -2171,8 +2635,7 @@ function OganizerCreateEvent() {
                                       open={isStartEventPickerOpen}
                                  
                                       formatDensity="spacious"
-                                      // referenceDate={referenceEventDate}
-                                      referenceDate={currentDateTime}
+                                      referenceDate={referenceEventDate}
                                       onKeyDown={(e: any) => e.preventDefault()}
                                       onChange={(e: any) => {
                                         if (e && e.isValid()) {
@@ -2234,10 +2697,9 @@ function OganizerCreateEvent() {
                           control={form.control}
                           name="eventendtime"
                           render={({ field }) => {
-                            const currentDateTime = dayjs();
-                            // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
+                            const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
-                            // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+                            const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
 
                             return (
                               <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
@@ -2347,7 +2809,6 @@ function OganizerCreateEvent() {
                           control={form.control}
                           name={`tickets.${index}.type`}
                           render={({ field }) => (
-                            // const currentDateTime = dayjs();
                             <FormItem className="relative w-full space-y-0 input-custom-container">
                               <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
                                 Event Ticket Name
@@ -2562,7 +3023,7 @@ function OganizerCreateEvent() {
                         <div className="flex items-center justify-between" onClick={() => handleTicketOptionsDropdownToggle(index)}>
                           <div className="flex flex-col">
                             <p className="text-[16px] font-bold text-[#FFFFFF] pb-[4px] uppercase">
-                              Ticket Type <span style={{ color: "#BA0202" }}>*</span>
+                              Event Ticket Type <span style={{ color: "#BA0202" }}>*</span>
                             </p>
                             <p className="text-[12px] font-extrabold text-[#8F8F8F]">
                               {ticket.selectedTicketOption ? ticket.selectedTicketOption.label : "Enter Ticket Type"}
@@ -2596,47 +3057,49 @@ function OganizerCreateEvent() {
                     )}
                   />
 
-                  <FormField
-                    control={form.control}
-                    name={`ticketdiffTypes.${index}.freeOrPaid`}
-                    render={({ field }) => (
-                      <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                        <div className="flex items-center justify-between" onClick={() => handleFreePaidDropdownToggle(index)}>
-                          <div className="flex flex-col">
-                            <p className="text-[16px] font-bold text-[#FFFFFF] pb-[4px] uppercase">
-                              Paid or Free <span style={{ color: "#BA0202" }}>*</span>
-                            </p>
-                            <p className="text-[12px] font-extrabold text-[#8F8F8F]">
-                              {selectedFreePaidOptions[index] ? selectedFreePaidOptions[index].label : "Enter Ticket Type"}
-                            </p>
+                  {!showRspvForm && (
+                    <FormField
+                      control={form.control}
+                      name={`ticketdiffTypes.${index}.freeOrPaid`}
+                      render={({ field }) => (
+                        <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                          <div className="flex items-center justify-between" onClick={() => handleFreePaidDropdownToggle(index)}>
+                            <div className="flex flex-col">
+                              <p className="text-[16px] font-bold text-[#FFFFFF] pb-[4px] uppercase">
+                                Paid or Free <span style={{ color: "#BA0202" }}>*</span>
+                              </p>
+                              <p className="text-[12px] font-extrabold text-[#8F8F8F]">
+                                {selectedFreePaidOptions[index] ? selectedFreePaidOptions[index].label : "Enter Ticket Type"}
+                              </p>
+                            </div>
+                            <Image src={isFreePaidDropdownOpen[index] ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                           </div>
-                          <Image src={isFreePaidDropdownOpen[index] ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
-                        </div>
 
-                        {isFreePaidDropdownOpen[index] && (
-                          <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                            {freepaidOption.map((option) => (
-                              <div
-                                key={option.label}
-                                className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                onClick={() => handleFreePaidOptionSelect(index, option)}
-                              >
-                                <p
-                                  className={`text-[16px] font-normal items-center ${
-                                    selectedFreePaidOptions[index]?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                  }`}
+                          {isFreePaidDropdownOpen[index] && (
+                            <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                              {freepaidOption.map((option) => (
+                                <div
+                                  key={option.label}
+                                  className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                  onClick={() => handleFreePaidOptionSelect(index, option)}
                                 >
-                                  {option.label}
-                                </p>
-                                {selectedFreePaidOptions[index]?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                                  <p
+                                    className={`text-[16px] font-normal items-center ${
+                                      selectedFreePaidOptions[index]?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                    }`}
+                                  >
+                                    {option.label}
+                                  </p>
+                                  {selectedFreePaidOptions[index]?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
                 </div>
                 <form className=" w-full">
                   {/* Event Name and Catgory fields */}
@@ -2668,444 +3131,466 @@ function OganizerCreateEvent() {
                   </div>
                 </form>
 
-                <div className="flex items-center gap-[24px] common-container">
-                  {selectedFreePaidOptions[index]?.label === "Paid" && (
+                {!showRspvForm && (
+                  <div className="flex items-center gap-[24px] common-container">
+                    {selectedFreePaidOptions[index]?.label === "Paid" && (
+                      <FormField
+                        control={form.control}
+                        name={`ticketdiffTypes.${index}.ticketprice`}
+                        render={({ field }) => (
+                          <FormItem className="relative w-full space-y-0" style={{ marginTop: "24px" }}>
+                            <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3 uppercase pt-[16px] pb-[4px]">
+                              Event Ticket Price <span style={{ color: "#BA0202" }}>*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter Event Ticket Price"
+                                className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]"
+                                {...field}
+                                onChange={(e) => {
+                                  setticketPrice(e.target.value);
+                                  field.onChange(e);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
                     <FormField
                       control={form.control}
-                      name={`ticketdiffTypes.${index}.ticketprice`}
+                      name={`ticketdiffTypes.${index}.numberticket`}
                       render={({ field }) => (
-                        <FormItem className="relative w-full space-y-0" style={{ marginTop: "24px" }}>
-                          <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3 uppercase pt-[16px] pb-[4px]">
-                            Event Ticket Price <span style={{ color: "#BA0202" }}>*</span>
+                        <FormItem className="relative w-full space-y-0 " style={{ marginTop: "24px" }}>
+                          <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3  uppercase pt-[16px] pb-[4px]">
+                            EVENT number of tickets <span style={{ color: "#BA0202" }}>*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
+                              type="number"
+                              onWheel={(e: any) => e.target.blur()}
                               placeholder="Enter Event Ticket Price"
                               className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]"
                               {...field}
                               onChange={(e) => {
-                                setticketPrice(e.target.value);
+                                const value = e.target.value;
+
+                                if (!/^\d*$/.test(value)) {
+                                  e.target.value = value.replace(/[^\d]/g, "");
+                                }
+
                                 field.onChange(e);
                               }}
                             />
                           </FormControl>
+
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  )}
-                  <FormField
-                    control={form.control}
-                    name={`ticketdiffTypes.${index}.numberticket`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0 " style={{ marginTop: "24px" }}>
-                        <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                          EVENT number of tickets <span style={{ color: "#BA0202" }}>*</span>
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            onWheel={(e: any) => e.target.blur()}
-                            placeholder="Enter Event Ticket Price"
-                            className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]"
-                            {...field}
-                            onChange={(e) => {
-                              const value = e.target.value;
-
-                              if (!/^\d*$/.test(value)) {
-                                e.target.value = value.replace(/[^\d]/g, "");
-                              }
-
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                  <div className="w-full">
-                    <ThemeProvider theme={themeMui}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={["DateTimePicker"]}>
-                          <FormField
-                            control={form.control}
-                            name={`ticketdiffTypes.${index}.eventstartdate`}
-                            render={({ field }) => {
-                              const currentDateTime = dayjs();
-                              return (
-                                <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                  <FormLabel className="text-[16px] font-bold text-[#FFFFFF]  uppercase pb-[4px]">
-                                    Ticket Start Date & Time <span style={{ color: "#BA0202" }}>*</span>
-                                  </FormLabel>
-                                  <FormControl>
-                                    {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                    <div className="w-full" onClick={() => toggleDateTimePicker(index)}>
-                                      {" "}
-                                      {/* Attach click event here */}
-                                      <StyledDateTimePicker
-                                        open={isPickerOpen} // Control the open state with local state
-                                        referenceDate={currentDateTime}
-                                        formatDensity="spacious"
-                                        onKeyDown={(e: any) => e.preventDefault()}
-                                        autoOk={false}
-                                        onChange={(e: any) => {
-                                          if (e && e.isValid()) {
-                                            const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                            setTicketStartDate(formattedDate);
-                                            field.onChange(formattedDate);
-                                            setIsPickerOpen((prevState) => ({
-                                              ...prevState,
-                                              [index]: false, // Close the picker for the specific index
-                                            }));
-                                          }
-                                        }}
-                                        disablePast
-                                        slots={{
-                                          openPickerIcon: () => (
-                                            <CalendarTodayIcon
-                                              style={{
-                                                color: "#5e5e5e",
-                                                fontSize: "15px",
-                                                position: "absolute",
-                                                top: "-17px",
-                                                right: "5px",
-                                              }}
-                                            />
-                                          ),
-                                        }}
-                                        slotProps={{
-                                          tabs: { hidden: false },
-                                          toolbar: {
-                                            toolbarFormat: "YYYY",
-                                            hidden: false,
-                                          },
-                                          calendarHeader: {
-                                            sx: { color: "white" },
-                                          },
-                                          textField: {
-                                            inputProps: { readOnly: true },
-                                            placeholder: "MM / DD / YYYY HH:MM:AA",
-                                          },
-                                        }}
-                                      />
-                                    </div>
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              );
-                            }}
-                          />
-                        </DemoContainer>
-                      </LocalizationProvider>
-                    </ThemeProvider>
                   </div>
-                  <div className="w-full">
-                    <ThemeProvider theme={themeMui}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={["DateTimePicker"]}>
-                          <FormField
-                            control={form.control}
-                            name={`ticketdiffTypes.${index}.eventenddate`}
-                            render={({ field }) => {
-                              const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
+                )}
 
-                              // Default to the current time if the adjusted start time has passed
-                              const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+                {!showRspvForm && (
+                  <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+                    <div className="w-full">
+                      <ThemeProvider theme={themeMui}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DateTimePicker"]}>
+                            <FormField
+                              control={form.control}
+                              name={`ticketdiffTypes.${index}.eventstartdate`}
+                              render={({ field }) => {
+                                const currentDateTime = dayjs();
+                                return (
+                                  <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
+                                    <FormLabel className="text-[16px] font-bold text-[#FFFFFF]  uppercase pb-[4px]">
+                                      Ticket Start Date & Time <span style={{ color: "#BA0202" }}>*</span>
+                                    </FormLabel>
+                                    <FormControl>
+                                      {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
+                                      <div className="w-full" onClick={() => toggleDateTimePicker(index)}>
+                                        {" "}
+                                        {/* Attach click event here */}
+                                        <StyledDateTimePicker
+                                          open={isPickerOpen} // Control the open state with local state
+                                          referenceDate={currentDateTime}
+                                          formatDensity="spacious"
+                                          onKeyDown={(e: any) => e.preventDefault()}
+                                          autoOk={false}
+                                          onChange={(e: any) => {
+                                            if (e && e.isValid()) {
+                                              const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                              setTicketStartDate(formattedDate);
+                                              field.onChange(formattedDate);
+                                              setIsPickerOpen((prevState) => ({
+                                                ...prevState,
+                                                [index]: false, // Close the picker for the specific index
+                                              }));
+                                            }
+                                          }}
+                                          disablePast
+                                          slots={{
+                                            openPickerIcon: () => (
+                                              <CalendarTodayIcon
+                                                style={{
+                                                  color: "#5e5e5e",
+                                                  fontSize: "15px",
+                                                  position: "absolute",
+                                                  top: "-17px",
+                                                  right: "5px",
+                                                }}
+                                              />
+                                            ),
+                                          }}
+                                          slotProps={{
+                                            tabs: { hidden: false },
+                                            toolbar: {
+                                              toolbarFormat: "YYYY",
+                                              hidden: false,
+                                            },
+                                            calendarHeader: {
+                                              sx: { color: "white" },
+                                            },
+                                            textField: {
+                                              inputProps: { readOnly: true },
+                                              placeholder: "MM / DD / YYYY HH:MM:AA",
+                                            },
+                                          }}
+                                        />
+                                      </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                );
+                              }}
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
+                      </ThemeProvider>
+                    </div>
+                    <div className="w-full">
+                      <ThemeProvider theme={themeMui}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DateTimePicker"]}>
+                            <FormField
+                              control={form.control}
+                              name={`ticketdiffTypes.${index}.eventenddate`}
+                              render={({ field }) => {
+                                const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
 
-                              return (
-                                <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                  <FormLabel className="text-[16px] font-bold text-[#FFFFFF]  uppercase  pb-[4px] ">
-                                    Ticket End Date & Time <span style={{ color: "#BA0202" }}>*</span>
-                                  </FormLabel>
-                                  <FormControl>
-                                    <div className=" w-full" onClick={() => toggleEndDateTimePicker(index)}>
-                                      {/* <div className=" w-full" > */}
+                                // Default to the current time if the adjusted start time has passed
+                                const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
 
-                                      <StyledDateTimePicker
-                                        open={isEndDatePickerOpen}
-                                        // value={validStartTime}
-                                        formatDensity="spacious"
-                                        // referenceDate={referenceTicketDate}
-                                        referenceDate={defaultEndTime}
-                                        onKeyDown={(e: any) => e.preventDefault()}
-                                        onChange={(e: any) => {
-                                          if (e && e.isValid()) {
-                                            const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                            setTicketEndDate(formattedDate);
-                                            field.onChange(formattedDate);
-                                            setIsEndDatePickerOpen((prevState) => ({
-                                              ...prevState,
-                                              [index]: false, // Close the picker for the specific index
-                                            }));
-                                          }
-                                        }}
-                                        //  label="Event End Date & Time"
-                                        disablePast
-                                        // minDateTime={validStartTime}
-                                        // minDateTime={minStartTime}
-                                        minDateTime={adjustedEventStartTime}
-                                        // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
-                                        slots={{
-                                          openPickerIcon: () => (
-                                            <CalendarTodayIcon
-                                              style={{
-                                                color: "#5e5e5e",
-                                                fontSize: "15px",
-                                                position: "absolute",
-                                                top: "-17px",
-                                                right: "5px",
-                                              }}
-                                            />
-                                          ),
-                                        }}
-                                        slotProps={{
-                                          tabs: {
-                                            hidden: true,
-                                          },
-                                          toolbar: {
-                                            toolbarFormat: "YYYY",
-                                            hidden: false,
-                                          },
-                                          calendarHeader: {
-                                            sx: { color: "white" },
-                                          },
-                                          textField: {
-                                            inputProps: { readOnly: true },
-                                            placeholder: "MM / DD / YYYY HH:MM:AA ",
-                                          },
-                                        }}
-                                      />
-                                    </div>
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              );
-                            }}
-                          />
-                        </DemoContainer>
-                      </LocalizationProvider>
-                    </ThemeProvider>
+                                return (
+                                  <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                    <FormLabel className="text-[16px] font-bold text-[#FFFFFF]  uppercase  pb-[4px] ">
+                                      Ticket End Date & Time <span style={{ color: "#BA0202" }}>*</span>
+                                    </FormLabel>
+                                    <FormControl>
+                                      <div className=" w-full" onClick={() => toggleEndDateTimePicker(index)}>
+                                        {/* <div className=" w-full" > */}
+
+                                        <StyledDateTimePicker
+                                          open={isEndDatePickerOpen}
+                                          // value={validStartTime}
+                                          formatDensity="spacious"
+                                          // referenceDate={referenceTicketDate}
+                                          referenceDate={defaultEndTime}
+                                          onKeyDown={(e: any) => e.preventDefault()}
+                                          onChange={(e: any) => {
+                                            if (e && e.isValid()) {
+                                              const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                              setTicketEndDate(formattedDate);
+                                              field.onChange(formattedDate);
+                                              setIsEndDatePickerOpen((prevState) => ({
+                                                ...prevState,
+                                                [index]: false, // Close the picker for the specific index
+                                              }));
+                                            }
+                                          }}
+                                          //  label="Event End Date & Time"
+                                          disablePast
+                                          // minDateTime={validStartTime}
+                                          // minDateTime={minStartTime}
+                                          minDateTime={adjustedEventStartTime}
+                                          // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                          slots={{
+                                            openPickerIcon: () => (
+                                              <CalendarTodayIcon
+                                                style={{
+                                                  color: "#5e5e5e",
+                                                  fontSize: "15px",
+                                                  position: "absolute",
+                                                  top: "-17px",
+                                                  right: "5px",
+                                                }}
+                                              />
+                                            ),
+                                          }}
+                                          slotProps={{
+                                            tabs: {
+                                              hidden: true,
+                                            },
+                                            toolbar: {
+                                              toolbarFormat: "YYYY",
+                                              hidden: false,
+                                            },
+                                            calendarHeader: {
+                                              sx: { color: "white" },
+                                            },
+                                            textField: {
+                                              inputProps: { readOnly: true },
+                                              placeholder: "MM / DD / YYYY HH:MM:AA ",
+                                            },
+                                          }}
+                                        />
+                                      </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                );
+                              }}
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
+                      </ThemeProvider>
+                    </div>
                   </div>
-                </div>
+                )}
 
-                <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
-                  <div className="w-full">
-                    <ThemeProvider theme={themeMui}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={["DateTimePicker"]}>
-                          <FormField
-                            control={form.control}
-                            name={`ticketdiffTypes.${index}.eventstarttime`}
-                            render={({ field }) => {
-                              const minStartTime = dayjs(TicketEndDate || new Date());
+                {!showRspvForm && (
+                  <div className="flex items-start gap-[24px] w-full mt-[24px] common-container">
+                    <div className="w-full">
+                      <ThemeProvider theme={themeMui}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DateTimePicker"]}>
+                            <FormField
+                              control={form.control}
+                              name={`ticketdiffTypes.${index}.eventstarttime`}
+                              render={({ field }) => {
+                                const minStartTime = dayjs(TicketEndDate || new Date());
 
-                              const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
+                                const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
 
-                              const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
+                                const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
 
-                              const referenceEventDate = validStartTime.add(10, "minute");
+                                const referenceEventDate = validStartTime.add(10, "minute");
 
-                              return (
-                                <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                  <FormLabel className="text-[16px] font-bold text-[#FFFFFF] uppercase  pb-[4px] ">
-                                    Event Start Date & Time <span style={{ color: "#BA0202" }}>*</span>
-                                  </FormLabel>
-                                  <FormControl>
-                                    <div className="w-full" onClick={() => toggleStartEventTimePicker(index)}>
-                                      {/* <div className=" w-full"> */}
+                                return (
+                                  <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                    <FormLabel className="text-[16px] font-bold text-[#FFFFFF] uppercase  pb-[4px] ">
+                                      Event Start Date & Time <span style={{ color: "#BA0202" }}>*</span>
+                                    </FormLabel>
+                                    <FormControl>
+                                      <div className="w-full" onClick={() => toggleStartEventTimePicker(index)}>
+                                        {/* <div className=" w-full"> */}
 
-                                      <StyledDateTimePicker
-                                        open={isStartEventPickerOpen[index]}
-                                        //  value={validStartTime}
-                                        formatDensity="spacious"
-                                        referenceDate={referenceEventDate}
-                                        onKeyDown={(e: any) => e.preventDefault()}
-                                        onChange={(e: any) => {
-                                          if (e && e.isValid()) {
-                                            const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                            setEventStartTime(formattedDate);
-                                            field.onChange(formattedDate);
-                                            setIsStartEventPickerOpen((prevState) => ({
-                                              ...prevState,
-                                              [index]: false, // Close the picker for the specific index
-                                            }));
-                                          }
-                                        }}
-                                        minDateTime={minStartTime}
-                                        slots={{
-                                          openPickerIcon: () => (
-                                            <CalendarTodayIcon
-                                              style={{
-                                                color: "#5e5e5e",
-                                                fontSize: "15px",
-                                                position: "absolute",
-                                                top: "-17px",
-                                                right: "5px",
-                                              }}
-                                            />
-                                          ),
-                                        }}
-                                        slotProps={{
-                                          tabs: {
-                                            hidden: false,
-                                          },
-                                          toolbar: {
-                                            toolbarFormat: "YYYY",
-                                            hidden: false,
-                                          },
-                                          calendarHeader: {
-                                            sx: { color: "white" },
-                                          },
-                                          textField: {
-                                            inputProps: { readOnly: true },
-                                            placeholder: "MM / DD / YYYY HH:MM:AA",
-                                          },
-                                        }}
-                                      />
-                                    </div>
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              );
-                            }}
-                          />
-                        </DemoContainer>
-                      </LocalizationProvider>
-                    </ThemeProvider>
+                                        <StyledDateTimePicker
+                                          open={isStartEventPickerOpen[index]}
+                                          //  value={validStartTime}
+                                          formatDensity="spacious"
+                                          referenceDate={referenceEventDate}
+                                          onKeyDown={(e: any) => e.preventDefault()}
+                                          onChange={(e: any) => {
+                                            if (e && e.isValid()) {
+                                              const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                              setEventStartTime(formattedDate);
+                                              field.onChange(formattedDate);
+                                              setIsStartEventPickerOpen((prevState) => ({
+                                                ...prevState,
+                                                [index]: false, // Close the picker for the specific index
+                                              }));
+                                            }
+                                          }}
+                                          minDateTime={minStartTime}
+                                          slots={{
+                                            openPickerIcon: () => (
+                                              <CalendarTodayIcon
+                                                style={{
+                                                  color: "#5e5e5e",
+                                                  fontSize: "15px",
+                                                  position: "absolute",
+                                                  top: "-17px",
+                                                  right: "5px",
+                                                }}
+                                              />
+                                            ),
+                                          }}
+                                          slotProps={{
+                                            tabs: {
+                                              hidden: false,
+                                            },
+                                            toolbar: {
+                                              toolbarFormat: "YYYY",
+                                              hidden: false,
+                                            },
+                                            calendarHeader: {
+                                              sx: { color: "white" },
+                                            },
+                                            textField: {
+                                              inputProps: { readOnly: true },
+                                              placeholder: "MM / DD / YYYY HH:MM:AA",
+                                            },
+                                          }}
+                                        />
+                                      </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                );
+                              }}
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
+                      </ThemeProvider>
+                    </div>
+
+                    <div className="w-full">
+                      <ThemeProvider theme={themeMui}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DateTimePicker"]}>
+                            <FormField
+                              control={form.control}
+                              name={`ticketdiffTypes.${index}.eventendtime`}
+                              render={({ field }) => {
+                                const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
+
+                                const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+
+                                return (
+                                  <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                    <FormLabel className="text-[16px] font-bold text-[#FFFFFF]  uppercase  pb-[4px]">
+                                      Event End Date & Time <span style={{ color: "#BA0202" }}>*</span>
+                                    </FormLabel>
+                                    <FormControl>
+                                      <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
+                                        {/* <div className=" w-full"> */}
+
+                                        <StyledDateTimePicker
+                                          open={isEndEventPickerOpen}
+                                          referenceDate={defaultEndTime}
+                                          // value={
+                                          //   field.value
+                                          //     ? dayjs(field.value)
+                                          //     : defaultEndTime
+                                          // }
+                                          formatDensity="spacious"
+                                          onKeyDown={(e: any) => e.preventDefault()}
+                                          onChange={(e: any) => {
+                                            if (e && e.isValid()) {
+                                              const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                              setEventEndTime(formattedDate);
+                                              field.onChange(formattedDate);
+                                              setIsEndEventPickerOpen((prevState) => ({
+                                                ...prevState,
+                                                [index]: false, // Close the picker for the specific index
+                                              }));
+                                            }
+                                          }}
+                                          disablePast
+                                          //  label="Event End Date & Time"
+                                          // minDateTime={dayjs("2024-10-15T08:30")}
+                                          minDateTime={adjustedEventStartTime}
+                                          // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                          slots={{
+                                            openPickerIcon: () => (
+                                              <CalendarTodayIcon
+                                                style={{
+                                                  color: "#5e5e5e",
+                                                  fontSize: "15px",
+                                                  position: "absolute",
+                                                  top: "-17px",
+                                                  right: "5px",
+                                                }}
+                                              />
+                                            ),
+                                          }}
+                                          slotProps={{
+                                            tabs: {
+                                              hidden: false,
+                                            },
+                                            toolbar: {
+                                              toolbarFormat: "YYYY",
+                                              hidden: false,
+                                            },
+                                            calendarHeader: {
+                                              sx: { color: "white" },
+                                            },
+                                            textField: {
+                                              inputProps: { readOnly: true },
+                                              placeholder: "MM / DD / YYYY HH:MM:AA",
+                                            },
+                                          }}
+                                        />
+                                      </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                );
+                              }}
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
+                      </ThemeProvider>
+                    </div>
                   </div>
+                )}
 
-                  <div className="w-full">
-                    <ThemeProvider theme={themeMui}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={["DateTimePicker"]}>
-                          <FormField
-                            control={form.control}
-                            name={`ticketdiffTypes.${index}.eventendtime`}
-                            render={({ field }) => {
-                              const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
-
-                              const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
-
-                              return (
-                                <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                  <FormLabel className="text-[16px] font-bold text-[#FFFFFF]  uppercase  pb-[4px]">
-                                    Event End Date & Time <span style={{ color: "#BA0202" }}>*</span>
-                                  </FormLabel>
-                                  <FormControl>
-                                    <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
-                                      {/* <div className=" w-full"> */}
-
-                                      <StyledDateTimePicker
-                                        open={isEndEventPickerOpen}
-                                        referenceDate={defaultEndTime}
-                                        // value={
-                                        //   field.value
-                                        //     ? dayjs(field.value)
-                                        //     : defaultEndTime
-                                        // }
-                                        formatDensity="spacious"
-                                        onKeyDown={(e: any) => e.preventDefault()}
-                                        onChange={(e: any) => {
-                                          if (e && e.isValid()) {
-                                            const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                            setEventEndTime(formattedDate);
-                                            field.onChange(formattedDate);
-                                            setIsEndEventPickerOpen((prevState) => ({
-                                              ...prevState,
-                                              [index]: false, // Close the picker for the specific index
-                                            }));
-                                          }
-                                        }}
-                                        disablePast
-                                        //  label="Event End Date & Time"
-                                        // minDateTime={dayjs("2024-10-15T08:30")}
-                                        minDateTime={adjustedEventStartTime}
-                                        // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
-                                        slots={{
-                                          openPickerIcon: () => (
-                                            <CalendarTodayIcon
-                                              style={{
-                                                color: "#5e5e5e",
-                                                fontSize: "15px",
-                                                position: "absolute",
-                                                top: "-17px",
-                                                right: "5px",
-                                              }}
-                                            />
-                                          ),
-                                        }}
-                                        slotProps={{
-                                          tabs: {
-                                            hidden: false,
-                                          },
-                                          toolbar: {
-                                            toolbarFormat: "YYYY",
-                                            hidden: false,
-                                          },
-                                          calendarHeader: {
-                                            sx: { color: "white" },
-                                          },
-                                          textField: {
-                                            inputProps: { readOnly: true },
-                                            placeholder: "MM / DD / YYYY HH:MM:AA",
-                                          },
-                                        }}
-                                      />
-                                    </div>
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              );
-                            }}
-                          />
-                        </DemoContainer>
-                      </LocalizationProvider>
-                    </ThemeProvider>
+                {showFestivalForm && (
+                  <div className="flex justify-end items-center mt-[24px]">
+                    <Button
+                      style={{
+                        height: "32px",
+                        background:
+                          "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                      }}
+                      className="flex items-center justify-center bg-[#0F0F0F] text-[#00D059] h-[32px] px-[26px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
+                    >
+                      <Image src={addicon} alt="Add-icon" height={12.5} width={12.5} />
+                      Add Events Timing
+                    </Button>
                   </div>
-                </div>
+                )}
 
-                <div
-                  className={`flex items-center gap-[24px] ${
-                    showWhitelistForm ? "common-container" : "lg:gap-[24px] md:w-[49%] xl:gap-[24px] gap-[24px] w-full mt-[24px] common-container"
-                  }`}
-                  style={{ alignItems: "end" }}
-                >
-                  <FormField
-                    control={form.control}
-                    name={`ticketdiffTypes.${index}.whatincluded`}
-                    render={({ field }) => (
-                      <FormItem className="relative w-full space-y-0">
-                        <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                          What Included <span style={{ color: "#BA0202" }}>*</span>
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter What’s Included"
-                            className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]  "
-                            {...field}
-                            value={whatincluded || ""}
-                            onChange={(e) => {
-                              setwhatincluded(e.target.value);
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
+                {!showRspvForm && (
+                  <div
+                    className={`flex items-center gap-[24px] ${
+                      showWhitelistForm ? "common-container" : "lg:gap-[24px] md:w-[49%] xl:gap-[24px] gap-[24px] w-full mt-[24px] common-container"
+                    }`}
+                    style={{ alignItems: "end" }}
+                  >
+                    <FormField
+                      control={form.control}
+                      name={`ticketdiffTypes.${index}.whatincluded`}
+                      render={({ field }) => (
+                        <FormItem className="relative w-full space-y-0">
+                          <FormLabel className="text-[16px] font-bold text-[#FFFFFF] absolute left-3  uppercase pt-[16px] pb-[4px]">
+                            What Included <span style={{ color: "#BA0202" }}>*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter What’s Included"
+                              className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]  "
+                              {...field}
+                              onChange={(e) => {
+                                setwhatincluded(e.target.value);
+                                field.onChange(e);
+                              }}
+                            />
+                          </FormControl>
 
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  {showWhitelistForm && <Whitelist onLimitChange={handleLimitChange} />}
-                </div>
+                    {showWhitelistForm && <Whitelist onLimitChange={handleLimitChange} />}
+                  </div>
+                )}
 
-                <RsvpTicketing />
-
+                {showRspvForm && <RsvpTicketing />}
                 {showPrivateEventForm && <ManualEmailForm />}
                 {showPasswordedDiscountForm && <PasswordedDiscountForm />}
 
@@ -3254,6 +3739,11 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
+                          // onChange={(e) => {
+                          //   setTwitterUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
+
                           onChange={(e) => {
                             const value = e.target.value;
                             // Prevent the user from modifying the base URL
@@ -3289,6 +3779,10 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
+                          // onChange={(e) => {
+                          //   setYoutubeUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
                             const value = e.target.value;
 
@@ -3325,6 +3819,10 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
+                          // onChange={(e) => {
+                          //   settiktokUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
                             const value = e.target.value;
 
@@ -3360,6 +3858,10 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
+                          // onChange={(e) => {
+                          //   setlinkedinUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
                             const value = e.target.value;
 
@@ -3396,6 +3898,10 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...field}
+                          // onChange={(e) => {
+                          //   settiktokUrl(e.target.value);
+                          //   field.onChange(e);
+                          // }}
                           onChange={(e) => {
                             const value = e.target.value;
 
