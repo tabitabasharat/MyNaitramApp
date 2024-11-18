@@ -3116,6 +3116,7 @@ function OganizerCreateEvent() {
                               placeholder="Enter What’s Included"
                               className="pt-12 pb-6 placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F]  "
                               {...field}
+                              value={whatincluded || ""}
                               onChange={(e) => {
                                 setwhatincluded(e.target.value);
                                 field.onChange(e);
