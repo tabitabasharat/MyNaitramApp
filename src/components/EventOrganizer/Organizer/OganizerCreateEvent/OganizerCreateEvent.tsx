@@ -198,9 +198,6 @@ const formSchema = z.object({
   numberticket: z.string().min(1, { message: "Number Ticket cannot be empty." }),
   eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
 
-  // compticketno: z
-  //   .string()
-  //   .min(1, { message: "Complimentary ticket number cannot be empty." }),
   fburl: z.string().url({ message: "Invalid Facebook URL." }).optional(),
   instaurl: z.string().url({ message: "Invalid Instagram URL." }).optional(),
   youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).optional(),
@@ -208,58 +205,8 @@ const formSchema = z.object({
   linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
   twitterurl: z.string().url({ message: "Invalid Twitter URL." }).optional(),
   telegramurl: z.string().url({ message: "Invalid Telegram URL." }).optional(),
-  // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
-  // selected: z.string(),
-  // tickets: z.array(
-  //   z.object({
-  //     type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //     price: z
-  //       .string()
-  //       .min(1, { message: "Ticket price must be greater than 0." }),
-  //     no: z
-  //       .string()
-  //       .min(1, { message: "Number of tickets must be greater than 0." }),
-  //   })
-  // ),
-
-  // ticketss: z.array(
-  //   z
-  //     .object({
-  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //       // price: z.union([z.string(), z.number()]).optional(),
-  //       price: z.string().min(1, { message: "Ticket price cannot be empty." }),
-  //       no: z
-  //         .union([z.string(), z.number()])
-  //         .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-  //           message: "Number of tickets must be greater than 0.",
-  //           path: ["no"],
-  //         }),
-  //       selected: z.string().optional(),
-  //     })
-  //     .refine(
-  //       (data) => {
-  //         if (data.selected === "paid") {
-  //           const priceIsValid =
-  //             data.price !== undefined &&
-  //             ((typeof data.price === "string" && data.price.trim() !== "") ||
-  //               (typeof data.price === "number" && data.price > 0));
-
-  //           return priceIsValid;
-
-  //         } else if (data.selected === "free") {
-  //           return data.price === undefined; // Price must be undefined for free tickets
-  //         }
-  //         return true; // If neither selected, pass validation
-  //       },
-  //       {
-  //         message:
-  //           "Price is required for paid tickets and should not be present for free tickets.",
-  //         path: ["price"],
-  //       }
-  //     )
-  // ),
   tickets: z.array(
     z
       .object({
