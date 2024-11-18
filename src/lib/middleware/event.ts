@@ -480,3 +480,43 @@ export const stopTicketSales = createAsyncThunk("stopTicketSales", async (data: 
     };
   }
 });
+
+export const reportEvent = createAsyncThunk("reportEvent", async (data: any) => {
+  try {
+    console.log("Inside the Report Event");
+    console.log("Body Data to Report Event ", data);
+
+    const res = await api.post(`${API_URL}/event/submitReport`, data);
+    console.log("Iside the Report Event status ", res);
+
+    return {
+      status: res?.status,
+      data: res?.data,
+    };
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
+  }
+});
+
+export const submitFeedback = createAsyncThunk("submitFeedback", async (data: any) => {
+  try {
+    console.log("Inside the Submit Feedback");
+    console.log("Body Data to Submit Feedback ", data);
+
+    const res = await api.post(`${API_URL}/event/submitFeedback`, data);
+    console.log("Iside the Submit Feedback status ", res);
+
+    return {
+      status: res?.status,
+      data: res?.data,
+    };
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
+  }
+});

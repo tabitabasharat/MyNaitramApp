@@ -72,6 +72,8 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const [modalContent, setModalContent] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [currentUserID, setCurrentUserID] = useState<string>("");
 
   const handleLinkClick = (link: string) => {
     setActiveLink(link); // Set the active link
@@ -125,6 +127,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   //   nextArrow: EventData?.eventmedia?.length > 1 ? <CustomNextArrow /> : null,
   //   arrows: EventData?.eventmedia?.length > 1 ? true : false,
   // };
+
   useEffect(() => {
     const currentUrl: any = typeof window !== "undefined" ? window.location.href : null;
 
@@ -254,9 +257,47 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
   console.log(EventData, "this is my event data");
 
+  // async function StopSalesMethod() {
+  //   console.log("My EVENT DATA IS AS ===> ", EventData, "AND Event ID is as ===> ", eventID);
+  //   if (EventData?.id.toString() === eventID) {
+  //     setLoader(true);
+  //     const values = form.getValues();
+  //     console.log("my values", values);
+  //     try {
+  //       const data = {
+  //         eventId: parseInt(eventID, 10),
+  //         userId: parseInt(userID, 10),
+  //         // text: reasonData || "",
+  //       };
+  //       console.log("This is reason Data ====> ", data);
+  //       dispatch(stopTicketSales(data)).then((res: any) => {
+  //         console.log("Stop sales status ===> ", res?.payload?.status);
+  //         if (res?.payload?.status === 200) {
+  //           setLoader(false);
+  //           console.log("Stop Sales of ticket succesfully");
+  //           SuccessToast(salesStop ? "Ticket sales resumed" : "Ticket sales stoped");
+  //           router.push("/management");
+  //         } else {
+  //           setLoader(false);
+  //           ErrorToast(res?.payload?.body?.message);
+  //         }
+  //       });
+  //     } catch (error) {
+  //       setLoader(false);
+  //       console.error("Error:", error);
+  //       ErrorToast(error);
+  //       ErrorToast("Error while Creating Form");
+  //     }
+  //   } else {
+  //     setLoader(false);
+  //     ErrorToast("Event not Found");
+  //     router.push("/management");
+  //   }
+  // }
+
   return (
     <section className="bg-img ">
-      {userLoading?.loading && <ScreenLoader />}
+      {(userLoading?.loading || loading) && <ScreenLoader />}
       <Image
         style={{ filter: "blur(30px)" }}
         width={1000}
@@ -293,14 +334,14 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                     style={{
                       background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
                     }}
-                    className="absolute top-full right-0 mt-[8px] w-[150px] border-none rounded-md shadow-lg"
+                    className="absolute top-full right-0 mt-[8px] w-[150px] border-none rounded-md shadow-lg z-[100]"
                   >
                     <ul className="flex flex-col p-2">
                       <li
                         onClick={() => handleLinkClick("Report")}
                         className={`block text-start p-2 flex gap-[8px] text-green-500 cursor-pointer text-sm ${
                           activeLink === "Report" ? "text-green-500" : "text-white"
-                        }`}
+                        } hover:text-primary`}
                       >
                         <Image src={activeLink === "Report" ? reporticongreen : reporticon} alt="report-icon" />
                         <p>Report</p>
@@ -322,12 +363,31 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                     onClose={() => setIsModalOpen(false)}
                     //  onClose={() => setShareModal(false)}
                     //  open={() => setShareModal(true)}
+                    eventID={eventID}
+                    updateParentState={(newState) => setLoading(newState)}
+                    closeModelOn={(newState) => setIsModalOpen(newState)}
                   />
                 )}
-                {isModalOpen && modalContent === "Report" && <Report open={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+                {isModalOpen && modalContent === "Report" && (
+                  <Report
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    eventID={eventID}
+                    updateParentState={(newState) => setLoading(newState)}
+                    closeModelOn={(newState) => setIsModalOpen(newState)}
+                  />
+                )}
               </div>
               {/* Add a Feedback Modal here if needed */}
-              {isModalOpen && modalContent === "Feedback" && <FeedbackModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+              {isModalOpen && modalContent === "Feedback" && (
+                <FeedbackModal
+                  open={isModalOpen}
+                  onClose={() => setIsModalOpen(false)}
+                  eventID={eventID}
+                  updateParentState={(newState) => setLoading(newState)}
+                  closeModelOn={(newState) => setIsModalOpen(newState)}
+                />
+              )}
             </div>
             {sharemodal && <ShareModal onClose={() => setShareModal(false)} open={() => setShareModal(true)} eventUrl={copiedUrl} />}
           </div>
