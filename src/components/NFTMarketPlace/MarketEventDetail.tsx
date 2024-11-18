@@ -420,7 +420,7 @@ const toggleSection = (section: string) => {
     }}
   ></div>
   
-<div className="upperdiv flex justify-between items-center px-[24px] py-[28px]" style={{ borderBottom: '1.41px solid rgba(41, 41, 41, 0.5)' }}>
+<div className="upperdiv flex justify-between items-center px-[24px] py-[28px]" >
   <div className="flex gap-[15px] topDiv">
     <Image className="arrowImage" src={listing} alt="Listings" />
     <p className="Listings">listings</p>
@@ -497,7 +497,7 @@ const toggleSection = (section: string) => {
     }}
   ></div>
   
-<div className="upperdiv flex justify-between items-center px-[24px] py-[28px]" style={{ borderBottom: '1.41px solid rgba(41, 41, 41, 0.5)' }}>
+<div className="upperdiv flex justify-between items-center px-[24px] py-[28px]" >
   <div className="flex gap-[15px] topDiv ">
     <Image className="arrowImage" src={itemActivity} alt="Item Activity" />
     <p className="Listings">Item Activity</p>

@@ -123,14 +123,32 @@
 
   }
  }
- @media(max-width:400px){
+
+ @media(max-width:427px){
   .TableHeader{
     font-size: 11px !important;
     padding: 7px !important;
   }
   .tableRow{
     font-size: 10px !important;
-    padding: 7px !important;
+  padding: 7px !important;
+  }
+ }
+ @media(max-width:370px){
+  .TableHeader{
+    font-size: 8px !important;
+    font-weight: 400 !important;
+      font-size: 8px !important;
+      padding: 5px !important;
+  
+  }
+  .tableRow{
+    font-weight: 400 !important;
+    font-size: 10px !important;
+    padding-left: 2px !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    padding-right: 2px !important;
   }
  }
 @media (max-width: 992px) {
@@ -217,6 +235,9 @@
     gap: 15px;
 }
 } @media(max-width:768px){
+  .main{
+    padding-top: 120px !important;
+  }
   .arrowImage{
     width: 12.34px !important;
     height: 12.34px !important;
