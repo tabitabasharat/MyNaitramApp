@@ -12,6 +12,7 @@
 //  export const API_URL = "http://192.168.18.27:3001"
 // export const API_URL ="https://staggingbe.blockmoblabs.com"
 
+<<<<<<< HEAD
 // export const API_URL = "https://staggingbe.blockmoblabs.com";
 
 // This is for develpoment and testing use this (v1)
@@ -19,3 +20,7 @@
 
 // This is for develpoment and testing use this (v2)
 export const API_URL = "https://something.dotskulls.com";
+=======
+export const API_URL = "https://staggingbe.blockmoblabs.com";
+// export const API_URL = "https://stagingbe.dotskulls.com";
+>>>>>>> 70ed78d12db6a8e62fcd9fbd84e8095e9db3c319
