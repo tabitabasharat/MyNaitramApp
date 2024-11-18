@@ -564,14 +564,14 @@ body {
 .custom-quill .ql-toolbar.ql-snow .ql-picker-label {
   color: white !important;
 }
-.gradient-border {
+/* .gradient-border {
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
-  border: 4px solid transparent; /* Set transparent border width */
-  border-radius: 8px; /* Optional for rounded borders */
-  background-clip: padding-box, border-box; /* Clip background to borders */
-  background-origin: border-box; /* Ensures border gradient aligns correctly */
-  /* padding: 16px; Space for content */
-}
+  border: 4px solid transparent;
+  border-radius: 8px;
+  background-clip: padding-box, border-box;
+  background-origin: border-box;
+  padding: 16px;
+} */
 
 .gradient-border-drp {
   border: 6px solid;
