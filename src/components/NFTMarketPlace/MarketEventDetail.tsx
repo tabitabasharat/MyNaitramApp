@@ -64,7 +64,7 @@ const toggleSection = (section: string) => {
 
     return (
       <div className=" ">
-      <section className=" pt-[173px] pb-[108px] bg-cover bg-no-repeat  lg: bg-reward  main pl-[92px] pr-[97px]">
+      <section className="main pt-[173px] pb-[108px] bg-cover bg-no-repeat  lg: bg-reward  main pl-[92px] pr-[97px]  ">
         <div className="flex gap-[80px] md-1150:flex-col">
           <div className="flex flex-col w-full rightDive">
             <div className=" image w-full h-full">
@@ -420,7 +420,7 @@ const toggleSection = (section: string) => {
     }}
   ></div>
   
-<div className="upperdiv flex justify-between items-center px-[24px] py-[28px]" style={{ borderBottom: '1.41px solid rgba(41, 41, 41, 0.5)' }}>
+<div className="upperdiv flex justify-between items-center px-[24px] py-[28px]">
   <div className="flex gap-[15px] topDiv">
     <Image className="arrowImage" src={listing} alt="Listings" />
     <p className="Listings">listings</p>
@@ -442,19 +442,19 @@ const toggleSection = (section: string) => {
       <Table>
         <TableHead>
           <TableRow className="table1Row" sx={{borderTop:'1.41px solid  #29292980'}}>
-            <TableCell className='TableHeader' sx={{  borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>Price</TableCell>
-            <TableCell className='TableHeader' sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>USD Price</TableCell>
-            <TableCell className='TableHeader' sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>Quantity</TableCell>
-            <TableCell  className='TableHeader' sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>Expiration</TableCell>
-            <TableCell  className="hidecol" sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}></TableCell>
+            <TableCell className='TableHeader' sx={{ fontFamily: "var(--font-base)", borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>Price</TableCell>
+            <TableCell className='TableHeader' sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>USD Price</TableCell>
+            <TableCell className='TableHeader' sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>Quantity</TableCell>
+            <TableCell  className='TableHeader' sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>Expiration</TableCell>
+            <TableCell  className="hidecol" sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell className="tableRow" sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>0.00001 ETH</TableCell>
-            <TableCell className="tableRow" sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>$0.30</TableCell>
-            <TableCell className="tableRow" sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>1</TableCell>
-            <TableCell className="tableRow" sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>In 6 Months</TableCell>
+            <TableCell className="tableRow" sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>0.00001 ETH</TableCell>
+            <TableCell className="tableRow" sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>$0.30</TableCell>
+            <TableCell className="tableRow" sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>1</TableCell>
+            <TableCell className="tableRow" sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>In 6 Months</TableCell>
             <TableCell className="latertobeHide" sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>
               <Button className=" size-lg px-[27px] rounded-[100px]">
                 Buy
@@ -497,7 +497,7 @@ const toggleSection = (section: string) => {
     }}
   ></div>
   
-<div className="upperdiv flex justify-between items-center px-[24px] py-[28px]" style={{ borderBottom: '1.41px solid rgba(41, 41, 41, 0.5)' }}>
+<div className="upperdiv flex justify-between items-center px-[24px] py-[28px]" >
   <div className="flex gap-[15px] topDiv ">
     <Image className="arrowImage" src={itemActivity} alt="Item Activity" />
     <p className="Listings">Item Activity</p>
@@ -519,21 +519,21 @@ const toggleSection = (section: string) => {
       <Table>
         <TableHead>
           <TableRow className="table1Row" sx={{borderTop:'1.41px solid  #29292980'}}>
-            <TableCell className='Table2Header' sx={{  borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>Event</TableCell>
-            <TableCell className='Table2Header' sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>Price</TableCell>
-            <TableCell className='Table2Header' sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>From</TableCell>
-            <TableCell  className='Table2Header' sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>To</TableCell>
-            <TableCell className='Table2Header' sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>Date</TableCell>
+            <TableCell className='Table2Header' sx={{ fontFamily: "var(--font-base)", borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>Event</TableCell>
+            <TableCell className='Table2Header' sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>Price</TableCell>
+            <TableCell className='Table2Header' sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>From</TableCell>
+            <TableCell  className='Table2Header' sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>To</TableCell>
+            <TableCell className='Table2Header' sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#BFBFBF'}}>Date</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
             <TableRow key={index}>
-              <TableCell className="tableRow2"  sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>{row.event}</TableCell>
-              <TableCell className="tableRow2" sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>{row.price}</TableCell>
-              <TableCell className="tableRow2" sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>{row.from}</TableCell>
-              <TableCell className="tableRow2" sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>{row.to}</TableCell>
-              <TableCell className="tableRow2"  sx={{borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>{row.date}</TableCell>
+              <TableCell className="tableRow2"  sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>{row.event}</TableCell>
+              <TableCell className="tableRow2" sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>{row.price}</TableCell>
+              <TableCell className="tableRow2" sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>{row.from}</TableCell>
+              <TableCell className="tableRow2" sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>{row.to}</TableCell>
+              <TableCell className="tableRow2"  sx={{fontFamily: "var(--font-base)",borderBottom:'none' , borderTop:'1.41px solid  #29292980', color:'#FFFFFF'}}>{row.date}</TableCell>
             </TableRow>
           ))}
         </TableBody>
