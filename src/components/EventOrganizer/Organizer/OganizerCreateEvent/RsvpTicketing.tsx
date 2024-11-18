@@ -11,7 +11,7 @@ interface RsvpTicketingProps {
 }
 
 const RsvpTicketing: React.FC<RsvpTicketingProps> = ({ onLimitChange }) => {
-    const [fields, setFields] = useState<string[]>([]);
+    const [fields, setFields] = useState<string[]>([]); // Start with an empty array
     const [rsvpDeadline, setRsvpDeadline] = useState('');
     const [rsvpCapacity, setRsvpCapacity] = useState('');
     const [whatIncluded, setWhatIncluded] = useState('');
@@ -49,20 +49,9 @@ const RsvpTicketing: React.FC<RsvpTicketingProps> = ({ onLimitChange }) => {
     const handleWhatIncludedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setWhatIncluded(e.target.value);
     };
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
     const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        const updatedOptions = [...selectedOptions];
-
-        if (updatedOptions.includes(value)) {
-            // Remove the option if already selected
-            const index = updatedOptions.indexOf(value);
-            updatedOptions.splice(index, 1);
-        } else if (updatedOptions.length < 3) { // Limit to 3 selections
-            updatedOptions.push(value);
-        }
-
-        setSelectedOptions(updatedOptions);
+        setSelectedOption(e.target.value);
     };
 
     return (
@@ -94,7 +83,6 @@ const RsvpTicketing: React.FC<RsvpTicketingProps> = ({ onLimitChange }) => {
                         />
                     </div>
                 </div>
-
                 <div className="flex items-start lg:gap-[24px] md:w-[49%] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
 
                     <div className="relative w-full" >
@@ -111,57 +99,48 @@ const RsvpTicketing: React.FC<RsvpTicketingProps> = ({ onLimitChange }) => {
                 </div>
 
                 <div className="relative pb-[16px] mt-[24px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white">
-                    <p style={{ marginBottom: '10px', color: "#8F8F8F", fontSize: "12px" }}>RSVP DETAILS</p>
+                <p style={{ marginBottom: '10px', color: "#8F8F8F", fontSize: "12px" }}>RSVP DETAILS</p>
                     <div className="mt-[24px]">
-                        <div className="flex items-start gap-[24px] w-full common-container">
-                            <div className="pt-[24px] pb-[24px] placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F] w-full rounded-md border border-[#292929] gradient-slate px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-                            style={{display:"flex",flexDirection:"row-reverse",alignItems:"center",justifyContent:"space-between"}}
-                            
-                            >
-                                <input
-                                    type="checkbox"
-                                    id="email"
-                                    value="email"
-                                    checked={selectedOptions.includes('email')}
-                                    onChange={handleOptionChange}
-                                    className="checkbox"
-                                />
-                                <label className="text-white">Email</label>
-                            </div>
-                            <div className="pt-[24px] pb-[24px] placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F] w-full rounded-md border border-[#292929] gradient-slate px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-                             style={{display:"flex",flexDirection:"row-reverse",alignItems:"center",justifyContent:"space-between"}}
-                           
-                            >    <input
-                                    type="checkbox"
-                                    id="phone"
-                                    value="phone"
-                                    checked={selectedOptions.includes('phone')}
-                                    onChange={handleOptionChange}
-                                    className="checkbox"
-                                />
-                                <label className="text-white">Phone</label>
-                            </div>
+                        <div className="flex justify-start items-center">
+                            <input
+                                type="radio"
+                                id="email"
+                                name="contact"
+                                value="email"
+                                checked={selectedOption === 'email'}
+                                onChange={handleOptionChange}
+                                className="mr-[8px]"
+                            />
+                            <label className="text-white">Email</label>
                         </div>
-                        <div className="flex items-start lg:gap-[24px] md:w-[49%] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container ">
-
-                            <div className="pt-[24px] pb-[24px] placeholder:text-[12px] placeholder:font-extrabold placeholder:text-[#8F8F8F] w-full rounded-md border border-[#292929] gradient-slate px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-                             style={{display:"flex",flexDirection:"row-reverse",alignItems:"center",justifyContent:"space-between"}}
-                           
-                            >   <input
-                                    type="checkbox"
-                                    id="contact"
-                                    value="contact"
-                                    checked={selectedOptions.includes('contact')}
-                                    onChange={handleOptionChange}
-                                    className="checkbox"
-                                />
-                                <label className="text-white">Contact</label>
-                            </div>
+                        <div className="flex justify-start items-center mt-[8px]">
+                            <input
+                                type="radio"
+                                id="phone"
+                                name="contact"
+                                value="phone"
+                                checked={selectedOption === 'phone'}
+                                onChange={handleOptionChange}
+                                className="mr-[8px]"
+                            />
+                            <label className="text-white">Phone</label>
+                        </div>
+                        <div className="flex justify-start items-center mt-[8px]">
+                            <input
+                                type="radio"
+                                id="secondEmail"
+                                name="contact"
+                                value="secondEmail"
+                                checked={selectedOption === 'secondEmail'}
+                                onChange={handleOptionChange}
+                                className="mr-[8px]"
+                            />
+                            <label className="text-white">Second Email</label>
                         </div>
                     </div>
 
 
-
+                   
 
                     {fields.map((field, index) => (
                         <div key={index}>
@@ -193,7 +172,7 @@ const RsvpTicketing: React.FC<RsvpTicketingProps> = ({ onLimitChange }) => {
                         </div>
                     ))}
 
-                    <div className="flex justify-start items-center mt-[24px]">
+<div className="flex justify-start items-center mt-[24px]">
                         <Button
                             style={{
                                 height: "32px",
