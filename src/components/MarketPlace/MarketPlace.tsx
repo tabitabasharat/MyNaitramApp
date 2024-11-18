@@ -53,15 +53,19 @@ const page = () => {
             Get Started
           </button>
           <div className="lg:hidden flex space-x-8">
-            {["£240k+", "£300k+", "£500k+"].map((value, index) => (
-              <div key={index} className="flex flex-col items-start space-y-1">
-                <h2 className="text-white text-xl font-extrabold">{value}</h2>
-                <p className="text-gray-400 text-lg sm:text-base sm:font-normal">
-                  Total Sale
-                </p>
-              </div>
-            ))}
-          </div>
+  {["£240k+", "£300k+", "£500k+"].map((value, index) => (
+    <div key={index} className="flex flex-col items-start space-y-1">
+      <h2 className="text-white text-xl font-extrabold">{value}</h2>
+      <p className="text-gray-400 text-[0.925rem] lg:text-lg font-normal">
+        Total Sale
+      </p>
+    </div>
+  ))}
+</div>
+
+ 
+
+
         </div>
       </div>
 
