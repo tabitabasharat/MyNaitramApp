@@ -10,7 +10,7 @@ const Nine = () => {
         <p className="pl-[5px] md:text-[16px] text-[14px] ">Conceptualise the idea of NAITRAM, a revolutionary web3 ticketing solution.</p>
       </div>
       <Image src={Imagemain} alt="/" />
-      <h2 className="md:text-[60px] text-[25px] font-[600] text-center ">2019</h2>
+      <h2 className="md:text-[60px] text-[25px] font-[600] text-center">2019</h2>
     </div>
   );
 };
