@@ -1,12 +1,12 @@
-import React from 'react';
-import './Page.css';
+import React from "react";
+import "./Page.css";
 
 export default function Page() {
   return (
     <>
       <div className="pt-20 animakid_Hero">
-        <div 
-          className="Animakid_HeroBackground bg-cover bg-no-repeat h-[360px] w-full" 
+        <div
+          className="Animakid_HeroBackground bg-cover bg-no-repeat h-[360px] w-full"
           style={{ backgroundImage: "url('/Images/Nft_animakid_img/ImagePlaceHolder.png')" }}
         ></div>
 
@@ -19,23 +19,23 @@ export default function Page() {
             </button>
           </div>
         </div>
-        <div className="flex flex-col gap-[55px]  pl-[64px] pr-[92px] Animakid__HeroSection_container">
-          <div className="flex justify-start items-center gap-[30px] Animakid__Container_small_TExt">
-            <div>
-              <h3 className="text-[32px] font-bold leading-[44.8px] text-white text-left AnimIKaid_15text sm:text-[22px]">
-                15<span className="text-[20px] font-bold leading-7 text-white text-left Animakiad_Span_Text  sm:text-[14px]">ETH</span>
+        <div className="flex flex-col gap-[55px]  pl-[60px] pr-[92px] Animakid__HeroSection_container">
+          <div className="flex flex-wrap justify-start items-center gap-[30px] Animakid__Container_small_TExt">
+            <div className="flex flex-col gap-[0px] md:gap-[-20px]">
+              <h3 className="text-[32px] font-bold leading-[10.8px] text-white text-left">
+                15<span className="text-[14px] font-bold leading-[10px] text-white text-left">ETH</span>
               </h3>
               <p className="text-[24px] font-normal leading-[38.4px] text-[#BFBFBF] text-left Animakid_PTExt sm:text-[14px]">Total Volume</p>
             </div>
-            <div>
-              <h3 className="text-[32px] font-bold leading-[44.8px] text-white text-left AnimIKaid_15text sm:text-[22px]">
-                0.000<span className="text-[20px] font-bold leading-7 text-white text-left Animakiad_Span_Text  sm:text-[14px]">1ETH</span>
+            <div className="flex flex-col gap-[0px] md:gap-[-20px]">
+              <h3 className="text-[32px] font-bold leading-[10.8px] text-white text-left">
+                0.0001<span className="text-[14px] font-bold leading-[10px] text-white text-left">ETH</span>
               </h3>
               <p className="text-[24px] font-normal leading-[38.4px] text-[#BFBFBF] text-left Animakid_PTExt sm:text-[14px]">Floor Price</p>
             </div>
-            <div>
-              <h3 className="text-[32px] font-bold leading-[44.8px] text-white text-left AnimIKaid_15text">
-                1,483 <span>(25%)</span>
+            <div className="flex flex-col gap-[0px] md:gap-[-20px]">
+              <h3 className="text-[32px] font-bold leading-[10.8px] text-white text-left">
+                1,483 <span className="text-[14px] font-bold leading-[10px] text-white text-left">(25%)</span>
               </h3>
               <p className="text-[24px] font-normal leading-[38.4px] text-[#BFBFBF] text-left Animakid_PTExt">Owners (Unique)</p>
             </div>
@@ -47,9 +47,14 @@ export default function Page() {
           <div className="flex flex-col gap-3 Animkaid_text_Container_descripition">
             <h2 className="text-[24px] font-bold leading-[38.4px] text-left text-[#00D059] Description_text">Description</h2>
             <div>
-              <h3 className="text-[20px] font-bold leading-7 text-left text-white Animakid_jooin_text ">Join us for the PIZDEZ Women’s Day Party 2024</h3>
+              <h3 className="text-[20px] font-bold leading-7 text-left text-white Animakid_jooin_text ">
+                Join us for the PIZDEZ Women’s Day Party 2024
+              </h3>
               <p className="text-[16px] font-normal leading-6 text-left text-white mt-2 Join_Us_Animakid">
-                Join us for the PIZDEZ Women’s Day Party 2024, an unforgettable celebration of women's achievements and empowerment! Enjoy an electrifying night filled with live music, dancing, and entertainment. Mingle with amazing people in a vibrant atmosphere, and take part in special activities designed to honor and uplift women. Delicious food and drinks will be available, making it a perfect night out. Don’t miss this exciting event—come and celebrate with us!
+                Join us for the PIZDEZ Women’s Day Party 2024, an unforgettable celebration of women's achievements and empowerment! Enjoy an
+                electrifying night filled with live music, dancing, and entertainment. Mingle with amazing people in a vibrant atmosphere, and take
+                part in special activities designed to honor and uplift women. Delicious food and drinks will be available, making it a perfect night
+                out. Don’t miss this exciting event—come and celebrate with us!
               </p>
             </div>
             <div className="flex flex-col gap-3 Tim_clende_Svg_container">
@@ -76,34 +81,37 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-[35px] w-full pl-0 md:pl-0 pr-0 md:pr-0 pt-[33px] pb-[173px] justify-center md:justify-center">
-  {[...Array(12)].map((_, index) => (
-    <div 
-      key={index} 
-      className="relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] p-[30px_11.5px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden" 
-      style={{ width: '270px', height: '373px' }}
-    >
-      <div className="absolute inset-0 border border-[1px] border-[transparent] rounded-[8px] pointer-events-none" style={{ borderImage: 'linear-gradient(135deg, #13FF7A 0.2%, #002B12 50.2%, #13FF7A 100.2%) 1' }}></div>
-      <img src="/Images/Nft_animakid_img/Crads.svg" alt="Card" />
-      <div className="px-[12px]">
-        <h3 className="text-[18px] font-extrabold leading-[24px] text-left text-white">The Orbitians</h3>
-        <div className="flex justify-between items-center mt-[20px]">
-          <div>
-            <p className="text-[12px] font-normal leading-[24px] text-white">Price</p>
-            <p className="flex items-center gap-[5px] text-[14px] font-bold leading-[24px] text-left text-[#00D059]">
-              <img src="/Images/Nft_animakid_img/Price.svg" alt="Price Icon" />0.25 ETH
-            </p>
+      <div className="flex flex-wrap gap-[35px] pl-[0px] md:pl-[60px] w-full pt-[33px] pb-[173px] justify-center md:justify-start">
+        {[...Array(12)].map((_, index) => (
+          <div
+            key={index}
+            className="relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] p-[30px_11.5px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden"
+            style={{ width: "270px", height: "373px" }}
+          >
+            <div
+              className="absolute inset-0 border border-[1px] border-[transparent] rounded-[8px] pointer-events-none"
+              style={{ borderImage: "linear-gradient(135deg, #13FF7A 0.2%, #002B12 50.2%, #13FF7A 100.2%) 1" }}
+            ></div>
+            <img src="/Images/Nft_animakid_img/Crads.svg" alt="Card" />
+            <div className="px-[12px]">
+              <h3 className="text-[18px] font-extrabold leading-[24px] text-left text-white">The Orbitians</h3>
+              <div className="flex justify-between items-center mt-[20px]">
+                <div>
+                  <p className="text-[12px] font-normal leading-[24px] text-white">Price</p>
+                  <p className="flex items-center gap-[5px] text-[14px] font-bold leading-[24px] text-left text-[#00D059]">
+                    <img src="/Images/Nft_animakid_img/Price.svg" alt="Price Icon" />
+                    0.25 ETH
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[12px] font-normal leading-[24px] text-white">Highest Bid</p>
+                  <p className="text-[14px] font-bold leading-[24px] text-white">0.33 wETH</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <p className="text-[12px] font-normal leading-[24px] text-white">Highest Bid</p>
-            <p className="text-[14px] font-bold leading-[24px] text-white">0.33 wETH</p>
-          </div>
-        </div>
+        ))}
       </div>
-    </div>
-  ))}
-</div>
-
     </>
   );
 }
