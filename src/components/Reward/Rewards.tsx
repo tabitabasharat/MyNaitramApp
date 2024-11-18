@@ -81,15 +81,6 @@ function Rewards() {
 
   return (
     <section
-      //   style={{
-      //     backgroundImage:
-      //       "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
-      //     backgroundPosition: "center",
-      //     backgroundImage: "url(/blur-green.png)",
-      //     backgroundPosition: "right",
-      //     backgroundRepeat: "no-repeat",
-      //     backgroundSize: "cover",
-      //   }}
       className="min-h-screen py-[8rem] bg-cover bg-no-repeat px-[24px] lg:px-0 bg-reward bg-reward-outer"
     >
       {claimstatusLoading?.loading && <ScreenLoader />}
