@@ -213,7 +213,7 @@ const toggleSection = (section: string) => {
             style={{ border: 'none', boxShadow: 'none' }}
   variant="outline"
   size="lg"
-  className="buttonrounded  hover:shadow-lg transition duration-300 ease-in-out hover:bg-transparent hover:text-customGreen bg-none relative flex items-center ready-btn px-[102.5px] py-[19.5px] text-customGreen font-[800] text-[16px] leading-[22.4px] gradient-border-edit"
+  className="buttonrounded  hover:shadow-lg transition duration-300 ease-in-out hover:bg-transparent hover:text-customGreen bg-none relative flex items-center ready-btn px-[102.5px] py-[19.5px] text-customGreen font-[800] text-[16px] leading-[22.4px] button-edit"
 >
              Make a Bid
             </Button>
