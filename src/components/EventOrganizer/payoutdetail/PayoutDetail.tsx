@@ -50,7 +50,7 @@ const PayoutDetail = () => {
           className="w-full sm:w-fit"
         >
           <div className="w-full">
-            <Button className="text-sm font-extrabold w-full text-center sm:w-[165px] table-gradient gradient-border-notify  rounded-[100px] py-[12px] text-[#00D059]">
+            <Button className="text-sm font-extrabold w-full text-center sm:w-[165px] table-gradient gradient-border-notify rounded-[100px] py-[12px] text-[#00D059]">
               Crypto Wallet
             </Button>
           </div>
