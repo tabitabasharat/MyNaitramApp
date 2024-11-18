@@ -286,13 +286,8 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                 <Image src={shareicon} sizes="16px" alt="share icon" />
                 <p>Share</p>
               </button>
-              {/* <div className="relative">
-                <Image
-                  src={menuicon}
-                  className="w-[36px] h-[36px] cursor-pointer"
-                  alt="share-menu-icon"
-                  onClick={toggleDropdown}
-                />
+              <div className="relative">
+                <Image src={menuicon} className="w-[36px] h-[36px] cursor-pointer" alt="share-menu-icon" onClick={toggleDropdown} />
                 {isDropdownOpen && (
                   <div
                     style={{
@@ -303,34 +298,34 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                     <ul className="flex flex-col p-2">
                       <li
                         onClick={() => handleLinkClick("Report")}
-                        className={`block text-start p-2 flex gap-[8px] text-green-500 cursor-pointer text-sm ${activeLink === "Report" ? "text-green-500" : "text-white"
-                          }`}
+                        className={`block text-start p-2 flex gap-[8px] text-green-500 cursor-pointer text-sm ${
+                          activeLink === "Report" ? "text-green-500" : "text-white"
+                        }`}
                       >
-                        <Image
-                          src={activeLink === "Report" ? reporticongreen : reporticon}
-                          alt="report-icon"
-                        />
+                        <Image src={activeLink === "Report" ? reporticongreen : reporticon} alt="report-icon" />
                         <p>Report</p>
                       </li>
                       <li
                         onClick={() => handleLinkClick("Feedback")}
-                        className={`block text-start p-2 flex gap-[8px] cursor-pointer text-sm ${activeLink === "Feedback" ? "text-green-500" : "text-white"
-                          }`}
+                        className={`block text-start p-2 flex gap-[8px] cursor-pointer text-sm ${
+                          activeLink === "Feedback" ? "text-green-500" : "text-white"
+                        }`}
                       >
                         <Image src={activeLink === "Feedback" ? feedbackgreen : feedback} alt="feedback" /> <p>Feedback</p>
                       </li>
                     </ul>
                   </div>
                 )}
-                {/* {isModalOpen && (
-                 <Report
-                 open={isModalOpen} onClose={() => setIsModalOpen(false)}
-                //  onClose={() => setShareModal(false)}
-                //  open={() => setShareModal(true)}  
-                 />
-                )} */}
-              {isModalOpen && modalContent === "Report" && <Report open={isModalOpen} onClose={() => setIsModalOpen(false)} />}
-
+                {isModalOpen && (
+                  <Report
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    //  onClose={() => setShareModal(false)}
+                    //  open={() => setShareModal(true)}
+                  />
+                )}
+                {isModalOpen && modalContent === "Report" && <Report open={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+              </div>
               {/* Add a Feedback Modal here if needed */}
               {isModalOpen && modalContent === "Feedback" && <FeedbackModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />}
             </div>
