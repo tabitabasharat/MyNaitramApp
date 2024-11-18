@@ -570,7 +570,7 @@ body {
   border-radius: 8px; /* Optional for rounded borders */
   background-clip: padding-box, border-box; /* Clip background to borders */
   background-origin: border-box; /* Ensures border gradient aligns correctly */
-  padding: 16px; /* Space for content */
+  /* padding: 16px; Space for content */
 }
 
 .gradient-border-drp {
