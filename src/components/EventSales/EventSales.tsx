@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Backward from "../Backward/Backward";
-import larki from "@/assets/Images.svg";
 import Image from "next/image";
 import id from "@/assets/Launch your event.svg";
 import tick from "@/assets/tick-yello.svg";

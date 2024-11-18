@@ -8,6 +8,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useState } from 'react';
 import { Button } from '../ui/button';
+import AllEventsGrid from '../reusable-components/AllEventsGrid';
+import Card from '../about/vision/card/Card';
+import EventCard from '../reusable-components/EventCard';
+import EventcardText from '../reusable-components/EventcardText';
 function createData(
     name: string,
     calories: number,
@@ -41,7 +45,7 @@ const pages = [
     createDatapages('Lorem Ispum Lorem Uspum', 305),
 ];
 
-const Dashboard = () => {
+const EventAnalytics = () => {
     const [selectedEvent, setSelectedEvent] = useState<string>(''); // State for selected option
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false); // State to control dropdown visibility
 
@@ -56,10 +60,10 @@ const Dashboard = () => {
         <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[97px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
             <div>
                 <h1 className="text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold">
-                    Dashboard
-                </h1>
+                Live Events                </h1>
             </div>
-            <div className='p-[24px] gradient-slate rounded-[8px]'>
+           <EventcardText/>
+            {/* <div className='p-[24px] gradient-slate rounded-[8px]'>
                 <div>
                     <div>
                         <div>
@@ -68,7 +72,6 @@ const Dashboard = () => {
                             </div>
 
                             <div className="relative flex flex-col sm:flex-row gap-[12px] sm:gap-[24px] mt-4">
-                                {/* Dropdown trigger */}
                                 <div
                                     className="gradient-slate w-full sm:w-[456px] h-[52px] bg-black rounded-md font-bold text-base pt-[18px] pb-[14px] px-[12px] cursor-pointer flex justify-between items-center"
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -84,8 +87,6 @@ const Dashboard = () => {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                     </svg>
                                 </div>
-
-                                {/* Dropdown menu */}
                                 {isDropdownOpen && (
                                     <div className="absolute w-full sm:w-[456px] mt-[57px] sm:mt-[60px] bg-black rounded-md shadow-lg z-10">
                                         {options.map((option) => (
@@ -395,8 +396,8 @@ const Dashboard = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </div>
+            </div> */}
         </div>
     )
 }
-export default Dashboard
+export default EventAnalytics

@@ -12,10 +12,10 @@ const config = {
       padding: "2rem",
       screens: {
         "2xl": "1400px",
-        sm: "400px",
       },
     },
     extend: {
+      
       boxShadow: {
         custom: "0px 5px 30px rgba(255, 255, 255, 0.2)",
       },
