@@ -797,6 +797,9 @@ input[type="number"] {
   background: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%) !important;
   border-bottom: 1px solid #292929 !important;
 }
+.table-gradient-new {
+  background: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%) !important;
+}
 .slider-wid {
   width: fit-content !important;
 }

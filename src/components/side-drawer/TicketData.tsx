@@ -103,8 +103,8 @@ const TicketData = () => {
                         }}
                         aria-label="simple table"
                     >
-                        <TableHead className="table-gradient" sx={{ borderBottom: "1px solid #292929" }} >
-                            <TableRow sx={{ borderBottom: "1px solid #292929", borderTop: "0px", borderTopLeftRadius: "100px" }} className='gradient-slate'>
+                        <TableHead className="table-gradient-new">
+                            <TableRow sx={{ borderBottom: "none", borderTop: "0px", borderTopLeftRadius: "100px" }} className='gradient-slate'>
                                 <TableCell
                                     className="w-[40px] lg:w-[250px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     sx={{
@@ -173,114 +173,28 @@ const TicketData = () => {
                                     Revenue
                                 </TableCell>
                             </TableRow>
-                            <TableRow
-                                sx={{
-                                    backgroundColor: "transparent", // Transparent row
-                                    height: "8px", // Adjust height as needed
-                                }}
-                            >
-                                <TableCell
-                                    colSpan={5}
-                                    sx={{
-                                        padding: 0,
-                                        border: "none",
-                                    }}
-                                />
-                            </TableRow>
                         </TableHead>
+                        <TableRow
+                            sx={{
 
-                        {/* <TableBody className="border-0">
-                            {rows.map((row) => (
-                                <TableRow
-                                    key={row.name}
-                                    sx={{
-                                        "&:last-child td, &:last-child th": { border: 0 },
-                                        borderBottom: "none",
-                                        fontFamily: "var(--font-base)",
-                                        padding: "20px",
-                                    }}
-                                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                                >
-                                    <TableCell
-                                        sx={{
-                                            borderBottom: "none",
-                                            borderLeft: "none",
-                                            padding: "20px",
-                                            fontFamily: "var(--font-base)",
-                                            color: "white",
-                                        }}
-                                        align="left"
-                                        component="th"
-                                        scope="row"
-                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                                    >
-                                        {row.name} 
-                                    </TableCell>
-                                    <TableCell
-                                        sx={{
-                                            borderBottom: "none",
-                                            borderLeft: "none",
-                                            fontFamily: "var(--font-base)",
-                                            padding: "20px",
-                                            color: "white",
-                                        }}
-                                        align="left"
-                                        component="th"
-                                        scope="row"
-                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                                    >
-                                        {row.calories}
-                                    </TableCell>
-                                    <TableCell
-                                        sx={{
-                                            fontFamily: "var(--font-base)",
-                                            borderBottom: "none",
-                                            borderLeft: "none",
-                                            padding: "20px",
-                                            color: "white",
-                                        }}
-                                        align="left"
-                                        component="th"
-                                        scope="row"
-                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                                    >
-                                        {row.fat}
-                                    </TableCell>
-                                    <TableCell
-                                        sx={{
-                                            borderBottom: "none",
-                                            borderLeft: "none",
-                                            fontFamily: "var(--font-base)",
-                                            padding: "20px",
-                                            color: "white",
-                                        }}
-                                        align="left"
-                                        component="th"
-                                        scope="row"
-                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
-                                    >
-                                        £ {row.carbs}
-                                    </TableCell>
-                                    <TableCell
-                                        sx={{
-                                            borderBottom: "none",
-                                            padding: "20px",
-                                            fontFamily: "var(--font-base)",
-                                            color: "white",
-                                        }}
-                                        className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
-                                        align="left"
-                                    >
-                                        £ {row.protein}
-                                    </TableCell>
-                                </TableRow>
-                                
-                            ))}
-                        </TableBody> */}
+                                backgroundColor: "transparent",
+                                height: "8px",
+                            }}
+                        >
+                            <TableCell
+                                colSpan={5}
+                                sx={{
+                                    padding: 0,
+                                    border: "none",
+                                }}
+                            />
+                        </TableRow>
                         <TableBody className="border-0 gradient-slate">
+
                             {rows.map((row) => {
 
                                 return <>
+
                                     <TableRow
                                         key={row.name}
                                         className=" text-white text-[10px] font-normal lg:text-sm"
@@ -331,7 +245,7 @@ const TicketData = () => {
                                             className="text-white text-[10px] font-normal lg:text-sm"
                                             sx={{ padding: '20px', borderBottom: 'none', fontFamily: 'var(--font-base)' }}
                                         >
-                                             {row.carbs}
+                                            {row.carbs}
                                         </TableCell>
 
                                         <TableCell
@@ -339,7 +253,7 @@ const TicketData = () => {
                                             className="text-white text-[10px] font-normal lg:text-sm"
                                             sx={{ padding: '20px', borderBottom: 'none', fontFamily: 'var(--font-base)' }}
                                         >
-                                            £ {row.protein}
+                                            £{row.protein}
                                         </TableCell>
                                     </TableRow>
                                 </>
@@ -349,8 +263,8 @@ const TicketData = () => {
                             <TableRow
                                 sx={{
 
-                                    backgroundColor: "transparent", // Transparent row
-                                    height: "8px", // Adjust height as needed
+                                    backgroundColor: "transparent",
+                                    height: "8px",
                                 }}
                             >
                                 <TableCell
@@ -366,14 +280,14 @@ const TicketData = () => {
                                     border: "none",
                                 }
                             }>
-                                <TableCell colSpan={3} align="right" className='gradient-slate' sx={{ border:"none", fontWeight: "bold",borderBottomLeftRadius:"10px",borderTopLeftRadius:"10px" }}>
+                                <TableCell colSpan={3} align="right" className='gradient-slate' sx={{ border: "none", fontWeight: "bold", borderBottomLeftRadius: "10px", borderTopLeftRadius: "10px" }}>
 
                                 </TableCell>
-                                <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border:"none", }} className='gradient-slate text-[#A6A6A6]'>
-                                     {sumSales.toFixed(2)}
+                                <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", }} className='gradient-slate text-[#A6A6A6]'>
+                                    {sumSales.toFixed(2)}
                                 </TableCell>
-                                <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border:"none",borderBottomRightRadius:"10px",borderTopRightRadius:"10px" }} className='gradient-slate text-[#A6A6A6]'>
-                                    £  {sumData.toFixed(2)}
+                                <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", borderBottomRightRadius: "10px", borderTopRightRadius: "10px" }} className='gradient-slate text-[#A6A6A6]'>
+                                    £{sumData.toFixed(2)}
                                 </TableCell>
                             </TableRow>
                         </TableFooter>

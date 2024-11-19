@@ -125,7 +125,7 @@ const Dashboard = () => {
                         }}
                         aria-label="simple table"
                     >
-                        <TableHead className="table-gradient">
+                        <TableHead className="table-gradient-new">
                             <TableRow sx={{ border: "1px solid #292929" }}>
                                 <TableCell
                                     className="w-[40px] lg:w-[220px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
@@ -321,7 +321,7 @@ const Dashboard = () => {
                         }}
                         aria-label="simple table"
                     >
-                        <TableHead className="table-gradient">
+                        <TableHead className="table-gradient-new">
                             <TableRow sx={{ border: "1px solid #292929" }}>
                                 <TableCell
                                     className="w-[350px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "

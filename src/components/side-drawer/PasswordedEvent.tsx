@@ -66,8 +66,8 @@ const PasswordedEvent = () => {
                         }}
                         aria-label="simple table"
                     >
-                        <TableHead className="table-gradient" >
-                            <TableRow sx={{ border: "1px solid #292929" }}>
+                        <TableHead className="table-gradient-new" >
+                            <TableRow sx={{ border: "1px solid #292929", fontFamily: "var(--font-base)", }}>
                                 <TableCell
                                     className="w-[40px] lg:w-[180px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     sx={{
@@ -75,7 +75,6 @@ const PasswordedEvent = () => {
                                         borderBottom: "none",
                                         borderTop: "1px solid #292929",
                                         fontFamily: "var(--font-base)",
-
                                     }}
                                     align="left"
                                 >
@@ -103,7 +102,7 @@ const PasswordedEvent = () => {
                                         borderTop: "1px solid #292929",
                                     }}
                                 >
-                                 Emails
+                                 Email
                                 </TableCell>
                                 <TableCell
                                     className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[160px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "

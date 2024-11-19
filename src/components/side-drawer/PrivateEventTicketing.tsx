@@ -65,7 +65,7 @@ const PrivateEventTicketing = () => {
                         }}
                         aria-label="simple table"
                     >
-                        <TableHead className="table-gradient" >
+                        <TableHead className="table-gradient-new" >
                             <TableRow sx={{ border: "1px solid #292929" }}>
                                 <TableCell
                                     className="w-[40px] lg:w-[180px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
@@ -221,7 +221,7 @@ const PrivateEventTicketing = () => {
                                         className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                         align="left"
                                     >
-                                       £ {row.carbs}
+                                       £{row.carbs}
                                     </TableCell>
                                     <TableCell
                                         sx={{
@@ -245,7 +245,7 @@ const PrivateEventTicketing = () => {
                                         className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                         align="left"
                                     >
-                                        £ {row.Revenue}
+                                        £{row.Revenue}
                                     </TableCell>
                                 </TableRow>
 

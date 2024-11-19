@@ -9,37 +9,25 @@ import Paper from '@mui/material/Paper';
 import { useState } from 'react';
 import { Button } from '../ui/button';
 function createData(
-    name: string,
+    ticket: string,
+    name: number,
     calories: number,
-    fat: number,
-    carbs: number,
     protein: number,
+    Revenue: number,
 ) {
-    return { name, calories, fat, carbs, protein };
+    return { ticket, name, calories, protein, Revenue };
 }
 
 const rows = [
-    createData('Ticket 1', 1, 950.6, 134, 950.6),
-    createData('Ticket 1', 1, 950.6, 134, 950.6),
-    createData('Ticket 1', 1, 950.6, 134, 950.6),
-    createData('Ticket 1', 1, 950.6, 134, 950.6),
+    createData('Ticket 1',950.6, 1,134, 1825.1),
+    createData('Ticket 1',950.6, 1,134, 1825.1),
+    createData('Ticket 1',950.6, 1,134, 1825.1),
+    createData('Ticket 1',950.6, 1,134, 1825.1),
+    createData('Ticket 1',950.6, 1,134, 1825.1),
+    createData('Ticket 1',950.6, 1,134, 1825.1),
 ];
 
-function createDatapages(
-    name: string,
-    calories: number,
-) {
-    return { name, calories };
-}
-
-const pages = [
-    createDatapages('Lorem Ispum Lorem Uspum', 159),
-    createDatapages('Lorem Ispum Lorem Uspum ', 237),
-    createDatapages('Lorem Ispum Lorem Uspum', 262),
-    createDatapages('Lorem Ispum Lorem Uspum', 305),
-];
-
-const CustomTicket = () => {
+const WhitelistEvent = () => {
     const [selectedEvent, setSelectedEvent] = useState<string>(''); // State for selected option
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false); // State to control dropdown visibility
 
@@ -54,20 +42,21 @@ const CustomTicket = () => {
         <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[57px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
             <div>
                 <h1 className="text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold">
-                Festivals / Multi-Day Tickets 
+                Whitelist / Waitlist Event Ticketing
                 </h1>
             </div>
             <div>
-                <TableContainer component={Paper} sx={{ boxShadow: "none",background:"transparent" }}>
+                <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
                     <Table
                         sx={{
                             minWidth: 650,
                             borderBottom: "none",
+                            borderTop: "1px solid #292929",
                             borderLeft: "none",
                             borderRight: "none",
                             fontFamily: "var(--font-base)",
                             color: "white",
-                            // background: "#0F0F0F",
+                            background: "#0F0F0F",
                             fontSize: 16,
                             fontweight: 500,
 
@@ -75,19 +64,19 @@ const CustomTicket = () => {
                         aria-label="simple table"
                     >
                         <TableHead className="table-gradient-new" >
-                            <TableRow sx={{ border: "none" }}>
+                            <TableRow sx={{ border: "1px solid #292929" }}>
                                 <TableCell
                                     className="w-[40px] lg:w-[200px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     sx={{
                                         color: "#A6A6A6",
                                         borderBottom: "none",
-                                        borderTop: "none",
+                                        borderTop: "1px solid #292929",
                                         fontFamily: "var(--font-base)",
 
                                     }}
                                     align="left"
                                 >
-                                    Ticket Names
+                                    Ticket Name
                                 </TableCell>
                                 <TableCell
                                     className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[200px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
@@ -95,11 +84,11 @@ const CustomTicket = () => {
                                     sx={{
                                         color: "#A6A6A6",
                                         borderBottom: "none",
-                                        borderTop: "none",
+                                        borderTop: "1px solid #292929",
                                         fontFamily: "var(--font-base)",
                                     }}
                                 >
-                                    Event Days
+                                    Price
                                 </TableCell>
                                 <TableCell
                                     className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[200px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
@@ -108,10 +97,10 @@ const CustomTicket = () => {
                                         color: "#A6A6A6",
                                         borderBottom: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "none",
+                                        borderTop: "1px solid #292929",
                                     }}
                                 >
-                                   Price
+                                Whitelist Limit
                                 </TableCell>
                                 <TableCell
                                     className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[200px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
@@ -120,7 +109,7 @@ const CustomTicket = () => {
                                         color: "#A6A6A6",
                                         borderBottom: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "none",
+                                        borderTop: "1px solid #292929",
                                     }}
                                 >
                                     Sales
@@ -132,29 +121,15 @@ const CustomTicket = () => {
                                         color: "#A6A6A6",
                                         borderBottom: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "none",
+                                        borderTop: "1px solid #292929",
                                     }}
                                 >
                                     Revenue
                                 </TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableRow
-                            sx={{
 
-                                backgroundColor: "transparent",
-                                height: "8px",
-                            }}
-                        >
-                            <TableCell
-                                colSpan={5}
-                                sx={{
-                                    padding: 0,
-                                    border: "none",
-                                }}
-                            />
-                        </TableRow>
-                        <TableBody className="border-0 gradient-slate">
+                        <TableBody className="border-0">
                             {rows.map((row) => (
                                 <TableRow
                                     key={row.name}
@@ -164,7 +139,7 @@ const CustomTicket = () => {
                                         fontFamily: "var(--font-base)",
                                         padding: "20px",
                                     }}
-                                    className=" text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                 >
                                     <TableCell
                                         sx={{
@@ -177,9 +152,24 @@ const CustomTicket = () => {
                                         align="left"
                                         component="th"
                                         scope="row"
-                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
+                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
                                     >
-                                        {row.name}
+                                        {row.ticket}
+                                    </TableCell>
+                                    <TableCell
+                                        sx={{
+                                            fontFamily: "var(--font-base)",
+                                            borderBottom: "none",
+                                            borderLeft: "none",
+                                            padding: "20px",
+                                            color: "white",
+                                        }}
+                                        align="left"
+                                        component="th"
+                                        scope="row"
+                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                                    >
+                                        £{row.name}
                                     </TableCell>
                                     <TableCell
                                         sx={{
@@ -192,39 +182,21 @@ const CustomTicket = () => {
                                         align="left"
                                         component="th"
                                         scope="row"
-                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
+                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
                                     >
                                         {row.calories}
                                     </TableCell>
                                     <TableCell
                                         sx={{
-                                            fontFamily: "var(--font-base)",
                                             borderBottom: "none",
-                                            borderLeft: "none",
                                             padding: "20px",
+                                            fontFamily: "var(--font-base)",
                                             color: "white",
                                         }}
+                                        className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                         align="left"
-                                        component="th"
-                                        scope="row"
-                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
                                     >
-                                        £{row.fat}
-                                    </TableCell>
-                                    <TableCell
-                                        sx={{
-                                            borderBottom: "none",
-                                            borderLeft: "none",
-                                            fontFamily: "var(--font-base)",
-                                            padding: "20px",
-                                            color: "white",
-                                        }}
-                                        align="left"
-                                        component="th"
-                                        scope="row"
-                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
-                                    >
-                                        {row.carbs}
+                                         {row.protein}
                                     </TableCell>
                                     <TableCell
                                         sx={{
@@ -233,10 +205,10 @@ const CustomTicket = () => {
                                             fontFamily: "var(--font-base)",
                                             color: "white",
                                         }}
-                                        className=" text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                                        className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                         align="left"
                                     >
-                                        £{row.protein}
+                                        £ {row.Revenue}
                                     </TableCell>
                                 </TableRow>
 
@@ -248,4 +220,4 @@ const CustomTicket = () => {
         </div>
     )
 }
-export default CustomTicket
+export default WhitelistEvent

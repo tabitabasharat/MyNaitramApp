@@ -48,31 +48,31 @@ const Rsvpticketing = () => {
                 </h1>
             </div>
             <div>
-                <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+                <TableContainer component={Paper} sx={{ boxShadow: "none",background:"transparent" }}>
                     <Table
                         sx={{
                             minWidth: 650,
                             borderBottom: "none",
-                            borderTop: "1px solid #292929",
+                            // borderTop: "1px solid #292929",
                             borderLeft: "none",
                             borderRight: "none",
                             fontFamily: "var(--font-base)",
                             color: "white",
-                            background: "#0F0F0F",
+                            // background: "#0F0F0F",
                             fontSize: 16,
                             fontweight: 500,
 
                         }}
                         aria-label="simple table"
                     >
-                        <TableHead className="table-gradient" >
-                            <TableRow sx={{ border: "1px solid #292929" }}>
+                        <TableHead className="table-gradient-new gradient-slate" >
+                            <TableRow sx={{ border: "none" }}>
                                 <TableCell
                                     className="w-[40px] lg:w-[160px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     sx={{
                                         color: "#A6A6A6",
                                         borderBottom: "none",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
                                         fontFamily: "var(--font-base)",
 
                                     }}
@@ -86,7 +86,7 @@ const Rsvpticketing = () => {
                                     sx={{
                                         color: "#A6A6A6",
                                         borderBottom: "none",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
                                         fontFamily: "var(--font-base)",
                                     }}
                                 >
@@ -99,7 +99,7 @@ const Rsvpticketing = () => {
                                         color: "#A6A6A6",
                                         borderBottom: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
                                     }}
                                 >
                                     Email
@@ -111,7 +111,7 @@ const Rsvpticketing = () => {
                                         color: "#A6A6A6",
                                         borderBottom: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
                                     }}
                                 >
                                     Phone
@@ -123,7 +123,7 @@ const Rsvpticketing = () => {
                                         color: "#A6A6A6",
                                         borderBottom: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
                                     }}
                                 >
                                     Additional
@@ -135,7 +135,7 @@ const Rsvpticketing = () => {
                                         color: "#A6A6A6",
                                         borderBottom: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
                                     }}
                                 >
                                     Sales
@@ -147,15 +147,29 @@ const Rsvpticketing = () => {
                                         color: "#A6A6A6",
                                         borderBottom: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
                                     }}
                                 >
                                     Revenue
                                 </TableCell>
                             </TableRow>
                         </TableHead>
+                        <TableRow
+                            sx={{
 
-                        <TableBody className="border-0">
+                                backgroundColor: "transparent",
+                                height: "8px",
+                            }}
+                        >
+                            <TableCell
+                                colSpan={5}
+                                sx={{
+                                    padding: 0,
+                                    border: "none",
+                                }}
+                            />
+                        </TableRow>
+                        <TableBody className="border-0 gradient-slate">
                             {rows.map((row) => (
                                 <TableRow
                                     key={row.name}
@@ -165,7 +179,7 @@ const Rsvpticketing = () => {
                                         fontFamily: "var(--font-base)",
                                         padding: "20px",
                                     }}
-                                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                                    className=" text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                 >
                                     <TableCell
                                         sx={{
@@ -178,7 +192,7 @@ const Rsvpticketing = () => {
                                         align="left"
                                         component="th"
                                         scope="row"
-                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
                                     >
                                         {row.ticket}
                                     </TableCell>
@@ -193,7 +207,7 @@ const Rsvpticketing = () => {
                                         align="left"
                                         component="th"
                                         scope="row"
-                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
                                     >
                                         {row.name}
                                     </TableCell>
@@ -208,7 +222,7 @@ const Rsvpticketing = () => {
                                         align="left"
                                         component="th"
                                         scope="row"
-                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
                                     >
                                         {row.calories}
                                     </TableCell>
@@ -223,7 +237,7 @@ const Rsvpticketing = () => {
                                         align="left"
                                         component="th"
                                         scope="row"
-                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
                                     >
                                         {row.fat}
                                     </TableCell>
@@ -234,7 +248,7 @@ const Rsvpticketing = () => {
                                             fontFamily: "var(--font-base)",
                                             color: "white",
                                         }}
-                                        className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                                        className=" text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                         align="left"
                                     >
                                          {row.carbs}
@@ -246,7 +260,7 @@ const Rsvpticketing = () => {
                                             fontFamily: "var(--font-base)",
                                             color: "white",
                                         }}
-                                        className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                                        className=" text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                         align="left"
                                     >
                                         {row.protein}
@@ -258,10 +272,10 @@ const Rsvpticketing = () => {
                                             fontFamily: "var(--font-base)",
                                             color: "white",
                                         }}
-                                        className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                                        className=" text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                         align="left"
                                     >
-                                        £ {row.Revenue}
+                                        £{row.Revenue}
                                     </TableCell>
                                 </TableRow>
 

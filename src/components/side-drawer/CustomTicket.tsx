@@ -46,7 +46,7 @@ const CustomTicket = () => {
                 </h1>
             </div>
             <div>
-                <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+                <TableContainer component={Paper} sx={{ boxShadow: "none",background:"transparent" }}>
                     <Table
                         sx={{
                             minWidth: 650,
@@ -56,22 +56,22 @@ const CustomTicket = () => {
                             borderRight: "none",
                             fontFamily: "var(--font-base)",
                             color: "white",
-                            background: "#0F0F0F",
                             fontSize: 16,
                             fontweight: 500,
 
                         }}
                         aria-label="simple table"
                     >
-                        <TableHead className="table-gradient" >
-                            <TableRow sx={{ border: "1px solid #292929" }}>
+                        <TableHead className="table-gradient-new" >
+                            <TableRow sx={{ border: "none", }} className='gradient-slate'>
                                 <TableCell
-                                    className="w-[40px] lg:w-[250px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    className="w-[40px] lg:w-[200px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     sx={{
                                         color: "#A6A6A6",
                                         borderBottom: "none",
                                         borderTop: "1px solid #292929",
                                         fontFamily: "var(--font-base)",
+                                        border:"none"
 
                                     }}
                                     align="left"
@@ -79,7 +79,7 @@ const CustomTicket = () => {
                                     Ticket Names
                                 </TableCell>
                                 <TableCell
-                                    className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[303px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[200px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
@@ -91,7 +91,7 @@ const CustomTicket = () => {
                                   Price
                                 </TableCell>
                                 <TableCell
-                                    className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[175px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[200px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
@@ -103,7 +103,7 @@ const CustomTicket = () => {
                                    Email
                                 </TableCell>
                                 <TableCell
-                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[175px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[200px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
@@ -115,7 +115,7 @@ const CustomTicket = () => {
                                     Sales
                                 </TableCell>
                                 <TableCell
-                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[140px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[200px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
@@ -128,18 +128,33 @@ const CustomTicket = () => {
                                 </TableCell>
                             </TableRow>
                         </TableHead>
+                        <TableRow
+                            sx={{
 
-                        <TableBody className="border-0">
+                                backgroundColor: "transparent",
+                                height: "8px",
+                            }}
+                        >
+                            <TableCell
+                                colSpan={5}
+                                sx={{
+                                    padding: 0,
+                                    border: "none",
+                                }}
+                            />
+                        </TableRow>
+                        <TableBody className="border-0 gradient-slate">
                             {rows.map((row) => (
                                 <TableRow
                                     key={row.name}
+
                                     sx={{
                                         "&:last-child td, &:last-child th": { border: 0 },
                                         borderBottom: "none",
                                         fontFamily: "var(--font-base)",
                                         padding: "20px",
                                     }}
-                                    className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                                    className="text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                 >
                                     <TableCell
                                         sx={{
@@ -152,7 +167,7 @@ const CustomTicket = () => {
                                         align="left"
                                         component="th"
                                         scope="row"
-                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                                        className="text-[white] text-[10px] font-normal lg:text-sm"
                                     >
                                         {row.name}
                                     </TableCell>
@@ -167,7 +182,7 @@ const CustomTicket = () => {
                                         align="left"
                                         component="th"
                                         scope="row"
-                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
                                     >
                                         £{row.calories}
                                     </TableCell>
@@ -182,7 +197,7 @@ const CustomTicket = () => {
                                         align="left"
                                         component="th"
                                         scope="row"
-                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
                                     >
                                         {row.fat}
                                     </TableCell>
@@ -197,7 +212,7 @@ const CustomTicket = () => {
                                         align="left"
                                         component="th"
                                         scope="row"
-                                        className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
+                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
                                     >
                                          {row.carbs}
                                     </TableCell>
@@ -208,10 +223,10 @@ const CustomTicket = () => {
                                             fontFamily: "var(--font-base)",
                                             color: "white",
                                         }}
-                                        className="bg-[#0F0F0F] text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                                        className="text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                         align="left"
                                     >
-                                        £ {row.protein}
+                                        £{row.protein}
                                     </TableCell>
                                 </TableRow>
 
