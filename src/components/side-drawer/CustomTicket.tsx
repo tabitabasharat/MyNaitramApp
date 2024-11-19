@@ -10,21 +10,21 @@ import { useState } from 'react';
 import { Button } from '../ui/button';
 function createData(
     name: string,
-    calories: string,
+    calories: number,
     fat: string,
-    carbs: string,
+    carbs: number,
     protein: number,
 ) {
     return { name, calories, fat, carbs, protein };
 }
 
 const rows = [
-    createData('Emily’s Wedding', "Custom Ticket", "Sold Out", "100/100", 1825.1),
-    createData('Football Season 2025 ', "Festivals / Multi-Day Tickets ", "On Sale", "100/100", 1825.1),
-    createData('My Birthday Party RSVP', "RSVP Ticketing", "ON Sale", "90/100", 1825.1),
-    createData('Private Show Broadway ', "Private Event Ticketing", "ON Sale", "78/100", 1825.1),
-    createData('Passworded Show Broadway ', "Passworded / Discounted Voucher Event ", "Sold Out", "100/100", 1825.1),
-    createData('Whitelist Show', "Whitelist / Waitlist Event Ticketing", "ON Sale", "35/100", 1825.1),
+    createData('Ticket 1', 950.6, "william@gmail.com", 134, 1825.1),
+    createData('Ticket 1', 950.6, "william@gmail.com", 134, 1825.1),
+    createData('Ticket 1', 950.6, "william@gmail.com", 134, 1825.1),
+    createData('Ticket 1', 950.6, "william@gmail.com", 134, 1825.1),
+    createData('Ticket 1', 950.6, "william@gmail.com", 134, 1825.1),
+    createData('Ticket 1', 950.6, "william@gmail.com", 134, 1825.1),
 ];
 
 function createDatapages(
@@ -56,21 +56,10 @@ const CustomTicket = () => {
         <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[57px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
             <div>
                 <h1 className="text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold">
-                PIZDEZ Womens Day Party 2024
+                    Custom Ticket
                 </h1>
             </div>
-            <div className='flex gap-[12px] w-full'>
-            <div className='w-full px-[12px] py-[16px] gradient-slate rounded-[8px]'>
-                <p className='text-sm'>Total Sales</p>
-                <h3 className='text-[#00D059] text-[30px] font-extrabold'>54</h3>
-            </div>
-            <div className='w-full px-[12px] py-[16px] gradient-slate rounded-[8px]'>
-                <p className='text-sm'>Total Revenue</p>
-                <h3 className='text-[#00D059] text-[30px] font-extrabold'>£10,950.6</h3>
-            </div>
-            </div>
             <div>
-                <h2 className='font-extrabold text-[32px] mb-[24px]'>Sales</h2>
                 <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
                     <Table
                         sx={{
@@ -84,7 +73,7 @@ const CustomTicket = () => {
                             background: "#0F0F0F",
                             fontSize: 16,
                             fontweight: 500,
-          
+
                         }}
                         aria-label="simple table"
                     >
@@ -97,7 +86,7 @@ const CustomTicket = () => {
                                         borderBottom: "none",
                                         borderTop: "1px solid #292929",
                                         fontFamily: "var(--font-base)",
-                                        
+
                                     }}
                                     align="left"
                                 >
@@ -137,7 +126,7 @@ const CustomTicket = () => {
                                         borderTop: "1px solid #292929",
                                     }}
                                 >
-                                   Sales
+                                    Sales
                                 </TableCell>
                                 <TableCell
                                     className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[140px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
@@ -149,11 +138,11 @@ const CustomTicket = () => {
                                         borderTop: "1px solid #292929",
                                     }}
                                 >
-                                   Revenue
+                                    Revenue
                                 </TableCell>
                             </TableRow>
                         </TableHead>
-                        
+
                         <TableBody className="border-0">
                             {rows.map((row) => (
                                 <TableRow
@@ -179,7 +168,7 @@ const CustomTicket = () => {
                                         scope="row"
                                         className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
                                     >
-                                        {row.name} 
+                                        {row.name}
                                     </TableCell>
                                     <TableCell
                                         sx={{
@@ -194,7 +183,7 @@ const CustomTicket = () => {
                                         scope="row"
                                         className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
                                     >
-                                        {row.calories}
+                                        £{row.calories}
                                     </TableCell>
                                     <TableCell
                                         sx={{
@@ -239,7 +228,7 @@ const CustomTicket = () => {
                                         £ {row.protein}
                                     </TableCell>
                                 </TableRow>
-                                
+
                             ))}
                         </TableBody>
                     </Table>
