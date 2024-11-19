@@ -11,7 +11,7 @@ import { Button } from '../ui/button';
 function createData(
     name: string,
     calories: number,
-    fat: string,
+    fat: number,
     carbs: number,
     protein: number,
 ) {
@@ -19,12 +19,24 @@ function createData(
 }
 
 const rows = [
-    createData('Ticket 1', 950.6, "william@gmail.com", 134, 1825.1),
-    createData('Ticket 1', 950.6, "william@gmail.com", 134, 1825.1),
-    createData('Ticket 1', 950.6, "william@gmail.com", 134, 1825.1),
-    createData('Ticket 1', 950.6, "william@gmail.com", 134, 1825.1),
-    createData('Ticket 1', 950.6, "william@gmail.com", 134, 1825.1),
-    createData('Ticket 1', 950.6, "william@gmail.com", 134, 1825.1),
+    createData('Ticket 1', 1, 950.6, 134, 950.6),
+    createData('Ticket 1', 1, 950.6, 134, 950.6),
+    createData('Ticket 1', 1, 950.6, 134, 950.6),
+    createData('Ticket 1', 1, 950.6, 134, 950.6),
+];
+
+function createDatapages(
+    name: string,
+    calories: number,
+) {
+    return { name, calories };
+}
+
+const pages = [
+    createDatapages('Lorem Ispum Lorem Uspum', 159),
+    createDatapages('Lorem Ispum Lorem Uspum ', 237),
+    createDatapages('Lorem Ispum Lorem Uspum', 262),
+    createDatapages('Lorem Ispum Lorem Uspum', 305),
 ];
 
 const CustomTicket = () => {
@@ -42,12 +54,11 @@ const CustomTicket = () => {
         <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[57px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
             <div>
                 <h1 className="text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold">
-                    Custom Ticket
+                Festivals / Multi-Day Tickets 
                 </h1>
             </div>
             <div>
-                <TableContainer component={Paper} sx={{  boxShadow: "none",
-    backgroundColor: "transparent", }}>
+                <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
                     <Table
                         sx={{
                             minWidth: 650,
@@ -89,7 +100,7 @@ const CustomTicket = () => {
                                         fontFamily: "var(--font-base)",
                                     }}
                                 >
-                                  Price
+                                    Ticket Type
                                 </TableCell>
                                 <TableCell
                                     className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[175px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
@@ -101,7 +112,7 @@ const CustomTicket = () => {
                                         borderTop: "1px solid #292929",
                                     }}
                                 >
-                                   Email
+                                    Status
                                 </TableCell>
                                 <TableCell
                                     className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[175px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
@@ -128,23 +139,8 @@ const CustomTicket = () => {
                                     Revenue
                                 </TableCell>
                             </TableRow>
-                       
-                      
-                        <TableRow
-        sx={{
-          backgroundColor: "transparent", // Transparent row
-          height: "16px", // Adjust height as needed
-        }}
-      >
-        <TableCell
-          colSpan={5}
-          sx={{
-            padding: 0,
-            border: "none",
-          }}
-        />
-      </TableRow>
-      </TableHead>
+                        </TableHead>
+
                         <TableBody className="border-0">
                             {rows.map((row) => (
                                 <TableRow
@@ -185,7 +181,7 @@ const CustomTicket = () => {
                                         scope="row"
                                         className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
                                     >
-                                        £{row.calories}
+                                        {row.calories}
                                     </TableCell>
                                     <TableCell
                                         sx={{
@@ -200,7 +196,7 @@ const CustomTicket = () => {
                                         scope="row"
                                         className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
                                     >
-                                        {row.fat}
+                                        £{row.fat}
                                     </TableCell>
                                     <TableCell
                                         sx={{
@@ -215,7 +211,7 @@ const CustomTicket = () => {
                                         scope="row"
                                         className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
                                     >
-                                         {row.carbs}
+                                        {row.carbs}
                                     </TableCell>
                                     <TableCell
                                         sx={{
