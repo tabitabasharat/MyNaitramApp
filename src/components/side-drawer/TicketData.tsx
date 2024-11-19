@@ -91,26 +91,34 @@ const TicketData = () => {
                         sx={{
                             minWidth: 650,
                             borderBottom: "none",
-                            borderTop: "1px solid #292929",
+                            borderTop: "none",
                             borderLeft: "none",
                             borderRight: "none",
                             fontFamily: "var(--font-base)",
                             color: "white",
-                            // background: "#0F0F0F",
                             fontSize: 16,
                             fontweight: 500,
 
                         }}
                         aria-label="simple table"
                     >
-                        <TableHead className="table-gradient-new">
-                            <TableRow sx={{ borderBottom: "none", borderTop: "0px", borderTopLeftRadius: "100px" }} className='gradient-slate'>
+                        <TableHead className="table-gradient-new" style={{ borderBottom: 'none' }} >
+                            <TableRow sx={{
+                                borderBottom: 'none', border: "none",
+                                borderTop: "none",
+                                borderTopLeftRadius: "8px",
+                                borderTopRightRadius: "8px",
+                                borderBottomLeftRadius: '8px',
+                                borderBottomRightRadius: '8px',
+                            }} className='gradient-slate'>
                                 <TableCell
                                     className="w-[40px] lg:w-[250px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     sx={{
+                                        borderTop: 'none',
+                                        borderTopLeftRadius: '10px',
+                                        borderBottomLeftRadius: '10px',
                                         color: "#A6A6A6",
                                         borderBottom: "none",
-                                        borderTop: "1px solid #292929",
                                         fontFamily: "var(--font-base)",
 
 
@@ -125,7 +133,7 @@ const TicketData = () => {
                                     sx={{
                                         color: "#A6A6A6",
                                         borderBottom: "none",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
                                         fontFamily: "var(--font-base)",
 
 
@@ -141,7 +149,7 @@ const TicketData = () => {
                                         color: "#A6A6A6",
                                         borderBottom: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
                                     }}
                                 >
                                     Status
@@ -153,21 +161,22 @@ const TicketData = () => {
                                         color: "#A6A6A6",
                                         borderBottom: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
                                     }}
                                 >
                                     Sales
                                 </TableCell>
                                 <TableCell
+                                component="td"
                                     className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[140px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
-                                        borderBottom: "none",
+                                        borderBottom: "3px solid #292929",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "1px solid #292929",
-                                        borderTopRightRadius: "10px",
-                                        borderBottomRighttRadius: "10px",
+                                        borderTop: "none",
+                                        borderBottomRightRadius: "10px", // Ensure radius here
+                                        overflow: "hidden", 
                                     }}
                                 >
                                     Revenue
@@ -259,6 +268,7 @@ const TicketData = () => {
                                 </>
                             })}
                         </TableBody>
+
                         <TableFooter>
                             <TableRow
                                 sx={{

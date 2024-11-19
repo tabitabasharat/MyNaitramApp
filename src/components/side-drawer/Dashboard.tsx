@@ -100,7 +100,7 @@ const Dashboard = () => {
                                     </div>
                                 )}
                                 <Button className='font-extrabold text-sm p-[12px] lg:w-[108px]'>
-                                Add Event
+                                    Add Event
                                 </Button>
                             </div>
                         </div>
@@ -373,7 +373,7 @@ const Dashboard = () => {
                                         scope="row"
                                         className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
                                     >
-                                        {pages.name} +
+                                        {pages.name}
                                     </TableCell>
                                     <TableCell
                                         sx={{
