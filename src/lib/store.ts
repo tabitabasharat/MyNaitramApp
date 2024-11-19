@@ -15,16 +15,47 @@ import getUserDetail from "./reducer/getUserDetail";
 import getProfileLiveActivity from "./reducer/getProfileLiveActivity";
 import getUserSocialProfile from "./reducer/getUserSocialProfile";
 import getTicketsByUId from "./reducer/getTicketsByUId";
+import getTicketByQR from "./reducer/getTicketByQR";
+import getBalanceByID from "./reducer/getBalanceByID";
+import getClaimStatus from "./reducer/getClaimStatus";
+import getRewardCollectibles from "./reducer/getRewardCollectibles";
+import getRewardCollectibleID from "./reducer/getRewardCollectibleID";
+import getGraphById from "./reducer/getGraphById";
+import getWalletCollectByUID from "./reducer/getWalletCollectByUID";
+import getEventsByUID from "./reducer/getEventsByUID";
+import getOrgByID from "./reducer/getOrgByID";
+import getOrgSocialProfile from "./reducer/getOrgSocialProfile";
+import getOrgDetail from "./reducer/getOrgDetail";
+import getScannerbyEID from "./reducer/getScannerbyEID";
+import getSalesData from "./reducer/getSalesData";
+import getAllAttendy from "./reducer/getAllAttendy";
+import getEventChat from "./reducer/getEventChat";
+import getUserNotifications from "./reducer/getUserNotifications";
+import getFollowPromoters from "./reducer/getFollowPromoters";
+import getOrgNotifications from "./reducer/getOrgNotifications";
+import getUserReadNotify from "./reducer/getUserReadNotify";
+import getOrgReadNotify from "./reducer/getOrgReadNotify";
+import getPayoutHistory from "./reducer/getPayoutHistory";
+import getPayoutBankDetail from "./reducer/getPayoutBankDetail";
+import getPayoutCrypto from "./reducer/getPayoutCrypto";
+import getPaidDetail from "./reducer/getPaidDetail";
+import getHistoryByid from "./reducer/getHistoryById"
+import getWalletHistory from "./reducer/getWalletHistory";
+import  getOrgLiveSocialProfile  from "./reducer/getOrgLiveSocialProfile";
+import getFollowStatus from "./reducer/getFollowStatus";
+import getPastEventBox from "./reducer/getPastEventsBox"
+import getPhotoRollChat from "./reducer/getPhotoRollChat"
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
   getEventById: getEventById,
-  getTicketStore: getTicket,
+  getTicket: getTicket,
   signIn: sign,
   getEventsCount: getAllEventsCount,
   getViewAllEvents: getViewAllEvents,
   getEventByEventID: getEventByEventID,
   getPastEvents: getPastEvents,
+  getPastEventsBox: getPastEventBox,
   getEventCount: getEventCount,
   getUserLiveEvents: getUserLiveEvents,
   getShowProfile: getShowProfile,
@@ -32,6 +63,36 @@ const appReducer = combineReducers({
   getProfileLiveActivity: getProfileLiveActivity,
   getUserSocialProfile: getUserSocialProfile,
   getTicketsByUId: getTicketsByUId,
+  getTicketByQR: getTicketByQR,
+  getBalanceByID: getBalanceByID,
+  getClaimStatus: getClaimStatus,
+  getRewardCollectibles: getRewardCollectibles,
+  getRewardCollectibleID: getRewardCollectibleID,
+  getGraphById: getGraphById,
+  getWalletCollectByUID: getWalletCollectByUID,
+  getEventsByUID: getEventsByUID,
+  getOrgByID: getOrgByID,
+  getOrgSocialProfile: getOrgSocialProfile,
+  getOrgDetail: getOrgDetail,
+  getScannerbyEID: getScannerbyEID,
+  getSalesData: getSalesData,
+  getAllAttend: getAllAttendy,
+  getEventChat: getEventChat,
+  getUserNotifications: getUserNotifications,
+  getFollowPromoters: getFollowPromoters,
+  getOrgNotifications: getOrgNotifications,
+  getUserReadNotify: getUserReadNotify,
+  getOrgReadNotify: getOrgReadNotify,
+  getPayoutHistory: getPayoutHistory,
+  getPayoutBankDetail: getPayoutBankDetail,
+  getPayoutCrypto: getPayoutCrypto,
+  getPaidDetail: getPaidDetail,
+  getWalletHistory: getWalletHistory,
+  getOrgLiveSocialProfile:getOrgLiveSocialProfile,
+  getFollowStatus:getFollowStatus,
+  getPhotoRollChat:getPhotoRollChat,
+  getHistoryByid:getHistoryByid,
+
 });
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,
@@ -48,21 +109,6 @@ export const makeStore = () => {
     reducer: rootReducer,
   });
 };
-// export const makeStore = () => {
-//   return configureStore({
-//     reducer: {
-//       profileInfo: getUserInfo,
-//       getAllEvents: getAllEvents,
-//       // addBuyTicketPrice: addBuyTicketPriceReducer,
-//       getEventById:getEventById,
-//       getTicketStore:getTicket,
-//       signIn:sign
-//     },
-//   });
-// };
-
-// Infer the type of makeStore
 export type AppStore = ReturnType<typeof makeStore>;
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<AppStore["getState"]>;
 export type AppDispatch = AppStore["dispatch"];

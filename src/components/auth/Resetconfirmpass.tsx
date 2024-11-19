@@ -70,10 +70,10 @@ const Resetconfirmpass = () => {
   const router = useRouter();
   const [passcode, setPasscode] = useState<any>();
 
-
   useEffect(() => {
-    const currentUrl = window.location.href;
-    const parts = currentUrl.split("/");
+    const currentUrl: any =
+      typeof window !== "undefined" ? window.location.href : null;
+    const parts = currentUrl?.split("/");
     const value = parts[parts.length - 1];
     setPasscode(value);
     console.log("myy", value);
@@ -102,7 +102,7 @@ const Resetconfirmpass = () => {
       if (res?.payload?.status === 200) {
         setLoader(false);
         SuccessToast("Password Reset Successfully");
-        router.push("/")
+        router.push("/");
         // setModalShow(true);
         // navigate("/New-Password");
       } else {
@@ -120,18 +120,18 @@ const Resetconfirmpass = () => {
             "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)),",
           backgroundPosition: "center",
         }}
-        className="min-h-screen py-[8rem] bg-cover bg-no-repeat"
+        className="min-h-screen w-full py-[8rem] bg-cover bg-no-repeat"
       >
-             {loader && <ScreenLoader/>}
+        {loader && <ScreenLoader />}
         <div className="resetpass-stlying-main-div">
           {" "}
           <Image alt="Logo" src={logo} className="logo-stlying" />
           <Separator className="scale-x-[1.09] bg-[#292929]" />
-          <div className="font-bold text-2xl resetpass-stlying">
+          <div className="font-extrabold text-2xl resetpass-stlying">
             Reset <span className="text-primary">Password</span>
           </div>
-          <div className=" pb-4 font-bold opacity-70">
-            Please enter the email address associated with your account.
+          <div className=" pb-[20px] font-bold text-sm opacity-70">
+            Enter your new password
           </div>
           <Form {...form}>
             <form
@@ -142,18 +142,18 @@ const Resetconfirmpass = () => {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem className="relative ">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
+                  <FormItem className="relative space-y-0">
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3 z-10">
                       PASSWORD
                     </FormLabel>
                     <Lock
-                      className="absolute right-3 translate-y-[0.9rem] z-10"
+                      className="absolute top-[8px] right-3 translate-y-[0.9rem] z-10"
                       size={20}
                     />
                     <FormControl>
                       <PasswordInput
                         placeholder="Input password"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
+                        className="pt-11 pb-5 placeholder:text-[#D9D9D9] placeholder:text-base placeholder:font-normal"
                         {...field}
                         onChange={(e) => {
                           setPassword(e.target.value);
@@ -169,21 +169,21 @@ const Resetconfirmpass = () => {
                 control={form.control}
                 name="confirm_password"
                 render={({ field }) => (
-                  <FormItem className="relative">
-                    <FormLabel className="text-[13px] text-[#8F8F8F] absolute left-3 top-3 z-10">
-                      CONFORM PASSWORD
+                  <FormItem className="relative space-y-0">
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3 z-10">
+                     CONFIRM PASSWORD
                     </FormLabel>
                     <Lock
-                      className="absolute right-3 translate-y-[0.9rem] z-10"
+                      className="absolute top-[8px] right-3 translate-y-[0.9rem] z-10"
                       size={20}
                     />
                     <FormControl>
                       <PasswordInput
                         placeholder="Input password again"
-                        className="pt-11 pb-5 font-bold placeholder:font-normal"
+                        className="pt-11 pb-5 placeholder:text-[#D9D9D9] placeholder:text-base placeholder:font-normal"
                         {...field}
                         onChange={(e) => {
-                          setConfirmPassword(e.target.value);
+                          setPassword(e.target.value);
                           field.onChange(e);
                         }}
                       />
@@ -192,7 +192,7 @@ const Resetconfirmpass = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="font-bold w-full">
+              <Button type="submit" className="font-extrabold w-full">
                 Reset Password
               </Button>
             </form>

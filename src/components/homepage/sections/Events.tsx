@@ -25,19 +25,9 @@ const Events = () => {
     <section className="mt-[4rem] mb-[5rem] w-screen overflow-x-hidden">
       <Reveal y={100} width="100%">
         <div className="flex justify-between items-center pxpx mx-2xl">
-          <h2 className="font-bold text-[32px] lg:text-[48px]">
-            🎉 Featured Event
-          </h2>
-          <Link
-            href="/events"
-            className="font-bold lg:flex items-center gap-2 group hidden"
-          >
-            Explore More Events{" "}
-            <ArrowRight
-              size={20}
-              weight="bold"
-              className=" group-hover:translate-x-1 duration-300 ease-in-out"
-            />
+          <h2 className="font-bold text-[32px] lg:text-[48px]">🎉 Featured Event</h2>
+          <Link href="/events" className="font-bold lg:flex items-center gap-2 group hidden">
+            Explore More Events <ArrowRight size={20} weight="bold" className=" group-hover:translate-x-1 duration-300 ease-in-out" />
           </Link>
         </div>
       </Reveal>
@@ -57,28 +47,16 @@ const Events = () => {
         >
           {events.map((event) => (
             <SwiperSlide key={event.id}>
-              <EventCard
-                key={event.id}
-                img={event.img}
-                title={event.title}
-                eventId={event?.id}
-              />
+              <EventCard likedEvents={[]} key={event.id} img={event.img} title={event.title} eventId={event?.id} eventType={"test"} price="0" />
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
       <FadeReveal>
         <Link href={"/events"}>
-          <Button
-            variant="outline"
-            className="flex items-center gap-2 hover:gap-4 mx-auto lg:hidden"
-          >
+          <Button variant="outline" className="flex items-center gap-2 hover:gap-4 mx-auto lg:hidden">
             Explore More Events
-            <ArrowRight
-              size={20}
-              weight="bold"
-              className="group-hover:translate-x-1 duration300 ease-in-out"
-            />
+            <ArrowRight size={20} weight="bold" className="group-hover:translate-x-1 duration300 ease-in-out" />
           </Button>
         </Link>
       </FadeReveal>

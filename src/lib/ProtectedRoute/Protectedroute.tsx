@@ -7,7 +7,7 @@ function Protectedroute<P extends object>(WrappedComponent: React.ComponentType<
     const router = useRouter();
 
     useEffect(() => {
-      const userId = localStorage.getItem('_id');
+      const userId = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
       if (!userId) {
         router.replace('/'); // Redirect to the login page
       }

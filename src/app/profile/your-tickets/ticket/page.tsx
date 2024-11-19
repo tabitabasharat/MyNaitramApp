@@ -1,7 +1,7 @@
 import TicketDetail from '@/components/profile-page/TicketDetail';
 
-const page = () => {
+export default function page ()  {
   return <TicketDetail />;
 };
 
-export default page;
+

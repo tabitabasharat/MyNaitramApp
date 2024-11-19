@@ -1,7 +1,11 @@
-import TakeOverEvent from '@/components/gallery/takeover/TakeOverEvent';
 
-const page = () => {
+
+import dynamic from 'next/dynamic';
+const TakeOverEvent = dynamic(()=>import("@/components/gallery/takeover/TakeOverEvent"),{
+  ssr:false
+})
+
+export default function page ()  {
   return <TakeOverEvent />;
 };
 
-export default page;

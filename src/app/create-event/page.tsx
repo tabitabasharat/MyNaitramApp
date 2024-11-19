@@ -1,7 +1,10 @@
-import CreateEvent from "@/components/create-event/CreateEvent";
+"use client"
 
-const page = () => {
+import dynamic from 'next/dynamic';
+const CreateEvent = dynamic(()=>import("@/components/create-event/CreateEvent"),{
+  ssr:false
+})
+
+export default function page ()  {
   return <CreateEvent/>;
 };
-
-export default page;

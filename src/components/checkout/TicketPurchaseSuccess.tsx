@@ -18,6 +18,7 @@ import Link from 'next/link';
 
 
 
+
 const TicketPurchaseSuccess = ({ setCurrentModal }: any) => {
 
  
@@ -91,7 +92,7 @@ const TicketPurchaseSuccess = ({ setCurrentModal }: any) => {
               </Button>
             </DialogClose>
           </div>
-          <div className="relative bg-[#002912] border border-[#262626] mt-12 rounded-b-xl p-8 overflow-hidden">
+          {/* <div className="relative bg-[#002912] border border-[#262626] mt-12 rounded-b-xl p-8 overflow-hidden">
             <h2 className="text-2xl">Download NAITRAM App</h2>
             <div className="flex flex-col gap-2 mt-4">
               <div className="flex gap-3">
@@ -115,9 +116,11 @@ const TicketPurchaseSuccess = ({ setCurrentModal }: any) => {
                 <p>Browse any event anytime from your hand</p>
               </div>
             </div>
-            <Button className="flex items-center gap-[0.5rem] rounded-full mt-6 w-full">
+            <Button  className="flex items-center gap-[0.5rem] rounded-full mt-6 w-full">
               <DownloadSimple size={20} weight="fill" />
+              <Link href="/download-app">
               Download App to Unlock Features
+              </Link>
             </Button>
             <Image
               src={ufo}
@@ -126,7 +129,7 @@ const TicketPurchaseSuccess = ({ setCurrentModal }: any) => {
               className="absolute right-0 bottom-0 scale-[1.5]"
               alt=""
             />
-          </div>
+          </div> */}
         </div>
       </ScrollArea>
     </DialogContent>

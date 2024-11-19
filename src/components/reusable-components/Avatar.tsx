@@ -4,7 +4,7 @@ import { cn, toBase64, shimmer } from '@/lib/utils';
 
 const Avatar = ({ img, size }: any) => {
   return (
-    <AvatarGradientBorder className="w-fit rounded-full p-[2px]">
+    <AvatarGradientBorder className="w-fit lg:me-[16px] me-[8px] lg:mb-[12px] rounded-full p-[2px]">
       <div className="bg-black rounded-full p-[5px]">
         <Image
           src={img}

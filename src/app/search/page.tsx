@@ -1,7 +1,12 @@
-import SearchEvents from '@/components/search-page/SearchEvents';
 
-const page = () => {
+import dynamic from 'next/dynamic'
+const SearchEvents = dynamic(() => import('../../components/search-page/SearchEvents'))
+
+
+
+
+export default function page ()  {
   return <SearchEvents />;
 };
 
-export default page;
+

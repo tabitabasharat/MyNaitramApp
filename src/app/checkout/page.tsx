@@ -1,7 +1,8 @@
+"use client"
 import TicketPurchaseSuccessPage from "@/components/checkout/TicketPurchaseSuccessPage";
 
-const page = () => {
+export default function page ()  {
   return <TicketPurchaseSuccessPage/>;
 };
 
-export default page;
+

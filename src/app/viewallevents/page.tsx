@@ -1,8 +1,8 @@
-import AllNaitramEvents from "@/components/homepage/sections/AllNaitramEvents";
+import AllNaitramEvents from "../../components/homepage/sections/AllNaitramEvents";
 
-const page = () => {
-    
-    return <AllNaitramEvents/>;
-  };
-  
-  export default page;
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
+export default function page() {
+  return <AllNaitramEvents />;
+}

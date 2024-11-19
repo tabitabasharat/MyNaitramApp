@@ -45,19 +45,6 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Email cannot be empty." })
     .email({ message: "Invalid email address." }),
-  //   password: z
-  //     .string()
-  //     .min(8, { message: "Password must contain at least 8 characters." })
-  //     .regex(/[a-z]/, {
-  //       message: "Password must contain at least one lowercase letter.",
-  //     })
-  //     .regex(/[A-Z]/, {
-  //       message: "Password must contain at least one uppercase letter.",
-  //     })
-  //     .regex(/[0-9]/, { message: "Password must contain at least one number." })
-  //     .regex(/[^a-zA-Z0-9]/, {
-  //       message: "Password must contain at least one special character.",
-  //     }),
 });
 const FAQ = ({
   className,
@@ -76,8 +63,6 @@ const FAQ = ({
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // :white_check_mark: This will be type-safe and validated.
     console.log(values);
   }
   const pathname = usePathname();
@@ -86,47 +71,68 @@ const FAQ = ({
     setActiveDiv(index);
   };
   const [active, setActive] = useState(false);
-  // Function to toggle the active state
   const handleClickAccor = () => {
     setActive(!active);
   };
   const [activeIndex, setActiveIndex] = useState(0);
   const handleAccordionChange = (index: any) => {
-    setActiveIndex(activeIndex === index ? null : index); // Toggle the active index
+    setActiveIndex(activeIndex === index ? null : index);
   };
+
+  const [activebtn, setActivebtn] = useState<string>("General");
+
+  // Function to handle clicks and set active state
+  const handleClickbtn = (period: string) => {
+    setActivebtn(period);
+  };
+
   return (
-    <div className="w-full mt-[45px] lg:w-[600px] lg:ps-[172px] md:mx-auto md:mt-[92px] lg:mx-0">
-      <h2 className="font-bold text-[24px] ms-[24px] md:ms-[0px] lg:text-[32px] mb-[24px] sm:mb-[53px]">
+    <div className="w-full mt-[45px] lg:w-[600px] lg:ps-[172px] md:mx-auto lg:mt-[92px] lg:mx-0">
+      <h2 className="font-bold text-[24px] ms-[24px] lg:ms-[0px] lg:text-[32px] mb-[24px] sm:mb-[0px]">
         FAQ
       </h2>
-      <div
+      <div className="flex  gap-[8px] ">
+        {/* {["General", "Account", "Login"].map((text, index) => ( */}
+        <div className="flex flex-wrap gap-2 mt-[20px]">
+          {/* General Button */}
+          <div
+            onClick={() => handleClickbtn("General")}
+            className={`border border-[#3C3C3C] w-[92px] justify-center rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
+              activebtn === "General"
+                ? "gradient-border-notify text-primary"
+                : "text-white"
+            } items-center cursor-pointer`}
+          >
+            <p className="text-sm font-extrabold">General</p>
+          </div>
 
-        className="flex  gap-[8px] "
-      >
-        {["General", "Account", "Login"].map((text, index) => (
-        <div
-        key={index}
-        style={{
-          background: activeDiv === index
-            ? "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"
-            : "linear-gradient(#0F0F0F, #1A1A1A) padding-box",
-          borderImage: activeDiv === index
-            ? "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%)"
-            : "none",
-          borderImageSlice: activeDiv === index ? 1 : undefined,
-        }}
-        className={`text-sm font-bold p-[12px] rounded-[44px] border w-[92px] text-center cursor-pointer ${
-          activeDiv === index
-            ? "text-green-500 border-[0.86px] rounded-[44px] bg-[#1A1A1A]"
-            : "text-[#E6E6E6] border-[#FFFFFF0F] gradient-slate"
-        }`}
-        onClick={() => handleClick(index)}
-      >
-        {text}
+          {/* Account Button */}
+          <div
+            onClick={() => handleClickbtn("Account")}
+            className={`border border-[#3C3C3C] w-[92px] flex justify-center rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
+              activebtn === "Account"
+                ? "gradient-border-notify text-primary"
+                : "text-white"
+            } items-center cursor-pointer`}
+          >
+            <p className="text-sm text-center font-extrabold">Account</p>
+          </div>
+
+          {/* Login Button */}
+          <div
+            onClick={() => handleClickbtn("Login")}
+            className={`border border-[#3C3C3C] w-[92px] justify-center text-center rounded-full flex flex-row lg:flex-col gap-1 px-[12px] py-[8px] gradient-slate ${
+              activebtn === "Login"
+                ? "gradient-border-notify text-primary"
+                : "text-white"
+            } items-center cursor-pointer`}
+          >
+            <p className="text-sm font-extrabold">Login</p>
+          </div>
+        </div>
+        {/* ))} */}
       </div>
-        ))}
-      </div>
-      <div className="flex flex-col lg:flex-col gap-[12px] sm:gap-[20px] mt-[24px] lg:mt-[20px]">
+      <div className="flex flex-col lg:flex-col gap-[12px] sm:gap-[20px] mb-[80px] mt-[24px] lg:mt-[20px]">
         {[
           {
             title: "What is Naitram?",
@@ -137,11 +143,11 @@ const FAQ = ({
             content:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
           },
-          {
-            title: "Is Naitram safe for me?",
-            content:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
-          },
+          // {
+          //   title: "Is Naitram safe for me?",
+          //   content:
+          //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
+          // },
           {
             title: "Is Naitram free to use?",
             content:
@@ -159,12 +165,14 @@ const FAQ = ({
             onChange={() => handleAccordionChange(index)}
             className="gradient-slate border-[0.86px] border-transparent rounded-[8px] mb-[0px]"
             style={{
-              background: activeIndex === index
-                ? "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"
-                : "linear-gradient(#0F0F0F, #1A1A1A) padding-box",
-              borderImage: activeIndex === index
-                ? "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%)"
-                : "none",
+              background:
+                activeIndex === index
+                  ? "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box"
+                  : "linear-gradient(#0F0F0F, #1A1A1A) padding-box",
+              borderImage:
+                activeIndex === index
+                  ? "linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%)"
+                  : "none",
               borderImageSlice: activeIndex === index ? 1 : undefined,
             }}
             sx={{
@@ -201,8 +209,13 @@ const FAQ = ({
                 },
                 "&.MuiButtonBase-root.MuiAccordionSummary-root": {
                   minHeight: "0",
-                  // padding:"20px 12px",
+                  height:"80px",
+                  borderRadius: "8px",
                 },
+                "&.MuiButtonBase-root.MuiAccordionSummary-root .MuiAccordionSummary-content":
+                  {
+                    color: "#FFFFFF",
+                  },
               }}
             >
               {accordion.title}

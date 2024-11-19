@@ -37,7 +37,7 @@ const formSchema = z.object({
 const Profile = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
+    const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     dispatch(showProfile(userid));
   }, []);
@@ -65,17 +65,17 @@ const Profile = () => {
     console.log(values);
   }
 
-  const imageUrl = myProfile?.profilePicture?.startsWith("http" || "https")
+  const imageUrl = myProfile?.profilePicture?.startsWith("http") || myProfile?.profilePicture?.startsWith("https")
     ? myProfile?.profilePicture
     : "/person3.jpg";
   console.log("image src is", imageUrl);
   return (
-    <div className="w-full ps-[0px] xl:ps-[172px] md:px-auto lg:w-full lg:mx-0">
+    <div className="w-full ps-[0px] mb-[230px] lg:mb-[0px] xl:ps-[172px] md:px-auto lg:w-full lg:mx-0">
       {userLoading?.loading && <ScreenLoader />}
       <div>
-        <div className="flex mt-[45px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start md:mt-[150px]">
+        <div className="flex mt-[45px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start lg:mt-[90px]">
           <div className="flex flex-col justify-center lg:mx-0 md:gap-[32px] gap-[32px] w-fit">
-            <h2 className="font-extrabold text-[20px] md:ms-[0px] ms-[24px] lg:text-[32px]">
+            <h2 className="font-extrabold text-[20px] lg:ms-[0px] ms-[24px] lg:text-[32px]">
               Profile
             </h2>
           </div>
@@ -121,6 +121,20 @@ const Profile = () => {
                   }}
                   className="flex bg-[#0F0F0F] rounded-[6.89px] gap-[20px] justify-evenly  py-[16px] lg:py-[13.77px] w-[100%] lg:w-[428px] xl:w-[428px] border-[0.86px] border-transparent"
                 >
+                  
+                  <div className="flex flex-col items-center justify-center ">
+                    <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
+                     
+                     {myProfile?.eventsCount !== null
+                        ? myProfile?.eventsCount
+                        : "0"}
+                    </h2>
+                    <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
+                    EVENTS
+                    </p>
+                  </div>
+                  <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
+
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
                       {myProfile?.attendees !== null
@@ -128,16 +142,7 @@ const Profile = () => {
                         : "0"}
                     </h2>
                     <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      ATTENDEES
-                    </p>
-                  </div>
-                  <div className="h-[58.01px] border-l border-[#292929] mx-2"></div>
-                  <div className="flex flex-col items-center justify-center ">
-                    <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-                      324
-                    </h2>
-                    <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      FOLLOWING
+                      ATTENDED
                     </p>
                   </div>
                 </div>

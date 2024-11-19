@@ -22,13 +22,13 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
     dispatch(getViewAllEvent(data));
   };
   useEffect(() => {
-    const userid = localStorage.getItem("_id");
+    const userid = typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     const data = {
       page: 1,
     };
     dispatch(getViewAllEvent(data));
-    dispatch(getViewPastEvents());
+    dispatch(getViewPastEvents(data));
     dispatch(getLiveEventById(userid));
   }, []);
 
@@ -57,6 +57,9 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
           img={event?.coverEventImage}
           title={event?.name}
           eventId={event?.id}
+          ticketPrice={event?.id}
+          likedEvents={event?.id}
+          eventDate={event?.id}
         />
       ));
     } else {
@@ -71,7 +74,7 @@ const MobileAllEventsList = ({ events, eventType }: any) => {
         ? renderEvents(EventsAllData?.events)
         : eventType === "Past Events"
         ? renderEvents(EventsPastData?.events)
-        : eventType === "Your Events"
+        : eventType === "Attending"
         ? renderEvents(myEvents?.events)
         : null}
 
