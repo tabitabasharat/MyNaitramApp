@@ -2,6 +2,8 @@
 
 "use client";
 
+import Link from "next/link";
+
 const MpHome = () => {
   const images = [
     "/Images/Market/tradingnft.svg",
@@ -64,7 +66,9 @@ const MpHome = () => {
         {/* Image Grid */}
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {images.map((src, index) => (
-            <img key={index} src={src} alt={`Trending NFT ${index + 1}`} className="w-full h-auto" />
+            <Link key={index} href="/marketPlace/owner">
+              <img key={index} src={src} alt={`Trending NFT ${index + 1}`} className="w-full h-auto" />
+            </Link>
           ))}
         </div>
 
