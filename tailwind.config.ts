@@ -12,10 +12,11 @@ const config = {
       padding: "2rem",
       screens: {
         "2xl": "1400px",
+        "sm-320": { max: "320px" },
+        md1150: { max: "1150px" },
       },
     },
     extend: {
-      
       boxShadow: {
         custom: "0px 5px 30px rgba(255, 255, 255, 0.2)",
       },
@@ -24,6 +25,7 @@ const config = {
       },
       colors: {
         customRed: "#FF1717",
+        customGreen: "rgba(0, 208, 89, 1)",
       },
       fontFamily: {
         sans: ["var(--font-base)", ...fontFamily.sans],

@@ -460,14 +460,12 @@ const Header = () => {
                               >
                                 User Profile
                               </Link>
-                            </div>
-                            <div className="w-full flex justify-center items-center mt-[-10px] mb-[10px]">
-                              <button
-                                className="text-[white] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] rounded-md py-[7px] px-[13px]"
-                                onClick={Logout}
-                              >
-                                <Image src={logout} className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]" alt="img" /> Log out
-                              </button>
+                              <div className="w-fit flex justify-start items-center">
+                                <button className="block text-start text-sm hover:text-green-500 text-white" onClick={Logout}>
+                                  {/* <Image src={logout} className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]" alt="img" /> */}
+                                  Log out
+                                </button>
+                              </div>
                             </div>
                           </div>
                         )}
