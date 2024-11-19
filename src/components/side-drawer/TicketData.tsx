@@ -287,74 +287,92 @@ const TicketData = () => {
                             ))}
                         </TableBody> */}
    
-                        <TableBody sx={{borderRadius:'10px'}} className="border-0  gradient-slate">
-                            {rows.map((row) => {
+   <TableBody className="gradient-slate">
+  {rows.map((row, rowIndex) => (
+    <TableRow
+      key={row.name}
+      className="text-white text-[10px] font-normal lg:text-sm"
+      sx={{
+        '&:last-child td, &:last-child th': { border: 0 },
+        borderBottom: "none",
+        fontFamily: "var(--font-base)",
+        padding: "20px",
+      }}
+    >
+      <TableCell
+        align="left"
+        component="th"
+        scope="row"
+        className="text-white text-[10px] font-normal lg:text-sm"
+        sx={{
+          padding: "20px",
+          borderBottom: "none",
+          fontFamily: "var(--font-base)",
+          ...(rowIndex === 0 && {
+            borderTopLeftRadius: "10px", // Top-left radius for the first row
+          }),
+          ...(rowIndex === rows.length - 1 && {
+            borderBottomLeftRadius: "10px", // Bottom-left radius for the last row
+          }),
+        }}
+      >
+        {row.name}
+      </TableCell>
+      <TableCell
+        align="left"
+        className="text-white text-[10px] font-normal lg:text-sm"
+        sx={{
+          padding: "20px",
+          borderBottom: "none",
+          fontFamily: "var(--font-base)",
+        
+        }}
+      >
+        {row.calories ? (
+          row.calories.map((calorie, index) => (
+            <Link key={index} href={calorie.url} passHref legacyBehavior>
+              <a className="text-white font-bold text-sm mr-2">{calorie.title}</a>
+            </Link>
+          ))
+        ) : (
+          <span>No Data</span>
+        )}
+      </TableCell>
+      <TableCell
+        align="left"
+        className="text-white text-[10px] font-normal lg:text-sm"
+        sx={{ padding: "20px", borderBottom: "none", fontFamily: "var(--font-base)" }}
+      >
+        {row.fat}
+      </TableCell>
+      <TableCell
+        align="left"
+        className="text-white text-[10px] font-normal lg:text-sm"
+        sx={{ padding: "20px", borderBottom: "none", fontFamily: "var(--font-base)" }}
+      >
+        {row.carbs}
+      </TableCell>
+      <TableCell
+        align="left"
+        className="text-white text-[10px] font-normal lg:text-sm"
+        sx={{
+            padding: "20px",
+            borderBottom: "none",
+            fontFamily: "var(--font-base)",
+            ...(rowIndex === 0 && {
+              borderTopRightRadius: "10px", // Top-left radius for the first row
+            }),
+            ...(rowIndex === rows.length - 1 && {
+              borderBottomRightRadius: "10px", // Bottom-left radius for the last row
+            }),
+          }}
+      >
+        £ {row.protein}
+      </TableCell>
+    </TableRow>
+  ))}
+</TableBody>
 
-                                return <>
-                                    <TableRow
-                                        key={row.name}
-                                        className=" text-white text-[10px] font-normal lg:text-sm"
-                                        sx={{
-                                            '&:last-child td, &:last-child th': { border: 0 },
-                                            borderBottom: 'none',
-                                            fontFamily: 'var(--font-base)',
-                                            padding: '20px',
-
-                                        }}
-                                    >
-                                        <TableCell
-                                            align="left"
-                                            component="th"
-                                            scope="row"
-                                            className="text-white text-[10px] font-normal lg:text-sm"
-                                            sx={{ padding: '20px', borderBottom: 'none', fontFamily: 'var(--font-base)', }}
-                                        >
-                                            {row.name}
-                                        </TableCell>
-
-                                        <TableCell
-                                            align="left"
-                                            className="text-white text-[10px] font-normal lg:text-sm"
-                                            sx={{ padding: '20px', borderBottom: 'none', fontFamily: 'var(--font-base)' }}
-                                        >
-                                            {row.calories ? (
-                                                row.calories.map((calorie, index) => (
-                                                    <Link key={index} href={calorie.url} passHref legacyBehavior>
-                                                        <a className="text-white font-bold text-sm mr-2">{calorie.title}</a>
-                                                    </Link>
-                                                ))
-                                            ) : (
-                                                <span>No Data</span>
-                                            )}
-                                        </TableCell>
-
-                                        <TableCell
-                                            align="left"
-                                            className=" text-white text-[10px] font-normal lg:text-sm"
-                                            sx={{ padding: '20px', borderBottom: 'none', fontFamily: 'var(--font-base)' }}
-                                        >
-                                            {row.fat}
-                                        </TableCell>
-
-                                        <TableCell
-                                            align="left"
-                                            className="text-white text-[10px] font-normal lg:text-sm"
-                                            sx={{ padding: '20px', borderBottom: 'none', fontFamily: 'var(--font-base)' }}
-                                        >
-                                             {row.carbs}
-                                        </TableCell>
-
-                                        <TableCell
-                                            align="left"
-                                            className="text-white text-[10px] font-normal lg:text-sm"
-                                            sx={{ padding: '20px', borderBottom: 'none', fontFamily: 'var(--font-base)' }}
-                                        >
-                                            £ {row.protein}
-                                        </TableCell>
-                                    </TableRow>
-                                </>
-                            })}
-                        </TableBody>
                        
                         <TableFooter>
                             <TableRow
