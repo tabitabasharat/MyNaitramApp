@@ -12,6 +12,8 @@ import AllEventsGrid from '../reusable-components/AllEventsGrid';
 import Card from '../about/vision/card/Card';
 import EventCard from '../reusable-components/EventCard';
 import EventcardText from '../reusable-components/EventcardText';
+import Link from "next/link";
+
 function createData(
     name: string,
     calories: number,
@@ -57,7 +59,7 @@ const EventAnalytics = () => {
     };
 
     return (
-        <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[97px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
+        <Link href="/side-drawer/ticket-data" className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[97px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
             <div>
                 <h1 className="text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold">
                 Live Events                </h1>
@@ -397,7 +399,7 @@ const EventAnalytics = () => {
                     </Table>
                 </TableContainer>
             </div> */}
-        </div>
+        </Link>
     )
 }
 export default EventAnalytics

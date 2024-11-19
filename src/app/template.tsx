@@ -17,6 +17,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/profile/Delete-account",
     "/side-drawer",
     "/side-drawer/dashboard",
+    "/side-drawer/ticket-data",
     // "/social-profile",
     "/organizer-event/event-dashboard",
     "/organizer-event/profile",
