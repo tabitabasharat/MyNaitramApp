@@ -18,7 +18,7 @@ interface StatesData {
   listed: StateDataItem;
 }
 
-export default function NftOwner() {
+const NftOwner = () => {
   const [statesData, setStatesData] = useState<StatesData>({
     totalVolume: {
       first: "15",
@@ -147,4 +147,6 @@ export default function NftOwner() {
       </div>
     </>
   );
-}
+};
+
+export default NftOwner;
