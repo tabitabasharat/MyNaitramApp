@@ -1,0 +1,38 @@
+/* Nomi branch CSS */
+
+@media (max-width: 700px) {
+  .animakid_Hero {
+    padding-top: 10px; /* Adjust as needed */
+  }
+  .Animakida_Container_LOgo,
+  .Animakid__HeroSection_container,
+  .Animkaid_text_Container_descripition,
+  .Tim_clende_Svg_container,
+  .grid {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .Animkaida_Btn_text_Container h2,
+  .Animkaid_Button,
+  .AnimIKaid_15text,
+  .Animakid_PTExt,
+  .Description_text,
+  .Animakid_jooin_text,
+  .Join_Us_Animakid,
+  .animakid_small_Svg_Conatiner p {
+    font-size: 90%; /* Reduce font size for better readability */
+  }
+  .grid {
+    gap: 20px; /* Adjust gap */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Make grid responsive */
+  }
+}
+@media (max-width: 500px) {
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    display: none;
+  }
+}

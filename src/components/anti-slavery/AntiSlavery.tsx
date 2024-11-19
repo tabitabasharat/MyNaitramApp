@@ -105,10 +105,9 @@ export default function AntiSlavery() {
             Reporting Concerns
           </li>
           <p className="list-inside ml-2 space-y-1">
-            Employees, contractors, or other third parties who suspect modern
-            slavery should report their concerns to [insert contact details]
-            without fear of retaliation. All reports will be treated
-            confidentially and investigated promptly.
+            Employees, contractors, or other third parties who suspect modern slavery
+            should report their concerns to <a href="mailto:support@naitram">support@naitram</a>.live without fear of retaliation.
+            All reports will be treated confidentially and investigated promptly.
           </p>
           {/* 7 bullet */}
           <li className="text-[18px] sm:text-[20px] lg:text-[24px] font-bold mt-4 ">
@@ -133,3 +132,4 @@ export default function AntiSlavery() {
     </section>
   );
 }
+ 

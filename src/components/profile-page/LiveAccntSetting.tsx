@@ -32,13 +32,13 @@ import { usePathname } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import bgblur from "../../assets/Blur Green.png";
+import { Dispatch } from "redux";
 import { showLiveActivity, updateLiveActivity } from "@/lib/middleware/profile";
 import ScreenLoader from "../loader/Screenloader";
 import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
-import { isAction } from "redux";
+
 const formSchema = z.object({
   facebook: z.string().url({ message: "Invalid Facebook URL." }).optional(),
   insta: z.string().url({ message: "Invalid Instagram URL." }).optional(),
@@ -48,6 +48,28 @@ const formSchema = z.object({
   twitter: z.string().url({ message: "Invalid Twitter URL." }).optional(),
   telegram: z.string().url({ message: "Invalid Telegram URL." }).optional(),
 });
+
+// Define interfaces for your data structures
+interface LinkedInAuthData {
+  // Add the properties that your auth data contains
+  code?: string;
+  // ... other properties
+}
+
+interface LinkedInAuthResponse {
+  payload: {
+    status: number;
+    data?: {
+      id: string;
+      profileUpdate: boolean;
+    };
+    token?: string;
+    message?: string;
+  };
+}
+
+// If you're using a custom dispatch type with your actions
+type AppDispatch = Dispatch<any>;
 
 const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; setPopupOpen?: any }) => {
   const router = useRouter();
@@ -69,6 +91,8 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
   const [isTikTokVerify, setTikTokVerify] = useState<boolean>(false);
   const [isLinkedInVerify, setLinkedInVerify] = useState<boolean>(false);
   const [isXVerify, setXVerify] = useState<boolean>(false);
+
+  const [loading, setLoading] = useState(false);
 
   const myliveActivity = useAppSelector((state) => state?.getProfileLiveActivity?.LiveActivity?.data);
 
@@ -280,7 +304,10 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                             ✔
                           </FormLabel>
                         ) : (
-                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          <FormLabel
+                            // onClick={}
+                            className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center"
+                          >
                             Verify
                           </FormLabel>
                         )}
@@ -353,7 +380,10 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                             ✔
                           </FormLabel>
                         ) : (
-                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          <FormLabel
+                            // onClick={}
+                            className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center"
+                          >
                             Verify
                           </FormLabel>
                         )}
@@ -390,7 +420,13 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                           </FormLabel>
                         ) : (
                           <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                            {/* <Link
+                              href={
+                                "https://oauth.telegram.org/auth?bot_id=7630464152&origin=https://link.magnuscapital.ai/signup&embed=1&request_access=write"
+                              }
+                            > */}
                             Verify
+                            {/* </Link> */}
                           </FormLabel>
                         )}
                         <FormControl>
@@ -425,7 +461,10 @@ const LiveAccntSetting = ({ className, setPopupOpen }: { className?: string; set
                             ✔
                           </FormLabel>
                         ) : (
-                          <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
+                          <FormLabel
+                            // onClick={}
+                            className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center"
+                          >
                             Verify
                           </FormLabel>
                         )}

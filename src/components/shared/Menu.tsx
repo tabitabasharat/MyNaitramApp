@@ -2,12 +2,7 @@ import Link from "next/link";
 import Hamburger from "hamburger-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
-import {
-  LinkedinLogo,
-  TiktokLogo,
-  InstagramLogo,
-  YoutubeLogo,
-} from "@phosphor-icons/react/dist/ssr";
+import { LinkedinLogo, TiktokLogo, InstagramLogo, YoutubeLogo } from "@phosphor-icons/react/dist/ssr";
 import greenticket from "@/assets/Group 1597878034.svg";
 import arrowUp from "@/assets/Arrow up.svg";
 import arrowDown from "@/assets/aboutdropdown.svg";
@@ -51,28 +46,29 @@ const Menu = ({
         { title: "Download App", href: "/download-app" },
       ],
     },
-    {
-      name: "Events",
-      href: "/viewallevents",
-    },
-
-    {
-      title: "Rewards",
-      href: "/reward",
-      id: 4,
-      subLinks: [
-        { title: "Wallet", href: "/wallet" },
-        // { title: "Download App", href: "/download-app" },
-      ],
-    },
+    { id: 3, title: "Events", url: "/viewallevents" },
+    { id: 4, title: "Rewards", url: "/reward" },
+    // {
+    //   id: 4,
+    //   title: "Rewards",
+    //   url: "/reward",
+    //   subLinks: [{ title: "Wallet", url: "/wallet" }],
+    // },
+    { id: 5, title: "Get Sponsored", url: "/get-sponsor" },
+    { id: 6, title: "My Tickets", url: "/wallet" },
+    // {
+    //   title: "Rewards",
+    //   href: "/reward",
+    //   id: 4,
+    //   subLinks: [
+    //     { title: "Wallet", href: "/wallet" },
+    //     // { title: "Download App", href: "/download-app" },
+    //   ],
+    // },
     // {
     //   name: "Rewards",
     //   href: "/reward",
     // },
-    {
-      name: "Get Sponsored",
-      href: "/get-sponsor",
-    },
   ];
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [token, setToken] = useState<any>();
@@ -87,8 +83,7 @@ const Menu = ({
     router.push("/");
   };
   useEffect(() => {
-    const id =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setToken(id);
   }, [token, count]);
 
@@ -98,8 +93,7 @@ const Menu = ({
       console.log("Token host ", token);
       setIsLoginDialogOpen(true);
     } else {
-      const userid =
-        typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+      const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
       console.log("No token ", token);
       router.push("/organizer-event/event-dashboard");
     }
@@ -114,9 +108,7 @@ const Menu = ({
 
   // Detect clicks outside any dropdown to close it
   const handleClickOutside = (event: MouseEvent) => {
-    const clickedOutside = dropdownRefs.current.every(
-      (ref) => ref && !ref.contains(event.target as Node)
-    );
+    const clickedOutside = dropdownRefs.current.every((ref) => ref && !ref.contains(event.target as Node));
     if (clickedOutside) setActiveDropdown(null);
   };
 
@@ -143,10 +135,7 @@ const Menu = ({
                 <Image src={naitramLogo} alt="Naitram-Logo" />
               </div>
             </Link>
-            <button
-              onClick={toggleMenu}
-              className="flex items-center w-[40px] h-[40px] gap-[0.1rem] translate-x-[0.6rem]"
-            >
+            <button onClick={toggleMenu} className="flex items-center w-[40px] h-[40px] gap-[0.1rem] translate-x-[0.6rem]">
               <div className="text-white w-[40px] flex h-[40px]">
                 <Hamburger toggled={menuIsOpen} size={22} />
               </div>
@@ -154,19 +143,9 @@ const Menu = ({
           </div>
           <div className="text-[19px] w-fit upperase flex flex-col gap-[2rem] mt-[3rem] text-white">
             {links.map((link, i) => (
-              <motion.div
-                key={i}
-                custom={i}
-                variants={slide}
-                animate="enter"
-                initial="initial"
-                className="relative w-fit group"
-              >
+              <motion.div key={i} custom={i} variants={slide} animate="enter" initial="initial" className="relative w-fit group">
                 {link.subLinks ? (
-                  <div
-                    className="relative flex items-center"
-                    ref={(el: any) => (dropdownRefs.current[i] = el)}
-                  >
+                  <div className="relative flex items-center" ref={(el: any) => (dropdownRefs.current[i] = el)}>
                     {/* Main link (e.g., "Rewards", "About") */}
                     <Link
                       href={link.href}
@@ -178,18 +157,14 @@ const Menu = ({
                     </Link>
 
                     {/* Arrow for dropdown toggle */}
-                    {(link.id === 2 || link.id === 4) && (
+                    {link.id === 2 && (
                       <div
                         className="ml-2 cursor-pointer"
                         onClick={() => handleDropdownToggle(link.id)} // Toggle dropdown
                       >
                         <Image
                           src={activeDropdown === link.id ? arrowUp : arrowDown}
-                          alt={
-                            activeDropdown === link.id
-                              ? "Arrow Up"
-                              : "Arrow Down"
-                          }
+                          alt={activeDropdown === link.id ? "Arrow Up" : "Arrow Down"}
                           className="ml-[5px]"
                           sizes="12px"
                         />
@@ -247,10 +222,7 @@ const Menu = ({
                 className="flex items-center add-bank-account-border  bg-black gap-[4px] p-[12px]"
               >
                 <Image src={greenticket} alt="greenticket" />
-                <p className=" font-extrabold text-base text-[#00D059]">
-                  {" "}
-                  Verify Ticket
-                </p>
+                <p className=" font-extrabold text-base text-[#00D059]"> Verify Ticket</p>
               </Button>
               <Button
                 variant="secondary"
@@ -265,31 +237,16 @@ const Menu = ({
             </motion.div>
 
             {!token && (
-              <Dialog
-                open={isLoginDialogOpen}
-                onOpenChange={setIsLoginDialogOpen}
-              >
+              <Dialog open={isLoginDialogOpen} onOpenChange={setIsLoginDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button
-                    variant="secondary"
-                    className="hidden pb-[6px] lg:block"
-                  >
+                  <Button variant="secondary" className="hidden pb-[6px] lg:block">
                     Sign In
                   </Button>
                 </DialogTrigger>
                 {authMode === "SIGNIN" && isLoginDialogOpen && (
-                  <SignInModal
-                    redirectRoute={`/viewallevents`}
-                    setAuthMode={setAuthMode}
-                    setSigninModal={() => setIsLoginDialogOpen(false)}
-                  />
+                  <SignInModal redirectRoute={`/viewallevents`} setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />
                 )}
-                {authMode === "SIGNUP" && (
-                  <SignUpModal
-                    setAuthMode={setAuthMode}
-                    setSigninModal={() => setIsLoginDialogOpen(false)}
-                  />
-                )}
+                {authMode === "SIGNUP" && <SignUpModal setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />}
               </Dialog>
             )}
           </div>
@@ -313,18 +270,9 @@ const Menu = ({
                 </motion.div>
               </DialogTrigger>
               {authMode === "SIGNIN" && (
-                <SignInModal
-                  redirectRoute="/viewallevents"
-                  setAuthMode={setAuthMode}
-                  setSigninModal={() => setIsLoginDialogOpen(false)}
-                />
+                <SignInModal redirectRoute="/viewallevents" setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />
               )}
-              {authMode === "SIGNUP" && (
-                <SignUpModal
-                  setAuthMode={setAuthMode}
-                  setSigninModal={() => setIsLoginDialogOpen(false)}
-                />
-              )}
+              {authMode === "SIGNUP" && <SignUpModal setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />}
             </Dialog>
           ) : (
             <Dialog>
@@ -344,18 +292,9 @@ const Menu = ({
                 </motion.div>
               </DialogTrigger>
               {authMode === "SIGNIN" && (
-                <SignInModal
-                  redirectRoute="/viewallevents"
-                  setAuthMode={setAuthMode}
-                  setSigninModal={() => setIsLoginDialogOpen(false)}
-                />
+                <SignInModal redirectRoute="/viewallevents" setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />
               )}
-              {authMode === "SIGNUP" && (
-                <SignUpModal
-                  setAuthMode={setAuthMode}
-                  setSigninModal={() => setIsLoginDialogOpen(false)}
-                />
-              )}
+              {authMode === "SIGNUP" && <SignUpModal setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />}
             </Dialog>
           )}
           <motion.div
@@ -367,10 +306,7 @@ const Menu = ({
             className="mt-[2.6rem] text-white flex items-center gap-[1.3rem] pb-[2rem]"
           >
             <div className="flex gap-[0.5rem] mt-[0.8rem]">
-              <Link
-                target="_blank"
-                href="https://www.linkedin.com/company/naitramlive"
-              >
+              <Link target="_blank" href="https://www.linkedin.com/company/naitramlive">
                 <LinkedinLogo className="w-[32px] h-[32px]" weight="fill" />
               </Link>
               {/* <Link
@@ -379,10 +315,7 @@ const Menu = ({
               >
                 <InstagramLogo className="w-[32px] h-[32px]" weight="fill" />
               </Link> */}
-              <Link
-                target="_blank"
-                href="https://www.instagram.com/naitram.live/"
-              >
+              <Link target="_blank" href="https://www.instagram.com/naitram.live/">
                 <InstagramLogo className="w-[32px] h-[32px]" weight="fill" />
               </Link>
               {/* <Link target="_blank" href="">
@@ -401,24 +334,14 @@ const Menu = ({
                 <TiktokLogo className="w-[32px] h-[32px]" weight="fill" />
               </Link> */}
 
-              <Link
-                target="_blank"
-                href="https://x.com/naitramlive"
-              >
+              <Link target="_blank" href="https://x.com/naitramlive">
                 {/* <TwitterLogo size={30} weight="fill" /> */}
-                <Image
-                  src={twitter}
-                  className="w-[30px] h-[30px]"
-                  alt="twitter"
-                />
+                <Image src={twitter} className="w-[30px] h-[30px]" alt="twitter" />
               </Link>
               {/* <Link target="_blank" href="">
               <TelegramLogo className="w-[32px] h-[32px]" weight="fill" />
             </Link> */}
-              <Link
-                target="_blank"
-                href="https://www.youtube.com/@naitramlive"
-              >
+              <Link target="_blank" href="https://www.youtube.com/@naitramlive">
                 <YoutubeLogo className="w-[32px] h-[32px]" weight="fill" />
               </Link>
               {/* <Link

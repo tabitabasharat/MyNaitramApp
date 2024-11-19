@@ -9,9 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/core": "^0.34.2",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^3.9.0",
     "@mui/icons-material": "^5.16.7",
@@ -34,6 +34,7 @@
     "@ramonak/react-progress-bar": "^5.3.0",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.2.7",
+    "@telegram-auth/react": "^1.0.4",
     "@types/react-redux": "^7.1.33",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
@@ -43,6 +44,7 @@
     "dayjs": "^1.11.13",
     "emoji-picker-react": "^4.12.0",
     "framer-motion": "^11.3.2",
+    "google-auth-library": "^9.14.2",
     "googleapis": "^140.0.1",
     "hamburger-react": "^2.5.1",
     "lottie-react": "^2.4.0",
@@ -64,6 +66,7 @@
     "react-dom": "^18",
     "react-google-autocomplete": "^2.7.3",
     "react-hook-form": "^7.52.1",
+    "react-icons": "^5.3.0",
     "react-input-mask": "^2.0.4",
     "react-is": "^18.3.1",
     "react-quill": "^2.0.0",
@@ -80,17 +83,23 @@
     "swiper": "^11.1.4",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "uuid": "^11.0.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/google.maps": "^3.58.1",
+    "@types/lodash": "^4.17.13",
     "@types/multicoin-address-validator": "^0.5.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-input-mask": "^3.0.5",
     "@types/react-slick": "^0.23.13",
+    "css-loader": "^7.1.2",
+    "eslint": "8.57.1",
+    "eslint-config-next": "15.0.3",
     "postcss": "^8",
+    "style-loader": "^4.0.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

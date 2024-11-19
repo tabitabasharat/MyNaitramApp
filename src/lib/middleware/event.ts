@@ -138,7 +138,7 @@ export const getViewAllEvent = createAsyncThunk("getViewAllEvent", async (data: 
     const res = await api.get(
       `${API_URL}/event/getEventsAll?page=${data?.page ? data?.page : 1}&limit=${data?.limit ? data?.limit : 12}&category=${data?.category}&Free=${
         data?.free
-      }&startDate=${data?.startDate}&endDate=${data?.endDate}`
+      }&startDate=${data?.startDate}&endDate=${data?.endDate}&minPrice=${data?.minPrice}&maxPrice=${data?.maxPrice}`
     );
 
     // const res = await api.get(
@@ -195,7 +195,7 @@ export const getViewPastEvents = createAsyncThunk("getViewPastEvents", async (da
     const res = await api.get(
       `${API_URL}/event/getPastEvents?page=${data?.page ? data?.page : 1}&limit=${data?.limit ? data?.limit : 12}&category=${data?.category}&Free=${
         data?.free
-      }&startDate=${data?.startDate}&endDate=${data?.endDate}`
+      }&startDate=${data?.startDate}&endDate=${data?.endDate}&minPrice=${data?.minPrice}&maxPrice=${data?.maxPrice}`
     );
     console.log("inside get Past Events ", res);
     // localStorage.setItem("token", res?.data?.token);
@@ -254,7 +254,7 @@ export const getLiveEventById = createAsyncThunk("getLiveEventById", async (data
     const res = await api.get(
       `${API_URL}/event/getLiveEvents/${data?.userId}?page=${data?.page ? data?.page : 1}&limit=${data?.limit ? data?.limit : 12}&category=${
         data?.category
-      }&Free=${data?.free}&startDate=${data?.startDate}&endDate=${data?.endDate}`
+      }&Free=${data?.free}&startDate=${data?.startDate}&endDate=${data?.endDate}&minPrice=${data?.minPrice}&maxPrice=${data?.maxPrice}`
     );
     // const res = await api.get(
     //   `${API_URL}/event/getLiveEvents/${data?.userId}?page=${
@@ -304,6 +304,7 @@ export const updateEvent = createAsyncThunk("updateEvent", async (data: any) => 
       linkedinUrl: data?.linkedinUrl,
       eventmedia: data?.eventmedia,
       tags: data?.tags,
+      stopBy: data?.stopBy,
     });
     console.log("inside update Event", res);
     // localStorage.setItem("token", res?.data?.token);
@@ -410,6 +411,107 @@ export const FollowPromoterStatus = createAsyncThunk("FollowPromoterStatus", asy
       status: res?.status,
       data: res?.data,
       token: res?.data?.token,
+    };
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
+  }
+});
+
+//  Zishan defined APis
+export const createForm = createAsyncThunk("createForm", async (data: any) => {
+  try {
+    console.log("Inside the reason createForm");
+
+    const res = await api.post(`${API_URL}/event/createForm`, data);
+    console.log("Iside the creatForm status ", res);
+
+    return {
+      status: res?.status,
+      data: res?.data,
+    };
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
+  }
+});
+
+export const deleteEvent = createAsyncThunk("deleteEvent", async (data: any) => {
+  try {
+    console.log("Inside the Delete Event");
+
+    const { userId, eventId } = data;
+
+    const res = await api.delete(`${API_URL}/event/deleteEvent/${eventId}/${userId}`, data);
+    console.log("Iside the Delete Event status ", res);
+
+    return {
+      status: res?.status,
+      data: res?.data,
+    };
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
+  }
+});
+
+export const stopTicketSales = createAsyncThunk("stopTicketSales", async (data: any) => {
+  try {
+    console.log("Inside the Stop Sales");
+    console.log("Body Data to stop Sales ", data);
+
+    const res = await api.post(`${API_URL}/event/stopTicketSales`, data);
+    console.log("Iside the Stop Sales status ", res);
+
+    return {
+      status: res?.status,
+      data: res?.data,
+    };
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
+  }
+});
+
+export const reportEvent = createAsyncThunk("reportEvent", async (data: any) => {
+  try {
+    console.log("Inside the Report Event");
+    console.log("Body Data to Report Event ", data);
+
+    const res = await api.post(`${API_URL}/event/submitReport`, data);
+    console.log("Iside the Report Event status ", res);
+
+    return {
+      status: res?.status,
+      data: res?.data,
+    };
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
+  }
+});
+
+export const submitFeedback = createAsyncThunk("submitFeedback", async (data: any) => {
+  try {
+    console.log("Inside the Submit Feedback");
+    console.log("Body Data to Submit Feedback ", data);
+
+    const res = await api.post(`${API_URL}/event/submitFeedback`, data);
+    console.log("Iside the Submit Feedback status ", res);
+
+    return {
+      status: res?.status,
+      data: res?.data,
     };
   } catch (error: any) {
     return {

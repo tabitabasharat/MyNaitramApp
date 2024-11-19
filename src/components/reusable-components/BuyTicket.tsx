@@ -13,6 +13,7 @@ import { getTicketsById } from "@/lib/middleware/event";
 import { ticketStatus } from "@/lib/middleware/event";
 import { useParams } from "next/navigation";
 import { usePathname } from "next/navigation";
+import { WarningToast } from "./Toaster/Toaster";
 
 const BuyTicket = ({
   eventid,
@@ -26,7 +27,8 @@ const BuyTicket = ({
   endTime,
   ticketEndTime,
   ticketStartTime,
-  soldout
+  soldout,
+  salesStop,
 }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -45,31 +47,26 @@ const BuyTicket = ({
 
   console.log("my event id  in", soldout);
   useEffect(() => {
-    const id =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setMyid(id);
     dispatch(getTicketsById(id));
     TicketHandle();
   }, []);
 
-  const EventDetail = useAppSelector(
-    (state: any) => state?.getTicket?.specificEvent?.data
-  );
+  const EventDetail = useAppSelector((state: any) => state?.getTicket?.specificEvent?.data);
   console.log("this is the events detail of event", EventDetail);
   useEffect(() => {
-    const token =
-      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     setToken(token);
   }, [isLoginDialogOpen]);
 
   useEffect(() => {
-    const token =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const token = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserIds(token);
   }, [isLoginDialogOpen]);
+
   useEffect(() => {
-    const useremail =
-      typeof window !== "undefined" ? localStorage.getItem("email") : null;
+    const useremail = typeof window !== "undefined" ? localStorage.getItem("email") : null;
     setUserEmail(useremail);
     console.log("user login email", useremail);
   }, []);
@@ -77,8 +74,7 @@ const BuyTicket = ({
   console.log("my id", userId, userIds);
 
   useEffect(() => {
-    const currentUrl =
-      typeof window !== "undefined" ? window.location.href : null;
+    const currentUrl = typeof window !== "undefined" ? window.location.href : null;
     if (currentUrl) {
       const url = new URL(currentUrl);
       const pathParts = url.pathname.split("/");
@@ -90,12 +86,10 @@ const BuyTicket = ({
   }, []);
 
   async function TicketHandle() {
-    const id =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("my event ID ", myEventId);
 
-    const currentUrl: any =
-      typeof window !== "undefined" ? window.location.href : null;
+    const currentUrl: any = typeof window !== "undefined" ? window.location.href : null;
 
     const url = new URL(currentUrl);
     const pathParts = url.pathname.split("/");
@@ -122,6 +116,13 @@ const BuyTicket = ({
     }
   }
 
+  function checkSalesStop() {
+    if (userId == userIds) {
+      return false;
+    }
+    return salesStop;
+  }
+
   return (
     <Dialog>
       <div className="w-full event-width-adjustment bg-[#007A3535] rounded-xl flex flex-col lg:flex-row items-center justify-center lg:items-center lg:justify-between px-6 py-4 gap-4">
@@ -140,25 +141,18 @@ const BuyTicket = ({
               : startPrice && endPrice
               ? startPrice == endPrice
                 ? `£${startPrice}`
-                : `£${startPrice > endPrice ? endPrice : startPrice} - £${
-                    startPrice < endPrice ? endPrice : startPrice
-                  }`
+                : `£${startPrice > endPrice ? endPrice : startPrice} - £${startPrice < endPrice ? endPrice : startPrice}`
               : "£0"}
           </p>
           {/* <p className="text-muted text-sm md:text-base mt-1 text-center lg:text-left text-[13px] lg:text-[14px]">
             Price may vary due to different ticket types
           </p> */}
-          <p className="mt-[5px] font-extrabold text-[#00D059]">
-            One ticket per person
-          </p>
+          <p className="mt-[5px] font-extrabold text-[#00D059]">One ticket per person</p>
         </div>
 
         {pathname === "/preview-event" ? (
           <div className="w-full lg:w-auto">
-            <Button
-              disabled
-              className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
-            >
+            <Button disabled className="text-black px-[4rem] lg:py-7 w-full lg:w-fit">
               Buy Ticket
             </Button>
           </div>
@@ -191,6 +185,7 @@ const BuyTicket = ({
                 ) : (
                   <Button
                     // disabled={ userId != userIds ? false:true}
+
                     onClick={() => {
                       // BuyTicket();
                       if (userId == userIds) {
@@ -202,49 +197,34 @@ const BuyTicket = ({
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-fit"
                     disabled={
-                      new Date() < new Date(ticketStartTime) ||
-                      new Date() > new Date(ticketEndTime) || soldout
+                      userId != userIds
+                        ? new Date() < new Date(ticketStartTime) || new Date() > new Date(ticketEndTime) || soldout || checkSalesStop()
+                        : false
                     }
                   >
-                    {soldout?"Sold out":userId != userIds ? "Buy Tickets" : "Manage Event"}
+                    {soldout ? "Sold out" : userId != userIds ? (salesStop ? "Sales are stopped" : "Buy Ticket") : "Manage Event"}
                   </Button>
                 )}
               </DialogTrigger>
             ) : (
               // {isLoggedIn && (
-              <Dialog
-                open={isLoginDialogOpen}
-                onOpenChange={setIsLoginDialogOpen}
-              >
+              <Dialog open={isLoginDialogOpen} onOpenChange={setIsLoginDialogOpen}>
                 <DialogTrigger asChild>
                   <Button
                     disabled={eventType === "Past Events" && true}
                     onClick={() => {
-                      console.log(token);
+                      console.log("dsjsjdksdjh=>", token);
                     }}
                     className="text-black px-[4rem] lg:py-7 w-full lg:w-auto"
                   >
                     {/* {EventDetail?.data?.data    ?  "View Ticket" : "Buy Ticket"} */}
-                    {eventType === "Past Events"
-                      ? "Event Ended"
-                      : EventDetail?.data?.data
-                      ? "View Ticket"
-                      : "Buy Ticket"}
+                    {eventType === "Past Events" ? "Event Ended" : EventDetail?.data?.data ? "View Ticket" : "Buy Ticket"}
                   </Button>
                 </DialogTrigger>
                 {authMode === "SIGNIN" && isLoginDialogOpen && (
-                  <SignInModal
-                    redirectRoute={`/viewallevents`}
-                    setAuthMode={setAuthMode}
-                    setSigninModal={() => setIsLoginDialogOpen(false)}
-                  />
+                  <SignInModal redirectRoute={`/viewallevents`} setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />
                 )}
-                {authMode === "SIGNUP" && (
-                  <SignUpModal
-                    setAuthMode={setAuthMode}
-                    setSigninModal={() => setIsLoginDialogOpen(false)}
-                  />
-                )}
+                {authMode === "SIGNUP" && <SignUpModal setAuthMode={setAuthMode} setSigninModal={() => setIsLoginDialogOpen(false)} />}
               </Dialog>
             )}
           </div>
