@@ -1,8 +1,8 @@
-// import AboutPage from '@/components/about/AboutPage';
-import Detail from "@/components/NFTMarketPlace/MarketEventDetail";
+import dynamic from "next/dynamic";
+const MpHome = dynamic(() => import("@/components/NFTmarketeplace/MpHome"), {
+  ssr: false,
+});
 
-const page = () => {
-    return <Detail />;
-};
-
-export default page;
+export default function page() {
+  return <MpHome />;
+}
