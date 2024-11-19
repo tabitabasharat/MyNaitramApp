@@ -4,15 +4,15 @@
 
 const MpHome = () => {
   const images = [
-    "/Images/Market/tradingnft.svg",
-    "/Images/Market/trading2.svg",
-    "/Images/Market/trading3.svg",
-    "/Images/Market/trading4.svg",
-    "/Images/Market/trading5.svg",
-    "/Images/Market/trading6.svg",
-    "/Images/Market/tradingnft.svg",
-    "/Images/Market/trading2.svg",
-    "/Images/Market/trading3.svg",
+    "/Images/Market/tradingnft-a-1.svg",
+    "/Images/Market/tradingnft-a-2.svg",
+    "/Images/Market/tradingnft-a-3.svg",
+    "/Images/Market/tradingnft-a-4.svg",
+    "/Images/Market/tradingnft-a-5.svg",
+    "/Images/Market/tradingnft-a-6.svg",
+    "/Images/Market/tradingnft-a-1.svg",
+    "/Images/Market/tradingnft-a-2.svg",
+    "/Images/Market/tradingnft-a-3.svg",
   ];
   return (
     <>
@@ -60,13 +60,39 @@ const MpHome = () => {
       <div className="relative flex flex-col px-4 lg:px-14 pb-36 space-y-10">
         {/* Heading */}
         <h2 className="text-white text-3xl md:text-4xl font-extrabold leading-tight">Trending NFTs</h2>
+{/* Image Grid */}
+{/* Image Grid */}
+<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  {images.map((src, index) => (
+    <div
+      key={index}
+      className="relative group overflow-hidden rounded-[8px] bg-gradient-to-b from-transparent via-black/70 to-black/90"
+    >
+      {/* Image */}
+      <img
+        src={src}
+        alt={`Trending NFT ${index + 1}`}
+        className="w-full h-auto rounded-[8px] relative z-10"
+      />
+      {/* Custom border and background using ::before */}
+      <div className="absolute inset-0 rounded-[8px] before:absolute before:inset-0 before:rounded-[8px] before:border before:border-white/[0.06] before:bg-gradient-to-b before:from-black/0 before:via-black/70 before:to-black/90 before:z-0"></div>
+      {/* Overlay Text */}
+      <div className="absolute bottom-0 left-0 pl-[25px] pb-[25px] w-full text-white z-20">
+        <h2
+          className="text-[24px] font-extrabold leading-[19.15px] text-left underline-offset-auto decoration-clone m-0"
+        >
+          NFT Title {index + 1}
+        </h2>
+        <p
+          className="mt-[11px] text-[16px] font-normal leading-[19.15px] text-left text-[#BFBFBF] underline-offset-auto decoration-clone m-0"
+        >
+          Description for NFT {index + 1}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
 
-        {/* Image Grid */}
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {images.map((src, index) => (
-            <img key={index} src={src} alt={`Trending NFT ${index + 1}`} className="w-full h-auto" />
-          ))}
-        </div>
 
         {/* Background Blur */}
         <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[#00D059] blur-[500px] rounded-[30%] -z-10" />
