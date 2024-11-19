@@ -9,6 +9,7 @@ import eye from "@/assets/eye.svg";
 import img from "@/assets/Img.svg";
 import location from "@/assets/location-1.svg";
 import calendar from "@/assets/calendar1.svg";
+import v2Calender from "../../../public/Images/Nft_animakid_img/clendr.svg";
 import clock from "@/assets/clock-1.svg";
 import { Button } from "../ui/button";
 import ticketType from "@/assets/ticketType.svg";
@@ -88,7 +89,7 @@ const NftDetails = () => {
                 <p className="font-[700] text-[16px] leading-[24px]">DOMA PUB Main floor, Light Street, London</p>
               </div>
               <div className="items-center flex gap-[8px] mb-[12px]">
-                <Image src={calendar} alt="Calendar" />
+                <Image src={v2Calender} alt="Calendar" />
                 <p className="font-[700] text-[16px] leading-[16px]">Saturday, 5th March 2024 - Sunday, 6th March 2024</p>
               </div>
               <div className="items-center flex gap-[8px]">
@@ -215,7 +216,7 @@ const NftDetails = () => {
                   <p className="eventPoint font-[700] text-[16px] leading-[24px]">DOMA PUB Main floor, Light Street, London</p>
                 </div>
                 <div className="items-center flex gap-[8px] mb-[12px]">
-                  <Image src={calendar} alt="Calendar" />
+                  <Image src={v2Calender} alt="Calendar" />
                   <p className="eventPoint font-[700] text-[16px] leading-[16px]">Saturday, 5th March 2024 - Sunday, 6th March 2024</p>
                 </div>
                 <div className="items-center flex gap-[8px]">
