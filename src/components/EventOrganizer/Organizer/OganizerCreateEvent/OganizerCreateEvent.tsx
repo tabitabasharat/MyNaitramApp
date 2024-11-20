@@ -2791,7 +2791,7 @@ function OganizerCreateEvent() {
                         </div>
 
                         {/* Ticket Deadline And the Capacity for RSVP */}
-                        <div className="flex items-start gap-[24px] w-full common-container bg-red-500">
+                        <div className="flex items-start gap-[24px] w-full common-container mb-[28px]">
                           {/* Ticket Deadline */}
                           <div className="w-full">
                             <ThemeProvider theme={themeMui}>
@@ -2868,28 +2868,28 @@ function OganizerCreateEvent() {
                           </div>
 
                           {/* RSVP Capacity */}
-                          <div className="w-full mb-[-10px]">
+                          <div className="w-full mt-[8px]">
                             <FormField
                               control={form.control}
-                              name={`tickets.1.type`}
+                              name="eventname"
                               render={({ field }) => (
-                                <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                                    RSVP Capacity
+                                <FormItem className="relative w-full space-y-0">
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
+                                    EVENT TICKET NAME
                                   </FormLabel>
                                   <FormControl>
                                     <Input
                                       type="number"
-                                      placeholder="Enter RSVP Capacity"
-                                      className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                      placeholder="Enter ticket name"
+                                      className="pt-[2.83rem] pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                       {...field}
-                                      onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
-                                        // handleInputChange(index, "no", parseInt(e.target.value, 10));
+                                        setEventname(e.target.value);
                                         field.onChange(e);
                                       }}
                                     />
                                   </FormControl>
+
                                   <FormMessage />
                                 </FormItem>
                               )}
@@ -2898,7 +2898,7 @@ function OganizerCreateEvent() {
                         </div>
 
                         {/* What's Included Inputs */}
-                        <div className="flex items-start gap-[24px] w-full common-container">
+                        <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                           <div className="pb-[16px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                             <div
                               className="flex items-center justify-between"
@@ -2942,6 +2942,14 @@ function OganizerCreateEvent() {
                         {/* RSVP Details Fields */}
                         <div className="w-full relative rounded-md border border-[#292929] gradient-slate flex flex-col items-start gap-[24px] common-container px-[12px] py-[16px]">
                           <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">RSVP Details</p>
+                          {/* Default Fields To ask */}
+                          <div className="w-full">
+                            <div className="w-full common-container">
+                              {/* Name radio */}
+                              {/* Email Radio */}
+                            </div>
+                            <div className="w-full common-container">{/* Phone Number Radio */}</div>
+                          </div>
                           {/* Add Aaditional field Button */}
                           <div className="flex justify-end items-center ticket-btn">
                             <Button
