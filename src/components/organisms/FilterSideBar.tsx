@@ -299,7 +299,9 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
           </Button>
         )}
       </div>
+
       <hr className="opacity-20 h-px mt-6" />
+      {/* PRICE BAR */}
       <div className="flex flex-col gap-[16px]">
         <div className="flex gap-3 mt-6">
           <Image src={price} alt="price" className="h-[20px] w-[20px]" />
@@ -313,7 +315,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
               width: `${endThumbPosition - startThumbPosition}px`,
             }}
           ></div>
-          <div className="thumb" style={{ left: `${startThumbPosition}px` }} onMouseDown={() => handleMouseDown("start")}></div>
+          <div className="thumb" style={{ left: `${startThumbPosition}px`, zIndex: "100" }} onMouseDown={() => handleMouseDown("start")}></div>
           <div className="thumb-end" style={{ left: `${endThumbPosition}px` }} onMouseDown={() => handleMouseDown("end")}></div>
         </div>
         <div className="flex gap-[5px] text-sm items-center font-extrabold">
@@ -323,6 +325,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
         </div>
       </div>
       <hr className="opacity-20 h-px mt-4" />
+      {/* DATE FILTER */}
       <div className="flex flex-col gap-[0.6rem]">
         <div className="flex gap-3 mt-6">
           <Image src={sortby} alt="sortby" />
