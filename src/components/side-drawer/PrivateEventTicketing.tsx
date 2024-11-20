@@ -54,14 +54,24 @@ const PrivateEventTicketing = () => {
     };
 
     return (
-        <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[57px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
+        <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[57px] ps-[0px] min-[993px]:ps-[92px] min-[769px]:ps-[300px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
             <div>
                 <h1 className="text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold">
                     Private Event Ticketing
                 </h1>
             </div>
             <div>
-                <TableContainer component={Paper} sx={{ boxShadow: "none",background:"transparent" }}>
+                <TableContainer component={Paper} sx={{ boxShadow: "none",background:"transparent", overflow: "auto", 
+                    maxHeight: "100%", 
+                    '&::-webkit-scrollbar': {
+                      width: 0, 
+                      height: 0,
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      display: 'none', 
+                    },
+                    scrollbarWidth: 'none', 
+                    msOverflowStyle: 'none',  }}>
                     <Table
                         sx={{
                             minWidth: 650,

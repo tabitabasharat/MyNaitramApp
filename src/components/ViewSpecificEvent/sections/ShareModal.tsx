@@ -62,7 +62,7 @@ const ShareModal = ({ onClose, open, eventUrl }: any) => {
   console.log("my all event data", eventUrl);
 
 
- 
+
   useEffect(() => {
     const userID =
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -113,27 +113,32 @@ const ShareModal = ({ onClose, open, eventUrl }: any) => {
             <p className="pb-[16px] pt-[32px] text-[16px] font-bold ">
               Copy link to this event
             </p>
-           
-              
-              <div className="relative w-full md:w-[416px] ">
-                <Input
-                  placeholder={eventUrl}
-                  className=" py-[12.5px] text-base placeholder:font-normal relative overflow-x-auto  w-full md:w-[419px] pr-[40px]"
-                  value={eventUrl}
-                  style={{whiteSpace:"nowrap"}}
 
-                  
-                />
-                <Image
-                  src={copyurl}
-                 
-                  alt="copy-btn"
-                 className="absolute right-[8px] top-[30%] cursor-pointer gradient-slate  backdrop-blur-xl"
-                 onClick={handlelinkValue}
-                />
-                
+
+            <div className="relative w-full md:w-[416px] ">
+              <div
+                className={`py-[12.5px] text-base font-normal relative overflow-x-auto w-full md:w-[419px] pr-[40px] ${eventUrl ? "text-black" : "text-gray-400"
+                  }`}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                {eventUrl || "Enter event URL here..."}
               </div>
-          
+              {/* <div
+                    placeholder={eventUrl}
+                    className=" py-[12.5px] text-base placeholder:font-normal relative overflow-x-auto  w-full md:w-[419px] pr-[40px]"
+                    value={eventUrl}
+                    style={{whiteSpace:"nowrap"}}
+  ></div> */}
+              <Image
+                src={copyurl}
+
+                alt="copy-btn"
+                className="absolute right-[8px] top-[30%] cursor-pointer gradient-slate  backdrop-blur-xl"
+                onClick={handlelinkValue}
+              />
+
+            </div>
+
           </div>
         </DialogContent>
       </DialogPortal>

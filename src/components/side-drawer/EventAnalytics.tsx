@@ -8,12 +8,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import arrowdown from "@/assets/V2assets/Line arrow-down.svg"
 import { useState } from 'react';
-import arrowup from  "@/assets/V2assets/Button.svg"
-import arrowred from  "@/assets/V2assets/Buttonred.svg"
+import arrowup from "@/assets/V2assets/Button.svg"
+import arrowred from "@/assets/V2assets/Buttonred.svg"
 import { Button } from '../ui/button';
 import Analyticbarchart from './Analyticbarchart';
 import Image from 'next/image';
-import { LineChart, Line } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 function createData(
     name: number,
@@ -32,6 +32,28 @@ const rows = [
     createData(4, 'Naitram Launch Party 2024', 100, 90, 1825.1),
     createData(5, 'Naitram Launch Party 2024', 100, 90, 1825.1),
 ];
+const data = [
+    { name: 'Page D', uv: 30, pv: 2000, amt: 2120 },
+    { name: 'Page D', uv: 100, pv: 2000, amt: 2181 },
+    { name: 'Page C', uv: 200, pv: 2290, amt: 2000 },
+    { name: 'Page C', uv: 200, pv: 2290, amt: 2000 },
+    { name: 'Page D', uv: 278, pv: 2000, amt: 2181 },
+    { name: 'Page D', uv: 278, pv: 2000, amt: 2181 },
+    { name: 'Page D', uv: 278, pv: 2000, amt: 2181 },
+    { name: 'Page A', uv: 400, pv: 2400, amt: 2400 },
+    { name: 'Page B', uv: 300, pv: 2210, amt: 2290 },
+    { name: 'Page C', uv: 200, pv: 2290, amt: 2000 },
+    { name: 'Page C', uv: 200, pv: 2290, amt: 2000 },
+    { name: 'Page C', uv: 200, pv: 2290, amt: 2000 },
+    { name: 'Page D', uv: 278, pv: 2000, amt: 2181 },
+    { name: 'Page D', uv: 278, pv: 2000, amt: 2181 },
+    { name: 'Page C', uv: 200, pv: 2290, amt: 2000 },
+    { name: 'Page C', uv: 200, pv: 2290, amt: 2000 },
+    { name: 'Page D', uv: 278, pv: 2000, amt: 2181 },
+    { name: 'Page D', uv: 278, pv: 2000, amt: 2181 },
+    { name: 'Page D', uv: 278, pv: 2000, amt: 2181 },
+];
+
 const Revenue = [
     { name: 'Page A', uv: 400, pv: 2400, amt: 2400 },
     { name: 'Page B', uv: 300, pv: 2210, amt: 2290 },
@@ -39,7 +61,8 @@ const Revenue = [
     { name: 'Page C', uv: 200, pv: 2290, amt: 2000 },
     { name: 'Page C', uv: 200, pv: 2290, amt: 2000 },
     { name: 'Page D', uv: 278, pv: 2000, amt: 2181 },
-    { name: 'Page D', uv: 278, pv: 2000, amt: 2181 }, { name: 'Page C', uv: 200, pv: 2290, amt: 2000 },
+    { name: 'Page D', uv: 278, pv: 2000, amt: 2181 },
+    { name: 'Page C', uv: 200, pv: 2290, amt: 2000 },
     { name: 'Page C', uv: 200, pv: 2290, amt: 2000 },
     { name: 'Page D', uv: 278, pv: 2000, amt: 2181 },
     { name: 'Page D', uv: 278, pv: 2000, amt: 2181 },
@@ -112,7 +135,7 @@ const EventAnalytics = () => {
                             </LineChart>
                             <div className='flex gap-[16px] mt-[11px] items-start'>
                                 <div>
-                                <Image src={arrowup} sizes='26px' alt="arrowup" className='mt-[10px]'/>
+                                    <Image src={arrowup} sizes='26px' alt="arrowup" className='mt-[10px]' />
                                 </div>
                                 <div>
                                     <p className='font-extrabold text-[32px]'>£1,825.1</p>
@@ -127,7 +150,7 @@ const EventAnalytics = () => {
                             </LineChart>
                             <div className='flex gap-[16px] mt-[11px] items-start'>
                                 <div>
-                                <Image src={arrowup} sizes='26px' alt="arrowup" className='mt-[10px]'/>
+                                    <Image src={arrowup} sizes='26px' alt="arrowup" className='mt-[10px]' />
                                 </div>
                                 <div>
                                     <p className='font-extrabold text-[32px]'>293</p>
@@ -145,7 +168,7 @@ const EventAnalytics = () => {
                             </LineChart>
                             <div className='flex gap-[16px] mt-[11px] items-start'>
                                 <div>
-                                <Image src={arrowup} sizes='26px' alt="arrowup" className='mt-[10px]'/>
+                                    <Image src={arrowup} sizes='26px' alt="arrowup" className='mt-[10px]' />
                                 </div>
                                 <div>
                                     <p className='font-extrabold text-[32px]'>69</p>
@@ -161,7 +184,7 @@ const EventAnalytics = () => {
                             </LineChart>
                             <div className='flex gap-[16px] mt-[11px] items-start'>
                                 <div>
-                                <Image src={arrowred} sizes='26px' alt="arrowup" className='mt-[10px]'/>
+                                    <Image src={arrowred} sizes='26px' alt="arrowup" className='mt-[10px]' />
                                 </div>
                                 <div>
                                     <p className='font-extrabold text-[32px]'>123</p>
@@ -172,8 +195,19 @@ const EventAnalytics = () => {
                     </div>
                 </div>
                 <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-[465px] h-[452px]'>
-                    <p className='font-bold text-[20px] mb-[20px]'>Followers</p>   
-                    <p className='mt-[20px] flex items-center gap-[20px] mb-[30px]'><span className='text-[#00D059] font-extrabold text-[48px]'>+130</span> <span className='text-[#D9D9D9] text-[20px]'>(169 all time)</span></p>             </div>
+                    <p className='font-bold text-[20px] mb-[20px]'>Followers</p>
+                    <p className='mt-[20px] flex items-center gap-[20px] mb-[30px]'><span className='text-[#00D059] font-extrabold text-[48px]'>+130</span> <span className='text-[#D9D9D9] text-[20px]'>(169 all time)</span></p>
+                    <LineChart width={400} height={258} data={data}>
+                        <Line type="monotone" dataKey="uv" dot={false} stroke="#00D059" strokeWidth={3} />
+                        <CartesianGrid stroke="#292929" strokeWidth={0.5} vertical={false} strokeDasharray="5 5" />
+                        {/* <XAxis dataKey="name" /> */}
+                        <YAxis axisLine={false} tick={{
+                            fontSize: 12,
+                            fontWeight: 'bold',
+                            fill: '#D9D9D9', // Tick label color
+                        }} tickLine={false} />
+                    </LineChart>
+                </div>
             </div>
 
             <div className='p-[24px] gradient-slate gradient-slate-input rounded-[8px]'>
