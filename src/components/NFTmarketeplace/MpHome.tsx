@@ -54,7 +54,7 @@ const MpHome = () => {
             Get Started
           </button>
           <div className="hidden lg:flex space-x-8">
-            {["£240k+", "£240k+", "£240k+"].map((value, index) => (
+            {["£240k+", "£100k+", "£10k+"].map((value, index) => (
               <div key={index} className="flex flex-col items-start space-y-1">
                 <h2 className="text-white text-xl font-extrabold">{value}</h2>
                 <p className="text-gray-400 text-lg">Total Sale</p>
@@ -78,8 +78,8 @@ const MpHome = () => {
           <div className="lg:hidden flex space-x-8">
             {[
               { value: "£240k+", label: "Total Sale" },
-              { value: "£300k+", label: "Collections" },
-              { value: "£500k+", label: "Creators" },
+              { value: "£100k+", label: "Collections" },
+              { value: "£10k+", label: "Creators" },
             ].map((item, index) => (
               <div key={index} className="flex flex-col items-start space-y-1">
                 <h2 className="text-white text-xl font-extrabold">
