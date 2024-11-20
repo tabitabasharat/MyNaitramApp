@@ -16,8 +16,14 @@ import price from "@/assets/greenprice.svg";
 import sortby from "@/assets/arrange-square-2.svg";
 import downarrow from "@/assets/Wallet/Caret Down.svg";
 // import NextNProgress from 'nextjs-progressbar';
+import Box from "@mui/material/Box";
+import Slider from "@mui/material/Slider";
 
 type FilterDate = "Date" | null;
+
+function valuetext(value: number) {
+  return `${value}°C`;
+}
 
 const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
   const dispatch = useAppDispatch();
@@ -38,82 +44,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
   const [isFree, setisFree] = useState<boolean>(false);
   const [showAllCategories, setShowAllCategories] = useState<boolean>(false);
 
-  // /////////// Handeling price Bar  //////////////
-  const progressBarRef = useRef<HTMLDivElement | null>(null);
-  const [startThumbPosition, setStartThumbPosition] = useState<number>(0); // Left thumb in pixels
-  const [endThumbPosition, setEndThumbPosition] = useState<number>(200); // Right thumb in pixels
-  const [activeThumb, setActiveThumb] = useState<"start" | "end" | null>(null);
-  const [startPrice, setStartPrice] = useState<number>(0); // Initial start price value
-  const [endPrice, setEndPrice] = useState<number>(100000); // Initial end price value
-  const progressBarWidth = 200; // Fixed width of the progress container in pixels
-
-  const minValue: number = 0; // Minimum price
-  const maxValue: number = 100000; // Maximum price
-
-  // Function to calculate price based on thumb position
-  const calculateValueFromPosition = (position: number): number => {
-    return Math.round(minValue + (position / progressBarWidth) * (maxValue - minValue));
-  };
-
-  const handleMouseDown = (type: "start" | "end") => {
-    setActiveThumb(type);
-  };
-
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      if (!activeThumb || !progressBarRef.current) return;
-
-      const progressBar = progressBarRef.current;
-      const progressBarRect = progressBar.getBoundingClientRect();
-
-      const mousePosition = e.clientX - progressBarRect.left;
-      const clampedPosition = Math.min(Math.max(mousePosition, 0), progressBarWidth);
-
-      if (activeThumb === "start") {
-        const newPosition = Math.min(clampedPosition, endThumbPosition);
-        setStartThumbPosition(newPosition);
-        setStartPrice(calculateValueFromPosition(newPosition)); // Update start price
-      } else if (activeThumb === "end") {
-        const newPosition = Math.max(clampedPosition, startThumbPosition);
-        setEndThumbPosition(newPosition);
-        setEndPrice(calculateValueFromPosition(newPosition)); // Update end price
-      }
-    },
-    [activeThumb, endThumbPosition, startThumbPosition, progressBarWidth]
-  );
-
-  const handleMouseUp = () => setActiveThumb(null);
-
-  // Adding event listeners for mouse move and mouse up
-  useEffect(() => {
-    const handleMouseMoveWrapper = (e: MouseEvent) => handleMouseMove(e);
-
-    if (activeThumb) {
-      window.addEventListener("mousemove", handleMouseMoveWrapper);
-      window.addEventListener("mouseup", handleMouseUp);
-    } else {
-      window.removeEventListener("mousemove", handleMouseMoveWrapper);
-      window.removeEventListener("mouseup", handleMouseUp);
-    }
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMoveWrapper);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [activeThumb, handleMouseMove]);
-
-  ////////////////////////////////////////////////////////////////////////////////
-
-  // Set up and clean up event listeners on mount/unmount
-  useEffect(() => {
-    document.addEventListener("mousemove", handleMouseMove as EventListener);
-    document.addEventListener("mouseup", handleMouseUp as EventListener);
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove as EventListener);
-      document.removeEventListener("mouseup", handleMouseUp as EventListener);
-    };
-  }, [handleMouseMove]);
+  const [value1, setValue1] = useState<number[]>([0, 5000]);
 
   const categories: string[] = [
     "Arts",
@@ -186,8 +117,8 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
       startDate: chosenDate ? formatChosenDate(chosenDate) : null,
       endDate: chosenEndDate ? formatChosenDate(chosenEndDate) : null,
       userId: userId,
-      minPrice: startPrice,
-      maxPrice: endPrice,
+      minPrice: value1[0],
+      maxPrice: value1[1],
     };
 
     if (data.category) {
@@ -197,7 +128,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
     dispatch(getViewAllEvent(data));
     dispatch(getViewPastEvents(data));
     dispatch(getLiveEventById(data));
-  }, [dispatch, selectedCategories, chosenEndDate, chosenDate, isFree, startPrice, endPrice]);
+  }, [dispatch, selectedCategories, chosenEndDate, chosenDate, isFree, value1]);
 
   const formatChosenDate = (date: Date | null): string => {
     if (!date) return "";
@@ -216,10 +147,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
     setShowEndDatePicker(false);
     setFilterDate(null);
     setFilterEndDate(null);
-    setStartPrice(0);
-    setEndPrice(100000);
-    setStartThumbPosition(0);
-    setEndThumbPosition(200);
+    setValue1([0, 5000]);
 
     dispatch(getViewAllEvent({ page: 1 }));
   };
@@ -251,6 +179,47 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
 
   const toggleDateDropdownOpen = () => {
     setToggleDrop((prev) => !prev);
+  };
+
+  const minDistance = 0; // Ensure a reasonable minimum distance
+
+  const handleChange1 = (event: Event, newValue: number | number[], activeThumb: number) => {
+    if (!Array.isArray(newValue)) {
+      return;
+    }
+
+    if (activeThumb === 0) {
+      setValue1([
+        Math.max(0, Math.min(newValue[0], value1[1] - minDistance)), // Ensure within bounds and respects minDistance
+        value1[1],
+      ]);
+    } else {
+      setValue1([
+        value1[0],
+        Math.min(5000, Math.max(newValue[1], value1[0] + minDistance)), // Ensure within bounds and respects minDistance
+      ]);
+    }
+  };
+
+  const handlePriceInputChange = (event: React.ChangeEvent<HTMLInputElement>, inputNumber: number) => {
+    let [poundSymbol, number] = event.target.value.split(/(\d+)/);
+    if (number === undefined) {
+      number = "0";
+    }
+
+    const newValue = Number(number); // Parse the input value as a number
+    // Check if the new value is a valid number
+    if (isNaN(newValue) || newValue > 5000) return; // Exit if the value is not a valid number
+
+    if (inputNumber === 1) {
+      if (newValue <= value1[1]) {
+        setValue1([newValue, value1[1]]);
+      }
+    } else {
+      if (newValue >= value1[0]) {
+        setValue1([value1[0], newValue]);
+      }
+    }
   };
 
   return (
@@ -302,12 +271,12 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
 
       <hr className="opacity-20 h-px mt-6" />
       {/* PRICE BAR */}
-      <div className="flex flex-col gap-[16px]">
-        <div className="flex gap-3 mt-6">
+      <div className="flex flex-col gap-[10px]">
+        <div className="flex gap-3 mt-8">
           <Image src={price} alt="price" className="h-[20px] w-[20px]" />
           <p className="font-bold text-base">Price</p>
         </div>
-        <div ref={progressBarRef} className="progress-container" style={{ width: `${progressBarWidth}px` }}>
+        {/* <div ref={progressBarRef} className="progress-container" style={{ width: `${progressBarWidth}px` }}>
           <div
             className="progress-bar"
             style={{
@@ -316,15 +285,84 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
             }}
           ></div>
           <div className="thumb" style={{ left: `${startThumbPosition}px`, zIndex: "100" }} onMouseDown={() => handleMouseDown("start")}></div>
-          <div className="thumb-end" style={{ left: `${endThumbPosition}px` }} onMouseDown={() => handleMouseDown("end")}></div>
+          <div className="thumb-end" style={{ left: `${endThumbPosition}px`, zIndex: "100" }} onMouseDown={() => handleMouseDown("end")}></div>
+        </div> */}
+        <div className="w-full flex justify-center sm:justify-start items-start">
+          <Box sx={{ width: 200, marginBottom: "-8px" }}>
+            <Slider
+              getAriaLabel={() => "Minimum distance"}
+              value={value1}
+              onChange={handleChange1}
+              valueLabelDisplay="off"
+              getAriaValueText={valuetext}
+              disableSwap
+              min={0} // Set the minimum value
+              max={5000} // Set the maximum value
+              step={1} // Optional: step size
+              sx={{
+                "& .MuiSlider-track": {
+                  backgroundColor: "#333",
+                  border: "none", // Remove border
+                  boxShadow: "none", // Remove any shadow effect
+                  height: "6px",
+                  opacity: 1, // Ensure full opacity
+                },
+                "& .MuiSlider-rail": {
+                  backgroundColor: "#00d059",
+                  border: "none", // Remove border
+                  boxShadow: "none", // Remove any shadow effect
+                  height: "6px",
+                  opacity: 1, // Ensure full opacity
+                },
+                "& .MuiSlider-thumb": {
+                  boxShadow: "none", // Removes the hover shadow
+                  position: "absolute",
+                  top: "50%",
+                  width: "20px",
+                  height: "20px",
+                  background: "#000",
+                  borderRadius: "50%",
+                  transform: "translate(-50%, -50%)",
+                  cursor: "pointer",
+                  zIndex: 1,
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    padding: "1px",
+                    borderRadius: "50%",
+                    background: "linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%)",
+                    WebkitMask: "radial-gradient(circle, transparent 60%, #000 63%)",
+                    mask: "radial-gradient(circle, transparent 60%, #000 63%)",
+                  },
+                  "&:focus, &:hover, &.Mui-active": {
+                    boxShadow: "none", // Removes the focus/active shadow
+                  },
+                },
+              }}
+            />
+          </Box>
         </div>
-        <div className="flex gap-[5px] text-sm items-center font-extrabold">
-          <p className="gradient-slate py-[8px] px-[30.5px] w-[109px] text-center rounded-[44px] border border-solid border-muted">{`£${startPrice.toLocaleString()}`}</p>
+        <div className="flex gap-[5px] text-sm items-center justify-center sm:justify-start font-extrabold">
+          <input
+            type="text"
+            className="gradient-slate py-[8px] px-[30.5px] w-[109px] text-center rounded-[44px] border border-solid border-muted"
+            value={`£${value1[0]}`}
+            onChange={(e) => handlePriceInputChange(e, 1)}
+          />
           <p>To</p>
-          <p className="gradient-slate py-[8px] px-[13.5px] w-[109px] text-center rounded-[44px] border border-solid border-muted">{`£${endPrice.toLocaleString()}`}</p>
+          <input
+            type="text"
+            className="gradient-slate py-[8px] px-[30.5px] w-[109px] text-center rounded-[44px] border border-solid border-muted"
+            value={`£${value1[1]}`}
+            onChange={(e) => handlePriceInputChange(e, 2)}
+          />
         </div>
       </div>
-      <hr className="opacity-20 h-px mt-4" />
+      <hr className="opacity-20 h-px mt-10" />
       {/* DATE FILTER */}
       <div className="flex flex-col gap-[0.6rem]">
         <div className="flex gap-3 mt-6">
