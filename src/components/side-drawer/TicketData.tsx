@@ -18,21 +18,19 @@ interface Calorie {
 
 interface DataRow {
     name: string;
-    fat: string;
-    carbs: string;
-    protein: number;
-    calories?: Calorie[];
+    status: string;
+    sales: string; // Fraction as a string e.g., "33/100"
+    price: number;
+    links: { title: string; url: string }[];
 }
 
-function createData(
-    name: string,
-    fat: string,
-    carbs: string,
-    protein: number,
-    calories?: Calorie[]
-): DataRow {
-    return { name, fat, carbs, protein, calories };
-}
+const createData = (name: string, status: string, sales: string, price: number, links: { title: string; url: string }[]) => ({
+    name,
+    status,
+    sales,
+    price,
+    links,
+});
 
 const rows: DataRow[] = [
     createData('Emily’s Wedding', 'Sold Out', '100/100', 1825.1, [{ title: 'Custom Ticket', url: '/side-drawer/customer-ticket' }]),
@@ -49,21 +47,38 @@ const TicketData = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false); // State to control dropdown visibility
     const [sumData, setSumData] = useState(0);
     const [sumSales, setSumSales] = useState(0);
+    // const [totals, setTotals] = useState({ numerator: 0, denominator: 0 });
+    const [totalNumerator, setTotalNumerator] = useState(0);
+    const [totalDenominator, setTotalDenominator] = useState(0);
 
+    useEffect(() => {
+        // Calculate the sum of all numerators
+        const sumNumerators = rows.reduce((sum, row) => {
+          const [numerator] = row.sales.split('/').map((value) => parseInt(value, 10));
+          return sum + numerator;
+        }, 0);
+    
+        const sumDenominators = rows.reduce((sum, row) => {
+          const [, denominator] = row.sales.split('/').map((value) => parseInt(value, 10));
+          return sum + denominator;
+        }, 0);
+    
+        setTotalNumerator(sumNumerators);
+        setTotalDenominator(sumDenominators);
+      }, []);
+
+    useEffect(() => {
+        const totalPrice = rows.reduce((sum, row) => sum + row.price, 0.0);
+        setSumSales(totalPrice);
+    }, []);
     const options = ['Event 1', 'Event 2', 'Event 3']; // Dropdown options
 
     const handleSelect = (option: string) => {
         setSelectedEvent(option); // Set the selected option
         setIsDropdownOpen(false); // Close the dropdown
     };
-
     useEffect(() => {
-        const totalPrice = rows.reduce((sum, row) => sum + row.protein, 0.0);
-        setSumSales(totalPrice);
-    }, [])
-
-    useEffect(() => {
-        const totalPrice = rows.reduce((sum, row) => sum + row.protein, 0.0);
+        const totalPrice = rows.reduce((sum, row) => sum + row.price, 0.0);
         setSumData(totalPrice);
     }, [])
 
@@ -75,11 +90,11 @@ const TicketData = () => {
                 </h1>
             </div>
             <div className='flex gap-[12px] w-full'>
-                <div className='w-full px-[12px] py-[16px] gradient-slate rounded-[8px]'>
+                <div className='w-full px-[12px] lg:w-[495px] py-[16px] gradient-slate rounded-[8px]'>
                     <p className='text-sm'>Total Sales</p>
                     <h3 className='text-[#00D059] text-[30px] font-extrabold'>54</h3>
                 </div>
-                <div className='w-full px-[12px] py-[16px] gradient-slate rounded-[8px]'>
+                <div className='w-full px-[12px] lg:w-[495px] py-[16px] gradient-slate rounded-[8px]'>
                     <p className='text-sm'>Total Revenue</p>
                     <h3 className='text-[#00D059] text-[30px] font-extrabold'>£10,950.6</h3>
                 </div>
@@ -167,17 +182,17 @@ const TicketData = () => {
                                     Sales
                                 </TableCell>
                                 <TableCell
-                                component="td"
-                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[140px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
-                                    align="left"
-                                    sx={{
-                                        color: "#A6A6A6",
-                                        borderBottom: "3px solid #292929",
-                                        fontFamily: "var(--font-base)",
-                                        borderTop: "none",
-                                        borderBottomRightRadius: "10px", // Ensure radius here
-                                        overflow: "hidden", 
-                                    }}
+                                 className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[175px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                 align="left"
+                                 sx={{
+                                     color: "#A6A6A6",
+                                     borderBottom: "none",
+                                     fontFamily: "var(--font-base)",
+                                     borderTop: "none",
+                                     border: "none",
+                                     borderTopRightRadius: "8px",
+                                     borderBottomRightRadius: '8px',
+                                 }}
                                 >
                                     Revenue
                                 </TableCell>
@@ -197,77 +212,101 @@ const TicketData = () => {
                                     border: "none",
                                 }}
                             />
+                            <TableCell
+                                colSpan={5}
+                                sx={{
+                                    padding: 0,
+                                    border: "none",
+                                }}
+                            />
                         </TableRow>
-                        <TableBody className="border-0 gradient-slate">
 
-                            {rows.map((row) => {
-
-                                return <>
-
-                                    <TableRow
-                                        key={row.name}
-                                        className=" text-white text-[10px] font-normal lg:text-sm"
+                        <TableBody className="gradient-slate">
+                            {rows.map((row, rowIndex) => (
+                                <TableRow
+                                    key={row.name}
+                                    className="text-white text-[10px] font-normal lg:text-sm"
+                                    sx={{
+                                        '&:last-child td, &:last-child th': { border: 0 },
+                                        borderBottom: "none",
+                                        fontFamily: "var(--font-base)",
+                                        padding: "20px",
+                                    }}
+                                >
+                                    <TableCell
+                                        align="left"
+                                        component="th"
+                                        scope="row"
+                                        className="text-white text-[10px] font-normal lg:text-sm"
                                         sx={{
-                                            '&:last-child td, &:last-child th': { border: 0 },
-                                            borderBottom: 'none',
-                                            fontFamily: 'var(--font-base)',
-                                            padding: '20px',
+                                            padding: "20px",
+                                            borderBottom: "none",
+                                            fontFamily: "var(--font-base)",
+                                            ...(rowIndex === 0 && {
+                                                borderTopLeftRadius: "8px",
+                                            }),
+                                            ...(rowIndex === rows.length - 1 && {
+                                                borderBottomLeftRadius: "8px",
+                                            }),
+                                        }}
+                                    >
+                                        {row.name}
+                                    </TableCell>
+                                    <TableCell
+                                        align="left"
+                                        className="text-white text-[10px] font-normal lg:text-sm"
+                                        sx={{
+                                            padding: "20px",
+                                            borderBottom: "none",
+                                            fontFamily: "var(--font-base)",
 
                                         }}
                                     >
-                                        <TableCell
-                                            align="left"
-                                            component="th"
-                                            scope="row"
-                                            className="text-white text-[10px] font-normal lg:text-sm"
-                                            sx={{ padding: '20px', borderBottom: 'none', fontFamily: 'var(--font-base)', }}
-                                        >
-                                            {row.name}
-                                        </TableCell>
-
-                                        <TableCell
-                                            align="left"
-                                            className="text-white text-[10px] font-normal lg:text-sm"
-                                            sx={{ padding: '20px', borderBottom: 'none', fontFamily: 'var(--font-base)' }}
-                                        >
-                                            {row.calories ? (
-                                                row.calories.map((calorie, index) => (
-                                                    <Link key={index} href={calorie.url} passHref legacyBehavior>
-                                                        <a className="text-white font-bold text-sm mr-2">{calorie.title}</a>
-                                                    </Link>
-                                                ))
-                                            ) : (
-                                                <span>No Data</span>
-                                            )}
-                                        </TableCell>
-
-                                        <TableCell
-                                            align="left"
-                                            className=" text-white text-[10px] font-normal lg:text-sm"
-                                            sx={{ padding: '20px', borderBottom: 'none', fontFamily: 'var(--font-base)' }}
-                                        >
-                                            {row.fat}
-                                        </TableCell>
-
-                                        <TableCell
-                                            align="left"
-                                            className="text-white text-[10px] font-normal lg:text-sm"
-                                            sx={{ padding: '20px', borderBottom: 'none', fontFamily: 'var(--font-base)' }}
-                                        >
-                                            {row.carbs}
-                                        </TableCell>
-
-                                        <TableCell
-                                            align="left"
-                                            className="text-white text-[10px] font-normal lg:text-sm"
-                                            sx={{ padding: '20px', borderBottom: 'none', fontFamily: 'var(--font-base)' }}
-                                        >
-                                            £{row.protein}
-                                        </TableCell>
-                                    </TableRow>
-                                </>
-                            })}
+                                        {row.links ? (
+                                            row.links.map((links, index) => (
+                                                <Link key={index} href={links.url} passHref legacyBehavior>
+                                                    <a className="text-white font-bold text-sm mr-2">{links.title}</a>
+                                                </Link>
+                                            ))
+                                        ) : (
+                                            <span>No Data</span>
+                                        )}
+                                    </TableCell>
+                                    <TableCell
+                                        align="left"
+                                        className="text-white text-[10px] font-normal lg:text-sm"
+                                        sx={{ padding: "20px", borderBottom: "none", fontFamily: "var(--font-base)" }}
+                                    >
+                                        {row.sales}
+                                    </TableCell>
+                                    <TableCell
+                                        align="left"
+                                        className="text-white text-[10px] font-normal lg:text-sm"
+                                        sx={{ padding: "20px", borderBottom: "none", fontFamily: "var(--font-base)" }}
+                                    >
+                                        {row.status}
+                                    </TableCell>
+                                    <TableCell
+                                        align="left"
+                                        className="text-white text-[10px] font-normal lg:text-sm"
+                                        sx={{
+                                            padding: "20px",
+                                            borderBottom: "none",
+                                            fontFamily: "var(--font-base)",
+                                            ...(rowIndex === 0 && {
+                                                borderTopRightRadius: "8px", // Top-left radius for the first row
+                                            }),
+                                            ...(rowIndex === rows.length - 1 && {
+                                                borderBottomRightRadius: "8px", // Bottom-left radius for the last row
+                                            }),
+                                        }}
+                                    >
+                                        £ {row.price}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
+
 
                         <TableFooter>
                             <TableRow
@@ -293,10 +332,20 @@ const TicketData = () => {
                                 <TableCell colSpan={3} align="right" className='gradient-slate' sx={{ border: "none", fontWeight: "bold", borderBottomLeftRadius: "10px", borderTopLeftRadius: "10px" }}>
 
                                 </TableCell>
+                    
                                 <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", }} className='gradient-slate text-[#A6A6A6]'>
-                                    {sumSales.toFixed(2)}
+                                {rows.map((row, index) => {
+                                    const [numerator, denominator] = row.sales.split('/').map((value) => parseInt(value, 10));
+                                    return (
+                                        <div key={index} className="flex justify-between w-1/4">
+                                            <span>{totalNumerator}</span>
+                                            <span>/</span>
+                                            <span>{totalDenominator}</span>
+                                        </div>
+                                    );
+                                })}
                                 </TableCell>
-                                <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", borderBottomRightRadius: "10px", borderTopRightRadius: "10px" }} className='gradient-slate text-[#A6A6A6]'>
+                                <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", borderBottomRightRadius: "8px", borderTopRightRadius: "8px" }} className='gradient-slate text-[#A6A6A6]'>
                                     £{sumData.toFixed(2)}
                                 </TableCell>
                             </TableRow>
