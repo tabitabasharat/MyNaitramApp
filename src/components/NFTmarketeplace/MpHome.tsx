@@ -2,6 +2,8 @@
 
 "use client";
 
+import Link from "next/link";
+
 const MpHome = () => {
   const images = [
     "/Images/Market/tradingnft-a-1.svg",
