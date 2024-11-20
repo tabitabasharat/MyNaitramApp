@@ -25,6 +25,7 @@ const StayInformed = () => {
   console.log("tgis paste event", filteredEvent, EventsPastData);
 
   const handleEmailInputChange = (e: any) => {
+    setLoader(false);
     const input = e.target.value;
     // Allow only letters, numbers, and "@"
     const regex = /^[a-zA-Z0-9@]*$/;

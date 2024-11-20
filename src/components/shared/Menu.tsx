@@ -46,25 +46,25 @@ const Menu = ({
         { title: "Download App", href: "/download-app" },
       ],
     },
-    { id: 3, title: "Events", url: "/viewallevents" },
-    { id: 4, title: "Rewards", url: "/reward" },
+    { id: 3, title: "Events", href: "/viewallevents" },
+    // { id: 4, title: "Rewards", url: "/reward" },
     // {
     //   id: 4,
     //   title: "Rewards",
     //   url: "/reward",
     //   subLinks: [{ title: "Wallet", url: "/wallet" }],
     // },
-    { id: 5, title: "Get Sponsored", url: "/get-sponsor" },
-    { id: 6, title: "My Tickets", url: "/wallet" },
-    // {
-    //   title: "Rewards",
-    //   href: "/reward",
-    //   id: 4,
-    //   subLinks: [
-    //     { title: "Wallet", href: "/wallet" },
-    //     // { title: "Download App", href: "/download-app" },
-    //   ],
-    // },
+    {
+      title: "Rewards",
+      href: "/reward",
+      id: 4,
+      subLinks: [
+        { title: "Wallet", href: "/wallet" },
+        // { title: "Download App", href: "/download-app" },
+      ],
+    },
+    { id: 5, title: "Get Sponsored", href: "/get-sponsor" },
+    { id: 6, title: "My Tickets", href: "/wallet" },
     // {
     //   name: "Rewards",
     //   href: "/reward",
@@ -157,7 +157,7 @@ const Menu = ({
                     </Link>
 
                     {/* Arrow for dropdown toggle */}
-                    {link.id === 2 && (
+                    {link.subLinks && (
                       <div
                         className="ml-2 cursor-pointer"
                         onClick={() => handleDropdownToggle(link.id)} // Toggle dropdown
