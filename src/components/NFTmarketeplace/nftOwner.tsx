@@ -28,7 +28,7 @@ const NftOwner = () => {
       third: "Total Volume",
     },
     floorPrice: {
-      first: "0.01",
+      first: "<0.0001",
       second: "ETH",
       third: "Floor Price",
     },
@@ -62,8 +62,8 @@ const NftOwner = () => {
             </button>
           </div>
         </div>
-        <div className="flex flex-col gap-[55px] pl-[60px] pr-[92px] Animakid__HeroSection_container">
-          <div className="flex flex-wrap justify-start items-center gap-[30px] Animakid__Container_small_TExt mt-[40px] md:mt-[65px]">
+        <div className="flex flex-col gap-[40px] pl-[60px] pr-[92px] Animakid__HeroSection_container sm:gap-[55px]">
+          <div className="flex flex-wrap justify-start items-center gap-10 Animakid__Container_small_TExt mt-[40px] md:mt-[65px]">
             {Object.keys(statesData).map((key) => {
               const data = statesData[key as keyof StatesData];
               return (
@@ -93,15 +93,15 @@ const NftOwner = () => {
               </p>
             </div>
             <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-2">
+              <div className="flex items-start sm:items-center gap-2">
                 <img src="/Images/Nft_animakid_img/Loctaion.svg" alt="Location Icon" />
-                <p>DOMA PUB Main floor, Light Street, London</p>
+                <p className="text-[16px] font-bold leading-6 text-[#FFFFFF] ">DOMA PUB Main floor, Light Street, London</p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-start sm:items-center gap-2">
                 <img src="/Images/Nft_animakid_img/clendr.svg" alt="Calendar Icon" />
-                <p>Saturday, 5th March 2024 - Sunday, 6th March 2024</p>
+                <p className="text-[16px] font-bold leading-6 text-[#FFFFFF]">Saturday, 5th March 2024 - Sunday, 6th March 2024</p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-start sm:items-center gap-2">
                 <img src="/Images/Nft_animakid_img/clock.svg" alt="Clock Icon" />
                 <p>5 PM - 12 AM</p>
               </div>
