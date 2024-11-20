@@ -4,6 +4,7 @@
 
 import React, { useState } from "react";
 import "./NftOwner.css";
+import { useRouter } from "next/navigation";
 
 interface StateDataItem {
   first: string;
@@ -19,6 +20,7 @@ interface StatesData {
 }
 
 const NftOwner = () => {
+  const router = useRouter();
   const [statesData, setStatesData] = useState<StatesData>({
     totalVolume: {
       first: "15",
@@ -118,7 +120,10 @@ const NftOwner = () => {
         {[...Array(12)].map((_, index) => (
           <div
             key={index}
-            className="relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] p-[30px_11.5px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden hover-gradient-border"
+            onClick={() => {
+              router.push("/marketPlace/nft");
+            }}
+            className="cursor-pointer relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] p-[30px_11.5px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden hover-gradient-border"
             style={{ width: "270px", height: "373px" }}
           >
             {/* <div

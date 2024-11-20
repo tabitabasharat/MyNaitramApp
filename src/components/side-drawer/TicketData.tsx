@@ -277,14 +277,14 @@ const TicketData = () => {
                                         className="text-white text-[10px] font-normal lg:text-sm"
                                         sx={{ padding: "20px", borderBottom: "none", fontFamily: "var(--font-base)" }}
                                     >
-                                        {row.sales}
+                                        {row.status}
                                     </TableCell>
                                     <TableCell
                                         align="left"
                                         className="text-white text-[10px] font-normal lg:text-sm"
                                         sx={{ padding: "20px", borderBottom: "none", fontFamily: "var(--font-base)" }}
                                     >
-                                        {row.status}
+                                        {row.sales}
                                     </TableCell>
                                     <TableCell
                                         align="left"
@@ -334,16 +334,11 @@ const TicketData = () => {
                                 </TableCell>
                     
                                 <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", }} className='gradient-slate text-[#A6A6A6]'>
-                                {rows.map((row, index) => {
-                                    const [numerator, denominator] = row.sales.split('/').map((value) => parseInt(value, 10));
-                                    return (
-                                        <div key={index} className="flex justify-between w-1/4">
+                                       <div className="flex justify-between w-1/4">
                                             <span>{totalNumerator}</span>
                                             <span>/</span>
                                             <span>{totalDenominator}</span>
                                         </div>
-                                    );
-                                })}
                                 </TableCell>
                                 <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", borderBottomRightRadius: "8px", borderTopRightRadius: "8px" }} className='gradient-slate text-[#A6A6A6]'>
                                     £{sumData.toFixed(2)}
