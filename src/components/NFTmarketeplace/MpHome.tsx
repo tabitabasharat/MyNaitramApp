@@ -34,11 +34,11 @@ const MpHome = () => {
               </span>
             </h2>
 
-            <p className="text-gray-400 text-sm sm:text-lg md:text-xl leading-relaxed mt-4 sm:mt-6">
+            <p className="text-[rgba(255,255,255,1)]  text-sm capitalize  sm:text-lg md:text-xl leading-relaxed mt-4 sm:mt-6">
               {/* Without <br> for small and medium screens */}
-              <span className="block lg:hidden">
-                NFT marketplace Collect, buy and sell art from more than 20k NFT
-                artists.
+              <span className="block lg:hidden text-[rgba(255,255,255,1)]">
+                NFT Marketplace Collect, Buy And Sell Art From More Than 20k NFT
+                Artists.
               </span>
 
               {/* With <br> for large screens */}
