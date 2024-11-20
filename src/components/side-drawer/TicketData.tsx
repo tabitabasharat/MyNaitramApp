@@ -83,13 +83,13 @@ const TicketData = () => {
     }, [])
 
     return (
-        <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[57px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
+        <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[57px] ps-[0px] min-[993px]:ps-[92px] min-[769px]:ps-[300px]   md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
             <div>
                 <h1 className="text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold">
                     PIZDEZ Womens Day Party 2024
                 </h1>
             </div>
-            <div className='flex gap-[12px] w-full'>
+            <div className='flex gap-[12px] w-full max-[425px]:flex-col'>
                 <div className='w-full px-[12px] lg:w-[495px] py-[16px] gradient-slate rounded-[8px]'>
                     <p className='text-sm'>Total Sales</p>
                     <h3 className='text-[#00D059] text-[30px] font-extrabold'>54</h3>
@@ -101,10 +101,20 @@ const TicketData = () => {
             </div>
             <div>
                 <h2 className='font-extrabold text-[32px] mb-[24px]'>Sales</h2>
-                <TableContainer component={Paper} sx={{ boxShadow: "none", background: "transparent" }}>
-                    <Table
+                <TableContainer component={Paper} sx={{ boxShadow: "none", background: "transparent", overflow: "auto", 
+                    maxHeight: "100%", 
+                    '&::-webkit-scrollbar': {
+                      width: 0, 
+                      height: 0,
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      display: 'none', 
+                    },
+                    scrollbarWidth: 'none', 
+                    msOverflowStyle: 'none',  }}>
+                    <Table className=''
                         sx={{
-                            minWidth: 650,
+                            // minWidth: 650,
                             borderBottom: "none",
                             borderTop: "none",
                             borderLeft: "none",
@@ -127,7 +137,7 @@ const TicketData = () => {
                                 borderBottomRightRadius: '8px',
                             }} className='gradient-slate'>
                                 <TableCell
-                                    className="w-[40px] lg:w-[250px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    className=" lg:w-[250px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     sx={{
                                         borderTop: 'none',
                                         borderTopLeftRadius: '10px',
@@ -143,7 +153,7 @@ const TicketData = () => {
                                     Ticket Names
                                 </TableCell>
                                 <TableCell
-                                    className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[303px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    className=" px-[16.5px] lg:px-[20px] lg:w-[303px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
@@ -265,7 +275,7 @@ const TicketData = () => {
                                         {row.links ? (
                                             row.links.map((links, index) => (
                                                 <Link key={index} href={links.url} passHref legacyBehavior>
-                                                    <a className="text-white font-bold text-sm mr-2">{links.title}</a>
+                                                    <a className="text-white mr-2">{links.title}</a>
                                                 </Link>
                                             ))
                                         ) : (
@@ -277,14 +287,14 @@ const TicketData = () => {
                                         className="text-white text-[10px] font-normal lg:text-sm"
                                         sx={{ padding: "20px", borderBottom: "none", fontFamily: "var(--font-base)" }}
                                     >
-                                        {row.sales}
+                                        {row.status}
                                     </TableCell>
                                     <TableCell
                                         align="left"
                                         className="text-white text-[10px] font-normal lg:text-sm"
                                         sx={{ padding: "20px", borderBottom: "none", fontFamily: "var(--font-base)" }}
                                     >
-                                        {row.status}
+                                        {row.sales}
                                     </TableCell>
                                     <TableCell
                                         align="left"
@@ -333,18 +343,20 @@ const TicketData = () => {
 
                                 </TableCell>
                     
-                                <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", }} className='gradient-slate text-[#A6A6A6]'>
-                                {rows.map((row, index) => {
-                                    const [numerator, denominator] = row.sales.split('/').map((value) => parseInt(value, 10));
-                                    return (
-                                        <div key={index} className="flex justify-between w-1/4">
-                                            <span>{totalNumerator}</span>
-                                            <span>/</span>
-                                            <span>{totalDenominator}</span>
-                                        </div>
-                                    );
-                                })}
-                                </TableCell>
+                             <TableCell
+  sx={{
+    fontWeight: "400",
+    fontFamily: "var(--font-base)",
+    border: "none",
+  }}
+  className="gradient-slate text-[#A6A6A6]"
+>
+    <span>{totalNumerator}</span>
+    <span>/</span>
+    <span>{totalDenominator}</span>
+ 
+</TableCell>
+
                                 <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", borderBottomRightRadius: "8px", borderTopRightRadius: "8px" }} className='gradient-slate text-[#A6A6A6]'>
                                     £{sumData.toFixed(2)}
                                 </TableCell>
