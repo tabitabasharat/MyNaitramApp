@@ -222,12 +222,6 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
                 />
               )}
               <MagnifyingGlass size={20} className="absolute top-1/2 -translate-y-1/2 right-5" />
-              {/* {getFilteredEvents()?.length > 0 && (
-                <MagnifyingGlass
-                size={20}
-                className="absolute top-1/2 -translate-y-1/2 right-5"
-              />
-              )} */}
             </div>
 
             <AllEventsGrid events={getFilteredEvents()} eventType={title} />

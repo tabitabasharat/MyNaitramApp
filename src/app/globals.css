@@ -739,6 +739,18 @@ body {
   -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
   scrollbar-width: none; /* Hide scrollbar in Firefox */
 }
+.element2 {
+  box-shadow: 0px 2.56px 5.11px 0px #0000000A; /* Soft shadow with subtle opacity */
+  backdrop-filter: blur(64px); /* Frosted glass effect with heavy blur */
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+}
+.element {
+  box-shadow: 0px 2.56px 5.11px 0px #0000000A; /* Soft shadow with subtle opacity */
+  backdrop-filter: blur(64px); /* Frosted glass effect with heavy blur */
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+}
 .swiper-button-next,
 .swiper-button-prev {
   @apply fill-white scale-[1.8] w-10 h-10;
@@ -790,12 +802,20 @@ input[type="number"] {
 .no-border-table .MuiTableRow-root {
   border: none; /* Removes any potential border on table rows */
 }
+.border-linear{
+  border: 1px solid;
+
+  border-image-source: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
+}
 .live-chat {
   width: 420px !important;
 }
 .table-gradient {
   background: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%) !important;
   border-bottom: 1px solid #292929 !important;
+}
+.table-gradient-new {
+  background: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%) !important;
 }
 .slider-wid {
   width: fit-content !important;

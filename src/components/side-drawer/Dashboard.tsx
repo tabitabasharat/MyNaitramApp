@@ -70,7 +70,7 @@ const Dashboard = () => {
                             <div className="relative flex flex-col sm:flex-row gap-[12px] sm:gap-[24px] mt-4">
                                 {/* Dropdown trigger */}
                                 <div
-                                    className="gradient-slate w-full sm:w-[456px] h-[52px] bg-black rounded-md font-bold text-base pt-[18px] pb-[14px] px-[12px] cursor-pointer flex justify-between items-center"
+                                    className="gradient-slate gradient-slate-input w-full sm:w-[456px] h-[52px] bg-black rounded-md font-bold text-base pt-[18px] pb-[14px] px-[12px] cursor-pointer flex justify-between items-center"
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 >
                                     <span>{selectedEvent || 'Lorem Ispum'}</span>
@@ -87,7 +87,7 @@ const Dashboard = () => {
 
                                 {/* Dropdown menu */}
                                 {isDropdownOpen && (
-                                    <div className="absolute w-full sm:w-[456px] mt-[57px] sm:mt-[60px] bg-black rounded-md shadow-lg z-10">
+                                    <div className="absolute w-full sm:w-[456px] mt-[57px] sm:mt-[60px] gradient-slate rounded-md shadow-lg z-10">
                                         {options.map((option) => (
                                             <div
                                                 key={option}
@@ -100,7 +100,7 @@ const Dashboard = () => {
                                     </div>
                                 )}
                                 <Button className='font-extrabold text-sm p-[12px] lg:w-[108px]'>
-                                Add Event
+                                    Add Event
                                 </Button>
                             </div>
                         </div>
@@ -125,7 +125,7 @@ const Dashboard = () => {
                         }}
                         aria-label="simple table"
                     >
-                        <TableHead className="table-gradient">
+                        <TableHead className="table-gradient-new">
                             <TableRow sx={{ border: "1px solid #292929" }}>
                                 <TableCell
                                     className="w-[40px] lg:w-[220px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
@@ -321,7 +321,7 @@ const Dashboard = () => {
                         }}
                         aria-label="simple table"
                     >
-                        <TableHead className="table-gradient">
+                        <TableHead className="table-gradient-new">
                             <TableRow sx={{ border: "1px solid #292929" }}>
                                 <TableCell
                                     className="w-[350px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
@@ -373,7 +373,7 @@ const Dashboard = () => {
                                         scope="row"
                                         className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
                                     >
-                                        {pages.name} +
+                                        {pages.name}
                                     </TableCell>
                                     <TableCell
                                         sx={{

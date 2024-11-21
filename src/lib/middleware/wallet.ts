@@ -105,26 +105,6 @@ export const getAllTickets = createAsyncThunk<
   }
 );
 
-// export const getHistoryById = createAsyncThunk(
-//   'getHistoryById',
-//   async userid => {
-//     try {
-//       console.log('inside get history by ID');
-//       const res = await api.get(`${API_URL}/reward/getHistory/${userid}`);
-//       // const res = await api.get(`${API_URL}/reward/getHistory/1`);
-//       return {
-//         status: res?.status,
-//         data: res?.data,
-//       };
-//     } catch (error) {
-//       return {
-//         message: error?.response?.data?.error,
-//         status: error?.response?.status,
-//       };
-//     }
-//   },
-// );
-
 export const getTicketByQR = createAsyncThunk(
   "getTicketByQR",
   async (data: any) => {

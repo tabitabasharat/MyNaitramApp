@@ -50,12 +50,8 @@ import { styled, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import backwardicon from "@/assets/Back - Button.svg";
-import dashboard from "@/V2assets/dashboard.svg";
-import chats from "@/V2assets/eventanalytics.svg";
-import heplcenter from "@/assets/Headset.svg";
-import faq from "@/assets/Question.svg";
-import delaccnt from "../../../public/Deleteaccnt.svg";
-import logout from "@/assets/logout.svg";
+import dashboard from "@/assets/V2assets/dashboard.svg";
+import chats from "@/assets/V2assets/eventanalytics.svg";
 import Link from "next/link";
 import { useAppDispatch } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
@@ -197,21 +193,6 @@ const Analytics: React.FC<Props> = ({ window, children }) => {
               </div>
             </div>
           </List>
-          {/* <div className="mt-[180px] pb-[50px] md:mt-[230px]">
-          <button
-            className="text-[white] mb-[50px] hover:opacity-80 duration-300 md:me-[21px] 
-            me-[32px] flex justify-center items-center text-[11px] md:text-base font-bold
-             border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
-            onClick={Logout}
-          >
-            <Image
-              src={logout}
-              className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]"
-              alt="img"
-            />{" "}
-            Log out
-          </button>
-        </div> */}
         </div>
       </>
     );

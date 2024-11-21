@@ -50,7 +50,7 @@ const EventCard: React.FC<{
           src={imageUrl}
           width={1000}
           height={1000}
-          className="w-full h-full rounded-lg object-cover relative mx-auto overflow-hidden"
+          className="w-full h-full rounded-lg object-contain relative mx-auto overflow-hidden"
           placeholder={`data:image/svg+xml;base64,${toBase64(
             shimmer(1200, 1800)
           )}`}
