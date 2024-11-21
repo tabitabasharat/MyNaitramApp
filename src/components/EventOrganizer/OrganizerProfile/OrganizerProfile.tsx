@@ -41,13 +41,13 @@ import Stack from "@mui/material/Stack";
 import { getOrganizerByID } from "@/lib/middleware/organizer";
 
 const formSchema = z.object({
-  fburl: z.string().url({ message: "Invalid Facebook URL." }).optional(), // Makes the field optional
-  instaurl: z.string().url({ message: "Invalid Instagram URL." }).optional(),
-  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).optional(),
-  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).optional(),
-  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
-  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).optional(),
-  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).optional(),
+  facebook: z.string().url({ message: "Invalid Facebook URL." }).optional(), // Makes the field optional
+  insta: z.string().url({ message: "Invalid Instagram URL." }).optional(),
+  youtube: z.string().url({ message: "Invalid YouTube URL." }).optional(),
+  tiktok: z.string().url({ message: "Invalid TikTok URL." }).optional(),
+  linkedIn: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
+  telegram: z.string().url({ message: "Invalid Telegram URL." }).optional(),
+  twitter: z.string().url({ message: "Invalid Twitter URL." }).optional(),
 
   BIO: z.string().min(1, { message: "Description cannot be empty." }),
 });
