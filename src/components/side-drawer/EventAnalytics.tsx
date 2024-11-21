@@ -13,7 +13,21 @@ import arrowred from "@/assets/V2assets/Buttonred.svg"
 import { Button } from '../ui/button';
 import Analyticbarchart from './Analyticbarchart';
 import Image from 'next/image';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { LineChart, Line, AreaChart, CartesianGrid, Tooltip, ResponsiveContainer, Area, YAxis } from 'recharts';
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className="gradient-border border element border-muted rounded-lg pt-[10.22px] pe-[15.33px] pb-[15.33px] ps-[16.61px] ">
+                <p className='text-[12px] '>29 July 00:00</p>
+                {/* <p className="label">{`$${payload[0].value}`}</p> */}
+                <p className='flex items-center gap-[7.67px]'><span className='text-[#00D059] text-[20.44px] font-extrabold'>130</span><span className='element2 text-center w-[44px] h-[18px] text-[#00D059] text-[12px]'>+3.4%</span></p>
+            </div>
+        );
+    }
+
+    return null;
+};
 
 function createData(
     name: number,
@@ -118,7 +132,7 @@ const EventAnalytics = () => {
     };
 
     return (
-        <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[97px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
+        <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[97px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-full">
             <div>
                 <h1 className="text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold">
                     Event Analytics
@@ -180,7 +194,7 @@ const EventAnalytics = () => {
 
                             <p className='font-bold text-[20px] mb-[16px]'>Page Views</p>
                             <LineChart width={200} height={51} data={pageview}>
-                                <Line type="monotone" dot={false} dataKey="uv" strokeWidth={2} stroke="#F34213" />
+                                <Line type="monotone" dot={false} dataKey="uv" strokeWidth={3} stroke="#F34213" />
                             </LineChart>
                             <div className='flex gap-[16px] mt-[11px] items-start'>
                                 <div>
@@ -195,18 +209,45 @@ const EventAnalytics = () => {
                     </div>
                 </div>
                 <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-[465px] h-[452px]'>
-                    <p className='font-bold text-[20px] mb-[20px]'>Followers</p>
+                    <p className='font-bold text-[20px]'>Followers</p>
                     <p className='mt-[20px] flex items-center gap-[20px] mb-[30px]'><span className='text-[#00D059] font-extrabold text-[48px]'>+130</span> <span className='text-[#D9D9D9] text-[20px]'>(169 all time)</span></p>
-                    <LineChart width={400} height={258} data={data}>
-                        <Line type="monotone" dataKey="uv" dot={false} stroke="#00D059" strokeWidth={3} />
-                        <CartesianGrid stroke="#292929" strokeWidth={0.5} vertical={false} strokeDasharray="5 5" />
-                        {/* <XAxis dataKey="name" /> */}
-                        <YAxis axisLine={false} tick={{
-                            fontSize: 12,
-                            fontWeight: 'bold',
-                            fill: '#D9D9D9', // Tick label color
-                        }} tickLine={false} />
-                    </LineChart>
+                    <ResponsiveContainer width="100%" height={258}>
+                        <AreaChart data={data}>
+                            {/* Define the gradient */}
+                            <defs>
+                                <linearGradient id="gradient1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="43.56%" stopColor="rgba(0, 208, 89, 0.1)" />
+                                    <stop offset="106.32%" stopColor="rgba(0, 208, 89, 0)" />
+                                </linearGradient>
+                            </defs>
+
+                            <Line type="monotone" dataKey="uv" dot={false} stroke="#00D059" strokeWidth={3} />
+                            <Tooltip
+                                cursor={{ fill: "red" }}
+                                content={<CustomTooltip />}
+                            />
+                            {/* Apply the gradient as the fill */}
+                            <Area
+                                type="monotone"
+                                dataKey="uv"
+                                stroke="#00D059"
+                                fill="url(#gradient1)"  // Reference the gradient
+                                fillOpacity={0.3}
+                            />
+
+                            <CartesianGrid stroke="#292929" strokeWidth={0.5} vertical={false} strokeDasharray="5 5" />
+
+                            <YAxis
+                                axisLine={false}
+                                tick={{
+                                    fontSize: 12,
+                                    fontWeight: 'bold',
+                                    fill: '#D9D9D9',
+                                }}
+                                tickLine={false}
+                            />
+                        </AreaChart>
+                    </ResponsiveContainer>
                 </div>
             </div>
 

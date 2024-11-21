@@ -20,7 +20,7 @@ import Image from "next/image";
 import Iconpop from "@/assets/launchprofileicon.svg";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   Form,
@@ -71,16 +71,29 @@ const ShareModal = ({ onClose, open, eventUrl }: any) => {
   }, []);
 
   const handlelinkValue = () => {
-    navigator.clipboard
-      .writeText(eventUrl)
-      .then(() => {
-        SuccessToast("Link copied");
-
-      })
-      .catch(() => {
-        ErrorToast("Failed to copy the link.");
-      });
+    if (eventUrl) {
+      navigator.clipboard.writeText(eventUrl)
+        .then(() => {
+          console.log("URL copied to clipboard!");
+        })
+        .catch(err => {
+          console.error("Failed to copy URL: ", err);
+        });
+    }
   };
+
+  const urlRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (urlRef.current) {
+      const range = document.createRange();
+      const selection = window.getSelection();
+      range.selectNodeContents(urlRef.current);
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+    }
+  }, []);
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogPortal>
@@ -91,54 +104,35 @@ const ShareModal = ({ onClose, open, eventUrl }: any) => {
             background:
               "linear-gradient(#0F0F0F, #1A1A1A) padding-box,linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
           }}
-          className="flex flex-col w-[650px] text-white px-[0px] gap-[24px] pt-[32px] pb-[32px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent "
+          className="flex flex-col w-[464px] text-white px-[0px] gap-[24px] pt-[32px] px-[24px]  pb-[32px] flex items-center justify-center bg-[#0F0F0F] border-[0.86px] border-transparent "
         >
-          {/* <div className="w-full">
-            <DialogHeader>
-              <DialogTitle className="flex justify-between font-bold px-[24px] text-2xl mb-1">
-                <h2 className="font-extrabold text-[24px]">Crypto Wallet</h2>
-                <Image
-                  src={close}
-                  sizes="28px"
-                  alt="close-btn"
-                  className="cursor-pointer"
-                  onClick={onClose}
-                />
-              </DialogTitle>
-              <Separator className="scale--[1.12] bg-[#292929]" />
-            </DialogHeader>
-          </div> */}
-          <div className="flex items-center justify-center flex-col">
+          <div className="flex items-center justify-center w-full truncate overflow-hidden scrollbar-hide flex-col">
             <Image src={copylinkicon} alt="icon" />
             <p className="pb-[16px] pt-[32px] text-[16px] font-bold ">
               Copy link to this event
             </p>
-
-
-            <div className="relative w-full md:w-[416px] ">
-              <div
-                className={`py-[12.5px] text-base font-normal relative overflow-x-auto w-full md:w-[419px] pr-[40px] ${eventUrl ? "text-black" : "text-gray-400"
-                  }`}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {eventUrl || "Enter event URL here..."}
+            <div className="relative w-full md:w-[416px] scrollbar-hidden">
+              <div className="flex items-center gradient-slate-input gradient-slate text-white rounded-md w-full">
+                <div
+                  ref={urlRef}
+                  className="flex-1 ps-[12px] pe-[35px] sm:pe-[16px] py-[12.5px] text-base text-[#757575] font-normal truncate"
+                  style={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis"
+                  }}
+                  title={eventUrl}
+                >
+                  {eventUrl}
+                </div>
               </div>
-              {/* <div
-                    placeholder={eventUrl}
-                    className=" py-[12.5px] text-base placeholder:font-normal relative overflow-x-auto  w-full md:w-[419px] pr-[40px]"
-                    value={eventUrl}
-                    style={{whiteSpace:"nowrap"}}
-  ></div> */}
               <Image
                 src={copyurl}
-
                 alt="copy-btn"
-                className="absolute right-[8px] top-[30%] cursor-pointer gradient-slate  backdrop-blur-xl"
+                className="absolute right-[8px] z-[120] top-[30%] cursor-pointer gradient-slate backdrop-blur-xl"
                 onClick={handlelinkValue}
               />
-
             </div>
-
           </div>
         </DialogContent>
       </DialogPortal>
