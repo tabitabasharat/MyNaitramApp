@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useRef, useEffect } from "react";
 
 import addicon from "@/assets/Wallet/Plus.svg";
+import whiteaddicon from "@/assets/Wallet/white_plus_icon.svg";
 
 import deleteicon from "@/assets/Wallet/delete-icon.svg";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -1974,7 +1975,7 @@ function OganizerCreateEvent() {
 
                   {/* Ticket Types Body */}
                   <div className="gradient-slate pt-[32px] pb-[49px] px-[60px] rounded-b-[12px]">
-                    {true ? (
+                    {false ? (
                       <div className="mb-[24px]">
                         {/* Event Ticket Type and Event Paid/Free fields */}
                         <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
@@ -3105,7 +3106,838 @@ function OganizerCreateEvent() {
                         </div>
                       </div>
                     ) : (
-                      <div className="mb-[24px]"></div>
+                      <div className="mb-[24px]">
+                        {/* Event Ticket Type and Event Paid/Free fields */}
+                        <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
+                          <FormField
+                            control={form.control}
+                            name="eventcategory"
+                            render={({ field }) => (
+                              <FormItem
+                                className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                          pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                          file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                          disabled:opacity-50"
+                              >
+                                <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
+                                  <div className="flex flex-col">
+                                    <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT category</p>
+                                    <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                                      {categoryTypes ? categoryTypes?.label : "Select Event Category"}
+                                    </p>
+                                  </div>
+                                  <Image src={isCatDropdownOpen ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                </div>
+
+                                {isCatDropdownOpen && (
+                                  <>
+                                    <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                                      {isCustomCatgory && (
+                                        <>
+                                          {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
+                                          {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
+                                          {spaceError == true && <p className="text-[red] text-[16px]">Put only single word!</p>}
+                                          <div
+                                            style={{
+                                              width: "100%",
+                                              marginTop: "10px",
+                                              display: "flex",
+                                              justifyContent: "space-between",
+                                              alignItems: "center",
+                                              gap: "20px",
+                                            }}
+                                          >
+                                            <input
+                                              type="text"
+                                              placeholder="Enter the Category name"
+                                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e)}
+                                              value={customCategotyInput}
+                                              style={{
+                                                width: "100%",
+                                                paddingLeft: "5px",
+                                                paddingTop: "5px",
+                                                paddingBottom: "5px",
+                                                borderRadius: "6px",
+                                              }}
+                                            />
+                                            <button
+                                              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                                                e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                                handleCustomCatBtn();
+                                              }}
+                                              style={{
+                                                background: "green",
+                                                paddingLeft: "10px",
+                                                paddingRight: "10px",
+                                                lineHeight: "10px",
+                                                paddingTop: "10px",
+                                                paddingBottom: "10px",
+                                                borderRadius: "5px",
+                                                marginRight: "5px",
+                                              }}
+                                            >
+                                              Add
+                                            </button>
+                                          </div>
+                                        </>
+                                      )}
+                                      {optionscate?.map((option: any) => (
+                                        <div
+                                          key={option.label}
+                                          className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                          onClick={() => handleCateOptionToggle(option)}
+                                        >
+                                          <div className="flex items-center gap-[10px]">
+                                            <p
+                                              className={`text-[16px] font-normal items-center ${
+                                                categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                              }`}
+                                            >
+                                              {option.label}
+                                            </p>
+                                          </div>
+                                          {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </>
+                                )}
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="eventcategory"
+                            render={({ field }) => (
+                              <FormItem
+                                className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                          pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                          file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                          disabled:opacity-50"
+                              >
+                                <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
+                                  <div className="flex flex-col">
+                                    <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT category</p>
+                                    <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                                      {categoryTypes ? categoryTypes?.label : "Select Event Category"}
+                                    </p>
+                                  </div>
+                                  <Image src={isCatDropdownOpen ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                </div>
+
+                                {isCatDropdownOpen && (
+                                  <>
+                                    <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                                      {isCustomCatgory && (
+                                        <>
+                                          {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
+                                          {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
+                                          {spaceError == true && <p className="text-[red] text-[16px]">Put only single word!</p>}
+                                          <div
+                                            style={{
+                                              width: "100%",
+                                              marginTop: "10px",
+                                              display: "flex",
+                                              justifyContent: "space-between",
+                                              alignItems: "center",
+                                              gap: "20px",
+                                            }}
+                                          >
+                                            <input
+                                              type="text"
+                                              placeholder="Enter the Category name"
+                                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e)}
+                                              value={customCategotyInput}
+                                              style={{
+                                                width: "100%",
+                                                paddingLeft: "5px",
+                                                paddingTop: "5px",
+                                                paddingBottom: "5px",
+                                                borderRadius: "6px",
+                                              }}
+                                            />
+                                            <button
+                                              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                                                e.preventDefault(); // Prevents default action (optional if button is not inside a form)
+                                                handleCustomCatBtn();
+                                              }}
+                                              style={{
+                                                background: "green",
+                                                paddingLeft: "10px",
+                                                paddingRight: "10px",
+                                                lineHeight: "10px",
+                                                paddingTop: "10px",
+                                                paddingBottom: "10px",
+                                                borderRadius: "5px",
+                                                marginRight: "5px",
+                                              }}
+                                            >
+                                              Add
+                                            </button>
+                                          </div>
+                                        </>
+                                      )}
+                                      {optionscate?.map((option: any) => (
+                                        <div
+                                          key={option.label}
+                                          className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                          onClick={() => handleCateOptionToggle(option)}
+                                        >
+                                          <div className="flex items-center gap-[10px]">
+                                            <p
+                                              className={`text-[16px] font-normal items-center ${
+                                                categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                              }`}
+                                            >
+                                              {option.label}
+                                            </p>
+                                          </div>
+                                          {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </>
+                                )}
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Ticket Type Name */}
+                        <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
+                          <FormField
+                            control={form.control}
+                            name="eventname"
+                            render={({ field }) => (
+                              <FormItem className="relative w-full space-y-0">
+                                <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
+                                  Event Name
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    placeholder="Enter Event Name"
+                                    className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
+                                    {...field}
+                                    onChange={(e) => {
+                                      setEventname(e.target.value);
+                                      field.onChange(e);
+                                    }}
+                                  />
+                                </FormControl>
+
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Ticket Price And Number of Tickets */}
+                        <div className="flex items-start gap-[24px] w-full common-container">
+                          {/* price field */}
+                          <FormField
+                            control={form.control}
+                            name={`tickets.1.type`}
+                            render={({ field }) => (
+                              <FormItem className="relative w-full space-y-0 input-custom-container">
+                                <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                  Event Ticket Price (£)
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    type="number"
+                                    onWheel={(e: any) => e.target.blur()}
+                                    placeholder="Enter Price"
+                                    className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                    {...field}
+                                    onChange={(e) => {
+                                      const value = e.target.value;
+
+                                      if (value.startsWith("-")) {
+                                        e.target.value = value.replace("-", ""); // Remove negative sign
+                                      }
+
+                                      if (!/^\d*\.?\d*$/.test(value)) {
+                                        e.target.value = value.replace(/[^\d.]/g, "");
+                                      }
+
+                                      // handleInputChange(index, "price", parseFloat(e.target.value));
+                                      field.onChange(e);
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          {/* Numbers of Tickets */}
+                          <FormField
+                            control={form.control}
+                            name={`tickets.1.type`}
+                            render={({ field }) => (
+                              <FormItem className="relative w-full space-y-0 input-custom-container">
+                                <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                                  Event Number of Tickets
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    type="number"
+                                    placeholder="Enter No. of Tickets"
+                                    className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                    {...field}
+                                    onWheel={(e: any) => e.target.blur()}
+                                    onChange={(e) => {
+                                      // handleInputChange(index, "no", parseInt(e.target.value, 10));
+                                      field.onChange(e);
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Ticket start Date and Ticket and Dates */}
+                        <div className="flex items-start gap-[24px] w-full common-container mt-[-4px] mb-[24px]">
+                          {/* Ticket Start */}
+                          <div className="w-full">
+                            <ThemeProvider theme={themeMui}>
+                              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoContainer components={["DateTimePicker"]}>
+                                  <FormField
+                                    control={form.control}
+                                    name="eventstartdate"
+                                    render={({ field }) => {
+                                      const currentDateTime = dayjs();
+                                      return (
+                                        <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
+                                          <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
+                                            Ticket Start Date & Time
+                                          </FormLabel>
+                                          <FormControl>
+                                            {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
+                                            <div className="w-full" onClick={toggleDateTimePicker}>
+                                              {" "}
+                                              {/* Attach click event here */}
+                                              <StyledDateTimePicker
+                                                open={isPickerOpen} // Control the open state with local state
+                                                referenceDate={currentDateTime}
+                                                formatDensity="spacious"
+                                                onKeyDown={(e: any) => e.preventDefault()}
+                                                autoOk={false}
+                                                onChange={(e: any) => {
+                                                  if (e && e.isValid()) {
+                                                    const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                    setTicketStartDate(formattedDate);
+                                                    field.onChange(formattedDate);
+                                                    setIsPickerOpen(false); // Close the picker after selection
+                                                  }
+                                                }}
+                                                disablePast
+                                                slots={{
+                                                  openPickerIcon: () => (
+                                                    <CalendarTodayIcon
+                                                      style={{
+                                                        color: "#5e5e5e",
+                                                        fontSize: "15px",
+                                                        position: "absolute",
+                                                        top: "-17px",
+                                                        right: "5px",
+                                                      }}
+                                                    />
+                                                  ),
+                                                }}
+                                                slotProps={{
+                                                  tabs: { hidden: false },
+                                                  toolbar: {
+                                                    toolbarFormat: "YYYY",
+                                                    hidden: false,
+                                                  },
+                                                  calendarHeader: {
+                                                    sx: { color: "white" },
+                                                  },
+                                                  textField: {
+                                                    inputProps: { readOnly: true },
+                                                    placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                  },
+                                                }}
+                                              />
+                                            </div>
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      );
+                                    }}
+                                  />
+                                </DemoContainer>
+                              </LocalizationProvider>
+                            </ThemeProvider>
+                          </div>
+
+                          {/* Ticket End */}
+                          <div className="w-full">
+                            <ThemeProvider theme={themeMui}>
+                              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoContainer components={["DateTimePicker"]}>
+                                  <FormField
+                                    control={form.control}
+                                    name="eventenddate"
+                                    render={({ field }) => {
+                                      const currentDateTime = dayjs();
+                                      // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
+
+                                      // Default to the current time if the adjusted start time has passed
+                                      // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+
+                                      return (
+                                        <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                          <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                            Ticket End Date & Time
+                                          </FormLabel>
+                                          <FormControl>
+                                            <div className=" w-full" onClick={toggleEndDateTimePicker}>
+                                              {/* <div className=" w-full" > */}
+
+                                              <StyledDateTimePicker
+                                                open={isEndDatePickerOpen}
+                                                // value={validStartTime}
+                                                formatDensity="spacious"
+                                                // referenceDate={referenceTicketDate}
+                                                referenceDate={currentDateTime}
+                                                onKeyDown={(e: any) => e.preventDefault()}
+                                                onChange={(e: any) => {
+                                                  if (e && e.isValid()) {
+                                                    const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                    setTicketEndDate(formattedDate);
+                                                    field.onChange(formattedDate);
+                                                    setIsEndDatePickerOpen(false);
+                                                  }
+                                                }}
+                                                //  label="Event End Date & Time"
+                                                disablePast
+                                                slots={{
+                                                  openPickerIcon: () => (
+                                                    <CalendarTodayIcon
+                                                      style={{
+                                                        color: "#5e5e5e",
+                                                        fontSize: "15px",
+                                                        position: "absolute",
+                                                        top: "-17px",
+                                                        right: "5px",
+                                                      }}
+                                                    />
+                                                  ),
+                                                }}
+                                                slotProps={{
+                                                  tabs: {
+                                                    hidden: true,
+                                                  },
+                                                  toolbar: {
+                                                    toolbarFormat: "YYYY",
+                                                    hidden: false,
+                                                  },
+                                                  calendarHeader: {
+                                                    sx: { color: "white" },
+                                                  },
+                                                  textField: {
+                                                    inputProps: { readOnly: true },
+                                                    placeholder: "MM / DD / YYYY HH:MM:AA ",
+                                                  },
+                                                }}
+                                              />
+                                            </div>
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      );
+                                    }}
+                                  />
+                                </DemoContainer>
+                              </LocalizationProvider>
+                            </ThemeProvider>
+                          </div>
+                        </div>
+
+                        {/* Event Start Date and Event End Date */}
+                        <div className="flex items-start gap-[24px] w-full common-container mt-[-9px] mb-[24px]">
+                          {/* Event Start */}
+                          <div className="w-full">
+                            <ThemeProvider theme={themeMui}>
+                              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoContainer components={["DateTimePicker"]}>
+                                  <FormField
+                                    control={form.control}
+                                    name="eventstarttime"
+                                    render={({ field }) => {
+                                      const currentDateTime = dayjs();
+                                      // const minStartTime = dayjs(TicketEndDate || new Date());
+
+                                      // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
+
+                                      // const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
+
+                                      // const referenceEventDate = validStartTime.add(10, "minute");
+
+                                      return (
+                                        <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                          <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                            Event Start Date & Time
+                                          </FormLabel>
+                                          <FormControl>
+                                            <div className=" w-full" onClick={toggleStartEventTimePicker}>
+                                              {/* <div className=" w-full"> */}
+
+                                              <StyledDateTimePicker
+                                                open={isStartEventPickerOpen}
+                                                //  value={validStartTime}
+                                                formatDensity="spacious"
+                                                // referenceDate={referenceEventDate}
+                                                referenceDate={currentDateTime}
+                                                onKeyDown={(e: any) => e.preventDefault()}
+                                                onChange={(e: any) => {
+                                                  if (e && e.isValid()) {
+                                                    const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                    setEventStartTime(formattedDate);
+                                                    field.onChange(formattedDate);
+                                                    setIsStartEventPickerOpen(false);
+                                                  }
+                                                }}
+                                                //  label="Event End Date & Time"
+                                                // minDateTime={minStartTime}
+                                                // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                                slots={{
+                                                  openPickerIcon: () => (
+                                                    <CalendarTodayIcon
+                                                      style={{
+                                                        color: "#5e5e5e",
+                                                        fontSize: "15px",
+                                                        position: "absolute",
+                                                        top: "-17px",
+                                                        right: "5px",
+                                                      }}
+                                                    />
+                                                  ),
+                                                }}
+                                                slotProps={{
+                                                  tabs: {
+                                                    hidden: false,
+                                                  },
+                                                  toolbar: {
+                                                    toolbarFormat: "YYYY",
+                                                    hidden: false,
+                                                  },
+                                                  calendarHeader: {
+                                                    sx: { color: "white" },
+                                                  },
+                                                  textField: {
+                                                    inputProps: { readOnly: true },
+                                                    placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                  },
+                                                }}
+                                              />
+                                            </div>
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      );
+                                    }}
+                                  />
+                                </DemoContainer>
+                              </LocalizationProvider>
+                            </ThemeProvider>
+                          </div>
+
+                          {/* Event Ends */}
+                          <div className="w-full">
+                            <ThemeProvider theme={themeMui}>
+                              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoContainer components={["DateTimePicker"]}>
+                                  <FormField
+                                    control={form.control}
+                                    name="eventendtime"
+                                    render={({ field }) => {
+                                      const currentDateTime = dayjs();
+                                      // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
+
+                                      // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+
+                                      return (
+                                        <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                          <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                            Event End Date & Time
+                                          </FormLabel>
+                                          <FormControl>
+                                            <div className=" w-full" onClick={toggleEndEventTimePicker}>
+                                              <StyledDateTimePicker
+                                                open={isEndEventPickerOpen}
+                                                // referenceDate={defaultEndTime}
+                                                referenceDate={currentDateTime}
+                                                formatDensity="spacious"
+                                                onKeyDown={(e: any) => e.preventDefault()}
+                                                onChange={(e: any) => {
+                                                  if (e && e.isValid()) {
+                                                    const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                    setEventEndTime(formattedDate);
+                                                    field.onChange(formattedDate);
+                                                    console.log("my ened time", formattedDate);
+                                                    setIsEndEventPickerOpen(false);
+                                                    console.log("my ened time", formattedDate);
+                                                  }
+                                                }}
+                                                disablePast
+                                                //  label="Event End Date & Time"
+                                                // minDateTime={dayjs("2024-10-15T08:30")}
+                                                // minDateTime={adjustedEventStartTime}
+                                                // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                                slots={{
+                                                  openPickerIcon: () => (
+                                                    <CalendarTodayIcon
+                                                      style={{
+                                                        color: "#5e5e5e",
+                                                        fontSize: "15px",
+                                                        position: "absolute",
+                                                        top: "-17px",
+                                                        right: "5px",
+                                                      }}
+                                                    />
+                                                  ),
+                                                }}
+                                                slotProps={{
+                                                  tabs: {
+                                                    hidden: false,
+                                                  },
+                                                  toolbar: {
+                                                    toolbarFormat: "YYYY",
+                                                    hidden: false,
+                                                  },
+                                                  calendarHeader: {
+                                                    sx: { color: "white" },
+                                                  },
+                                                  textField: {
+                                                    inputProps: { readOnly: true },
+                                                    placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                  },
+                                                }}
+                                              />
+                                            </div>
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      );
+                                    }}
+                                  />
+                                </DemoContainer>
+                              </LocalizationProvider>
+                            </ThemeProvider>
+                          </div>
+                        </div>
+
+                        {/* What's Included Inputs */}
+                        <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
+                          <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                            <div
+                              className="flex items-center justify-between"
+                              // onClick={() => handleDropdown(index)}
+                            >
+                              <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                              <Image src={false ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                            </div>
+                            {false && (
+                              <div className="grid-container">
+                                {options?.map((option) => (
+                                  <div
+                                    key={option.id}
+                                    className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
+                                    // onClick={() => handleOptionToggle(index, option)}
+                                  >
+                                    <div className="flex items-center gap-[10px]">
+                                      <Image
+                                        src={option?.image}
+                                        width={16}
+                                        height={16}
+                                        alt="img"
+                                        // className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
+                                      />
+                                      <p
+                                        className={`text-[16px] font-normal items-center ${
+                                          /*ticket?.options?.some((o) => o?.id === option?.id)*/ false ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                        }`}
+                                      >
+                                        {option.label}
+                                      </p>
+                                    </div>
+                                  </div>
+                                ))}
+                                <div className="column-separator"></div> <div className="column-separator"></div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Aditional Emails Adding Fields */}
+                        <div className="w-full relative rounded-md border border-[#292929] gradient-slate flex flex-col items-start common-container px-[12px] py-[16px] mb-[24px]">
+                          <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">Manual Emails</p>
+
+                          <div className="w-full flex-col common-container flex gap-x-[24px] gap-y-0">
+                            <FormField
+                              control={form.control}
+                              name={`tickets.1.price`}
+                              render={({ field }) => (
+                                <FormItem className="relative w-full space-y-0 input-custom-container">
+                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">Email 1</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      onWheel={(e: any) => e.target.blur()}
+                                      placeholder="Enter Text"
+                                      className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                      {...field}
+                                      onChange={(e) => {
+                                        const value = e.target.value;
+
+                                        if (value.startsWith(" ")) {
+                                          return;
+                                        }
+                                        field.onChange(e);
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name={`tickets.1.price`}
+                              render={({ field }) => (
+                                <FormItem className="relative w-full space-y-0 input-custom-container">
+                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">Email 2</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      onWheel={(e: any) => e.target.blur()}
+                                      placeholder="Enter Text"
+                                      className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                      {...field}
+                                      onChange={(e) => {
+                                        const value = e.target.value;
+
+                                        if (value.startsWith(" ")) {
+                                          return;
+                                        }
+                                        field.onChange(e);
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            {/* <FormField
+                                control={form.control}
+                                name={`tickets.1.price`}
+                                render={({ field }) => (
+                                  <FormItem className="relative w-[49%] space-y-0 input-custom-container">
+                                    <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                      Additional field
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        onWheel={(e: any) => e.target.blur()}
+                                        placeholder="Enter Price"
+                                        className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                        {...field}
+                                        onChange={(e) => {
+                                          const value = e.target.value;
+
+                                          if (value.startsWith(" ")) {
+                                            return;
+                                          }
+                                          field.onChange(e);
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name={`tickets.1.price`}
+                                render={({ field }) => (
+                                  <FormItem className="relative w-[49%] space-y-0 input-custom-container">
+                                    <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                      Additional field
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        onWheel={(e: any) => e.target.blur()}
+                                        placeholder="Enter Price"
+                                        className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                        {...field}
+                                        onChange={(e) => {
+                                          const value = e.target.value;
+
+                                          if (value.startsWith(" ")) {
+                                            return;
+                                          }
+                                          field.onChange(e);
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )} 
+                              /> */}
+                          </div>
+
+                          {/* Add Aditional field Button */}
+                          <div className="flex justify-end items-center ticket-btn">
+                            <Button
+                              style={{
+                                background:
+                                  "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                              }}
+                              className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
+                              // onClick={handleAddTicketType}
+                            >
+                              <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                              Additional Field
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* Buttons to select add csv or manual Emails */}
+                        <div className="w-full flex flex-col gap-[24px]">
+                          {/* Add manual Email */}
+                          <Button
+                            style={{
+                              background: "#FFFFFF0F",
+                            }}
+                            className="flex items-center justify-between bg-[#FFFFFF0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
+                            // onClick={handleAddTicketType}
+                          >
+                            <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
+                            Add Emails manually
+                          </Button>
+
+                          {/* Add manual Email */}
+                          <Button
+                            style={{
+                              background: "#FFFFFF0F",
+                            }}
+                            className="flex items-center justify-between bg-[#0F0F0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
+                            // onClick={handleAddTicketType}
+                          >
+                            <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                            Upload CSV (emails)
+                          </Button>
+                        </div>
+                      </div>
                     )}
 
                     {/* Add more ticket Button */}
