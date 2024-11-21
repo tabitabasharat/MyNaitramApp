@@ -132,14 +132,13 @@ const formSchema = z.object({
   //   message: "Complimentary ticket cannot be empty.",
   // }),
 
-  fburl: z.string().url({ message: "Invalid Facebook URL." }).min(1, { message: "Facebook URL cannot be empty." }),
-  instaurl: z.string().url({ message: "Invalid Instagram URL." }).min(1, { message: "Instagram URL cannot be empty." }),
-  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).min(1, { message: "YouTube URL cannot be empty." }),
-  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).min(1, { message: "TikTok URL cannot be empty." }),
-  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).min(1, { message: "LinkedIn URL cannot be empty." }),
-  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).min(1, { message: "Telegram URL cannot be empty." }),
-
-  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).min(1, { message: "Twitter URL cannot be empty." }),
+  fburl: z.string().url({ message: "Invalid Facebook URL." }).optional(), // Makes the field optional
+  instaurl: z.string().url({ message: "Invalid Instagram URL." }).optional(),
+  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).optional(),
+  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).optional(),
+  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
+  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).optional(),
+  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).optional(),
   // eventmainimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
 
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),

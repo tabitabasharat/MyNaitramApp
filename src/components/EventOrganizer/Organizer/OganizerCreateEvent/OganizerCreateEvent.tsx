@@ -124,6 +124,7 @@ const formSchema = z.object({
   linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
   twitterurl: z.string().url({ message: "Invalid Twitter URL." }).optional(),
   telegramurl: z.string().url({ message: "Invalid Telegram URL." }).optional(),
+
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   tickets: z.array(

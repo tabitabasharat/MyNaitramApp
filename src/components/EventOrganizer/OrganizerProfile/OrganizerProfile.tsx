@@ -41,13 +41,13 @@ import Stack from "@mui/material/Stack";
 import { getOrganizerByID } from "@/lib/middleware/organizer";
 
 const formSchema = z.object({
-  facebook: z.string().url({ message: "Invalid Facebook URL." }).optional(),
-  insta: z.string().url({ message: "Invalid Instagram URL." }).optional(),
-  youtube: z.string().url({ message: "Invalid YouTube URL." }).optional(),
-  tiktok: z.string().url({ message: "Invalid TikTok URL." }).optional(),
-  linkedIn: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
-  twitter: z.string().url({ message: "Invalid Twitter URL." }).optional(),
-  telegram: z.string().url({ message: "Invalid Telegram URL." }).optional(),
+  fburl: z.string().url({ message: "Invalid Facebook URL." }).optional(), // Makes the field optional
+  instaurl: z.string().url({ message: "Invalid Instagram URL." }).optional(),
+  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).optional(),
+  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).optional(),
+  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
+  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).optional(),
+  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).optional(),
 
   BIO: z.string().min(1, { message: "Description cannot be empty." }),
 });
@@ -402,9 +402,9 @@ const OrganizerProfile = () => {
                     name="facebook"
                     render={({ field }) => (
                       <FormItem className="relative mb-4 md:mb-6 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">FACEBOOK</FormLabel>
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">FACEBOOKKKK</FormLabel>
                         {/* <FacebookLogo className="absolute right-3 lg:top-[35%] top-[28%] " size={20} /> */}
-                        {isFbVerify ? (
+                        {/* {isFbVerify ? (
                           <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
                             ✔
                           </FormLabel>
@@ -412,7 +412,7 @@ const OrganizerProfile = () => {
                           <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                             Verify
                           </FormLabel>
-                        )}
+                        )} */}
                         <FormControl>
                           <Input
                             placeholder="Enter URL"
@@ -440,7 +440,7 @@ const OrganizerProfile = () => {
                       <FormItem className="relative mb-4 md:mb-6 space-y-0">
                         <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">INSTAGRAM</FormLabel>
                         {/* <InstagramLogo className="absolute right-3 lg:top-[35%] top-[28%]" size={20} /> */}
-                        {isInstaVerify ? (
+                        {/* {isInstaVerify ? (
                           <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
                             ✔
                           </FormLabel>
@@ -448,7 +448,7 @@ const OrganizerProfile = () => {
                           <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                             Verify
                           </FormLabel>
-                        )}
+                        )} */}
                         <FormControl>
                           <Input
                             placeholder="Enter URL"
@@ -477,7 +477,7 @@ const OrganizerProfile = () => {
                       <FormItem className="relative mb-4 md:mb-6 space-y-0">
                         <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">LINKEDIN</FormLabel>
                         {/* <LinkedinLogo className="absolute right-3 lg:top-[35%] top-[28%]" size={20} /> */}
-                        {isLinkedInVerify ? (
+                        {/* {isLinkedInVerify ? (
                           <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
                             ✔
                           </FormLabel>
@@ -485,7 +485,7 @@ const OrganizerProfile = () => {
                           <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                             Verify
                           </FormLabel>
-                        )}
+                        )} */}
                         <FormControl>
                           <Input
                             placeholder="Enter URL"
@@ -514,7 +514,7 @@ const OrganizerProfile = () => {
                       <FormItem className="relative mb-4 md:mb-6 space-y-0">
                         <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">TELEGRAM</FormLabel>
                         {/* <TelegramLogo className="absolute right-3 lg:top-[35%] top-[28%]" size={20} /> */}
-                        {isTeleVerify ? (
+                        {/* {isTeleVerify ? (
                           <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
                             ✔
                           </FormLabel>
@@ -522,7 +522,7 @@ const OrganizerProfile = () => {
                           <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                             Verify
                           </FormLabel>
-                        )}
+                        )} */}
                         <FormControl>
                           <Input
                             placeholder="Enter URL"
@@ -551,7 +551,7 @@ const OrganizerProfile = () => {
                       <FormItem className="relative mb-4 md:mb-6 space-y-0">
                         <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">TIKTOK</FormLabel>
                         {/* <TiktokLogo className="absolute right-3 lg:top-[35%] top-[28%]" size={20} /> */}
-                        {isTikTokVerify ? (
+                        {/* {isTikTokVerify ? (
                           <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
                             ✔
                           </FormLabel>
@@ -559,7 +559,7 @@ const OrganizerProfile = () => {
                           <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                             Verify
                           </FormLabel>
-                        )}
+                        )} */}
                         <FormControl>
                           <Input
                             placeholder="Enter URL"
@@ -589,7 +589,7 @@ const OrganizerProfile = () => {
                       <FormItem className="relative mb-4 md:mb-6 space-y-0">
                         <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">YOUTUBE</FormLabel>
                         {/* <YoutubeLogo className="absolute right-3 lg:top-[35%] top-[28%]" size={20} /> */}
-                        {isYtVerify ? (
+                        {/* {isYtVerify ? (
                           <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
                             ✔
                           </FormLabel>
@@ -597,7 +597,7 @@ const OrganizerProfile = () => {
                           <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                             Verify
                           </FormLabel>
-                        )}
+                        )} */}
                         <FormControl>
                           <Input
                             placeholder="Enter URL"
@@ -626,7 +626,7 @@ const OrganizerProfile = () => {
                       <FormItem className="relative mb-[49px]">
                         <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">TWITTER</FormLabel>
                         {/* <TwitterLogo className="absolute right-3 lg:top-[35%] top-[28%]" size={20} /> */}
-                        {isXVerify ? (
+                        {/* {isXVerify ? (
                           <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
                             ✔
                           </FormLabel>
@@ -634,7 +634,7 @@ const OrganizerProfile = () => {
                           <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                             Verify
                           </FormLabel>
-                        )}
+                        )} */}
                         <FormControl>
                           <Input
                             placeholder="Enter URL"
