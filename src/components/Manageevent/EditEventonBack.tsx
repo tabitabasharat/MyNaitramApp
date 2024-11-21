@@ -140,13 +140,13 @@ const formSchema = z.object({
   // compticketno: z
   //   .string()
   //   .min(1, { message: "Complimentary ticket number cannot be empty." }),
-  fburl: z.string().url({ message: "Invalid Facebook URL." }).optional(), // Makes the field optional
-  instaurl: z.string().url({ message: "Invalid Instagram URL." }).optional(),
-  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).optional(),
-  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).optional(),
-  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
-  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).optional(),
-  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).optional(),
+  fburl: z.string().url({ message: "Invalid Facebook URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  instaurl: z.string().url({ message: "Invalid Instagram URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  youtubeurl: z.string().url({ message: "Invalid Youtube URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  tiktokurl: z.string().url({ message: "Invalid Tiktok URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).min(1, { message: "Facebook URL cannot be empty." }),
 
   eventmainimg: z.string().optional(),
 
@@ -462,14 +462,14 @@ function EditeventOnBack() {
 
   const [Eventdata, setEventData] = useState<any | null>(null);
 
-  const [FBUrl, setFBUrl] = useState<any>("");
-  const [InstaUrl, setInstaUrl] = useState<any>("");
-  const [TwitterUrl, setTwitterUrl] = useState<any>("");
-  const [TelegramUrl, setTelegramUrl] = useState<any>("");
-  const [YoutubeUrl, setYoutubeUrl] = useState<any>("");
+  const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
+  const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
+  const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
+  const [TelegramUrl, setTelegramUrl] = useState("https://t.me/");
+  const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
 
-  const [tiktokUrl, settiktokUrl] = useState<any>("");
-  const [linkedinUrl, setlinkedinUrl] = useState<any>("");
+  const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
+  const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedData = localStorage.getItem("eventData");
@@ -750,13 +750,13 @@ function EditeventOnBack() {
       eventcoverimg: "",
       eventdescription: "",
 
-      fburl: "",
-      instaurl: "",
-      youtubeurl: "",
-      telegramurl: "",
-      twitterurl: "",
-      tiktokurl: "",
-      linkedinurl: "",
+      fburl: "https://www.facebook.com/",
+      instaurl: "https://instagram.com/",
+      youtubeurl: "https://www.youtube.com/",
+      telegramurl: "https://t.me/",
+      twitterurl: "https://www.x.com/",
+      tiktokurl: "https://www.tiktok.com/@",
+      linkedinurl: "https://linkedin.com/in/",
 
       tickets: [],
     },

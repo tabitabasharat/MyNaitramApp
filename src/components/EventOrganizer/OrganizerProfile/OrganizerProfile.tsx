@@ -41,13 +41,13 @@ import Stack from "@mui/material/Stack";
 import { getOrganizerByID } from "@/lib/middleware/organizer";
 
 const formSchema = z.object({
-  facebook: z.string().url({ message: "Invalid Facebook URL." }).optional(), // Makes the field optional
-  insta: z.string().url({ message: "Invalid Instagram URL." }).optional(),
-  youtube: z.string().url({ message: "Invalid YouTube URL." }).optional(),
-  tiktok: z.string().url({ message: "Invalid TikTok URL." }).optional(),
-  linkedIn: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
-  telegram: z.string().url({ message: "Invalid Telegram URL." }).optional(),
-  twitter: z.string().url({ message: "Invalid Twitter URL." }).optional(),
+  facebook: z.string().url({ message: "Invalid Facebook URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  insta: z.string().url({ message: "Invalid Instagram URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  youtube: z.string().url({ message: "Invalid Youtube URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  tiktok: z.string().url({ message: "Invalid Tiktok URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  linkedIn: z.string().url({ message: "Invalid LinkedIn URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  telegram: z.string().url({ message: "Invalid Telegram URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  twitter: z.string().url({ message: "Invalid Twitter URL." }).min(1, { message: "Facebook URL cannot be empty." }),
 
   BIO: z.string().min(1, { message: "Description cannot be empty." }),
 });
@@ -61,13 +61,13 @@ const OrganizerProfile = () => {
   const [bio, setBIO] = useState("");
   const [userid, setUserId] = useState<any>("");
 
-  const [fbUrl, setFbUrl] = useState("");
-  const [instaUrl, setinstaUrl] = useState("");
-  const [linkedinUrl, setlinkedinUrl] = useState("");
-  const [telegramUrl, settelegramUrl] = useState("");
-  const [twitterUrl, settwitterUrl] = useState("");
-  const [youtubeUrl, setyoutubeUrl] = useState("");
-  const [tiktokUrl, settiktokUrl] = useState("");
+  const [fbUrl, setFbUrl] = useState("https://www.facebook.com/");
+  const [instaUrl, setinstaUrl] = useState("https://instagram.com/");
+  const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
+  const [telegramUrl, settelegramUrl] = useState("https://t.me/");
+  const [twitterUrl, settwitterUrl] = useState("https://www.x.com/");
+  const [youtubeUrl, setyoutubeUrl] = useState("https://www.youtube.com/");
+  const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
   const [checked, setChecked] = useState(true);
 
   const [isFbVerify, setFbVerify] = useState<boolean>(false);
@@ -124,13 +124,13 @@ const OrganizerProfile = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      facebook: "",
-      insta: "",
-      linkedIn: "",
-      telegram: "",
-      twitter: "",
-      youtube: "",
-      tiktok: "",
+      facebook: "https://www.facebook.com/",
+      insta: "https://instagram.com/",
+      linkedIn: "https://linkedin.com/in/",
+      telegram: "https://t.me/",
+      twitter: "https://www.x.com/",
+      youtube: "https://www.youtube.com/",
+      tiktok: "https://www.tiktok.com/@",
       BIO: "",
     },
   });
@@ -402,7 +402,7 @@ const OrganizerProfile = () => {
                     name="facebook"
                     render={({ field }) => (
                       <FormItem className="relative mb-4 md:mb-6 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">FACEBOOKKKK</FormLabel>
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">FACEBOOK</FormLabel>
                         {/* <FacebookLogo className="absolute right-3 lg:top-[35%] top-[28%] " size={20} /> */}
                         {/* {isFbVerify ? (
                           <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-5 py-[4px] flex justify-center items-center">
@@ -424,8 +424,13 @@ const OrganizerProfile = () => {
                             // }}
                             onChange={(e) => {
                               const value = e.target.value;
-                              setFbUrl(e.target.value);
-                              field.onChange(e);
+                              // setFbUrl(e.target.value);
+                              // field.onChange(e);
+
+                              if (value.startsWith("https://www.facebook.com/")) {
+                                setFbUrl(value);
+                                field.onChange(value);
+                              }
                             }}
                           />
                         </FormControl>
@@ -461,8 +466,13 @@ const OrganizerProfile = () => {
                             onChange={(e) => {
                               const value = e.target.value;
 
-                              setinstaUrl(e.target.value);
-                              field.onChange(e);
+                              // setinstaUrl(e.target.value);
+                              // field.onChange(e);
+
+                              if (value.startsWith("https://instagram.com/")) {
+                                setinstaUrl(value);
+                                field.onChange(value);
+                              }
                             }}
                           />
                         </FormControl>
@@ -498,8 +508,13 @@ const OrganizerProfile = () => {
                             onChange={(e) => {
                               const value = e.target.value;
 
-                              setlinkedinUrl(value);
-                              field.onChange(e);
+                              // setlinkedinUrl(value);
+                              // field.onChange(e);
+
+                              if (value.startsWith("https://linkedin.com/in/")) {
+                                setlinkedinUrl(value);
+                                field.onChange(value);
+                              }
                             }}
                           />
                         </FormControl>
@@ -535,8 +550,13 @@ const OrganizerProfile = () => {
                             onChange={(e) => {
                               const value = e.target.value;
 
-                              settelegramUrl(value);
-                              field.onChange(e);
+                              // settelegramUrl(value);
+                              // field.onChange(e);
+
+                              if (value.startsWith("https://t.me/")) {
+                                settelegramUrl(value);
+                                field.onChange(value);
+                              }
                             }}
                           />
                         </FormControl>
@@ -573,8 +593,13 @@ const OrganizerProfile = () => {
                             onChange={(e) => {
                               const value = e.target.value;
 
-                              settiktokUrl(e.target.value);
-                              field.onChange(e);
+                              // settiktokUrl(e.target.value);
+                              // field.onChange(e);
+
+                              if (value.startsWith("https://www.tiktok.com/@")) {
+                                settiktokUrl(value);
+                                field.onChange(value);
+                              }
                             }}
                           />
                         </FormControl>
@@ -610,8 +635,13 @@ const OrganizerProfile = () => {
                             onChange={(e) => {
                               const value = e.target.value;
 
-                              setyoutubeUrl(e.target.value);
-                              field.onChange(e);
+                              // setyoutubeUrl(e.target.value);
+                              // field.onChange(e);
+
+                              if (value.startsWith("https://www.youtube.com/")) {
+                                setyoutubeUrl(value);
+                                field.onChange(value);
+                              }
                             }}
                           />
                         </FormControl>
@@ -648,8 +678,13 @@ const OrganizerProfile = () => {
                             onChange={(e) => {
                               const value = e.target.value;
 
-                              settwitterUrl(e.target.value);
-                              field.onChange(e);
+                              // settwitterUrl(e.target.value);
+                              // field.onChange(e);
+
+                              if (value.startsWith("https://www.x.com")) {
+                                settwitterUrl(value);
+                                field.onChange(value);
+                              }
                             }}
                           />
                         </FormControl>

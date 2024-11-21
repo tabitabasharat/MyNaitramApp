@@ -117,13 +117,13 @@ const formSchema = z.object({
 
   eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
 
-  fburl: z.string().url({ message: "Invalid Facebook URL." }).optional(),
-  instaurl: z.string().url({ message: "Invalid Instagram URL." }).optional(),
-  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).optional(),
-  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).optional(),
-  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
-  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).optional(),
-  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).optional(),
+  fburl: z.string().url({ message: "Invalid Facebook URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  instaurl: z.string().url({ message: "Invalid Instagram URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  youtubeurl: z.string().url({ message: "Invalid Youtube URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).min(1, { message: "Facebook URL cannot be empty." }),
 
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
@@ -185,13 +185,13 @@ const formSchema2 = z.object({
 
   eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
 
-  fburl: z.string().url({ message: "Invalid Facebook URL." }).optional(),
-  instaurl: z.string().url({ message: "Invalid Instagram URL." }).optional(),
-  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).optional(),
-  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).optional(),
-  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).optional(),
-  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).optional(),
-  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).optional(),
+  fburl: z.string().url({ message: "Invalid Facebook URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  instaurl: z.string().url({ message: "Invalid Instagram URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  youtubeurl: z.string().url({ message: "Invalid Youtube URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  tiktokurl: z.string().url({ message: "Invalid Tiktok URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).min(1, { message: "Facebook URL cannot be empty." }),
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
   tickets: z.array(
@@ -471,14 +471,14 @@ function OganizerCreateEvent() {
   const [CoverImg, setCoverImg] = useState("");
   const [CoverImgName, setCoverImgName] = useState<any>("");
 
-  const [FBUrl, setFBUrl] = useState("Enter URL");
-  const [InstaUrl, setInstaUrl] = useState("Enter URL");
-  const [TwitterUrl, setTwitterUrl] = useState("Enter URL");
-  const [TelegramUrl, setTelegramUrl] = useState("Enter URL");
-  const [YoutubeUrl, setYoutubeUrl] = useState("Enter URL");
+  const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
+  const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
+  const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
+  const [TelegramUrl, setTelegramUrl] = useState("https://t.me/");
+  const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
 
-  const [tiktokUrl, settiktokUrl] = useState("Enter URL");
-  const [linkedinUrl, setlinkedinUrl] = useState("Enter URL");
+  const [tiktokUrl, settiktokUrl] = useState("https://www.tiktok.com/@");
+  const [linkedinUrl, setlinkedinUrl] = useState("https://linkedin.com/in/");
   const [eventsFiles, setEventsFile] = useState<any>([]);
 
   const router = useRouter();
@@ -706,13 +706,13 @@ function OganizerCreateEvent() {
       eventdescription: "",
 
       // compticketno: "",
-      fburl: "",
-      instaurl: "",
-      youtubeurl: "",
-      twitterurl: "",
-      telegramurl: "",
-      tiktokurl: "",
-      linkedinurl: "",
+      fburl: "https://www.facebook.com/",
+      instaurl: "https://instagram.com/",
+      youtubeurl: "https://www.youtube.com/",
+      twitterurl: "https://www.x.com/",
+      telegramurl: "https://t.me/",
+      tiktokurl: "https://www.tiktok.com/@",
+      linkedinurl: "https://linkedin.com/in/",
       tickets: [],
     },
   });
@@ -2111,11 +2111,11 @@ function OganizerCreateEvent() {
                   control={form.control}
                   name="fburl"
                   render={({ field }) => (
-                    <FormItem className="relative w-full flex justify-start items-center">
+                    <FormItem className="relative w-full">
                       <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Facebook
                       </FormLabel>
-                      {isFbVerify ? (
+                      {/* {isFbVerify ? (
                         <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
                           ✔
                         </FormLabel>
@@ -2123,7 +2123,7 @@ function OganizerCreateEvent() {
                         <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                           Verify
                         </FormLabel>
-                      )}
+                      )} */}
                       <FormControl className="flex items-center">
                         <Input
                           placeholder="Enter URL"
@@ -2131,8 +2131,13 @@ function OganizerCreateEvent() {
                           {...form}
                           onChange={(e) => {
                             const value = e.target.value;
-                            setFBUrl(value);
-                            field.onChange(value);
+                            // setFBUrl(value);
+                            // field.onChange(value);
+
+                            if (value.startsWith("https://www.facebook.com/")) {
+                              setFBUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2149,7 +2154,7 @@ function OganizerCreateEvent() {
                       <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Instagram
                       </FormLabel>
-                      {isInstaVerify ? (
+                      {/* {isInstaVerify ? (
                         <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
                           ✔
                         </FormLabel>
@@ -2157,7 +2162,7 @@ function OganizerCreateEvent() {
                         <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                           Verify
                         </FormLabel>
-                      )}
+                      )} */}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2167,8 +2172,13 @@ function OganizerCreateEvent() {
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            setInstaUrl(value);
-                            field.onChange(value);
+                            // setInstaUrl(value);
+                            // field.onChange(value);
+
+                            if (value.startsWith("https://instagram.com/")) {
+                              setInstaUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2186,7 +2196,7 @@ function OganizerCreateEvent() {
                       <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Telegram
                       </FormLabel>
-                      {isTeleVerify ? (
+                      {/* {isTeleVerify ? (
                         <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
                           ✔
                         </FormLabel>
@@ -2194,7 +2204,7 @@ function OganizerCreateEvent() {
                         <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                           Verify
                         </FormLabel>
-                      )}
+                      )} */}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2203,8 +2213,13 @@ function OganizerCreateEvent() {
                           onChange={(e) => {
                             const value = e.target.value;
                             // Prevent the user from modifying the base URL
-                            setTelegramUrl(value);
-                            field.onChange(value);
+                            // setTelegramUrl(value);
+                            // field.onChange(value);
+
+                            if (value.startsWith("https://t.me/")) {
+                              setTelegramUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2221,7 +2236,7 @@ function OganizerCreateEvent() {
                       <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Youtube
                       </FormLabel>
-                      {isYtVerify ? (
+                      {/* {isYtVerify ? (
                         <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
                           ✔
                         </FormLabel>
@@ -2229,7 +2244,7 @@ function OganizerCreateEvent() {
                         <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                           Verify
                         </FormLabel>
-                      )}
+                      )} */}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2238,8 +2253,13 @@ function OganizerCreateEvent() {
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            setYoutubeUrl(value);
-                            field.onChange(value);
+                            // setYoutubeUrl(value);
+                            // field.onChange(value);
+
+                            if (value.startsWith("https://www.youtube.com/")) {
+                              setYoutubeUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2257,7 +2277,7 @@ function OganizerCreateEvent() {
                       <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Tiktok
                       </FormLabel>
-                      {isTikTokVerify ? (
+                      {/* {isTikTokVerify ? (
                         <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
                           ✔
                         </FormLabel>
@@ -2265,7 +2285,7 @@ function OganizerCreateEvent() {
                         <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                           Verify
                         </FormLabel>
-                      )}
+                      )} */}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2274,8 +2294,13 @@ function OganizerCreateEvent() {
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            settiktokUrl(value);
-                            field.onChange(value);
+                            // settiktokUrl(value);
+                            // field.onChange(value);
+
+                            if (value.startsWith("https://www.tiktok.com/@")) {
+                              settiktokUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2292,7 +2317,7 @@ function OganizerCreateEvent() {
                       <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Linkedin
                       </FormLabel>
-                      {isLinkedInVerify ? (
+                      {/* {isLinkedInVerify ? (
                         <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
                           ✔
                         </FormLabel>
@@ -2300,7 +2325,7 @@ function OganizerCreateEvent() {
                         <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                           Verify
                         </FormLabel>
-                      )}
+                      )} */}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2309,8 +2334,13 @@ function OganizerCreateEvent() {
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            setlinkedinUrl(value);
-                            field.onChange(value);
+                            // setlinkedinUrl(value);
+                            // field.onChange(value);
+
+                            if (value.startsWith("https://linkedin.com/in/")) {
+                              setlinkedinUrl(value);
+                              field.onChange(value);
+                            }
                           }}
                         />
                       </FormControl>
@@ -2328,7 +2358,7 @@ function OganizerCreateEvent() {
                       <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
                         Twitter
                       </FormLabel>
-                      {isXVerify ? (
+                      {/* {isXVerify ? (
                         <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
                           ✔
                         </FormLabel>
@@ -2336,7 +2366,7 @@ function OganizerCreateEvent() {
                         <FormLabel className="cursor-pointer text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] w-[70px] verify-gradient-border flex justify-center items-center">
                           Verify
                         </FormLabel>
-                      )}
+                      )} */}
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -2345,8 +2375,13 @@ function OganizerCreateEvent() {
                           onChange={(e) => {
                             const value = e.target.value;
 
-                            setTwitterUrl(value);
-                            field.onChange(value);
+                            if (value.startsWith("https://www.x.com")) {
+                              setTwitterUrl(value);
+                              field.onChange(value);
+                            }
+
+                            // setTwitterUrl(value);
+                            // field.onChange(value);
                           }}
                         />
                       </FormControl>
