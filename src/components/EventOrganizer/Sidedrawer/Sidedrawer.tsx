@@ -57,8 +57,7 @@ interface GradientListItemProps {
   activeItem: string | null;
 }
 const Sidedrawer: React.FC<Props> = ({ window, children }) => {
-  const container =
-    typeof window !== "undefined" ? window().document.body : null;
+  const container = typeof window !== "undefined" ? window().document.body : null;
 
   const theme = useTheme();
 
@@ -92,11 +91,12 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
   const handleItemClick = (itemText: string) => {
     setActiveItem(itemText);
     if (isSmallScreen) {
-      handleDrawerClose()
+      handleDrawerClose();
     }
   };
 
   const event = [
+    // { text: "Host Event", icon: chats, url: "/organizer-event/launch-event" },
     { text: "Host Event", icon: chats, url: "/organizer-event/launch-event" },
     { text: "Manage Event", icon: accnt, url: "/management" },
     {
@@ -153,17 +153,9 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
       <div className="ps-[24px] pe-[24px] bg-[black] scrolling-issue overflow-y-auto scrollbar-hide">
         <List className="bg-[black] p-[0px] text-[white]">
           <div className="flex justify-left items-center  mb-[24px] lg:pt-[32px]">
-            {mobileOpen && (
-              <Image
-                src={backwardicon}
-                alt="icon"
-                onClick={handleDrawerClose}
-              />
-            )}
+            {mobileOpen && <Image src={backwardicon} alt="icon" onClick={handleDrawerClose} />}
             <Link href="/organizer-event/event-dashboard">
-              <h3 className="text-[20px] ps-[6px] font-bold pt-[0px]  ">
-                Organiser
-              </h3>
+              <h3 className="text-[20px] ps-[6px] font-bold pt-[0px]  ">Organiser</h3>
             </Link>
           </div>
 
@@ -181,31 +173,16 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           </DrawerHeader> */}
           <div>
             <List className="bg-[black] py-[0px] text-[white]">
-              <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mt-[2px] mb-[10px]">
-                {" "}
-                PROFILE
-              </h3>
+              <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mt-[2px] mb-[10px]"> PROFILE</h3>
               <Link href="/organizer-event/profile">
                 <ListItem
-                  className={`text-xl font-bold ${
-                    activeItem === "Edit Organiser Profile"
-                      ? "gradient-border rounded-lg"
-                      : ""
-                  }`}
+                  className={`text-xl font-bold ${activeItem === "Edit Organiser Profile" ? "gradient-border rounded-lg" : ""}`}
                   disablePadding
                   onClick={() => handleItemClick("Edit Organiser Profile")}
                 >
                   <ListItemButton className="p-[10px]">
-                    <ListItemIcon
-                      style={{ minWidth: "0px" }}
-                      className=" pr-[6px]"
-                    >
-                      <Image
-                        src={accnt}
-                        alt="Delete Account"
-                        width={16}
-                        height={16}
-                      />
+                    <ListItemIcon style={{ minWidth: "0px" }} className=" pr-[6px]">
+                      <Image src={accnt} alt="Delete Account" width={16} height={16} />
                     </ListItemIcon>
                     <ListItemText primary="Edit Organiser Profile" />
                   </ListItemButton>
@@ -216,30 +193,18 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
         </List>
         <Divider />
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">
-            EVENTS
-          </h3>
+          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">EVENTS</h3>
           <div className="text-xl font-bold">
             {event.map((item) => (
               <Link href={item.url} key={item.text}>
                 <ListItem
-                  className={`text-xl font-bold ${
-                    activeItem === item.text ? "gradient-border rounded-lg" : ""
-                  }`}
+                  className={`text-xl font-bold ${activeItem === item.text ? "gradient-border rounded-lg" : ""}`}
                   disablePadding
                   onClick={() => handleItemClick(item.text)}
                 >
                   <ListItemButton className="p-[10px] flex items-center">
-                    <ListItemIcon
-                      style={{ minWidth: "0px" }}
-                      className="pr-[6px]"
-                    >
-                      <Image
-                        src={item.icon}
-                        alt={item.text}
-                        width={16}
-                        height={16}
-                      />
+                    <ListItemIcon style={{ minWidth: "0px" }} className="pr-[6px]">
+                      <Image src={item.icon} alt={item.text} width={16} height={16} />
                     </ListItemIcon>
                     <ListItemText primary={item.text} />
                   </ListItemButton>
@@ -249,30 +214,18 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           </div>
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">
-            PAYMENTS
-          </h3>
+          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">PAYMENTS</h3>
           <div className="text-xl font-bold">
             {payments.map((item) => (
               <Link href={item.url} key={item.text}>
                 <ListItem
-                  className={`text-xl font-bold ${
-                    activeItem === item.text ? "gradient-border rounded-lg" : ""
-                  }`}
+                  className={`text-xl font-bold ${activeItem === item.text ? "gradient-border rounded-lg" : ""}`}
                   disablePadding
                   onClick={() => handleItemClick(item.text)}
                 >
                   <ListItemButton className="p-[10px] flex items-center">
-                    <ListItemIcon
-                      style={{ minWidth: "0px" }}
-                      className="pr-[6px]"
-                    >
-                      <Image
-                        src={item.icon}
-                        alt={item.text}
-                        width={16}
-                        height={16}
-                      />
+                    <ListItemIcon style={{ minWidth: "0px" }} className="pr-[6px]">
+                      <Image src={item.icon} alt={item.text} width={16} height={16} />
                     </ListItemIcon>
                     <ListItemText primary={item.text} />
                   </ListItemButton>
@@ -282,27 +235,16 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           </div>
         </List>
         <List className="bg-[black] pt-[24px] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">
-            ANALYTICS
-          </h3>
+          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">ANALYTICS</h3>
           <Link href="/salesmanage">
             <ListItem
-              className={`text-xl font-bold ${
-                activeItem === "Event Analytics"
-                  ? "gradient-border rounded-lg"
-                  : ""
-              }`}
+              className={`text-xl font-bold ${activeItem === "Event Analytics" ? "gradient-border rounded-lg" : ""}`}
               disablePadding
               onClick={() => handleItemClick("Event Analytics")}
             >
               <ListItemButton className="p-[10px]">
                 <ListItemIcon style={{ minWidth: "0px" }} className=" pr-[6px]">
-                  <Image
-                    src={faq}
-                    alt="Delete Account"
-                    width={16}
-                    height={16}
-                  />
+                  <Image src={faq} alt="Delete Account" width={16} height={16} />
                 </ListItemIcon>
                 <ListItemText primary="Event Analytics" />
               </ListItemButton>
@@ -310,29 +252,17 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           </Link>
         </List>
         <List className="bg-[black] pt-[24px] h-[18%] md:h-[20%] lg:h-[25%] pb-[0px] text-[white]">
-          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">
-            HELP
-          </h3>
+          <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[10px]">HELP</h3>
           {help.map((item) => (
             <Link href={item.url} key={item.text}>
               <ListItem
-                className={`text-xl font-bold ${
-                  activeItem === item.text ? "gradient-border rounded-lg" : ""
-                }`}
+                className={`text-xl font-bold ${activeItem === item.text ? "gradient-border rounded-lg" : ""}`}
                 disablePadding
                 onClick={() => handleItemClick(item.text)}
               >
                 <ListItemButton className="p-[10px]">
-                  <ListItemIcon
-                    style={{ minWidth: "0px" }}
-                    className="pr-[6px]"
-                  >
-                    <Image
-                      src={item.icon}
-                      alt={item.text}
-                      width={16}
-                      height={16}
-                    />
+                  <ListItemIcon style={{ minWidth: "0px" }} className="pr-[6px]">
+                    <Image src={item.icon} alt={item.text} width={16} height={16} />
                   </ListItemIcon>
                   <ListItemText primary={item.text} />
                 </ListItemButton>
@@ -341,18 +271,13 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           ))}
         </List>
         <div className="mt-[30px] pb-[50px] md:mt-[60px] xl:mt-[40px]">
-        <button
-          className="text-[white] hover:opacity-80 duration-300 mb-[50px] md:me-[21px] me-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
-          onClick={Logout}
-        >
-          <Image
-            src={logout}
-            className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]"
-            alt="img"
-          />{" "}
-          Log out
-        </button>
-      </div>
+          <button
+            className="text-[white] hover:opacity-80 duration-300 mb-[50px] md:me-[21px] me-[32px] flex justify-center items-center text-[11px] md:text-base font-bold border border-[#FF1717] py-[10px] px-[25px] md:justify-center md:w-[205px] md:py-[14px] text-center rounded-[110px]"
+            onClick={Logout}
+          >
+            <Image src={logout} className="w-[16px] md:w-[24px] me-[8px] md:me-[14px]" alt="img" /> Log out
+          </button>
+        </div>
       </div>
     </>
   );
@@ -386,19 +311,10 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            sx={{ background: "transparent" }}
-            noWrap
-            component="div"
-          ></Typography>
+          <Typography variant="h6" sx={{ background: "transparent" }} noWrap component="div"></Typography>
         </Toolbar>
       </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
+      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         <Drawer
           container={container}
           variant="temporary"
@@ -408,7 +324,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           ModalProps={{ keepMounted: true }}
           sx={{
             flexShrink: 0,
-            display: { xs: "block", sm: "none" },
+            display: { sm: "block", md: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
@@ -437,7 +353,7 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
           variant="permanent"
           // className="Poppins"
           sx={{
-            display: { xs: "none", sm: "block" },
+            display: { xs: "none", md: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
