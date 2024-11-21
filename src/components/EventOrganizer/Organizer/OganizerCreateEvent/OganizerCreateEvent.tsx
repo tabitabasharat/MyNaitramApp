@@ -1974,7 +1974,7 @@ function OganizerCreateEvent() {
 
                   {/* Ticket Types Body */}
                   <div className="gradient-slate pt-[32px] pb-[49px] px-[60px] rounded-b-[12px]">
-                    {false ? (
+                    {true ? (
                       <div className="mb-[24px]">
                         {/* Event Ticket Type and Event Paid/Free fields */}
                         <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
@@ -2661,7 +2661,7 @@ function OganizerCreateEvent() {
                           </div>
                         </div>
                       </div>
-                    ) : (
+                    ) : false ? (
                       <div className="mb-[24px]">
                         {/* Event Ticket Type and Event Ticket Name */}
                         <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
@@ -2944,11 +2944,149 @@ function OganizerCreateEvent() {
                           <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">RSVP Details</p>
                           {/* Default Fields To ask */}
                           <div className="w-full">
-                            <div className="w-full common-container">
+                            <div className="w-full common-container flex justify-start items-center gap-[24px] mb-[24px]">
                               {/* Name radio */}
+                              <div className="hover-gradient-border rounded-md border border-[#292929] gradient-slate flex justify-between items-center py-[18px] px-[12px] w-full">
+                                <p>Name</p>
+                                <div className="w-[15px] h-[15px] rounded-lg border-[#FBFBFBB2] border-[2px] flex justify-center items-center p-0">
+                                  {/* <div className="w-[8px] h-[8px] rounded-lg bg-slate-300 m-0"></div> */}
+                                </div>
+                              </div>
                               {/* Email Radio */}
+                              <div className="hover-gradient-border rounded-md border border-[#292929] gradient-slate flex justify-between items-center py-[18px] px-[12px] w-full">
+                                <p>Email</p>
+                                <div className="w-[15px] h-[15px] rounded-lg border-[#FBFBFBB2] border-[2px] flex justify-center items-center p-0">
+                                  <div className="w-[8px] h-[8px] rounded-lg bg-slate-300 m-0"></div>
+                                </div>
+                              </div>
                             </div>
-                            <div className="w-full common-container">{/* Phone Number Radio */}</div>
+                            <div className="w-full common-container">
+                              {/* Phone Number Radio */}
+                              <div className="hover-gradient-border rounded-md border border-[#292929] gradient-slate flex justify-between items-center py-[18px] px-[12px] md:w-[49%] w-full">
+                                <p>Phone Number</p>
+                                <div className="w-[15px] h-[15px] rounded-lg border-[#FBFBFBB2] border-[2px] flex justify-center items-center p-0">
+                                  <div className="w-[8px] h-[8px] rounded-lg bg-slate-300 m-0"></div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="w-full common-container flex flex-wrap mt-[24px] gap-x-[24px] gap-y-0">
+                              <FormField
+                                control={form.control}
+                                name={`tickets.1.price`}
+                                render={({ field }) => (
+                                  <FormItem className="relative w-[49%] space-y-0 input-custom-container">
+                                    <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                      Additional field
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        onWheel={(e: any) => e.target.blur()}
+                                        placeholder="Enter Text"
+                                        className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                        {...field}
+                                        onChange={(e) => {
+                                          const value = e.target.value;
+
+                                          if (value.startsWith(" ")) {
+                                            return;
+                                          }
+                                          field.onChange(e);
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              {/* <FormField
+                                control={form.control}
+                                name={`tickets.1.price`}
+                                render={({ field }) => (
+                                  <FormItem className="relative w-[49%] space-y-0 input-custom-container">
+                                    <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                      Additional field
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        onWheel={(e: any) => e.target.blur()}
+                                        placeholder="Enter Price"
+                                        className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                        {...field}
+                                        onChange={(e) => {
+                                          const value = e.target.value;
+
+                                          if (value.startsWith(" ")) {
+                                            return;
+                                          }
+                                          field.onChange(e);
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name={`tickets.1.price`}
+                                render={({ field }) => (
+                                  <FormItem className="relative w-[49%] space-y-0 input-custom-container">
+                                    <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                      Additional field
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        onWheel={(e: any) => e.target.blur()}
+                                        placeholder="Enter Price"
+                                        className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                        {...field}
+                                        onChange={(e) => {
+                                          const value = e.target.value;
+
+                                          if (value.startsWith(" ")) {
+                                            return;
+                                          }
+                                          field.onChange(e);
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name={`tickets.1.price`}
+                                render={({ field }) => (
+                                  <FormItem className="relative w-[49%] space-y-0 input-custom-container">
+                                    <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                      Additional field
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        onWheel={(e: any) => e.target.blur()}
+                                        placeholder="Enter Price"
+                                        className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                        {...field}
+                                        onChange={(e) => {
+                                          const value = e.target.value;
+
+                                          if (value.startsWith(" ")) {
+                                            return;
+                                          }
+                                          field.onChange(e);
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )} 
+                              /> */}
+                            </div>
                           </div>
                           {/* Add Aaditional field Button */}
                           <div className="flex justify-end items-center ticket-btn">
@@ -2966,6 +3104,8 @@ function OganizerCreateEvent() {
                           </div>
                         </div>
                       </div>
+                    ) : (
+                      <div className="mb-[24px]"></div>
                     )}
 
                     {/* Add more ticket Button */}

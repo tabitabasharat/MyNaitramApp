@@ -1018,3 +1018,14 @@ input[type="number"] {
     width: 150px !important;
   }
 }
+
+/* /////////////////////// /////////////////////////////////// */
+
+.gradient-border-Radius_BTN {
+  border-width: 2px; /* Adjust border thickness */
+  border-style: solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(180deg, rgba(251, 251, 251, 0.6) 0%, rgba(251, 251, 251, 0.7) 100%);
+  border-radius: 0.5rem; /* Adjust radius as needed */
+  background-color: transparent; /* Optional for a clear background */
+}
