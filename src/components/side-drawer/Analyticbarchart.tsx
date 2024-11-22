@@ -3,7 +3,9 @@ import {
     BarChart,
     Bar,
     XAxis,
+    YAxis,
     Tooltip,
+    CartesianGrid,
     ResponsiveContainer,
     LabelList,
 } from "recharts";
@@ -26,21 +28,50 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return null;
 };
 
-const CustomBar = ({ fill, x, y, width, height }: any) => {
+const data = [
+    { name: '01 Oct', uv: 30, pv: 2000, amt: 2120 },
+    { name: '02 Oct', uv: 100, pv: 2000, amt: 2181 },
+    { name: '03 Oct', uv: 200, pv: 2290, amt: 2000 },
+    { name: '04 Oct', uv: 200, pv: 2290, amt: 2000 },
+    { name: '05 Oct', uv: 278, pv: 2000, amt: 2181 },
+    { name: '06 Oct', uv: 278, pv: 2000, amt: 2181 },
+    { name: '07 Oct', uv: 278, pv: 2000, amt: 2181 },
+    { name: '08 Oct', uv: 400, pv: 2400, amt: 2400 },
+];
+
+const CustomBar = (props: any) => {
+    const { x, y, width, height, fill } = props;
+    const adjustedWidth = width * 0.8; // Adjust width to 80% of its original size
+
     return (
-        <g>
-            <rect x={x} y={y} width={width} height={height} fill={fill} />
-            <line
-                x1={x}
-                y1={y}
-                x2={x + width}
-                y2={y}
-                stroke="#00D059" // Top border color
-                strokeWidth={2} // Top border thickness
-            />
-        </g>
+        <rect
+            x={x + (width - adjustedWidth) / 2}
+            y={y}
+            width={adjustedWidth}
+            height={height}
+            fill={fill}
+            rx={4}
+            ry={4}
+        />
     );
 };
+
+
+// const CustomBar = ({ fill, x, y, width, height }: any) => {
+//     return (
+//         <g>
+//             <rect x={x} y={y} width={width} height={height} fill={fill} />
+//             <line
+//                 x1={x}
+//                 y1={y}
+//                 x2={x + width}
+//                 y2={y}
+//                 rx={4}
+//                 ry={4}
+//             />
+//         </g>
+//     );
+// };
 
 const Analyticbarchart = () => {
     const dispatch = useAppDispatch();
@@ -80,11 +111,11 @@ const Analyticbarchart = () => {
     return (
         <div
             style={{
-                width: "618px",
-                height: "100%",
+                // width: "618px",
+                // height: "100%",
                 // padding: "24px",
             }}
-            className=" lg:p-[24px] border-linear rounded-[8px] gradient-slate p-[16px]"
+            className=" lg:p-[24px] w-full md:w-[618px] border-linear rounded-[8px] gradient-slate p-[16px]"
         >
             <div className="flex justify-between">
                 <p className="font-bold text-[20px]">Sales</p>
@@ -93,63 +124,71 @@ const Analyticbarchart = () => {
                 <div className="w-[120px]">
                     <p
                         className={`text-center text-sm font-bold pb-[16px] ${activeTab === "USER"
-                                ? "-[white] text-[#00A849] border-[#00A849] font-bold border-b-2"
-                                : "border-b-2 text-white font-normal border-[#292929]"
+                            ? "-[white] text-[#00A849] border-[#00A849] font-bold border-b-2"
+                            : "border-b-2 text-white font-normal border-[#292929]"
                             } cursor-pointer`}
                         onClick={() => setActiveTab("USER")}
                     >
-                      Ticket Sales
+                        Ticket Sales
                     </p>
                 </div>
 
                 <div className="w-[120px]">
                     <p
                         className={`text-center text-sm font-bold pb-[16px] ${activeTab === "ORGANISER"
-                                ? "text-[#00A849] border-[#00A849] font-bold border-b-2"
-                                : "border-b-2 text-white font-normal border-solid border-[#292929]"
+                            ? "text-[#00A849] border-[#00A849] font-bold border-b-2"
+                            : "border-b-2 text-white font-normal border-solid border-[#292929]"
                             } cursor-pointer`}
                         onClick={() => setActiveTab("ORGANISER")}
                     >
-                       Revenue
+                        Revenue
                     </p>
                 </div>
             </div>
             <ResponsiveContainer
                 width="115%"
-                height="85%"
+                height="50%"
                 className="scale-[0.83] ms-[16px] sm:ms-[0px] md:ms-[0px] lg:ms-[0px] flex-items-center justify-center lg:w-[120%] -translate-x-[47px] lg:-translate-x-[50px] xl:-translate-x-[70px] translate-y-[1rem]"
             >
                 <BarChart
                     className="lg:w-[120%] max-width-adjustment-in-graph w-[135%]"
-                    data={chartData}
-                    margin={{ top: 20, bottom: 5 }}
+                    data={data}
+                    barSize={27}
+                    margin={{ top: 20, bottom: 0 }}
                 >
-                    <defs>
-                        <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="rgba(0, 208, 89, 0.32)" />
-                            <stop offset="100%" stopColor="rgba(0, 208, 89, 0)" />
-                        </linearGradient>
-                    </defs>
+                    <CartesianGrid stroke="#292929" strokeWidth={0.5} vertical={false} strokeDasharray="5 5" />
                     <XAxis
                         dataKey="name"
                         axisLine={false}
-                        // tick={<CustomXAxisTick />}
-                        tick={{ fill: "#BFBFBF", fontSize: "11px", fontWeight: "900" }}
+                        tick={{
+                            fontSize: 10,
+                            fontWeight: 'normal',
+                            fill: '#D9D9D9',
+                        }}
+                        tickLine={false}
+                    />
+                    <YAxis
+                        axisLine={false}
+                        tick={{
+                            fontSize: 10,
+                            fontWeight: 'normal',
+                            fill: '#D9D9D9',
+
+                        }}
                         tickLine={false}
                     />
                     <Tooltip
                         cursor={{ fill: "transparent" }}
                         content={<CustomTooltip />}
                     />
-                    <Bar dataKey="value" fill="url(#colorUv)" shape={<CustomBar />}>
-                        <LabelList
-                            dataKey="value"
+                    <Bar dataKey="uv" type="monotone" fill="#00D059" shape={<CustomBar />}>
+                        {/* <LabelList
+                            dataKey="uv"
                             fontSize="11px"
                             fontWeight="700"
                             fill="#0FFF77"
                             position="insideBottom"
-                            formatter={(value: any) => `$${value}`}
-                        />
+                        /> */}
                     </Bar>
                 </BarChart>
             </ResponsiveContainer>

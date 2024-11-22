@@ -32,7 +32,7 @@ export default function RootLayout({
         <div
           style={{
             position: "absolute",
-            right: "0%",
+            right: "10%",
             bottom: "0%",
             zIndex: "-1",
           }}  

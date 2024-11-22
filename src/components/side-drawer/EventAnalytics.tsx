@@ -21,7 +21,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
             <div className="gradient-border border element border-muted rounded-lg pt-[10.22px] pe-[15.33px] pb-[15.33px] ps-[16.61px] ">
                 <p className='text-[12px] '>29 July 00:00</p>
                 {/* <p className="label">{`$${payload[0].value}`}</p> */}
-                <p className='flex items-center gap-[7.67px]'><span className='text-[#00D059] text-[20.44px] font-extrabold'>130</span><span className='element2 text-center w-[44px] h-[18px] text-[#00D059] text-[12px]'>+3.4%</span></p>
+                <p className='flex items-center gap-[7.67px]'><span className='text-[#00D059] text-[20.44px] font-extrabold'>{`${payload[0].value}`}</span><span className='element2 text-center w-[44px] h-[18px] text-[#00D059] text-[12px]'>+3.4%</span></p>
             </div>
         );
     }
@@ -138,10 +138,10 @@ const EventAnalytics = () => {
                     Event Analytics
                 </h1>
             </div>
-            <div className='flex gap-[22px]'>
+            <div className='flex flex-col lg:flex-row gap-[22px]'>
                 <div className='flex gap-[12px] flex-col'>
-                    <div className='flex gap-[12px]'>
-                        <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-[250px] h-[220px]'>
+                    <div className='flex flex-col sm:flex-row gap-[12px]'>
+                        <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-full lg:w-[250px] h-[220px]'>
 
                             <p className='font-bold text-[20px] mb-[16px]'>Revenue</p>
                             <LineChart width={200} height={51} data={Revenue}>
@@ -157,7 +157,7 @@ const EventAnalytics = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-[250px] h-[220px]'>
+                        <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-full lg:w-[250px] h-[220px]'>
                             <p className='font-bold text-[20px] mb-[16px]'>Ticket Sales</p>
                             <LineChart width={200} height={51} data={ticketsale}>
                                 <Line type="monotone" dot={false} dataKey="uv" strokeWidth={2} stroke="#32D583" />
@@ -173,8 +173,8 @@ const EventAnalytics = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='flex gap-[12px]'>
-                        <div className='gradient-slate  p-[24px] gradient-slate-input rounded-[8px] w-[250px] h-[220px]'>
+                    <div className='flex flex-col sm:flex-row gap-[12px]'>
+                        <div className='gradient-slate  p-[24px] gradient-slate-input rounded-[8px] w-full lg:w-[250px] h-[220px]'>
 
                             <p className='font-bold text-[20px] mb-[16px]'>Rep Ticket Sales</p>
                             <LineChart width={200} height={51} data={redticketsale}>
@@ -190,10 +190,10 @@ const EventAnalytics = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-[250px] h-[220px]'>
+                        <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-full lg:w-[250px] h-[220px]'>
 
                             <p className='font-bold text-[20px] mb-[16px]'>Page Views</p>
-                            <LineChart width={200} height={51} data={pageview}>
+                            <LineChart width={200   } height={51} data={pageview}>
                                 <Line type="monotone" dot={false} dataKey="uv" strokeWidth={3} stroke="#F34213" />
                             </LineChart>
                             <div className='flex gap-[16px] mt-[11px] items-start'>
@@ -208,7 +208,7 @@ const EventAnalytics = () => {
                         </div>
                     </div>
                 </div>
-                <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-[465px] h-[452px]'>
+                <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-full lg:w-[465px] h-[452px]'>
                     <p className='font-bold text-[20px]'>Followers</p>
                     <p className='mt-[20px] flex items-center gap-[20px] mb-[30px]'><span className='text-[#00D059] font-extrabold text-[48px]'>+130</span> <span className='text-[#D9D9D9] text-[20px]'>(169 all time)</span></p>
                     <ResponsiveContainer width="100%" height={258}>
@@ -223,16 +223,22 @@ const EventAnalytics = () => {
 
                             <Line type="monotone" dataKey="uv" dot={false} stroke="#00D059" strokeWidth={3} />
                             <Tooltip
-                                cursor={{ fill: "red" }}
+                                cursor={{
+                                    fill: "transparent",        // Removes the fill color (no fill for lines)
+                                    stroke: "#00D059",              // Sets the color of the crosshair lines (red in this case)
+                                    strokeWidth: 3,             // Sets the width of the crosshair lines
+                                    type: "line",    
+                                              // Sets the type of crosshair (can be "cross" or "line")
+                                }}
                                 content={<CustomTooltip />}
                             />
-                            {/* Apply the gradient as the fill */}
                             <Area
                                 type="monotone"
                                 dataKey="uv"
                                 stroke="#00D059"
                                 fill="url(#gradient1)"  // Reference the gradient
                                 fillOpacity={0.3}
+                                strokeWidth={3}
                             />
 
                             <CartesianGrid stroke="#292929" strokeWidth={0.5} vertical={false} strokeDasharray="5 5" />
@@ -441,9 +447,9 @@ const EventAnalytics = () => {
                     </Table>
                 </TableContainer>
             </div>
-            <div className='flex gap-[16px]' >
+            <div className='flex flex-col md:flex-row gap-[16px] h-[]' >
                 <Analyticbarchart />
-                <div className='gradient-slate gradient-slate-input w-[369px] h-[288px] flex flex-col rounded-[8px] gap-[30px] py-[24px] px-[28px]'>
+                <div className='gradient-slate gradient-slate-input w-full md:w-[369px] h-[288px] flex flex-col rounded-[8px] gap-[30px] py-[24px] px-[28px]'>
                     <div>
                         <h3>CSV Reports</h3>
 
