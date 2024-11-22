@@ -25,6 +25,7 @@ const StayInformed = () => {
   console.log("tgis paste event", filteredEvent, EventsPastData);
 
   const handleEmailInputChange = (e: any) => {
+    setLoader(false);
     const input = e.target.value;
     // Allow only letters, numbers, and "@"
     const regex = /^[a-zA-Z0-9@]*$/;
@@ -121,13 +122,11 @@ const StayInformed = () => {
                   value={Email}
                   onChange={handleEmailInputChange}
                   placeholder="Enter your email"
-                  // onChange={(e) => setEmail(e.target.value)}
                   className="w-full h-full rounded-full bg-white/10 mt-4 border border-[#3C3C3C] outline-none focus:border-[#087336] px-[3.2rem] placeholder:text-muted"
                 />
                 <Button
                   variant="secondary"
                   className="absolute right-0 h-[45px] top-4 hidden md:block"
-                  // onClick={handleEmail}
                   onClick={handleEmail}
                   disabled={loader}
                 >

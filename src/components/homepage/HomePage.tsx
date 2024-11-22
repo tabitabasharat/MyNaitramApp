@@ -17,26 +17,15 @@ const HomePage = () => {
   const [showmodal, setShowModal] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
 
-
-
   return (
     <>
       {/* {loader && <ScreenLoader/>} */}
 
       <Dialog open={showmodal} onOpenChange={setShowModal}>
         {authMode === "SIGNIN" && (
-          <SignInModal
-            redirectRoute={`/viewallevents`}
-            setAuthMode={setAuthMode}
-            setSigninModal={() => setShowModal(false)}
-          />
+          <SignInModal redirectRoute={`/viewallevents`} setAuthMode={setAuthMode} setSigninModal={() => setShowModal(false)} />
         )}
-        {authMode === "SIGNUP" && (
-          <SignUpModal
-            setAuthMode={setAuthMode}
-            setSigninModal={() => setShowModal(false)}
-          />
-        )}
+        {authMode === "SIGNUP" && <SignUpModal setAuthMode={setAuthMode} setSigninModal={() => setShowModal(false)} />}
       </Dialog>
       <Hero />
       {/* <Events />s */}

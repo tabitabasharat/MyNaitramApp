@@ -343,20 +343,13 @@ const TicketData = () => {
 
                                 </TableCell>
                     
-                             <TableCell
-  sx={{
-    fontWeight: "400",
-    fontFamily: "var(--font-base)",
-    border: "none",
-  }}
-  className="gradient-slate text-[#A6A6A6]"
->
-    <span>{totalNumerator}</span>
-    <span>/</span>
-    <span>{totalDenominator}</span>
- 
-</TableCell>
-
+                                <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", }} className='gradient-slate text-[#A6A6A6]'>
+                                       <div className="flex justify-between w-1/4">
+                                            <span>{totalNumerator}</span>
+                                            <span>/</span>
+                                            <span>{totalDenominator}</span>
+                                        </div>
+                                </TableCell>
                                 <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", borderBottomRightRadius: "8px", borderTopRightRadius: "8px" }} className='gradient-slate text-[#A6A6A6]'>
                                     £{sumData.toFixed(2)}
                                 </TableCell>
