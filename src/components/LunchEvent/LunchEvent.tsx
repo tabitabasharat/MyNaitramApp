@@ -1,12 +1,15 @@
 "use client";
 import React from "react";
 import LunchModal from "./LunchModal";
-import { useAppDispatch } from "@/lib/hooks";
 import { OrgProfileCheck } from "@/lib/middleware/organizer";
 import { useState, useEffect } from "react";
-import ScreenLoader from "../loader/Screenloader";
 import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
 import { useRouter } from "next/navigation";
+
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import ScreenLoader from "@/components/loader/Screenloader";
+import { getUserInfoByUserId, createExpressAccountByUserId } from "@/lib/middleware/organizer";
+import { useMeridiemMode } from "@mui/x-date-pickers/internals/hooks/date-helpers-hooks";
 
 function LunchEvent() {
   const dispatch = useAppDispatch();
@@ -14,9 +17,9 @@ function LunchEvent() {
   const [loader, setLoader] = useState(false);
   const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
 
-  const [isStripeAccntSetUp, setStripAccountSetUp] = useState(false);
-  const [isAcoountCtreated, setAccountCreated] = useState(false);
+  const [isAccountCreated, setAccountCreated] = useState(false);
   const [islinkVrified, setLinkVerified] = useState(false);
+  const [currentLink, setCurrentLink] = useState("");
 
   const LunchModalhandler = () => {
     setisCreateModalOpen(true);
@@ -24,6 +27,14 @@ function LunchEvent() {
 
   useEffect(() => {
     // Check First strip Account setUp or not
+    setLoader(true);
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    if (userID) {
+      setLoader(false);
+      dispatch(getUserInfoByUserId(userID));
+    } else {
+      setLoader(false);
+    }
   }, []);
 
   async function checkProfile() {
@@ -56,18 +67,61 @@ function LunchEvent() {
   }
 
   const handleAaccountCreated = () => {
-    setAccountCreated(true);
+    // Check First strip Account setUp or not
+    setLoader(true);
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    if (userID) {
+      dispatch(createExpressAccountByUserId(userID));
+    } else {
+      setLoader(false);
+    }
   };
 
-  const handleLinkVerification = () => {
-    setLinkVerified(true);
+  const accountData = useAppSelector((state) => state?.createExpressAccount?.accountData?.data);
+  const accountCreationStatus = useAppSelector((state) => state?.createExpressAccount?.accountData?.status);
+  const accountCreationLoader = useAppSelector((state) => state?.createExpressAccount);
+
+  useEffect(() => {
+    console.log("This is Link Statuds ===> ", accountData);
+    if (accountCreationStatus === 200) {
+      console.log("This is link Data ===> ", accountData?.stripLink);
+      setLoader(accountCreationLoader?.loading);
+      // setAccountCreated(true);
+      setCurrentLink(accountData?.stripLink);
+      setLinkVerified(true);
+    } else {
+      setLoader(false);
+    }
+  }, [accountData, accountCreationStatus]);
+
+  const handleLinkVerification = (link: string) => {
+    window.location.href = link;
   };
 
   const handleStripeAaccountSetup = () => {
-    setStripAccountSetUp(true);
+    // setStripAccountSetUp(true);
   };
 
-  return isStripeAccntSetUp ? (
+  const UserInfo = useAppSelector((state) => state?.getUserInfoById?.userInfoData?.data);
+
+  console.log("User Info is As===> ", UserInfo);
+
+  const userLoading = useAppSelector((state) => state?.getUserInfoById);
+
+  useEffect(() => {
+    setLoader(userLoading?.loading);
+  }, [userLoading]);
+
+  useEffect(() => {
+    if (UserInfo?.stripCreated) {
+      setAccountCreated(true);
+      setLinkVerified(true);
+    }
+  }, [UserInfo]);
+
+  return loader ? (
+    <ScreenLoader />
+  ) : isAccountCreated && islinkVrified ? (
     <div className="w-full flex justify-center flex-col items-center h-[90vh] md:h-[88vh] lg:h-[91%] mt-[45px] bg-lunchevent-img">
       <p className="font-extrabold text-[30px] text-center lg:text-[64px]">Let’s launch your event</p>
       <div
@@ -84,39 +138,25 @@ function LunchEvent() {
         <p className="font-extrabold text-[24px] lg:text-[48px] leading-[24px] lg:leading-[55.68px] tracking-[-0.02em] text-left font-nexa">
           Host Event
         </p>
-        {isAcoountCtreated ? (
-          islinkVrified ? (
-            <>
-              <div className="font-normal text-[14px] lg:text-[16px] leading-[19.5px] lg:leading-[24px] text-left font-nexa w-[100%] lg:w-[80%] flex flex-col gap-[20px] lg:gap-[16px] text-[#BFBFBF] lg:text-white">
-                <p>
-                  Before you can host an event you must have an account on Stripe. This stripe account is where Naitram will send payment for the
-                  tickets bought for your event.
-                </p>
-              </div>
+        {islinkVrified ? (
+          // link Tags Here
+          <>
+            <div className="font-normal text-[14px] lg:text-[16px] leading-[19.5px] lg:leading-[24px] text-left font-nexa w-[100%] lg:w-[80%] flex flex-col gap-[20px] lg:gap-[16px] text-[#BFBFBF] lg:text-white">
+              <p>Here is the link to your stripe account, Please click on this link to get redirected to Stripe and fill your information.</p>
+            </div>
+            <div className="w-full flex flex-col">
+              <p className="md:w-full text-center md:text-start md:ml-[3px] mb-[10px]">Go to Stripe</p>
               <div
-                onClick={() => handleStripeAaccountSetup()}
-                className="text-[#030303] font-extrabold text-[14px] leading-[19.6px] text-center font-nexa py-[13px] px-[29.5px] bg-[#00D059] rounded-full w-fit cursor-pointer"
+                onClick={() => handleLinkVerification(currentLink)}
+                className="w-[100%] md:w-fit truncate border-none py-[16px] px-[20px] bg-green-500 rounded-[30px] text-[16px] leading-[20px] font-extrabold cursor-pointer text-[#000000]"
               >
-                Host Event
+                {currentLink}
               </div>
-            </>
-          ) : (
-            <>
-              <div className="font-normal text-[14px] lg:text-[16px] leading-[19.5px] lg:leading-[24px] text-left font-nexa w-[100%] lg:w-[80%] flex flex-col gap-[20px] lg:gap-[16px] text-[#BFBFBF] lg:text-white">
-                <p>Here is the link to your stripe account, Please click on this link to get redirected to Stripe and fill your information.</p>
-              </div>
-              <div className="w-full">
-                <div
-                  onClick={() => handleLinkVerification()}
-                  className="w-[100%] lg:w-[60%] gradient-slate py-[16px] px-[12px] border-[#FFFFFF0F] border-[1px] rounded-md text-[16px] leading-[20px] font-extrabold cursor-pointer"
-                >
-                  www.stripe.com
-                </div>
-              </div>
-            </>
-          )
+            </div>
+          </>
         ) : (
           <>
+            {/* Account Create */}
             <div className="font-normal text-[14px] lg:text-[16px] leading-[19.5px] lg:leading-[24px] text-left font-nexa w-[100%] lg:w-[80%] flex flex-col gap-[20px] lg:gap-[16px] text-[#BFBFBF] lg:text-white">
               <p>
                 Before you can host an event you must have an account on Stripe. This stripe account is where Naitram will send payment for the
