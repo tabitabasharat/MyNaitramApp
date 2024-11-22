@@ -740,13 +740,13 @@ body {
   scrollbar-width: none; /* Hide scrollbar in Firefox */
 }
 .element2 {
-  box-shadow: 0px 2.56px 5.11px 0px #0000000A; /* Soft shadow with subtle opacity */
+  box-shadow: 0px 2.56px 5.11px 0px #0000000a; /* Soft shadow with subtle opacity */
   backdrop-filter: blur(64px); /* Frosted glass effect with heavy blur */
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
 }
 .element {
-  box-shadow: 0px 2.56px 5.11px 0px #0000000A; /* Soft shadow with subtle opacity */
+  box-shadow: 0px 2.56px 5.11px 0px #0000000a; /* Soft shadow with subtle opacity */
   backdrop-filter: blur(64px); /* Frosted glass effect with heavy blur */
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
@@ -802,7 +802,7 @@ input[type="number"] {
 .no-border-table .MuiTableRow-root {
   border: none; /* Removes any potential border on table rows */
 }
-.border-linear{
+.border-linear {
   border: 1px solid;
 
   border-image-source: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
@@ -1048,4 +1048,25 @@ input[type="number"] {
   border-image-source: linear-gradient(180deg, rgba(251, 251, 251, 0.6) 0%, rgba(251, 251, 251, 0.7) 100%);
   border-radius: 0.5rem; /* Adjust radius as needed */
   background-color: transparent; /* Optional for a clear background */
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #13ff7a;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #13ff79b9;
 }
