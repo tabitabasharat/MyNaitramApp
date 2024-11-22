@@ -2021,6 +2021,33 @@ function OganizerCreateEvent() {
                     {ticketTypes.map((ticket: any, index: number) =>
                       ticket.type === "Festivals / Multi-Day Tickets / Season Passes" ? (
                         <div key={index} className="mb-[24px]">
+                          {/* Gradient Line to seperate Tickets from each other */}
+                          {index !== 0 && (
+                            <div
+                              className="h-[6px] w-full relative mb-[28px] mt-[4px]"
+                              style={{
+                                background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                              }}
+                            >
+                              <div
+                                className="absolute top-0 left-0 h-full"
+                                style={{
+                                  width: "30%", // make the edges thinner
+                                  background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                  filter: "blur(8px)", // blur the edges to make them thin and faded
+                                }}
+                              ></div>
+                              <div
+                                className="absolute top-0 right-0 h-full"
+                                style={{
+                                  width: "30%", // same width for both edges
+                                  background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                  filter: "blur(8px)", // blur the edges to make them thin and faded
+                                }}
+                              ></div>
+                            </div>
+                          )}
+
                           {/* Event Ticket Type and Event Paid/Free fields */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <FormField
@@ -2656,21 +2683,47 @@ function OganizerCreateEvent() {
                           </div>
 
                           {/* Delete Ticket Type */}
-                          <div className="flex justify-end items-center ticket-btn">
-                            <Button
-                              style={{
-                                background: "#ff1717b2",
-                              }}
-                              className="flex items-center justify-between text-[#FFFFFF] px-[15px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold leading-[12px] mt-[20px]"
-                              onClick={handleAddTicketType}
-                            >
-                              <Image src={deleteicon} alt="Delete-icon" height={13} width={13} />
-                              Delete Ticket Type
-                            </Button>
-                          </div>
+                          {index !== 0 && (
+                            <div className="flex justify-end items-center mt-[29px] ticket-btn">
+                              <Button
+                                className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
+                                onClick={() => handleDeleteTicketType(index)}
+                              >
+                                <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
+                                Delete Ticket Type
+                              </Button>
+                            </div>
+                          )}
                         </div>
                       ) : ticket.type === "RSVP Ticketing" ? (
                         <div key={index} className="mb-[24px]">
+                          {/* Gradient Line to seperate Tickets from each other */}
+                          {index !== 0 && (
+                            <div
+                              className="h-[6px] w-full relative mb-[28px] mt-[4px]"
+                              style={{
+                                background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                              }}
+                            >
+                              <div
+                                className="absolute top-0 left-0 h-full"
+                                style={{
+                                  width: "30%", // make the edges thinner
+                                  background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                  filter: "blur(8px)", // blur the edges to make them thin and faded
+                                }}
+                              ></div>
+                              <div
+                                className="absolute top-0 right-0 h-full"
+                                style={{
+                                  width: "30%", // same width for both edges
+                                  background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                  filter: "blur(8px)", // blur the edges to make them thin and faded
+                                }}
+                              ></div>
+                            </div>
+                          )}
+
                           {/* Event Ticket Type and Event Ticket Name */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             {/* Ticket Type */}
@@ -3061,9 +3114,49 @@ function OganizerCreateEvent() {
                               </Button>
                             </div>
                           </div>
+
+                          {/* Delete Ticket Type */}
+                          {index !== 0 && (
+                            <div className="flex justify-end items-center mt-[29px] ticket-btn">
+                              <Button
+                                className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
+                                onClick={() => handleDeleteTicketType(index)}
+                              >
+                                <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
+                                Delete Ticket Type
+                              </Button>
+                            </div>
+                          )}
                         </div>
                       ) : ticket.type === "Private Event Ticketing" ? (
                         <div key={index} className="mb-[24px]">
+                          {/* Gradient Line to seperate Tickets from each other */}
+                          {index !== 0 && (
+                            <div
+                              className="h-[6px] w-full relative mb-[28px] mt-[4px]"
+                              style={{
+                                background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                              }}
+                            >
+                              <div
+                                className="absolute top-0 left-0 h-full"
+                                style={{
+                                  width: "30%", // make the edges thinner
+                                  background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                  filter: "blur(8px)", // blur the edges to make them thin and faded
+                                }}
+                              ></div>
+                              <div
+                                className="absolute top-0 right-0 h-full"
+                                style={{
+                                  width: "30%", // same width for both edges
+                                  background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                  filter: "blur(8px)", // blur the edges to make them thin and faded
+                                }}
+                              ></div>
+                            </div>
+                          )}
+
                           {/* Event Ticket Type and Event Paid/Free fields */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <FormField
@@ -3839,9 +3932,49 @@ function OganizerCreateEvent() {
                               Upload CSV (emails)
                             </Button>
                           </div>
+
+                          {/* Delete Ticket Type */}
+                          {index !== 0 && (
+                            <div className="flex justify-end items-center mt-[29px] ticket-btn">
+                              <Button
+                                className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
+                                onClick={() => handleDeleteTicketType(index)}
+                              >
+                                <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
+                                Delete Ticket Type
+                              </Button>
+                            </div>
+                          )}
                         </div>
                       ) : (
                         <div key={index} className="mb-[24px]">
+                          {/* Gradient Line to seperate Tickets from each other */}
+                          {index !== 0 && (
+                            <div
+                              className="h-[6px] w-full relative mb-[28px] mt-[4px]"
+                              style={{
+                                background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                              }}
+                            >
+                              <div
+                                className="absolute top-0 left-0 h-full"
+                                style={{
+                                  width: "30%", // make the edges thinner
+                                  background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                  filter: "blur(8px)", // blur the edges to make them thin and faded
+                                }}
+                              ></div>
+                              <div
+                                className="absolute top-0 right-0 h-full"
+                                style={{
+                                  width: "30%", // same width for both edges
+                                  background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                  filter: "blur(8px)", // blur the edges to make them thin and faded
+                                }}
+                              ></div>
+                            </div>
+                          )}
+
                           {/* Event Ticket Type and Event Paid/Free fields */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <FormField
@@ -4949,6 +5082,19 @@ function OganizerCreateEvent() {
                               </Button>
                             </div>
                           </div>
+
+                          {/* Delete Ticket Type */}
+                          {index !== 0 && (
+                            <div className="flex justify-end items-center mt-[29px] ticket-btn">
+                              <Button
+                                className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
+                                onClick={() => handleDeleteTicketType(index)}
+                              >
+                                <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
+                                Delete Ticket Type
+                              </Button>
+                            </div>
+                          )}
                         </div>
                       )
                     )}
