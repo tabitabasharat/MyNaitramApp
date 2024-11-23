@@ -59,7 +59,7 @@ const Dashboard = () => {
                     Dashboard
                 </h1>
             </div>
-            <div className='p-[24px] gradient-slate rounded-[8px]'>
+            <div className='p-[24px] gradient-slate gradient-slate-input rounded-[8px]'>
                 <div>
                     <div>
                         <div>
@@ -87,7 +87,7 @@ const Dashboard = () => {
 
                                 {/* Dropdown menu */}
                                 {isDropdownOpen && (
-                                    <div className="absolute w-full sm:w-[456px] mt-[57px] sm:mt-[60px] gradient-slate rounded-md shadow-lg z-10">
+                                    <div className="absolute w-full z-[1200] sm:w-[456px] mt-[57px] sm:mt-[60px] gradient-slate rounded-md shadow-lg z-10">
                                         {options.map((option) => (
                                             <div
                                                 key={option}
@@ -107,17 +107,17 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-            <div className='p-[24px] gradient-slate rounded-[8px]'>
+            <div className='p-[24px] gradient-slate gradient-slate-input rounded-[8px]'>
                 <h2 className='font-bold text-[20px] mb-[24px]'>Daily Sales</h2>
-                <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+                <TableContainer component={Paper} sx={{ boxShadow: "none" }} className='gradient-slate'>
                     <Table
                         sx={{
                             minWidth: 650,
                             borderBottom: "none",
-                            borderTop: "1px solid #292929",
+                            borderTop: "none",
                             borderLeft: "none",
-                            borderRight: "none",
                             fontFamily: "var(--font-base)",
+                            borderRight: "none",
                             color: "white",
                             background: "#0F0F0F",
                             fontSize: 16,
@@ -126,13 +126,13 @@ const Dashboard = () => {
                         aria-label="simple table"
                     >
                         <TableHead className="table-gradient-new">
-                            <TableRow sx={{ border: "1px solid #292929" }}>
+                            <TableRow sx={{ border: "none" }}>
                                 <TableCell
                                     className="w-[40px] lg:w-[220px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     sx={{
                                         color: "#A6A6A6",
-                                        borderBottom: "none",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
+                                        borderBottom: "1px solid #292929",
                                         fontFamily: "var(--font-base)",
                                     }}
                                     align="left"
@@ -144,8 +144,8 @@ const Dashboard = () => {
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
-                                        borderBottom: "none",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
+                                        borderBottom: "1px solid #292929",
                                         fontFamily: "var(--font-base)",
                                     }}
                                 >
@@ -156,9 +156,9 @@ const Dashboard = () => {
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
-                                        borderBottom: "none",
+                                        borderTop: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "1px solid #292929",
+                                        borderBottom: "1px solid #292929",
                                     }}
                                 >
                                     Incentives
@@ -168,9 +168,9 @@ const Dashboard = () => {
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
-                                        borderBottom: "none",
+                                        borderTop: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "1px solid #292929",
+                                        borderBottom: "1px solid #292929",
                                     }}
                                 >
                                     Total In
@@ -180,9 +180,9 @@ const Dashboard = () => {
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
-                                        borderBottom: "none",
+                                        borderTop: "none",
                                         fontFamily: "var(--font-base)",
-                                        borderTop: "1px solid #292929",
+                                        borderBottom: "1px solid #292929",
                                     }}
                                 >
                                     Total Out
@@ -192,9 +192,9 @@ const Dashboard = () => {
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
-                                        borderBottom: "none",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
                                         fontFamily: "var(--font-base)",
+                                        borderBottom: "1px solid #292929",
                                     }}
                                 >
                                     Revenue                                </TableCell>
@@ -303,14 +303,14 @@ const Dashboard = () => {
                     </Table>
                 </TableContainer>
             </div>
-            <div className=' p-[24px] lg:w-[698px] rounded-[8px] gradient-slate '>
+            <div className=' p-[24px] lg:w-[698px] rounded-[8px] gradient-slate-input gradient-slate '>
                 <h2 className='font-bold text-[20px] mb-[24px]'>Pages</h2>
-                <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+                <TableContainer component={Paper} sx={{ boxShadow: "none" }} className='gradient-slate'>
                     <Table
                         sx={{
-                            minWidth: 650,
+                            // width:"100%",
                             borderBottom: "none",
-                            borderTop: "1px solid #292929",
+                            borderTop: "none",
                             borderLeft: "none",
                             fontFamily: "var(--font-base)",
                             borderRight: "none",
@@ -322,13 +322,13 @@ const Dashboard = () => {
                         aria-label="simple table"
                     >
                         <TableHead className="table-gradient-new">
-                            <TableRow sx={{ border: "1px solid #292929" }}>
+                            <TableRow sx={{ border: "none" }}>
                                 <TableCell
-                                    className="w-[350px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    className="w-[300px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     sx={{
                                         color: "#A6A6A6",
-                                        borderBottom: "none",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
+                                        borderBottom: "1px solid #292929",
                                         fontFamily: "var(--font-base)",
                                     }}
                                     align="left"
@@ -336,12 +336,12 @@ const Dashboard = () => {
                                     Page
                                 </TableCell>
                                 <TableCell
-                                    className="px-[16.5px] lg:px-[20px] w-[350px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    className="px-[16.5px] lg:px-[20px] w-[300px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
-                                        borderBottom: "none",
-                                        borderTop: "1px solid #292929",
+                                        borderTop: "none",
+                                        borderBottom: "1px solid #292929",
                                         fontFamily: "var(--font-base)",
                                     }}
                                 >
