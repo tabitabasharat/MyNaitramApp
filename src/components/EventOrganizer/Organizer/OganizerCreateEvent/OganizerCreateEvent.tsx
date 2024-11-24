@@ -706,6 +706,9 @@ function OganizerCreateEvent() {
 
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [coverImageWarning, setCoverImageWarning] = useState<any>(false);
+
+  ///////////////////////////////////////////////////////////// Define these all States in Object states
+
   const [isPickerOpen, setIsPickerOpen] = useState(false); // State to manage picker visibility
   const [isEndDatePickerOpen, setIsEndDatePickerOpen] = useState(false);
   const [isStartEventPickerOpen, setIsStartEventPickerOpen] = useState(false);
@@ -736,6 +739,7 @@ function OganizerCreateEvent() {
 
   const [EventEndTime, setEventEndTime] = useState("");
 
+  // //////////////////////////////////////////////////////////////////////////////////
   const [Eventdescription, setEventdescription] = useState("");
   console.log("event des", EventEndTime);
 
@@ -1014,26 +1018,6 @@ function OganizerCreateEvent() {
 
     return formattedUTC;
   }
-
-  /*const handleDropdown = (index: number) => {
-    setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket)));
-  };*/
-
-  // Ticket Option Toggle Dropdown handleing
-  const handleOptionToggle = (index: number, option: TicketTypeOption) => {
-    setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index
-          ? {
-              ...ticket,
-              options: ticket.options.some((o) => o.id === option.id)
-                ? ticket.options.filter((o) => o.id !== option.id)
-                : [...ticket.options, option],
-            }
-          : ticket
-      )
-    );
-  };
 
   // Toggle handleing for catagory Dropdown
   const handleCatDropdownToggle = () => {
@@ -1547,6 +1531,7 @@ function OganizerCreateEvent() {
         return idx === ticketIndex ? choosenTicketType ?? obj : obj;
       });
 
+      form.setValue(`tickets.${ticketIndex}.type`, ticketType); // Update form state
       return updatedTickets;
     });
   };
@@ -1562,7 +1547,7 @@ function OganizerCreateEvent() {
     setTicketTypes((prevTickets) => [...prevTickets, festivalTicket]);
   };
 
-  // Dlete a ticket Type in state when User click the delete buttion
+  // Delete a ticket Type in state when User click the delete buttion
   const handleDeleteTicketType = (index: number) => {
     if (index === 0) {
       return;
@@ -1570,6 +1555,85 @@ function OganizerCreateEvent() {
     const updatedTicketTypes = ticketTypes.filter((_, i) => i !== index);
     setTicketTypes(updatedTicketTypes);
     form.setValue("tickets", updatedTicketTypes); // Update form state
+  };
+
+  //handeling Ticket Slected Option DropDown (Paid, Free)
+  const handleTicketSelectedOptionDropDown = (ticketIndex: number) => {
+    //  Close or Open the selected DropDown of Current Ticket
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket: any, index: number) =>
+        index === ticketIndex ? { ...ticket, selectedDropDown: !ticket.selectedDropDown } : ticket
+      );
+    });
+  };
+
+  //handeling Ticket Slected Option string (Paid, Free)
+  const handleTicketSelectionOption = (option: string, ticketIndex: number) => {
+    // Set price field state value
+    const priceStateValue = option === "Free" ? "0" : "";
+
+    // First close the selected dropdown and give value to the state of current Ticket
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket: any, index: number) =>
+        index === ticketIndex ? { ...ticket, selectedDropDown: !ticket.selectedDropDown, selected: option, price: priceStateValue } : ticket
+      );
+    });
+
+    //tickets.${index}.selected  change the value in form fields
+    form.setValue(`tickets.${ticketIndex}.selected`, option); // Update form state
+    // "Free", "Paid"
+    option === "Paid" ? form.setValue(`tickets.${ticketIndex}.price`, "") : form.setValue(`tickets.${ticketIndex}.price`, "0");
+  };
+
+  // Handle Ticket Price change
+  const handlTicketPriceChange = (value: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, price: value } : ticket));
+    });
+  };
+
+  //Handle Festival Ticket Type
+  const handleFestivalTicketType = (value: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, typename: value } : ticket));
+    });
+  };
+
+  //handle No. of Tickets
+  const handleNoTickets = (value: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, no: value } : ticket));
+    });
+  };
+
+  //handle ticket name
+  const handleTicketNameChange = (value: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, name: value } : ticket));
+    });
+  };
+
+  // Handle Includes DropDown
+  const handleDropdown = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, optionDropDown: !ticket.optionDropDown } : ticket))
+    );
+  };
+
+  // Ticket Option Toggle Dropdown handleing
+  const handleOptionToggle = (ticketIndex: number, option: TicketTypeOption) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket, i) =>
+        i === ticketIndex
+          ? {
+              ...ticket,
+              options: ticket.options.some((o) => o.id === option.id)
+                ? ticket.options.filter((o) => o.id !== option.id)
+                : [...ticket.options, option],
+            }
+          : ticket
+      )
+    );
   };
 
   return (
@@ -2098,7 +2162,7 @@ function OganizerCreateEvent() {
                             />
                             <FormField
                               control={form.control}
-                              name="eventcategory"
+                              name={`tickets.${index}.selected`}
                               render={({ field }) => (
                                 <FormItem
                                   className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
@@ -2106,84 +2170,35 @@ function OganizerCreateEvent() {
                             file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                             disabled:opacity-50"
                                 >
-                                  <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT category</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                                        {categoryTypes ? categoryTypes?.label : "Select Event Category"}
+                                        {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
                                     </div>
-                                    <Image src={isCatDropdownOpen ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                    <Image src={ticket?.selectedDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
 
-                                  {isCatDropdownOpen && (
+                                  {ticket?.selectedDropDown && (
                                     <>
-                                      <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                        {isCustomCatgory && (
-                                          <>
-                                            {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
-                                            {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
-                                            {spaceError == true && <p className="text-[red] text-[16px]">Put only single word!</p>}
-                                            <div
-                                              style={{
-                                                width: "100%",
-                                                marginTop: "10px",
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                                alignItems: "center",
-                                                gap: "20px",
-                                              }}
-                                            >
-                                              <input
-                                                type="text"
-                                                placeholder="Enter the Category name"
-                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e)}
-                                                value={customCategotyInput}
-                                                style={{
-                                                  width: "100%",
-                                                  paddingLeft: "5px",
-                                                  paddingTop: "5px",
-                                                  paddingBottom: "5px",
-                                                  borderRadius: "6px",
-                                                }}
-                                              />
-                                              <button
-                                                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                                                  e.preventDefault(); // Prevents default action (optional if button is not inside a form)
-                                                  handleCustomCatBtn();
-                                                }}
-                                                style={{
-                                                  background: "green",
-                                                  paddingLeft: "10px",
-                                                  paddingRight: "10px",
-                                                  lineHeight: "10px",
-                                                  paddingTop: "10px",
-                                                  paddingBottom: "10px",
-                                                  borderRadius: "5px",
-                                                  marginRight: "5px",
-                                                }}
-                                              >
-                                                Add
-                                              </button>
-                                            </div>
-                                          </>
-                                        )}
-                                        {optionscate?.map((option: any) => (
+                                      <div className="h-fit overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                                        {["Free", "Paid"].map((option: any, optionIndex: number) => (
                                           <div
-                                            key={option.label}
+                                            key={optionIndex}
                                             className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                            onClick={() => handleCateOptionToggle(option)}
+                                            onClick={() => handleTicketSelectionOption(option, index)}
                                           >
                                             <div className="flex items-center gap-[10px]">
                                               <p
                                                 className={`text-[16px] font-normal items-center ${
-                                                  categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                  ticket?.selected === option ? "text-[#00d059]" : "text-[#FFFFFF]"
                                                 }`}
                                               >
-                                                {option.label}
+                                                {option}
                                               </p>
                                             </div>
-                                            {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
+                                            {ticket?.selected === option && <Image src={tick} width={16} height={16} alt="tick" />}
                                           </div>
                                         ))}
                                       </div>
@@ -2199,19 +2214,20 @@ function OganizerCreateEvent() {
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <FormField
                               control={form.control}
-                              name="eventname"
+                              name={`tickets.${index}.typename`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
                                   <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    Event Name
+                                    Ticket TYPE Name
                                   </FormLabel>
                                   <FormControl>
                                     <Input
-                                      placeholder="Enter Event Name"
+                                      placeholder="Enter ticket name"
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                       {...field}
+                                      value={ticket.typename}
                                       onChange={(e) => {
-                                        setEventname(e.target.value);
+                                        handleFestivalTicketType(e.target.value, index);
                                         field.onChange(e);
                                       }}
                                     />
@@ -2228,7 +2244,7 @@ function OganizerCreateEvent() {
                             {/* price field */}
                             <FormField
                               control={form.control}
-                              name={`tickets.1.type`}
+                              name={`tickets.${index}.price`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
@@ -2236,11 +2252,13 @@ function OganizerCreateEvent() {
                                   </FormLabel>
                                   <FormControl>
                                     <Input
+                                      disabled={ticket.selected === "Free" ? true : false}
                                       type="number"
                                       onWheel={(e: any) => e.target.blur()}
                                       placeholder="Enter Price"
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                       {...field}
+                                      value={ticket.price}
                                       onChange={(e) => {
                                         const value = e.target.value;
 
@@ -2254,6 +2272,7 @@ function OganizerCreateEvent() {
 
                                         // handleInputChange(index, "price", parseFloat(e.target.value));
                                         field.onChange(e);
+                                        handlTicketPriceChange(value, index);
                                       }}
                                     />
                                   </FormControl>
@@ -2265,7 +2284,7 @@ function OganizerCreateEvent() {
                             {/* Numbers of Tickets */}
                             <FormField
                               control={form.control}
-                              name={`tickets.1.type`}
+                              name={`tickets.${index}.no`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
@@ -2278,8 +2297,10 @@ function OganizerCreateEvent() {
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                       {...field}
                                       onWheel={(e: any) => e.target.blur()}
+                                      value={ticket.no}
                                       onChange={(e) => {
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
+                                        handleNoTickets(e.target.value, index);
                                         field.onChange(e);
                                       }}
                                     />
@@ -2643,20 +2664,17 @@ function OganizerCreateEvent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div
-                                className="flex items-center justify-between"
-                                // onClick={() => handleDropdown(index)}
-                              >
+                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
-                                <Image src={false ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
-                              {false && (
+                              {ticket.optionDropDown && (
                                 <div className="grid-container">
                                   {options?.map((option) => (
                                     <div
                                       key={option.id}
                                       className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
-                                      // onClick={() => handleOptionToggle(index, option)}
+                                      onClick={() => handleOptionToggle(index, option)}
                                     >
                                       <div className="flex items-center gap-[10px]">
                                         <Image
@@ -2664,11 +2682,11 @@ function OganizerCreateEvent() {
                                           width={16}
                                           height={16}
                                           alt="img"
-                                          // className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
+                                          className={ticket?.options?.some((o: any) => o?.id === option?.id) ? "filtergreen" : ""}
                                         />
                                         <p
                                           className={`text-[16px] font-normal items-center ${
-                                            /*ticket?.options?.some((o) => o?.id === option?.id)*/ false ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                            ticket?.options?.some((o: any) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
                                           }`}
                                         >
                                           {option.label}
@@ -2687,7 +2705,10 @@ function OganizerCreateEvent() {
                             <div className="flex justify-end items-center mt-[29px] ticket-btn">
                               <Button
                                 className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
-                                onClick={() => handleDeleteTicketType(index)}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleDeleteTicketType(index);
+                                }}
                               >
                                 <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
                                 Delete Ticket Type
@@ -2784,12 +2805,13 @@ function OganizerCreateEvent() {
                                   </FormLabel>
                                   <FormControl>
                                     <Input
-                                      placeholder="Enter ticket name"
+                                      placeholder="Enter Ticket Name"
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                       {...field}
-                                      value={ticket?.name || ""}
+                                      value={ticket.name}
                                       onChange={(e) => {
                                         // setEventname(e.target.value);
+                                        handleTicketNameChange(e.target.value, index);
                                         field.onChange(e);
                                       }}
                                     />
@@ -2911,20 +2933,17 @@ function OganizerCreateEvent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div
-                                className="flex items-center justify-between"
-                                // onClick={() => handleDropdown(index)}
-                              >
+                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
-                                <Image src={false ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                <Image src={ticket?.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
-                              {false && (
+                              {ticket?.optionDropDown && (
                                 <div className="grid-container">
                                   {options?.map((option) => (
                                     <div
                                       key={option.id}
                                       className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
-                                      // onClick={() => handleOptionToggle(index, option)}
+                                      onClick={() => handleOptionToggle(index, option)}
                                     >
                                       <div className="flex items-center gap-[10px]">
                                         <Image
@@ -2932,11 +2951,11 @@ function OganizerCreateEvent() {
                                           width={16}
                                           height={16}
                                           alt="img"
-                                          // className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
+                                          className={ticket?.options?.some((o: any) => o?.id === option?.id) ? "filtergreen" : ""}
                                         />
                                         <p
                                           className={`text-[16px] font-normal items-center ${
-                                            /*ticket?.options?.some((o) => o?.id === option?.id)*/ false ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                            ticket?.options?.some((o: any) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
                                           }`}
                                         >
                                           {option.label}
@@ -3120,7 +3139,10 @@ function OganizerCreateEvent() {
                             <div className="flex justify-end items-center mt-[29px] ticket-btn">
                               <Button
                                 className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
-                                onClick={() => handleDeleteTicketType(index)}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleDeleteTicketType(index);
+                                }}
                               >
                                 <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
                                 Delete Ticket Type
@@ -3207,7 +3229,7 @@ function OganizerCreateEvent() {
                             />
                             <FormField
                               control={form.control}
-                              name="eventcategory"
+                              name={`tickets.${index}.selected`}
                               render={({ field }) => (
                                 <FormItem
                                   className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
@@ -3215,84 +3237,35 @@ function OganizerCreateEvent() {
                           file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                           disabled:opacity-50"
                                 >
-                                  <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT category</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                                        {categoryTypes ? categoryTypes?.label : "Select Event Category"}
+                                        {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
                                     </div>
-                                    <Image src={isCatDropdownOpen ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                    <Image src={ticket?.selectedDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
 
-                                  {isCatDropdownOpen && (
+                                  {ticket?.selectedDropDown && (
                                     <>
-                                      <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                        {isCustomCatgory && (
-                                          <>
-                                            {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
-                                            {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
-                                            {spaceError == true && <p className="text-[red] text-[16px]">Put only single word!</p>}
-                                            <div
-                                              style={{
-                                                width: "100%",
-                                                marginTop: "10px",
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                                alignItems: "center",
-                                                gap: "20px",
-                                              }}
-                                            >
-                                              <input
-                                                type="text"
-                                                placeholder="Enter the Category name"
-                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e)}
-                                                value={customCategotyInput}
-                                                style={{
-                                                  width: "100%",
-                                                  paddingLeft: "5px",
-                                                  paddingTop: "5px",
-                                                  paddingBottom: "5px",
-                                                  borderRadius: "6px",
-                                                }}
-                                              />
-                                              <button
-                                                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                                                  e.preventDefault(); // Prevents default action (optional if button is not inside a form)
-                                                  handleCustomCatBtn();
-                                                }}
-                                                style={{
-                                                  background: "green",
-                                                  paddingLeft: "10px",
-                                                  paddingRight: "10px",
-                                                  lineHeight: "10px",
-                                                  paddingTop: "10px",
-                                                  paddingBottom: "10px",
-                                                  borderRadius: "5px",
-                                                  marginRight: "5px",
-                                                }}
-                                              >
-                                                Add
-                                              </button>
-                                            </div>
-                                          </>
-                                        )}
-                                        {optionscate?.map((option: any) => (
+                                      <div className="h-fit overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                                        {["Free", "Paid"].map((option: any, optionIndex: number) => (
                                           <div
-                                            key={option.label}
+                                            key={optionIndex}
                                             className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                            onClick={() => handleCateOptionToggle(option)}
+                                            onClick={() => handleTicketSelectionOption(option, index)}
                                           >
                                             <div className="flex items-center gap-[10px]">
                                               <p
                                                 className={`text-[16px] font-normal items-center ${
-                                                  categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                  ticket?.selected === option ? "text-[#00d059]" : "text-[#FFFFFF]"
                                                 }`}
                                               >
-                                                {option.label}
+                                                {option}
                                               </p>
                                             </div>
-                                            {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
+                                            {ticket?.selected === option && <Image src={tick} width={16} height={16} alt="tick" />}
                                           </div>
                                         ))}
                                       </div>
@@ -3308,19 +3281,21 @@ function OganizerCreateEvent() {
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <FormField
                               control={form.control}
-                              name="eventname"
+                              name={`tickets.${index}.name`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
                                   <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    Event Name
+                                    Event Ticket Name
                                   </FormLabel>
                                   <FormControl>
                                     <Input
-                                      placeholder="Enter Event Name"
+                                      placeholder="Enter ticket name"
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                       {...field}
+                                      value={ticket.name}
                                       onChange={(e) => {
-                                        setEventname(e.target.value);
+                                        // setEventname(e.target.value);
+                                        handleTicketNameChange(e.target.value, index);
                                         field.onChange(e);
                                       }}
                                     />
@@ -3337,7 +3312,7 @@ function OganizerCreateEvent() {
                             {/* price field */}
                             <FormField
                               control={form.control}
-                              name={`tickets.1.type`}
+                              name={`tickets.${index}.price`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
@@ -3345,11 +3320,13 @@ function OganizerCreateEvent() {
                                   </FormLabel>
                                   <FormControl>
                                     <Input
+                                      disabled={ticket.selected === "Free" ? true : false}
                                       type="number"
                                       onWheel={(e: any) => e.target.blur()}
                                       placeholder="Enter Price"
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                       {...field}
+                                      value={ticket.price}
                                       onChange={(e) => {
                                         const value = e.target.value;
 
@@ -3363,6 +3340,7 @@ function OganizerCreateEvent() {
 
                                         // handleInputChange(index, "price", parseFloat(e.target.value));
                                         field.onChange(e);
+                                        handlTicketPriceChange(value, index);
                                       }}
                                     />
                                   </FormControl>
@@ -3374,7 +3352,7 @@ function OganizerCreateEvent() {
                             {/* Numbers of Tickets */}
                             <FormField
                               control={form.control}
-                              name={`tickets.1.type`}
+                              name={`tickets.${index}.no`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
@@ -3386,10 +3364,12 @@ function OganizerCreateEvent() {
                                       placeholder="Enter No. of Tickets"
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                       {...field}
+                                      value={ticket.no}
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
                                         field.onChange(e);
+                                        handleNoTickets(e.target.value, index);
                                       }}
                                     />
                                   </FormControl>
@@ -3737,20 +3717,17 @@ function OganizerCreateEvent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div
-                                className="flex items-center justify-between"
-                                // onClick={() => handleDropdown(index)}
-                              >
+                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
-                                <Image src={false ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
-                              {false && (
+                              {ticket.optionDropDown && (
                                 <div className="grid-container">
                                   {options?.map((option) => (
                                     <div
                                       key={option.id}
                                       className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
-                                      // onClick={() => handleOptionToggle(index, option)}
+                                      onClick={() => handleOptionToggle(index, option)}
                                     >
                                       <div className="flex items-center gap-[10px]">
                                         <Image
@@ -3758,11 +3735,11 @@ function OganizerCreateEvent() {
                                           width={16}
                                           height={16}
                                           alt="img"
-                                          // className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
+                                          className={ticket?.options?.some((o: any) => o?.id === option?.id) ? "filtergreen" : ""}
                                         />
                                         <p
                                           className={`text-[16px] font-normal items-center ${
-                                            /*ticket?.options?.some((o) => o?.id === option?.id)*/ false ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                            ticket?.options?.some((o: any) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
                                           }`}
                                         >
                                           {option.label}
@@ -3938,7 +3915,10 @@ function OganizerCreateEvent() {
                             <div className="flex justify-end items-center mt-[29px] ticket-btn">
                               <Button
                                 className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
-                                onClick={() => handleDeleteTicketType(index)}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleDeleteTicketType(index);
+                                }}
                               >
                                 <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
                                 Delete Ticket Type
@@ -4025,7 +4005,7 @@ function OganizerCreateEvent() {
                             />
                             <FormField
                               control={form.control}
-                              name="eventcategory"
+                              name={`tickets.${index}.selected`}
                               render={({ field }) => (
                                 <FormItem
                                   className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
@@ -4033,84 +4013,35 @@ function OganizerCreateEvent() {
                             file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                             disabled:opacity-50"
                                 >
-                                  <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT category</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                                        {categoryTypes ? categoryTypes?.label : "Select Event Category"}
+                                        {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
                                     </div>
-                                    <Image src={isCatDropdownOpen ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                    <Image src={ticket?.selectedDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
 
-                                  {isCatDropdownOpen && (
+                                  {ticket?.selectedDropDown && (
                                     <>
-                                      <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                        {isCustomCatgory && (
-                                          <>
-                                            {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
-                                            {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
-                                            {spaceError == true && <p className="text-[red] text-[16px]">Put only single word!</p>}
-                                            <div
-                                              style={{
-                                                width: "100%",
-                                                marginTop: "10px",
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                                alignItems: "center",
-                                                gap: "20px",
-                                              }}
-                                            >
-                                              <input
-                                                type="text"
-                                                placeholder="Enter the Category name"
-                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e)}
-                                                value={customCategotyInput}
-                                                style={{
-                                                  width: "100%",
-                                                  paddingLeft: "5px",
-                                                  paddingTop: "5px",
-                                                  paddingBottom: "5px",
-                                                  borderRadius: "6px",
-                                                }}
-                                              />
-                                              <button
-                                                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                                                  e.preventDefault(); // Prevents default action (optional if button is not inside a form)
-                                                  handleCustomCatBtn();
-                                                }}
-                                                style={{
-                                                  background: "green",
-                                                  paddingLeft: "10px",
-                                                  paddingRight: "10px",
-                                                  lineHeight: "10px",
-                                                  paddingTop: "10px",
-                                                  paddingBottom: "10px",
-                                                  borderRadius: "5px",
-                                                  marginRight: "5px",
-                                                }}
-                                              >
-                                                Add
-                                              </button>
-                                            </div>
-                                          </>
-                                        )}
-                                        {optionscate?.map((option: any) => (
+                                      <div className="h-fit overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                                        {["Free", "Paid"].map((option: any, optionIndex: number) => (
                                           <div
-                                            key={option.label}
+                                            key={optionIndex}
                                             className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                            onClick={() => handleCateOptionToggle(option)}
+                                            onClick={() => handleTicketSelectionOption(option, index)}
                                           >
                                             <div className="flex items-center gap-[10px]">
                                               <p
                                                 className={`text-[16px] font-normal items-center ${
-                                                  categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                  ticket?.selected === option ? "text-[#00d059]" : "text-[#FFFFFF]"
                                                 }`}
                                               >
-                                                {option.label}
+                                                {option}
                                               </p>
                                             </div>
-                                            {categoryTypes?.label === option.label && <Image src={tick} width={16} height={16} alt="tick" />}
+                                            {ticket?.selected === option && <Image src={tick} width={16} height={16} alt="tick" />}
                                           </div>
                                         ))}
                                       </div>
@@ -4126,19 +4057,21 @@ function OganizerCreateEvent() {
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <FormField
                               control={form.control}
-                              name="eventname"
+                              name={`tickets.${index}.name`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
                                   <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    Event Name
+                                    EVENT Ticket Type
                                   </FormLabel>
                                   <FormControl>
                                     <Input
-                                      placeholder="Enter Event Name"
+                                      placeholder="Enter Ticket Name"
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                       {...field}
+                                      value={ticket.name}
                                       onChange={(e) => {
-                                        setEventname(e.target.value);
+                                        // setEventname(e.target.value);
+                                        handleTicketNameChange(e.target.value, index);
                                         field.onChange(e);
                                       }}
                                     />
@@ -4155,7 +4088,7 @@ function OganizerCreateEvent() {
                             {/* price field */}
                             <FormField
                               control={form.control}
-                              name={`tickets.1.type`}
+                              name={`tickets.${index}.price`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
@@ -4163,11 +4096,13 @@ function OganizerCreateEvent() {
                                   </FormLabel>
                                   <FormControl>
                                     <Input
+                                      disabled={ticket.selected === "Free" ? true : false}
                                       type="number"
                                       onWheel={(e: any) => e.target.blur()}
                                       placeholder="Enter Price"
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                       {...field}
+                                      value={ticket.price}
                                       onChange={(e) => {
                                         const value = e.target.value;
 
@@ -4181,6 +4116,7 @@ function OganizerCreateEvent() {
 
                                         // handleInputChange(index, "price", parseFloat(e.target.value));
                                         field.onChange(e);
+                                        handlTicketPriceChange(value, index);
                                       }}
                                     />
                                   </FormControl>
@@ -4192,7 +4128,7 @@ function OganizerCreateEvent() {
                             {/* Numbers of Tickets */}
                             <FormField
                               control={form.control}
-                              name={`tickets.1.type`}
+                              name={`tickets.${index}.no`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
@@ -4204,10 +4140,12 @@ function OganizerCreateEvent() {
                                       placeholder="Enter No. of Tickets"
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                       {...field}
+                                      value={ticket.no}
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
                                         field.onChange(e);
+                                        handleNoTickets(e.target.value, index);
                                       }}
                                     />
                                   </FormControl>
@@ -4555,20 +4493,17 @@ function OganizerCreateEvent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div
-                                className="flex items-center justify-between"
-                                // onClick={() => handleDropdown(index)}
-                              >
+                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
-                                <Image src={false ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
-                              {false && (
+                              {ticket.optionDropDown && (
                                 <div className="grid-container">
                                   {options?.map((option) => (
                                     <div
                                       key={option.id}
                                       className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
-                                      // onClick={() => handleOptionToggle(index, option)}
+                                      onClick={() => handleOptionToggle(index, option)}
                                     >
                                       <div className="flex items-center gap-[10px]">
                                         <Image
@@ -4576,11 +4511,11 @@ function OganizerCreateEvent() {
                                           width={16}
                                           height={16}
                                           alt="img"
-                                          // className={ticket?.options?.some((o) => o?.id === option?.id) ? "filtergreen" : ""}
+                                          className={ticket?.options?.some((o: any) => o?.id === option?.id) ? "filtergreen" : ""}
                                         />
                                         <p
                                           className={`text-[16px] font-normal items-center ${
-                                            /*ticket?.options?.some((o) => o?.id === option?.id)*/ false ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                            ticket?.options?.some((o: any) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
                                           }`}
                                         >
                                           {option.label}
@@ -5088,7 +5023,10 @@ function OganizerCreateEvent() {
                             <div className="flex justify-end items-center mt-[29px] ticket-btn">
                               <Button
                                 className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
-                                onClick={() => handleDeleteTicketType(index)}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleDeleteTicketType(index);
+                                }}
                               >
                                 <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
                                 Delete Ticket Type
