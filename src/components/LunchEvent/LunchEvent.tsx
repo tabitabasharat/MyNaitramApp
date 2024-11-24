@@ -25,8 +25,9 @@ function LunchEvent() {
     setisCreateModalOpen(true);
   };
 
+  // 1)
+  // Check First strip Account setUp or not by getting user Info
   useEffect(() => {
-    // Check First strip Account setUp or not
     setLoader(true);
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     if (userID) {
@@ -37,6 +38,25 @@ function LunchEvent() {
     }
   }, []);
 
+  // 2) Get the Data from get request of UserInfo
+  const UserInfo = useAppSelector((state) => state?.getUserInfoById?.userInfoData?.data);
+  // console.log("User Info is As===> ", UserInfo);
+  const userLoading = useAppSelector((state) => state?.getUserInfoById);
+
+  // 3) Hold the state of loader untill userInfo loads
+  useEffect(() => {
+    setLoader(userLoading?.loading);
+  }, [userLoading]);
+
+  // 4) Set the state to check weather the Strip Account created ot not
+  useEffect(() => {
+    if (UserInfo?.stripCreated) {
+      setAccountCreated(true);
+      setLinkVerified(true);
+    }
+  }, [UserInfo]);
+
+  // Last) check first Organizer Profile on clicking the Launch Event Btn
   async function checkProfile() {
     setLoader(true);
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -66,6 +86,9 @@ function LunchEvent() {
     }
   }
 
+  // If the Stripe Account is not Created then
+
+  // 4) If Stripe Account is not created then Call this function
   const handleAaccountCreated = () => {
     // Check First strip Account setUp or not
     setLoader(true);
@@ -77,16 +100,17 @@ function LunchEvent() {
     }
   };
 
+  // 5) Get the Data from response of Express Account created for Strip Link
   const accountData = useAppSelector((state) => state?.createExpressAccount?.accountData?.data);
   const accountCreationStatus = useAppSelector((state) => state?.createExpressAccount?.accountData?.status);
   const accountCreationLoader = useAppSelector((state) => state?.createExpressAccount);
 
+  // 6) After getting the strip account created set state data with response pf express Account created
   useEffect(() => {
     console.log("This is Link Statuds ===> ", accountData);
     if (accountCreationStatus === 200) {
       console.log("This is link Data ===> ", accountData?.stripLink);
       setLoader(accountCreationLoader?.loading);
-      // setAccountCreated(true);
       setCurrentLink(accountData?.stripLink);
       setLinkVerified(true);
     } else {
@@ -94,30 +118,10 @@ function LunchEvent() {
     }
   }, [accountData, accountCreationStatus]);
 
+  // 7) Send user to the Strip web Through this function
   const handleLinkVerification = (link: string) => {
     window.location.href = link;
   };
-
-  const handleStripeAaccountSetup = () => {
-    // setStripAccountSetUp(true);
-  };
-
-  const UserInfo = useAppSelector((state) => state?.getUserInfoById?.userInfoData?.data);
-
-  console.log("User Info is As===> ", UserInfo);
-
-  const userLoading = useAppSelector((state) => state?.getUserInfoById);
-
-  useEffect(() => {
-    setLoader(userLoading?.loading);
-  }, [userLoading]);
-
-  useEffect(() => {
-    if (UserInfo?.stripCreated) {
-      setAccountCreated(true);
-      setLinkVerified(true);
-    }
-  }, [UserInfo]);
 
   return loader ? (
     <ScreenLoader />
