@@ -118,7 +118,7 @@ const Analytics: React.FC<Props> = ({ window, children }) => {
       {
         text: "Event Analytics",
         icon: chats,
-        url: "/side-drawer/event-analytics",
+        url: "/side-drawer/live-event",
       },
     ];
   
@@ -158,9 +158,11 @@ const Analytics: React.FC<Props> = ({ window, children }) => {
               )}
             </div>
             <div>
+              <Link href="/side-drawer/event-analytics">
               <h3 className="text-[#FFFFFF99] ps-[9px] text-sm font-extrabold mb-[11px]">
               ANALYTICS
               </h3>
+              </Link>
               <div className="text-xl flex flex-col gap-[8px] font-bold">
                 {menuItems.map((item) => (
                   <Link href={item.url} key={item.text}>

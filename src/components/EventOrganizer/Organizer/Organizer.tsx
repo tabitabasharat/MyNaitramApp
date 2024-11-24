@@ -12,25 +12,22 @@ import { useSearchParams } from "next/navigation";
 const Organizer = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-const [userid,setUserid] = useState<any>("");
+  const [userid, setUserid] = useState<any>("");
   useEffect(() => {
-    const userid =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
 
     dispatch(getOrganizerDetail(userid));
   }, []);
 
-  // useEffect(() => {
+  // useEffect(() => {orgDetail
   //   const path = window.location.pathname;
   //   const accountId = path.split("/")[3];
   //   setUserid(accountId);
   //   dispatch(getOrganizerDetail(accountId));
   // }, []);
 
-  const myOrgData = useAppSelector(
-    (state) => state?.getOrgDetail?.orgDetail?.data?.data
-  );
+  const myOrgData = useAppSelector((state) => state?.getOrgDetail?.orgDetail?.data?.data);
 
   console.log("my Profilee is", myOrgData);
 
@@ -42,9 +39,7 @@ const [userid,setUserid] = useState<any>("");
       <div>
         <div className="flex mt-[44px] md:mt-[49px] flex-col  gap-[30px] md:gap-[36px] justify-center items-start lg:mt-[90px]">
           <div className="flex flex-col justify-center lg:mx-0 md:gap-[32px] gap-[32px] w-fit">
-            <h2 className="font-extrabold text-[20px] lg:ms-[0px] ms-[24px] lg:text-[32px]">
-              Organiser Dashboard
-            </h2>
+            <h2 className="font-extrabold text-[20px] lg:ms-[0px] ms-[24px] lg:text-[32px]">Organiser Dashboard</h2>
           </div>
           <div className="lg:w-auto xl:w-auto w-full">
             <div className="flex-adjustmentoforganiser gap-[32px]">
@@ -54,16 +49,13 @@ const [userid,setUserid] = useState<any>("");
                     <Image
                       src={
                         myOrgData?.userDetails?.organizerProfile?.profilePicture
-                          ? myOrgData?.userDetails?.organizerProfile
-                              ?.profilePicture
+                          ? myOrgData?.userDetails?.organizerProfile?.profilePicture
                           : "/person3.jpg"
                       }
                       width={216}
                       height={216}
                       className=" w-[156px] h-[156px] sm:w-[216px] sm:h-[216px] object-cover object-top rounded-full"
-                      placeholder={`data:image/svg+xml;base64,${toBase64(
-                        shimmer(1200, 1800)
-                      )}`}
+                      placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(1200, 1800))}`}
                       alt="DP"
                     />
                   </div>
@@ -95,57 +87,35 @@ const [userid,setUserid] = useState<any>("");
                         router.push("/management");
                       }}
                     >
-                      {myOrgData?.pagination?.totalEvents !== null
-                        ? myOrgData?.pagination?.totalEvents
-                        : "0"}
+                      {myOrgData?.pagination?.totalEvents !== null ? myOrgData?.pagination?.totalEvents : "0"}
                     </h2>
-                    <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      EVENTS
-                    </p>
+                    <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">EVENTS</p>
                   </div>
                   <div className="h-[58.01px] border-l border-[#292929] mx-0"></div>
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-                      {myOrgData?.totalAttendees !== null
-                        ? myOrgData?.totalAttendees
-                        : "0"}
+                      {myOrgData?.totalAttendees !== null ? myOrgData?.totalAttendees : "0"}
                     </h2>
-                    <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      ATTENDEES
-                    </p>
+                    <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">ATTENDEES</p>
                   </div>
                   <div className="h-[58.01px] border-l border-[#292929] mx-0"></div>
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-                      {myOrgData?.totalFollowers !== null
-                        ? myOrgData?.totalFollowers
-                        : "0"}
+                      {myOrgData?.totalFollowers !== null ? myOrgData?.totalFollowers : "0"}
                     </h2>
-                    <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      FOLLOWERS
-                    </p>
+                    <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">FOLLOWERS</p>
                   </div>
                   <div className="h-[58.01px] border-l border-[#292929] mx-0"></div>
                   <div className="flex flex-col items-center justify-center ">
                     <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-                      {myOrgData?.totalFollowers !== null
-                        ? myOrgData?.totalFollowers
-                        : "0"}
+                      {myOrgData?.totalFollowers !== null ? myOrgData?.totalFollowers : "0"}
                     </h2>
-                    <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      LIKES
-                    </p>
+                    <p className="text-[#A6A6A6]  text-[10px] lg:text-[8px] mt-[8px] md:mt-[6.89px] font-normal mb-0">LIKES</p>
                   </div>
                   <div className="h-[58.01px] border-l border-[#292929] mx-0"></div>
                   <div className="flex flex-col items-center justify-center ">
-                    <h2 className="font-normal md:text-[20px] text-[24px] mb-0">
-                    £{myOrgData?.totalSales !== null
-                        ? myOrgData?.totalSales
-                        : "0"}
-                    </h2>
-                    <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">
-                      SALES
-                    </p>
+                    <h2 className="font-normal md:text-[20px] text-[24px] mb-0">£{myOrgData?.totalSales !== null ? myOrgData?.totalSales : "0"}</h2>
+                    <p className="text-[#A6A6A6] md:text-[8px] text-[10px] mt-[8px] md:mt-[6.89px] font-normal mb-0">SALES</p>
                   </div>
                 </div>
               </div>

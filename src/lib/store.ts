@@ -39,12 +39,14 @@ import getPayoutHistory from "./reducer/getPayoutHistory";
 import getPayoutBankDetail from "./reducer/getPayoutBankDetail";
 import getPayoutCrypto from "./reducer/getPayoutCrypto";
 import getPaidDetail from "./reducer/getPaidDetail";
-import getHistoryByid from "./reducer/getHistoryById"
+import getHistoryByid from "./reducer/getHistoryById";
 import getWalletHistory from "./reducer/getWalletHistory";
-import  getOrgLiveSocialProfile  from "./reducer/getOrgLiveSocialProfile";
+import getOrgLiveSocialProfile from "./reducer/getOrgLiveSocialProfile";
 import getFollowStatus from "./reducer/getFollowStatus";
-import getPastEventBox from "./reducer/getPastEventsBox"
-import getPhotoRollChat from "./reducer/getPhotoRollChat"
+import getPastEventBox from "./reducer/getPastEventsBox";
+import getPhotoRollChat from "./reducer/getPhotoRollChat";
+import getUserInfoById from "./reducer/getUserInfo";
+import createExpressAccount from "./reducer/createExpressAcnt";
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -88,16 +90,14 @@ const appReducer = combineReducers({
   getPayoutCrypto: getPayoutCrypto,
   getPaidDetail: getPaidDetail,
   getWalletHistory: getWalletHistory,
-  getOrgLiveSocialProfile:getOrgLiveSocialProfile,
-  getFollowStatus:getFollowStatus,
-  getPhotoRollChat:getPhotoRollChat,
-  getHistoryByid:getHistoryByid,
-
+  getOrgLiveSocialProfile: getOrgLiveSocialProfile,
+  getFollowStatus: getFollowStatus,
+  getPhotoRollChat: getPhotoRollChat,
+  getHistoryByid: getHistoryByid,
+  getUserInfoById: getUserInfoById,
+  createExpressAccount: createExpressAccount,
 });
-const rootReducer = (
-  state: ReturnType<typeof appReducer> | undefined,
-  action: AnyAction
-) => {
+const rootReducer = (state: ReturnType<typeof appReducer> | undefined, action: AnyAction) => {
   if (action.type === "LOGOUT") {
     state = undefined;
   }
