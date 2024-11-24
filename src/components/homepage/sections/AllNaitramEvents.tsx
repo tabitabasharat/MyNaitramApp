@@ -95,10 +95,10 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
       if (event) {
         setSelectedEvent(event);
       } else {
-        setSelectedEvent(eventimges[0]); // Default if event not found
+        setSelectedEvent(eventimges[0]);
       }
     } else {
-      setSelectedEvent(eventimges[0]); // Default if no query parameter
+      setSelectedEvent(eventimges[0]);
     }
   }, [searchParams]);
 
@@ -189,12 +189,9 @@ const AllNaitramEvents = ({ setPopupOpen }: any) => {
         </div>
         <h2 className="font-bold text-[32px] mb-[24px] lg:text-[48px] mt-[40px] md:mb-[2rem] 2xl:mt-10">🗓 {title}</h2>
 
-        {/* Search web */}
-
         <div className="md:flex justify-start gap-10 w-full">
           <FilterSideBar />
 
-          {/* Search inputs for different event types */}
           <div className="w-full lg:mt-0 mt-[24px]">
             <div className="w-full relative mb-[32px]">
               {title === "All Events" && (
