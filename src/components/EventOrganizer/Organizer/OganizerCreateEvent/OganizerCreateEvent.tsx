@@ -109,6 +109,8 @@ type TicketTypeOption = {
 type FestivalEventsDate = {
   startDate: string;
   endDate: string;
+  isStartEventPickerOpen: boolean;
+  isEndEventPickerOpen: boolean;
 };
 
 type FestivalType = {
@@ -120,6 +122,8 @@ type FestivalType = {
   no: any;
   typename: any;
   ticketstart: any;
+  isTicketStartPickerOpen: boolean;
+  isTicketEndPickerOpen: boolean;
   ticketend: any;
   eventdates: FestivalEventsDate[];
   options: TicketTypeOption[];
@@ -137,6 +141,7 @@ type RsvpType = {
   typeDropDown: boolean;
   name: any;
   deadline: any;
+  isDeadlinePickerOpen: boolean;
   capacity: any;
   options: TicketTypeOption[];
   optionDropDown: boolean;
@@ -158,8 +163,12 @@ type PrivateType = {
   name: string;
   ticketstart: string;
   ticketend: string;
+  isTicketStartPickerOpen: boolean;
+  isTicketEndPickerOpen: boolean;
   eventstart: string;
   eventend: string;
+  isStartEventPickerOpen: boolean;
+  isEndEventPickerOpen: boolean;
   options: TicketTypeOption[];
   optionDropDown: boolean;
 
@@ -182,8 +191,12 @@ type PasswordedType = {
   name: string;
   ticketstart: string;
   ticketend: string;
+  isTicketStartPickerOpen: boolean;
+  isTicketEndPickerOpen: boolean;
   eventstart: string;
   eventend: string;
+  isStartEventPickerOpen: boolean;
+  isEndEventPickerOpen: boolean;
   options: TicketTypeOption[];
   optionDropDown: boolean;
 
@@ -708,7 +721,6 @@ function OganizerCreateEvent() {
   const [coverImageWarning, setCoverImageWarning] = useState<any>(false);
 
   ///////////////////////////////////////////////////////////// Define these all States in Object states
-
   const [isPickerOpen, setIsPickerOpen] = useState(false); // State to manage picker visibility
   const [isEndDatePickerOpen, setIsEndDatePickerOpen] = useState(false);
   const [isStartEventPickerOpen, setIsStartEventPickerOpen] = useState(false);
@@ -741,7 +753,7 @@ function OganizerCreateEvent() {
 
   // //////////////////////////////////////////////////////////////////////////////////
   const [Eventdescription, setEventdescription] = useState("");
-  console.log("event des", EventEndTime);
+  // console.log("event des", EventEndTime);
 
   const [CompTicketNo, setCompTicketNo] = useState("");
   const [MainImg, setMainImg] = useState("");
@@ -772,6 +784,8 @@ function OganizerCreateEvent() {
     typename: "",
     ticketstart: "",
     ticketend: "",
+    isTicketStartPickerOpen: false,
+    isTicketEndPickerOpen: false,
     eventdates: [],
     options: [],
     optionDropDown: false,
@@ -782,6 +796,7 @@ function OganizerCreateEvent() {
     typeDropDown: false,
     name: "",
     deadline: "",
+    isDeadlinePickerOpen: false,
     capacity: "",
     options: [],
     optionDropDown: false,
@@ -801,8 +816,12 @@ function OganizerCreateEvent() {
     name: "",
     ticketstart: "",
     ticketend: "",
+    isTicketStartPickerOpen: false,
+    isTicketEndPickerOpen: false,
     eventstart: "",
     eventend: "",
+    isStartEventPickerOpen: false,
+    isEndEventPickerOpen: false,
     options: [],
     optionDropDown: false,
 
@@ -823,8 +842,12 @@ function OganizerCreateEvent() {
     name: "",
     ticketstart: "",
     ticketend: "",
+    isTicketStartPickerOpen: false,
+    isTicketEndPickerOpen: false,
     eventstart: "",
     eventend: "",
+    isStartEventPickerOpen: false,
+    isEndEventPickerOpen: false,
     options: [],
     optionDropDown: false,
 
