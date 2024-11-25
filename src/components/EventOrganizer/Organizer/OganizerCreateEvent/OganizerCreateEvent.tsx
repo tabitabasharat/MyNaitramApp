@@ -2129,6 +2129,7 @@ function OganizerCreateEvent() {
                           placeholder="Enter URL"
                           className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                           {...form}
+                          value={FBUrl}
                           onChange={(e) => {
                             const value = e.target.value;
                             // setFBUrl(value);

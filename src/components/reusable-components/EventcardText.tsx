@@ -19,22 +19,22 @@ const eventCardsData = new Array(6).fill({
 
 const EventcardText = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {eventCardsData.map((event, index) => (
-        <ScaleReveal key={index} extraStyle="w-full lg:h-full">
-          <div className="relative overflow-hidden rounded-lg w-full h-[288px] xl:w-[450px] xl:h-[400px] border border-[#424242] ">
+        <ScaleReveal key={index} extraStyle="">
+          <div className="relative overflow-hidden rounded-lg h-[288px] w-full md:w-full xl:h-[380px] sm:w-[288px] border border-[#424242]">
             <Image
               src={event.image}
               width={288}
               height={288}
-              className="md:w-[288px] h-[288px] lg:w-full w-full lg:h-[600px] rounded-lg object-cover relative mx-auto overflow-hidden"
+              className="w-full md:w-full h-[288px] xl:h-[380px] rounded-lg object-fill relative mx-auto overflow-hidden"
               placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(1200, 1800))}`}
               alt="event-img"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
 
-            <div className="absolute flex justify-between gap-[2rem] h-full items-end z-[2] p-4 top-0 w-full">
-              <p className="font-bold text-white text-xl">{event.title}</p>
+            <div className="absolute flex justify-between gap-4 h-full items-end z-[2] p-4 top-0 w-full">
+              <p className="font-bold w-[75%] text-white text-lg sm:text-xl">{event.title}</p>
             </div>
           </div>
         </ScaleReveal>

@@ -54,18 +54,18 @@ const TicketData = () => {
     useEffect(() => {
         // Calculate the sum of all numerators
         const sumNumerators = rows.reduce((sum, row) => {
-          const [numerator] = row.sales.split('/').map((value) => parseInt(value, 10));
-          return sum + numerator;
+            const [numerator] = row.sales.split('/').map((value) => parseInt(value, 10));
+            return sum + numerator;
         }, 0);
-    
+
         const sumDenominators = rows.reduce((sum, row) => {
-          const [, denominator] = row.sales.split('/').map((value) => parseInt(value, 10));
-          return sum + denominator;
+            const [, denominator] = row.sales.split('/').map((value) => parseInt(value, 10));
+            return sum + denominator;
         }, 0);
-    
+
         setTotalNumerator(sumNumerators);
         setTotalDenominator(sumDenominators);
-      }, []);
+    }, []);
 
     useEffect(() => {
         const totalPrice = rows.reduce((sum, row) => sum + row.price, 0.0);
@@ -89,29 +89,31 @@ const TicketData = () => {
                     PIZDEZ Womens Day Party 2024
                 </h1>
             </div>
-            <div className='flex gap-[12px] w-full max-[425px]:flex-col'>
-                <div className='w-full px-[12px] lg:w-[495px] py-[16px] gradient-slate rounded-[8px]'>
+            <div className='flex gap-[12px] w-full max-[425px]:flex-col'>                            
+                <div className='w-full px-[12px] lg:w-[495px] py-[16px] gradient-slate gradient-slate-input rounded-[8px]'>
                     <p className='text-sm'>Total Sales</p>
                     <h3 className='text-[#00D059] text-[30px] font-extrabold'>54</h3>
                 </div>
-                <div className='w-full px-[12px] lg:w-[495px] py-[16px] gradient-slate rounded-[8px]'>
+                <div className='w-full px-[12px] lg:w-[495px] py-[16px] gradient-slate gradient-slate-input rounded-[8px]'>
                     <p className='text-sm'>Total Revenue</p>
                     <h3 className='text-[#00D059] text-[30px] font-extrabold'>£10,950.6</h3>
                 </div>
             </div>
             <div>
                 <h2 className='font-extrabold text-[32px] mb-[24px]'>Sales</h2>
-                <TableContainer component={Paper} sx={{ boxShadow: "none", background: "transparent", overflow: "auto", 
-                    maxHeight: "100%", 
+                <TableContainer component={Paper} sx={{
+                    boxShadow: "none", background: "transparent", overflow: "auto",
+                    maxHeight: "100%",
                     '&::-webkit-scrollbar': {
-                      width: 0, 
-                      height: 0,
+                        width: 0,
+                        height: 0,
                     },
                     '&::-webkit-scrollbar-thumb': {
-                      display: 'none', 
+                        display: 'none',
                     },
-                    scrollbarWidth: 'none', 
-                    msOverflowStyle: 'none',  }}>
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none',
+                }}>
                     <Table className=''
                         sx={{
                             // minWidth: 650,
@@ -192,17 +194,17 @@ const TicketData = () => {
                                     Sales
                                 </TableCell>
                                 <TableCell
-                                 className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[175px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
-                                 align="left"
-                                 sx={{
-                                     color: "#A6A6A6",
-                                     borderBottom: "none",
-                                     fontFamily: "var(--font-base)",
-                                     borderTop: "none",
-                                     border: "none",
-                                     borderTopRightRadius: "8px",
-                                     borderBottomRightRadius: '8px',
-                                 }}
+                                    className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[175px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    align="left"
+                                    sx={{
+                                        color: "#A6A6A6",
+                                        borderBottom: "none",
+                                        fontFamily: "var(--font-base)",
+                                        borderTop: "none",
+                                        border: "none",
+                                        borderTopRightRadius: "8px",
+                                        borderBottomRightRadius: '8px',
+                                    }}
                                 >
                                     Revenue
                                 </TableCell>
@@ -231,7 +233,7 @@ const TicketData = () => {
                             />
                         </TableRow>
 
-                        <TableBody className="gradient-slate">
+                        <TableBody className="gradient-slate ">
                             {rows.map((row, rowIndex) => (
                                 <TableRow
                                     key={row.name}
@@ -338,17 +340,18 @@ const TicketData = () => {
                                 {
                                     border: "none",
                                 }
-                            }>
+                            }
+                            >
                                 <TableCell colSpan={3} align="right" className='gradient-slate' sx={{ border: "none", fontWeight: "bold", borderBottomLeftRadius: "10px", borderTopLeftRadius: "10px" }}>
 
                                 </TableCell>
-                    
+
                                 <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", }} className='gradient-slate text-[#A6A6A6]'>
-                                       <div className="flex justify-between w-1/4">
-                                            <span>{totalNumerator}</span>
-                                            <span>/</span>
-                                            <span>{totalDenominator}</span>
-                                        </div>
+                                    <div className="flex justify-between w-1/4">
+                                        <span>{totalNumerator}</span>
+                                        <span>/</span>
+                                        <span>{totalDenominator}</span>
+                                    </div>
                                 </TableCell>
                                 <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", borderBottomRightRadius: "8px", borderTopRightRadius: "8px" }} className='gradient-slate text-[#A6A6A6]'>
                                     £{sumData.toFixed(2)}
