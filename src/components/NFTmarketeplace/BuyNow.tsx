@@ -57,6 +57,8 @@ const SaleOption: React.FC<SaleOptionProps> = ({
 const customStyles = {
     control: (base: any, state: any) => ({
         ...base,
+        display: 'flex',
+        alignItems: 'center',
         backgroundColor: 'transparent',
         padding: '0',
         color: '#BFBFBF',
@@ -101,6 +103,21 @@ const customStyles = {
         fontSize: '16px',
         lineHeight: '21.6px',
     }),
+    valueContainer: (base:any) => ({
+        ...base,
+        justifyContent: 'flex-start', // Keeps text left-aligned
+      }),
+      placeholder: (base:any) => ({
+        ...base,
+        color: '#BFBFBF',
+        fontSize: '16px',
+        fontWeight: 400,
+        lineHeight: '21.6px',
+      }),
+      dropdownIndicator: (base:any) => ({
+        ...base,
+        alignSelf: 'center', // Ensures the icon is centered vertically
+      }),
 };
 const options = [
     { value: 'ETH', label: 'ETH' },
@@ -186,7 +203,7 @@ const BuyNow = () => {
                         <div className="flex flex-col gap-[12px]">
                             <p className="font-[800] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">Duration</p>
                             <Select
-                  className="w-full h-[54px] pt-[5px] pl-[16px] pr-[16px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
+                  className="w-full  h-[54px] pt-[5px] pl-[16px] pr-[16px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
                   placeholder="1 Month"
                   options={durationOptions}
                   onChange={handleDurationChange}
@@ -234,8 +251,8 @@ const BuyNow = () => {
                         </div>
                         <Button
                 //   onClick={() => FeedBackOnEvent()}
-                className="text-sm font-extrabold text-center w-full rounded-[100px] py-[12px] text-[black] bg-[#00D059]"
-              >
+                className=" text-sm font-extrabold text-center w-full rounded-[100px] py-[12px] text-[black] bg-[#00D059]"
+              style={{fontFamily: "var(--font-base)",}}>
                Complete Listing
               </Button>
 
@@ -243,9 +260,9 @@ const BuyNow = () => {
                     </div>
 
                 </div>
-                <div className="BuyNowMarketPlace-gradient w-[400px]  h-[512px] max-[450px]:w-full">
+                <div className="BuyNowMarketPlace-gradient w-[400px]  h-[512px] max-[450px]:w-full  max-[450px]:h-auto">
                     <div className="flex flex-col p-[16px] w-full gap-[20px]">
-                        <Image className='w-full h-[342px] ' src={BuyNowImage} alt='Image PlaceHolder' />
+                        <Image className='w-full h-[342px] max-[450px]:h-[219px] max-[450px]:w-[300px] ' src={BuyNowImage} alt='Image PlaceHolder' />
                         <div className="flex flex-col gap-[12px]">
                             <p className="text-white font-[800] text-[18px] leading-[19.15px] max-[500px]:text-[16px] max-[500px]:leading-[16.51px] ">The Orbitians</p>
                             <p className="text-[#BFBFBF] font-[400] text-[14px] leading-[16.8px] max-[500px]:text-[12px] max-[500px]:leading-[14.4px]">@silent-blue</p>

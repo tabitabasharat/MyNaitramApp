@@ -31,51 +31,68 @@ interface OptionType {
 }
 const customStyles = {
   control: (base: any, state: any) => ({
-    ...base,
-    backgroundColor: 'transparent',
-    padding: '0',
-    color: '#BFBFBF',
-    fontWeight: '400',
-    fontSize: '16px',
-    lineHeight: '21.6px',
-    border: 'none',  // Remove border by default
-    boxShadow: state.isFocused ? 'none' : '', // Remove any shadow if focused
-    '&:hover': {
-      border: 'none', // Ensures the border is also removed on hover
-    },
-    '&:focus': {
-      border: 'none', // Ensure no border on focus
-      boxShadow: 'none', // Ensure no box shadow on focus
-    },
+      ...base,
+      display: 'flex',
+      alignItems: 'center',
+      backgroundColor: 'transparent',
+      padding: '0',
+      color: '#BFBFBF',
+      fontWeight: '400',
+      fontSize: '16px',
+      lineHeight: '21.6px',
+      border: 'none',  // Remove border by default
+      boxShadow: state.isFocused ? 'none' : '', // Remove any shadow if focused
+      '&:hover': {
+          border: 'none', // Ensures the border is also removed on hover
+      },
+      '&:focus': {
+          border: 'none', // Ensure no border on focus
+          boxShadow: 'none', // Ensure no box shadow on focus
+      },
   }),
   menu: (base: any) => ({
-    ...base,
-    background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
-    borderRadius: '8px',
+      ...base,
+      background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+      borderRadius: '8px',
 
   }),
   menuList: (base: any) => ({
-    ...base,
-    padding: '0',  // Remove any padding if needed
+      ...base,
+      padding: '0',  // Remove any padding if needed
   }),
   option: (base: any, state: any) => ({
-    ...base,
-    color: '#BFBFBF',
-    fontWeight: '400',
-    fontSize: '16px',
-    lineHeight: '21.6px',
-    backgroundColor: state.isSelected ? 'transparent' : base.backgroundColor, // Green on selection
-    '&:hover': {
-      backgroundColor: '#00D059', // Green on hover
-    },
+      ...base,
+      color: '#BFBFBF',
+      fontWeight: '400',
+      fontSize: '16px',
+      lineHeight: '21.6px',
+      backgroundColor: state.isSelected ? 'transparent' : base.backgroundColor, // Green on selection
+      '&:hover': {
+          backgroundColor: '#00D059', // Green on hover
+      },
   }),
   singleValue: (base: any) => ({
-    ...base,
-    color: '#BFBFBF',  // Ensures the selected value text is styled
-    fontWeight: '400',
-    fontSize: '16px',
-    lineHeight: '21.6px',
+      ...base,
+      color: '#BFBFBF',  // Ensures the selected value text is styled
+      fontWeight: '400',
+      fontSize: '16px',
+      lineHeight: '21.6px',
   }),
+  valueContainer: (base:any) => ({
+      ...base,
+      justifyContent: 'flex-start', // Keeps text left-aligned
+    }),
+    placeholder: (base:any) => ({
+      ...base,
+      color: '#BFBFBF',
+      fontSize: '16px',
+      fontWeight: 400,
+      lineHeight: '21.6px',
+    }),
+    dropdownIndicator: (base:any) => ({
+      ...base,
+      alignSelf: 'center', // Ensures the icon is centered vertically
+    }),
 };
 
 const options = [
@@ -126,9 +143,9 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
     <Form {...form}>
       <Dialog open={open} onOpenChange={onClose}>
         <form className=" w-full">
-          <DialogContent className="w-[650px] ">
+          <DialogContent className="w-[650px] h-[723px] gap-[0px]">
             <DialogHeader className="space-y-0">
-              <DialogTitle className="font-extrabold text-[20px] md:text-[24px] leading-[27.6px]">Make an Offer</DialogTitle>
+              <DialogTitle className="font-extrabold pt-[20px] pb-[16px] text-[20px] md:text-[24px] leading-[27.6px]">Make an Offer</DialogTitle>
             </DialogHeader>
             <Separator className="scale--[1.12] bg-[#292929]" />
 

@@ -699,6 +699,7 @@ body {
 }
 .BuyNowMarketPlace-gradient {
   position: relative;
+  /* height: 512px; */
   border-radius: 8px; /* Rounded corners */
   background: linear-gradient(135deg, #13FF7A 0.2%, #002B12 50.2%, #13FF7A 100.2%); /* Gradient border */
   padding: 1px; /* Thickness of border */
@@ -707,6 +708,7 @@ body {
 
 .BuyNowMarketPlace-gradient > * {
   position: relative;
+ height: 100%;
   border-radius: 8px; /* Match parent's radius */
   background: linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%); /* Inner dark gradient */
   z-index: 1; /* Ensure content stays above the gradient */
