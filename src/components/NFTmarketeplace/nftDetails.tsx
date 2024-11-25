@@ -3,6 +3,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import image1 from "@/assets/image28.svg";
 import heart from "@/assets/heart.svg";
 import eye from "@/assets/eye.svg";
@@ -49,6 +50,7 @@ interface VisibleSections {
   [key: string]: boolean;
 }
 const NftDetails = () => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("Price History");
   const [visibleSections, setVisibleSections] = useState<VisibleSections>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,6 +77,10 @@ const NftDetails = () => {
     setIsModalOpen(false); // Close the modal
   };
 
+
+  const handleBuyNowClick = () => {
+    router.push("/marketPlace/nft/buy-now"); // Navigate to the Buy Now page
+  };
   return (
     <div className=" ">
       <section className=" pt-[173px] pb-[108px] bg-cover bg-no-repeat  lg: bg-reward  main pl-[92px] pr-[97px]">
@@ -205,7 +211,7 @@ const NftDetails = () => {
             <div className="flex flex-col gap-[40px]">
               <div className="buttonsrounded flex gap-[32px]">
                 <Button
-                  
+                   onClick={handleBuyNowClick}
                   size="lg"
                   className="buttonrounded flex items-center ready-btn font-[800] text-[16px] leading-[22.4px]  px-[110.5px] py-[19.5px] "
                 >
