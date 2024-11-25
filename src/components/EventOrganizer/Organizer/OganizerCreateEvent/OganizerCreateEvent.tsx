@@ -774,6 +774,13 @@ function OganizerCreateEvent() {
 
   const router = useRouter();
 
+  const newEventObject: FestivalEventsDate = {
+    startDate: "",
+    endDate: "",
+    isStartEventPickerOpen: false,
+    isEndEventPickerOpen: false,
+  };
+
   const festivalTicket: FestivalType = {
     type: "Festivals / Multi-Day Tickets / Season Passes",
     typeDropDown: false,
@@ -786,7 +793,7 @@ function OganizerCreateEvent() {
     ticketend: "",
     isTicketStartPickerOpen: false,
     isTicketEndPickerOpen: false,
-    eventdates: [],
+    eventdates: [newEventObject],
     options: [],
     optionDropDown: false,
   };
@@ -1737,6 +1744,79 @@ function OganizerCreateEvent() {
     );
   };
 
+  // Handling the festival Events Dates
+
+  // Add new Event in Festival Events
+  const addNewEventDateInFestival = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, eventdates: [...ticket.eventdates, newEventObject] } : ticket))
+    );
+  };
+
+  // handle start picker
+  const festivalStartEventPicker = (ticketIndex: number, eventIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex
+          ? {
+              ...ticket,
+              eventdates: ticket.eventdates.map((event: any, e_num: number) =>
+                e_num === eventIndex ? { ...event, isStartEventPickerOpen: !isStartEventPickerOpen } : event
+              ),
+            }
+          : ticket
+      )
+    );
+
+    console.log("Festival StartPicker is:==> ", ticketTypes[ticketIndex]);
+  };
+
+  // handle end picker
+  const festivalEndEventPicker = (ticketIndex: number, eventIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex
+          ? {
+              ...ticket,
+              eventdates: ticket.eventdates.map((event: any, e_num: number) =>
+                e_num === eventIndex ? { ...event, isEndEventPickerOpen: !isEndEventPickerOpen } : event
+              ),
+            }
+          : ticket
+      )
+    );
+  };
+
+  // handle start value
+  const festivalStartEventValue = (ticketIndex: number, eventIndex: number, formattedDate: string) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex
+          ? {
+              ...ticket,
+              eventdates: ticket.eventdates.map((event: any, e_num: number) =>
+                e_num === eventIndex ? { ...event, startDate: formattedDate } : event
+              ),
+            }
+          : ticket
+      )
+    );
+  };
+
+  // handle end value
+  const festivalEndEventValue = (ticketIndex: number, eventIndex: number, formattedDate: string) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex
+          ? {
+              ...ticket,
+              eventdates: ticket.eventdates.map((event: any, e_num: number) => (e_num === eventIndex ? { ...event, endDate: formattedDate } : event)),
+            }
+          : ticket
+      )
+    );
+  };
+
   return (
     <section
       style={{
@@ -2576,180 +2656,187 @@ function OganizerCreateEvent() {
                           </div>
 
                           {/* Event Start Date and Event End Date */}
-                          <div className="flex items-start gap-[24px] w-full common-container mt-[-9px] mb-[12px]">
-                            {/* Event Start */}
-                            <div className="w-full">
-                              <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                  <DemoContainer components={["DateTimePicker"]}>
-                                    <FormField
-                                      control={form.control}
-                                      name="eventstarttime"
-                                      render={({ field }) => {
-                                        const currentDateTime = dayjs();
-                                        // const minStartTime = dayjs(TicketEndDate || new Date());
+                          {ticket.eventdates.map((event: any, eventIndex: number) => {
+                            return (
+                              <div className="flex items-start gap-[24px] w-full common-container mt-[-9px] mb-[12px]">
+                                {/* Event Start */}
+                                <div className="w-full">
+                                  <ThemeProvider theme={themeMui}>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                      <DemoContainer components={["DateTimePicker"]}>
+                                        <FormField
+                                          control={form.control}
+                                          name={`tickets.${index}.eventdates.${eventIndex}.startDate`}
+                                          render={({ field }) => {
+                                            const currentDateTime = dayjs();
+                                            // const minStartTime = dayjs(TicketEndDate || new Date());
 
-                                        // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
+                                            // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
 
-                                        // const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
+                                            // const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
 
-                                        // const referenceEventDate = validStartTime.add(10, "minute");
+                                            // const referenceEventDate = validStartTime.add(10, "minute");
 
-                                        return (
-                                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event Start Date & Time
-                                            </FormLabel>
-                                            <FormControl>
-                                              <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
-                                                {/* <div className=" w-full"> */}
+                                            return (
+                                              <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                                  Event Start Date & Time
+                                                </FormLabel>
+                                                <FormControl>
+                                                  <div className=" w-full" onClick={() => festivalStartEventPicker(index, eventIndex)}>
+                                                    {/* <div className=" w-full"> */}
 
-                                                <StyledDateTimePicker
-                                                  open={isStartEventPickerOpen}
-                                                  //  value={validStartTime}
-                                                  formatDensity="spacious"
-                                                  // referenceDate={referenceEventDate}
-                                                  referenceDate={currentDateTime}
-                                                  onKeyDown={(e: any) => e.preventDefault()}
-                                                  onChange={(e: any) => {
-                                                    if (e && e.isValid()) {
-                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setEventStartTime(formattedDate);
-                                                      field.onChange(formattedDate);
-                                                      // setIsStartEventPickerOpen(false);
-                                                      toggleStartEventTimePicker(index);
-                                                    }
-                                                  }}
-                                                  //  label="Event End Date & Time"
-                                                  // minDateTime={minStartTime}
-                                                  // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
-                                                  slots={{
-                                                    openPickerIcon: () => (
-                                                      <CalendarTodayIcon
-                                                        style={{
-                                                          color: "#5e5e5e",
-                                                          fontSize: "15px",
-                                                          position: "absolute",
-                                                          top: "-17px",
-                                                          right: "5px",
-                                                        }}
-                                                      />
-                                                    ),
-                                                  }}
-                                                  slotProps={{
-                                                    tabs: {
-                                                      hidden: false,
-                                                    },
-                                                    toolbar: {
-                                                      toolbarFormat: "YYYY",
-                                                      hidden: false,
-                                                    },
-                                                    calendarHeader: {
-                                                      sx: { color: "white" },
-                                                    },
-                                                    textField: {
-                                                      inputProps: { readOnly: true },
-                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
-                                                    },
-                                                  }}
-                                                />
-                                              </div>
-                                            </FormControl>
-                                            <FormMessage />
-                                          </FormItem>
-                                        );
-                                      }}
-                                    />
-                                  </DemoContainer>
-                                </LocalizationProvider>
-                              </ThemeProvider>
-                            </div>
+                                                    <StyledDateTimePicker
+                                                      open={event.isStartEventPickerOpen}
+                                                      //  value={validStartTime}
+                                                      formatDensity="spacious"
+                                                      // referenceDate={referenceEventDate}
+                                                      referenceDate={currentDateTime}
+                                                      onKeyDown={(e: any) => e.preventDefault()}
+                                                      autoOk={false}
+                                                      onChange={(e: any) => {
+                                                        if (e && e.isValid()) {
+                                                          const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                          festivalStartEventValue(index, eventIndex, formattedDate);
+                                                          field.onChange(formattedDate);
+                                                          // setIsStartEventPickerOpen(false);
+                                                          // toggleStartEventTimePicker(index);
+                                                          festivalStartEventPicker(index, eventIndex);
+                                                        }
+                                                      }}
+                                                      //  label="Event End Date & Time"
+                                                      // minDateTime={minStartTime}
+                                                      // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                                      slots={{
+                                                        openPickerIcon: () => (
+                                                          <CalendarTodayIcon
+                                                            style={{
+                                                              color: "#5e5e5e",
+                                                              fontSize: "15px",
+                                                              position: "absolute",
+                                                              top: "-17px",
+                                                              right: "5px",
+                                                            }}
+                                                          />
+                                                        ),
+                                                      }}
+                                                      slotProps={{
+                                                        tabs: {
+                                                          hidden: false,
+                                                        },
+                                                        toolbar: {
+                                                          toolbarFormat: "YYYY",
+                                                          hidden: false,
+                                                        },
+                                                        calendarHeader: {
+                                                          sx: { color: "white" },
+                                                        },
+                                                        textField: {
+                                                          inputProps: { readOnly: true },
+                                                          placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                        },
+                                                      }}
+                                                    />
+                                                  </div>
+                                                </FormControl>
+                                                <FormMessage />
+                                              </FormItem>
+                                            );
+                                          }}
+                                        />
+                                      </DemoContainer>
+                                    </LocalizationProvider>
+                                  </ThemeProvider>
+                                </div>
 
-                            {/* Event Ends */}
-                            <div className="w-full">
-                              <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                  <DemoContainer components={["DateTimePicker"]}>
-                                    <FormField
-                                      control={form.control}
-                                      name="eventendtime"
-                                      render={({ field }) => {
-                                        const currentDateTime = dayjs();
-                                        // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
+                                {/* Event Ends */}
+                                <div className="w-full">
+                                  <ThemeProvider theme={themeMui}>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                      <DemoContainer components={["DateTimePicker"]}>
+                                        <FormField
+                                          control={form.control}
+                                          name={`tickets.${index}.eventdates.${eventIndex}.endDate`}
+                                          render={({ field }) => {
+                                            const currentDateTime = dayjs();
+                                            // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
-                                        // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+                                            // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
 
-                                        return (
-                                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event End Date & Time
-                                            </FormLabel>
-                                            <FormControl>
-                                              <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
-                                                <StyledDateTimePicker
-                                                  open={isEndEventPickerOpen}
-                                                  // referenceDate={defaultEndTime}
-                                                  referenceDate={currentDateTime}
-                                                  formatDensity="spacious"
-                                                  onKeyDown={(e: any) => e.preventDefault()}
-                                                  onChange={(e: any) => {
-                                                    if (e && e.isValid()) {
-                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setEventEndTime(formattedDate);
-                                                      field.onChange(formattedDate);
-                                                      console.log("my ened time", formattedDate);
-                                                      // setIsEndEventPickerOpen(false);
-                                                      toggleEndEventTimePicker(index);
-                                                      console.log("my ened time", formattedDate);
-                                                    }
-                                                  }}
-                                                  disablePast
-                                                  //  label="Event End Date & Time"
-                                                  // minDateTime={dayjs("2024-10-15T08:30")}
-                                                  // minDateTime={adjustedEventStartTime}
-                                                  // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
-                                                  slots={{
-                                                    openPickerIcon: () => (
-                                                      <CalendarTodayIcon
-                                                        style={{
-                                                          color: "#5e5e5e",
-                                                          fontSize: "15px",
-                                                          position: "absolute",
-                                                          top: "-17px",
-                                                          right: "5px",
-                                                        }}
-                                                      />
-                                                    ),
-                                                  }}
-                                                  slotProps={{
-                                                    tabs: {
-                                                      hidden: false,
-                                                    },
-                                                    toolbar: {
-                                                      toolbarFormat: "YYYY",
-                                                      hidden: false,
-                                                    },
-                                                    calendarHeader: {
-                                                      sx: { color: "white" },
-                                                    },
-                                                    textField: {
-                                                      inputProps: { readOnly: true },
-                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
-                                                    },
-                                                  }}
-                                                />
-                                              </div>
-                                            </FormControl>
-                                            <FormMessage />
-                                          </FormItem>
-                                        );
-                                      }}
-                                    />
-                                  </DemoContainer>
-                                </LocalizationProvider>
-                              </ThemeProvider>
-                            </div>
-                          </div>
+                                            return (
+                                              <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                                <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                                  Event End Date & Time
+                                                </FormLabel>
+                                                <FormControl>
+                                                  <div className=" w-full" onClick={() => festivalEndEventPicker(index, eventIndex)}>
+                                                    <StyledDateTimePicker
+                                                      open={event.isEndEventPickerOpen}
+                                                      // referenceDate={defaultEndTime}
+                                                      referenceDate={currentDateTime}
+                                                      formatDensity="spacious"
+                                                      onKeyDown={(e: any) => e.preventDefault()}
+                                                      onChange={(e: any) => {
+                                                        if (e && e.isValid()) {
+                                                          const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                          festivalEndEventValue(index, eventIndex, formattedDate);
+                                                          field.onChange(formattedDate);
+                                                          console.log("my ened time", formattedDate);
+                                                          // setIsEndEventPickerOpen(false);
+                                                          // toggleEndEventTimePicker(index);
+                                                          festivalEndEventPicker(index, eventIndex);
+                                                          console.log("my ened time", formattedDate);
+                                                        }
+                                                      }}
+                                                      disablePast
+                                                      //  label="Event End Date & Time"
+                                                      // minDateTime={dayjs("2024-10-15T08:30")}
+                                                      // minDateTime={adjustedEventStartTime}
+                                                      // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                                      slots={{
+                                                        openPickerIcon: () => (
+                                                          <CalendarTodayIcon
+                                                            style={{
+                                                              color: "#5e5e5e",
+                                                              fontSize: "15px",
+                                                              position: "absolute",
+                                                              top: "-17px",
+                                                              right: "5px",
+                                                            }}
+                                                          />
+                                                        ),
+                                                      }}
+                                                      slotProps={{
+                                                        tabs: {
+                                                          hidden: false,
+                                                        },
+                                                        toolbar: {
+                                                          toolbarFormat: "YYYY",
+                                                          hidden: false,
+                                                        },
+                                                        calendarHeader: {
+                                                          sx: { color: "white" },
+                                                        },
+                                                        textField: {
+                                                          inputProps: { readOnly: true },
+                                                          placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                        },
+                                                      }}
+                                                    />
+                                                  </div>
+                                                </FormControl>
+                                                <FormMessage />
+                                              </FormItem>
+                                            );
+                                          }}
+                                        />
+                                      </DemoContainer>
+                                    </LocalizationProvider>
+                                  </ThemeProvider>
+                                </div>
+                              </div>
+                            );
+                          })}
 
                           {/* Add more Event timimg button here */}
                           <div className="flex justify-end items-center ticket-btn mb-[24px]">
@@ -2759,7 +2846,10 @@ function OganizerCreateEvent() {
                                   "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
                               }}
                               className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
-                              // onClick={handleAddTicketType}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                addNewEventDateInFestival(index);
+                              }}
                             >
                               <Image src={addicon} alt="Add-icon" height={12} width={12} />
                               Add Event Timings
@@ -2959,7 +3049,7 @@ function OganizerCreateEvent() {
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setTicketStartDate(formattedDate);
+                                                      toggleRSVPTicketDeadlineValue(formattedDate, index);
                                                       field.onChange(formattedDate);
                                                       //setIsPickerOpen(false); // Close the picker after selection
                                                       toggleRSVPTicketDeadlinePicker(index);
