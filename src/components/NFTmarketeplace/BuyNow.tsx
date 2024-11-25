@@ -71,7 +71,14 @@ const customStyles = {
       '&:hover': {
         border: 'none', // Ensures the border is also removed on hover
       },
+      '&.css-110b5ws-option': {
+        backgroundColor: 'transparent !important',
+      },
     }),
+    indicatorSeparator: (base: any) => ({
+        ...base,
+        display: 'none !important',
+      }),
     valueContainer: (base: any) => ({
       ...base,
       display: 'flex',

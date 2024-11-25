@@ -90,7 +90,14 @@ const customStyles = {
     '&:hover': {
       backgroundColor: '#00D059', // Green on hover
     },
+    '&.css-110b5ws-option': {
+      backgroundColor: 'transparent !important',
+    },
   }),
+  indicatorSeparator: (base: any) => ({
+      ...base,
+      display: 'none !important',
+    }),
   singleValue: (base: any) => ({
     ...base,
     color: '#BFBFBF',
