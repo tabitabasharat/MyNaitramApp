@@ -21,6 +21,7 @@ import { color } from "framer-motion";
 import listing from "@/assets/tag.svg";
 import itemActivity from "@/assets/arrowItem.svg";
 import "./NftDetails.css";
+import MakeOfferModal from "./makeOfferModal";
 
 const data = [
   { name: "April 12, 2024", value: 1.6 },
@@ -50,6 +51,7 @@ interface VisibleSections {
 const NftDetails = () => {
   const [activeTab, setActiveTab] = useState("Price History");
   const [visibleSections, setVisibleSections] = useState<VisibleSections>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const tabs = ["Price History", "Listings", "Item Activity"];
   const rows = [
@@ -62,6 +64,15 @@ const NftDetails = () => {
       ...prevState,
       [section]: !prevState[section], // Toggle visibility of the specific section
     }));
+  };
+  
+
+  const handleOpen = () => {
+    setIsModalOpen(true); // Open the modal
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false); // Close the modal
   };
 
   return (
@@ -171,18 +182,18 @@ const NftDetails = () => {
                   <span className="eth text-[14px] font-[700] leading-[14px]">ETH</span>
                 </p>
               </div>
-              <div
+              {/* <div
                 className="rounded-[8px] bg-[linear-gradient(360deg,_#0F0F0F_72%,_#1A1A1A_100%)] flex flex-col gap-[8px] px-[40.5px] py-[8px] customizeButton"
                 style={{
                   borderWidth: "1px",
                   borderStyle: "solid",
                   borderImageSource: "linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%)",
-                  borderImageSlice: 1, // This ensures the border-image will cover the full border
+                  borderImageSlice: 1, 
                 }}
               >
                 <p className="current  font-[400] text-[16px] leading-[19.2px] ">Count Down</p>
                 <p className="number1 text-customGreen text-[20px] font-[700] leading-[20px]">11 : 22 : 33</p>
-              </div>
+              </div> */}
             </div>
             <div className="flex gap-[14.92px]">
               <Image className="rounded-full" src={img} alt="Profile" />
@@ -194,20 +205,25 @@ const NftDetails = () => {
             <div className="flex flex-col gap-[40px]">
               <div className="buttonsrounded flex gap-[32px]">
                 <Button
-                  // variant="secondary"
+                  
                   size="lg"
                   className="buttonrounded flex items-center ready-btn font-[800] text-[16px] leading-[22.4px]  px-[110.5px] py-[19.5px] "
                 >
                   Buy Now
                 </Button>
+               
                 <Button
+                 onClick={handleOpen}
                   style={{ border: "none", boxShadow: "none" }}
                   variant="outline"
                   size="lg"
                   className="buttonrounded  hover:shadow-lg transition duration-300 ease-in-out hover:bg-transparent hover:text-customGreen bg-none relative flex items-center ready-btn px-[102.5px] py-[19.5px] text-customGreen font-[800] text-[16px] leading-[22.4px] gradient-border-edit"
                 >
-                  Make a Bid
+                 Create an offer
                 </Button>
+                {isModalOpen && (
+        <MakeOfferModal open={isModalOpen} onClose={handleClose} />
+      )}
               </div>
               <div className="pt-[50px] flex flex-col hidden  hiddenEventDetail">
                 <p className="eventDetail pb-[16px] font-[800] text-[24px] leading-[28.8px]">Event Detail</p>
