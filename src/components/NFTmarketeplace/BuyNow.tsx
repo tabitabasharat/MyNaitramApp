@@ -258,8 +258,8 @@ const BuyNow = () => {
                           "linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%)",
                         borderImageSlice: 1,
                       }}>
-                        <div className="flex w-full justify-between">
-                            <p className="font-[800] text-[20px] leading-[32px]">Total Potential Earnings</p>
+                        <div className="flex w-full justify-between align-center">
+                            <p className="font-[800] text-[20px] leading-[32px] max-[350px]:text-[16px] max-[350px]:font-[600]">Total Potential Earnings</p>
                             <p className="text-[#00D059] font-[700] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">-- ETH</p>
                         </div>
                         <Button
