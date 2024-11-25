@@ -727,18 +727,18 @@ function OganizerCreateEvent() {
   const [isEndEventPickerOpen, setIsEndEventPickerOpen] = useState(false);
 
   // Toggle the date-time picker visibility
-  const toggleDateTimePicker = () => {
-    setIsPickerOpen((prev) => !prev);
-  };
-  const toggleEndDateTimePicker = () => {
-    setIsEndDatePickerOpen((prev) => !prev);
-  };
-  const toggleStartEventTimePicker = () => {
-    setIsStartEventPickerOpen((prev) => !prev);
-  };
-  const toggleEndEventTimePicker = () => {
-    setIsEndEventPickerOpen((prev) => !prev);
-  };
+  // const toggleDateTimePicker = () => {
+  //   setIsPickerOpen((prev) => !prev);
+  // };
+  // const toggleEndDateTimePicker = () => {
+  //   setIsEndDatePickerOpen((prev) => !prev);
+  // };
+  // const toggleStartEventTimePicker = () => {
+  //   setIsStartEventPickerOpen((prev) => !prev);
+  // };
+  // const toggleEndEventTimePicker = () => {
+  //   setIsEndEventPickerOpen((prev) => !prev);
+  // };
 
   const handleLocationSelect = (location: any) => {
     setEventLocation(location);
@@ -1524,7 +1524,7 @@ function OganizerCreateEvent() {
     console.log("filterHash updated:", filterHash);
   }, [filterHash]);
 
-  // /////////////////////////////////////////////////////// Handeling Ticket Types here below ////////////////////////
+  // ///////////////////////////////////////////// --- Handeling Ticket Types here below --- /////////////////////////////////
 
   // Drop Down for Type Selection
   const handleTicketTypeDropDown = (ticketIndex: number) => {
@@ -1656,6 +1656,84 @@ function OganizerCreateEvent() {
             }
           : ticket
       )
+    );
+  };
+
+  // Handle Tickets Pickers of  (Festival, Private and, Password Types)
+
+  // Sart Ticket picker
+  const toggleTicketStartTimePicker = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex ? { ...ticket, isTicketStartPickerOpen: !ticket.isTicketStartPickerOpen } : ticket
+      )
+    );
+  };
+
+  // Start Ticket Date value
+  const setTheTicketStartValue = (formattedDate: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, ticketstart: formattedDate } : ticket))
+    );
+  };
+
+  // End Ticket Picker
+  const toggleTicketEndTimePicker = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, isTicketEndPickerOpen: !ticket.isTicketEndPickerOpen } : ticket))
+    );
+  };
+
+  // End Ticket Date value
+  const setTheTicketEndValue = (formattedDate: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, ticketend: formattedDate } : ticket))
+    );
+  };
+
+  //Start Event picker (Private, Password) Types
+  const toggleStartEventTimePicker = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex ? { ...ticket, isStartEventPickerOpen: !ticket.isStartEventPickerOpen } : ticket
+      )
+    );
+  };
+
+  //Start Event Value (Private, Password) Types
+  const toggleStartEventValue = (formattedDate: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, eventstart: formattedDate } : ticket))
+    );
+  };
+
+  //End Event Value (Private, Password) Types
+  const toggleEndEventTimePicker = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, isEndEventPickerOpen: !ticket.isEndEventPickerOpen } : ticket))
+    );
+  };
+
+  //End Event Value (Private, Password) Types
+  const toggleEndEventValue = (formattedDate: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, eventend: formattedDate } : ticket))
+    );
+  };
+
+  //Handle picker of RSVP Daedline
+
+  // RSVP Ticket Date Picker
+  const toggleRSVPTicketDeadlinePicker = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, isDeadlinePickerOpen: !ticket.isDeadlinePickerOpen } : ticket))
+    );
+  };
+
+  // RSVP Ticket Date Vaue
+  const toggleRSVPTicketDeadlineValue = (formattedDate: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, deadline: formattedDate } : ticket))
     );
   };
 
@@ -2343,7 +2421,7 @@ function OganizerCreateEvent() {
                                   <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
-                                      name="eventstartdate"
+                                      name={`tickets.${index}.ticketstart`}
                                       render={({ field }) => {
                                         const currentDateTime = dayjs();
                                         return (
@@ -2353,11 +2431,11 @@ function OganizerCreateEvent() {
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                              <div className="w-full" onClick={toggleDateTimePicker}>
+                                              <div className="w-full" onClick={() => toggleTicketStartTimePicker(index)}>
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
-                                                  open={isPickerOpen} // Control the open state with local state
+                                                  open={ticket.isTicketStartPickerOpen} // Control the open state with local state
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
                                                   onKeyDown={(e: any) => e.preventDefault()}
@@ -2365,9 +2443,10 @@ function OganizerCreateEvent() {
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setTicketStartDate(formattedDate);
+                                                      setTheTicketStartValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      setIsPickerOpen(false); // Close the picker after selection
+                                                      // setIsPickerOpen(false); // Close the picker after selection
+                                                      toggleTicketStartTimePicker(index);
                                                     }
                                                   }}
                                                   disablePast
@@ -2418,7 +2497,7 @@ function OganizerCreateEvent() {
                                   <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
-                                      name="eventenddate"
+                                      name={`tickets.${index}.ticketend`}
                                       render={({ field }) => {
                                         const currentDateTime = dayjs();
                                         // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
@@ -2432,11 +2511,11 @@ function OganizerCreateEvent() {
                                               Ticket End Date & Time
                                             </FormLabel>
                                             <FormControl>
-                                              <div className=" w-full" onClick={toggleEndDateTimePicker}>
+                                              <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
                                                 {/* <div className=" w-full" > */}
 
                                                 <StyledDateTimePicker
-                                                  open={isEndDatePickerOpen}
+                                                  open={ticket.isTicketEndPickerOpen}
                                                   // value={validStartTime}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceTicketDate}
@@ -2445,9 +2524,10 @@ function OganizerCreateEvent() {
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setTicketEndDate(formattedDate);
+                                                      setTheTicketEndValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      setIsEndDatePickerOpen(false);
+                                                      // setIsEndDatePickerOpen(false);
+                                                      toggleTicketEndTimePicker(index);
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
@@ -2521,7 +2601,7 @@ function OganizerCreateEvent() {
                                               Event Start Date & Time
                                             </FormLabel>
                                             <FormControl>
-                                              <div className=" w-full" onClick={toggleStartEventTimePicker}>
+                                              <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
                                                 {/* <div className=" w-full"> */}
 
                                                 <StyledDateTimePicker
@@ -2536,7 +2616,8 @@ function OganizerCreateEvent() {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       setEventStartTime(formattedDate);
                                                       field.onChange(formattedDate);
-                                                      setIsStartEventPickerOpen(false);
+                                                      // setIsStartEventPickerOpen(false);
+                                                      toggleStartEventTimePicker(index);
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
@@ -2604,7 +2685,7 @@ function OganizerCreateEvent() {
                                               Event End Date & Time
                                             </FormLabel>
                                             <FormControl>
-                                              <div className=" w-full" onClick={toggleEndEventTimePicker}>
+                                              <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
                                                 <StyledDateTimePicker
                                                   open={isEndEventPickerOpen}
                                                   // referenceDate={defaultEndTime}
@@ -2617,7 +2698,8 @@ function OganizerCreateEvent() {
                                                       setEventEndTime(formattedDate);
                                                       field.onChange(formattedDate);
                                                       console.log("my ened time", formattedDate);
-                                                      setIsEndEventPickerOpen(false);
+                                                      // setIsEndEventPickerOpen(false);
+                                                      toggleEndEventTimePicker(index);
                                                       console.log("my ened time", formattedDate);
                                                     }
                                                   }}
@@ -2855,7 +2937,7 @@ function OganizerCreateEvent() {
                                   <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
-                                      name="eventstartdate"
+                                      name={`tickets.${index}.deadline`}
                                       render={({ field }) => {
                                         const currentDateTime = dayjs();
                                         return (
@@ -2865,11 +2947,11 @@ function OganizerCreateEvent() {
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                              <div className="w-full" onClick={toggleDateTimePicker}>
+                                              <div className="w-full" onClick={() => toggleRSVPTicketDeadlinePicker(index)}>
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
-                                                  open={isPickerOpen} // Control the open state with local state
+                                                  open={ticket.isDeadlinePickerOpen} // Control the open state with local state
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
                                                   onKeyDown={(e: any) => e.preventDefault()}
@@ -2879,7 +2961,8 @@ function OganizerCreateEvent() {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       setTicketStartDate(formattedDate);
                                                       field.onChange(formattedDate);
-                                                      setIsPickerOpen(false); // Close the picker after selection
+                                                      //setIsPickerOpen(false); // Close the picker after selection
+                                                      toggleRSVPTicketDeadlinePicker(index);
                                                     }
                                                   }}
                                                   disablePast
@@ -3411,7 +3494,7 @@ function OganizerCreateEvent() {
                                   <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
-                                      name="eventstartdate"
+                                      name={`tickets.${index}.ticketstart`}
                                       render={({ field }) => {
                                         const currentDateTime = dayjs();
                                         return (
@@ -3421,11 +3504,11 @@ function OganizerCreateEvent() {
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                              <div className="w-full" onClick={toggleDateTimePicker}>
+                                              <div className="w-full" onClick={() => toggleTicketStartTimePicker(index)}>
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
-                                                  open={isPickerOpen} // Control the open state with local state
+                                                  open={ticket.isTicketStartPickerOpen} // Control the open state with local state
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
                                                   onKeyDown={(e: any) => e.preventDefault()}
@@ -3433,9 +3516,10 @@ function OganizerCreateEvent() {
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setTicketStartDate(formattedDate);
+                                                      setTheTicketStartValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      setIsPickerOpen(false); // Close the picker after selection
+                                                      //setIsPickerOpen(false); // Close the picker after selection
+                                                      toggleTicketStartTimePicker(index);
                                                     }
                                                   }}
                                                   disablePast
@@ -3486,7 +3570,7 @@ function OganizerCreateEvent() {
                                   <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
-                                      name="eventenddate"
+                                      name={`tickets.${index}.ticketend`}
                                       render={({ field }) => {
                                         const currentDateTime = dayjs();
                                         // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
@@ -3500,11 +3584,11 @@ function OganizerCreateEvent() {
                                               Ticket End Date & Time
                                             </FormLabel>
                                             <FormControl>
-                                              <div className=" w-full" onClick={toggleEndDateTimePicker}>
+                                              <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
                                                 {/* <div className=" w-full" > */}
 
                                                 <StyledDateTimePicker
-                                                  open={isEndDatePickerOpen}
+                                                  open={ticket.isTicketEndPickerOpen}
                                                   // value={validStartTime}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceTicketDate}
@@ -3513,9 +3597,10 @@ function OganizerCreateEvent() {
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setTicketEndDate(formattedDate);
+                                                      setTheTicketEndValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      setIsEndDatePickerOpen(false);
+                                                      // setIsEndDatePickerOpen(false);
+                                                      toggleTicketEndTimePicker(index);
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
@@ -3572,7 +3657,7 @@ function OganizerCreateEvent() {
                                   <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
-                                      name="eventstarttime"
+                                      name={`tickets.${index}.eventstart`}
                                       render={({ field }) => {
                                         const currentDateTime = dayjs();
                                         // const minStartTime = dayjs(TicketEndDate || new Date());
@@ -3589,11 +3674,11 @@ function OganizerCreateEvent() {
                                               Event Start Date & Time
                                             </FormLabel>
                                             <FormControl>
-                                              <div className=" w-full" onClick={toggleStartEventTimePicker}>
+                                              <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
                                                 {/* <div className=" w-full"> */}
 
                                                 <StyledDateTimePicker
-                                                  open={isStartEventPickerOpen}
+                                                  open={ticket.isStartEventPickerOpen}
                                                   //  value={validStartTime}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceEventDate}
@@ -3602,9 +3687,11 @@ function OganizerCreateEvent() {
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setEventStartTime(formattedDate);
+                                                      // setEventStartTime(formattedDate);
+                                                      toggleStartEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      setIsStartEventPickerOpen(false);
+                                                      // setIsStartEventPickerOpen(false);
+                                                      toggleStartEventTimePicker(index);
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
@@ -3659,7 +3746,7 @@ function OganizerCreateEvent() {
                                   <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
-                                      name="eventendtime"
+                                      name={`tickets.${index}.eventend`}
                                       render={({ field }) => {
                                         const currentDateTime = dayjs();
                                         // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
@@ -3672,9 +3759,9 @@ function OganizerCreateEvent() {
                                               Event End Date & Time
                                             </FormLabel>
                                             <FormControl>
-                                              <div className=" w-full" onClick={toggleEndEventTimePicker}>
+                                              <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
                                                 <StyledDateTimePicker
-                                                  open={isEndEventPickerOpen}
+                                                  open={ticket.isEndEventPickerOpen}
                                                   // referenceDate={defaultEndTime}
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
@@ -3682,10 +3769,11 @@ function OganizerCreateEvent() {
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setEventEndTime(formattedDate);
+                                                      toggleEndEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
                                                       console.log("my ened time", formattedDate);
-                                                      setIsEndEventPickerOpen(false);
+                                                      // setIsEndEventPickerOpen(false);
+                                                      toggleEndEventTimePicker(index);
                                                       console.log("my ened time", formattedDate);
                                                     }
                                                   }}
@@ -4187,7 +4275,7 @@ function OganizerCreateEvent() {
                                   <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
-                                      name="eventstartdate"
+                                      name={`tickets.${index}.ticketstart`}
                                       render={({ field }) => {
                                         const currentDateTime = dayjs();
                                         return (
@@ -4197,11 +4285,11 @@ function OganizerCreateEvent() {
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                              <div className="w-full" onClick={toggleDateTimePicker}>
+                                              <div className="w-full" onClick={() => toggleTicketStartTimePicker(index)}>
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
-                                                  open={isPickerOpen} // Control the open state with local state
+                                                  open={ticket.isTicketStartPickerOpen} // Control the open state with local state
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
                                                   onKeyDown={(e: any) => e.preventDefault()}
@@ -4209,9 +4297,10 @@ function OganizerCreateEvent() {
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setTicketStartDate(formattedDate);
+                                                      setTheTicketStartValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      setIsPickerOpen(false); // Close the picker after selection
+                                                      //setIsPickerOpen(false); // Close the picker after selection
+                                                      toggleTicketStartTimePicker(index);
                                                     }
                                                   }}
                                                   disablePast
@@ -4262,7 +4351,7 @@ function OganizerCreateEvent() {
                                   <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
-                                      name="eventenddate"
+                                      name={`tickets.${index}.ticketend`}
                                       render={({ field }) => {
                                         const currentDateTime = dayjs();
                                         // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
@@ -4276,11 +4365,11 @@ function OganizerCreateEvent() {
                                               Ticket End Date & Time
                                             </FormLabel>
                                             <FormControl>
-                                              <div className=" w-full" onClick={toggleEndDateTimePicker}>
+                                              <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
                                                 {/* <div className=" w-full" > */}
 
                                                 <StyledDateTimePicker
-                                                  open={isEndDatePickerOpen}
+                                                  open={ticket.isTicketEndPickerOpen}
                                                   // value={validStartTime}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceTicketDate}
@@ -4289,9 +4378,10 @@ function OganizerCreateEvent() {
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setTicketEndDate(formattedDate);
+                                                      setTheTicketEndValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      setIsEndDatePickerOpen(false);
+                                                      // setIsEndDatePickerOpen(false);
+                                                      toggleTicketEndTimePicker(index);
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
@@ -4348,7 +4438,7 @@ function OganizerCreateEvent() {
                                   <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
-                                      name="eventstarttime"
+                                      name={`tickets.${index}.eventstart`}
                                       render={({ field }) => {
                                         const currentDateTime = dayjs();
                                         // const minStartTime = dayjs(TicketEndDate || new Date());
@@ -4365,11 +4455,11 @@ function OganizerCreateEvent() {
                                               Event Start Date & Time
                                             </FormLabel>
                                             <FormControl>
-                                              <div className=" w-full" onClick={toggleStartEventTimePicker}>
+                                              <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
                                                 {/* <div className=" w-full"> */}
 
                                                 <StyledDateTimePicker
-                                                  open={isStartEventPickerOpen}
+                                                  open={ticket.isStartEventPickerOpen}
                                                   //  value={validStartTime}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceEventDate}
@@ -4378,9 +4468,10 @@ function OganizerCreateEvent() {
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setEventStartTime(formattedDate);
+                                                      toggleStartEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      setIsStartEventPickerOpen(false);
+                                                      // setIsStartEventPickerOpen(false);
+                                                      toggleStartEventTimePicker(index);
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
@@ -4435,7 +4526,7 @@ function OganizerCreateEvent() {
                                   <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
-                                      name="eventendtime"
+                                      name={`tickets.${index}.eventend`}
                                       render={({ field }) => {
                                         const currentDateTime = dayjs();
                                         // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
@@ -4448,9 +4539,9 @@ function OganizerCreateEvent() {
                                               Event End Date & Time
                                             </FormLabel>
                                             <FormControl>
-                                              <div className=" w-full" onClick={toggleEndEventTimePicker}>
+                                              <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
                                                 <StyledDateTimePicker
-                                                  open={isEndEventPickerOpen}
+                                                  open={ticket.isEndEventPickerOpen}
                                                   // referenceDate={defaultEndTime}
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
@@ -4458,10 +4549,11 @@ function OganizerCreateEvent() {
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
-                                                      setEventEndTime(formattedDate);
+                                                      toggleEndEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
                                                       console.log("my ened time", formattedDate);
-                                                      setIsEndEventPickerOpen(false);
+                                                      // setIsEndEventPickerOpen(false);
+                                                      toggleEndEventTimePicker(index);
                                                       console.log("my ened time", formattedDate);
                                                     }
                                                   }}

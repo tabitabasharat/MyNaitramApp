@@ -143,7 +143,7 @@ function LunchEvent() {
         <p className="font-extrabold text-[24px] lg:text-[48px] leading-[24px] lg:leading-[55.68px] tracking-[-0.02em] text-left font-nexa">
           Host Event
         </p>
-        {currentLink !=="" ? (
+        {currentLink !== "" ? (
           // link Tags Here
           <>
             <div className="font-normal text-[14px] lg:text-[16px] leading-[19.5px] lg:leading-[24px] text-left font-nexa w-[100%] lg:w-[80%] flex flex-col gap-[20px] lg:gap-[16px] text-[#BFBFBF] lg:text-white">
