@@ -205,7 +205,7 @@ const NftDetails = () => {
             <div className="flex flex-col gap-[40px]">
               <div className="buttonsrounded flex gap-[32px]">
                 <Button
-                  // variant="secondary"
+                  
                   size="lg"
                   className="buttonrounded flex items-center ready-btn font-[800] text-[16px] leading-[22.4px]  px-[110.5px] py-[19.5px] "
                 >
