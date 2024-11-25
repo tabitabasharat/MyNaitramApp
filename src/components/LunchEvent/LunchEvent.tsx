@@ -126,7 +126,7 @@ function LunchEvent() {
 
   return loader ? (
     <ScreenLoader />
-  ) : isAccountCreated && !islinkVrified ? (
+  ) : isAccountCreated && islinkVrified ? (
     <div className="w-full flex justify-center flex-col items-center h-[90vh] md:h-[88vh] lg:h-[91%] mt-[45px] bg-lunchevent-img">
       <p className="font-extrabold text-[30px] text-center lg:text-[64px]">Let’s launch your event</p>
       <div
