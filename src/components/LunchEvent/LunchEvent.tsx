@@ -52,6 +52,8 @@ function LunchEvent() {
   useEffect(() => {
     if (UserInfo?.stripCreated) {
       setAccountCreated(true);
+    }
+    if (UserInfo?.stripVerified) {
       setLinkVerified(true);
     }
   }, [UserInfo]);
@@ -112,7 +114,6 @@ function LunchEvent() {
       console.log("This is link Data ===> ", accountData?.stripLink);
       setLoader(accountCreationLoader?.loading);
       setCurrentLink(accountData?.stripLink);
-      setLinkVerified(true);
     } else {
       setLoader(false);
     }
@@ -142,19 +143,20 @@ function LunchEvent() {
         <p className="font-extrabold text-[24px] lg:text-[48px] leading-[24px] lg:leading-[55.68px] tracking-[-0.02em] text-left font-nexa">
           Host Event
         </p>
-        {islinkVrified ? (
+        {currentLink !=="" ? (
           // link Tags Here
           <>
             <div className="font-normal text-[14px] lg:text-[16px] leading-[19.5px] lg:leading-[24px] text-left font-nexa w-[100%] lg:w-[80%] flex flex-col gap-[20px] lg:gap-[16px] text-[#BFBFBF] lg:text-white">
               <p>Here is the link to your stripe account, Please click on this link to get redirected to Stripe and fill your information.</p>
             </div>
             <div className="w-full flex flex-col">
-              <p className="md:w-full text-center md:text-start md:ml-[3px] mb-[10px]">Go to Stripe</p>
+              {/* <p className="md:w-full text-center md:text-start md:ml-[3px] mb-[10px]">Go to Stripe</p> */}
               <div
                 onClick={() => handleLinkVerification(currentLink)}
                 className="w-[100%] md:w-fit truncate border-none py-[16px] px-[20px] bg-green-500 rounded-[30px] text-[16px] leading-[20px] font-extrabold cursor-pointer text-[#000000]"
               >
-                {currentLink}
+                Go to Stripe
+                {/* {currentLink} */}
               </div>
             </div>
           </>
