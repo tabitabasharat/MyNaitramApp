@@ -140,7 +140,7 @@ const Header = () => {
       id: 4,
       title: "Rewards",
       url: "/reward",
-      subLinks: [{ title: "Wallet", url: "/wallet" }],
+      // subLinks: [{ title: "Wallet", url: "/wallet" }],
     },
     { id: 5, title: "Get Sponsored", url: "/get-sponsor" },
     { id: 6, title: "My Tickets", url: "/wallet" },
