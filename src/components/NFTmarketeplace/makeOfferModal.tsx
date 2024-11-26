@@ -32,51 +32,84 @@ interface OptionType {
 const customStyles = {
   control: (base: any, state: any) => ({
     ...base,
+    display: 'flex',
+    alignItems: 'center',
     backgroundColor: 'transparent',
-    padding: '0',
+    height: '54px',
+    padding: '0 16px',
     color: '#BFBFBF',
     fontWeight: '400',
     fontSize: '16px',
     lineHeight: '21.6px',
-    border: 'none',  // Remove border by default
-    boxShadow: state.isFocused ? 'none' : '', // Remove any shadow if focused
+    border: 'none',
+    boxShadow: state.isFocused ? 'none' : '',
     '&:hover': {
-      border: 'none', // Ensures the border is also removed on hover
+      border: 'none',
     },
-    '&:focus': {
-      border: 'none', // Ensure no border on focus
-      boxShadow: 'none', // Ensure no box shadow on focus
-    },
+  }),
+  valueContainer: (base: any) => ({
+    ...base,
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0',
+    height: '100%',
+  }),
+  placeholder: (base: any) => ({
+    ...base,
+    display: 'flex',
+    alignItems: 'center',
+    color: '#BFBFBF',
+    fontSize: '16px',
+    fontWeight: 400,
+    lineHeight: '21.6px',
+  }),
+  dropdownIndicator: (base: any) => ({
+    ...base,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    padding: '0',
   }),
   menu: (base: any) => ({
     ...base,
-    background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+    background: 'linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)',
     borderRadius: '8px',
-
   }),
   menuList: (base: any) => ({
     ...base,
-    padding: '0',  // Remove any padding if needed
+    padding: '0',
   }),
   option: (base: any, state: any) => ({
     ...base,
-    color: '#BFBFBF',
+    color: state.isSelected ? 'white' : '#BFBFBF',
     fontWeight: '400',
     fontSize: '16px',
     lineHeight: '21.6px',
-    backgroundColor: state.isSelected ? 'transparent' : base.backgroundColor, // Green on selection
+    background: state.isSelected
+      ? 'transparent'
+      : state.isFocused
+      ? '#00D059'
+      : 'transparent',
+    borderRadius: '8px',
     '&:hover': {
-      backgroundColor: '#00D059', // Green on hover
+      background: '#00D059',
+      color: 'black',
     },
+  }),
+  indicatorSeparator: (base: any) => ({
+    ...base,
+    display: 'none !important',
   }),
   singleValue: (base: any) => ({
     ...base,
-    color: '#BFBFBF',  // Ensures the selected value text is styled
+    color: '#BFBFBF',
     fontWeight: '400',
     fontSize: '16px',
     lineHeight: '21.6px',
   }),
 };
+
 
 const options = [
   { value: 'ETH', label: 'ETH' },
@@ -126,9 +159,9 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
     <Form {...form}>
       <Dialog open={open} onOpenChange={onClose}>
         <form className=" w-full">
-          <DialogContent className="w-[650px] ">
+          <DialogContent className="w-[650px] h-[723px] gap-[0px]">
             <DialogHeader className="space-y-0">
-              <DialogTitle className="font-extrabold text-[20px] md:text-[24px] leading-[27.6px]">Make an Offer</DialogTitle>
+              <DialogTitle className="font-extrabold pt-[20px] pb-[16px] text-[20px] md:text-[24px] leading-[27.6px]">Make an Offer</DialogTitle>
             </DialogHeader>
             <Separator className="scale--[1.12] bg-[#292929]" />
 
@@ -175,7 +208,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
               />
 
               <Select
-                className="w-[40%] h-[54px] pt-[5px] pl-[16px] pr-[16px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400]
+                className="w-[40%] h-[54px]   bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400]
     text-[16px] leading-[21.6px] max-[540px]:w-[50%]"
                 options={options}
                 onChange={handleChange}
@@ -189,7 +222,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
               <p className="font-[800] text-[14px] leading-[19.6px] text-[#FFFFFF]">Duration</p>
               <div className="flex gap-[5px]">
                 <Select
-                  className="w-[40%] h-[54px] pt-[5px] pl-[16px] pr-[16px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
+                  className="w-[40%] h-[54px]  bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
                   placeholder="Select"
                   options={durationOptions}
                   onChange={handleDurationChange}

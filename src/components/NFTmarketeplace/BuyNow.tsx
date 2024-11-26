@@ -55,53 +55,86 @@ const SaleOption: React.FC<SaleOptionProps> = ({
     );
 };
 const customStyles = {
-    control: (base: any, state: any) => ({
-        ...base,
-        backgroundColor: 'transparent',
-        padding: '0',
-        color: '#BFBFBF',
-        fontWeight: '400',
-        fontSize: '16px',
-        lineHeight: '21.6px',
-        border: 'none',  // Remove border by default
-        boxShadow: state.isFocused ? 'none' : '', // Remove any shadow if focused
-        '&:hover': {
-            border: 'none', // Ensures the border is also removed on hover
-        },
-        '&:focus': {
-            border: 'none', // Ensure no border on focus
-            boxShadow: 'none', // Ensure no box shadow on focus
-        },
-    }),
-    menu: (base: any) => ({
-        ...base,
-        background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
-        borderRadius: '8px',
-
-    }),
-    menuList: (base: any) => ({
-        ...base,
-        padding: '0',  // Remove any padding if needed
-    }),
-    option: (base: any, state: any) => ({
-        ...base,
-        color: '#BFBFBF',
-        fontWeight: '400',
-        fontSize: '16px',
-        lineHeight: '21.6px',
-        backgroundColor: state.isSelected ? 'transparent' : base.backgroundColor, // Green on selection
-        '&:hover': {
-            backgroundColor: '#00D059', // Green on hover
-        },
-    }),
-    singleValue: (base: any) => ({
-        ...base,
-        color: '#BFBFBF',  // Ensures the selected value text is styled
-        fontWeight: '400',
-        fontSize: '16px',
-        lineHeight: '21.6px',
-    }),
+  control: (base: any, state: any) => ({
+    ...base,
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    height: '54px',
+    padding: '0 16px',
+    color: '#BFBFBF',
+    fontWeight: '400',
+    fontSize: '16px',
+    lineHeight: '21.6px',
+    border: 'none',
+    boxShadow: state.isFocused ? 'none' : '',
+    '&:hover': {
+      border: 'none',
+    },
+  }),
+  valueContainer: (base: any) => ({
+    ...base,
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0',
+    height: '100%',
+  }),
+  placeholder: (base: any) => ({
+    ...base,
+    display: 'flex',
+    alignItems: 'center',
+    color: '#BFBFBF',
+    fontSize: '16px',
+    fontWeight: 400,
+    lineHeight: '21.6px',
+  }),
+  dropdownIndicator: (base: any) => ({
+    ...base,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    padding: '0',
+  }),
+  menu: (base: any) => ({
+    ...base,
+    background: 'linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)',
+    borderRadius: '8px',
+  }),
+  menuList: (base: any) => ({
+    ...base,
+    padding: '0',
+  }),
+  option: (base: any, state: any) => ({
+    ...base,
+    color: state.isSelected ? 'white' : '#BFBFBF',
+    fontWeight: '400',
+    fontSize: '16px',
+    lineHeight: '21.6px',
+    background: state.isSelected
+      ? 'transparent'
+      : state.isFocused
+      ? '#00D059'
+      : 'transparent',
+    borderRadius: '8px',
+    '&:hover': {
+      background: '#00D059',
+      color: 'black',
+    },
+  }),
+  indicatorSeparator: (base: any) => ({
+    ...base,
+    display: 'none !important',
+  }),
+  singleValue: (base: any) => ({
+    ...base,
+    color: '#BFBFBF',
+    fontWeight: '400',
+    fontSize: '16px',
+    lineHeight: '21.6px',
+  }),
 };
+  
 const options = [
     { value: 'ETH', label: 'ETH' },
     { value: 'BTC', label: 'BTC' },
@@ -169,14 +202,14 @@ const BuyNow = () => {
                                     placeholder="Price"
                                     style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)", }}
                                 />
+<Select
+  className="w-[40%] h-[54px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[50%]"
+  options={options}
+  onChange={handleChange}
+  styles={customStyles}
+  value={options.find((option) => option.value === selectedCurrency)}
+/>
 
-                                <Select
-                                    className="w-[40%] h-[54px] pt-[5px] pl-[16px] pr-[16px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[50%]"
-                                    options={options}
-                                    onChange={handleChange}
-                                    styles={customStyles}
-                                    value={options.find((option) => option.value === selectedCurrency)}
-                                />
 
 
                             </div>
@@ -186,8 +219,8 @@ const BuyNow = () => {
                         <div className="flex flex-col gap-[12px]">
                             <p className="font-[800] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">Duration</p>
                             <Select
-                  className="w-full h-[54px] pt-[5px] pl-[16px] pr-[16px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
-                  placeholder="1 Month"
+  className="w-full h-[54px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[50%]"
+  placeholder="1 Month"
                   options={durationOptions}
                   onChange={handleDurationChange}
                   styles={customStyles}
@@ -228,14 +261,14 @@ const BuyNow = () => {
                           "linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%)",
                         borderImageSlice: 1,
                       }}>
-                        <div className="flex w-full justify-between">
-                            <p className="font-[800] text-[20px] leading-[32px]">Total Potential Earnings</p>
+                        <div className="flex w-full justify-between align-center">
+                            <p className="font-[800] text-[20px] leading-[32px] max-[350px]:text-[16px] max-[350px]:font-[600]">Total Potential Earnings</p>
                             <p className="text-[#00D059] font-[700] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">-- ETH</p>
                         </div>
                         <Button
                 //   onClick={() => FeedBackOnEvent()}
-                className="text-sm font-extrabold text-center w-full rounded-[100px] py-[12px] text-[black] bg-[#00D059]"
-              >
+                className=" text-sm font-extrabold text-center w-full rounded-[100px] py-[12px] text-[black] bg-[#00D059]"
+              style={{fontFamily: "var(--font-base)",}}>
                Complete Listing
               </Button>
 
@@ -243,9 +276,9 @@ const BuyNow = () => {
                     </div>
 
                 </div>
-                <div className="BuyNowMarketPlace-gradient w-[400px]  h-[512px] max-[450px]:w-full">
+                <div className="BuyNowMarketPlace-gradient w-[400px]  h-[512px] max-[450px]:w-full  max-[450px]:h-auto">
                     <div className="flex flex-col p-[16px] w-full gap-[20px]">
-                        <Image className='w-full h-[342px] ' src={BuyNowImage} alt='Image PlaceHolder' />
+                        <Image className='w-full h-[342px] max-[450px]:h-[219px] max-[450px]:w-[300px] ' src={BuyNowImage} alt='Image PlaceHolder' />
                         <div className="flex flex-col gap-[12px]">
                             <p className="text-white font-[800] text-[18px] leading-[19.15px] max-[500px]:text-[16px] max-[500px]:leading-[16.51px] ">The Orbitians</p>
                             <p className="text-[#BFBFBF] font-[400] text-[14px] leading-[16.8px] max-[500px]:text-[12px] max-[500px]:leading-[14.4px]">@silent-blue</p>

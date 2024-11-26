@@ -9,19 +9,8 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 // import { Image } from "next/image";
 import Image from "next/image";
-import ticket from "@/assets/Ticket2.svg";
-import arrow from "@/assets/Arrow Right.svg";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "../ui/textarea";
 import rocket from "@/assets/Wallet/rocket-empty.svg";
 
 import { getwallethistory } from "@/lib/middleware/wallet";
@@ -107,7 +96,6 @@ function History() {
 
               return (
                 <div key={index} className="mb-[28px] lg:mb-[40px]">
-                  {/* Display full date for each entry */}
                   <p className="font-bold text-sm mb-[10px] md:mb-[8px] md:text-base text-[#E6E6E6]">
                     {fullDate}
                   </p>
