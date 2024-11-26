@@ -33,31 +33,31 @@ const customStyles = {
   control: (base: any, state: any) => ({
     ...base,
     display: 'flex',
-    alignItems: 'center', // Vertically aligns the content
+    alignItems: 'center',
     backgroundColor: 'transparent',
-    height: '54px', // Ensures consistent height
-    padding: '0 16px', // Matches padding in your custom class
+    height: '54px',
+    padding: '0 16px',
     color: '#BFBFBF',
     fontWeight: '400',
     fontSize: '16px',
     lineHeight: '21.6px',
-    border: 'none', // Removes the border
-    boxShadow: state.isFocused ? 'none' : '', // Removes shadow on focus
+    border: 'none',
+    boxShadow: state.isFocused ? 'none' : '',
     '&:hover': {
-      border: 'none', // Ensures the border is also removed on hover
+      border: 'none',
     },
   }),
   valueContainer: (base: any) => ({
     ...base,
     display: 'flex',
-    alignItems: 'center', // Ensures content is vertically centered
-    padding: '0', // Removes extra padding
-    height: '100%', // Ensures it spans the full height of the control
+    alignItems: 'center',
+    padding: '0',
+    height: '100%',
   }),
   placeholder: (base: any) => ({
     ...base,
     display: 'flex',
-    alignItems: 'center', // Vertically aligns placeholder text
+    alignItems: 'center',
     color: '#BFBFBF',
     fontSize: '16px',
     fontWeight: 400,
@@ -66,10 +66,10 @@ const customStyles = {
   dropdownIndicator: (base: any) => ({
     ...base,
     display: 'flex',
-    alignItems: 'center', // Ensures the icon is vertically centered
-    justifyContent: 'center', // Centers the icon horizontally
-    height: '100%', // Matches the height of the control
-    padding: '0', // Removes extra padding
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    padding: '0',
   }),
   menu: (base: any) => ({
     ...base,
@@ -78,26 +78,29 @@ const customStyles = {
   }),
   menuList: (base: any) => ({
     ...base,
-    padding: '0', // Removes extra padding
+    padding: '0',
   }),
   option: (base: any, state: any) => ({
     ...base,
-    color: '#BFBFBF',
+    color: state.isSelected ? 'white' : '#BFBFBF',
     fontWeight: '400',
     fontSize: '16px',
     lineHeight: '21.6px',
-    backgroundColor: state.isSelected ? 'transparent' : base.backgroundColor, // Transparent when selected
+    background: state.isSelected
+      ? 'transparent'
+      : state.isFocused
+      ? '#00D059'
+      : 'transparent',
+    borderRadius: '8px',
     '&:hover': {
-      backgroundColor: '#00D059', // Green on hover
-    },
-    '&.css-110b5ws-option': {
-      backgroundColor: 'transparent !important',
+      background: '#00D059',
+      color: 'black',
     },
   }),
   indicatorSeparator: (base: any) => ({
-      ...base,
-      display: 'none !important',
-    }),
+    ...base,
+    display: 'none !important',
+  }),
   singleValue: (base: any) => ({
     ...base,
     color: '#BFBFBF',
@@ -106,6 +109,7 @@ const customStyles = {
     lineHeight: '21.6px',
   }),
 };
+
 
 const options = [
   { value: 'ETH', label: 'ETH' },
