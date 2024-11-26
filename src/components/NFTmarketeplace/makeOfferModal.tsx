@@ -108,6 +108,10 @@ const customStyles = {
     fontSize: '16px',
     lineHeight: '21.6px',
   }),
+  css19bb58m: (base: any) => ({
+    ...base,
+    display: window.innerWidth <= 335 ? 'none' : 'block', // Adjust display based on screen width
+  }),
 };
 
 
@@ -159,16 +163,16 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
     <Form {...form}>
       <Dialog open={open} onOpenChange={onClose}>
         <form className=" w-full">
-          <DialogContent className="w-[650px] h-[723px] gap-[0px]">
+          <DialogContent className="w-[650px] h-[723px] max-h-[90vh] gap-[0px] overflow-y-auto scrollbar-hide">
             <DialogHeader className="space-y-0">
-              <DialogTitle className="font-extrabold pt-[20px] pb-[16px] text-[20px] md:text-[24px] leading-[27.6px]">Make an Offer</DialogTitle>
+              <DialogTitle className="font-extrabold  pb-[16px] text-[20px] md:text-[24px] leading-[27.6px]">Make an Offer</DialogTitle>
             </DialogHeader>
             <Separator className="scale--[1.12] bg-[#292929]" />
 
 
             <div className="flex gap-[16px] pt-[24px]">
               <div className="w-[120px] h-[120px] makeAnOffer-gradient max-[450px]:w-[88px] max-[450px]:h-[88px]">
-                <Image className=" rounded-[9px] w-full h-[98%] object-cover" src={image1} alt="/" />
+                <Image className=" pt-[1px] rounded-[9px] w-full h-[99%] object-cover" src={image1} alt="/" />
               </div>
               <div className="flex flex-col gap-[11px] justify-center ">
                 <p className="text-[24px] leading-[27.6px] font-[800] text-[white] max-[540px]:text-[20px] max-[540px]:leading-[20px]  ">A Fasty Brush Flower Arts</p>
@@ -259,7 +263,9 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
       readOnly
       value={endDate ? endDate.toDateString() : ""}
       onClick={toggleEndPicker}
-      className="w-full h-[54px] pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px]"
+      className={`w-full h-[54px] pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] border ${
+        startDate ? "border-green-500" : "border-transparent"
+      }`}
                   placeholder="End Date"
       style={{
         background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",

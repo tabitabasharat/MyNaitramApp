@@ -165,7 +165,8 @@ const BuyNow = () => {
         }
       };
     return (
-        <section className=" pt-[173px] pb-[108px] flex flex-col gap-[40px] bg-cover bg-no-repeat  lg: bg-buyNow  pl-[92px] pr-[97px] max-[992px]:pl-[0px] max-[992px]:pr-[0px]  max-[992px]:pt-[0px] max-[992px]:pb-[0px] ">
+      <div className="relative">
+        <section className=" pt-[173px] pb-[108px] flex flex-col gap-[40px] b pl-[92px] pr-[97px] max-[992px]:pl-[0px] max-[992px]:pr-[0px]  max-[992px]:pt-[0px] max-[992px]:pb-[0px] ">
             <div className=" max-[992px]:bg-buyNow withoutImage max-[992px]:pl-[92px] max-[992px]:pr-[97px]  max-[992px]:pt-[174px]  max-[992px]:pb-[108px] max-[768px]:pl-[24px] max-[768px]:pr-[24px]  max-[768px]:pt-[100px]  max-[768px]:pb-[100px] ">
             <div className="flex gap-[16px] items-center custom-border max-[1180px]:pb-[24px] max-[1180px]:mb-[24px]  ">
             <Image className="block max-[992px]:hidden" src={Back} alt="backButton" />
@@ -219,7 +220,7 @@ const BuyNow = () => {
                         <div className="flex flex-col gap-[12px]">
                             <p className="font-[800] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">Duration</p>
                             <Select
-  className="w-full h-[54px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[50%]"
+  className="w-full h-[54px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[100%]"
   placeholder="1 Month"
                   options={durationOptions}
                   onChange={handleDurationChange}
@@ -278,7 +279,7 @@ const BuyNow = () => {
                 </div>
                 <div className="BuyNowMarketPlace-gradient w-[400px]  h-[512px] max-[450px]:w-full  max-[450px]:h-auto">
                     <div className="flex flex-col p-[16px] w-full gap-[20px]">
-                        <Image className='w-full h-[342px] max-[450px]:h-[219px] max-[450px]:w-[300px] ' src={BuyNowImage} alt='Image PlaceHolder' />
+                        <Image className='w-full h-[342px] max-[450px]:h-[219px] max-[450px]:w-[400px] max-[450px]:h-[400px] max-[395px]:h-auto' src={BuyNowImage} alt='Image PlaceHolder' />
                         <div className="flex flex-col gap-[12px]">
                             <p className="text-white font-[800] text-[18px] leading-[19.15px] max-[500px]:text-[16px] max-[500px]:leading-[16.51px] ">The Orbitians</p>
                             <p className="text-[#BFBFBF] font-[400] text-[14px] leading-[16.8px] max-[500px]:text-[12px] max-[500px]:leading-[14.4px]">@silent-blue</p>
@@ -295,6 +296,9 @@ const BuyNow = () => {
 
             </div>
         </section>
+        <div className="absolute bottom: 0; right-0 w-[30%] h-[30%] bg-[#00D059] blur-[400px] rounded-[30%] -z-10 max-[992px]:hidden">
+        </div>
+        </div>
     )
 }
 export default BuyNow;

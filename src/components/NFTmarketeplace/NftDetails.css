@@ -3,12 +3,12 @@
 .topDiv {
   align-items: center;
 }
-.bg-reward {
+/* .bg-reward {
   background-image: url("/blur-green.png");
   background-position: right;
   background-repeat: no-repeat;
   background-size: cover;
-}
+} */
 .Listings {
   font-weight: 800;
   font-size: 20px;

@@ -109,6 +109,17 @@ const NftOwner = () => {
           </div>
           <div>
             <img src="/Images/Nft_animakid_img/Icons.svg" alt="Event Icon" />
+            <div className="flex items-center justify-end gap-[10px] pr-[106px] mt-[100px] hidden md:flex">
+            <div className="flex items-center justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[376px] ">
+            <input className="bg-none border-none text-[16px] font-normal leading-5 text-[ #BFBFBF]" type="text" placeholder="Search NFT"/>
+            <img src="/Images/Nft_animakid_img/serchicon.svg"/>
+            </div>
+            <div className="border border-[#292929] gradient-slate py-[19px] px-[16px] rounded-lg w-[143px] flex items-center justify-between ">
+              <h2 className="text-[16px] font-normal leading-5 text-[ #BFBFBF]">Filter</h2>
+              <img src="/Images/Nft_animakid_img/filtr.svg"/>
+
+            </div>
+            </div>
             <button className="bg-[#00D059] w-full py-4 rounded-full text-[14px] font-extrabold leading-[19.6px] text-[#030303] Animkaid_Button block md:hidden mt-4">
               Go To Event
             </button>
@@ -126,23 +137,20 @@ const NftOwner = () => {
             className="cursor-pointer relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] p-[30px_11.5px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden hover-gradient-border"
             style={{ width: "270px", height: "373px" }}
           >
-            {/* <div
-              className="absolute inset-0 rounded-[8px] pointer-events-none group-hover:border group-hover:border-transparent group-hover:border-[1px]"
-              style={{ borderImage: "linear-gradient(135deg, #13FF7A 0.2%, #002B12 50.2%, #13FF7A 100.2%) 1" }}
-            ></div> */}
+            
             <img src="/Images/Nft_animakid_img/Crads.svg" alt="Card" />
             <div className="px-[12px]">
               <h3 className="text-[18px] font-extrabold leading-[24px] text-left text-white">The Orbitians</h3>
               <div className="flex justify-between items-center mt-[20px]">
                 <div>
-                  <p className="text-[12px] font-normal leading-[24px] text-white">Price</p>
+                  <p className="text-[12px] font-bold leading-[24px] text-white">Price</p>
                   <p className="flex items-center gap-[5px] text-[14px] font-bold leading-[24px] text-left text-[#00D059]">
                     <img src="/Images/Nft_animakid_img/Price.svg" alt="Price Icon" />
                     0.25 ETH
                   </p>
                 </div>
                 <div>
-                  <p className="text-[12px] font-normal leading-[24px] text-white">Highest Bid</p>
+                  <p className="text-[12px] font-bold  leading-[24px] text-white">Highest Bid</p>
                   <p className="text-[14px] font-bold leading-[24px] text-white">0.33 wETH</p>
                 </div>
               </div>

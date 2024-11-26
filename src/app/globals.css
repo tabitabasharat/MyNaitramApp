@@ -568,8 +568,7 @@ body {
   position: relative;
   border-radius: 12px !important; /* Controls the rounding of the corners */
   background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a); /* Solid background color */
-  border: 1px solid transparent; /* Border needs to be transparent to see the gradient border */
-; /* Ensure it is above the pseudo-element */
+  border: 1px solid transparent; /* Border needs to be transparent to see the gradient border */ /* Ensure it is above the pseudo-element */
 }
 .custom-quill .ql-snow .ql-picker-options {
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%) !important;
@@ -701,23 +700,23 @@ body {
   position: relative;
   /* height: 512px; */
   border-radius: 8px; /* Rounded corners */
-  background: linear-gradient(135deg, #13FF7A 0.2%, #002B12 50.2%, #13FF7A 100.2%); /* Gradient border */
+  background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%); /* Gradient border */
   padding: 1px; /* Thickness of border */
   overflow: hidden; /* Ensures content stays within rounded corners */
 }
 
 .BuyNowMarketPlace-gradient > * {
   position: relative;
- height: 100%;
+  height: 100%;
   border-radius: 8px; /* Match parent's radius */
-  background: linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%); /* Inner dark gradient */
+  background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%); /* Inner dark gradient */
   z-index: 1; /* Ensure content stays above the gradient */
 }
 .BuyNowInputFieldMP {
   position: relative;
   padding: 20px 12px;
   border-radius: 8px;
-  background: linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%);
+  background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
 }
 
 .BuyNowInputFieldMP::before {
@@ -734,7 +733,6 @@ body {
   pointer-events: none;
   z-index: -1;
 }
-
 
 .gradient-chat {
   background: linear-gradient(
@@ -1122,4 +1120,20 @@ input[type="number"] {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #13ff79b9;
+}
+/* ///////////////////////////////////  Jabaars Screns Btn */
+.gradient-border-rounded-nft {
+  position: relative;
+  border-radius: 100px !important; /* This controls the rounding of the corners */
+}
+.gradient-border-rounded-nft::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 100px !important; /* Inherit the border-radius from the parent */
+  padding: 2px; /* Adjust this value to control the thickness of the border */
+  background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
