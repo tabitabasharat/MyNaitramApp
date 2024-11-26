@@ -11,6 +11,21 @@ display: none !important;
     background-size: cover;
     transition: background-color 0.5s, backdrop-filter 0.5s;
   }
+  input.gradient-slate-input:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+  }
+  /* Add this to your global CSS file */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;    /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
   
   
   
@@ -94,5 +109,11 @@ display: none !important;
       width: 100%;
       display: block;
       padding: 100px 24px 54px !important;
+    }
+  }
+
+  @media (max-width:335px) {
+    .css-19bb58m{
+      display: none !important;
     }
   }

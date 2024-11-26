@@ -82,12 +82,12 @@ const NftDetails = () => {
     router.push("/marketPlace/nft/buy-now"); // Navigate to the Buy Now page
   };
   return (
-    <div className=" ">
-      <section className=" pt-[173px] pb-[108px] bg-cover bg-no-repeat  lg: bg-reward  main pl-[92px] pr-[97px]">
+    <div className="relative">
+      <section className=" pt-[173px] pb-[108px]   main pl-[92px] pr-[97px]">
         <div className="flex gap-[80px] md-1150:flex-col">
           <div className="flex flex-col w-full rightDive">
             <div className=" image w-full h-full">
-              <Image className="img w-full" src={image1} alt="/" />
+              <Image className="img w-full  min-[1500px]:w-[75%]" src={image1} alt="/" />
             </div>
             <div className="flex flex-row gap-[25px]">
               <div className="flex gap-[10px] pt-[32px]">
@@ -213,7 +213,7 @@ const NftDetails = () => {
                 <Button
                    onClick={handleBuyNowClick}
                   size="lg"
-                  className="buttonrounded flex items-center ready-btn font-[800] text-[16px] leading-[22.4px]  px-[110.5px] py-[19.5px] "
+                  className="buttonrounded h-[59px]  font-[800] text-[16px] leading-[22.4px] flex items-center ready-btn   px-[110.5px] py-[19.5px] "
                 >
                   Buy Now
                 </Button>
@@ -223,7 +223,7 @@ const NftDetails = () => {
                   style={{ border: "none", boxShadow: "none" }}
                   variant="outline"
                   size="lg"
-                  className="buttonrounded  hover:shadow-lg transition duration-300 ease-in-out hover:bg-transparent hover:text-customGreen bg-none relative flex items-center ready-btn px-[102.5px] py-[19.5px] text-customGreen font-[800] text-[16px] leading-[22.4px] gradient-border-edit"
+                  className="buttonrounded h-[59px] flex items-center hover:shadow-lg transition duration-300 ease-in-out hover:bg-transparent hover:text-customGreen hover:font-[600] bg-none relative flex items-center ready-btn px-[102.5px] py-[19.5px] text-customGreen font-[800] text-[16px] leading-[22.4px] gradient-border-edit"
                 >
                  Create an offer
                 </Button>
@@ -276,7 +276,7 @@ const NftDetails = () => {
                 </div>
               </div>
 
-              <div>
+              <div className="">
                 <div className=" mb-[24px] flex  justify-start ">
                   {tabs.map((tab) => (
                     <button
@@ -483,20 +483,29 @@ const NftDetails = () => {
                             </TableHead>
                             <TableBody>
                               <TableRow>
-                                <TableCell className="tableRow" sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
+                                <TableCell className="tableRow" 
+                                 style={{fontFamily: "var(--font-base)",}}
+                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
                                   0.00001 ETH
                                 </TableCell>
-                                <TableCell className="tableRow" sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
+                                <TableCell className="tableRow"
+                                style={{fontFamily: "var(--font-base)",}}
+                                 sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
                                   $0.30
                                 </TableCell>
-                                <TableCell className="tableRow" sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
+                                <TableCell className="tableRow"
+                                 style={{fontFamily: "var(--font-base)",}}
+                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
                                   1
                                 </TableCell>
-                                <TableCell className="tableRow" sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
+                                <TableCell className="tableRow"
+                                 style={{fontFamily: "var(--font-base)",}}
+                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
                                   In 6 Months
                                 </TableCell>
                                 <TableCell
                                   className="latertobeHide"
+                                  style={{fontFamily: "var(--font-base)",}}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   <Button className=" size-lg px-[27px] rounded-[100px]">Buy</Button>
@@ -562,12 +571,14 @@ const NftDetails = () => {
                           <TableHead>
                             <TableRow className="table1Row" sx={{ borderTop: "1.41px solid  #29292980" }}>
                               <TableCell
+                               style={{fontFamily: "var(--font-base)",}}
                                 className="Table2Header"
                                 sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                               >
                                 Event
                               </TableCell>
                               <TableCell
+                               style={{fontFamily: "var(--font-base)",}}
                                 className="Table2Header"
                                 sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                               >
@@ -575,18 +586,21 @@ const NftDetails = () => {
                               </TableCell>
                               <TableCell
                                 className="Table2Header"
+                                style={{fontFamily: "var(--font-base)",}}
                                 sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                               >
                                 From
                               </TableCell>
                               <TableCell
                                 className="Table2Header"
+                                style={{fontFamily: "var(--font-base)",}}
                                 sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                               >
                                 To
                               </TableCell>
                               <TableCell
                                 className="Table2Header"
+                                style={{fontFamily: "var(--font-base)",}}
                                 sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                               >
                                 Date
@@ -598,30 +612,36 @@ const NftDetails = () => {
                               <TableRow key={index}>
                                 <TableCell
                                   className="tableRow2"
+                                  style={{fontFamily: "var(--font-base)",font:'18px !important', fontWeight:'700 !important', lineHeight:'18px !important'}}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.event}
                                 </TableCell>
                                 <TableCell
                                   className="tableRow2"
+                                  style={{fontFamily: "var(--font-base)"}}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.price}
                                 </TableCell>
                                 <TableCell
                                   className="tableRow2"
+                                  style={{fontFamily: "var(--font-base)"}}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.from}
                                 </TableCell>
                                 <TableCell
                                   className="tableRow2"
+                                  style={{fontFamily: "var(--font-base)"}}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.to}
                                 </TableCell>
                                 <TableCell
                                   className="tableRow2"
+                                  style={{fontFamily: "var(--font-base)"}}
+                                  
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.date}
@@ -638,7 +658,12 @@ const NftDetails = () => {
             </div>
           </div>
         </div>
+      
       </section>
+      <div className="absolute right-0 bottom-0 w-[30%] h-[30%] bg-[#00D059] blur-[500px] rounded-[30%] -z-10 max-[992px]:hidden">
+</div>
+
+     
     </div>
   );
 };
