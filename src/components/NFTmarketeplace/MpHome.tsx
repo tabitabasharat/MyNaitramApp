@@ -54,13 +54,18 @@ const MpHome = () => {
             Get Started
           </button>
           <div className="hidden lg:flex space-x-8">
-            {["£240k+", "£100k+", "£10k+"].map((value, index) => (
-              <div key={index} className="flex flex-col items-start space-y-1">
-                <h2 className="text-white text-xl font-extrabold">{value}</h2>
-                <p className="text-gray-400 text-lg">Total Sale</p>
-              </div>
-            ))}
-          </div>
+  {[
+    { value: "£240k+", description: "Total Sale" },
+    { value: "£100k+", description: "Collections" },
+    { value: "£10k+", description: "Creators" },
+  ].map((item, index) => (
+    <div key={index} className="flex flex-col items-start space-y-1">
+      <h2 className="text-white text-xl font-extrabold">{item.value}</h2>
+      <p className="text-gray-400 text-lg">{item.description}</p>
+    </div>
+  ))}
+</div>
+
         </div>
 
         {/* Right Section */}
@@ -118,18 +123,25 @@ const MpHome = () => {
 
             {/* Second Input */}
             <div className="relative">
-              <select
-                className="appearance-none w-[175px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-none shadow-[inset_0px_3px_5px_#232323] text-[#BFBFBF] text-[14px] leading-[19.6px] font-normal text-left focus:outline-none"
-                style={{ color: "transparent", textShadow: "0 0 0 #BFBFBF" }}
-              >
-                <option>Category</option>
-              </select>
-              <img
-                src="/Images/Market/arrd.svg"
-                alt="Dropdown Icon"
-                className="absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none"
-              />
-            </div>
+  <select
+    className="appearance-none w-[175px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-none shadow-[inset_0px_3px_5px_#232323] text-[#BFBFBF] text-[14px] leading-[19.6px] font-normal text-left focus:outline-none"
+  
+  >
+  
+    <option>Category</option>
+    <option>Art</option>
+    <option>Music</option>
+    <option>Gaming</option>
+    <option>Photography</option>
+    <option>Domain Names</option>
+  </select>
+  <img
+    src="/Images/Market/arrd.svg"
+    alt="Dropdown Icon"
+    className="absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none"
+  />
+</div>
+
 
             {/* Third Input */}
             <div className="relative">
@@ -142,8 +154,7 @@ const MpHome = () => {
         </div>
 
         {/* Image Grid */}
-  {/* Image Grid */}
-<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
   {images.map((src, index) => (
     <div
       key={index}
@@ -153,35 +164,51 @@ const MpHome = () => {
       <img
         src={src}
         alt={`Trending NFT ${index + 1}`}
-        className="w-full h-auto rounded-[8px] relative z-10"
+        className="w-full h-auto rounded-[8px]"
       />
-      {/* Hover Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.4)] via-[rgba(0,0,0,0.7)] to-black/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[8px]"></div>
+      {/* Hover Effect */}
+      <div className="absolute inset-0 rounded-[8px] bg-gradient-to-b from-[rgba(0,0,0,0.4)] via-[rgba(0,0,0,0.7)] to-[rgba(0,0,0,0.9)] 
+        opacity-0 group-hover:opacity-100 transition-all duration-[300ms]"></div>
       {/* Overlay Text */}
       <div className="absolute bottom-0 left-0 pl-[15px] pr-[15px] pb-[15px] w-full text-white z-20">
-  <h2 className="text-[20px] sm:text-[24px] font-extrabold leading-[19.15px] text-left underline-offset-auto decoration-clone m-0">
-    The Orbitians {index + 1}
-  </h2>
-  <p className="mt-[8px] text-[12px] sm:text-[16px] font-normal sm:font-[400] leading-[19.15px] text-left text-[#BFBFBF] underline-offset-auto decoration-clone m-0">
-    What’s New {index + 1}
-  </p>
-  {/* Additional Content (only visible on hover) */}
-  <div className="hidden group-hover:block mt-[16px]">
-    <p className="text-[12px] sm:text-[14px] font-normal leading-[16.8px] text-left text-white underline-offset-auto decoration-clone [text-underline-position:from-font] [text-decoration-skip-ink:none]">
-      Forem ipsum dolor sit amet, consectetur adipiscing elit.
-      Nunc vulputate libero et velit interdum, ac aliquet odio
-      mattis.
-    </p>
+        <h2 className="text-[20px] sm:text-[24px] font-extrabold leading-[19.15px] text-left m-0">
+          The Orbitians {index + 1}
+        </h2>
+        <p className="mt-[8px] text-[12px] sm:text-[16px] font-normal leading-[19.15px] text-left text-[#BFBFBF] m-0">
+          What’s New {index + 1}
+        </p>
+        {/* Additional Content (only visible on hover) */}
+        <div className="hidden group-hover:block mt-[16px]">
+          <p className="text-[12px] sm:text-[14px] font-normal leading-[16.8px] text-left text-white">
+            Forem ipsum dolor sit amet, consectetur adipiscing elit.
+            Nunc vulputate libero et velit interdum, ac aliquet odio
+            mattis.
+          </p>
 
-    <button className="mt-[16px] w-full max-w-full py-[10px] pr-[15px] pl-[15px] text-[12px] font-extrabold leading-[19.6px] text-center text-[#00D059] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border-[1px] border-[linear-gradient(135deg, #13FF7A 0.2%, #002B12 50.2%, #13FF7A 100.2%)] rounded-[100px]">
-      Buy Now
-    </button>
-  </div>
-</div>
-
+          {/* Button */}
+          <button
+            className="mt-[16px] w-full py-[10px] px-[15px] text-[12px] font-extrabold leading-[19.6px] text-center text-[#00D059] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] rounded-[100px] transition-all duration-300 relative overflow-hidden gradient-border-rounded-nft"
+          >
+            {/* Gradient Border with Outline */}
+            <span
+              className="absolute inset-0 rounded-[100px] bg-gradient-to-b from-[#13FF7A] to-[#002B12] opacity-0 group-hover:opacity-100 transition-all duration-[300ms]"
+              style={{
+                zIndex: -1, // Place it behind the button text
+                filter: "blur(4px)", // Optional: you can blur it if desired
+                transform: "scale(1.05)", // Optional: scale it to make the border appear more pronounced
+              }}
+            />
+            Buy Now
+          </button>
+        </div>
+      </div>
     </div>
   ))}
 </div>
+
+
+
+
 
 
         {/* Background Blur */}
