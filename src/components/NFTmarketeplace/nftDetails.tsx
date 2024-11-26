@@ -453,24 +453,28 @@ const NftDetails = () => {
                               <TableRow className="table1Row" sx={{ borderTop: "1.41px solid  #29292980" }}>
                                 <TableCell
                                   className="TableHeader"
+                                  style={{fontFamily: "var(--font-base)",}}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                                 >
                                   Price
                                 </TableCell>
                                 <TableCell
                                   className="TableHeader"
+                                  style={{fontFamily: "var(--font-base)",}}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                                 >
                                   USD Price
                                 </TableCell>
                                 <TableCell
                                   className="TableHeader"
+                                  style={{fontFamily: "var(--font-base)",}}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                                 >
                                   Quantity
                                 </TableCell>
                                 <TableCell
                                   className="TableHeader"
+                                  style={{fontFamily: "var(--font-base)",}}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                                 >
                                   Expiration
