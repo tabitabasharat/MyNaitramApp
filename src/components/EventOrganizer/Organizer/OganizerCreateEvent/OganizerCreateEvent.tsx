@@ -78,6 +78,7 @@ import { useTheme } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import Papa from "papaparse";
+import { ticketsType } from "@/lib/dummyData";
 
 // Previous applied Type to ticket
 
@@ -704,8 +705,10 @@ function OganizerCreateEvent() {
 
   // All useReff for scroll POsition
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const manualEmailRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null); // for additional rsvp
+  const manualEmailRef = useRef<HTMLDivElement | null>(null); // for manual email container
+  const manualPswrdRef = useRef<HTMLDivElement | null>(null); // for manual password container
+  const autoPswrdRef = useRef<HTMLDivElement | null>(null); // for auto password container
 
   const [selected, setSelected] = useState<SelectedOption>("free");
 
@@ -1351,6 +1354,195 @@ function OganizerCreateEvent() {
 
   // Handle Event Creation
   async function EventCreation(values: z.infer<typeof formSchema | typeof formSchema2>) {
+    const testV2Tickets = [
+      {
+        selectedEventTicketType: "Festivals / Multi-Day Tickets / Season Passes",
+        ticketFreePaid: "Paid",
+        ticketName: "Fes ticket name",
+        ticketPrice: "200",
+        noOfTickets: "36",
+        ticketStartDT: "2024-11-21T05:59:00.000Z",
+        ticketEndDT: "2024-11-22T06:00:00.000Z",
+        eventStartDT: "2024-11-23T06:00:00.000Z",
+        eventEndDT: "2024-11-24T06:00:00.000Z",
+        whatsIncluded: [
+          {
+            id: 2,
+            label: "Food and Beverages",
+          },
+          {
+            id: 3,
+            label: "VIP Lounge",
+          },
+        ],
+        festivalEventDates: [
+          {
+            eventStartDateTime: "2024-11-25T06:00:00.000Z",
+            eventEndDateTime: "2024-11-26T06:00:00.000Z",
+          },
+          {
+            eventStartDateTime: "2024-11-27T06:00:00.000Z",
+            eventEndDateTime: "2024-11-28T06:00:00.000Z",
+          },
+        ],
+      },
+      {
+        selectedEventTicketType: "RSVP Ticketing",
+        ticketName: "RSVP ticket name",
+        rsvpDeadline: "2024-11-21T21:00:00.000Z",
+        rsvpCapacity: "50",
+        whatsIncluded: [
+          {
+            id: 2,
+            label: "Food and Beverages",
+          },
+          {
+            id: 3,
+            label: "VIP Lounge",
+          },
+        ],
+        rsvpName: true,
+        rsvpMail: true,
+        rsvpNumber: false,
+        rsvpAdditionalFields: ["Hobby", "Intrests"],
+      },
+      {
+        selectedEventTicketType: "Private Event Ticketing",
+        ticketFreePaid: "Paid",
+        ticketName: "Private ticket name",
+        ticketPrice: "200",
+        noOfTickets: "60",
+        ticketStartDT: "2024-11-21T06:02:00.000Z",
+        ticketEndDT: "2024-11-22T06:02:00.000Z",
+        eventStartDT: "2024-11-23T06:02:00.000Z",
+        eventEndDT: "2024-11-24T06:02:00.000Z",
+        whatsIncluded: [
+          {
+            id: 2,
+            label: "Food and Beverages",
+          },
+          {
+            id: 3,
+            label: "VIP Lounge",
+          },
+        ],
+        privateEventAdditionalFields: ["test1@gmail.com", "test2@gmail.com"],
+      },
+      {
+        selectedEventTicketType: "Passworded / Discounted Voucher Event",
+        ticketFreePaid: "Paid",
+        ticketName: "Passworded ticket name",
+        ticketPrice: "25",
+        noOfTickets: "36",
+        ticketStartDT: "2024-11-21T06:04:00.000Z",
+        ticketEndDT: "2024-11-22T06:04:00.000Z",
+        eventStartDT: "2024-11-23T06:04:00.000Z",
+        eventEndDT: "2024-11-24T06:04:00.000Z",
+        whatsIncluded: [
+          {
+            id: 2,
+            label: "Food and Beverages",
+          },
+          {
+            id: 3,
+            label: "VIP Lounge",
+          },
+        ],
+        privateEventAdditionalFields: ["testPassworded@gmail.com"],
+        passwordFields: ["1122"],
+        autoPasswordFields: [""],
+      },
+      {
+        selectedEventTicketType: "Custom Ticketing",
+        ticketFreePaid: "Paid",
+        ticketName: "Custom ticketing",
+        ticketPrice: "250",
+        noOfTickets: "25",
+        ticketStartDT: "2024-11-21T06:06:00.000Z",
+        ticketEndDT: "2024-11-22T06:06:00.000Z",
+        eventStartDT: "2024-11-23T06:06:00.000Z",
+        eventEndDT: "2024-11-24T06:06:00.000Z",
+        whatsIncluded: [
+          {
+            id: 2,
+            label: "Food and Beverages",
+          },
+          {
+            id: 3,
+            label: "VIP Lounge",
+          },
+        ],
+      },
+    ];
+
+    const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
+      ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
+        ? {
+            selectedEventTicketType: ticket?.type,
+            ticketFreePaid: ticket?.selected,
+            ticketName: ticket?.typename,
+            ticketPrice: ticket?.price,
+            noOfTickets: ticket?.no,
+            ticketStartDT: convertToUTC(ticket?.ticketstart),
+            ticketEndDT: convertToUTC(ticket?.ticketend),
+            eventStartDT: convertToUTC(ticket?.eventdates?.[0]?.startDate),
+            eventEndDT: convertToUTC(ticket?.eventdates?.[0]?.endDate),
+            whatsIncluded: ticket?.options,
+            festivalEventDates: ticket?.eventdates
+              ?.map(
+                (t: FestivalEventsDate, i: number) =>
+                  i !== 0
+                    ? {
+                        eventStartDateTime: convertToUTC(t?.startDate),
+                        eventEndDateTime: convertToUTC(t?.endDate),
+                      }
+                    : null // Return null for i === 0
+              )
+              ?.filter((item: any) => item !== null),
+          }
+        : ticket.type === "RSVP Ticketing"
+        ? {
+            selectedEventTicketType: ticket?.type,
+            ticketName: ticket?.name,
+            rsvpDeadline: convertToUTC(ticket?.deadline),
+            rsvpCapacity: ticket?.capacity,
+            whatsIncluded: ticket?.options,
+            rsvpName: ticket?.username,
+            rsvpMail: ticket?.useremail,
+            rsvpNumber: ticket?.usernumb,
+            rsvpAdditionalFields: ticket?.additional?.map((add: AdditionalFields) => add?.title),
+          }
+        : ticket.type === "Private Event Ticketing"
+        ? {
+            selectedEventTicketType: ticket?.type,
+            ticketFreePaid: ticket?.selected,
+            ticketName: ticket?.name,
+            ticketPrice: ticket?.price,
+            noOfTickets: ticket?.no,
+            ticketStartDT: convertToUTC(ticket?.ticketstart),
+            ticketEndDT: ticket?.ticketend,
+            eventStartDT: ticket?.eventstart,
+            eventEndDT: ticket?.eventend,
+            whatsIncluded: ticket?.options,
+            privateEventAdditionalFields: ticket?.emailmanual,
+          }
+        : {
+            selectedEventTicketType: ticket?.type,
+            ticketFreePaid: ticket?.selected,
+            ticketName: ticket?.name,
+            ticketPrice: ticket?.price,
+            noOfTickets: ticket?.no,
+            ticketStartDT: ticket?.ticketstart,
+            ticketEndDT: ticket?.ticketend,
+            eventStartDT: ticket?.eventstart,
+            eventEndDT: ticket?.eventend,
+            whatsIncluded: ticket?.options,
+            privateEventAdditionalFields: ticket?.emailmanual,
+            passwordFields: ticket?.pswrdmanual,
+            autoPasswordFields: ticket?.autoGeneratedPswrd,
+          }
+    );
+
     setLoader(true);
     const categorylabels = categoryTypes;
     const eventhashtags = chooseHashTags;
@@ -1360,7 +1552,7 @@ function OganizerCreateEvent() {
 
     // setisWalletModalOpen(true);
 
-    const utcEventStartTime = convertToUTC(EventStartTime);
+    /* const utcEventStartTime = convertToUTC(EventStartTime);
     setEventStartTime(utcEventStartTime);
 
     const utcEventEndTime = convertToUTC(EventEndTime);
@@ -1370,30 +1562,30 @@ function OganizerCreateEvent() {
     setTicketStartDate(utcTicketStartTime);
 
     const utcTicketEndTime = convertToUTC(TicketEndDate);
-    setTicketEndDate(utcTicketEndTime);
+    setTicketEndDate(utcTicketEndTime); */
 
-    const updatedValues = {
-      ...values,
-      eventmedia: imagesOfGallery,
-      ticketsdata: filteredTicketTypes,
+    // const updatedValues = {
+    //   ...values,
+    //   eventmedia: imagesOfGallery,
+    //   ticketsdata: filteredTicketTypes,
 
-      eventcategory: categorylabels?.label,
-      // eventtags: eventhashtags,
-      eventstartdate: utcTicketStartTime,
-      eventenddate: utcTicketEndTime,
+    //   eventcategory: categorylabels?.label,
+    //   // eventtags: eventhashtags,
+    //   eventstartdate: utcTicketStartTime,
+    //   eventenddate: utcTicketEndTime,
 
-      eventstarttime: utcEventStartTime,
-      eventendtime: utcEventEndTime,
+    //   eventstarttime: utcEventStartTime,
+    //   eventendtime: utcEventEndTime,
 
-      utcEventStartTime: utcEventStartTime,
-      utcEventEndtime: utcEventEndTime,
+    //   utcEventStartTime: utcEventStartTime,
+    //   utcEventEndtime: utcEventEndTime,
 
-      utcTicketStartTime: utcTicketStartTime,
-      utcTicketEndTime: utcTicketEndTime,
-    };
-    console.log("my updated values are", updatedValues);
+    //   utcTicketStartTime: utcTicketStartTime,
+    //   utcTicketEndTime: utcTicketEndTime,
+    // };
+    // console.log("my updated values are", updatedValues);
 
-    setEventAllData(updatedValues);
+    // setEventAllData(updatedValues);
     // const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
 
     try {
@@ -1405,13 +1597,9 @@ function OganizerCreateEvent() {
         tags: chooseHashTags,
         eventDescription: Eventdescription,
         location: EventLocation,
-        ticketStartDate: utcTicketStartTime,
-        ticketEndDate: utcTicketEndTime,
-        startTime: utcEventStartTime,
-        endTime: utcEventEndTime,
         // mainEventImage: eventData?.eventmainimg,
         coverEventImage: CoverImg,
-        tickets: filteredTicketTypes,
+        tickets: updatedAllTicketTypes,
         totalComplemantaryTickets: 0,
         fbUrl: FBUrl,
         instaUrl: InstaUrl,
@@ -1422,6 +1610,10 @@ function OganizerCreateEvent() {
         linkedinUrl: linkedinUrl,
         eventmedia: imagesOfGallery,
         stopBy: false,
+        ticketStartDate: "2024-11-22T13:11:00.000Z",
+        ticketEndDate: "2024-11-30T13:11:00.000Z",
+        startTime: "2024-12-11T13:11:00.000Z",
+        endTime: "2024-12-15T13:11:00.000Z",
       };
 
       console.log("Ticket creation APi data is =======> ", data);
@@ -1450,36 +1642,62 @@ function OganizerCreateEvent() {
     console.log("my values", values);
     const imagesOfGallery = await handleFileChangeapi();
 
-    const utcEventStartTime = convertToUTC(EventStartTime);
+    /*const utcEventStartTime = convertToUTC(EventStartTime);
     // setEventStartTime(utcEventStartTime);
-
     const utcEventEndTime = convertToUTC(EventEndTime);
     // setEventEndTime(utcEventEndTime);
-
     const utcTicketStartTime = convertToUTC(TicketStartDate);
     // setTicketStartDate(utcTicketStartTime);
-
     const utcTicketEndTime = convertToUTC(TicketEndDate);
-    // setTicketEndDate(utcTicketEndTime);
+    // setTicketEndDate(utcTicketEndTime); */
+
+    const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
+      ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
+        ? {
+            ...ticket,
+            ticketstart: convertToUTC(ticket.ticketstart),
+            ticketend: convertToUTC(ticket.ticketend),
+            eventdates: ticket.eventdates.map((e: FestivalEventsDate, i: number) => ({
+              ...e,
+              startDate: convertToUTC(e.startDate),
+              endDate: convertToUTC(e.endDate),
+            })),
+          }
+        : ticket.type === "RSVP Ticketing"
+        ? {
+            ...ticket,
+            deadline: convertToUTC(ticket.deadline),
+          }
+        : ticket.type === "Private Event Ticketing"
+        ? {
+            ...ticket,
+            ticketstart: convertToUTC(ticket.ticketstart),
+            ticketend: convertToUTC(ticket.ticketend),
+            eventstart: convertToUTC(ticket.eventstart),
+            eventend: convertToUTC(ticket.eventend),
+          }
+        : {
+            ...ticket,
+            ticketstart: convertToUTC(ticket.ticketstart),
+            ticketend: convertToUTC(ticket.ticketend),
+            eventstart: convertToUTC(ticket.eventstart),
+            eventend: convertToUTC(ticket.eventend),
+          }
+    );
 
     const categorylabels = categoryTypes;
     const eventhashtags = chooseHashTags;
+
+    console.log("Ticket Types in Preview is As=====> ", updatedAllTicketTypes);
 
     // const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
 
     const updatedValues = {
       ...values,
       eventmedia: imagesOfGallery,
-      ticketsdata: filteredTicketTypes,
+      tickets: updatedAllTicketTypes,
       // isFree: isFree,
-
       eventcategory: categorylabels?.label,
-
-      eventstartdate: utcTicketStartTime,
-      eventenddate: utcTicketEndTime,
-
-      eventstarttime: utcEventStartTime,
-      eventendtime: utcEventEndTime,
     };
     console.log("my updated values are", updatedValues);
 
@@ -2001,11 +2219,11 @@ function OganizerCreateEvent() {
       );
 
       // Scroll to the bottom after adding new content
-      // if (manualPswrdRef.current) {
-      //   setTimeout(() => {
-      //     manualEmailRef.current!.scrollTop = manualEmailRef.current!.scrollHeight;
-      //   }, 0);
-      // }
+      if (manualPswrdRef.current) {
+        setTimeout(() => {
+          manualPswrdRef.current!.scrollTop = manualPswrdRef.current!.scrollHeight;
+        }, 0);
+      }
 
       return newPswrdFields;
     });
@@ -2057,11 +2275,11 @@ function OganizerCreateEvent() {
       );
 
       // Scroll to the bottom after adding new content
-      // if (manualPswrdRef.current) {
-      //   setTimeout(() => {
-      //     manualEmailRef.current!.scrollTop = manualEmailRef.current!.scrollHeight;
-      //   }, 0);
-      // }
+      if (autoPswrdRef.current) {
+        setTimeout(() => {
+          autoPswrdRef.current!.scrollTop = autoPswrdRef.current!.scrollHeight;
+        }, 0);
+      }
 
       return newPswrdFields;
     });
@@ -4961,7 +5179,7 @@ function OganizerCreateEvent() {
                               <div className="w-full relative rounded-md border border-[#292929] gradient-slate flex flex-col items-start common-container px-[12px] py-[16px] mb-[24px]">
                                 <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">Manual Passwords</p>
 
-                                <div className="w-full flex-col flex gap-x-[24px] max-h-[230px] overflow-y-auto mb-2">
+                                <div ref={manualPswrdRef} className="w-full flex-col flex gap-x-[24px] max-h-[230px] overflow-y-auto mb-2">
                                   {ticket.pswrdmanual.map((pswrd: string, p_Index: number) => {
                                     return (
                                       <FormField
@@ -5025,7 +5243,7 @@ function OganizerCreateEvent() {
                             <div className="w-full relative rounded-md border border-[#292929] gradient-slate flex flex-col items-start common-container px-[12px] py-[16px] mb-[24px]">
                               <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">Automatic Generated Passwords</p>
 
-                              <div className="w-full flex-col flex gap-x-[24px] gap-y-0 max-h-[230px] overflow-y-auto mb-2">
+                              <div ref={autoPswrdRef} className="w-full flex-col flex gap-x-[24px] gap-y-0 max-h-[230px] overflow-y-auto mb-2">
                                 {ticket.autoGeneratedPswrd.map((autoPswrd: string, ag_Index: number) => {
                                   return (
                                     <FormField
