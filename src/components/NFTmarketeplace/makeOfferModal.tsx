@@ -165,7 +165,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
         <form className=" w-full">
           <DialogContent className="w-[650px] h-[723px] max-h-[90vh] gap-[0px] overflow-y-auto scrollbar-hide">
             <DialogHeader className="space-y-0">
-              <DialogTitle className="font-extrabold pt-[20px] pb-[16px] text-[20px] md:text-[24px] leading-[27.6px]">Make an Offer</DialogTitle>
+              <DialogTitle className="font-extrabold  pb-[16px] text-[20px] md:text-[24px] leading-[27.6px]">Make an Offer</DialogTitle>
             </DialogHeader>
             <Separator className="scale--[1.12] bg-[#292929]" />
 
