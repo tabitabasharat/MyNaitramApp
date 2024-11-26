@@ -279,7 +279,7 @@ const BuyNow = () => {
                 </div>
                 <div className="BuyNowMarketPlace-gradient w-[400px]  h-[512px] max-[450px]:w-full  max-[450px]:h-auto">
                     <div className="flex flex-col p-[16px] w-full gap-[20px]">
-                        <Image className='w-full h-[342px] max-[450px]:h-[219px] max-[450px]:w-[300px] ' src={BuyNowImage} alt='Image PlaceHolder' />
+                        <Image className='w-full h-[342px] max-[450px]:h-[219px] max-[450px]:w-[400px] max-[450px]:h-[400px] max-[395px]:h-auto' src={BuyNowImage} alt='Image PlaceHolder' />
                         <div className="flex flex-col gap-[12px]">
                             <p className="text-white font-[800] text-[18px] leading-[19.15px] max-[500px]:text-[16px] max-[500px]:leading-[16.51px] ">The Orbitians</p>
                             <p className="text-[#BFBFBF] font-[400] text-[14px] leading-[16.8px] max-[500px]:text-[12px] max-[500px]:leading-[14.4px]">@silent-blue</p>
