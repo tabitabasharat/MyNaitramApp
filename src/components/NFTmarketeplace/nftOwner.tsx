@@ -111,7 +111,7 @@ const NftOwner = () => {
             <img src="/Images/Nft_animakid_img/Icons.svg" alt="Event Icon" />
             <div className="flex items-center justify-end gap-[10px] pr-[106px] mt-[100px] hidden md:flex">
             <div className="flex items-center justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[376px] ">
-            <input className="bg-none border-none text-[16px] font-normal leading-5 text-[ #BFBFBF]" type="text" placeholder="Search NFT"/>
+            <input className="bg-none border-none text-[16px] font-normal leading-5 text-[ #BFBFBF] outline-none" type="text" placeholder="Search NFT"/>
             <img src="/Images/Nft_animakid_img/serchicon.svg"/>
             </div>
             <div className="border border-[#292929] gradient-slate py-[19px] px-[16px] rounded-lg w-[143px] flex items-center justify-between ">
@@ -142,12 +142,15 @@ const NftOwner = () => {
             <div className="px-[12px]">
               <h3 className="text-[18px] font-extrabold leading-[24px] text-left text-white">The Orbitians</h3>
               <div className="flex justify-between items-center mt-[20px]">
-                <div>
+                <div >
                   <p className="text-[12px] font-bold leading-[24px] text-white">Price</p>
+                  <div className="flex items-center gap-[6px]">
+                  <img className="mb-[5px]" src="/Images/Nft_animakid_img/Price.svg" alt="Price Icon" />
                   <p className="flex items-center gap-[5px] text-[14px] font-bold leading-[24px] text-left text-[#00D059]">
-                    <img src="/Images/Nft_animakid_img/Price.svg" alt="Price Icon" />
+                  
                     0.25 ETH
                   </p>
+                  </div>
                 </div>
                 <div>
                   <p className="text-[12px] font-bold  leading-[24px] text-white">Highest Bid</p>
