@@ -3,6 +3,7 @@
 import {
   DialogContent,
   DialogFooter,
+  Dialog,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -24,7 +25,7 @@ import { getAllEventsCount, getEventById } from "@/lib/middleware/event";
 import { useState, useEffect } from "react";
 import { setContractEditor } from "@/lib/reducer/setBuyTicket";
 // import { setTicketPrice } from "@/lib/reducer/setBuyTicket";
-const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex }: any) => {
+const BuyTicketModal = ({onClose,isOpen, onNext, setTicketPrice, setTicketType, setTicketIndex }: any) => {
   const [selectedTicket, setSelectedTicket] = useState("");
   const [selectedTicketPrice, setSelectedTicketPrice] = useState(0);
   const [selectedTicketType, setSelectedTIcketType] = useState<any>();
@@ -59,6 +60,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex 
   console.log("my data in buy tickets", EventDatas?.data?.totalSoldOut);
 
   return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
     <DialogContent className="sm:max-w-md lg:max-w-[600px] text-white">
       <div>
         <DialogHeader className="mb-5">
@@ -74,9 +76,6 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex 
           </p>
           <ScrollArea className="w-full">
             <div className="flex flex-col gap-3">
-              <p className="text-[14px] text-[#BFBFBF] font-[400]">
-                Entry Ticket
-              </p>
               {EventData?.map((ticket: any, index: any) => {
                 let isSoldOut = false
                 console.log(EventDatas?.data?.totalSoldOut[index], "my data in buy tickets")
@@ -197,6 +196,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex 
         </DialogFooter>
       </div>
     </DialogContent>
+    </Dialog>
   );
 };
 

@@ -7,6 +7,11 @@ import {
     Dialog,
     DialogTitle,
 } from "@/components/ui/dialog";
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import GradientBorder from "../ui/gradient-border";
@@ -172,38 +177,41 @@ const BuyModal = ({ isOpen, onClose, onNext, setTicketPrice, setTicketType, setT
                                 {tickets.map((ticket) => (
                                     <div key={ticket.id}>
                                         {expanded === ticket.id ? (
-                                            <GradientBorder>
-                                                <Accordion className="gradient-slate" sx={{ color: "white" }} expanded={expanded === ticket.id} onChange={handleChange(ticket.id)}>
-                                                    <AccordionSummary sx={{ padding: "0px", marginTop: "2px" }} aria-controls={`${ticket.id}-content`} id={`${ticket.id}-header`}>
-                                                        <Typography className="flex justify-between w-full" sx={{ fontSize: "16px", fontWeight: 700, fontFamily: "var(--font-base)" }}>
-                                                            <p>{ticket.title}</p> <p>{ticket.price}</p>
-                                                        </Typography>
-                                                    </AccordionSummary>
-                                                    <Separator className="scale--[1.12] bg-[#292929]" />
-                                                    <AccordionDetails>
-                                                        <Typography sx={{ fontFamily: "var(--font-base)" }}>
-                                                            {ticket.deadline && (
+                                            <Collapsible className="w-full"
+                                            >
+                                                <GradientBorder>
+                                                    <Accordion className="gradient-slate" sx={{ color: "white" }} expanded={expanded === ticket.id} onChange={handleChange(ticket.id)}>
+                                                        <AccordionSummary sx={{ padding: "0px", marginTop: "2px" }} aria-controls={`${ticket.id}-content`} id={`${ticket.id}-header`}>
+                                                            <Typography className="flex justify-between w-full" sx={{ fontSize: "16px", fontWeight: 700, fontFamily: "var(--font-base)" }}>
+                                                                <p>{ticket.title}</p> <p>{ticket.price}</p>
+                                                            </Typography>
+                                                        </AccordionSummary>
+                                                        <Separator className="scale--[1.12] bg-[#292929]" />
+                                                        <AccordionDetails>
+                                                            <Typography sx={{ fontFamily: "var(--font-base)" }}>
+                                                                {ticket.deadline && (
+                                                                    <div>
+                                                                        <p className="text-[#8F8F8F] text-[12px] font-extrabold">RSVP Deadline</p>
+                                                                        <p className="text-sm font-normal mb-[16px] pt-[12px]">{ticket.deadline}</p>
+                                                                    </div>
+                                                                )}
+                                                                {ticket.capacity && (
+                                                                    <div>
+                                                                        <p className="text-[#8F8F8F] text-[12px] font-extrabold">RSVP Capacity</p>
+                                                                        <p className="text-sm font-normal mb-[16px] pt-[12px]">{ticket.capacity}</p>
+                                                                    </div>
+                                                                )}
                                                                 <div>
-                                                                    <p className="text-[#8F8F8F] text-[12px] font-extrabold">RSVP Deadline</p>
-                                                                    <p className="text-sm font-normal mb-[16px] pt-[12px]">{ticket.deadline}</p>
+                                                                    <p className="text-[#8F8F8F] text-[12px] font-extrabold">INCLUDED</p>
+                                                                    {ticket.included.map((item, index) => (
+                                                                        <p key={index} className="text-sm font-normal pt-[6px]">{item}</p>
+                                                                    ))}
                                                                 </div>
-                                                            )}
-                                                            {ticket.capacity && (
-                                                                <div>
-                                                                    <p className="text-[#8F8F8F] text-[12px] font-extrabold">RSVP Capacity</p>
-                                                                    <p className="text-sm font-normal mb-[16px] pt-[12px]">{ticket.capacity}</p>
-                                                                </div>
-                                                            )}
-                                                            <div>
-                                                                <p className="text-[#8F8F8F] text-[12px] font-extrabold">INCLUDED</p>
-                                                                {ticket.included.map((item, index) => (
-                                                                    <p key={index} className="text-sm font-normal pt-[6px]">{item}</p>
-                                                                ))}
-                                                            </div>
-                                                        </Typography>
-                                                    </AccordionDetails>
-                                                </Accordion>
-                                            </GradientBorder>
+                                                            </Typography>
+                                                        </AccordionDetails>
+                                                    </Accordion>
+                                                </GradientBorder>
+                                            </Collapsible>
                                         ) : (
                                             <div className="gradient-slate-input">
                                                 <Accordion className="gradient-slate" sx={{ color: "white" }} expanded={expanded === ticket.id} onChange={handleChange(ticket.id)}>
@@ -261,13 +269,13 @@ const BuyModal = ({ isOpen, onClose, onNext, setTicketPrice, setTicketType, setT
                 </DialogContent>
             </Dialog>
             <CompleteinfoModal
-           isOpen={isCompleteInfoModalOpen}
-           onClose={handleCompleteInfoClose}
-           onNext={handleCompleteInfoClose}
-           selectedTicketId={selectedTicketId} // Pass the selected ticket ID
-           setTicketPrice={setTicketPrice}
-           setTicketType={setTicketType}
-           setTicketIndex={setTicketIndex}
+                isOpen={isCompleteInfoModalOpen}
+                onClose={handleCompleteInfoClose}
+                onNext={handleCompleteInfoClose}
+                selectedTicketId={selectedTicketId} // Pass the selected ticket ID
+                setTicketPrice={setTicketPrice}
+                setTicketType={setTicketType}
+                setTicketIndex={setTicketIndex}
             />
         </>
     );
