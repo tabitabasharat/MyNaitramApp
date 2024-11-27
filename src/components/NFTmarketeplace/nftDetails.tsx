@@ -223,7 +223,7 @@ const NftDetails = () => {
                   style={{ border: "none", boxShadow: "none" }}
                   variant="outline"
                   size="lg"
-                  className="buttonrounded h-[59px] flex items-center hover:shadow-lg transition duration-300 ease-in-out hover:bg-transparent hover:text-customGreen hover:font-[600] bg-none relative flex items-center ready-btn px-[102.5px] py-[19.5px] text-customGreen font-[800] text-[16px] leading-[22.4px] gradient-border-edit"
+                  className="buttonrounded h-[59px] flex items-center hover:shadow-lg transition duration-300 ease-in-out hover:bg-transparent hover:text-customGreen  bg-none relative flex items-center ready-btn px-[102.5px] py-[19.5px] text-customGreen font-[800] text-[16px] leading-[22.4px] gradient-border-edit"
                 >
                  Create an offer
                 </Button>
