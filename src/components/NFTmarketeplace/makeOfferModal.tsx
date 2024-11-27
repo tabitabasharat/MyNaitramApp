@@ -63,13 +63,15 @@ const customStyles = {
     fontWeight: 400,
     lineHeight: '21.6px',
   }),
-  dropdownIndicator: (base: any) => ({
+  dropdownIndicator: (base: any, state: any) => ({
     ...base,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
     padding: '0',
+    transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : 'rotate(0deg)', // Rotate the arrow when the dropdown is open
+    transition: 'transform 0.2s ease', // Smooth transition for the rotation
   }),
   menu: (base: any) => ({
     ...base,
