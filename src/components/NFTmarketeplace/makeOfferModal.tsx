@@ -207,7 +207,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
             <div className='flex gap-[10px] mt-[17px]'>
 
               <input
-                type="text"
+                 type="number"
                 className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px]  bg-transparent gradient-slate-input focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[540px]:w-[50%] "
                 placeholder="Price"
                 style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)", }}
