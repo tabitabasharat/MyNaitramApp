@@ -58,10 +58,10 @@ const Menu = ({
       title: "Rewards",
       href: "/reward",
       id: 4,
-      subLinks: [
-        { title: "Wallet", href: "/wallet" },
-        // { title: "Download App", href: "/download-app" },
-      ],
+      // subLinks: [
+      //   { title: "Wallet", href: "/wallet" },
+      // { title: "Download App", href: "/download-app" },
+      // ],
     },
     { id: 5, title: "Get Sponsored", href: "/get-sponsor" },
     { id: 6, title: "My Tickets", href: "/wallet" },

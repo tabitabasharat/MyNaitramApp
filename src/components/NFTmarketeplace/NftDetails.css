@@ -3,12 +3,12 @@
 .topDiv {
   align-items: center;
 }
-.bg-reward {
+/* .bg-reward {
   background-image: url("/blur-green.png");
   background-position: right;
   background-repeat: no-repeat;
   background-size: cover;
-}
+} */
 .Listings {
   font-weight: 800;
   font-size: 20px;
@@ -284,11 +284,11 @@
     font-size: 14px;
     line-height: 16.8px;
   }
-  .customizeButton {
+  /* .customizeButton {
     padding-left: 0;
     padding-right: 0;
     align-items: center;
-  }
+  } */
   .number1 {
     font-size: 18px;
     line-height: 18px;
@@ -341,9 +341,9 @@
   .hiddenEventDetail {
     display: block;
   }
-  .customizeButton {
+  /* .customizeButton {
     width: 100%;
-  }
+  } */
   .buttonrounded {
     width: 100%;
   }

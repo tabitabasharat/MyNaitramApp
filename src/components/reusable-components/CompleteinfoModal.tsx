@@ -121,7 +121,7 @@ const CompleteinfoModal = ({ isOpen, onClose, selectedTicketId, setProfileInform
     } else if (selectedTicketId === 'panel1' || selectedTicketId === 'panel3' || selectedTicketId === 'panel4') {
       return "Submit your details";
     }
-    return "Submit your details"; // Default fallback
+    return "Submit your details";
   };
 
   return (

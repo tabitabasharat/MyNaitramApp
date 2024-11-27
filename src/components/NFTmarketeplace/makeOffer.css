@@ -1,0 +1,119 @@
+.css-1u9des2-indicatorSeparator{
+display: none !important;
+}
+.css-110b5ws-option{
+    background-color: transparent !important;
+}
+.bg-buyNow {
+    background-image: url("/blur-green.png");
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: background-color 0.5s, backdrop-filter 0.5s;
+  }
+  input.gradient-slate-input:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+  }
+  /* Add this to your global CSS file */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;    /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+  
+  
+  
+  .bg-buyNow-outer{
+    padding: 132px 320px 89px 216px ;
+  }
+  .bg-buyNow-outer2{
+    display: flex;
+    align-items: start ;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .claimable-container {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+  @media (max-width: 992px) {
+    .custom-border {
+        border-bottom: 1px solid;
+        border-image-source: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
+        border-image-slice: 1;
+      }
+    .bg-buyNow-outer{
+      width: 100%;
+      display: block;
+      padding: 100px 54px !important;
+    }
+    .bg-buyNow-outer2{
+      width: 100%;
+      display: block;
+    }
+    .claim-container {
+      width: 100%;
+      flex-direction: column;
+    }
+    .bg-buyNow {
+        background: transparent;
+      }
+      .withoutImage {
+       
+            background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a);
+          
+      }
+    .claimable-container {
+      width: 100%;
+      flex-direction: column;
+      align-items: normal;
+      gap: 32px !important;
+    }
+    .textbr br {
+      display: none;
+    }
+    .img-contain {
+      width: 100%;
+    }
+  }
+  @media (max-width: 1290px) {
+    .bg-buyNow-outer{
+      width: 100%;
+      display: block;
+      padding: 132px 170px;
+    }
+  }
+  @media (max-width: 1190px) {
+    .bg-buyNow-outer{
+      width: 100%;
+      display: block;
+      padding: 132px 100px;
+    }
+  }
+  @media (max-width: 1090px) {
+    .bg-buyNow-outer{
+      width: 100%;
+      display: block;
+      padding: 132px 60px;
+    }
+  }
+  @media (max-width: 425px) {
+    .bg-buyNow-outer{
+      width: 100%;
+      display: block;
+      padding: 100px 24px 54px !important;
+    }
+  }
+
+  @media (max-width:335px) {
+    .css-19bb58m{
+      display: none !important;
+    }
+  }

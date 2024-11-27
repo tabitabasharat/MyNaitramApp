@@ -253,9 +253,7 @@ const EventDetail = () => {
                     className="rounded-full border border-[#034C22] z-[3]"
                   />
                 </div>
-                <h3 className="text-[20px] text-[#0FFF77] font-bold leading-[1.1] text-center mt-4">
-                  Evelyn and 348 others going
-                </h3>
+                
                 <p className="text-muted">Tap to see the live activities</p>
                 <Link href={"/events/event-detail/live-activity"}>
                   <Button className="flex items-center gap-[0.5rem] rounded-full mt-4 w-fit">
