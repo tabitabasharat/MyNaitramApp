@@ -107,8 +107,16 @@ const NftOwner = () => {
               </div>
             </div>
           </div>
-          <div>
-            <img src="/Images/Nft_animakid_img/Icons.svg" alt="Event Icon" />
+          <div >
+            <div className="flex items-center max-sm:gap-[6px] gap-[12px]">
+            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/facboklogo.svg" alt="Event Icon" />
+            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/camer.svg" alt="camera-img"/>
+            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/twiterlogo.svg" alt="twitr-img"/>
+            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/linked-in.svg" alt="linkedin-img"/>
+            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/tiktok.svg" alt="tiktok-img"/>
+            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/instalogo.svg" alt="insta-img"/>
+            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/youtube.svg" alt="youtube-img"/>
+            </div>
             <div className="flex items-center justify-end gap-[10px] pr-[106px] mt-[100px] hidden md:flex">
             <div className="flex items-center justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[376px] ">
             <input className="bg-none border-none text-[16px] font-normal leading-5 text-[ #BFBFBF] outline-none" type="text" placeholder="Search NFT"/>
