@@ -10,24 +10,22 @@ import { TableFooter } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 function createData(
-    ticket: string,
     name: string,
     calories: string,
     fat: number,
     carbs: string,
-    protein: number,
-    Revenue: number,
+    protein: string,
 ) {
-    return { ticket, name, calories, fat, carbs, protein, Revenue };
+    return { name, calories, fat, carbs, protein };
 }
 
 const rows = [
-    createData('Ticket 1', "John Williams", "william@gmail.com", 1234567890, "xyz", 134, 1825.1),
-    createData('Ticket 1', "John Williams", "william@gmail.com", 1234567890, "xyz", 134, 1825.1),
-    createData('Ticket 1', "John Williams", "william@gmail.com", 1234567890, "xyz", 134, 1825.1),
-    createData('Ticket 1', "John Williams", "william@gmail.com", 1234567890, "xyz", 134, 1825.1),
-    createData('Ticket 1', "John Williams", "william@gmail.com", 1234567890, "xyz", 134, 1825.1),
-    createData('Ticket 1', "John Williams", "william@gmail.com", 1234567890, "xyz", 134, 1825.1),
+    createData("John Williams", "william@gmail.com", 1234567890, "xyz", "xyz"),
+    createData("John Williams", "william@gmail.com", 1234567890, "xyz", "xyz"),
+    createData("John Williams", "william@gmail.com", 1234567890, "xyz", "xyz"),
+    createData("John Williams", "william@gmail.com", 1234567890, "xyz", "xyz"),
+    createData("John Williams", "william@gmail.com", 1234567890, "xyz", "xyz"),
+    createData("John Williams", "william@gmail.com", 1234567890, "xyz", "xyz"),
 ];
 
 const Rsvpticketing = () => {
@@ -35,16 +33,6 @@ const Rsvpticketing = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false); // State to control dropdown visibility
     const [sumData, setSumData] = useState(0);
     const [sumSales, setSumSales] = useState(0);
-
-    useEffect(() => {
-        const totalsalePrice = rows.reduce((sum, row) => sum + row.protein, 0);
-        setSumSales(totalsalePrice);
-    }, [])
-
-    useEffect(() => {
-        const totalPrice = rows.reduce((sum, row) => sum + row.Revenue, 0.0);
-        setSumData(totalPrice);
-    }, [])
 
     const options = ['Event 1', 'Event 2', 'Event 3']; // Dropdown options
 
@@ -60,20 +48,36 @@ const Rsvpticketing = () => {
                     RSVP Ticketing
                 </h1>
             </div>
+            <div className='w-full flex flex-col gap-[16px] gradient-slate lg:w-[610px] gradient-border p-[16px] rounded-[12px]'>
+                <div className='flex justify-between lg:items-center items-start wallet-div-content w-full'>
+                    <p className='text-[#8F8F8F] text-sm font-normal '>Name of Ticket Type</p>
+                    <p className='text-[#D9D9D9] text-base font-bold'>Birthday Party RSVP</p>
+                </div>
+                <div className='flex justify-between lg:items-center items-start wallet-div-content w-full '>
+                    <p className='text-[#8F8F8F] text-sm font-normal '>RSVP Deadline</p>
+                    <p className='text-[#D9D9D9] text-base font-bold'>5th March, 2024 - 5 PM </p>
+                </div>
+                <div className='flex justify-between lg:items-center items-start wallet-div-content w-full '>
+                    <p className='text-[#8F8F8F] text-sm font-normal '>RSVP Capacity</p>
+                    <p className='text-[#D9D9D9] text-base font-bold'>5th March, 2024 - 5 PM </p>
+                </div>
+
+            </div>
             <div>
-                <TableContainer component={Paper} sx={{ boxShadow: "none", background: "transparent",
-                    overflow: "auto", 
-                    maxHeight: "100%", 
+                <TableContainer component={Paper} className=' xl:w-[900px]' sx={{
+                    boxShadow: "none", background: "transparent",
+                    overflow: "auto",
+                    maxHeight: "100%",
                     '&::-webkit-scrollbar': {
-                      width: 0, 
-                      height: 0,
+                        width: 0,
+                        height: 0,
                     },
                     '&::-webkit-scrollbar-thumb': {
-                      display: 'none', 
+                        display: 'none',
                     },
-                    scrollbarWidth: 'none', 
-                    msOverflowStyle: 'none', 
-                 }}>
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none',
+                }}>
                     <Table
                         sx={{
                             minWidth: 650,
@@ -91,23 +95,7 @@ const Rsvpticketing = () => {
                         aria-label="simple table"
                     >
                         <TableHead className="table-gradient-new gradient-slate" >
-                            <TableRow sx={{ border: "none" }}>
-                                <TableCell
-                                    className="w-[80px] lg:w-[160px] px-[16.5px] lg:px-[20px] py-[12px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
-                                    sx={{
-                                        color: "#A6A6A6",
-                                        borderBottom: "none",
-                                        fontFamily: "var(--font-base)",
-                                        border: "none",
-                                        borderTop: "none",
-                                        borderTopLeftRadius: "8px",
-                                        borderBottomLeftRadius: '8px',
-
-                                    }}
-                                    align="left"
-                                >
-                                    Ticket Name
-                                </TableCell>
+                            <TableRow sx={{ border: "none" }} className=' gradient-slate'>
                                 <TableCell
                                     className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[160px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     align="left"
@@ -145,7 +133,7 @@ const Rsvpticketing = () => {
                                     Phone
                                 </TableCell>
                                 <TableCell
-                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[130px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[170px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
@@ -154,10 +142,10 @@ const Rsvpticketing = () => {
                                         borderTop: "none",
                                     }}
                                 >
-                                    Additional
+                                    Additional Field
                                 </TableCell>
                                 <TableCell
-                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[110px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[170px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
                                     align="left"
                                     sx={{
                                         color: "#A6A6A6",
@@ -166,21 +154,7 @@ const Rsvpticketing = () => {
                                         borderTop: "none",
                                     }}
                                 >
-                                    Sales
-                                </TableCell>
-                                <TableCell
-                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[110px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
-                                    align="left"
-                                    sx={{
-                                        color: "#A6A6A6",
-                                        borderBottom: "none",
-                                        fontFamily: "var(--font-base)",
-                                        borderTop: "none",
-                                        borderTopRightRadius: "8px",
-                                        borderBottomRightRadius: '8px',
-                                    }}
-                                >
-                                    Revenue
+                                    Additional Field 2
                                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -200,7 +174,7 @@ const Rsvpticketing = () => {
                             />
                         </TableRow>
                         <TableBody className="border-0 gradient-slate">
-                            {rows.map((row,rowIndex ) => (
+                            {rows.map((row, rowIndex) => (
                                 <TableRow
                                     key={row.name}
                                     sx={{
@@ -211,8 +185,8 @@ const Rsvpticketing = () => {
                                     }}
                                     className=" text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                 >
-                                    <TableCell
-                                         sx={{
+                                    {/* <TableCell
+                                        sx={{
                                             padding: "20px",
                                             borderBottom: "none",
                                             fontFamily: "var(--font-base)",
@@ -229,14 +203,18 @@ const Rsvpticketing = () => {
                                         className=" text-[white] text-[10px] font-normal lg:text-sm"
                                     >
                                         {row.ticket}
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell
                                         sx={{
-                                            borderBottom: "none",
-                                            borderLeft: "none",
-                                            fontFamily: "var(--font-base)",
                                             padding: "20px",
-                                            color: "white",
+                                            borderBottom: "none",
+                                            fontFamily: "var(--font-base)",
+                                            ...(rowIndex === 0 && {
+                                                borderTopLeftRadius: "8px",
+                                            }),
+                                            ...(rowIndex === rows.length - 1 && {
+                                                borderBottomLeftRadius: "8px",
+                                            }),
                                         }}
                                         align="left"
                                         component="th"
@@ -289,6 +267,239 @@ const Rsvpticketing = () => {
                                     </TableCell>
                                     <TableCell
                                         sx={{
+                                            padding: "20px",
+                                            borderBottom: "none",
+                                            fontFamily: "var(--font-base)",
+                                            ...(rowIndex === 0 && {
+                                                borderTopRightRadius: "8px", // Top-left radius for the first row
+                                            }),
+                                            ...(rowIndex === rows.length - 1 && {
+                                                borderBottomRightRadius: "8px", // Bottom-left radius for the last row
+                                            }),
+                                        }}
+                                        className=" text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                                        align="left"
+                                    >
+                                        {row.protein}
+                                    </TableCell>
+                                </TableRow>
+
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <Button className='text-[#030303] text-sm font-extrabold pt-[13px] mt-[24px] mb-[40px] sm:w-fit w-full pb-[11px] px-[31.5px]'>
+                    Download CSV
+                </Button>
+            </div>
+            <div className='w-full flex flex-col gap-[16px] gradient-slate lg:w-[610px] gradient-border p-[16px] rounded-[12px]'>
+                <div className='flex justify-between lg:items-center items-start wallet-div-content w-full'>
+                    <p className='text-[#8F8F8F] text-sm font-normal '>Name of Ticket Type</p>
+                    <p className='text-[#D9D9D9] text-base font-bold'>Birthday Party RSVP</p>
+                </div>
+                <div className='flex justify-between lg:items-center items-start wallet-div-content w-full '>
+                    <p className='text-[#8F8F8F] text-sm font-normal '>RSVP Deadline</p>
+                    <p className='text-[#D9D9D9] text-base font-bold'>5th March, 2024 - 5 PM </p>
+                </div>
+                <div className='flex justify-between lg:items-center items-start wallet-div-content w-full '>
+                    <p className='text-[#8F8F8F] text-sm font-normal '>RSVP Capacity</p>
+                    <p className='text-[#D9D9D9] text-base font-bold'>5th March, 2024 - 5 PM </p>
+                </div>
+
+            </div>
+            <div>
+                <TableContainer component={Paper}
+                    className='xl:w-[900px]' sx={{
+                        boxShadow: "none", background: "transparent",
+                        overflow: "auto",
+                        maxHeight: "100%",
+                        '&::-webkit-scrollbar': {
+                            width: 0,
+                            height: 0,
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                            display: 'none',
+                        },
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
+                    }}>
+                    <Table
+                        sx={{
+                            minWidth: 650,
+                            borderBottom: "none",
+                            // borderTop: "1px solid #292929",
+                            borderLeft: "none",
+                            borderRight: "none",
+                            fontFamily: "var(--font-base)",
+                            color: "white",
+                            // background: "#0F0F0F",
+                            fontSize: 16,
+                            fontweight: 500,
+
+                        }}
+                        aria-label="simple table"
+                    >
+                        <TableHead className="table-gradient-new gradient-slate" >
+                            <TableRow sx={{ border: "none" }} className=' gradient-slate'>
+                                <TableCell
+                                    className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[160px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    align="left"
+                                    sx={{
+                                        color: "#A6A6A6",
+                                        borderBottom: "none",
+                                        borderTop: "none",
+                                        fontFamily: "var(--font-base)",
+                                    }}
+                                >
+                                    Name
+                                </TableCell>
+                                <TableCell
+                                    className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[201px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    align="left"
+                                    sx={{
+                                        color: "#A6A6A6",
+                                        borderBottom: "none",
+                                        fontFamily: "var(--font-base)",
+                                        borderTop: "none",
+                                    }}
+                                >
+                                    Email
+                                </TableCell>
+                                <TableCell
+                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[130px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    align="left"
+                                    sx={{
+                                        color: "#A6A6A6",
+                                        borderBottom: "none",
+                                        fontFamily: "var(--font-base)",
+                                        borderTop: "none",
+                                    }}
+                                >
+                                    Phone
+                                </TableCell>
+                                <TableCell
+                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[170px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    align="left"
+                                    sx={{
+                                        color: "#A6A6A6",
+                                        borderBottom: "none",
+                                        fontFamily: "var(--font-base)",
+                                        borderTop: "none",
+                                    }}
+                                >
+                                    Additional Field
+                                </TableCell>
+                                <TableCell
+                                    className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[170px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                    align="left"
+                                    sx={{
+                                        color: "#A6A6A6",
+                                        borderBottom: "none",
+                                        fontFamily: "var(--font-base)",
+                                        borderTop: "none",
+                                    }}
+                                >
+                                    Additional Field 2
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableRow
+                            sx={{
+
+                                backgroundColor: "transparent",
+                                height: "8px",
+                            }}
+                        >
+                            <TableCell
+                                colSpan={5}
+                                sx={{
+                                    padding: 0,
+                                    border: "none",
+                                }}
+                            />
+                        </TableRow>
+                        <TableBody className="border-0 gradient-slate">
+                            {rows.map((row, rowIndex) => (
+                                <TableRow
+                                    key={row.name}
+                                    sx={{
+                                        "&:last-child td, &:last-child th": { border: 0 },
+                                        borderBottom: "none",
+                                        fontFamily: "var(--font-base)",
+                                        padding: "20px",
+                                    }}
+                                    className=" text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                                >
+                                    {/* <TableCell
+                                        sx={{
+                                            padding: "20px",
+                                            borderBottom: "none",
+                                            fontFamily: "var(--font-base)",
+                                            ...(rowIndex === 0 && {
+                                                borderTopLeftRadius: "8px",
+                                            }),
+                                            ...(rowIndex === rows.length - 1 && {
+                                                borderBottomLeftRadius: "8px",
+                                            }),
+                                        }}
+                                        align="left"
+                                        component="th"
+                                        scope="row"
+                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
+                                    >
+                                        {row.ticket}
+                                    </TableCell> */}
+                                    <TableCell
+                                        sx={{
+                                            padding: "20px",
+                                            borderBottom: "none",
+                                            fontFamily: "var(--font-base)",
+                                            ...(rowIndex === 0 && {
+                                                borderTopLeftRadius: "8px",
+                                            }),
+                                            ...(rowIndex === rows.length - 1 && {
+                                                borderBottomLeftRadius: "8px",
+                                            }),
+                                        }}
+                                        align="left"
+                                        component="th"
+                                        scope="row"
+                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
+                                    >
+                                        {row.name}
+                                    </TableCell>
+                                    <TableCell
+                                        sx={{
+                                            fontFamily: "var(--font-base)",
+                                            borderBottom: "none",
+                                            borderLeft: "none",
+                                            padding: "20px",
+                                            color: "white",
+                                        }}
+                                        align="left"
+                                        component="th"
+                                        scope="row"
+                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
+                                    >
+                                        {row.calories}
+                                    </TableCell>
+                                    <TableCell
+                                        sx={{
+                                            borderBottom: "none",
+                                            borderLeft: "none",
+                                            fontFamily: "var(--font-base)",
+                                            padding: "20px",
+                                            color: "white",
+                                        }}
+                                        align="left"
+                                        component="th"
+                                        scope="row"
+                                        className=" text-[white] text-[10px] font-normal lg:text-sm"
+                                    >
+                                        {row.fat}
+                                    </TableCell>
+                                    <TableCell
+                                        sx={{
                                             borderBottom: "none",
                                             padding: "20px",
                                             fontFamily: "var(--font-base)",
@@ -297,7 +508,7 @@ const Rsvpticketing = () => {
                                         className=" text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                         align="left"
                                     >
-                                        {row.protein}
+                                        {row.carbs}
                                     </TableCell>
                                     <TableCell
                                           sx={{
@@ -314,46 +525,17 @@ const Rsvpticketing = () => {
                                         className=" text-[white] border-0 text-[10px] font-normal lg:text-sm"
                                         align="left"
                                     >
-                                        £{row.Revenue}
+                                        {row.protein}
                                     </TableCell>
                                 </TableRow>
 
                             ))}
                         </TableBody>
-                        <TableFooter>
-                            <TableRow
-                                sx={{
-
-                                    backgroundColor: "transparent",
-                                    height: "8px",
-                                }}
-                            >
-                                <TableCell
-                                    colSpan={5}
-                                    sx={{
-                                        padding: 0,
-                                        border: "none",
-                                    }}
-                                />
-                            </TableRow>
-                            <TableRow sx={
-                                {
-                                    border: "none",
-                                }
-                            }>
-                                <TableCell colSpan={5} align="right" className='gradient-slate' sx={{ border: "none", fontWeight: "bold", borderBottomLeftRadius: "10px", borderTopLeftRadius: "10px" }}>
-
-                                </TableCell>
-                                <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", }} className='gradient-slate text-[#A6A6A6]'>
-                                    {sumSales.toFixed(2)}
-                                </TableCell>
-                                <TableCell sx={{ fontWeight: "400", fontFamily: "var(--font-base)", border: "none", borderBottomRightRadius: "8px", borderTopRightRadius: "8px" }} className='gradient-slate text-[#A6A6A6]'>
-                                    £{sumData.toFixed(2)}
-                                </TableCell>
-                            </TableRow>
-                        </TableFooter>
                     </Table>
                 </TableContainer>
+                <Button className='text-[#030303] text-sm font-extrabold pt-[13px] mt-[24px] mb-[40px] sm:w-fit w-full pb-[11px] px-[31.5px]'>
+                    Download CSV
+                </Button>
             </div>
         </div>
     )

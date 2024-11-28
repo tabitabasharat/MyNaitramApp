@@ -1009,11 +1009,14 @@ input[type="number"] {
     height: 345px;
   }
 }
-@media (max-width: 374px) {
+@media (max-width: 392px) {
   .wallet-div-content {
     display: flex;
     flex-direction: column;
   }
+}
+@media (max-width: 374px) {
+
   .alignment-text {
     text-align: start;
   }
