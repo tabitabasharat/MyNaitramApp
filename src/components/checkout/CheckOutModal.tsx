@@ -5,16 +5,19 @@ import CompleteYourProfileModal from "@/components/checkout/CompleteYourProfileM
 import PaymentsModal from "@/components/checkout/PaymentsModal";
 import TicketPurchaseExpire from "@/components/checkout/TicketPurchaseExpire";
 import TicketPurchaseSuccess from "@/components/checkout/TicketPurchaseSuccess";
+import RsvpSubmissionSuccess from "@/components/checkout/RscvSubModel";
+import PasswordModel from "@/components/checkout/PaswordModel";
 import { useState, useEffect } from "react";
 import BuyTicketPopUp from "@/components/checkout/BuyTicketPopUp";
 import WhiteListCode from "@/components/checkout/WhiteListCode";
-import { useAppDispatch,useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+
 const CheckOutModal = ({ event }: any) => {
   const dispatch = useAppDispatch();
   const [currentModal, setCurrentModal] = useState("BuyTicket");
   const [ticketPrice, setTicketPrice] = useState<any>();
   const [ticketType, setTicketType] = useState<any>();
-  const [ticketIndex,setTicketIndex]=useState<any>()
+  const [ticketIndex, setTicketIndex] = useState<any>();
 
   const [profileInformation, setProfileInformation] = useState<any>();
 
@@ -23,9 +26,8 @@ const CheckOutModal = ({ event }: any) => {
   const handleNext = (nextModal: string) => {
     setCurrentModal(nextModal);
   };
-  console.log("this is ticket index",ticketIndex)
-  
-  
+  console.log("this is ticket index", ticketIndex);
+  console.log("Thissssssssss iss EEEEEvent ", event);
 
   return (
     <>
@@ -37,7 +39,7 @@ const CheckOutModal = ({ event }: any) => {
           setTicketIndex={setTicketIndex}
         />
       )}
-       {/* {canbuyTicket == false &&(
+      {/* {canbuyTicket == false &&(
         <BuyTicketPopUp
           onNext={() => handleNext("CompleteYourProfile")}
           setTicketPrice={setTicketPrice}
@@ -45,7 +47,7 @@ const CheckOutModal = ({ event }: any) => {
         />
       )} */}
 
-        {/* {currentModal === "BuyTicket" && (
+      {/* {currentModal === "BuyTicket" && (
         <WhiteListCode
           onNext={() => handleNext("CompleteYourProfile")}
           setTicketPrice={setTicketPrice}
@@ -57,6 +59,8 @@ const CheckOutModal = ({ event }: any) => {
           handleNext={handleNext}
           onNext={() => handleNext("Payments")}
           setProfileInformation={setProfileInformation}
+          currentTicketType={ticketType}
+          setCurrentModal={setCurrentModal}
         />
       )}
       {currentModal === "Payments" && (
@@ -70,9 +74,9 @@ const CheckOutModal = ({ event }: any) => {
           onNext={() => handleNext("TicketPurchaseSuccess")}
         />
       )}
-      {currentModal === "TicketPurchaseSuccess" && (
-        <TicketPurchaseSuccess setCurrentModal={setCurrentModal} />
-      )}
+      {currentModal === "TicketPurchaseSuccess" && <TicketPurchaseSuccess setCurrentModal={setCurrentModal} />}
+      {currentModal === "RSCVsubmissionModel" && <RsvpSubmissionSuccess setCurrentModal={setCurrentModal} />}
+      {/* {currentModal === "PasswordModelOpen" && <PasswordModel setCurrentModal={setCurrentModal} />} */}
       {currentModal === "TicketPurchaseExpire" && <TicketPurchaseExpire />}
     </>
   );

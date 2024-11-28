@@ -29,6 +29,7 @@ const BuyTicket = ({
   ticketStartTime,
   soldout,
   salesStop,
+  allTickets,
 }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -122,6 +123,10 @@ const BuyTicket = ({
     }
     return salesStop;
   }
+
+  useEffect(() => {
+    console.log("But Model tickets are as==>", allTickets);
+  }, []);
 
   return (
     <Dialog>
