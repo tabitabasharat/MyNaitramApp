@@ -57,7 +57,7 @@ const NftOwner = () => {
             <h2 className="text-[24px] font-extrabold leading-[26.6px] md:text-[37px] md:leading-[48.6px] lg:text-[56px] lg:leading-[61.6px]">
               Animakid
             </h2>
-            <button className="bg-[#00D059] px-8 py-4 rounded-full text-[14px] font-extrabold leading-[19.6px] text-[#030303] Animkaid_Button hidden md:block">
+            <button className="bg-[#00D059] px-8 py-4 rounded-full text-[14px] font-extrabold leading-[19.6px] text-[#030303] Animkaid_Button hidden md:block hover:bg-opacity-[80%]">
               Go To Event
             </button>
           </div>
@@ -109,19 +109,23 @@ const NftOwner = () => {
           </div>
           <div >
             <div className="flex items-center max-sm:gap-[6px] gap-[12px]">
-            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/facboklogo.svg" alt="Event Icon" />
-            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/camer.svg" alt="camera-img"/>
-            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/twiterlogo.svg" alt="twitr-img"/>
-            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/linked-in.svg" alt="linkedin-img"/>
-            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/tiktok.svg" alt="tiktok-img"/>
-            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/instalogo.svg" alt="insta-img"/>
-            <img className="max-sm:h-9 max-sm:w-9" src="/Images/Nft_animakid_img/youtube.svg" alt="youtube-img"/>
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/facboklogo.svg" alt="Event Icon" />
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/camer.svg" alt="camera-img"/>
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/twiterlogo.svg" alt="twitr-img"/>
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/linked-in.svg" alt="linkedin-img"/>
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/tiktok.svg" alt="tiktok-img"/>
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/instalogo.svg" alt="insta-img"/>
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/youtube.svg" alt="youtube-img"/>
             </div>
             <div className="flex items-center justify-end gap-[10px] pr-[106px] mt-[100px] hidden md:flex">
-            <div className="flex items-center justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[376px] ">
-            <input className="bg-none border-none text-[16px] font-normal leading-5 text-[ #BFBFBF] outline-none" type="text" placeholder="Search NFT"/>
-            <img src="/Images/Nft_animakid_img/serchicon.svg"/>
-            </div>
+            <div className="flex items-center justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[376px]">
+  <input 
+    className="flex-1 bg-none border-none text-[16px] font-normal leading-5 text-[#BFBFBF] outline-none pr-10" 
+    type="text" 
+    placeholder="Search NFT"
+  />
+  <img src="/Images/Nft_animakid_img/serchicon.svg" className="w-5 h-5" />
+</div>
             <div className="border border-[#292929] gradient-slate py-[19px] px-[16px] rounded-lg w-[143px] flex items-center justify-between ">
               <h2 className="text-[16px] font-normal leading-5 text-[ #BFBFBF]">Filter</h2>
               <img src="/Images/Nft_animakid_img/filtr.svg"/>
