@@ -14,15 +14,41 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getAllEventsCount, getEventById } from "@/lib/middleware/event";
 import { useState, useEffect } from "react";
 import { setContractEditor } from "@/lib/reducer/setBuyTicket";
+import { isDate } from "lodash";
+import { ErrorToast } from "../reusable-components/Toaster/Toaster";
+import moment from "moment-timezone";
+
 // import { setTicketPrice } from "@/lib/reducer/setBuyTicket";
 const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex }: any) => {
   const [selectedTicket, setSelectedTicket] = useState(-1);
   const [selectedTicketPrice, setSelectedTicketPrice] = useState(0);
   const [selectedTicketType, setSelectedTIcketType] = useState<any>();
   const [eventid, setEventid] = useState<any>();
+  // const [disableContinue, setDisabledContinue] = useState<boolean>(false);
+  const [deadLineDate, setDeadlineDate] = useState<string>("");
 
   const dispatch = useAppDispatch();
+
   function buyTicket() {
+    // if (selectedTicketType === "RSVP Ticketing") {
+    //   if (!isDateValid(deadLineDate)) {
+    //     setTicketPrice(selectedTicketPrice);
+
+    //     setTicketType(selectedTicketType);
+    //     // dispatch(setContractEditor(selectedTicketPrice));
+    //     onNext();
+    //   } else {
+    //     console.log("Deadline Have been passed");
+    //     ErrorToast("Deadline have been passed for this event!");
+    //   }
+    // } else {
+    //   setTicketPrice(selectedTicketPrice);
+
+    //   setTicketType(selectedTicketType);
+    //   // dispatch(setContractEditor(selectedTicketPrice));
+    //   onNext();
+    // }
+
     setTicketPrice(selectedTicketPrice);
 
     setTicketType(selectedTicketType);
@@ -59,6 +85,18 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex 
     // Construct the formatted string
     return `${dayOfWeek}, ${day}${suffix} ${month} ${year}`;
   }
+
+  const isDateValid = (dateString: string) => {
+    const inputDate = moment.tz(dateString, "UTC"); // Parse as UTC
+    const currentDate = moment.tz("UTC"); // Get the current UTC time
+
+    if (!inputDate.isValid()) {
+      console.error("Invalid date format");
+      return false;
+    }
+
+    return inputDate.isAfter(currentDate); // Return true if in the future
+  };
 
   return (
     <DialogContent className="sm:max-w-md lg:max-w-[600px] text-white">
@@ -159,6 +197,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex 
                       setSelectedTicketPrice(ticket.ticketPrice);
                       setSelectedTIcketType(ticket.selectedEventTicketType);
                       setTicketIndex(index);
+                      setDeadlineDate(ticket?.rsvpDeadline || "");
                     }}
                     className="w-full"
                   >
@@ -180,7 +219,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex 
                                 <div className="flex flex-col items-start mt-2">
                                   <p className="text-[#BFBFBF] font-extrabold text-[12px]">RSVP Deadline</p>
                                   <div className="mt-3">
-                                    <p key={index} className="text-[12px]">
+                                    <p key={index} className={`text-[12px]`}>
                                       {`${formatDate(ticket?.rsvpDeadline)}`}
                                     </p>
                                   </div>
@@ -189,7 +228,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex 
                                   <p className="text-[#BFBFBF] font-extrabold text-[12px]">RSVP Capacity</p>
                                   <div className="mt-3">
                                     <p key={index} className="text-[12px]">
-                                      {`${ticket?.rsvpCapacity} persons`}
+                                      {`${ticket?.noOfTickets} persons`}
                                     </p>
                                   </div>
                                 </div>
@@ -216,32 +255,41 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex 
                     </CollapsibleTrigger>
                   </Collapsible>
                 ) : (
-                  <Collapsible
-                    key={index}
-                    open={selectedTicket === index}
-                    onOpenChange={() => {
-                      if (!isSoldOut) {
-                        setSelectedTicket(index);
-                        setSelectedTicketPrice(ticket.ticketPrice);
-                        setSelectedTIcketType(ticket.selectedEventTicketType);
-                        setTicketIndex(index);
-                      }
-                    }}
-                    className="w-full"
-                  >
-                    <CollapsibleTrigger className="w-full">
-                      <div
-                        className={`border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer ${
-                          isSoldOut ? "bg-gray-300 text-gray-500 cursor-not-allowed" : ""
-                        }`}
-                      >
-                        <div className="flex justify-between">
-                          <p className="font-bold">{ticket.selectedEventTicketType}</p>
-                          <p className="font-extrabold">{ticket.selectedEventTicketType !== "RSVP Ticketing" ? `£${ticket.ticketPrice}` : ""}</p>
+                  <>
+                    <Collapsible
+                      key={index}
+                      open={selectedTicket === index}
+                      onOpenChange={() => {
+                        console.log(ticket?.rsvpDeadline < new Date().toISOString(), "this is collapase able");
+                        if (!isSoldOut) {
+                          if (ticket.selectedEventTicketType !== "RSVP Ticketing" && ticket?.rsvpDeadline > new Date().toISOString()) {
+                            setSelectedTicket(index);
+                          } else {
+                            setSelectedTicket(index);
+                          }
+                          setSelectedTicketPrice(ticket.ticketPrice);
+                          setSelectedTIcketType(ticket.selectedEventTicketType);
+                          setTicketIndex(index);
+                          setDeadlineDate(ticket?.rsvpDeadline || "");
+                          console.log(ticket?.rsvpDeadline, "this is rsvp deadline");
+                        }
+                      }}
+                      className="w-full"
+                    >
+                      <CollapsibleTrigger className="w-full">
+                        <div
+                          className={`border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer ${
+                            isSoldOut || ticket?.rsvpDeadline < new Date().toISOString() ? "bg-gray-300 text-gray-500 cursor-not-allowed" : ""
+                          }`}
+                        >
+                          <div className="flex justify-between">
+                            <p className="font-bold">{ticket.selectedEventTicketType}</p>
+                            <p className="font-extrabold">{ticket.selectedEventTicketType !== "RSVP Ticketing" ? `£${ticket.ticketPrice}` : ""}</p>
+                          </div>
                         </div>
-                      </div>
-                    </CollapsibleTrigger>
-                  </Collapsible>
+                      </CollapsibleTrigger>
+                    </Collapsible>
+                  </>
                 );
               })}
             </div>

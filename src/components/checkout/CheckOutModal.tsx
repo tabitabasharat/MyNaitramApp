@@ -6,7 +6,7 @@ import PaymentsModal from "@/components/checkout/PaymentsModal";
 import TicketPurchaseExpire from "@/components/checkout/TicketPurchaseExpire";
 import TicketPurchaseSuccess from "@/components/checkout/TicketPurchaseSuccess";
 import RsvpSubmissionSuccess from "@/components/checkout/RscvSubModel";
-import PasswordModel from "@/components/checkout/PaswordModel";
+import UnAutherizedPrivateModel from "@/components/checkout/unAutherizedPrivateModel";
 import { useState, useEffect } from "react";
 import BuyTicketPopUp from "@/components/checkout/BuyTicketPopUp";
 import WhiteListCode from "@/components/checkout/WhiteListCode";
@@ -76,7 +76,7 @@ const CheckOutModal = ({ event }: any) => {
       )}
       {currentModal === "TicketPurchaseSuccess" && <TicketPurchaseSuccess setCurrentModal={setCurrentModal} />}
       {currentModal === "RSCVsubmissionModel" && <RsvpSubmissionSuccess setCurrentModal={setCurrentModal} />}
-      {/* {currentModal === "PasswordModelOpen" && <PasswordModel setCurrentModal={setCurrentModal} />} */}
+      {currentModal === "unAuterizedPrivateModel" && <UnAutherizedPrivateModel setCurrentModal={setCurrentModal} />}
       {currentModal === "TicketPurchaseExpire" && <TicketPurchaseExpire />}
     </>
   );

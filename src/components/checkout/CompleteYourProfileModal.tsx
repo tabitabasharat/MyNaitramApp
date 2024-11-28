@@ -10,10 +10,11 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { API_URL } from "@/lib/client";
 import axios from "axios";
 import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
+import { getEventByEventId, ticketStatus } from "@/lib/middleware/event";
 
 const formSchema = z.object({
   phone: z
@@ -53,6 +54,8 @@ const CompleteYourProfileModal = ({
   const [pswrdValue, setPswrdValue] = useState<string>("");
   const [isPSWRDticket, setIsPaswordTicket] = useState<string>("");
   const [passTrue, setPasswordTrue] = useState<boolean>(false);
+  const [ticketIndex, setTicketIndex] = useState<any>();
+  const dispatch = useAppDispatch();
 
   const checkPswrd = () => {
     console.log("clicked on next");
@@ -77,7 +80,6 @@ const CompleteYourProfileModal = ({
   // 2. Define a submit handler.
   async function onSubmit() {
     const allValues = form.getValues();
-    console.log("Form is submitting yaaaar!!");
     let profileData = {};
     if (ticketDat[0]?.selectedEventTicketType === "RSVP Ticketing") {
       const phoneValue = form.getValues("phone");
@@ -114,10 +116,8 @@ const CompleteYourProfileModal = ({
           phoneNo: phoneValue,
         };
       }
-
       profileData = { ...allValues, full_name: name, email, ...additionalAns };
       setProfileInformation(profileData);
-      setCurrentModal("RSCVsubmissionModel");
       try {
         setLoader(true);
 
@@ -127,7 +127,18 @@ const CompleteYourProfileModal = ({
           userId: userID,
         });
 
+        console.log("i am calling how many times");
+
         setLoader(false);
+        const apiUrl = `${API_URL}/buying/buyTicket?userId=${userID}&ismobile=true&isindex=${ticketIndex}&ticketType=${ticketDat[0]?.selectedEventTicketType}&ticketPrice=0&eventId=${eventID}&fullName=${name}&email=${email}`;
+        const buyTicketData = await axios.get(apiUrl);
+
+        const payloadData = {
+          eventId: eventID,
+          userId: userID,
+        };
+        dispatch(ticketStatus(payloadData));
+        setCurrentModal("RSCVsubmissionModel");
 
         if (data?.data?.url) {
           typeof window !== "undefined" ? (window.location.href = data?.data?.url) : null;
@@ -136,14 +147,22 @@ const CompleteYourProfileModal = ({
         }
       } catch (error: any) {
         setLoader(false);
-        ErrorToast(error?.response?.data?.error);
-        console.log("this is the error", error);
       }
     } else {
       formSchema.parse(allValues);
-      profileData = { ...allValues, full_name: name, email };
-      setProfileInformation(profileData);
-      onNext();
+      if (ticketDat[0]?.selectedEventTicketType === "Private Event Ticketing") {
+        if (ticketDat[0]?.privateEventAdditionalFields?.includes(email)) {
+          profileData = { ...allValues, full_name: name, email };
+          setProfileInformation(profileData);
+          onNext();
+        } else {
+          setCurrentModal("unAuterizedPrivateModel");
+        }
+      } else {
+        profileData = { ...allValues, full_name: name, email };
+        setProfileInformation(profileData);
+        onNext();
+      }
     }
     console.log(profileData);
   }
@@ -161,7 +180,10 @@ const CompleteYourProfileModal = ({
   useEffect(() => {
     setTicketData(EventDatas?.data?.tickets?.filter((t: any) => t?.selectedEventTicketType === currentTicketType));
     setEventID(EventDatas?.data?.id);
-    setUserID(EventDatas?.data?.userId);
+    setUserID(localStorage.getItem("_id"));
+    const matchingIndex = EventDatas?.data?.tickets?.findIndex((t: any) => t?.selectedEventTicketType === currentTicketType);
+    setTicketIndex(matchingIndex);
+    console.log("this is testing", matchingIndex);
   }, [EventDatas]);
 
   useEffect(() => {
@@ -184,7 +206,8 @@ const CompleteYourProfileModal = ({
             <button onClick={() => handleNext("BuyTicket")} className="bg-white/10 p-2 w-fit rounded-full cursor-pointer">
               <CaretLeft size={17} weight="bold" />
             </button>
-            <p>Complete Your Profile</p>
+
+            <p>{ticketDat[0]?.selectedEventTicketType === "RSVP Ticketing" ? "RSVP Form" : " Complete Your Profile"}</p>
           </div>
         </DialogTitle>
         <Separator className="scale--[1.12] bg-[#292929]" />
@@ -203,7 +226,7 @@ const CompleteYourProfileModal = ({
                 placeholder="Enter the password for this event"
                 className="pt-10 pb-5 text-center font-bold placeholder:font-normal w-full border border-gray-300 rounded-md"
               />
-              <p className="text-red-500 text-sm mt-1">{paswrdError ? "" : "password is wrong"}</p>
+              <p className="text-red-500 text-sm mt-1">{paswrdError ? "password is wrong" : ""}</p>
             </div>
 
             <Button onClick={checkPswrd} className="w-fit px-8">
@@ -377,8 +400,8 @@ const CompleteYourProfileModal = ({
                 </>
               )}
               <DialogFooter className="w-full mt-6 pt-4 bg-[#101010] border-t border-muted">
-                <Button onClick={() => onSubmit()} className="w-fit px-8">
-                  Go to Payments
+                <Button className="w-fit px-8">
+                  {ticketDat[0]?.selectedEventTicketType === "RSVP Ticketing" ? "Submit RSVP" : "Go to Payments"}
                 </Button>
               </DialogFooter>
             </form>

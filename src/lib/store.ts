@@ -48,6 +48,8 @@ import getPhotoRollChat from "./reducer/getPhotoRollChat";
 import getUserInfoById from "./reducer/getUserInfo";
 import createExpressAccount from "./reducer/createExpressAcnt";
 
+import getTicketStutus from "./reducer/getTicketStutus";
+
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
   getEventById: getEventById,
@@ -96,6 +98,7 @@ const appReducer = combineReducers({
   getHistoryByid: getHistoryByid,
   getUserInfoById: getUserInfoById,
   createExpressAccount: createExpressAccount,
+  ticketStatus: getTicketStutus,
 });
 const rootReducer = (state: ReturnType<typeof appReducer> | undefined, action: AnyAction) => {
   if (action.type === "LOGOUT") {

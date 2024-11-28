@@ -55,7 +55,8 @@ const BuyTicket = ({
   }, []);
 
   const EventDetail = useAppSelector((state: any) => state?.getTicket?.specificEvent?.data);
-  console.log("this is the events detail of event", EventDetail);
+  const ticketStatusss = useAppSelector((state: any) => state?.ticketStatus?.status?.data?.exists);
+  console.log("this is the events detail of event status", ticketStatusss);
   useEffect(() => {
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     setToken(token);
@@ -103,15 +104,7 @@ const BuyTicket = ({
         eventId: eventId,
         userId: id,
       };
-      dispatch(ticketStatus(data)).then((res: any) => {
-        if (res?.payload?.status === 200) {
-          if (res?.payload?.data?.exists == true) {
-            setViewTicket(true);
-          } else {
-            setViewTicket(false);
-          }
-        }
-      });
+      dispatch(ticketStatus(data));
     } catch (error) {
       console.error("Error:", error);
     }
@@ -161,7 +154,7 @@ const BuyTicket = ({
               Buy Ticket
             </Button>
           </div>
-        ) : viewTicket ? (
+        ) : ticketStatusss ? (
           <div>
             <Button
               onClick={() => {
