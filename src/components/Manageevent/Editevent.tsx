@@ -26,6 +26,8 @@ import { UploadSimple } from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
 import { API_URL } from "@/lib/client";
 import crossicon from "@/assets/cross-img-icon.svg";
+import arrowup from "@/assets/Arrow up.svg";
+import whiteaddicon from "@/assets/Wallet/white_plus_icon.svg";
 // import { DatePicker } from "@/components/organisms/DatePicker";
 
 import { useRouter } from "next/navigation";
@@ -85,6 +87,8 @@ import styled from "styled-components";
 import { useTheme } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import moment from "moment";
+
 import { addHours } from "date-fns";
 
 //  Defining All Types for Ticket types
@@ -370,7 +374,6 @@ const TicketTypeSchema = z.union([FestivalTypeSchema, RsvpTypeSchema, PrivateTyp
 
 // Define the array of tickets
 const TicketsTypesArraySchema = z.array(TicketTypeSchema);
-
 
 // //////////////////////  All Ticket Type schemas Ends here  //////////////////////////////////////
 
@@ -767,6 +770,96 @@ function Editevent() {
   const [filterHash, setFilterHash] = useState<any>([]);
   const [hashINputValue, setHashTagValue] = useState<string>("");
 
+  // ///////////////////////////////// Handelling csv file iploading  ///////////////
+
+  const [file, setCsvFile] = useState<File | null>(null); // Track the current file
+
+  const handleCSVFileChange = (event: React.ChangeEvent<HTMLInputElement>, ticketIndex: number) => {
+    const uploadedFile = event.target.files ? event.target.files[0] : null;
+
+    if (!uploadedFile) {
+      ErrorToast("No file detected!"); // Error
+      return;
+    }
+
+    setCsvFile(uploadedFile); // Store the file for reference
+
+    if (uploadedFile.type !== "text/csv") {
+      ErrorToast("Please upload a valid CSV file."); // Error
+      return;
+    }
+
+    // Create a FileReader to read the CSV file
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const fileContent = e.target?.result as string;
+
+      // Split the CSV content by line breaks to get rows
+      const rows = fileContent.split("\n").map((row) => row.trim());
+
+      try {
+        // Flatten rows and filter for valid emails
+        const extractedEmails: string[] = [];
+
+        rows.forEach((row) => {
+          const cells = row.split(","); // Split each row by commas (assuming CSV is comma-separated)
+          cells.forEach((cell) => {
+            // Check if cell matches the email pattern
+            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cell.trim())) {
+              extractedEmails.push(cell.trim());
+            }
+          });
+        });
+
+        if (extractedEmails.length === 0) {
+          throw new Error("No valid emails found in the file.");
+        }
+
+        // Updating the form Values
+        ticketTypes.forEach((ticket: any, index: number) => {
+          if (index === ticketIndex) {
+            [...ticket.emailmanual, ...extractedEmails].forEach((value: string, i: number) => {
+              form.setValue(`tickets.${ticketIndex}.emailmanual.${i}`, value);
+            });
+          }
+        });
+
+        // Update the ticket types with the extracted emails
+        setTicketTypes((prevTickets) => {
+          const newEmailsFields = prevTickets.map((ticket: any, i: number) =>
+            i === ticketIndex ? { ...ticket, emailmanual: [...ticket.emailmanual, ...extractedEmails] } : ticket
+          );
+
+          // Scroll to the bottom after adding new content
+          if (manualEmailRef.current) {
+            setTimeout(() => {
+              manualEmailRef.current!.scrollTop = manualEmailRef.current!.scrollHeight;
+            }, 0.005);
+          }
+
+          SuccessToast("CSV file parsed successfully");
+          return newEmailsFields;
+        });
+      } catch (err: any) {
+        ErrorToast(err.message); // Error
+      }
+
+      // Clear the file after processing
+      setCsvFile(null); // Reset the file so the user can upload another one
+    };
+
+    reader.onerror = (err: any) => {
+      ErrorToast(`File reading error: ${err.message}`); // Error
+      setCsvFile(null); // Clear the file after error
+    };
+
+    // Read the uploaded file as text
+    reader.readAsText(uploadedFile);
+  };
+
+  // /////////////////////////////////////////////////////////////////////////////////////////////
+
   const optionscate: CateOption[] = [
     { label: "Other" },
     { label: "Music" },
@@ -898,6 +991,13 @@ function Editevent() {
     "EngageWithUs",
   ];
 
+  const ticketTypesOptions: string[] = [
+    "Festivals / Multi-Day Tickets / Season Passes",
+    "RSVP Ticketing",
+    "Private Event Ticketing",
+    "Passworded / Discounted Voucher Event Ticketing",
+  ];
+
   const [galleryFiles, setGalleryFiles] = useState<GalleryFile[]>([]);
   const [eventID, setEventId] = useState("");
   console.log("files in gallery", galleryFiles);
@@ -919,9 +1019,11 @@ function Editevent() {
 
   const userLoading = useAppSelector((state) => state?.getEventByEventID);
 
-  const handleDropdown = (index: number) => {
-    setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket)));
-  };
+  // //////////////////////////////////////////////////////////////////////////////////////////
+
+  // const handleDropdown = (index: number) => {
+  //   setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket)));
+  // };
 
   const handleCateOptionToggle = (option: any) => {
     if (option.label === "Other") {
@@ -981,61 +1083,60 @@ function Editevent() {
     setIsCatDropdownOpen((prev) => !prev);
   };
 
-  const handleOptionToggle = (index: number, option: TicketTypeOption) => {
-    setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index
-          ? {
-              ...ticket,
-              options: ticket?.options?.some((o) => o.id === option.id)
-                ? ticket?.options?.filter((o) => o.id !== option.id)
-                : [...ticket?.options, option],
-            }
-          : ticket
-      )
-    );
-  };
+  // const handleOptionToggle = (index: number, option: TicketTypeOption) => {
+  //   setTicketTypes((prevTickets) =>
+  //     prevTickets.map((ticket, i) =>
+  //       i === index
+  //         ? {
+  //             ...ticket,
+  //             options: ticket?.options?.some((o) => o.id === option.id)
+  //               ? ticket?.options?.filter((o) => o.id !== option.id)
+  //               : [...ticket?.options, option],
+  //           }
+  //         : ticket
+  //     )
+  //   );
+  // };
 
-  const handleOptionChange = (index: number, type: string) => {
-    setTicketTypes((prevTickets) => {
-      const updatedTickets = prevTickets.map((ticket, i) =>
-        i === index
-          ? { ...ticket, selected: type } // Update the selected type (free/paid)
-          : ticket
-      );
+  // const handleOptionChange = (index: number, type: string) => {
+  //   setTicketTypes((prevTickets) => {
+  //     const updatedTickets = prevTickets.map((ticket, i) =>
+  //       i === index
+  //         ? { ...ticket, selected: type } // Update the selected type (free/paid)
+  //         : ticket
+  //     );
 
-      // Update form values for the tickets
-      updatedTickets.forEach((ticket, i) => {
-        form.setValue(`tickets.${i}.selected`, ticket.selected); // Update the selected value in form
-      });
+  //     // Update form values for the tickets
+  //     updatedTickets.forEach((ticket, i) => {
+  //       form.setValue(`tickets.${i}.selected`, ticket.selected); // Update the selected value in form
+  //     });
 
-      return updatedTickets; // Return the updated tickets
-    });
-  };
+  //     return updatedTickets; // Return the updated tickets
+  //   });
+  // };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      eventname: "",
       eventHashtags: [],
-      eventcategory: { label: "" },
+      eventname: "",
+      eventcategory: {
+        label: "Some Category",
+      },
       eventlocation: "",
-      eventstartdate: "",
-      eventenddate: "",
-
-      eventstarttime: "",
-      eventendtime: "",
       eventmainimg: "",
       eventcoverimg: "",
+
       eventdescription: "",
 
+      // compticketno: "",
       fburl: "https://www.facebook.com/",
       instaurl: "https://instagram.com/",
       youtubeurl: "https://www.youtube.com/",
+      twitterurl: "https://www.x.com/",
       telegramurl: "https://t.me/",
       tiktokurl: "https://www.tiktok.com/@",
       linkedinurl: "https://linkedin.com/in/",
-      twitterurl: "https://www.x.com/",
       tickets: [],
     },
   });
@@ -1096,44 +1197,46 @@ function Editevent() {
     }
   };
 
-  const handleInputChange = (index: number, field: keyof TicketType, value: string | number | TicketTypeOption[]) => {
-    setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, [field]: value } : ticket)));
-  };
+  //////////////////// -----------------  Old Ticket Typing Handelling ----------------------------  ///////////////////////////
 
-  const handleAddTicketType = (e: any) => {
-    e.preventDefault();
-    setTicketTypes((prevTickets) => [
-      ...prevTickets,
-      {
-        type: "",
-        price: 0,
-        no: 0,
-        options: [],
-        dropdown: true,
-        selected: "free",
-      },
-    ]);
-  };
+  // const handleInputChange = (index: number, field: keyof TicketType, value: string | number | TicketTypeOption[]) => {
+  //   setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, [field]: value } : ticket)));
+  // };
 
-  const handleDeleteTicketType = (index: number) => {
-    // Remove from the ticketTypes state
-    if (index === 0) {
-      // Optionally, display a message or handle the restriction
-      console.warn("Cannot delete the ticket type at index 0.");
-      return;
-    }
-    const updatedTickets = ticketTypes.filter((_, i) => i !== index);
-    setTicketTypes(updatedTickets);
+  // const handleAddTicketType = (e: any) => {
+  //   e.preventDefault();
+  //   setTicketTypes((prevTickets) => [
+  //     ...prevTickets,
+  //     {
+  //       type: "",
+  //       price: 0,
+  //       no: 0,
+  //       options: [],
+  //       dropdown: true,
+  //       selected: "free",
+  //     },
+  //   ]);
+  // };
 
-    // Remove the ticket data from the form state
-    form.setValue("tickets", updatedTickets); // Update form values
+  // const handleDeleteTicketType = (index: number) => {
+  //   // Remove from the ticketTypes state
+  //   if (index === 0) {
+  //     // Optionally, display a message or handle the restriction
+  //     console.warn("Cannot delete the ticket type at index 0.");
+  //     return;
+  //   }
+  //   const updatedTickets = ticketTypes.filter((_, i) => i !== index);
+  //   setTicketTypes(updatedTickets);
 
-    // Reset specific field data if necessary (optional)
-    form.reset({
-      ...form.getValues(), // Keep other form values
-      tickets: updatedTickets, // Update only the tickets field
-    });
-  };
+  //   // Remove the ticket data from the form state
+  //   form.setValue("tickets", updatedTickets); // Update form values
+
+  //   // Reset specific field data if necessary (optional)
+  //   form.reset({
+  //     ...form.getValues(), // Keep other form values
+  //     tickets: updatedTickets, // Update only the tickets field
+  //   });
+  // };
 
   const handleSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -1300,7 +1403,7 @@ function Editevent() {
     console.log("user ID logged in is", userID);
   }, []);
 
-  const filteredTicketTypes = ticketTypes.map((ticket) => ({
+  /*const filteredTicketTypes = ticketTypes.map((ticket) => ({
     type: ticket?.type,
     price: ticket.selected === "free" ? "0" : ticket.price,
 
@@ -1310,7 +1413,7 @@ function Editevent() {
       id: option?.id,
       label: option?.label,
     })),
-  }));
+  })); */
 
   function convertToUTC(localDateTime: string): string {
     // Create a Date object from the local date-time string
@@ -1339,7 +1442,7 @@ function Editevent() {
   const categorylabels = categoryTypes?.label;
 
   // Event Creating sending Dat through API
-  async function EventCreation(values: z.infer<typeof formSchema>) {
+  /* async function EventCreation(values: z.infer<typeof formSchema>) {
     console.log("my values", values);
     console.log(" Event Creation");
 
@@ -1432,8 +1535,13 @@ function Editevent() {
       console.error("Error:", error);
       ErrorToast(error);
     }
-  }
+  } */
   console.log("Form errors:", form.formState.errors);
+
+  const convertToLocal = (utcDateTime: string) =>
+    `${new Date(utcDateTime).getFullYear()}-${String(new Date(utcDateTime).getMonth() + 1).padStart(2, "0")}-${String(
+      new Date(utcDateTime).getDate()
+    ).padStart(2, "0")}T${String(new Date(utcDateTime).getHours()).padStart(2, "0")}:${String(new Date(utcDateTime).getMinutes()).padStart(2, "0")}`;
 
   // UseEffect for fetching data from API for this Ticket
   useEffect(() => {
@@ -1466,31 +1574,135 @@ function Editevent() {
         setGalleryFiles(files);
       }
 
-      const ticketsWithCheckedOptions = EventData?.tickets?.map((ticket: any) => ({
-        ...ticket,
-        options: ticket?.options?.map((option: any) => ({
-          ...option,
-          checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
-        })),
-      }));
+      const ticketsFromAPIs: TicketType[] | any = EventData?.tickets?.map((ticket: any) =>
+        ticket?.selectedEventTicketType === "Festivals / Multi-Day Tickets / Season Passes"
+          ? {
+              type: ticket?.selectedEventTicketType,
+              typeDropDown: false,
+              selected: ticket?.ticketFreePaid,
+              selectedDropDown: false,
+              price: ticket?.ticketPrice,
+              no: ticket?.noOfTickets,
+              typename: ticket?.ticketName,
+              ticketstart: convertToLocal(ticket?.ticketStartDT),
+              ticketend: convertToLocal(ticket?.ticketEndDT),
+              isTicketStartPickerOpen: false,
+              isTicketEndPickerOpen: false,
+              eventdates: [
+                {
+                  startDate: convertToLocal(ticket?.eventStartDT),
+                  endDate: convertToLocal(ticket?.eventEndDT),
+                  isStartEventPickerOpen: false,
+                  isEndEventPickerOpen: false,
+                },
+                ...ticket?.festivalEventDates.map((d: any, i: number) => ({
+                  startDate: convertToLocal(d?.eventStartDateTime),
+                  endDate: convertToLocal(d?.eventEndDateTime),
+                  isStartEventPickerOpen: false,
+                  isEndEventPickerOpen: false,
+                })),
+              ],
+              options: (ticket?.whatsIncluded || []).map((ticket: any) => ({
+                ...ticket,
+                options: (ticket?.options || []).map((option: any) => ({
+                  ...option,
+                  checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
+                })),
+              })),
+              optionDropDown: false,
+            }
+          : ticket?.selectedEventTicketType === "RSVP Ticketing"
+          ? {
+              type: ticket?.selectedEventTicketType,
+              typeDropDown: false,
+              name: ticket?.ticketName,
+              deadline: ticket?.rsvpDeadline,
+              isDeadlinePickerOpen: false,
+              capacity: ticket?.noOfTickets,
+              options: (ticket?.whatsIncluded || []).map((ticket: any) => ({
+                ...ticket,
+                options: (ticket?.options || []).map((option: any) => ({
+                  ...option,
+                  checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
+                })),
+              })),
+              optionDropDown: false,
+              username: ticket?.rsvpName,
+              useremail: ticket?.rsvpMail,
+              usernumb: ticket?.rsvpNumber,
+              additional: ticket?.rsvpAdditionalFields.map((t: string) => ({ title: t })),
+            }
+          : ticket?.selectedEventTicketType === "Private Event Ticketing"
+          ? {
+              type: ticket?.selectedEventTicketType,
+              typeDropDown: false,
+              selected: ticket?.ticketFreePaid,
+              selectedDropDown: false,
+              price: ticket?.ticketPrice,
+              no: ticket?.noOfTickets,
+              name: ticket?.ticketName,
+              ticketstart: ticket?.ticketStartDT,
+              ticketend: ticket?.ticketEndDT,
+              isTicketStartPickerOpen: false,
+              isTicketEndPickerOpen: false,
+              eventstart: ticket?.eventStartDT,
+              eventend: ticket?.eventEndDT,
+              isStartEventPickerOpen: false,
+              isEndEventPickerOpen: false,
+              options: (ticket?.whatsIncluded || []).map((ticket: any) => ({
+                ...ticket,
+                options: (ticket?.options || []).map((option: any) => ({
+                  ...option,
+                  checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
+                })),
+              })),
+              optionDropDown: false,
 
-      setTicketTypes(ticketsWithCheckedOptions);
+              emailmanual: ticket?.privateEventAdditionalFields,
+              manualEmailCount: 0,
+              csvEmails: [],
+              isCSVuploaded: false,
+              allEmails: [],
+            }
+          : {
+              type: ticket?.selectedEventTicketType,
+              typeDropDown: false,
+              selected: ticket?.ticketFreePaid,
+              selectedDropDown: false,
+              price: ticket?.ticketPrice,
+              no: ticket?.noOfTickets,
+              name: ticket?.ticketName,
+              ticketstart: ticket?.ticketStartDT,
+              ticketend: ticket?.ticketEndDT,
+              isTicketStartPickerOpen: false,
+              isTicketEndPickerOpen: false,
+              eventstart: ticket?.eventStartDT,
+              eventend: ticket?.eventEndDT,
+              isStartEventPickerOpen: false,
+              isEndEventPickerOpen: false,
+              options: (ticket?.whatsIncluded || []).map((ticket: any) => ({
+                ...ticket,
+                options: (ticket?.options || []).map((option: any) => ({
+                  ...option,
+                  checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
+                })),
+              })),
+              optionDropDown: false,
 
-      //   let categories = [];
-      //   try {
-      //     categories = JSON.parse(EventData?.category || "[]");
-      //     console.log("my cat", categories);
-      //   } catch (e) {
-      //     console.log("Error parsing category data:");
-      //   }
+              emailmanual: ticket?.privateEventAdditionalFields,
+              manualEmailCount: 0,
+              csvEmails: [],
+              isCSVuploaded: false,
+              allEmails: [],
 
-      // const updatedCategoryTypes = categories.map((category: string, index: number) => ({
-      //   label: category,
+              pswrdmanual: ticket?.passwordFields,
+              manualPswrdCount: 0,
+              autoGeneratedPswrd: [],
+              allPswrd: [],
+            }
+      );
 
-      // }));
-
-      //   setCategoryTypes(updatedCategoryTypes);
-      //   console.log("updatedCategoryTypes", updatedCategoryTypes);
+      setTicketTypes(ticketsFromAPIs);
 
       ///////////////////////////////////////setting the catragories
       let categories: string = "";
@@ -1535,11 +1747,7 @@ function Editevent() {
         eventHashtags: updatedTags || form.getValues("eventHashtags"),
         eventdescription: EventData?.eventDescription || form.getValues("eventdescription"),
         eventlocation: EventData?.location || form.getValues("eventlocation"),
-        eventstartdate: EventData?.ticketStartDate || form.getValues("eventstartdate"),
-        eventenddate: EventData?.ticketEndDate || form.getValues("eventenddate"),
 
-        eventstarttime: EventData?.startTime || form.getValues("eventstarttime"),
-        eventendtime: EventData?.endTime || form.getValues("eventendtime"),
         //  eventmainimg: mainimgName || form.getValues("eventmainimg"),
         eventcoverimg: EventData?.coverEventImage || form.getValues("eventcoverimg"),
 
@@ -1551,10 +1759,14 @@ function Editevent() {
         tiktokurl: EventData?.tiktokUrl || form.getValues("tiktokurl"),
         linkedinurl: EventData?.linkedinUrl || form.getValues("linkedinurl"),
         twitterurl: EventData?.twitterUrl || form.getValues("twitterurl"),
-        tickets: ticketsWithCheckedOptions || form.getValues("tickets"),
+        tickets: ticketsFromAPIs || form.getValues("tickets"),
       });
     }
   }, [EventData]);
+
+  useEffect(() => {
+    console.log("These all are forms value ===> ", form.getValues("tickets"));
+  }, [form]);
 
   function extractDate(dateTime: string): string {
     // Create a new Date object from the input string
@@ -1632,6 +1844,466 @@ function Editevent() {
 
     console.log("hashInput is here ====> ", inputValue);
     console.log("Updated filterHash:", filterHash); // check this value
+  };
+
+  // ///////////////////////////////////////////// --- Handeling Ticket Types here below --- /////////////////////////////////
+
+  useEffect(() => {
+    form.setValue(`tickets.${0}.type`, "Festivals / Multi-Day Tickets / Season Passes");
+  }, []);
+
+  // Drop Down for Type Selection
+  const handleTicketTypeDropDown = (ticketIndex: number) => {
+    // Open or close the current Ticket's Type DropDown
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket, index) => (index === ticketIndex ? { ...ticket, typeDropDown: !ticket.typeDropDown } : ticket));
+    });
+  };
+
+  // Type selecting for ticket
+  const handleTicketTypeSelection = (ticketType: string, ticketIndex: number) => {
+    // First Close the Type DropDown of Current Ticket
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket, index) => (index === ticketIndex ? { ...ticket, typeDropDown: !ticket.typeDropDown } : ticket));
+    });
+
+    // First check weather ticketType is same as current Ticket Type
+    if (ticketTypes[ticketIndex].type === ticketType) return;
+
+    // Now change the Ticket Type of Current index on the basis of param Type
+    setTicketTypes((prevTickets) => {
+      // Find the object in the array that matches the received id
+      const choosenTicketType: TicketType | any | undefined = AllDefinedTicketTypesArray.find((ticketObject) => ticketObject.type === ticketType);
+
+      // Replace the object at the specified index given in the param
+      const updatedTickets = prevTickets.map((obj, idx) => {
+        return idx === ticketIndex ? choosenTicketType ?? obj : obj;
+      });
+
+      form.setValue(`tickets.${ticketIndex}`, choosenTicketType); // Update form state
+      // form.setValue(`tickets.${ticketIndex}.type`, ticketType);
+      return updatedTickets;
+    });
+  };
+
+  const handleInputChange = (index: number, field: keyof TicketType, value: string | number | TicketTypeOption[]) => {
+    setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, [field]: value } : ticket)));
+  };
+
+  // Add ticket Type in state When user click on add button
+  const handleAddTicketType = (e: any) => {
+    e.preventDefault();
+
+    setTicketTypes((prevTickets) => {
+      const newValues = [...prevTickets, festivalTicket];
+      form.setValue(`tickets.${newValues.length - 1}.type`, "Festivals / Multi-Day Tickets / Season Passes");
+      return newValues;
+    });
+  };
+
+  // Delete a ticket Type in state when User click the delete buttion
+  const handleDeleteTicketType = (index: number) => {
+    if (index === 0) {
+      return;
+    }
+    const updatedTicketTypes = ticketTypes.filter((_, i) => i !== index);
+    setTicketTypes(updatedTicketTypes);
+    form.setValue("tickets", updatedTicketTypes); // Update form state
+  };
+
+  //handeling Ticket Slected Option DropDown (Paid, Free)
+  const handleTicketSelectedOptionDropDown = (ticketIndex: number) => {
+    //  Close or Open the selected DropDown of Current Ticket
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket: any, index: number) =>
+        index === ticketIndex ? { ...ticket, selectedDropDown: !ticket.selectedDropDown } : ticket
+      );
+    });
+  };
+
+  //handeling Ticket Slected Option string (Paid, Free)
+  const handleTicketSelectionOption = (option: string, ticketIndex: number) => {
+    // Set price field state value
+    const priceStateValue = option === "Free" ? "0" : "";
+
+    // First close the selected dropdown and give value to the state of current Ticket
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket: any, index: number) =>
+        index === ticketIndex ? { ...ticket, selectedDropDown: !ticket.selectedDropDown, selected: option, price: priceStateValue } : ticket
+      );
+    });
+
+    //tickets.${index}.selected  change the value in form fields
+    form.setValue(`tickets.${ticketIndex}.selected`, option); // Update form state
+    // "Free", "Paid"
+    option === "Paid" ? form.setValue(`tickets.${ticketIndex}.price`, "") : form.setValue(`tickets.${ticketIndex}.price`, "0");
+  };
+
+  // Handle Ticket Price change
+  const handlTicketPriceChange = (value: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, price: value } : ticket));
+    });
+  };
+
+  //Handle Festival Ticket Type
+  const handleFestivalTicketType = (value: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, typename: value } : ticket));
+    });
+  };
+
+  //handle No. of Tickets
+  const handleNoTickets = (value: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, no: value } : ticket));
+    });
+  };
+
+  //handle ticket name
+  const handleTicketNameChange = (value: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) => {
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, name: value } : ticket));
+    });
+  };
+
+  // Handle Includes DropDown
+  const handleDropdown = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, optionDropDown: !ticket.optionDropDown } : ticket))
+    );
+  };
+
+  // Ticket Option Toggle Dropdown handleing
+  const handleOptionToggle = (ticketIndex: number, option: TicketTypeOption) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket, i) =>
+        i === ticketIndex
+          ? {
+              ...ticket,
+              options: ticket.options.some((o) => o.id === option.id)
+                ? ticket.options.filter((o) => o.id !== option.id)
+                : [...ticket.options, { id: option.id, label: option.label }],
+            }
+          : ticket
+      )
+    );
+  };
+
+  // Handle Tickets Pickers of  (Festival, Private and, Password Types)
+
+  // Sart Ticket picker
+  const toggleTicketStartTimePicker = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex ? { ...ticket, isTicketStartPickerOpen: !ticket.isTicketStartPickerOpen } : ticket
+      )
+    );
+  };
+
+  // Start Ticket Date value
+  const setTheTicketStartValue = (formattedDate: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, ticketstart: formattedDate } : ticket))
+    );
+  };
+
+  // End Ticket Picker
+  const toggleTicketEndTimePicker = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, isTicketEndPickerOpen: !ticket.isTicketEndPickerOpen } : ticket))
+    );
+  };
+
+  // End Ticket Date value
+  const setTheTicketEndValue = (formattedDate: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, ticketend: formattedDate } : ticket))
+    );
+  };
+
+  //Start Event picker (Private, Password) Types
+  const toggleStartEventTimePicker = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex ? { ...ticket, isStartEventPickerOpen: !ticket.isStartEventPickerOpen } : ticket
+      )
+    );
+  };
+
+  //Start Event Value (Private, Password) Types
+  const toggleStartEventValue = (formattedDate: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, eventstart: formattedDate } : ticket))
+    );
+  };
+
+  //End Event Picker (Private, Password) Types
+  const toggleEndEventTimePicker = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, isEndEventPickerOpen: !ticket.isEndEventPickerOpen } : ticket))
+    );
+  };
+
+  //End Event Value (Private, Password) Types
+  const toggleEndEventValue = (formattedDate: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, eventend: formattedDate } : ticket))
+    );
+  };
+
+  //Handle picker of RSVP Daedline
+
+  // RSVP Ticket Date Picker
+  const toggleRSVPTicketDeadlinePicker = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, isDeadlinePickerOpen: !ticket.isDeadlinePickerOpen } : ticket))
+    );
+  };
+
+  // RSVP Ticket Deadline Date Value
+  const toggleRSVPTicketDeadlineValue = (formattedDate: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, deadline: formattedDate } : ticket))
+    );
+  };
+
+  // RSVP Ticket Capacity handle
+  const handleCapacityRSVPTicket = (capacityNumber: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, capacity: capacityNumber } : ticket))
+    );
+  };
+
+  // RSVP Ticket Radio Selections
+  const handleRsvpRadioSelections = (radioName: string, ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, [radioName]: !ticket[radioName] } : ticket))
+    );
+  };
+
+  // RSVP Addition Field Value
+  const handleRsvpAdditionField = (ticketIndex: number, f_index: number, value: string) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex
+          ? {
+              ...ticket,
+              additional: ticket.additional.map((f_object: AdditionalFields, fi: number) => (fi === f_index ? { title: value } : f_object)),
+            }
+          : ticket
+      )
+    );
+  };
+
+  // RSVP add Additional Field
+  const addAdditionalToRSVP = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) => {
+      const updatedTypes = prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex ? { ...ticket, additional: [...ticket.additional, { title: "" }] } : ticket
+      );
+
+      // Scroll to the bottom after adding new content
+      if (containerRef.current) {
+        setTimeout(() => {
+          containerRef.current!.scrollTop = containerRef.current!.scrollHeight;
+        }, 0);
+      }
+
+      return updatedTypes;
+    });
+  };
+
+  // Handling the festival Events Dates
+
+  // Add new Event in Festival Events
+  const addNewEventDateInFestival = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, eventdates: [...ticket.eventdates, newEventObject] } : ticket))
+    );
+  };
+
+  // handle start picker
+  const festivalStartEventPicker = (ticketIndex: number, eventIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex
+          ? {
+              ...ticket,
+              eventdates: ticket.eventdates.map((event: FestivalEventsDate, e_num: number) =>
+                e_num === eventIndex ? { ...event, isStartEventPickerOpen: !event.isStartEventPickerOpen } : event
+              ),
+            }
+          : ticket
+      )
+    );
+
+    console.log("Festival StartPicker is:==> ", ticketTypes[ticketIndex]);
+  };
+
+  // handle end picker
+  const festivalEndEventPicker = (ticketIndex: number, eventIndex: number) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex
+          ? {
+              ...ticket,
+              eventdates: ticket.eventdates.map((event: FestivalEventsDate, e_num: number) =>
+                e_num === eventIndex ? { ...event, isEndEventPickerOpen: !event.isEndEventPickerOpen } : event
+              ),
+            }
+          : ticket
+      )
+    );
+
+    console.log("Festival EndPicker is:==> ", ticketTypes[ticketIndex]);
+  };
+
+  // handle start value
+  const festivalStartEventValue = (ticketIndex: number, eventIndex: number, formattedDate: string) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex
+          ? {
+              ...ticket,
+              eventdates: ticket.eventdates.map((event: FestivalEventsDate, e_num: number) =>
+                e_num === eventIndex ? { ...event, startDate: formattedDate } : event
+              ),
+            }
+          : ticket
+      )
+    );
+  };
+
+  // handle end value
+  const festivalEndEventValue = (ticketIndex: number, eventIndex: number, formattedDate: string) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex
+          ? {
+              ...ticket,
+              eventdates: ticket.eventdates.map((event: FestivalEventsDate, e_num: number) =>
+                e_num === eventIndex ? { ...event, endDate: formattedDate } : event
+              ),
+            }
+          : ticket
+      )
+    );
+  };
+
+  // Handle Private Ticket Emails
+
+  // add manual emails
+  const addManualEmailField = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) => {
+      const newEmailsFields = prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex ? { ...ticket, emailmanual: [...ticket.emailmanual, ""] } : ticket
+      );
+
+      // Scroll to the bottom after adding new content
+      if (manualEmailRef.current) {
+        setTimeout(() => {
+          manualEmailRef.current!.scrollTop = manualEmailRef.current!.scrollHeight;
+        }, 0);
+      }
+      return newEmailsFields;
+    });
+  };
+
+  // handle Manual Emails Values
+  const handleManualEnmailValues = (ticketIndex: number, e_Index: number, value: string) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex
+          ? { ...ticket, emailmanual: ticket.emailmanual.map((email: string, emIndex: number) => (emIndex === e_Index ? value : email)) }
+          : ticket
+      )
+    );
+  };
+
+  // Handle Password/Discounted Tickets
+
+  // add manual password
+  const addManualPasswrdField = (ticketIndex: number) => {
+    setTicketTypes((prevTickets) => {
+      const newPswrdFields = prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex ? { ...ticket, pswrdmanual: [...ticket.pswrdmanual, ""] } : ticket
+      );
+
+      // Scroll to the bottom after adding new content
+      if (manualPswrdRef.current) {
+        setTimeout(() => {
+          manualPswrdRef.current!.scrollTop = manualPswrdRef.current!.scrollHeight;
+        }, 0);
+      }
+
+      return newPswrdFields;
+    });
+  };
+
+  // handle mauual password input change
+  const handleManualPswrdInput = (ticketIndex: number, p_Index: number, value: string) => {
+    setTicketTypes((prevTickets) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex
+          ? { ...ticket, pswrdmanual: ticket.pswrdmanual.map((pswrd: string, emIndex: number) => (emIndex === p_Index ? value : pswrd)) }
+          : ticket
+      )
+    );
+  };
+
+  // Generate Auto password
+  const generateAutoPassword = (ticketIndex: number) => {
+    const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    const specialChars = "!@#$%^&*()_+~`|}{[]:;?><,./-=";
+
+    // Combine all character sets
+    const allChars = upperCaseChars + lowerCaseChars + numbers + specialChars;
+
+    let password = "";
+
+    // Ensure at least one character from each character set
+    password += upperCaseChars[Math.floor(Math.random() * upperCaseChars.length)];
+    password += lowerCaseChars[Math.floor(Math.random() * lowerCaseChars.length)];
+    password += numbers[Math.floor(Math.random() * numbers.length)];
+    password += specialChars[Math.floor(Math.random() * specialChars.length)];
+
+    // Fill the remaining characters randomly
+    for (let i = password.length; i < 13; i++) {
+      password += allChars[Math.floor(Math.random() * allChars.length)];
+    }
+
+    // Shuffle the password for randomness
+    password = password
+      .split("")
+      .sort(() => 0.5 - Math.random())
+      .join("");
+
+    // const formIndex = ticketTypes[ticketIndex]?.autoGeneratedPswrd?.length;
+    // form.setValue(`tickets.${ticketIndex}.autoGeneratedPswrd.${formIndex}`, password)
+
+    ticketTypes.forEach((ticket: any, i: number) => {
+      if (i === ticketIndex) {
+        form.setValue(`tickets.${ticketIndex}.autoGeneratedPswrd.${i + 1}`, password);
+      }
+    });
+
+    setTicketTypes((prevTickets) => {
+      const newPswrdFields = prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex ? { ...ticket, autoGeneratedPswrd: [...ticket.autoGeneratedPswrd, password] } : ticket
+      );
+
+      // Scroll to the bottom after adding new content
+      if (autoPswrdRef.current) {
+        setTimeout(() => {
+          autoPswrdRef.current!.scrollTop = autoPswrdRef.current!.scrollHeight;
+        }, 0);
+      }
+
+      return newPswrdFields;
+    });
   };
 
   return (
@@ -1813,7 +2485,7 @@ function Editevent() {
                 className=" w-full"
                 onSubmit={(event) => {
                   console.log("Form submit triggered");
-                  form.handleSubmit(EventCreation)(event);
+                  /*form.handleSubmit(EventCreation)(event); */
                 }}
               >
                 {/* Ticket second Section */}
@@ -4141,6 +4813,7 @@ function Editevent() {
                                                   formatDensity="spacious"
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   autoOk={false}
+                                                  value={ticket.ticketstart ? dayjs(ticket.ticketstart) : dayjs()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
@@ -4223,6 +4896,7 @@ function Editevent() {
                                                   // referenceDate={referenceTicketDate}
                                                   referenceDate={currentDateTime}
                                                   minDate={currentDateTime}
+                                                  value={ticket.ticketend ? dayjs(ticket.ticketend) : dayjs()}
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
@@ -4498,7 +5172,7 @@ function Editevent() {
                           {/* Manual Enmails and Manual Password Section */}
                           <div className="flex gap-[24px] w-full common-container">
                             {/* Private Emails Adding Fields */}
-                            {ticket.emailmanual.length > 0 && (
+                            {ticket?.emailmanual?.length > 0 && (
                               <div className="w-full relative rounded-md border border-[#292929] gradient-slate flex flex-col items-start common-container px-[12px] py-[16px] mb-[24px]">
                                 <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">Manual Emails</p>
 
@@ -4561,7 +5235,7 @@ function Editevent() {
                             )}
 
                             {/* Manual Password Adding Fields */}
-                            {ticket.pswrdmanual.length > 0 && (
+                            {ticket?.pswrdmanual?.length > 0 && (
                               <div className="w-full relative rounded-md border border-[#292929] gradient-slate flex flex-col items-start common-container px-[12px] py-[16px] mb-[24px]">
                                 <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">Manual Passwords</p>
 
@@ -4693,7 +5367,7 @@ function Editevent() {
                           <div className="w-full flex flex-col gap-[24px]">
                             <div className="flex flex-wrap justify-center md:justify-start  gap-[16px] md:gap-[24px]">
                               {/* Add manual Email */}
-                              {ticket.emailmanual.length === 0 && (
+                              {ticket?.emailmanual?.length === 0 && (
                                 <Button
                                   onClick={(e) => {
                                     e.preventDefault();
@@ -4746,7 +5420,7 @@ function Editevent() {
 
                             <div className="flex justify-center md:justify-start flex-wrap gap-[16px] md:gap-[24px]">
                               {/* Add manual password */}
-                              {ticket.pswrdmanual.length === 0 && (
+                              {ticket?.pswrdmanual?.length === 0 && (
                                 <Button
                                   onClick={(e) => {
                                     e.preventDefault();
