@@ -77,12 +77,6 @@ function TicketPurchaseSuccessPage({ setCurrentModal }: any) {
               <p>Browse any event anytime from your hand</p>
             </div>
           </div>
-          {/* <Button className="flex items-center gap-[0.5rem] rounded-full mt-6 p-3 w-full">
-            <DownloadSimple size={20} weight="fill" />
-            <Link href="/download-app">
-            Download App to Unlock Features
-            </Link>
-          </Button> */}
         </div>
         <div>
           <Image

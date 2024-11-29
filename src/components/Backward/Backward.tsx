@@ -19,7 +19,7 @@ const Backward = ({ text = "Back" }) => {
       dispatch(getUserSocialProfile(userid));
     }
   }, []);
-
+ 
   const myProfile = useAppSelector((state) => state?.getUserSocialProfile?.myProfile?.data);
 
   console.log("my Social Profile info is", myProfile);

@@ -11,7 +11,6 @@ import { Reveal } from "@/components/animations/Reveal";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { getTicketByQR } from "@/lib/middleware/wallet";
-
 import { useState, useEffect } from "react";
 import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -22,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import ScreenLoader from "@/components/loader/Screenloader";
 import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
 import { useMediaQuery } from "react-responsive";
+import BuyModal from "@/components/reusable-components/Buymodal";
 
 const formSchema = z.object({
   subject: z.string().min(1, { message: "Ticket Id cannot be empty." }),
@@ -39,16 +39,33 @@ const Hero = () => {
   const placeholderText = isMobile
     ? "Search by Ticket ID Num..."
     : isMobilemd
-    ? "Search by Ticket ID Number / Tran..."
-    : "Search by Ticket ID Number / Transaction ID";
+      ? "Search by Ticket ID Number / Tran..."
+      : "Search by Ticket ID Number / Transaction ID";
 
   const router = useRouter();
   const [isClaimOpen, setIsClaimOpen] = useState(false);
   const [collectID, setCollectID] = useState("");
+
   const dispatch = useAppDispatch();
   const [eventId, setEventId] = useState<any>("");
   const [loader, setLoader] = useState(false);
   const [ticketid, setTicketId] = useState<any>("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    console.log("Opening modal");
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    console.log("Closing modal");
+    setIsModalOpen(false);
+  };
+
+  const handleNextStep = () => {
+    console.log("Proceeding to next step");
+    handleCloseModal();
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,14 +79,6 @@ const Hero = () => {
     setIsClaimOpen(!isClaimOpen); // Toggle isClaimOpen to control the popup
   };
 
-  // useEffect(() => {
-  //   const currentUrl: any =
-  //     typeof window !== "undefined" ? window.location.href : null;
-  //   const parts = currentUrl.split("/");
-  //   const value = parts[parts.length - 1];
-  //   setCollectID(value);
-  //   console.log("my event id is", value);
-  // }, []);
   async function verifyBlockchain() {
     if (!ticketid) {
       ErrorToast("Ticket Id cannot be empty");
@@ -128,6 +137,23 @@ const Hero = () => {
           </div>
           <Reveal y={100} width="100%">
             <div className="flex flex-col md:flex-row gap-[12px] w-full md:w-fit md:mx-auto lg:mx-0">
+              <Button
+                onClick={handleOpenModal}
+                variant="secondary"
+                className="p-[12px] font-extrabold text-sm"
+              >
+                modal
+              </Button>
+              <BuyModal
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                onNext={handleNextStep}
+                setTicketPrice={(price: number) => console.log("Price selected:", price)}
+                setTicketType={(type: string) => console.log("Type selected:", type)}
+                setTicketIndex={(index: number) =>
+                  console.log("Ticket index selected:", index)
+                }
+              />
               <Button
                 onClick={() => {
                   router.push("/about");

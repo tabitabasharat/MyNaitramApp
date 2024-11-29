@@ -52,7 +52,12 @@ interface VisibleSections {
 const NftDetails = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("Price History");
-  const [visibleSections, setVisibleSections] = useState<VisibleSections>({});
+
+  const [visibleSections, setVisibleSections] = useState<VisibleSections>({
+    section2: false,
+    section3: false,
+
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const tabs = ["Price History", "Listings", "Item Activity"];
@@ -67,7 +72,7 @@ const NftDetails = () => {
       [section]: !prevState[section], // Toggle visibility of the specific section
     }));
   };
-  
+
 
   const handleOpen = () => {
     setIsModalOpen(true); // Open the modal
@@ -211,25 +216,25 @@ const NftDetails = () => {
             <div className="flex flex-col gap-[40px]">
               <div className="buttonsrounded flex gap-[32px]">
                 <Button
-                   onClick={handleBuyNowClick}
+                  onClick={handleBuyNowClick}
                   size="lg"
                   className="buttonrounded h-[59px]  font-[800] text-[16px] leading-[22.4px] flex items-center ready-btn   px-[110.5px] py-[19.5px] "
                 >
                   Buy Now
                 </Button>
-               
+
                 <Button
-                 onClick={handleOpen}
-                  style={{ border: "none", boxShadow: "none" }}
+                  onClick={handleOpen}
+                  style={{ border: "none" }}
                   variant="outline"
                   size="lg"
-                  className="buttonrounded h-[59px] flex items-center hover:shadow-lg transition duration-300 ease-in-out hover:bg-transparent hover:text-customGreen hover:font-[600] bg-none relative flex items-center ready-btn px-[102.5px] py-[19.5px] text-customGreen font-[800] text-[16px] leading-[22.4px] gradient-border-edit"
+                  className="buttonrounded h-[59px] flex items-center transition duration-300 ease-in-out hover:bg-transparent hover:text-customGreen bg-none relative ready-btn px-[102.5px] py-[19.5px] text-customGreen font-[800] text-[16px] leading-[22.4px] gradient-border-edit hover:filter  hover:brightness-[0.7]"
                 >
-                 Create an offer
+                  Create an offer
                 </Button>
                 {isModalOpen && (
-        <MakeOfferModal open={isModalOpen} onClose={handleClose} />
-      )}
+                  <MakeOfferModal open={isModalOpen} onClose={handleClose} />
+                )}
               </div>
               <div className="pt-[50px] flex flex-col hidden  hiddenEventDetail">
                 <p className="eventDetail pb-[16px] font-[800] text-[24px] leading-[28.8px]">Event Detail</p>
@@ -275,16 +280,15 @@ const NftDetails = () => {
                   </div>
                 </div>
               </div>
+              <div className="block">
 
-              <div className="">
-                <div className=" mb-[24px] flex  justify-start ">
+                <div className="block mb-[24px] flex justify-start">
                   {tabs.map((tab) => (
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
-                      className={`Tab text-[16px] leading-[23.2px]  w-[140px] pb-[7px] border-b-[2px] ${
-                        activeTab === tab ? "text-customGreen font-[700]" : "text-white font-[400] "
-                      } hover:text-green-500 focus:outline-none`}
+                      className={`Tab text-[16px] leading-[23.2px] w-[140px] pb-[7px] border-b-[2px] ${activeTab === tab ? "text-customGreen font-[700]" : "text-white font-[400]"
+                        } hover:text-green-500 focus:outline-none`}
                       style={{
                         borderBottomColor: activeTab === tab ? "rgba(0, 168, 73, 1)" : "rgba(41, 41, 41, 1)",
                       }}
@@ -329,7 +333,12 @@ const NftDetails = () => {
                         <p className="Listings">Price History</p>
                       </div>
                       <div className="text-gray-500" onClick={() => toggleSection("section1")}>
-                        <Image className="arrowImage" src={arrowDown} alt="arrow" />
+                        <Image
+                          className={`arrowImage transform transition-all duration-300 ${visibleSections.section1 ? "rotate-180" : "rotate-0"
+                            }`}
+                          src={arrowDown}
+                          alt="arrow"
+                        />
                       </div>
                     </div>
 
@@ -433,7 +442,12 @@ const NftDetails = () => {
                         <p className="Listings">listings</p>
                       </div>
                       <div className="text-gray-500" onClick={() => toggleSection("section2")}>
-                        <Image className="arrowImage" src={arrowDown} alt="arrow" />
+                        <Image
+                          className={`arrowImage transform transition-all duration-300 ${visibleSections.section2 ? "rotate-180" : "rotate-0"
+                            }`}
+                          src={arrowDown}
+                          alt="arrow"
+                        />
                       </div>
                     </div>
                     {visibleSections.section2 && (
@@ -453,28 +467,28 @@ const NftDetails = () => {
                               <TableRow className="table1Row" sx={{ borderTop: "1.41px solid  #29292980" }}>
                                 <TableCell
                                   className="TableHeader"
-                                  style={{fontFamily: "var(--font-base)",}}
+                                  style={{ fontFamily: "var(--font-base)", }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                                 >
                                   Price
                                 </TableCell>
                                 <TableCell
                                   className="TableHeader"
-                                  style={{fontFamily: "var(--font-base)",}}
+                                  style={{ fontFamily: "var(--font-base)", }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                                 >
                                   USD Price
                                 </TableCell>
                                 <TableCell
                                   className="TableHeader"
-                                  style={{fontFamily: "var(--font-base)",}}
+                                  style={{ fontFamily: "var(--font-base)", }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                                 >
                                   Quantity
                                 </TableCell>
                                 <TableCell
                                   className="TableHeader"
-                                  style={{fontFamily: "var(--font-base)",}}
+                                  style={{ fontFamily: "var(--font-base)", }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                                 >
                                   Expiration
@@ -487,29 +501,29 @@ const NftDetails = () => {
                             </TableHead>
                             <TableBody>
                               <TableRow>
-                                <TableCell className="tableRow" 
-                                 style={{fontFamily: "var(--font-base)",}}
+                                <TableCell className="tableRow"
+                                  style={{ fontFamily: "var(--font-base)", }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
                                   0.00001 ETH
                                 </TableCell>
                                 <TableCell className="tableRow"
-                                style={{fontFamily: "var(--font-base)",}}
-                                 sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
+                                  style={{ fontFamily: "var(--font-base)", }}
+                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
                                   $0.30
                                 </TableCell>
                                 <TableCell className="tableRow"
-                                 style={{fontFamily: "var(--font-base)",}}
+                                  style={{ fontFamily: "var(--font-base)", }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
                                   1
                                 </TableCell>
                                 <TableCell className="tableRow"
-                                 style={{fontFamily: "var(--font-base)",}}
+                                  style={{ fontFamily: "var(--font-base)", }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
                                   In 6 Months
                                 </TableCell>
                                 <TableCell
                                   className="latertobeHide"
-                                  style={{fontFamily: "var(--font-base)",}}
+                                  style={{ fontFamily: "var(--font-base)", }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   <Button className=" size-lg px-[27px] rounded-[100px]">Buy</Button>
@@ -557,7 +571,12 @@ const NftDetails = () => {
                         <p className="Listings">Item Activity</p>
                       </div>
                       <div className="text-gray-500" onClick={() => toggleSection("section3")}>
-                        <Image className="arrowImage" src={arrowDown} alt="arrow" />
+                        <Image
+                          className={`arrowImage transform transition-all duration-300 ${visibleSections.section3 ? "rotate-180" : "rotate-0"
+                            }`}
+                          src={arrowDown}
+                          alt="arrow"
+                        />
                       </div>
                     </div>
                     {visibleSections.section3 && (
@@ -575,14 +594,14 @@ const NftDetails = () => {
                           <TableHead>
                             <TableRow className="table1Row" sx={{ borderTop: "1.41px solid  #29292980" }}>
                               <TableCell
-                               style={{fontFamily: "var(--font-base)",}}
+                                style={{ fontFamily: "var(--font-base)", }}
                                 className="Table2Header"
                                 sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                               >
                                 Event
                               </TableCell>
                               <TableCell
-                               style={{fontFamily: "var(--font-base)",}}
+                                style={{ fontFamily: "var(--font-base)", }}
                                 className="Table2Header"
                                 sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                               >
@@ -590,21 +609,21 @@ const NftDetails = () => {
                               </TableCell>
                               <TableCell
                                 className="Table2Header"
-                                style={{fontFamily: "var(--font-base)",}}
+                                style={{ fontFamily: "var(--font-base)", }}
                                 sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                               >
                                 From
                               </TableCell>
                               <TableCell
                                 className="Table2Header"
-                                style={{fontFamily: "var(--font-base)",}}
+                                style={{ fontFamily: "var(--font-base)", }}
                                 sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                               >
                                 To
                               </TableCell>
                               <TableCell
                                 className="Table2Header"
-                                style={{fontFamily: "var(--font-base)",}}
+                                style={{ fontFamily: "var(--font-base)", }}
                                 sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                               >
                                 Date
@@ -616,36 +635,36 @@ const NftDetails = () => {
                               <TableRow key={index}>
                                 <TableCell
                                   className="tableRow2"
-                                  style={{fontFamily: "var(--font-base)",font:'18px !important', fontWeight:'700 !important', lineHeight:'18px !important'}}
+                                  style={{ fontFamily: "var(--font-base)", font: '18px !important', fontWeight: '700 !important', lineHeight: '18px !important' }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.event}
                                 </TableCell>
                                 <TableCell
                                   className="tableRow2"
-                                  style={{fontFamily: "var(--font-base)"}}
+                                  style={{ fontFamily: "var(--font-base)" }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.price}
                                 </TableCell>
                                 <TableCell
                                   className="tableRow2"
-                                  style={{fontFamily: "var(--font-base)"}}
+                                  style={{ fontFamily: "var(--font-base)" }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.from}
                                 </TableCell>
                                 <TableCell
                                   className="tableRow2"
-                                  style={{fontFamily: "var(--font-base)"}}
+                                  style={{ fontFamily: "var(--font-base)" }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.to}
                                 </TableCell>
                                 <TableCell
                                   className="tableRow2"
-                                  style={{fontFamily: "var(--font-base)"}}
-                                  
+                                  style={{ fontFamily: "var(--font-base)" }}
+
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.date}
@@ -662,12 +681,12 @@ const NftDetails = () => {
             </div>
           </div>
         </div>
-      
+
       </section>
       <div className="absolute right-0 bottom-0 w-[30%] h-[30%] bg-[#00D059] blur-[500px] rounded-[30%] -z-10 max-[992px]:hidden">
-</div>
+      </div>
 
-     
+
     </div>
   );
 };

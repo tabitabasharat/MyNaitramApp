@@ -99,6 +99,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex 
   };
 
   return (
+    // <Dialog open={isOpen} onOpenChange={onClose}>
     <DialogContent className="sm:max-w-md lg:max-w-[600px] text-white">
       <div>
         <DialogHeader className="mb-5">
@@ -320,6 +321,7 @@ const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex 
         </DialogFooter>
       </div>
     </DialogContent>
+    // </Dialog>
   );
 };
 

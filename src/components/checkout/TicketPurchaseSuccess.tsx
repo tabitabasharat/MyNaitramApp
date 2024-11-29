@@ -92,44 +92,6 @@ const TicketPurchaseSuccess = ({ setCurrentModal }: any) => {
               </Button>
             </DialogClose>
           </div>
-          {/* <div className="relative bg-[#002912] border border-[#262626] mt-12 rounded-b-xl p-8 overflow-hidden">
-            <h2 className="text-2xl">Download NAITRAM App</h2>
-            <div className="flex flex-col gap-2 mt-4">
-              <div className="flex gap-3">
-                <UsersThree
-                  size={22}
-                  weight="fill"
-                  className="text-[#8F8F8F]"
-                />
-                <p>Keep up with the event with Live Activity Feature</p>
-              </div>
-              <div className="flex gap-3">
-                <Ticket size={22} weight="fill" className="text-[#8F8F8F]" />
-                <p>View and open your tickets easily</p>
-              </div>
-              <div className="flex gap-3">
-                <DeviceMobile
-                  size={22}
-                  weight="fill"
-                  className="text-[#8F8F8F]"
-                />
-                <p>Browse any event anytime from your hand</p>
-              </div>
-            </div>
-            <Button  className="flex items-center gap-[0.5rem] rounded-full mt-6 w-full">
-              <DownloadSimple size={20} weight="fill" />
-              <Link href="/download-app">
-              Download App to Unlock Features
-              </Link>
-            </Button>
-            <Image
-              src={ufo}
-              width={300}
-              height={300}
-              className="absolute right-0 bottom-0 scale-[1.5]"
-              alt=""
-            />
-          </div> */}
         </div>
       </ScrollArea>
     </DialogContent>
