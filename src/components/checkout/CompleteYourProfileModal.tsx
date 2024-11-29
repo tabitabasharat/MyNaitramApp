@@ -55,6 +55,7 @@ const CompleteYourProfileModal = ({
   const [isPSWRDticket, setIsPaswordTicket] = useState<string>("");
   const [passTrue, setPasswordTrue] = useState<boolean>(false);
   const [ticketIndex, setTicketIndex] = useState<any>();
+  const [user_Email, setUserEmail] = useState<string | null>("");
   const dispatch = useAppDispatch();
 
   const checkPswrd = () => {
@@ -198,6 +199,12 @@ const CompleteYourProfileModal = ({
     console.log("sdjhdshjdfjhfdjdhfjdf => ", isPSWRDticket);
   }, [isPSWRDticket]);
 
+  useEffect(() => {
+    const userEmail = localStorage.getItem("email");
+    setUserEmail(userEmail);
+    console.log("userEmail ius==>", userEmail);
+  }, []);
+
   return (
     <DialogContent className="sm:max-w-[550px] lg:max-w-[650px]">
       <DialogHeader>
@@ -212,7 +219,9 @@ const CompleteYourProfileModal = ({
         </DialogTitle>
         <Separator className="scale--[1.12] bg-[#292929]" />
       </DialogHeader>
-      {currentTicketType === "Passworded / Discounted Voucher Event" && passTrue == false ? (
+      {currentTicketType === "Passworded / Discounted Voucher Event" &&
+      passTrue == false &&
+      ticketDat[0]?.privateEventAdditionalFields?.includes(localStorage.getItem("email")) == false ? (
         <>
           <div className="flex flex-col gap-2 w-full max-h-30 overflow-auto">
             <div className="relative w-full">
