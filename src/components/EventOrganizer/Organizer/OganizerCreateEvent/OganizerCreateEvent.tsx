@@ -78,30 +78,6 @@ import { useTheme } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import Papa from "papaparse";
-import { ticketsType } from "@/lib/dummyData";
-
-import moment from "moment";
-
-// Previous applied Type to ticket
-
-// type TicketTypeOption = {
-//   id: number;
-//   label: string;
-// };
-// type TicketType = {
-//   type: any;
-//   price: any;
-//   no: any;
-//   options: TicketTypeOption[];
-//   dropdown: any;
-//   selected: any;
-// };
-// type cateOption = {
-//   id: number;
-//   label: string;
-// };
-
-//All schemaa for form data defined from here
 
 type TicketTypeOption = {
   id: number;
@@ -421,38 +397,6 @@ const formSchema = z.object({
 
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
-  // tickets: z.array(
-  //   z
-  //     .object({
-  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //       price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
-  //       no: z.union([
-  //         z.string().refine((val) => Number(val) > 0, {
-  //           message: "Number of tickets must be greater than 0.",
-  //         }),
-  //         z.number().min(1, { message: "Number of tickets must be greater than 0." }),
-  //       ]),
-  //       selected: z.string().optional(),
-  //     })
-  //     .refine(
-  //       (data) => {
-  //         // Validate price based on selection
-  //         if (data.selected === "paid") {
-  //           const priceIsValid =
-  //             data.price !== undefined &&
-  //             ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
-  //               (typeof data.price === "number" && data.price > 0));
-
-  //           return priceIsValid;
-  //         }
-  //         return true; // Skip price validation for free tickets
-  //       },
-  //       {
-  //         message: "Price must be greater than 0 for paid tickets.",
-  //         path: ["price"], // Specify the path for the error
-  //       }
-  //     )
-  // ),
   tickets: TicketsTypesArraySchema,
 });
 
@@ -470,13 +414,6 @@ const formSchema2 = z.object({
   }),
 
   eventlocation: z.string().min(1, { message: "Event location cannot be empty." }),
-  // eventstartdate: z.string().min(1, { message: "Ticket start date cannot be empty." }),
-
-  // eventenddate: z.string().min(1, { message: "Ticket end date  cannot be empty." }),
-
-  // eventstarttime: z.string().min(1, { message: "Event start time cannot be empty." }),
-
-  // eventendtime: z.string().min(1, { message: "Event end time cannot be empty." }),
 
   eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
 
@@ -489,38 +426,6 @@ const formSchema2 = z.object({
   telegramurl: z.string().url({ message: "Invalid Telegram URL." }).min(1, { message: "Facebook URL cannot be empty." }),
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
-  // tickets: z.array(
-  //   z
-  //     .object({
-  //       type: z.string().min(1, { message: "Ticket type cannot be empty." }),
-  //       price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
-  //       no: z.union([
-  //         z.string().refine((val) => Number(val) > 0, {
-  //           message: "Number of tickets must be greater than 0.",
-  //         }),
-  //         z.number().min(1, { message: "Number of tickets must be greater than 0." }),
-  //       ]),
-  //       selected: z.string().optional(),
-  //     })
-  //     .refine(
-  //       (data) => {
-  //         // Validate price based on selection
-  //         if (data.selected === "paid") {
-  //           const priceIsValid =
-  //             data.price !== undefined &&
-  //             ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
-  //               (typeof data.price === "number" && data.price > 0));
-
-  //           return priceIsValid;
-  //         }
-  //         return true; // Skip price validation for free tickets
-  //       },
-  //       {
-  //         message: "Price must be greater than 0 for paid tickets.",
-  //         path: ["price"], // Specify the path for the error
-  //       }
-  //     )
-  // ),
   tickets: TicketsTypesArraySchema,
 });
 
@@ -739,20 +644,6 @@ function OganizerCreateEvent() {
   const [isEndDatePickerOpen, setIsEndDatePickerOpen] = useState(false);
   const [isStartEventPickerOpen, setIsStartEventPickerOpen] = useState(false);
   const [isEndEventPickerOpen, setIsEndEventPickerOpen] = useState(false);
-
-  // Toggle the date-time picker visibility
-  // const toggleDateTimePicker = () => {
-  //   setIsPickerOpen((prev) => !prev);
-  // };
-  // const toggleEndDateTimePicker = () => {
-  //   setIsEndDatePickerOpen((prev) => !prev);
-  // };
-  // const toggleStartEventTimePicker = () => {
-  //   setIsStartEventPickerOpen((prev) => !prev);
-  // };
-  // const toggleEndEventTimePicker = () => {
-  //   setIsEndEventPickerOpen((prev) => !prev);
-  // };
 
   const handleLocationSelect = (location: any) => {
     setEventLocation(location);
@@ -4184,6 +4075,7 @@ function OganizerCreateEvent() {
                                                   //  label="Event End Date & Time"
                                                   // minDateTime={minStartTime}
                                                   // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                                  disablePast
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
