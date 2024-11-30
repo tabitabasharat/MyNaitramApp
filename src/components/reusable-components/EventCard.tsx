@@ -28,7 +28,7 @@ const EventCard = ({
   eventId: any;
   eventType: any;
   likedEvents: any;
-  price: string;
+  price: any;
   showPrice?: boolean;
 }) => {
   // const imageUrl = img
