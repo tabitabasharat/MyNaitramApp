@@ -33,7 +33,7 @@ const EventCardPast = ({
   endTime: any;
   startTime: any;
   likedEvents: any;
-  price: string;
+  price: any;
 }) => {
   // const imageUrl = img
   //   ? img.startsWith("http") || img.startsWith("https")
