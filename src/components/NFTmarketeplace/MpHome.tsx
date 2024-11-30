@@ -1,12 +1,16 @@
 // jabbar branch
 
 "use client";
-
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const MpHome = () => {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false); // Track dropdown open/close state
+  const [selected, setSelected] = useState("Category"); // Track selected item
+
+  const options = ["Category", "Music", "Gaming", "Photography", "Domain Names"];
   const images = [
     "/Images/Market/tradingnft-a-1.svg",
     "/Images/Market/tradingnft-a-2.svg",
@@ -47,8 +51,10 @@ const MpHome = () => {
             </p>
           </div>
 
-          {/* Get Started Button & Total Sale Section for Large Screens */}
-          <button className="hidden lg:block w-40 h-12 bg-green-500 text-black font-extrabold text-base rounded-full py-2 px-6">Get Started</button>
+          <button className="hidden lg:block w-40 h-12 bg-green-500 hover:bg-[#13FF7A] text-black font-extrabold text-base rounded-full py-2 px-6">
+            Get Started
+          </button>
+
           <div className="hidden lg:flex space-x-8">
             {[
               { value: "£240k+", description: "Total Sale" },
@@ -68,7 +74,9 @@ const MpHome = () => {
           <img src="/Images/Market/Group 1597877996.png" alt="NFT Art" className="w-full lg:w-auto" />
 
           {/* Get Started Button & Total Sale Section for Small Screens */}
-          <button className="lg:hidden w-full h-12 bg-green-500 text-black font-extrabold text-base rounded-full py-2 px-6">Get Started</button>
+          <button className="lg:hidden w-full h-12 bg-green-500 text-black font-extrabold text-base rounded-full py-2 px-6 hover:bg-[#13FF7A]">
+            Get Started
+          </button>
           <div className="lg:hidden flex space-x-8">
             {[
               { value: "£240k+", label: "Total Sale" },
@@ -106,19 +114,59 @@ const MpHome = () => {
 
             {/* Second Input */}
             <div className="relative">
-              <select className="appearance-none w-[175px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-none shadow-[inset_0px_3px_5px_#232323] text-[#BFBFBF] text-[14px] leading-[19.6px] font-normal text-left focus:outline-none">
-                <option>Category</option>
-                <option>Art</option>
-                <option>Music</option>
-                <option>Gaming</option>
-                <option>Photography</option>
-                <option>Domain Names</option>
-              </select>
-              <img
-                src="/Images/Market/arrd.svg"
-                alt="Dropdown Icon"
-                className="absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none"
-              />
+              {/* Dropdown Trigger */}
+              <div className="relative">
+                {/* Dropdown Trigger */}
+                <div
+                  className="appearance-none w-[175px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] shadow-[inset_0px_3px_5px_#232323] text-[#BFBFBF] text-[14px] leading-[19.6px] font-normal text-center cursor-pointer flex items-center justify-start relative"
+                  onClick={() => setIsOpen(!isOpen)} // Toggle dropdown visibility
+                >
+                  {selected} {/* Display selected option */}
+                  <img
+                    src="/Images/Market/arrd.svg"
+                    alt="Dropdown Icon"
+                    className={`absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none transition-transform duration-200 ${
+                      isOpen ? "rotate-180" : "rotate-0"
+                    }`} // Conditionally rotate arrow
+                  />
+                </div>
+
+                {/* Dropdown Menu */}
+                {isOpen && (
+                  <ul className="absolute z-10 mt-2 w-[175px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] shadow-[0_4px_6px_#232323] rounded-[8px]">
+                    {options.map((option) => (
+                      <li
+                        key={option}
+                        className="px-[16px] py-[8px] text-[#BFBFBF] hover:text-[#13FF7A] cursor-pointer text-center"
+                        onClick={() => {
+                          setSelected(option); // Update selected option
+                          setIsOpen(false); // Close dropdown
+                        }}
+                      >
+                        {option}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              {/* Dropdown Menu */}
+              {isOpen && (
+                <ul className="absolute z-10 mt-2 w-[175px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] shadow-[0_4px_6px_#232323] rounded-[8px]">
+                  {options.map((option) => (
+                    <li
+                      key={option}
+                      className="px-[16px] py-[8px] text-[#BFBFBF] hover:bg-[none] hover:text-[#13FF7A] cursor-pointer text-center"
+                      onClick={() => {
+                        setSelected(option); // Update selected option
+                        setIsOpen(false); // Close dropdown
+                      }}
+                    >
+                      {option}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             {/* Third Input */}
@@ -132,21 +180,15 @@ const MpHome = () => {
         </div>
 
         {/* Image Grid */}
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ">
           {images.map((src, index) => (
-            <div
-              onClick={() => {
-                router.push("/marketPlace/owner");
-              }}
-              key={index}
-              className="relative group overflow-hidden rounded-[8px] cursor-pointer"
-            >
+            <div key={index} className="relative group overflow-hidden rounded-[8px]">
               {/* Image */}
               <img src={src} alt={`Trending NFT ${index + 1}`} className="w-full h-auto rounded-[8px]" />
               {/* Hover Effect */}
               <div
                 className="absolute inset-0 rounded-[8px] bg-gradient-to-b from-[rgba(0,0,0,0.4)] via-[rgba(0,0,0,0.7)] to-[rgba(0,0,0,0.9)] 
-        opacity-0 group-hover:opacity-100 transition-all duration-[300ms]"
+         opacity-0 group-hover:opacity-100  transition-all duration-[300ms]"
               ></div>
               {/* Overlay Text */}
               <div className="absolute bottom-0 left-0 pl-[15px] pr-[15px] pb-[15px] w-full text-white z-20">
@@ -156,25 +198,19 @@ const MpHome = () => {
                 </p>
                 {/* Additional Content (only visible on hover) */}
                 <div className="hidden group-hover:block mt-[16px]">
-                  <p className="text-[12px] sm:text-[14px] font-normal leading-[16.8px] text-left text-white">
-                    Forem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.
+                  <p className="text-[12px] sm:text-[14px] font-[400] leading-[16.8px] text-left text-[#FFFFFF]">
+                    Forem ipsum dolor sit amet, consectetur <br /> adipiscing elit. Nunc vulputate libero et velit <br /> interdum, ac aliquet odio
+                    mattis.
                   </p>
 
                   {/* Button */}
                   <button className="mt-[16px] w-full py-[10px] px-[15px] text-[12px] font-extrabold leading-[19.6px] text-center text-[#00D059] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] rounded-[100px] transition-all duration-300 relative overflow-hidden gradient-border-rounded-nft">
-                    {/* Gradient Border with Outline */}
-                    <span
-                      className="absolute inset-0 rounded-[100px] bg-gradient-to-b from-[#13FF7A] to-[#002B12] opacity-0 group-hover:opacity-100 transition-all duration-[300ms]"
-                      style={{
-                        zIndex: -1, // Place it behind the button text
-                        filter: "blur(4px)", // Optional: you can blur it if desired
-                        transform: "scale(1.05)", // Optional: scale it to make the border appear more pronounced
-                      }}
-                    />
                     Buy Now
                   </button>
                 </div>
               </div>
+              {/* Gradient Border */}
+              <div className="  absolute inset-0 rounded-[8px] opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
             </div>
           ))}
         </div>
