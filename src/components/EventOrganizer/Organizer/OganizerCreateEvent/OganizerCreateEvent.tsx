@@ -1230,9 +1230,7 @@ function OganizerCreateEvent() {
 
       return updatedTickets;
     });
-  };
-
-  */
+  }; */
 
   // Set state/form data to send in APIs
   const filteredTicketTypes = ticketTypes.map((ticket) => ({
