@@ -248,7 +248,7 @@ function SpecificEventTickets() {
     },
     {
       id: 2,
-      image: candendar,
+      image: time,
       // address: ConvertDate(TicketData?.event?.startTime),
       address: `${ConvertDate(TicketData?.event?.startTime)} - ${ConvertTime(TicketData?.event?.startTime)}`,
     },
