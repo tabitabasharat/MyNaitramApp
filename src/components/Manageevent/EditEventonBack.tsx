@@ -599,6 +599,8 @@ function EditeventOnBack() {
     return <Image src={calendaricon} alt="Date picker opening icon" width={20} className="opacity-90" />;
   }
 
+  const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
+
   // All useReff for scroll POsition
   const dropdownRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement | null>(null); // for additional rsvp
@@ -1710,6 +1712,94 @@ function EditeventOnBack() {
       }
     }
   }
+
+  // Handle Preview Button Click
+  async function handlePreviewClick(values: z.infer<typeof formSchema>) {
+    console.log("New Preview Tags are as======> ", chooseHashTags);
+    // setLoader(true);
+    setisWalletModalOpen(false);
+    console.log("my values", values);
+    const imagesOfGallery = await handleFileChangeapi();
+
+    /*const utcEventStartTime = convertToUTC(EventStartTime);
+      // setEventStartTime(utcEventStartTime);
+      const utcEventEndTime = convertToUTC(EventEndTime);
+      // setEventEndTime(utcEventEndTime);
+      const utcTicketStartTime = convertToUTC(TicketStartDate);
+      // setTicketStartDate(utcTicketStartTime);
+      const utcTicketEndTime = convertToUTC(TicketEndDate);
+      // setTicketEndDate(utcTicketEndTime); */
+
+    const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
+      ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
+        ? {
+            ...ticket,
+            ticketstart: convertToUTC(ticket.ticketstart),
+            ticketend: convertToUTC(ticket.ticketend),
+            eventdates: ticket.eventdates.map((e: FestivalEventsDate, i: number) => ({
+              ...e,
+              startDate: convertToUTC(e.startDate),
+              endDate: convertToUTC(e.endDate),
+            })),
+          }
+        : ticket.type === "RSVP Ticketing"
+        ? {
+            ...ticket,
+            deadline: convertToUTC(ticket.deadline),
+          }
+        : ticket.type === "Private Event Ticketing"
+        ? {
+            ...ticket,
+            ticketstart: convertToUTC(ticket.ticketstart),
+            ticketend: convertToUTC(ticket.ticketend),
+            eventstart: convertToUTC(ticket.eventstart),
+            eventend: convertToUTC(ticket.eventend),
+          }
+        : {
+            ...ticket,
+            ticketstart: convertToUTC(ticket.ticketstart),
+            ticketend: convertToUTC(ticket.ticketend),
+            eventstart: convertToUTC(ticket.eventstart),
+            eventend: convertToUTC(ticket.eventend),
+          }
+    );
+
+    const categorylabels = categoryTypes;
+    const eventhashtags = chooseHashTags;
+
+    console.log("Ticket Types in Preview is As=====> ", updatedAllTicketTypes);
+
+    // const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
+
+    const updatedValues = {
+      ...values,
+      eventmedia: imagesOfGallery,
+      tickets: updatedAllTicketTypes,
+      // isFree: isFree,
+      eventcategory: categorylabels?.label,
+    };
+    console.log("my updated values are", updatedValues);
+
+    // setEventAllData(updatedValues);
+    if (updatedValues !== null) {
+      localStorage.setItem("eventData", JSON.stringify(updatedValues));
+      router.push("/preview-event");
+    } else {
+      console.log("error");
+    }
+  }
+
+  // When One of Button in between (Submit/Preview) will clicked
+  const handleFormSubmit = (event: any, actionTypes: any) => {
+    event.preventDefault();
+
+    if (actionTypes === "preview") {
+      form.handleSubmit(handlePreviewClick)(event);
+    } else if (actionTypes === "create") {
+      form.handleSubmit(EventCreation)(event);
+    }
+  };
+
   console.log("Form errors:", form.formState.errors);
 
   const convertToLocal = (utcDateTime: string) =>
@@ -2101,7 +2191,7 @@ function EditeventOnBack() {
         username: ticket?.username,
         useremail: ticket?.useremail,
         usernumb: ticket?.usernumb,
-        additional: ticket?.additional.map((t: string) => ({ title: t })),
+        additional: ticket?.additional.map((t: any) => ({ title: t?.title })),
       };
     } else if (ticketType == "Private Event Ticketing") {
       return {
@@ -6091,13 +6181,23 @@ function EditeventOnBack() {
                   </div>
                 </div>
 
-                {/* Action/Submit Button */}
+                {/* Action Button Section Such as Preview or Submit */}
                 <div className="flex items-center justify-end lg:gap-[20px] gap-[12px] lg:flex-nowrap md:flex-nowrap wrap-btns mt-[36px]">
-                  <div className="flex justify-end items-center mt-[36px] edit-btn">
+                  <div className="flex justify-end items-center  edit-btn">
+                    <button
+                      className="w-full lg:w-fit flex h-[52px] py-[17px] px-[55.25px] lg:py-[12px] lg:px-[68px] edit-btn justify-center items-center rounded-[44px] gap-[6px] gradient-bg gradient-border-edit "
+                      onClick={(event) => handleFormSubmit(event, "preview")}
+                      disabled={!isCategorySelected}
+                    >
+                      Preview
+                    </button>
+                  </div>
+                  <div className="flex justify-end items-center edit-btn">
                     <Button
                       type="submit"
+                      className="w-full lg:w-fit flex  justify-center items-center font-bold py-[17px] px-[55.25px] lg:py-[12px] lg:px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
+                      onClick={(event) => handleFormSubmit(event, "create")}
                       disabled={!isCategorySelected}
-                      className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                     >
                       Submit
                     </Button>
