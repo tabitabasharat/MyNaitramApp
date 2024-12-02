@@ -438,6 +438,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   startTime={EventData?.startTime}
                   img={EventData?.eventPicture}
                   location={EventData?.location}
+                  eventTags={EventData?.tags}
                   eventdescription={EventData?.eventDescription}
                   // activeIndex={activeIndex}
                   setShowTicket={setShowTicket}

@@ -28,7 +28,9 @@ import { API_URL } from "@/lib/client";
 import crossicon from "@/assets/cross-img-icon.svg";
 import arrowup from "@/assets/Arrow up.svg";
 import whiteaddicon from "@/assets/Wallet/white_plus_icon.svg";
+import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
 // import { DatePicker } from "@/components/organisms/DatePicker";
+import CryptoJS from 'crypto-js';
 
 import { useRouter } from "next/navigation";
 
@@ -205,8 +207,30 @@ type PasswordedType = {
   allPswrd: string[]; // generate after adding (manual and auto generated password)
 };
 
+// 5) ===> Custom Ticket Types
+
+type CustomType = {
+  type: any;
+  typeDropDown: boolean;
+  selected: any;
+  selectedDropDown: boolean;
+  price: any;
+  no: any;
+  name: string;
+  ticketstart: string;
+  ticketend: string;
+  isTicketStartPickerOpen: boolean;
+  isTicketEndPickerOpen: boolean;
+  eventstart: string;
+  eventend: string;
+  isStartEventPickerOpen: boolean;
+  isEndEventPickerOpen: boolean;
+  options: TicketTypeOption[];
+  optionDropDown: boolean;
+};
+
 // Now define state type for holding ticket Data
-type TicketType = FestivalType | RsvpType | PrivateType | PasswordedType;
+type TicketType = FestivalType | RsvpType | PrivateType | PasswordedType | CustomType;
 
 /////////////////////////// Defining Zode schemas for above types  ////////////////////////////////////////////
 
@@ -369,8 +393,46 @@ const PasswordedTypeSchema = z
     }
   );
 
+//                            Define Custom Event Ticketing Schema
+
+const CustomTypeSchema = z
+  .object({
+    type: z.string().min(1, { message: "Type cannot be empty." }),
+    selected: z.string().min(1, { message: "Selection type cannot be empty." }),
+    price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
+    no: z.union([
+      z.string().refine((val) => Number(val) > 0, {
+        message: "Number of tickets must be greater than 0.",
+      }),
+      z.number().min(1, { message: "Number of tickets must be greater than 0." }),
+    ]),
+    name: z.string().min(1, { message: "Name cannot be empty." }),
+    ticketstart: z.string().min(1, { message: "Ticket start date cannot be empty." }),
+    ticketend: z.string().min(1, { message: "Ticket end date cannot be empty." }),
+    eventstart: z.string().min(1, { message: "Event start date cannot be empty." }),
+    eventend: z.string().min(1, { message: "Event end date cannot be empty." }),
+  })
+  .refine(
+    (data) => {
+      // Validate price based on selection
+      if (data.selected === "paid") {
+        const priceIsValid =
+          data.price !== undefined &&
+          ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
+            (typeof data.price === "number" && data.price > 0));
+
+        return priceIsValid;
+      }
+      return true; // Skip price validation for free selection
+    },
+    {
+      message: "Price must be greater than 0 for paid tickets.",
+      path: ["price"], // Specify the path for the error
+    }
+  );
+
 // Combine multiple ticket type schemas into one using `z.union`
-const TicketTypeSchema = z.union([FestivalTypeSchema, RsvpTypeSchema, PrivateTypeSchema, PasswordedTypeSchema]);
+const TicketTypeSchema = z.union([FestivalTypeSchema, RsvpTypeSchema, PrivateTypeSchema, PasswordedTypeSchema, CustomTypeSchema]);
 
 // Define the array of tickets
 const TicketsTypesArraySchema = z.array(TicketTypeSchema);
@@ -725,7 +787,7 @@ function EditeventOnBack() {
   };
 
   const pswrdTicket: PasswordedType = {
-    type: "Passworded / Discounted Voucher Event Ticketing",
+    type: "Passworded / Discounted Voucher Event",
     typeDropDown: false,
     selected: "",
     selectedDropDown: false,
@@ -755,7 +817,27 @@ function EditeventOnBack() {
     allPswrd: [],
   };
 
-  const AllDefinedTicketTypesArray: TicketType[] = [festivalTicket, rsvpTicket, privateTicket, pswrdTicket];
+  const customTicket: CustomType = {
+    type: "Custom Ticketing",
+    typeDropDown: false,
+    selected: "",
+    selectedDropDown: false,
+    price: "",
+    no: "",
+    name: "",
+    ticketstart: "",
+    ticketend: "",
+    isTicketStartPickerOpen: false,
+    isTicketEndPickerOpen: false,
+    eventstart: "",
+    eventend: "",
+    isStartEventPickerOpen: false,
+    isEndEventPickerOpen: false,
+    options: [],
+    optionDropDown: false,
+  };
+
+  const AllDefinedTicketTypesArray: TicketType[] = [festivalTicket, rsvpTicket, privateTicket, pswrdTicket, customTicket];
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([festivalTicket]); // Default ticket will be festival
 
   const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(EventData?.eventcategory || null);
@@ -998,7 +1080,8 @@ function EditeventOnBack() {
     "Festivals / Multi-Day Tickets / Season Passes",
     "RSVP Ticketing",
     "Private Event Ticketing",
-    "Passworded / Discounted Voucher Event Ticketing",
+    "Passworded / Discounted Voucher Event",
+    "Custom Ticketing",
   ];
 
   const [galleryFiles, setGalleryFiles] = useState<GalleryFile[]>([]);
@@ -1167,15 +1250,19 @@ function EditeventOnBack() {
           const remainingSlots = 10 - prevFiles.length;
           const limitedFilesArray = filesArray.slice(0, remainingSlots);
           ErrorToast("You can only select 10 media items");
+
           return [...prevFiles, ...limitedFilesArray];
         }
 
+        console.log("Added One more file ===> ", [...prevFiles, ...filesArray]); // 2 Adding more files in galleryFiles State
         return [...prevFiles, ...filesArray];
       });
     }
   };
 
-  const handleFileChangeapi = async () => {
+  // useEffect(() => {console.log("This is Binary data==> ")}, [galleryFiles])
+
+  /*const handleFileChangeapi: any = async () => {
     if (galleryFiles) {
       setLoader(true);
 
@@ -1207,6 +1294,56 @@ function EditeventOnBack() {
         }
       } catch (error) {
         console.error("Error:", error);
+      }
+    }
+  }; */
+
+  const handleFileChangeapi: any = async () => {
+    if (galleryFiles && galleryFiles.length > 0) {
+      setLoader(true);
+
+      try {
+        // Separate simple objects and File objects
+        const simpleObjects = galleryFiles.filter((file: any) => file.url && typeof file.url === "string");
+        const fileObjects = galleryFiles.filter((file: any) => file instanceof File);
+
+        // Collect URLs from simple objects
+        const simpleUrls = simpleObjects.map((obj: any) => obj.url);
+
+        let fileUrls: string[] = [];
+        if (fileObjects.length > 0) {
+          // Process File objects
+          const formData = new FormData();
+          fileObjects.forEach((file: any) => formData.append("files", file));
+
+          console.log("File objects to upload:", fileObjects);
+
+          // Make API call to upload files
+          const res: any = await api.post(`${API_URL}/upload/uploadMultiple`, formData);
+
+          if (res?.status === 200) {
+            fileUrls = res?.data?.imageUrls || [];
+            console.log("Uploaded file URLs:", fileUrls);
+          } else {
+            ErrorToast(res?.payload?.message || "Error uploading files");
+          }
+        }
+
+        // Combine URLs from both sources
+        const allUrls = [...simpleUrls, ...fileUrls];
+
+        setLoader(false);
+        setEventsFile(allUrls); // Save combined URLs
+        console.log("Final combined URLs:", allUrls);
+
+        // Optionally show success toast
+        // SuccessToast("Images processed successfully");
+
+        return allUrls;
+      } catch (error) {
+        setLoader(false);
+        console.error("Error:", error);
+        ErrorToast("An error occurred while processing images");
       }
     }
   };
@@ -1455,6 +1592,17 @@ function EditeventOnBack() {
 
   const categorylabels = categoryTypes?.label;
 
+  // Hashing is here
+  const encryptionKey = 'naitramV2SecretKey';
+  const encryptArray = (arrayOfStrings: string[], secretKey: string) => {
+    // Encrypt each string in the array and store the encrypted values in a new array
+    const encryptedArray = arrayOfStrings.map(item => {
+      return CryptoJS.AES.encrypt(item, secretKey).toString(); // AES encryption
+    });
+    return encryptedArray;
+  };
+
+
   // Event Creating sending Dat through API
   async function EventCreation(values: z.infer<typeof formSchema>) {
     let isFormValid: boolean = true;
@@ -1482,9 +1630,7 @@ function EditeventOnBack() {
     });
 
     // Password Form Validation
-    const paswrdTicketChecks: TicketType[] | any = ticketTypes.filter(
-      (ticket: any) => ticket.type === "Passworded / Discounted Voucher Event Ticketing"
-    );
+    const paswrdTicketChecks: TicketType[] | any = ticketTypes.filter((ticket: any) => ticket.type === "Passworded / Discounted Voucher Event");
     paswrdTicketChecks.forEach((ticket: any) => {
       if (ticket?.pswrdmanual?.length > 0 || ticket?.autoGeneratedPswrd?.length > 0 || ticket?.emailmanual?.length > 0) {
       } else {
@@ -1575,7 +1721,8 @@ function EditeventOnBack() {
               whatsIncluded: ticket?.options,
               privateEventAdditionalFields: ticket?.emailmanual,
             }
-          : {
+          : ticket.type === "Passworded / Discounted Voucher Event"
+          ? {
               selectedEventTicketType: ticket?.type,
               ticketFreePaid: ticket?.selected,
               ticketName: ticket?.name,
@@ -1587,8 +1734,20 @@ function EditeventOnBack() {
               eventEndDT: convertToUTC(ticket?.eventend),
               whatsIncluded: ticket?.options,
               privateEventAdditionalFields: ticket?.emailmanual,
-              passwordFields: [...(ticket?.pswrdmanual || []), ...(ticket?.autoGeneratedPswrd || [])],
+              passwordFields: encryptArray([...(ticket?.pswrdmanual || []), ...(ticket?.autoGeneratedPswrd || [])], encryptionKey),
               autoPasswordFields: [],
+            }
+          : {
+              selectedEventTicketType: ticket?.type,
+              ticketFreePaid: ticket?.selected,
+              ticketName: ticket?.name,
+              ticketPrice: ticket?.price,
+              noOfTickets: ticket?.no,
+              ticketStartDT: convertToUTC(ticket?.ticketstart),
+              ticketEndDT: convertToUTC(ticket?.ticketend),
+              eventStartDT: convertToUTC(ticket?.eventstart),
+              eventEndDT: convertToUTC(ticket?.eventend),
+              whatsIncluded: ticket?.options,
             }
       );
 
@@ -1778,36 +1937,38 @@ function EditeventOnBack() {
           userId: userid,
           // isFree: isFree,
           eventId: eventID,
-          name: Eventname || EventData?.name || "",
+          name: Eventname || EventData?.eventname || "",
           category: [categorylabels?.label || updatedCategoryTypes || ""],
-          tags: updatedTags || EventData?.tags || [],
+          tags: updatedTags || EventData?.eventHashtags[0] || [],
           eventDescription: Eventdescription || EventData?.eventDescription || "",
-          location: EventLocation || EventData?.location || "",
+          location: EventLocation || EventData?.eventlocation || "",
           // mainEventImage: eventData?.eventmainimg,
-          coverEventImage: CoverImg || EventData?.coverEventImage || "",
+          coverEventImage: CoverImg || EventData?.eventcoverimg || "",
           tickets: updatedAllTicketTypes || EventData?.tickets || "",
           // totalComplemantaryTickets: 0,
-          fbUrl: FBUrl || EventData?.fbUrl || "",
-          instaUrl: InstaUrl || EventData?.instaUrl || "",
-          youtubeUrl: YoutubeUrl || EventData?.youtubeUrl || "",
-          twitterUrl: TwitterUrl || EventData?.twitterUrl || "",
-          telegramUrl: telegramUrl || EventData?.telegramUrl || "",
-          tiktokUrl: tiktokUrl || EventData?.tiktokUrl || "",
-          linkedinUrl: linkedinUrl || EventData?.linkedinUrl || "",
+          fbUrl: FBUrl || EventData?.fburl || "",
+          instaUrl: InstaUrl || EventData?.instaurl || "",
+          youtubeUrl: YoutubeUrl || EventData?.youtubeurl || "",
+          twitterUrl: TwitterUrl || EventData?.twitterurl || "",
+          telegramUrl: telegramUrl || EventData?.telegramurl || "",
+          tiktokUrl: tiktokUrl || EventData?.tiktokurl || "",
+          linkedinUrl: linkedinUrl || EventData?.linkedinurl || "",
           eventmedia: updatedEventMedia || EventData?.eventmedia || "",
           stopBy: false,
-          ticketStartDate: convertToUTC(timings?.ticketStartDate),
-          ticketEndDate: convertToUTC(timings?.ticketEndDate),
-          startTime: convertToUTC(timings?.startTime),
-          endTime: convertToUTC(timings?.endTime),
+          ticketStartDate: convertToUTC(timings?.eventstartdate),
+          ticketEndDate: convertToUTC(timings?.eventenddate),
+          startTime: convertToUTC(timings?.eventstarttime),
+          endTime: convertToUTC(timings?.eventendtime),
         };
 
         console.log("This is data here =====> ", data);
-        dispatch(updateEvent(data)).then((res: any) => {
+        dispatch(createevent(data)).then((res: any) => {
           if (res?.payload?.status === 200) {
             setLoader(false);
             SuccessToast("Event Updated Successfully");
-            router.push("/management");
+            // router.push("/management");
+            setisWalletModalOpen(true);
+            localStorage.removeItem("eventData");
           } else {
             setLoader(false);
             ErrorToast(res?.payload?.message);
@@ -1822,192 +1983,245 @@ function EditeventOnBack() {
 
   // Handle Preview Button Click
   async function handlePreviewClick(values: z.infer<typeof formSchema>) {
-    console.log("New Preview Tags are as======> ", chooseHashTags);
-    // setLoader(true);
-    setisWalletModalOpen(false);
-    console.log("my values", values);
-    const imagesOfGallery = await handleFileChangeapi();
+    let isFormValid: boolean = true;
 
-    /*const utcEventStartTime = convertToUTC(EventStartTime);
-      // setEventStartTime(utcEventStartTime);
-      const utcEventEndTime = convertToUTC(EventEndTime);
-      // setEventEndTime(utcEventEndTime);
-      const utcTicketStartTime = convertToUTC(TicketStartDate);
-      // setTicketStartDate(utcTicketStartTime);
-      const utcTicketEndTime = convertToUTC(TicketEndDate);
-      // setTicketEndDate(utcTicketEndTime); */
+    // RSVP Form validation
+    const rsvpTicketChecks: TicketType[] | any = ticketTypes.filter((ticket: any) => ticket.type === "RSVP Ticketing");
+    rsvpTicketChecks.forEach((ticket: any) => {
+      if (ticket?.additional.length > 0 || ticket.username || ticket.useremail || ticket.usernumb) {
+      } else {
+        ErrorToast("At least one csv field is required");
+        isFormValid = false;
+        return;
+      }
+    });
 
-    const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
-      ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
-        ? {
-            ...ticket,
-            ticketstart: convertToUTC(ticket.ticketstart),
-            ticketend: convertToUTC(ticket.ticketend),
-            eventdates: ticket.eventdates.map((e: FestivalEventsDate, i: number) => ({
-              ...e,
-              startDate: convertToUTC(e.startDate),
-              endDate: convertToUTC(e.endDate),
-            })),
-          }
-        : ticket.type === "RSVP Ticketing"
-        ? {
-            ...ticket,
-            deadline: convertToUTC(ticket.deadline),
-          }
-        : ticket.type === "Private Event Ticketing"
-        ? {
-            ...ticket,
-            ticketstart: convertToUTC(ticket.ticketstart),
-            ticketend: convertToUTC(ticket.ticketend),
-            eventstart: convertToUTC(ticket.eventstart),
-            eventend: convertToUTC(ticket.eventend),
-          }
-        : {
-            ...ticket,
-            ticketstart: convertToUTC(ticket.ticketstart),
-            ticketend: convertToUTC(ticket.ticketend),
-            eventstart: convertToUTC(ticket.eventstart),
-            eventend: convertToUTC(ticket.eventend),
-          }
-    );
+    // Private Form Validation
+    const privateTicketChecks: TicketType[] | any = ticketTypes.filter((ticket: any) => ticket.type === "Private Event Ticketing");
+    privateTicketChecks.forEach((ticket: any) => {
+      if (ticket?.emailmanual.length > 0) {
+      } else {
+        ErrorToast("At least one Email is required for Private Ticketing");
+        isFormValid = false;
+        return;
+      }
+    });
 
-    ////// Getting maximimum and minimum Dates from ticketTypes //////
+    // Password Form Validation
+    const paswrdTicketChecks: TicketType[] | any = ticketTypes.filter((ticket: any) => ticket.type === "Passworded / Discounted Voucher Event");
+    paswrdTicketChecks.forEach((ticket: any) => {
+      if (ticket?.pswrdmanual.length > 0 || ticket?.autoGeneratedPswrd.length > 0 || ticket?.emailmanual.length > 0) {
+      } else {
+        ErrorToast("At least one Password or Email is required for private ticketing");
+        isFormValid = false;
+        return;
+      }
+    });
 
-    console.log(ticketTypes, "this is ticket data");
-    const nonRsvpTickets = ticketTypes.filter((ticket: any) => ticket.type !== "RSVP Ticketing");
+    if (isFormValid) {
+      console.log("New Preview Tags are as======> ", chooseHashTags);
+      // setLoader(true);
+      setisWalletModalOpen(false);
+      console.log("my values", values);
+      const imagesOfGallery = await handleFileChangeapi();
 
-    let timings: any = {
-      ticketStartDate: "",
-      ticketEndDate: "",
-      startTime: "",
-      endTime: "",
-    };
+      /*const utcEventStartTime = convertToUTC(EventStartTime);
+        // setEventStartTime(utcEventStartTime);
+        const utcEventEndTime = convertToUTC(EventEndTime);
+        // setEventEndTime(utcEventEndTime);
+        const utcTicketStartTime = convertToUTC(TicketStartDate);
+        // setTicketStartDate(utcTicketStartTime);
+        const utcTicketEndTime = convertToUTC(TicketEndDate);
+        // setTicketEndDate(utcTicketEndTime); */
 
-    if (nonRsvpTickets?.length !== 0) {
-      let myTickets = nonRsvpTickets;
-      const result = myTickets.reduce(
-        (acc: any, ticket: any) => {
-          if (new Date(ticket.eventstart) < new Date(acc.minEventStartDT.eventstart)) {
-            acc.minEventStartDT = ticket;
-          }
-          if (new Date(ticket.ticketstart) < new Date(acc.minTicketStartDT.ticketstart)) {
-            acc.minTicketStartDT = ticket;
-          }
-          if (new Date(ticket.eventend) > new Date(acc.maxEventEndDT.eventend)) {
-            acc.maxEventEndDT = ticket;
-          }
-          if (new Date(ticket.ticketend) > new Date(acc.maxTicketEndDT.ticketend)) {
-            acc.maxTicketEndDT = ticket;
-          }
-          return acc;
-        },
-        {
-          minEventStartDT: myTickets[0],
-          minTicketStartDT: myTickets[0],
-          maxEventEndDT: myTickets[0],
-          maxTicketEndDT: myTickets[0],
-        }
+      const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
+        ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
+          ? {
+              ...ticket,
+              ticketstart: convertToUTC(ticket.ticketstart),
+              ticketend: convertToUTC(ticket.ticketend),
+              eventstart: convertToUTC(ticket?.eventdates?.[0]?.startDate),
+              eventend: convertToUTC(ticket?.eventdates?.[ticket?.eventdates?.length - 1]?.endDate),
+              eventdates: ticket?.eventdates
+                ?.map(
+                  (e: FestivalEventsDate, i: number) =>
+                    i !== 0
+                      ? {
+                          startDate: convertToUTC(e?.startDate),
+                          endDate: convertToUTC(e?.endDate),
+                        }
+                      : null // Return null for i === 0
+                )
+                ?.filter((item: any) => item !== null),
+            }
+          : ticket.type === "RSVP Ticketing"
+          ? {
+              ...ticket,
+              deadline: convertToUTC(ticket.deadline),
+            }
+          : ticket.type === "Private Event Ticketing"
+          ? {
+              ...ticket,
+              ticketstart: convertToUTC(ticket.ticketstart),
+              ticketend: convertToUTC(ticket.ticketend),
+              eventstart: convertToUTC(ticket.eventstart),
+              eventend: convertToUTC(ticket.eventend),
+            }
+          : ticket.type === "Passworded / Discounted Voucher Event"
+          ? {
+              ...ticket,
+              ticketstart: convertToUTC(ticket.ticketstart),
+              ticketend: convertToUTC(ticket.ticketend),
+              eventstart: convertToUTC(ticket.eventstart),
+              eventend: convertToUTC(ticket.eventend),
+            }
+          : {
+              ...ticket,
+              ticketstart: convertToUTC(ticket.ticketstart),
+              ticketend: convertToUTC(ticket.ticketend),
+              eventstart: convertToUTC(ticket.eventstart),
+              eventend: convertToUTC(ticket.eventend),
+            }
       );
-      console.log("this is result", result);
-      timings = {
-        ticketStartDate: result.minTicketStartDT?.ticketstart || "",
-        ticketEndDate: result.maxTicketEndDT?.ticketend || "",
-        startTime: result.minEventStartDT?.eventstart || "",
-        endTime: result.maxEventEndDT?.eventend || "",
-      };
-    } else {
-      const rsvpTickets = ticketTypes.filter((ticket: any) => ticket.type == "RSVP Ticketing");
-      console.log(rsvpTickets, "rsvp Tickets--");
-      let myTickets = rsvpTickets;
-      const ticketWithMaxRsvpDeadline = myTickets.reduce((maxTicket: any, currentTicket: any) => {
-        return new Date(currentTicket.deadline) > new Date(maxTicket.deadline) ? currentTicket : maxTicket;
-      }, myTickets[0]);
-      // console.log(
-      //   'Ticket with max rsvpDeadline:',
-      //   ticketWithMaxRsvpDeadline?.rsvpDeadline,
-      // );
-      timings = {
-        ticketStartDate: `${new Date()}`,
-        ticketEndDate: ticketWithMaxRsvpDeadline?.deadline,
-        startTime: `${new Date()}`,
-        endTime: ticketWithMaxRsvpDeadline?.deadline,
-      };
-    }
 
-    if (ticketTypes.length !== 0 && nonRsvpTickets?.length !== 0) {
-      const getMaxEventEndDateTime = (tickets: any) => {
-        return tickets.reduce((maxDate: Date | null, ticket: any) => {
-          if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
-            ticket.eventdates.forEach((festivalDate: any) => {
-              const eventEndDateTime = new Date(festivalDate.endDate);
-              if (!maxDate || eventEndDateTime > maxDate) {
-                maxDate = eventEndDateTime;
-              }
-            });
-          }
-          return maxDate;
-        }, null);
-      };
-      const getMinEventStartDateTime = (tickets: any) => {
-        return tickets.reduce((minDate: Date | null, ticket: any) => {
-          if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
-            ticket.eventdates.forEach((festivalDate: any) => {
-              const eventStartDateTime = new Date(festivalDate.startDate);
-              if (!minDate || eventStartDateTime < minDate) {
-                minDate = eventStartDateTime;
-              }
-            });
-          }
-          return minDate;
-        }, null);
-      };
-      const maxEventEndDateTime = getMaxEventEndDateTime(ticketTypes);
-      const minEventStartTime = getMinEventStartDateTime(ticketTypes);
+      ////// Getting maximimum and minimum Dates from ticketTypes //////
 
-      console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
-      if (maxEventEndDateTime !== null && minEventStartTime !== null) {
+      console.log(ticketTypes, "this is ticket data");
+      const nonRsvpTickets = ticketTypes.filter((ticket: any) => ticket.type !== "RSVP Ticketing");
+
+      let timings: any = {
+        ticketStartDate: "",
+        ticketEndDate: "",
+        startTime: "",
+        endTime: "",
+      };
+
+      if (nonRsvpTickets?.length !== 0) {
+        let myTickets = nonRsvpTickets;
+        const result = myTickets.reduce(
+          (acc: any, ticket: any) => {
+            if (new Date(ticket.eventstart) < new Date(acc.minEventStartDT.eventstart)) {
+              acc.minEventStartDT = ticket;
+            }
+            if (new Date(ticket.ticketstart) < new Date(acc.minTicketStartDT.ticketstart)) {
+              acc.minTicketStartDT = ticket;
+            }
+            if (new Date(ticket.eventend) > new Date(acc.maxEventEndDT.eventend)) {
+              acc.maxEventEndDT = ticket;
+            }
+            if (new Date(ticket.ticketend) > new Date(acc.maxTicketEndDT.ticketend)) {
+              acc.maxTicketEndDT = ticket;
+            }
+            return acc;
+          },
+          {
+            minEventStartDT: myTickets[0],
+            minTicketStartDT: myTickets[0],
+            maxEventEndDT: myTickets[0],
+            maxTicketEndDT: myTickets[0],
+          }
+        );
+        console.log("this is result", result);
         timings = {
-          ...timings,
-          endTime: timings.endTime > maxEventEndDateTime.toISOString() ? timings.endTime : maxEventEndDateTime.toISOString(),
-          startTime: new Date(timings.startTime) < new Date(minEventStartTime) ? timings.startTime : minEventStartTime.toISOString(),
+          ticketStartDate: result.minTicketStartDT?.ticketstart || "",
+          ticketEndDate: result.maxTicketEndDT?.ticketend || "",
+          startTime: result.minEventStartDT?.eventstart || "",
+          endTime: result.maxEventEndDT?.eventend || "",
+        };
+      } else {
+        const rsvpTickets = ticketTypes.filter((ticket: any) => ticket.type == "RSVP Ticketing");
+        console.log(rsvpTickets, "rsvp Tickets--");
+        let myTickets = rsvpTickets;
+        const ticketWithMaxRsvpDeadline = myTickets.reduce((maxTicket: any, currentTicket: any) => {
+          return new Date(currentTicket.deadline) > new Date(maxTicket.deadline) ? currentTicket : maxTicket;
+        }, myTickets[0]);
+        // console.log(
+        //   'Ticket with max rsvpDeadline:',
+        //   ticketWithMaxRsvpDeadline?.rsvpDeadline,
+        // );
+        timings = {
+          ticketStartDate: `${new Date()}`,
+          ticketEndDate: ticketWithMaxRsvpDeadline?.deadline,
+          startTime: `${new Date()}`,
+          endTime: ticketWithMaxRsvpDeadline?.deadline,
         };
       }
-    }
 
-    console.log("this is timming", timings);
+      if (ticketTypes.length !== 0 && nonRsvpTickets?.length !== 0) {
+        const getMaxEventEndDateTime = (tickets: any) => {
+          return tickets.reduce((maxDate: Date | null, ticket: any) => {
+            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+              ticket.eventdates.forEach((festivalDate: any) => {
+                const eventEndDateTime = new Date(festivalDate.endDate);
+                if (!maxDate || eventEndDateTime > maxDate) {
+                  maxDate = eventEndDateTime;
+                }
+              });
+            }
+            return maxDate;
+          }, null);
+        };
+        const getMinEventStartDateTime = (tickets: any) => {
+          return tickets.reduce((minDate: Date | null, ticket: any) => {
+            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+              ticket.eventdates.forEach((festivalDate: any) => {
+                const eventStartDateTime = new Date(festivalDate.startDate);
+                if (!minDate || eventStartDateTime < minDate) {
+                  minDate = eventStartDateTime;
+                }
+              });
+            }
+            return minDate;
+          }, null);
+        };
+        const maxEventEndDateTime = getMaxEventEndDateTime(ticketTypes);
+        const minEventStartTime = getMinEventStartDateTime(ticketTypes);
 
-    /////////////////////////////////////////////////////////////////
+        console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
+        if (maxEventEndDateTime !== null && minEventStartTime !== null) {
+          timings = {
+            ...timings,
+            endTime: timings.endTime > maxEventEndDateTime.toISOString() ? timings.endTime : maxEventEndDateTime.toISOString(),
+            startTime: new Date(timings.startTime) < new Date(minEventStartTime) ? timings.startTime : minEventStartTime.toISOString(),
+          };
+        }
+      }
 
-    const categorylabels = categoryTypes;
-    const eventhashtags = chooseHashTags;
+      console.log("this is timming", timings);
 
-    console.log("Ticket Types in Preview is As=====> ", updatedAllTicketTypes);
+      /////////////////////////////////////////////////////////////////
 
-    // const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
+      const categorylabels = categoryTypes;
+      const eventhashtags = chooseHashTags;
 
-    const updatedValues = {
-      ...values,
-      eventmedia: imagesOfGallery,
-      tickets: updatedAllTicketTypes,
-      // isFree: isFree,
-      eventcategory: categorylabels?.label,
+      console.log("Ticket Types in Preview is As=====> ", updatedAllTicketTypes);
 
-      // For Event
-      eventstarttime: convertToUTC(timings?.startTime),
-      eventendtime: convertToUTC(timings?.endTime),
+      // const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
 
-      // For Ticket
-      eventstartdate: convertToUTC(timings?.ticketStartDate),
-      eventenddate: convertToUTC(timings?.ticketEndDate),
-    };
-    console.log("my updated values are", updatedValues);
+      const updatedValues = {
+        ...values,
+        eventmedia: imagesOfGallery,
+        tickets: updatedAllTicketTypes,
+        // isFree: isFree,
+        eventcategory: categorylabels?.label,
 
-    // setEventAllData(updatedValues);
-    if (updatedValues !== null) {
-      localStorage.setItem("eventData", JSON.stringify(updatedValues));
-      router.push("/preview-event");
-    } else {
-      console.log("error");
+        // For Event
+        eventstarttime: convertToUTC(timings?.startTime),
+        eventendtime: convertToUTC(timings?.endTime),
+
+        // For Ticket
+        eventstartdate: convertToUTC(timings?.ticketStartDate),
+        eventenddate: convertToUTC(timings?.ticketEndDate),
+      };
+      console.log("my updated values are", updatedValues);
+
+      // setEventAllData(updatedValues);
+      if (updatedValues !== null) {
+        localStorage.setItem("eventData", JSON.stringify(updatedValues));
+        router.push("/preview-event");
+      } else {
+        console.log("error");
+      }
     }
   }
 
@@ -2058,7 +2272,7 @@ function EditeventOnBack() {
             return null;
           })
           .filter(Boolean); // Filter out any null values in case of unexpected data
-
+        console.log("Files Data from preview==> ", files); // 1) Data is comminmg here as {type: '', url: ''} as object
         setGalleryFiles(files);
       }
 
@@ -2079,8 +2293,8 @@ function EditeventOnBack() {
               isTicketEndPickerOpen: false,
               eventdates: [
                 {
-                  startDate: convertToLocal(ticket?.startDate),
-                  endDate: convertToLocal(ticket?.endDate),
+                  startDate: convertToLocal(ticket?.eventstart),
+                  endDate: convertToLocal(ticket?.eventend),
                   isStartEventPickerOpen: false,
                   isEndEventPickerOpen: false,
                 },
@@ -2153,7 +2367,8 @@ function EditeventOnBack() {
               isCSVuploaded: false,
               allEmails: [],
             }
-          : {
+          : ticket?.type === "Passworded / Discounted Voucher Event"
+          ? {
               type: ticket?.type,
               typeDropDown: false,
               selected: ticket?.selected,
@@ -2186,8 +2401,33 @@ function EditeventOnBack() {
 
               pswrdmanual: ticket?.pswrdmanual,
               manualPswrdCount: 0,
-              autoGeneratedPswrd: [],
+              autoGeneratedPswrd: ticket?.autoGeneratedPswrd,
               allPswrd: [],
+            }
+          : {
+              type: ticket?.type,
+              typeDropDown: false,
+              selected: ticket?.selected,
+              selectedDropDown: false,
+              price: ticket?.price,
+              no: ticket?.no,
+              name: ticket?.name,
+              ticketstart: ticket?.ticketstart,
+              ticketend: ticket?.ticketend,
+              isTicketStartPickerOpen: false,
+              isTicketEndPickerOpen: false,
+              eventstart: ticket?.eventstart,
+              eventend: ticket?.eventend,
+              isStartEventPickerOpen: false,
+              isEndEventPickerOpen: false,
+              options: (ticket?.options || []).map((ticket: any) => ({
+                ...ticket,
+                options: (ticket?.options || []).map((option: any) => ({
+                  ...option,
+                  checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
+                })),
+              })),
+              optionDropDown: false,
             }
       );
       setTicketTypes(ticketsFromAPIs);
@@ -2235,10 +2475,11 @@ function EditeventOnBack() {
       ////////// Set Description  //////////////////
       setEventdescription(EventData?.eventdescription);
 
-      ///////// Ser Location   ///////////////
+      ///////// Set Location   ///////////////
       setEventLocation(EventData?.eventlocation);
 
-      ///
+      /////////  Event Nane  ///////////////
+      setEventname(EventData?.eventname);
 
       form.reset({
         eventname: EventData?.eventname || form.getValues("eventname"),
@@ -2354,9 +2595,9 @@ function EditeventOnBack() {
   }, []);
 
   //Send Ticket Object if the same type and index found in API Data
-  const findApiTicket = (ticketType: string): TicketType | undefined | any => {
+  const findApiTicket = (ticketType: string, ticketIndex: number): TicketType | undefined | any => {
     console.log("Rgsfhgsfhsgfhdfghs ==> ", ticketType);
-    const ticket = EventData?.tickets?.find((ticket: any) => ticket?.type === ticketType);
+    const ticket = EventData?.tickets?.find((ticket: any, i: number) => ticket?.type === ticketType && i === ticketIndex);
 
     if (ticketType == "Festivals / Multi-Day Tickets / Season Passes") {
       return {
@@ -2447,7 +2688,7 @@ function EditeventOnBack() {
         isCSVuploaded: false,
         allEmails: [],
       };
-    } else {
+    } else if (ticketType == "Passworded / Discounted Voucher Event") {
       return {
         type: ticket?.type,
         typeDropDown: false,
@@ -2484,6 +2725,32 @@ function EditeventOnBack() {
         autoGeneratedPswrd: ticket?.autoGeneratedPswrd,
         allPswrd: [],
       };
+    } else {
+      return {
+        type: ticket?.type,
+        typeDropDown: false,
+        selected: ticket?.selected,
+        selectedDropDown: false,
+        price: ticket?.price,
+        no: ticket?.no,
+        name: ticket?.name,
+        ticketstart: ticket?.ticketstart,
+        ticketend: ticket?.ticketend,
+        isTicketStartPickerOpen: false,
+        isTicketEndPickerOpen: false,
+        eventstart: ticket?.eventstart,
+        eventend: ticket?.eventend,
+        isStartEventPickerOpen: false,
+        isEndEventPickerOpen: false,
+        options: (ticket?.options || []).map((ticket: any) => ({
+          ...ticket,
+          options: (ticket?.options || []).map((option: any) => ({
+            ...option,
+            checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
+          })),
+        })),
+        optionDropDown: false,
+      };
     }
   };
 
@@ -2515,7 +2782,7 @@ function EditeventOnBack() {
 
       if (existingTicket) {
         //get api ticket
-        const updatedTicket = findApiTicket(ticketType);
+        const updatedTicket = findApiTicket(ticketType, ticketIndex);
 
         //replace in the state
         updatedTickets = prevTickets.map((obj, idx) => {
@@ -5229,7 +5496,7 @@ function EditeventOnBack() {
                             </div>
                           )}
                         </div>
-                      ) : (
+                      ) : ticket.type === "Passworded / Discounted Voucher Event" ? (
                         <div key={index} className="mb-[24px]">
                           {/* Gradient Line to seperate Tickets from each other */}
                           {index !== 0 && (
@@ -5273,7 +5540,7 @@ function EditeventOnBack() {
                                   <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
                                       <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
-                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Passworded / Discounted Voucher Event Ticketing</p>
+                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Passworded / Discounted Voucher Event</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
@@ -6152,6 +6419,645 @@ function EditeventOnBack() {
                             </div>
                           )}
                         </div>
+                      ) : (
+                        <div key={index} className="mb-[24px]">
+                          {/* Gradient Line to seperate Tickets from each other */}
+                          {index !== 0 && (
+                            <div
+                              className="h-[3px] w-full relative mb-[28px] mt-[4px]"
+                              style={{
+                                background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                              }}
+                            >
+                              <div
+                                className="absolute top-0 left-0 h-full"
+                                style={{
+                                  width: "30%", // make the edges thinner
+                                  background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                  filter: "blur(8px)", // blur the edges to make them thin and faded
+                                }}
+                              ></div>
+                              <div
+                                className="absolute top-0 right-0 h-full"
+                                style={{
+                                  width: "30%", // same width for both edges
+                                  background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                  filter: "blur(8px)", // blur the edges to make them thin and faded
+                                }}
+                              ></div>
+                            </div>
+                          )}
+
+                          {/* Event Ticket Type and Event Paid/Free fields */}
+                          <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
+                            <FormField
+                              control={form.control}
+                              name={`tickets.${index}.type`}
+                              render={({ field }) => (
+                                <FormItem
+                                  className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                        pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                        file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                        disabled:opacity-50"
+                                >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
+                                    <div className="flex flex-col">
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
+                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Custom Ticketing</p>
+                                    </div>
+                                    <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                  </div>
+
+                                  {ticket.typeDropDown && (
+                                    <>
+                                      <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                                        {ticketTypesOptions?.map((T_type: string, typeIndex: number) => (
+                                          <div
+                                            key={typeIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketTypeSelection(T_type, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket.type === T_type ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {T_type}
+                                              </p>
+                                            </div>
+                                            {ticket.type === T_type && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </>
+                                  )}
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name={`tickets.${index}.selected`}
+                              render={({ field }) => (
+                                <FormItem
+                                  className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                        pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                        file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                        disabled:opacity-50"
+                                >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
+                                    <div className="flex flex-col">
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
+                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                                        {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
+                                      </p>
+                                    </div>
+                                    <Image src={ticket?.selectedDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                  </div>
+
+                                  {ticket?.selectedDropDown && (
+                                    <>
+                                      <div className="h-fit overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                                        {["Free", "Paid"].map((option: any, optionIndex: number) => (
+                                          <div
+                                            key={optionIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketSelectionOption(option, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket?.selected === option ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {option}
+                                              </p>
+                                            </div>
+                                            {ticket?.selected === option && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </>
+                                  )}
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          {/* Ticket Type Name */}
+                          <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
+                            <FormField
+                              control={form.control}
+                              name={`tickets.${index}.name`}
+                              render={({ field }) => (
+                                <FormItem className="relative w-full space-y-0">
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
+                                    Event Ticket Name
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      placeholder="Enter ticket name"
+                                      className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
+                                      {...field}
+                                      value={ticket.name}
+                                      onChange={(e) => {
+                                        // setEventname(e.target.value);
+                                        handleTicketNameChange(e.target.value, index);
+                                        field.onChange(e);
+                                      }}
+                                    />
+                                  </FormControl>
+
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          {/* Ticket Price And Number of Tickets */}
+                          <div className="flex items-start gap-[24px] w-full common-container">
+                            {/* price field */}
+                            <FormField
+                              control={form.control}
+                              name={`tickets.${index}.price`}
+                              render={({ field }) => (
+                                <FormItem className="relative w-full space-y-0 input-custom-container">
+                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                    Event Ticket Price (£)
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      disabled={ticket.selected === "Free" ? true : false}
+                                      type="number"
+                                      onWheel={(e: any) => e.target.blur()}
+                                      placeholder="Enter Price"
+                                      className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                      {...field}
+                                      value={ticket.price}
+                                      onChange={(e) => {
+                                        const value = e.target.value;
+
+                                        if (value.startsWith("-")) {
+                                          e.target.value = value.replace("-", ""); // Remove negative sign
+                                        }
+
+                                        if (!/^\d*\.?\d*$/.test(value)) {
+                                          e.target.value = value.replace(/[^\d.]/g, "");
+                                        }
+
+                                        // handleInputChange(index, "price", parseFloat(e.target.value));
+                                        field.onChange(e);
+                                        handlTicketPriceChange(value, index);
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            {/* Numbers of Tickets */}
+                            <FormField
+                              control={form.control}
+                              name={`tickets.${index}.no`}
+                              render={({ field }) => (
+                                <FormItem className="relative w-full space-y-0 input-custom-container">
+                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                                    Event Number of Tickets
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      type="number"
+                                      placeholder="Enter No. of Tickets"
+                                      className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                      {...field}
+                                      value={ticket.no}
+                                      onWheel={(e: any) => e.target.blur()}
+                                      onChange={(e) => {
+                                        // handleInputChange(index, "no", parseInt(e.target.value, 10));
+                                        field.onChange(e);
+                                        handleNoTickets(e.target.value, index);
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          {/* Ticket start Date and Ticket and Dates */}
+                          <div className="flex items-start gap-[24px] w-full common-container mt-[-4px] mb-[24px]">
+                            {/* Ticket Start */}
+                            <div className="w-full">
+                              <ThemeProvider theme={themeMui}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
+                                    <FormField
+                                      control={form.control}
+                                      name={`tickets.${index}.ticketstart`}
+                                      render={({ field }) => {
+                                        const currentDateTime = dayjs();
+                                        return (
+                                          <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
+                                              Ticket Start Date & Time
+                                            </FormLabel>
+                                            <FormControl>
+                                              {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
+                                              <div className="w-full" onClick={() => toggleTicketStartTimePicker(index)}>
+                                                {" "}
+                                                {/* Attach click event here */}
+                                                <StyledDateTimePicker
+                                                  // Control the open state with local state
+                                                  referenceDate={currentDateTime}
+                                                  formatDensity="spacious"
+                                                  value={ticket.ticketstart ? dayjs(ticket.ticketstart) : null}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
+                                                  autoOk={false}
+                                                  onChange={(e: any) => {
+                                                    if (e && e.isValid()) {
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      setTheTicketStartValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
+                                                      //setIsPickerOpen(false); // Close the picker after selection
+                                                      toggleTicketStartTimePicker(index);
+                                                    }
+                                                  }}
+                                                  disablePast
+                                                  slots={{
+                                                    openPickerIcon: () => (
+                                                      <CalendarTodayIcon
+                                                        style={{
+                                                          color: "#5e5e5e",
+                                                          fontSize: "15px",
+                                                          position: "absolute",
+                                                          top: "-17px",
+                                                          right: "5px",
+                                                        }}
+                                                      />
+                                                    ),
+                                                  }}
+                                                  slotProps={{
+                                                    tabs: { hidden: false },
+                                                    toolbar: {
+                                                      toolbarFormat: "YYYY",
+                                                      hidden: false,
+                                                    },
+                                                    calendarHeader: {
+                                                      sx: { color: "white" },
+                                                    },
+                                                    textField: {
+                                                      inputProps: {
+                                                        readOnly: true,
+                                                      },
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                    },
+                                                  }}
+                                                />
+                                              </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        );
+                                      }}
+                                    />
+                                  </DemoContainer>
+                                </LocalizationProvider>
+                              </ThemeProvider>
+                            </div>
+
+                            {/* Ticket End */}
+                            <div className="w-full">
+                              <ThemeProvider theme={themeMui}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
+                                    <FormField
+                                      control={form.control}
+                                      name={`tickets.${index}.ticketend`}
+                                      render={({ field }) => {
+                                        let currentDateTime = dayjs(ticket?.ticketstart || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
+                                        // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
+
+                                        // Default to the current time if the adjusted start time has passed
+                                        // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+
+                                        return (
+                                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                              Ticket End Date & Time
+                                            </FormLabel>
+                                            <FormControl>
+                                              <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
+                                                {/* <div className=" w-full" > */}
+
+                                                <StyledDateTimePicker
+                                                  // value={validStartTime}
+                                                  value={ticket.ticketend ? dayjs(ticket.ticketend) : null}
+                                                  formatDensity="spacious"
+                                                  // referenceDate={referenceTicketDate}
+                                                  referenceDate={currentDateTime}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
+                                                  onChange={(e: any) => {
+                                                    if (e && e.isValid()) {
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      setTheTicketEndValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
+                                                      // setIsEndDatePickerOpen(false);
+                                                      toggleTicketEndTimePicker(index);
+                                                    }
+                                                  }}
+                                                  //  label="Event End Date & Time"
+                                                  disablePast
+                                                  // minDate={currentDateTime}
+                                                  minDateTime={currentDateTime}
+                                                  slots={{
+                                                    openPickerIcon: () => (
+                                                      <CalendarTodayIcon
+                                                        style={{
+                                                          color: "#5e5e5e",
+                                                          fontSize: "15px",
+                                                          position: "absolute",
+                                                          top: "-17px",
+                                                          right: "5px",
+                                                        }}
+                                                      />
+                                                    ),
+                                                  }}
+                                                  slotProps={{
+                                                    tabs: {
+                                                      hidden: true,
+                                                    },
+                                                    toolbar: {
+                                                      toolbarFormat: "YYYY",
+                                                      hidden: false,
+                                                    },
+                                                    calendarHeader: {
+                                                      sx: { color: "white" },
+                                                    },
+                                                    textField: {
+                                                      inputProps: {
+                                                        readOnly: true,
+                                                      },
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA ",
+                                                    },
+                                                  }}
+                                                />
+                                              </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        );
+                                      }}
+                                    />
+                                  </DemoContainer>
+                                </LocalizationProvider>
+                              </ThemeProvider>
+                            </div>
+                          </div>
+
+                          {/* Event Start Date and Event End Date */}
+                          <div className="flex items-start gap-[24px] w-full common-container mt-[-9px] mb-[24px]">
+                            {/* Event Start */}
+                            <div className="w-full">
+                              <ThemeProvider theme={themeMui}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
+                                    <FormField
+                                      control={form.control}
+                                      name={`tickets.${index}.eventstart`}
+                                      render={({ field }) => {
+                                        let currentDateTime = dayjs(ticket?.ticketstart || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
+                                        // const minStartTime = dayjs(TicketEndDate || new Date());
+
+                                        // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
+
+                                        // const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
+
+                                        // const referenceEventDate = validStartTime.add(10, "minute");
+
+                                        return (
+                                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                              Event Start Date & Time
+                                            </FormLabel>
+                                            <FormControl>
+                                              <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
+                                                {/* <div className=" w-full"> */}
+
+                                                <StyledDateTimePicker
+                                                  //  value={validStartTime}
+                                                  value={ticket.eventstart ? dayjs(ticket.eventstart) : null}
+                                                  formatDensity="spacious"
+                                                  // referenceDate={referenceEventDate}
+                                                  referenceDate={currentDateTime}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
+                                                  onChange={(e: any) => {
+                                                    if (e && e.isValid()) {
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      // setEventStartTime(formattedDate);
+                                                      toggleStartEventValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
+                                                      // setIsStartEventPickerOpen(false);
+                                                      toggleStartEventTimePicker(index);
+                                                    }
+                                                  }}
+                                                  //  label="Event End Date & Time"
+                                                  // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                                  disablePast
+                                                  minDateTime={currentDateTime}
+                                                  slots={{
+                                                    openPickerIcon: () => (
+                                                      <CalendarTodayIcon
+                                                        style={{
+                                                          color: "#5e5e5e",
+                                                          fontSize: "15px",
+                                                          position: "absolute",
+                                                          top: "-17px",
+                                                          right: "5px",
+                                                        }}
+                                                      />
+                                                    ),
+                                                  }}
+                                                  slotProps={{
+                                                    tabs: {
+                                                      hidden: false,
+                                                    },
+                                                    toolbar: {
+                                                      toolbarFormat: "YYYY",
+                                                      hidden: false,
+                                                    },
+                                                    calendarHeader: {
+                                                      sx: { color: "white" },
+                                                    },
+                                                    textField: {
+                                                      inputProps: {
+                                                        readOnly: true,
+                                                      },
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                    },
+                                                  }}
+                                                />
+                                              </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        );
+                                      }}
+                                    />
+                                  </DemoContainer>
+                                </LocalizationProvider>
+                              </ThemeProvider>
+                            </div>
+
+                            {/* Event Ends */}
+                            <div className="w-full">
+                              <ThemeProvider theme={themeMui}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
+                                    <FormField
+                                      control={form.control}
+                                      name={`tickets.${index}.eventend`}
+                                      render={({ field }) => {
+                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
+                                        // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
+
+                                        // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+
+                                        return (
+                                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                              Event End Date & Time
+                                            </FormLabel>
+                                            <FormControl>
+                                              <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
+                                                <StyledDateTimePicker
+                                                  // referenceDate={defaultEndTime}
+                                                  referenceDate={currentDateTime}
+                                                  value={ticket.eventend ? dayjs(ticket.eventend) : null}
+                                                  formatDensity="spacious"
+                                                  onKeyDown={(e: any) => e.preventDefault()}
+                                                  onChange={(e: any) => {
+                                                    if (e && e.isValid()) {
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      toggleEndEventValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
+                                                      console.log("my ened time", formattedDate);
+                                                      // setIsEndEventPickerOpen(false);
+                                                      toggleEndEventTimePicker(index);
+                                                      console.log("my ened time", formattedDate);
+                                                    }
+                                                  }}
+                                                  disablePast
+                                                  minDateTime={currentDateTime}
+                                                  //  label="Event End Date & Time"
+                                                  // minDateTime={dayjs("2024-10-15T08:30")}
+                                                  // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                                  slots={{
+                                                    openPickerIcon: () => (
+                                                      <CalendarTodayIcon
+                                                        style={{
+                                                          color: "#5e5e5e",
+                                                          fontSize: "15px",
+                                                          position: "absolute",
+                                                          top: "-17px",
+                                                          right: "5px",
+                                                        }}
+                                                      />
+                                                    ),
+                                                  }}
+                                                  slotProps={{
+                                                    tabs: {
+                                                      hidden: false,
+                                                    },
+                                                    toolbar: {
+                                                      toolbarFormat: "YYYY",
+                                                      hidden: false,
+                                                    },
+                                                    calendarHeader: {
+                                                      sx: { color: "white" },
+                                                    },
+                                                    textField: {
+                                                      inputProps: {
+                                                        readOnly: true,
+                                                      },
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                    },
+                                                  }}
+                                                />
+                                              </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        );
+                                      }}
+                                    />
+                                  </DemoContainer>
+                                </LocalizationProvider>
+                              </ThemeProvider>
+                            </div>
+                          </div>
+
+                          {/* What's Included Inputs */}
+                          <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
+                            <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
+                                <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                                <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                              </div>
+                              {ticket.optionDropDown && (
+                                <div className="grid-container">
+                                  {options?.map((option) => (
+                                    <div
+                                      key={option.id}
+                                      className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
+                                      onClick={() => handleOptionToggle(index, option)}
+                                    >
+                                      <div className="flex items-center gap-[10px]">
+                                        <Image
+                                          src={option?.image}
+                                          width={16}
+                                          height={16}
+                                          alt="img"
+                                          className={ticket?.options?.some((o: any) => o?.id === option?.id) ? "filtergreen" : ""}
+                                        />
+                                        <p
+                                          className={`text-[16px] font-normal items-center ${
+                                            ticket?.options?.some((o: any) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                          }`}
+                                        >
+                                          {option.label}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  ))}
+                                  <div className="column-separator"></div> <div className="column-separator"></div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Delete Ticket Type */}
+                          {index !== 0 && (
+                            <div className="flex justify-end items-center mt-[29px] ticket-btn">
+                              <Button
+                                className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleDeleteTicketType(index);
+                                }}
+                              >
+                                <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
+                                Delete Ticket Type
+                              </Button>
+                            </div>
+                          )}
+                        </div>
                       )
                     )}
 
@@ -6441,6 +7347,7 @@ function EditeventOnBack() {
             </Form>
           </div>
         </div>
+        {isWalletModalOpen && <EventSubmmitModal onClose={() => setisWalletModalOpen(false)} open={() => setisWalletModalOpen(true)} />}
       </div>
     </section>
   );

@@ -15,6 +15,7 @@ import { API_URL } from "@/lib/client";
 import axios from "axios";
 import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
 import { getEventByEventId, ticketStatus } from "@/lib/middleware/event";
+import CryptoJS from "crypto-js";
 
 const formSchema = z.object({
   phone: z
@@ -58,9 +59,26 @@ const CompleteYourProfileModal = ({
   const [user_Email, setUserEmail] = useState<string | null>("");
   const dispatch = useAppDispatch();
 
+  const decryptArrayWithErrors = (encryptedArray: string[]) => {
+    return encryptedArray.map((encryptedString) => {
+      try {
+        const bytes = CryptoJS.AES.decrypt(encryptedString, "naitramV2SecretKey");
+        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+        if (!decrypted) throw new Error("Decryption failed");
+        return decrypted;
+      } catch (error) {
+        console.error(`Error decrypting string:`);
+        return null; // Return null or handle as needed
+      }
+    });
+  };
+
   const checkPswrd = () => {
     console.log("clicked on next");
-    if (ticketDat[0]?.passwordFields?.includes(pswrdValue)) {
+    if (
+      decryptArrayWithErrors(ticketDat[0]?.passwordFields)?.includes(pswrdValue) ||
+      decryptArrayWithErrors(ticketDat[0]?.autoPasswordFields)?.includes(pswrdValue)
+    ) {
       setPasswordTrue(true);
     } else {
       setPasswordTrue(false);
@@ -118,6 +136,7 @@ const CompleteYourProfileModal = ({
         };
       }
       profileData = { ...allValues, full_name: name, email, ...additionalAns };
+
       setProfileInformation(profileData);
       try {
         setLoader(true);
@@ -221,7 +240,8 @@ const CompleteYourProfileModal = ({
       </DialogHeader>
       {currentTicketType === "Passworded / Discounted Voucher Event" &&
       passTrue == false &&
-      ticketDat[0]?.privateEventAdditionalFields?.includes(localStorage.getItem("email")) == false ? (
+      ticketDat[0]?.privateEventAdditionalFields?.includes(localStorage.getItem("email")) == false &&
+      ticketDat[0]?.csvEmails?.includes(localStorage.getItem("email")) == false ? (
         <>
           <div className="flex flex-col gap-2 w-full max-h-30 overflow-auto">
             <div className="relative w-full">

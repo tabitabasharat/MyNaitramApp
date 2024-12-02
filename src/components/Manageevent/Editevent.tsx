@@ -29,6 +29,7 @@ import crossicon from "@/assets/cross-img-icon.svg";
 import arrowup from "@/assets/Arrow up.svg";
 import whiteaddicon from "@/assets/Wallet/white_plus_icon.svg";
 // import { DatePicker } from "@/components/organisms/DatePicker";
+import CryptoJS from "crypto-js";
 
 import { useRouter } from "next/navigation";
 
@@ -205,8 +206,30 @@ type PasswordedType = {
   allPswrd: string[]; // generate after adding (manual and auto generated password)
 };
 
+// 5) ===> Custom Ticket Types
+
+type CustomType = {
+  type: any;
+  typeDropDown: boolean;
+  selected: any;
+  selectedDropDown: boolean;
+  price: any;
+  no: any;
+  name: string;
+  ticketstart: string;
+  ticketend: string;
+  isTicketStartPickerOpen: boolean;
+  isTicketEndPickerOpen: boolean;
+  eventstart: string;
+  eventend: string;
+  isStartEventPickerOpen: boolean;
+  isEndEventPickerOpen: boolean;
+  options: TicketTypeOption[];
+  optionDropDown: boolean;
+};
+
 // Now define state type for holding ticket Data
-type TicketType = FestivalType | RsvpType | PrivateType | PasswordedType;
+type TicketType = FestivalType | RsvpType | PrivateType | PasswordedType | CustomType;
 
 /////////////////////////// Defining Zode schemas for above types  ////////////////////////////////////////////
 
@@ -369,8 +392,46 @@ const PasswordedTypeSchema = z
     }
   );
 
+//                            Define Custom Event Ticketing Schema
+
+const CustomTypeSchema = z
+  .object({
+    type: z.string().min(1, { message: "Type cannot be empty." }),
+    selected: z.string().min(1, { message: "Selection type cannot be empty." }),
+    price: z.union([z.string(), z.number()]).optional(), // Price can be a string or number
+    no: z.union([
+      z.string().refine((val) => Number(val) > 0, {
+        message: "Number of tickets must be greater than 0.",
+      }),
+      z.number().min(1, { message: "Number of tickets must be greater than 0." }),
+    ]),
+    name: z.string().min(1, { message: "Name cannot be empty." }),
+    ticketstart: z.string().min(1, { message: "Ticket start date cannot be empty." }),
+    ticketend: z.string().min(1, { message: "Ticket end date cannot be empty." }),
+    eventstart: z.string().min(1, { message: "Event start date cannot be empty." }),
+    eventend: z.string().min(1, { message: "Event end date cannot be empty." }),
+  })
+  .refine(
+    (data) => {
+      // Validate price based on selection
+      if (data.selected === "paid") {
+        const priceIsValid =
+          data.price !== undefined &&
+          ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
+            (typeof data.price === "number" && data.price > 0));
+
+        return priceIsValid;
+      }
+      return true; // Skip price validation for free selection
+    },
+    {
+      message: "Price must be greater than 0 for paid tickets.",
+      path: ["price"], // Specify the path for the error
+    }
+  );
+
 // Combine multiple ticket type schemas into one using `z.union`
-const TicketTypeSchema = z.union([FestivalTypeSchema, RsvpTypeSchema, PrivateTypeSchema, PasswordedTypeSchema]);
+const TicketTypeSchema = z.union([FestivalTypeSchema, RsvpTypeSchema, PrivateTypeSchema, PasswordedTypeSchema, CustomTypeSchema]);
 
 // Define the array of tickets
 const TicketsTypesArraySchema = z.array(TicketTypeSchema);
@@ -752,7 +813,27 @@ function Editevent() {
     allPswrd: [],
   };
 
-  const AllDefinedTicketTypesArray: TicketType[] = [festivalTicket, rsvpTicket, privateTicket, pswrdTicket];
+  const customTicket: CustomType = {
+    type: "Custom Ticketing",
+    typeDropDown: false,
+    selected: "",
+    selectedDropDown: false,
+    price: "",
+    no: "",
+    name: "",
+    ticketstart: "",
+    ticketend: "",
+    isTicketStartPickerOpen: false,
+    isTicketEndPickerOpen: false,
+    eventstart: "",
+    eventend: "",
+    isStartEventPickerOpen: false,
+    isEndEventPickerOpen: false,
+    options: [],
+    optionDropDown: false,
+  };
+
+  const AllDefinedTicketTypesArray: TicketType[] = [festivalTicket, rsvpTicket, privateTicket, pswrdTicket, customTicket];
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([festivalTicket]); // Default ticket will be festival
 
   const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(EventData?.category[0] || null);
@@ -996,6 +1077,7 @@ function Editevent() {
     "RSVP Ticketing",
     "Private Event Ticketing",
     "Passworded / Discounted Voucher Event Ticketing",
+    "Custom Ticketing",
   ];
 
   const [galleryFiles, setGalleryFiles] = useState<GalleryFile[]>([]);
@@ -1441,6 +1523,31 @@ function Editevent() {
 
   const categorylabels = categoryTypes?.label;
 
+  // Hashing is here
+  const encryptionKey = "naitramV2SecretKey";
+  const encryptArray = (arrayOfStrings: string[], secretKey: string) => {
+    // Encrypt each string in the array and store the encrypted values in a new array
+    const encryptedArray = arrayOfStrings.map((item) => {
+      return CryptoJS.AES.encrypt(item, secretKey).toString(); // AES encryption
+    });
+    return encryptedArray;
+  };
+
+  //Decryption is here
+  const decryptArrayWithErrors = (encryptedArray: string[]) => {
+    return encryptedArray.map((encryptedString) => {
+      try {
+        const bytes = CryptoJS.AES.decrypt(encryptedString, encryptionKey);
+        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+        if (!decrypted) throw new Error("Decryption failed");
+        return decrypted;
+      } catch (error) {
+        ErrorToast("Decryption Failed");
+        return null; // Return null or handle as needed
+      }
+    });
+  };
+
   // Event Creating sending Dat through API
   async function EventCreation(values: z.infer<typeof formSchema>) {
     let isFormValid: boolean = true;
@@ -1561,7 +1668,8 @@ function Editevent() {
               whatsIncluded: ticket?.options,
               privateEventAdditionalFields: ticket?.emailmanual,
             }
-          : {
+          : ticket.type === "Passworded / Discounted Voucher Event"
+          ? {
               selectedEventTicketType: ticket?.type,
               ticketFreePaid: ticket?.selected,
               ticketName: ticket?.name,
@@ -1573,8 +1681,20 @@ function Editevent() {
               eventEndDT: ticket?.eventend,
               whatsIncluded: ticket?.options,
               privateEventAdditionalFields: ticket?.emailmanual,
-              passwordFields: [...(ticket?.pswrdmanual || []), ...(ticket?.autoGeneratedPswrd || [])],
+              passwordFields: encryptArray([...(ticket?.pswrdmanual || []), ...(ticket?.autoGeneratedPswrd || [])], encryptionKey),
               autoPasswordFields: [],
+            }
+          : {
+              selectedEventTicketType: ticket?.type,
+              ticketFreePaid: ticket?.selected,
+              ticketName: ticket?.name,
+              ticketPrice: ticket?.price,
+              noOfTickets: ticket?.no,
+              ticketStartDT: convertToUTC(ticket?.ticketstart),
+              ticketEndDT: ticket?.ticketend,
+              eventStartDT: ticket?.eventstart,
+              eventEndDT: ticket?.eventend,
+              whatsIncluded: ticket?.options,
             }
       );
 
@@ -1933,7 +2053,8 @@ function Editevent() {
               isCSVuploaded: false,
               allEmails: [],
             }
-          : {
+          : ticket?.selectedEventTicketType === "Passworded / Discounted Voucher Event"
+          ? {
               type: ticket?.selectedEventTicketType,
               typeDropDown: false,
               selected: ticket?.ticketFreePaid,
@@ -1964,10 +2085,35 @@ function Editevent() {
               isCSVuploaded: false,
               allEmails: [],
 
-              pswrdmanual: ticket?.passwordFields,
+              pswrdmanual: decryptArrayWithErrors(ticket?.passwordFields),
               manualPswrdCount: 0,
               autoGeneratedPswrd: [],
               allPswrd: [],
+            }
+          : {
+              type: ticket?.selectedEventTicketType,
+              typeDropDown: false,
+              selected: ticket?.ticketFreePaid,
+              selectedDropDown: false,
+              price: ticket?.ticketPrice,
+              no: ticket?.noOfTickets,
+              name: ticket?.ticketName,
+              ticketstart: ticket?.ticketStartDT,
+              ticketend: ticket?.ticketEndDT,
+              isTicketStartPickerOpen: false,
+              isTicketEndPickerOpen: false,
+              eventstart: ticket?.eventStartDT,
+              eventend: ticket?.eventEndDT,
+              isStartEventPickerOpen: false,
+              isEndEventPickerOpen: false,
+              options: (ticket?.whatsIncluded || []).map((ticket: any) => ({
+                ...ticket,
+                options: (ticket?.options || []).map((option: any) => ({
+                  ...option,
+                  checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
+                })),
+              })),
+              optionDropDown: false,
             }
       );
 
@@ -2122,9 +2268,9 @@ function Editevent() {
   }, []);
 
   //Send Ticket Object if the same type and index found in API Data
-  const findApiTicket = (ticketType: string): TicketType | undefined | any => {
+  const findApiTicket = (ticketType: string, ticketIndex: number): TicketType | undefined | any => {
     console.log("Rgsfhgsfhsgfhdfghs ==> ", ticketType);
-    const ticket = EventData?.tickets?.find((ticket: any) => ticket?.selectedEventTicketType === ticketType);
+    const ticket = EventData?.tickets?.find((ticket: any, i: number) => ticket?.selectedEventTicketType === ticketType && i === ticketIndex);
 
     if (ticketType == "Festivals / Multi-Day Tickets / Season Passes") {
       return {
@@ -2215,7 +2361,7 @@ function Editevent() {
         isCSVuploaded: false,
         allEmails: [],
       };
-    } else {
+    } else if (ticketType == "Passworded / Discounted Voucher Event") {
       return {
         type: ticket?.selectedEventTicketType,
         typeDropDown: false,
@@ -2252,6 +2398,32 @@ function Editevent() {
         autoGeneratedPswrd: [],
         allPswrd: [],
       };
+    } else {
+      return {
+        type: ticket?.selectedEventTicketType,
+        typeDropDown: false,
+        selected: ticket?.ticketFreePaid,
+        selectedDropDown: false,
+        price: ticket?.ticketPrice,
+        no: ticket?.noOfTickets,
+        name: ticket?.ticketName,
+        ticketstart: ticket?.ticketStartDT,
+        ticketend: ticket?.ticketEndDT,
+        isTicketStartPickerOpen: false,
+        isTicketEndPickerOpen: false,
+        eventstart: ticket?.eventStartDT,
+        eventend: ticket?.eventEndDT,
+        isStartEventPickerOpen: false,
+        isEndEventPickerOpen: false,
+        options: (ticket?.whatsIncluded || []).map((ticket: any) => ({
+          ...ticket,
+          options: (ticket?.options || []).map((option: any) => ({
+            ...option,
+            checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
+          })),
+        })),
+        optionDropDown: false,
+      };
     }
   };
 
@@ -2283,7 +2455,7 @@ function Editevent() {
 
       if (existingTicket) {
         //get api ticket
-        const updatedTicket = findApiTicket(ticketType);
+        const updatedTicket = findApiTicket(ticketType, ticketIndex);
 
         //replace in the state
         updatedTickets = prevTickets.map((obj, idx) => {
@@ -4997,7 +5169,7 @@ function Editevent() {
                             </div>
                           )}
                         </div>
-                      ) : (
+                      ) : ticket.type === "Passworded / Discounted Voucher Event" ? (
                         <div key={index} className="mb-[24px]">
                           {/* Gradient Line to seperate Tickets from each other */}
                           {index !== 0 && (
@@ -5920,6 +6092,645 @@ function Editevent() {
                             </div>
                           )}
                         </div>
+                      ) : (
+                        <div key={index} className="mb-[24px]">
+                          {/* Gradient Line to seperate Tickets from each other */}
+                          {index !== 0 && (
+                            <div
+                              className="h-[3px] w-full relative mb-[28px] mt-[4px]"
+                              style={{
+                                background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                              }}
+                            >
+                              <div
+                                className="absolute top-0 left-0 h-full"
+                                style={{
+                                  width: "30%", // make the edges thinner
+                                  background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                  filter: "blur(8px)", // blur the edges to make them thin and faded
+                                }}
+                              ></div>
+                              <div
+                                className="absolute top-0 right-0 h-full"
+                                style={{
+                                  width: "30%", // same width for both edges
+                                  background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                  filter: "blur(8px)", // blur the edges to make them thin and faded
+                                }}
+                              ></div>
+                            </div>
+                          )}
+
+                          {/* Event Ticket Type and Event Paid/Free fields */}
+                          <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
+                            <FormField
+                              control={form.control}
+                              name={`tickets.${index}.type`}
+                              render={({ field }) => (
+                                <FormItem
+                                  className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                        pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                        file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                        disabled:opacity-50"
+                                >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
+                                    <div className="flex flex-col">
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
+                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Custom Ticketing</p>
+                                    </div>
+                                    <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                  </div>
+
+                                  {ticket.typeDropDown && (
+                                    <>
+                                      <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                                        {ticketTypesOptions?.map((T_type: string, typeIndex: number) => (
+                                          <div
+                                            key={typeIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketTypeSelection(T_type, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket.type === T_type ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {T_type}
+                                              </p>
+                                            </div>
+                                            {ticket.type === T_type && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </>
+                                  )}
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name={`tickets.${index}.selected`}
+                              render={({ field }) => (
+                                <FormItem
+                                  className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate 
+                        pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent 
+                        file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
+                        disabled:opacity-50"
+                                >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
+                                    <div className="flex flex-col">
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
+                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
+                                        {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
+                                      </p>
+                                    </div>
+                                    <Image src={ticket?.selectedDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                                  </div>
+
+                                  {ticket?.selectedDropDown && (
+                                    <>
+                                      <div className="h-fit overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
+                                        {["Free", "Paid"].map((option: any, optionIndex: number) => (
+                                          <div
+                                            key={optionIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketSelectionOption(option, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket?.selected === option ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {option}
+                                              </p>
+                                            </div>
+                                            {ticket?.selected === option && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </>
+                                  )}
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          {/* Ticket Type Name */}
+                          <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
+                            <FormField
+                              control={form.control}
+                              name={`tickets.${index}.name`}
+                              render={({ field }) => (
+                                <FormItem className="relative w-full space-y-0">
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
+                                    Event Ticket Name
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      placeholder="Enter ticket name"
+                                      className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
+                                      {...field}
+                                      value={ticket.name}
+                                      onChange={(e) => {
+                                        // setEventname(e.target.value);
+                                        handleTicketNameChange(e.target.value, index);
+                                        field.onChange(e);
+                                      }}
+                                    />
+                                  </FormControl>
+
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          {/* Ticket Price And Number of Tickets */}
+                          <div className="flex items-start gap-[24px] w-full common-container">
+                            {/* price field */}
+                            <FormField
+                              control={form.control}
+                              name={`tickets.${index}.price`}
+                              render={({ field }) => (
+                                <FormItem className="relative w-full space-y-0 input-custom-container">
+                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                    Event Ticket Price (£)
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      disabled={ticket.selected === "Free" ? true : false}
+                                      type="number"
+                                      onWheel={(e: any) => e.target.blur()}
+                                      placeholder="Enter Price"
+                                      className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                      {...field}
+                                      value={ticket.price}
+                                      onChange={(e) => {
+                                        const value = e.target.value;
+
+                                        if (value.startsWith("-")) {
+                                          e.target.value = value.replace("-", ""); // Remove negative sign
+                                        }
+
+                                        if (!/^\d*\.?\d*$/.test(value)) {
+                                          e.target.value = value.replace(/[^\d.]/g, "");
+                                        }
+
+                                        // handleInputChange(index, "price", parseFloat(e.target.value));
+                                        field.onChange(e);
+                                        handlTicketPriceChange(value, index);
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            {/* Numbers of Tickets */}
+                            <FormField
+                              control={form.control}
+                              name={`tickets.${index}.no`}
+                              render={({ field }) => (
+                                <FormItem className="relative w-full space-y-0 input-custom-container">
+                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                                    Event Number of Tickets
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      type="number"
+                                      placeholder="Enter No. of Tickets"
+                                      className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                      {...field}
+                                      value={ticket.no}
+                                      onWheel={(e: any) => e.target.blur()}
+                                      onChange={(e) => {
+                                        // handleInputChange(index, "no", parseInt(e.target.value, 10));
+                                        field.onChange(e);
+                                        handleNoTickets(e.target.value, index);
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          {/* Ticket start Date and Ticket and Dates */}
+                          <div className="flex items-start gap-[24px] w-full common-container mt-[-4px] mb-[24px]">
+                            {/* Ticket Start */}
+                            <div className="w-full">
+                              <ThemeProvider theme={themeMui}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
+                                    <FormField
+                                      control={form.control}
+                                      name={`tickets.${index}.ticketstart`}
+                                      render={({ field }) => {
+                                        const currentDateTime = dayjs();
+                                        return (
+                                          <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
+                                              Ticket Start Date & Time
+                                            </FormLabel>
+                                            <FormControl>
+                                              {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
+                                              <div className="w-full" onClick={() => toggleTicketStartTimePicker(index)}>
+                                                {" "}
+                                                {/* Attach click event here */}
+                                                <StyledDateTimePicker
+                                                  // Control the open state with local state
+                                                  referenceDate={currentDateTime}
+                                                  formatDensity="spacious"
+                                                  value={ticket.ticketstart ? dayjs(ticket.ticketstart) : null}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
+                                                  autoOk={false}
+                                                  onChange={(e: any) => {
+                                                    if (e && e.isValid()) {
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      setTheTicketStartValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
+                                                      //setIsPickerOpen(false); // Close the picker after selection
+                                                      toggleTicketStartTimePicker(index);
+                                                    }
+                                                  }}
+                                                  disablePast
+                                                  slots={{
+                                                    openPickerIcon: () => (
+                                                      <CalendarTodayIcon
+                                                        style={{
+                                                          color: "#5e5e5e",
+                                                          fontSize: "15px",
+                                                          position: "absolute",
+                                                          top: "-17px",
+                                                          right: "5px",
+                                                        }}
+                                                      />
+                                                    ),
+                                                  }}
+                                                  slotProps={{
+                                                    tabs: { hidden: false },
+                                                    toolbar: {
+                                                      toolbarFormat: "YYYY",
+                                                      hidden: false,
+                                                    },
+                                                    calendarHeader: {
+                                                      sx: { color: "white" },
+                                                    },
+                                                    textField: {
+                                                      inputProps: {
+                                                        readOnly: true,
+                                                      },
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                    },
+                                                  }}
+                                                />
+                                              </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        );
+                                      }}
+                                    />
+                                  </DemoContainer>
+                                </LocalizationProvider>
+                              </ThemeProvider>
+                            </div>
+
+                            {/* Ticket End */}
+                            <div className="w-full">
+                              <ThemeProvider theme={themeMui}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
+                                    <FormField
+                                      control={form.control}
+                                      name={`tickets.${index}.ticketend`}
+                                      render={({ field }) => {
+                                        let currentDateTime = dayjs(ticket?.ticketstart || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
+                                        // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
+
+                                        // Default to the current time if the adjusted start time has passed
+                                        // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+
+                                        return (
+                                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                              Ticket End Date & Time
+                                            </FormLabel>
+                                            <FormControl>
+                                              <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
+                                                {/* <div className=" w-full" > */}
+
+                                                <StyledDateTimePicker
+                                                  // value={validStartTime}
+                                                  value={ticket.ticketend ? dayjs(ticket.ticketend) : null}
+                                                  formatDensity="spacious"
+                                                  // referenceDate={referenceTicketDate}
+                                                  referenceDate={currentDateTime}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
+                                                  onChange={(e: any) => {
+                                                    if (e && e.isValid()) {
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      setTheTicketEndValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
+                                                      // setIsEndDatePickerOpen(false);
+                                                      toggleTicketEndTimePicker(index);
+                                                    }
+                                                  }}
+                                                  //  label="Event End Date & Time"
+                                                  disablePast
+                                                  // minDate={currentDateTime}
+                                                  minDateTime={currentDateTime}
+                                                  slots={{
+                                                    openPickerIcon: () => (
+                                                      <CalendarTodayIcon
+                                                        style={{
+                                                          color: "#5e5e5e",
+                                                          fontSize: "15px",
+                                                          position: "absolute",
+                                                          top: "-17px",
+                                                          right: "5px",
+                                                        }}
+                                                      />
+                                                    ),
+                                                  }}
+                                                  slotProps={{
+                                                    tabs: {
+                                                      hidden: true,
+                                                    },
+                                                    toolbar: {
+                                                      toolbarFormat: "YYYY",
+                                                      hidden: false,
+                                                    },
+                                                    calendarHeader: {
+                                                      sx: { color: "white" },
+                                                    },
+                                                    textField: {
+                                                      inputProps: {
+                                                        readOnly: true,
+                                                      },
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA ",
+                                                    },
+                                                  }}
+                                                />
+                                              </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        );
+                                      }}
+                                    />
+                                  </DemoContainer>
+                                </LocalizationProvider>
+                              </ThemeProvider>
+                            </div>
+                          </div>
+
+                          {/* Event Start Date and Event End Date */}
+                          <div className="flex items-start gap-[24px] w-full common-container mt-[-9px] mb-[24px]">
+                            {/* Event Start */}
+                            <div className="w-full">
+                              <ThemeProvider theme={themeMui}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
+                                    <FormField
+                                      control={form.control}
+                                      name={`tickets.${index}.eventstart`}
+                                      render={({ field }) => {
+                                        let currentDateTime = dayjs(ticket?.ticketstart || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
+                                        // const minStartTime = dayjs(TicketEndDate || new Date());
+
+                                        // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
+
+                                        // const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
+
+                                        // const referenceEventDate = validStartTime.add(10, "minute");
+
+                                        return (
+                                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                              Event Start Date & Time
+                                            </FormLabel>
+                                            <FormControl>
+                                              <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
+                                                {/* <div className=" w-full"> */}
+
+                                                <StyledDateTimePicker
+                                                  //  value={validStartTime}
+                                                  value={ticket.eventstart ? dayjs(ticket.eventstart) : null}
+                                                  formatDensity="spacious"
+                                                  // referenceDate={referenceEventDate}
+                                                  referenceDate={currentDateTime}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
+                                                  onChange={(e: any) => {
+                                                    if (e && e.isValid()) {
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      // setEventStartTime(formattedDate);
+                                                      toggleStartEventValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
+                                                      // setIsStartEventPickerOpen(false);
+                                                      toggleStartEventTimePicker(index);
+                                                    }
+                                                  }}
+                                                  //  label="Event End Date & Time"
+                                                  // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                                  disablePast
+                                                  minDateTime={currentDateTime}
+                                                  slots={{
+                                                    openPickerIcon: () => (
+                                                      <CalendarTodayIcon
+                                                        style={{
+                                                          color: "#5e5e5e",
+                                                          fontSize: "15px",
+                                                          position: "absolute",
+                                                          top: "-17px",
+                                                          right: "5px",
+                                                        }}
+                                                      />
+                                                    ),
+                                                  }}
+                                                  slotProps={{
+                                                    tabs: {
+                                                      hidden: false,
+                                                    },
+                                                    toolbar: {
+                                                      toolbarFormat: "YYYY",
+                                                      hidden: false,
+                                                    },
+                                                    calendarHeader: {
+                                                      sx: { color: "white" },
+                                                    },
+                                                    textField: {
+                                                      inputProps: {
+                                                        readOnly: true,
+                                                      },
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                    },
+                                                  }}
+                                                />
+                                              </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        );
+                                      }}
+                                    />
+                                  </DemoContainer>
+                                </LocalizationProvider>
+                              </ThemeProvider>
+                            </div>
+
+                            {/* Event Ends */}
+                            <div className="w-full">
+                              <ThemeProvider theme={themeMui}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
+                                    <FormField
+                                      control={form.control}
+                                      name={`tickets.${index}.eventend`}
+                                      render={({ field }) => {
+                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
+                                        // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
+
+                                        // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+
+                                        return (
+                                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                              Event End Date & Time
+                                            </FormLabel>
+                                            <FormControl>
+                                              <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
+                                                <StyledDateTimePicker
+                                                  // referenceDate={defaultEndTime}
+                                                  referenceDate={currentDateTime}
+                                                  value={ticket.eventend ? dayjs(ticket.eventend) : null}
+                                                  formatDensity="spacious"
+                                                  onKeyDown={(e: any) => e.preventDefault()}
+                                                  onChange={(e: any) => {
+                                                    if (e && e.isValid()) {
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      toggleEndEventValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
+                                                      console.log("my ened time", formattedDate);
+                                                      // setIsEndEventPickerOpen(false);
+                                                      toggleEndEventTimePicker(index);
+                                                      console.log("my ened time", formattedDate);
+                                                    }
+                                                  }}
+                                                  disablePast
+                                                  minDateTime={currentDateTime}
+                                                  //  label="Event End Date & Time"
+                                                  // minDateTime={dayjs("2024-10-15T08:30")}
+                                                  // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                                  slots={{
+                                                    openPickerIcon: () => (
+                                                      <CalendarTodayIcon
+                                                        style={{
+                                                          color: "#5e5e5e",
+                                                          fontSize: "15px",
+                                                          position: "absolute",
+                                                          top: "-17px",
+                                                          right: "5px",
+                                                        }}
+                                                      />
+                                                    ),
+                                                  }}
+                                                  slotProps={{
+                                                    tabs: {
+                                                      hidden: false,
+                                                    },
+                                                    toolbar: {
+                                                      toolbarFormat: "YYYY",
+                                                      hidden: false,
+                                                    },
+                                                    calendarHeader: {
+                                                      sx: { color: "white" },
+                                                    },
+                                                    textField: {
+                                                      inputProps: {
+                                                        readOnly: true,
+                                                      },
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                    },
+                                                  }}
+                                                />
+                                              </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        );
+                                      }}
+                                    />
+                                  </DemoContainer>
+                                </LocalizationProvider>
+                              </ThemeProvider>
+                            </div>
+                          </div>
+
+                          {/* What's Included Inputs */}
+                          <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
+                            <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
+                                <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                                <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
+                              </div>
+                              {ticket.optionDropDown && (
+                                <div className="grid-container">
+                                  {options?.map((option) => (
+                                    <div
+                                      key={option.id}
+                                      className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
+                                      onClick={() => handleOptionToggle(index, option)}
+                                    >
+                                      <div className="flex items-center gap-[10px]">
+                                        <Image
+                                          src={option?.image}
+                                          width={16}
+                                          height={16}
+                                          alt="img"
+                                          className={ticket?.options?.some((o: any) => o?.id === option?.id) ? "filtergreen" : ""}
+                                        />
+                                        <p
+                                          className={`text-[16px] font-normal items-center ${
+                                            ticket?.options?.some((o: any) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                          }`}
+                                        >
+                                          {option.label}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  ))}
+                                  <div className="column-separator"></div> <div className="column-separator"></div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Delete Ticket Type */}
+                          {index !== 0 && (
+                            <div className="flex justify-end items-center mt-[29px] ticket-btn">
+                              <Button
+                                className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleDeleteTicketType(index);
+                                }}
+                              >
+                                <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
+                                Delete Ticket Type
+                              </Button>
+                            </div>
+                          )}
+                        </div>
                       )
                     )}
 
@@ -6191,7 +7002,7 @@ function Editevent() {
                       disabled={!isCategorySelected}
                       className=" flex  justify-center items-center font-bold py-[12px] px-[68px] rounded-[200px]  font-extrabold h-[52px] edit-btn"
                     >
-                      Submit
+                      Update
                     </Button>
                   </div>
                 </div>

@@ -39,8 +39,8 @@ const Hero = () => {
   const placeholderText = isMobile
     ? "Search by Ticket ID Num..."
     : isMobilemd
-      ? "Search by Ticket ID Number / Tran..."
-      : "Search by Ticket ID Number / Transaction ID";
+    ? "Search by Ticket ID Number / Tran..."
+    : "Search by Ticket ID Number / Transaction ID";
 
   const router = useRouter();
   const [isClaimOpen, setIsClaimOpen] = useState(false);
@@ -51,11 +51,6 @@ const Hero = () => {
   const [loader, setLoader] = useState(false);
   const [ticketid, setTicketId] = useState<any>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    console.log("Opening modal");
-    setIsModalOpen(true);
-  };
 
   const handleCloseModal = () => {
     console.log("Closing modal");
@@ -137,23 +132,6 @@ const Hero = () => {
           </div>
           <Reveal y={100} width="100%">
             <div className="flex flex-col md:flex-row gap-[12px] w-full md:w-fit md:mx-auto lg:mx-0">
-              <Button
-                onClick={handleOpenModal}
-                variant="secondary"
-                className="p-[12px] font-extrabold text-sm"
-              >
-                modal
-              </Button>
-              <BuyModal
-                isOpen={isModalOpen}
-                onClose={handleCloseModal}
-                onNext={handleNextStep}
-                setTicketPrice={(price: number) => console.log("Price selected:", price)}
-                setTicketType={(type: string) => console.log("Type selected:", type)}
-                setTicketIndex={(index: number) =>
-                  console.log("Ticket index selected:", index)
-                }
-              />
               <Button
                 onClick={() => {
                   router.push("/about");
