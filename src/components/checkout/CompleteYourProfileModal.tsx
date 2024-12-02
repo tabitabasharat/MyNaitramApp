@@ -108,7 +108,7 @@ const CompleteYourProfileModal = ({
   // Example usage
   const result = processPhoneNumber("+1234567890123");
   if (result.success) {
-    console.log("Valid phone number:", result.number); // Use the number as needed
+    console.log("Valid phone number:", result.number);
   } else {
     console.error("Validation errors:", result.errors);
   }
@@ -148,24 +148,6 @@ const CompleteYourProfileModal = ({
             <FormMessage />
           </FormItem>
           <div className="flex flex-col md:flex-row gap-4 w-full">
-            {/* <FormItem className="relative w-full">
-              <FormLabel className="text-[11px] text-[#8F8F8F] absolute left-3 top-5">
-                EMAIL
-              </FormLabel>
-              <Envelope
-                className="absolute right-3 translate-y-[1.2rem]"
-                size={20}
-              />
-              <FormControl>
-                <Input
-                  disabled
-                  placeholder={email}
-                  className="pt-10 pb-5 font-bold placeholder:font-normal"
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem> */}
             <FormItem className="relative w-full  ">
               <FormLabel className="text-[11px] text-[#8F8F8F] absolute left-3 top-5">
                 EMAIL
@@ -186,51 +168,6 @@ const CompleteYourProfileModal = ({
 
               <FormMessage />
             </FormItem>
-
-            {/* <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem className="relative w-full">
-                  <FormLabel className="text-[11px] text-[#8F8F8F] absolute left-3 top-5">
-                    PHONE NUMBER
-                  </FormLabel>
-                  <Phone
-                    className="absolute right-3 translate-y-[1.2rem]"
-                    size={20}
-                  />
-                  <FormControl>
-                    <Input
-                      type="number" 
-                      placeholder="+00 000-000"
-                      className="pt-10 pb-5 font-bold placeholder:font-normal"
-                      {...field}
-                      onWheel={(e: any) => e.target.blur()}
-
-                      // onChange={(event) => {
-                      //   const value = event.target.value;
-                      //   field.onChange(value ? +value : undefined);
-                      // }}
-
-                      // onChange={(event) => {
-                      //   const value = event.target.value;
-                      //   field.onChange(value); // Keep it as a string
-                      // }}
-                      onChange={(event) => {
-                        // Get the value and replace non-numeric characters
-                        const value = event.target.value.replace(/[^0-9]/g, '');
-                        field.onChange(value); // Update form state with the cleaned value
-                      }}
-                     
-                      // onChange={(event) => field.onChange(+event.target.value)}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-            
               <FormField
                 control={form.control}
                 name="phone"

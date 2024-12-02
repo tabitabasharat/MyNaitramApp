@@ -682,6 +682,59 @@ body {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+.makeAnOffer-gradient {
+  position: relative;
+  border-radius: 9px; /* This controls the rounding of the corners */
+}
+.makeAnOffer-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9px !important; /* Inherit the border-radius from the parent */
+  padding: 2px; /* Adjust this value to control the thickness of the border */
+  background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.BuyNowMarketPlace-gradient {
+  position: relative;
+  /* height: 512px; */
+  border-radius: 8px; /* Rounded corners */
+  background: linear-gradient(135deg, #13FF7A 0.2%, #002B12 50.2%, #13FF7A 100.2%); /* Gradient border */
+  padding: 1px; /* Thickness of border */
+  overflow: hidden; /* Ensures content stays within rounded corners */
+}
+
+.BuyNowMarketPlace-gradient > * {
+  position: relative;
+ height: 100%;
+  border-radius: 8px; /* Match parent's radius */
+  background: linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%); /* Inner dark gradient */
+  z-index: 1; /* Ensure content stays above the gradient */
+}
+.BuyNowInputFieldMP {
+  position: relative;
+  padding: 20px 12px;
+  border-radius: 8px;
+  background: linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%);
+}
+
+.BuyNowInputFieldMP::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  border-image-source: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
+  border-image-slice: 1;
+  pointer-events: none;
+  z-index: -1;
+}
+
 
 .gradient-chat {
   background: linear-gradient(
@@ -1040,4 +1093,49 @@ input[type="number"] {
   .chat-wid {
     width: 150px !important;
   }
+}
+
+
+.gradient-border-rounded-nft {
+  position: relative;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: 100px !important; /* This controls the rounding of the corners */
+}
+.gradient-border-rounded-nft::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 100px !important; /* Inherit the border-radius from the parent */
+  padding: 1px; /* Adjust this value to control the thickness of the border */
+  background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.custom-dropdown option:hover {
+  background-color: none !important;
+}
+
+.gradient-border-rounded-nft2 {
+  position: relative;
+  border-radius: 8px; /* Match the hover div border-radius */
+}
+
+.gradient-border-rounded-nft2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 8px; /* Same border-radius as the element */
+  padding: 1px; /* Adjust this value to control the thickness of the border */
+  background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none; /* Ensure it doesn't interfere with user interactions */
+  z-index: -1; /* Keep the gradient border behind the content */
+}
+
+.gradient-border-rounded-nft2:hover::before {
+  background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
 }

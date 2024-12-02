@@ -57,7 +57,7 @@ const NftOwner = () => {
             <h2 className="text-[24px] font-extrabold leading-[26.6px] md:text-[37px] md:leading-[48.6px] lg:text-[56px] lg:leading-[61.6px]">
               Animakid
             </h2>
-            <button className="bg-[#00D059] px-8 py-4 rounded-full text-[14px] font-extrabold leading-[19.6px] text-[#030303] Animkaid_Button hidden md:block">
+            <button className="bg-[#00D059] px-8 py-4 rounded-full text-[14px] font-extrabold leading-[19.6px] text-[#030303] Animkaid_Button hidden md:block hover:bg-opacity-[80%]">
               Go To Event
             </button>
           </div>
@@ -107,8 +107,31 @@ const NftOwner = () => {
               </div>
             </div>
           </div>
-          <div>
-            <img src="/Images/Nft_animakid_img/Icons.svg" alt="Event Icon" />
+          <div >
+            <div className="flex items-center max-sm:gap-[6px] gap-[12px]">
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/facboklogo.svg" alt="Event Icon" />
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/camer.svg" alt="camera-img"/>
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/twiterlogo.svg" alt="twitr-img"/>
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/linked-in.svg" alt="linkedin-img"/>
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/tiktok.svg" alt="tiktok-img"/>
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/instalogo.svg" alt="insta-img"/>
+            <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/youtube.svg" alt="youtube-img"/>
+            </div>
+            <div className="flex items-center justify-end gap-[10px] pr-[106px] mt-[100px] hidden md:flex">
+            <div className="flex items-center justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[376px]">
+  <input 
+    className="flex-1 bg-none border-none text-[16px] font-normal leading-5 text-[#BFBFBF] outline-none pr-10" 
+    type="text" 
+    placeholder="Search NFT"
+  />
+  <img src="/Images/Nft_animakid_img/serchicon.svg" className="w-5 h-5" />
+</div>
+            <div className="border border-[#292929] gradient-slate py-[19px] px-[16px] rounded-lg w-[143px] flex items-center justify-between ">
+              <h2 className="text-[16px] font-normal leading-5 text-[ #BFBFBF]">Filter</h2>
+              <img src="/Images/Nft_animakid_img/filtr.svg"/>
+
+            </div>
+            </div>
             <button className="bg-[#00D059] w-full py-4 rounded-full text-[14px] font-extrabold leading-[19.6px] text-[#030303] Animkaid_Button block md:hidden mt-4">
               Go To Event
             </button>
@@ -126,23 +149,23 @@ const NftOwner = () => {
             className="cursor-pointer relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] p-[30px_11.5px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden hover-gradient-border"
             style={{ width: "270px", height: "373px" }}
           >
-            {/* <div
-              className="absolute inset-0 rounded-[8px] pointer-events-none group-hover:border group-hover:border-transparent group-hover:border-[1px]"
-              style={{ borderImage: "linear-gradient(135deg, #13FF7A 0.2%, #002B12 50.2%, #13FF7A 100.2%) 1" }}
-            ></div> */}
+            
             <img src="/Images/Nft_animakid_img/Crads.svg" alt="Card" />
             <div className="px-[12px]">
               <h3 className="text-[18px] font-extrabold leading-[24px] text-left text-white">The Orbitians</h3>
               <div className="flex justify-between items-center mt-[20px]">
-                <div>
-                  <p className="text-[12px] font-normal leading-[24px] text-white">Price</p>
+                <div >
+                  <p className="text-[12px] font-bold leading-[24px] text-white">Price</p>
+                  <div className="flex items-center gap-[6px]">
+                  <img className="mb-[5px]" src="/Images/Nft_animakid_img/Price.svg" alt="Price Icon" />
                   <p className="flex items-center gap-[5px] text-[14px] font-bold leading-[24px] text-left text-[#00D059]">
-                    <img src="/Images/Nft_animakid_img/Price.svg" alt="Price Icon" />
+                  
                     0.25 ETH
                   </p>
+                  </div>
                 </div>
                 <div>
-                  <p className="text-[12px] font-normal leading-[24px] text-white">Highest Bid</p>
+                  <p className="text-[12px] font-bold  leading-[24px] text-white">Highest Bid</p>
                   <p className="text-[14px] font-bold leading-[24px] text-white">0.33 wETH</p>
                 </div>
               </div>

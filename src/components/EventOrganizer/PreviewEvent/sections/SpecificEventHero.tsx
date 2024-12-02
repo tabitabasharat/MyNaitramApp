@@ -349,13 +349,13 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
                       {/* <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
                       Evelyn and 348 others going
                     </h3> */}
-                      <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
+                      {/* <h3 className="lg:text-[20px] text-[16px] text-[#0FFF77] font-extrabold leading-[20px] text-center mt-[12px]">
                         {eventAttendy?.length > 0 && (
                           <>
                             {eventAttendy[0]?.fullname} and {eventAttendy?.length - 1} others going
                           </>
                         )}
-                      </h3>
+                      </h3> */}
                       <p className="text-[#BFBFBF] text-[12px] pt-[4px]">Tap to see the live activities</p>
 
                       <Button
