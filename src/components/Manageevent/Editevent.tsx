@@ -1578,6 +1578,7 @@ function Editevent() {
             }
       );
 
+      /*
       // set Dates for Event...!
       let eventStartingDate = "";
       let eventEndingDate = "";
@@ -1644,6 +1645,112 @@ function Editevent() {
         eventStartingDate = convertToUTC(eventMinDate.toString());
         ticketStartingDate = convertToUTC(ticketMinDate.toString());
       }
+      */
+
+      // ///// Getting minimum and Maximum Timiings for Event /////////////
+      console.log(ticketTypes, "this is ticket data");
+      const nonRsvpTickets = ticketTypes.filter((ticket: any) => ticket.type !== "RSVP Ticketing");
+
+      let timings: any = {
+        ticketStartDate: "",
+        ticketEndDate: "",
+        startTime: "",
+        endTime: "",
+      };
+
+      if (nonRsvpTickets?.length !== 0) {
+        let myTickets = nonRsvpTickets;
+        const result = myTickets.reduce(
+          (acc: any, ticket: any) => {
+            if (new Date(ticket.eventstart) < new Date(acc.minEventStartDT.eventstart)) {
+              acc.minEventStartDT = ticket;
+            }
+            if (new Date(ticket.ticketstart) < new Date(acc.minTicketStartDT.ticketstart)) {
+              acc.minTicketStartDT = ticket;
+            }
+            if (new Date(ticket.eventend) > new Date(acc.maxEventEndDT.eventend)) {
+              acc.maxEventEndDT = ticket;
+            }
+            if (new Date(ticket.ticketend) > new Date(acc.maxTicketEndDT.ticketend)) {
+              acc.maxTicketEndDT = ticket;
+            }
+            return acc;
+          },
+          {
+            minEventStartDT: myTickets[0],
+            minTicketStartDT: myTickets[0],
+            maxEventEndDT: myTickets[0],
+            maxTicketEndDT: myTickets[0],
+          }
+        );
+        console.log("this is result", result);
+        timings = {
+          ticketStartDate: result.minTicketStartDT?.ticketstart || "",
+          ticketEndDate: result.maxTicketEndDT?.ticketend || "",
+          startTime: result.minEventStartDT?.eventstart || "",
+          endTime: result.maxEventEndDT?.eventend || "",
+        };
+      } else {
+        const rsvpTickets = ticketTypes.filter((ticket: any) => ticket.type == "RSVP Ticketing");
+        console.log(rsvpTickets, "rsvp Tickets--");
+        let myTickets = rsvpTickets;
+        const ticketWithMaxRsvpDeadline = myTickets.reduce((maxTicket: any, currentTicket: any) => {
+          return new Date(currentTicket.deadline) > new Date(maxTicket.deadline) ? currentTicket : maxTicket;
+        }, myTickets[0]);
+        // console.log(
+        //   'Ticket with max rsvpDeadline:',
+        //   ticketWithMaxRsvpDeadline?.rsvpDeadline,
+        // );
+        timings = {
+          ticketStartDate: `${new Date()}`,
+          ticketEndDate: ticketWithMaxRsvpDeadline?.deadline,
+          startTime: `${new Date()}`,
+          endTime: ticketWithMaxRsvpDeadline?.deadline,
+        };
+      }
+
+      if (ticketTypes.length !== 0 && nonRsvpTickets?.length !== 0) {
+        const getMaxEventEndDateTime = (tickets: any) => {
+          return tickets.reduce((maxDate: Date | null, ticket: any) => {
+            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+              ticket.eventdates.forEach((festivalDate: any) => {
+                const eventEndDateTime = new Date(festivalDate.endDate);
+                if (!maxDate || eventEndDateTime > maxDate) {
+                  maxDate = eventEndDateTime;
+                }
+              });
+            }
+            return maxDate;
+          }, null);
+        };
+        const getMinEventStartDateTime = (tickets: any) => {
+          return tickets.reduce((minDate: Date | null, ticket: any) => {
+            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+              ticket.eventdates.forEach((festivalDate: any) => {
+                const eventStartDateTime = new Date(festivalDate.startDate);
+                if (!minDate || eventStartDateTime < minDate) {
+                  minDate = eventStartDateTime;
+                }
+              });
+            }
+            return minDate;
+          }, null);
+        };
+        const maxEventEndDateTime = getMaxEventEndDateTime(ticketTypes);
+        const minEventStartTime = getMinEventStartDateTime(ticketTypes);
+
+        console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
+
+        if (maxEventEndDateTime !== null && minEventStartTime !== null) {
+          timings = {
+            ...timings,
+            endTime: timings.endTime > maxEventEndDateTime.toISOString() ? timings.endTime : maxEventEndDateTime.toISOString(),
+            startTime: new Date(timings.startTime) < new Date(minEventStartTime) ? timings.startTime : minEventStartTime.toISOString(),
+          };
+        }
+      }
+
+      ////////////////////////////////////////////////////////////////////
 
       setLoader(true);
       const categorylabels = categoryTypes;
@@ -1675,10 +1782,10 @@ function Editevent() {
           linkedinUrl: linkedinUrl || EventData?.linkedinUrl || "",
           eventmedia: updatedEventMedia || EventData?.eventmedia || "",
           stopBy: false,
-          ticketStartDate: ticketStartingDate,
-          ticketEndDate: ticketEndingDate,
-          startTime: eventStartingDate,
-          endTime: eventEndingDate,
+          ticketStartDate: convertToUTC(timings?.ticketStartDate),
+          ticketEndDate: convertToUTC(timings?.ticketEndDate),
+          startTime: convertToUTC(timings?.startTime),
+          endTime: convertToUTC(timings?.endTime),
         };
 
         console.log("This is data here =====> ", data);
@@ -3336,7 +3443,7 @@ function Editevent() {
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
-                                                  open={ticket.isTicketStartPickerOpen} // Control the open state with local state
+                                                  //open={ticket.isTicketStartPickerOpen} // Control the open state with local state
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
                                                   value={ticket.ticketstart ? dayjs(ticket.ticketstart) : null}
@@ -3402,7 +3509,7 @@ function Editevent() {
                                       name={`tickets.${index}.ticketend`}
                                       render={({ field }) => {
                                         let currentDateTime = dayjs(ticket?.ticketstart || new Date());
-                                        currentDateTime = currentDateTime.add(5, "minute");
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
 
                                         // Default to the current time if the adjusted start time has passed
@@ -3418,12 +3525,12 @@ function Editevent() {
                                                 {/* <div className=" w-full" > */}
 
                                                 <StyledDateTimePicker
-                                                  open={ticket.isTicketEndPickerOpen}
+                                                  //open={ticket.isTicketEndPickerOpen}
                                                   // value={validStartTime}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceTicketDate}
                                                   referenceDate={currentDateTime}
-                                                  minDate={currentDateTime}
+                                                  // minDate={currentDateTime}
                                                   value={ticket.ticketend ? dayjs(ticket.ticketend) : null}
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
@@ -3436,7 +3543,8 @@ function Editevent() {
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
-                                                  // disablePast
+                                                  disablePast
+                                                  minDateTime={currentDateTime}
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
@@ -3498,7 +3606,7 @@ function Editevent() {
                                                 ? ticket?.ticketstart || new Date()
                                                 : ticket?.eventdates[eventIndex - 1]?.endDate || new Date()
                                             );
-                                            currentDateTime = currentDateTime.add(5, "minute");
+                                            currentDateTime = currentDateTime.add(10, "minute");
                                             // const minStartTime = dayjs(TicketEndDate || new Date());
 
                                             // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
@@ -3517,12 +3625,12 @@ function Editevent() {
                                                     {/* <div className=" w-full"> */}
 
                                                     <StyledDateTimePicker
-                                                      open={event.isStartEventPickerOpen}
+                                                      //open={event.isStartEventPickerOpen}
                                                       //  value={validStartTime}
                                                       formatDensity="spacious"
                                                       // referenceDate={referenceEventDate}
                                                       referenceDate={currentDateTime}
-                                                      minDate={currentDateTime}
+                                                      // minDate={currentDateTime}
                                                       onKeyDown={(e: any) => e.preventDefault()}
                                                       autoOk={false}
                                                       value={event.startDate ? dayjs(event.startDate) : null}
@@ -3540,6 +3648,7 @@ function Editevent() {
                                                       // minDateTime={minStartTime}
                                                       // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                                       disablePast
+                                                      minDateTime={currentDateTime}
                                                       slots={{
                                                         openPickerIcon: () => (
                                                           <CalendarTodayIcon
@@ -3592,9 +3701,11 @@ function Editevent() {
                                           name={`tickets.${index}.eventdates.${eventIndex}.endDate`}
                                           render={({ field }) => {
                                             let currentDateTime = dayjs(
-                                              eventIndex === 0 ? ticket?.ticketend || new Date() : ticket?.event?.startDate || new Date()
+                                              eventIndex === 0
+                                                ? ticket?.ticketend || new Date()
+                                                : ticket?.eventdates[eventIndex]?.startDate || new Date()
                                             );
-                                            currentDateTime = currentDateTime.add(5, "minute");
+                                            currentDateTime = currentDateTime.add(10, "minute");
                                             // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
                                             // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
@@ -3607,10 +3718,10 @@ function Editevent() {
                                                 <FormControl>
                                                   <div className=" w-full" onClick={() => festivalEndEventPicker(index, eventIndex)}>
                                                     <StyledDateTimePicker
-                                                      open={event.isEndEventPickerOpen}
+                                                      //open={event.isEndEventPickerOpen}
                                                       // referenceDate={defaultEndTime}
                                                       referenceDate={currentDateTime}
-                                                      minDate={currentDateTime}
+                                                      // minDate={currentDateTime}
                                                       value={event.endDate ? dayjs(event.endDate) : null}
                                                       formatDensity="spacious"
                                                       onKeyDown={(e: any) => e.preventDefault()}
@@ -3627,6 +3738,7 @@ function Editevent() {
                                                         }
                                                       }}
                                                       disablePast
+                                                      minDateTime={currentDateTime}
                                                       //  label="Event End Date & Time"
                                                       // minDateTime={dayjs("2024-10-15T08:30")}
                                                       // minDateTime={adjustedEventStartTime}
@@ -3879,7 +3991,7 @@ function Editevent() {
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
-                                                  open={ticket.isDeadlinePickerOpen} // Control the open state with local state
+                                                  //open={ticket.isDeadlinePickerOpen} // Control the open state with local state
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
                                                   onKeyDown={(e: any) => e.preventDefault()}
@@ -4383,7 +4495,7 @@ function Editevent() {
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
-                                                  open={ticket.isTicketStartPickerOpen} // Control the open state with local state
+                                                  //open={ticket.isTicketStartPickerOpen} // Control the open state with local state
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
                                                   value={ticket.ticketstart ? dayjs(ticket.ticketstart) : null}
@@ -4449,7 +4561,7 @@ function Editevent() {
                                       name={`tickets.${index}.ticketend`}
                                       render={({ field }) => {
                                         let currentDateTime = dayjs(ticket?.ticketstart || new Date());
-                                        currentDateTime = currentDateTime.add(5, "minute");
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
 
                                         // Default to the current time if the adjusted start time has passed
@@ -4465,13 +4577,13 @@ function Editevent() {
                                                 {/* <div className=" w-full" > */}
 
                                                 <StyledDateTimePicker
-                                                  open={ticket.isTicketEndPickerOpen}
+                                                  //open={ticket.isTicketEndPickerOpen}
                                                   // value={validStartTime}
                                                   value={ticket.ticketend ? dayjs(ticket.ticketend) : null}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceTicketDate}
                                                   referenceDate={currentDateTime}
-                                                  minDate={currentDateTime}
+                                                  // minDate={currentDateTime}
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
@@ -4484,6 +4596,7 @@ function Editevent() {
                                                   }}
                                                   //  label="Event End Date & Time"
                                                   disablePast
+                                                  minDateTime={currentDateTime}
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
@@ -4539,7 +4652,7 @@ function Editevent() {
                                       name={`tickets.${index}.eventstart`}
                                       render={({ field }) => {
                                         let currentDateTime = dayjs(ticket?.ticketstart || new Date());
-                                        currentDateTime = currentDateTime.add(5, "minute");
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const minStartTime = dayjs(TicketEndDate || new Date());
 
                                         // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
@@ -4558,7 +4671,7 @@ function Editevent() {
                                                 {/* <div className=" w-full"> */}
 
                                                 <StyledDateTimePicker
-                                                  open={ticket.isStartEventPickerOpen}
+                                                  //open={ticket.isStartEventPickerOpen}
                                                   //  value={validStartTime}
                                                   value={ticket.eventstart ? dayjs(ticket.eventstart) : null}
                                                   formatDensity="spacious"
@@ -4579,6 +4692,7 @@ function Editevent() {
                                                   // minDateTime={minStartTime}
                                                   // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                                   disablePast
+                                                  minDateTime={currentDateTime}
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
@@ -4631,7 +4745,7 @@ function Editevent() {
                                       name={`tickets.${index}.eventend`}
                                       render={({ field }) => {
                                         let currentDateTime = dayjs(ticket?.ticketend || new Date());
-                                        currentDateTime = currentDateTime.add(5, "minute");
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
                                         // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
@@ -4644,7 +4758,7 @@ function Editevent() {
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
                                                 <StyledDateTimePicker
-                                                  open={ticket.isEndEventPickerOpen}
+                                                  //open={ticket.isEndEventPickerOpen}
                                                   // referenceDate={defaultEndTime}
                                                   referenceDate={currentDateTime}
                                                   value={ticket.eventend ? dayjs(ticket.eventend) : null}
@@ -4662,6 +4776,7 @@ function Editevent() {
                                                     }
                                                   }}
                                                   disablePast
+                                                  minDateTime={currentDateTime}
                                                   //  label="Event End Date & Time"
                                                   // minDateTime={dayjs("2024-10-15T08:30")}
                                                   // minDateTime={adjustedEventStartTime}
@@ -5134,7 +5249,7 @@ function Editevent() {
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
-                                                  open={ticket.isTicketStartPickerOpen} // Control the open state with local state
+                                                  //open={ticket.isTicketStartPickerOpen} // Control the open state with local state
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
                                                   onKeyDown={(e: any) => e.preventDefault()}
@@ -5200,7 +5315,7 @@ function Editevent() {
                                       name={`tickets.${index}.ticketend`}
                                       render={({ field }) => {
                                         let currentDateTime = dayjs(ticket?.ticketstart || new Date());
-                                        currentDateTime = currentDateTime.add(5, "minute");
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
 
                                         // Default to the current time if the adjusted start time has passed
@@ -5216,12 +5331,12 @@ function Editevent() {
                                                 {/* <div className=" w-full" > */}
 
                                                 <StyledDateTimePicker
-                                                  open={ticket.isTicketEndPickerOpen}
+                                                  //open={ticket.isTicketEndPickerOpen}
                                                   // value={validStartTime}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceTicketDate}
                                                   referenceDate={currentDateTime}
-                                                  minDate={currentDateTime}
+                                                  // minDate={currentDateTime}
                                                   value={ticket.ticketend ? dayjs(ticket.ticketend) : null}
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
@@ -5235,6 +5350,7 @@ function Editevent() {
                                                   }}
                                                   //  label="Event End Date & Time"
                                                   disablePast
+                                                  minDateTime={currentDateTime}
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
@@ -5290,7 +5406,7 @@ function Editevent() {
                                       name={`tickets.${index}.eventstart`}
                                       render={({ field }) => {
                                         let currentDateTime = dayjs(ticket?.ticketstart || new Date());
-                                        currentDateTime = currentDateTime.add(5, "minute");
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const minStartTime = dayjs(TicketEndDate || new Date());
 
                                         // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
@@ -5309,7 +5425,7 @@ function Editevent() {
                                                 {/* <div className=" w-full"> */}
 
                                                 <StyledDateTimePicker
-                                                  open={ticket.isStartEventPickerOpen}
+                                                  // open={ticket.isStartEventPickerOpen}
                                                   //  value={validStartTime}
                                                   value={ticket.eventstart ? dayjs(ticket.eventstart) : null}
                                                   formatDensity="spacious"
@@ -5325,6 +5441,8 @@ function Editevent() {
                                                       toggleStartEventTimePicker(index);
                                                     }
                                                   }}
+                                                  disablePast
+                                                  minDateTime={currentDateTime}
                                                   //  label="Event End Date & Time"
                                                   // minDateTime={minStartTime}
                                                   // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
@@ -5380,7 +5498,7 @@ function Editevent() {
                                       name={`tickets.${index}.eventend`}
                                       render={({ field }) => {
                                         let currentDateTime = dayjs(ticket?.ticketend || new Date());
-                                        currentDateTime = currentDateTime.add(5, "minute");
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
                                         // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
@@ -5393,7 +5511,7 @@ function Editevent() {
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
                                                 <StyledDateTimePicker
-                                                  open={ticket.isEndEventPickerOpen}
+                                                  // open={ticket.isEndEventPickerOpen}
                                                   // referenceDate={defaultEndTime}
                                                   referenceDate={currentDateTime}
                                                   value={ticket.eventend ? dayjs(ticket.eventend) : null}
@@ -5411,6 +5529,7 @@ function Editevent() {
                                                     }
                                                   }}
                                                   disablePast
+                                                  minDateTime={currentDateTime}
                                                   //  label="Event End Date & Time"
                                                   // minDateTime={dayjs("2024-10-15T08:30")}
                                                   // minDateTime={adjustedEventStartTime}
