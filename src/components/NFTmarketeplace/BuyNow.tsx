@@ -116,12 +116,12 @@ const customStyles = {
     background: state.isSelected
       ? 'transparent'
       : state.isFocused
-      ? '#00D059'
+      ? 'transparent'
       : 'transparent',
     borderRadius: '8px',
     '&:hover': {
-      background: '#00D059',
-      color: 'black',
+      background: 'transparent',
+      color: '#00D059',
     },
   }),
   indicatorSeparator: (base: any) => ({
