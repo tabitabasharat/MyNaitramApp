@@ -132,15 +132,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
             eventEndDT: ticket?.eventend,
             whatsIncluded: ticket?.options,
             festivalEventDates: ticket?.eventdates
-              ?.map(
-                (t: any, i: number) =>
-                  i !== 0
-                    ? {
-                        eventStartDateTime: t?.startDate,
-                        eventEndDateTime: t?.endDate,
-                      }
-                    : null // Return null for i === 0
-              )
+              ?.map((t: any, i: number) => ({ eventStartDateTime: t?.startDate, eventEndDateTime: t?.endDate }))
               ?.filter((item: any) => item !== null),
           }
         : ticket.type === "RSVP Ticketing"

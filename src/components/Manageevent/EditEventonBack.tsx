@@ -1650,7 +1650,10 @@ function EditeventOnBack() {
       const imagesOfGallery = await handleFileChangeapi();
       console.log("images of gallery", imagesOfGallery, EventMediaAlready);
 
-      const updatedEventMedia = [...EventMediaAlready, ...imagesOfGallery].filter((media) => !removedImages.includes(media));
+      let updatedEventMedia: any = [];
+      if (EventMediaAlready || imagesOfGallery) {
+        updatedEventMedia = [...(EventMediaAlready ?? []), ...(imagesOfGallery ?? [])]?.filter((media) => !removedImages.includes(media));
+      }
 
       console.log("images updated", updatedEventMedia);
 
