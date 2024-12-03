@@ -14,22 +14,12 @@ import greenpencile from "@/assets/Pencil.svg";
 import bgframe from "@/assets/Frame 1597878544.svg";
 import Link from "next/link";
 import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useSearchParams } from "next/navigation";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  SuccessToast,
-  ErrorToast,
-} from "../reusable-components/Toaster/Toaster";
+import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
 import { useForm } from "react-hook-form";
 import { UploadSimple } from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
@@ -55,7 +45,7 @@ import ScreenLoader from "../loader/Screenloader";
 import { createevent } from "@/lib/middleware/event";
 import api from "@/lib/apiInterceptor";
 import arrowdown from "@/assets/aboutdropdown.svg";
-import arrowup from "@/assets/Arrow up.svg"
+import arrowup from "@/assets/Arrow up.svg";
 import img1 from "../../assets/Handbag (1).svg";
 import img2 from "../../assets/Cake.svg";
 import img3 from "../../assets/Crown.svg";
@@ -78,57 +68,23 @@ type TicketType = {
 };
 const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
-  eventcategory: z
-    .string()
-    .min(1, { message: "Event category cannot be empty." }),
-  eventlocation: z
-    .string()
-    .min(1, { message: "Event location cannot be empty." }),
-  eventstartdate: z
-    .string()
-    .min(1, { message: "Event start date cannot be empty." }),
-  eventenddate: z
-    .string()
-    .min(1, { message: "Event end date cannot be empty." }),
+  eventcategory: z.string().min(1, { message: "Event category cannot be empty." }),
+  eventlocation: z.string().min(1, { message: "Event location cannot be empty." }),
+  eventstartdate: z.string().min(1, { message: "Event start date cannot be empty." }),
+  eventenddate: z.string().min(1, { message: "Event end date cannot be empty." }),
 
-  eventstarttime: z
-    .string()
-    .min(1, { message: "Event start time cannot be empty." }),
-  eventendtime: z
-    .string()
-    .min(1, { message: "Event end time cannot be empty." }),
+  eventstarttime: z.string().min(1, { message: "Event start time cannot be empty." }),
+  eventendtime: z.string().min(1, { message: "Event end time cannot be empty." }),
 
-  eventdescription: z
-    .string()
-    .min(1, { message: "Event description cannot be empty." }),
+  eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
 
-  compticketno: z
-    .string()
-    .min(1, { message: "Complimentary ticket number cannot be empty." }),
-  fburl: z
-    .string()
-    .url({ message: "Invalid Facebook URL." })
-    .min(1, { message: "Facebook URL cannot be empty." }),
-  instaurl: z
-    .string()
-    .url({ message: "Invalid Instagram URL." })
-    .min(1, { message: "Instagram URL cannot be empty." }),
-  youtubeurl: z
-    .string()
-    .url({ message: "Invalid YouTube URL." })
-    .min(1, { message: "YouTube URL cannot be empty." }),
-  tiktokurl: z
-    .string()
-    .url({ message: "Invalid TikTok URL." })
-    .min(1, { message: "TikTok URL cannot be empty." }),
-  linkedinurl: z
-    .string()
-    .url({ message: "Invalid Linkedin URL." })
-    .min(1, { message: "Linkedin URL cannot be empty." }),
-  telegramurl: z
-    .string()
-    .url({ message: "Invalid Twitter URL." })
-    .min(1, { message: "Twitter URL cannot be empty." }),
+  compticketno: z.string().min(1, { message: "Complimentary ticket number cannot be empty." }),
+  fburl: z.string().url({ message: "Invalid Facebook URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  instaurl: z.string().url({ message: "Invalid Instagram URL." }).min(1, { message: "Instagram URL cannot be empty." }),
+  youtubeurl: z.string().url({ message: "Invalid YouTube URL." }).min(1, { message: "YouTube URL cannot be empty." }),
+  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).min(1, { message: "TikTok URL cannot be empty." }),
+  linkedinurl: z.string().url({ message: "Invalid Linkedin URL." }).min(1, { message: "Linkedin URL cannot be empty." }),
+  telegramurl: z.string().url({ message: "Invalid Twitter URL." }).min(1, { message: "Twitter URL cannot be empty." }),
   eventmainimg: z.string().optional(),
 
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
@@ -225,9 +181,7 @@ function EditeventOnBack() {
   console.log("iside eventalldata", eventAllData);
   const router = useRouter();
 
-  const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
-    { type: "", price: 0, no: 0, options: [], dropdown: true },
-  ]);
+  const [ticketTypes, setTicketTypes] = useState<TicketType[]>([{ type: "", price: 0, no: 0, options: [], dropdown: true }]);
 
   const options: Option[] = [
     { id: 1, label: "Merchandise Stalls", image: img1 },
@@ -258,30 +212,21 @@ function EditeventOnBack() {
   }, [searchParams]);
 
   useEffect(() => {
-    const currentUrl: any =
-      typeof window !== "undefined" ? window.location.href : null;
+    const currentUrl: any = typeof window !== "undefined" ? window.location.href : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventId(value);
     console.log("my event id is", value);
     dispatch(getEventByEventId(value));
   }, []);
-  const EventData = useAppSelector(
-    (state) => state?.getEventByEventID?.eventIdEvents?.data
-  );
+  const EventData = useAppSelector((state) => state?.getEventByEventID?.eventIdEvents?.data);
 
   console.log("my event data ", EventData);
-  const imageUrl = EventData?.eventcoverimg.startsWith("http") || EventData?.eventcoverimg.startsWith("https")
-    ? Eventdata?.eventcoverimg
-    : bgframe;
+  const imageUrl = EventData?.eventcoverimg.startsWith("http") || EventData?.eventcoverimg.startsWith("https") ? Eventdata?.eventcoverimg : bgframe;
   console.log("image src is", imageUrl);
   const userLoading = useAppSelector((state) => state?.getEventByEventID);
   const handleDropdown = (index: number) => {
-    setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket
-      )
-    );
+    setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, dropdown: !ticket.dropdown } : ticket)));
   };
 
   const handleOptionToggle = (index: number, option: TicketTypeOption) => {
@@ -384,10 +329,7 @@ function EditeventOnBack() {
         filesArray.forEach((file: any) => formData.append("files", file));
 
         //  console.log("my res before", formData)
-        const res: any = await api.post(
-          `${API_URL}/upload/uploadMultiple`,
-          formData
-        );
+        const res: any = await api.post(`${API_URL}/upload/uploadMultiple`, formData);
 
         if (res?.status === 200) {
           setLoader(false);
@@ -409,29 +351,16 @@ function EditeventOnBack() {
     }
   };
 
-  const handleInputChange = (
-    index: number,
-    field: keyof TicketType,
-    value: string | number | TicketTypeOption[]
-  ) => {
-    setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index ? { ...ticket, [field]: value } : ticket
-      )
-    );
+  const handleInputChange = (index: number, field: keyof TicketType, value: string | number | TicketTypeOption[]) => {
+    setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, [field]: value } : ticket)));
   };
 
   const handleAddTicketType = (e: any) => {
     e.preventDefault();
-    setTicketTypes((prevTickets) => [
-      ...prevTickets,
-      { type: "", price: 0, no: 0, options: [], dropdown: true },
-    ]);
+    setTicketTypes((prevTickets) => [...prevTickets, { type: "", price: 0, no: 0, options: [], dropdown: true }]);
   };
 
-  const handleSingleFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     console.log("Selected Main cover img is:", file);
     const filename = file?.name;
@@ -444,15 +373,11 @@ function EditeventOnBack() {
       try {
         const formData = new FormData();
         formData.append("file", file);
-        const res: any = await api.post(
-          `${API_URL}/upload/uploadimage`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         if (res.status === 200) {
           setLoader(false);
@@ -472,9 +397,7 @@ function EditeventOnBack() {
       }
     }
   };
-  const handleCoverSingleFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleCoverSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     console.log("Selected  cover img is:", file);
     const filename = file?.name;
@@ -486,15 +409,11 @@ function EditeventOnBack() {
       try {
         const formData = new FormData();
         formData.append("file", file);
-        const res: any = await api.post(
-          `${API_URL}/upload/uploadimage`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         if (res.status === 200) {
           setLoader(false);
@@ -530,10 +449,7 @@ function EditeventOnBack() {
     const utcMinutes = localDate.getUTCMinutes();
 
     // Format the components to match the 'yyyy-MM-ddTHH:mm' format
-    const formattedUTC = `${utcYear}-${String(utcMonth).padStart(
-      2,
-      "0"
-    )}-${String(utcDate).padStart(2, "0")}T${String(utcHours).padStart(
+    const formattedUTC = `${utcYear}-${String(utcMonth).padStart(2, "0")}-${String(utcDate).padStart(2, "0")}T${String(utcHours).padStart(
       2,
       "0"
     )}:${String(utcMinutes).padStart(2, "0")}`;
@@ -564,9 +480,7 @@ function EditeventOnBack() {
 
     setEventAllData(updatedValues);
     if (updatedValues !== null) {
-      const encodedEventData = encodeURIComponent(
-        JSON.stringify(updatedValues)
-      );
+      const encodedEventData = encodeURIComponent(JSON.stringify(updatedValues));
 
       router.push(`/preview-event?eventData=${encodedEventData}`);
     } else {
@@ -602,8 +516,7 @@ function EditeventOnBack() {
     }
   };
   useEffect(() => {
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);
@@ -712,8 +625,7 @@ function EditeventOnBack() {
   useEffect(() => {
     if (EventData || Eventdata) {
       if (Eventdata?.eventmainimg) {
-        const imageName =
-          Eventdata?.eventmainimg.split("/").pop() || "Upload Image";
+        const imageName = Eventdata?.eventmainimg.split("/").pop() || "Upload Image";
         setMainImgName(imageName);
       }
 
@@ -736,13 +648,7 @@ function EditeventOnBack() {
             if (typeof media === "string") {
               // Handling URLs
               return {
-                type:
-                  media.endsWith(".mp4") ||
-                  media.endsWith(".avi") ||
-                  media.endsWith(".mov") ||
-                  media.endsWith(".mkv")
-                    ? "video"
-                    : "image",
+                type: media.endsWith(".mp4") || media.endsWith(".avi") || media.endsWith(".mov") || media.endsWith(".mkv") ? "video" : "image",
                 url: media,
               };
             } else if (media instanceof File) {
@@ -759,15 +665,13 @@ function EditeventOnBack() {
         setGalleryFiles(files);
       }
 
-      const ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map(
-        (ticket: any) => ({
-          ...ticket,
-          options: ticket?.options?.map((option: any) => ({
-            ...option,
-            checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
-          })),
-        })
-      );
+      const ticketsWithCheckedOptions = Eventdata?.ticketsdata?.map((ticket: any) => ({
+        ...ticket,
+        options: ticket?.options?.map((option: any) => ({
+          ...option,
+          checked: ticket?.options.some((o: any) => o?.id === option?.id), // Ensure checked options are marked
+        })),
+      }));
 
       setTicketTypes(ticketsWithCheckedOptions);
       // const mainimgName = Eventdata?.eventmainimg?.split("/").pop();
@@ -775,22 +679,16 @@ function EditeventOnBack() {
 
       form.reset({
         eventname: Eventdata?.eventname || form.getValues("eventname"),
-        eventcategory:
-          Eventdata?.eventcategory || form.getValues("eventcategory"),
-        eventdescription:
-          Eventdata?.eventdescription || form.getValues("eventdescription"),
-        eventlocation:
-          Eventdata?.eventlocation || form.getValues("eventlocation"),
-        eventstartdate:
-          Eventdata?.eventstartdate || form.getValues("eventstartdate"),
+        eventcategory: Eventdata?.eventcategory || form.getValues("eventcategory"),
+        eventdescription: Eventdata?.eventdescription || form.getValues("eventdescription"),
+        eventlocation: Eventdata?.eventlocation || form.getValues("eventlocation"),
+        eventstartdate: Eventdata?.eventstartdate || form.getValues("eventstartdate"),
         eventenddate: Eventdata?.eventenddate || form.getValues("eventenddate"),
 
-        eventstarttime:
-          Eventdata?.eventstarttime || form.getValues("eventstarttime"),
+        eventstarttime: Eventdata?.eventstarttime || form.getValues("eventstarttime"),
         eventendtime: Eventdata?.eventendtime || form.getValues("eventendtime"),
         // eventmainimg: mainimgName || form.getValues("eventmainimg"),
-        eventcoverimg:
-          Eventdata?.eventcoverimg || form.getValues("eventcoverimg"),
+        eventcoverimg: Eventdata?.eventcoverimg || form.getValues("eventcoverimg"),
 
         compticketno: Eventdata?.compticketno || form.getValues("compticketno"),
         fburl: Eventdata?.fburl || form.getValues("fburl"),
@@ -816,11 +714,7 @@ function EditeventOnBack() {
     return `${year}-${month}-${day}`;
   }
 
-  function addTimeToDate(
-    inputDate: string,
-    hoursToAdd: number,
-    minutesToAdd: number
-  ): string {
+  function addTimeToDate(inputDate: string, hoursToAdd: number, minutesToAdd: number): string {
     // Parse the input date
     const date = new Date(inputDate);
 
@@ -841,8 +735,7 @@ function EditeventOnBack() {
   return (
     <section
       style={{
-        backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
+        backgroundImage: "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
         backgroundPosition: "center",
       }}
       className="min-h-screen  bg-cover bg-no-repeat  pb-[80px]"
@@ -862,24 +755,12 @@ function EditeventOnBack() {
                 {/* <Image src={Editicon} alt="Edit-icon" /> */}
               </div>
 
-              <Image
-                src={ufo}
-                width={350}
-                height={350}
-                className="absolute right-[0] bottom-0"
-                alt="ufo"
-              />
+              <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
             </div>
             <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head relative ">
               {/* <div className="w-[392px] pt-[20px] pb-[24px] relative lg:pt-[26px] lg:pb-[36px] gradient-slate"> */}
 
-              <Image
-                src={CoverImg || imageUrl}
-                alt="bg-frame"
-                className="w-full lg:w-[392px] lg:h-[392px] h-[345px] "
-                width={100}
-                height={345}
-              />
+              <Image src={CoverImg || imageUrl} alt="bg-frame" className="w-full lg:w-[392px] lg:h-[392px] h-[345px] " width={100} height={345} />
               {/* <Image
               src={CoverImg || imageUrl}
               alt="bg-img"
@@ -887,16 +768,11 @@ function EditeventOnBack() {
               width={345}
               height={345}
             /> */}
-              <label
-                htmlFor="uploadcover"
-                className="flex gap-2 items-center justify-between w-full cursor-pointer"
-              >
+              <label htmlFor="uploadcover" className="flex gap-2 items-center justify-between w-full cursor-pointer">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate">
                     <Image src={greenpencile} alt="pencil" />
-                    <p className="text-[#00D059] text-sm font-extrabold">
-                      Edit Image
-                    </p>
+                    <p className="text-[#00D059] text-sm font-extrabold">Edit Image</p>
                   </div>
                 </div>
                 <input
@@ -920,13 +796,7 @@ function EditeventOnBack() {
                 {/* <Image src={Editicon} alt="Edit-icon" /> */}
               </div>
 
-              <Image
-                src={ufo}
-                width={350}
-                height={350}
-                className="absolute right-[0] bottom-0"
-                alt="ufo"
-              />
+              <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
             </div>
             <div className="gradient-slate w-full pt-[16px] pb-[16px] px-[24px] h-[424px]  create-container-head relative ">
               <div>
@@ -937,17 +807,10 @@ function EditeventOnBack() {
                         <div className="mt-4 pb-4 relative">
                           <div className="flex flex-wrap gap-[12px]">
                             {galleryFiles.map((file: any, index) => (
-                              <div
-                                key={index}
-                                className="relative w-[120px] h-[120px]  rounded-[12px]"
-                              >
+                              <div key={index} className="relative w-[120px] h-[120px]  rounded-[12px]">
                                 {file?.type === "video" ? (
                                   <video
-                                    src={
-                                      typeof file.url === "string"
-                                        ? file.url
-                                        : URL.createObjectURL(file)
-                                    }
+                                    src={typeof file.url === "string" ? file.url : URL.createObjectURL(file)}
                                     className="w-full h-full object-cover relative rounded-[12px]"
                                     width={120}
                                     height={120}
@@ -957,28 +820,15 @@ function EditeventOnBack() {
                                   </video>
                                 ) : (
                                   <img
-                                    src={
-                                      typeof file.url === "string"
-                                        ? file.url
-                                        : URL.createObjectURL(file)
-                                    }
+                                    src={typeof file.url === "string" ? file.url : URL.createObjectURL(file)}
                                     alt={`Gallery Image ${index + 1}`}
                                     className="w-full h-full object-cover relative rounded-[12px]"
                                     width={120}
                                     height={120}
                                   />
                                 )}
-                                <button
-                                  type="button"
-                                  onClick={() => removeImage(index)}
-                                  className="trash_button"
-                                >
-                                  <Image
-                                    src={crossicon}
-                                    alt="remove"
-                                    width={20}
-                                    height={20}
-                                  />
+                                <button type="button" onClick={() => removeImage(index)} className="trash_button">
+                                  <Image src={crossicon} alt="remove" width={20} height={20} />
                                 </button>
                               </div>
                             ))}
@@ -1015,9 +865,7 @@ function EditeventOnBack() {
                     }}
                   >
                     <Image src={greenpencile} alt="pencil" />
-                    <p className="text-[#00D059] text-sm font-extrabold">
-                      Edit Media
-                    </p>
+                    <p className="text-[#00D059] text-sm font-extrabold">Edit Media</p>
                   </div>
 
                   {/* <span className="pl-[0.75rem] uploadImageButton flex items-center">
@@ -1076,13 +924,7 @@ function EditeventOnBack() {
             </h1>
           </div>
 
-          <Image
-            src={ufo}
-            width={350}
-            height={350}
-            className="absolute right-[0] bottom-0"
-            alt="ufo"
-          />
+          <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
         </div>
         <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
           <Form {...form}>
@@ -1099,9 +941,7 @@ function EditeventOnBack() {
                   name="eventname"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
-                        Event Name
-                      </FormLabel>
+                      <FormLabel className="text-sm font-bold text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">Event Name</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Event Name"
@@ -1124,9 +964,7 @@ function EditeventOnBack() {
                   name="eventcategory"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">
-                        Event Category
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3  uppercase pt-[16px] pb-[4px]">Event Category</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Event Category"
@@ -1149,9 +987,7 @@ function EditeventOnBack() {
                   name="eventdescription"
                   render={({ field }) => (
                     <FormItem className="relative w-full  space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Event Description
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">Event Description</FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
@@ -1176,9 +1012,7 @@ function EditeventOnBack() {
                   name="eventlocation"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Event location
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">Event location</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Location"
@@ -1202,9 +1036,7 @@ function EditeventOnBack() {
                   name="eventstartdate"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Ticketing Start Date
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">Ticketing Start Date</FormLabel>
                       <FormControl>
                         <Input
                           type="date"
@@ -1230,9 +1062,7 @@ function EditeventOnBack() {
                   name="eventenddate"
                   render={({ field }) => (
                     <FormItem className="relative w-full space-y-0">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                        Ticketing End Date
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">Ticketing End Date</FormLabel>
                       <FormControl>
                         <Input
                           type="date"
@@ -1313,10 +1143,7 @@ function EditeventOnBack() {
                 />
               </div>
               {ticketTypes?.map((ticket, index) => (
-                <div
-                  className="flex flex-col gap-[12px] w-full mt-[24px] common-container"
-                  key={index}
-                >
+                <div className="flex flex-col gap-[12px] w-full mt-[24px] common-container" key={index}>
                   <div className="flex items-center gap-[24px]">
                     {/* Event Ticket Type Field */}
                     <FormField
@@ -1325,7 +1152,7 @@ function EditeventOnBack() {
                       render={({ field }) => (
                         <FormItem className="relative w-full space-y-0">
                           <FormLabel className="text-sm text-gray-500 absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                          Event Ticket Name
+                            Event Ticket Name
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -1333,11 +1160,7 @@ function EditeventOnBack() {
                               className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                               {...field}
                               onChange={(e) => {
-                                handleInputChange(
-                                  index,
-                                  "type",
-                                  e.target.value
-                                );
+                                handleInputChange(index, "type", e.target.value);
                                 field.onChange(e);
                               }}
                             />
@@ -1353,9 +1176,7 @@ function EditeventOnBack() {
                       name={`tickets.${index}.price`}
                       render={({ field }) => (
                         <FormItem className="relative w-full space-y-0">
-                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                            Event Ticket Price (£)
-                          </FormLabel>
+                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">Event Ticket Price (£)</FormLabel>
                           <FormControl>
                             <Input
                               type="number"
@@ -1363,11 +1184,7 @@ function EditeventOnBack() {
                               className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                               {...field}
                               onChange={(e) => {
-                                handleInputChange(
-                                  index,
-                                  "price",
-                                  parseFloat(e.target.value)
-                                );
+                                handleInputChange(index, "price", parseFloat(e.target.value));
                                 field.onChange(e);
                               }}
                             />
@@ -1393,11 +1210,7 @@ function EditeventOnBack() {
                               className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                               {...field}
                               onChange={(e) => {
-                                handleInputChange(
-                                  index,
-                                  "no",
-                                  parseInt(e.target.value, 10)
-                                );
+                                handleInputChange(index, "no", parseInt(e.target.value, 10));
                                 field.onChange(e);
                               }}
                             />
@@ -1414,19 +1227,9 @@ function EditeventOnBack() {
                     name={`tickets.${index}.options`}
                     render={({ field }) => (
                       <FormItem className="pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                        <div
-                          className="flex items-center justify-between"
-                          onClick={() => handleDropdown(index)}
-                        >
-                          <p className="text-sm text-gray-500 uppercase">
-                            WHATS INCLUDED
-                          </p>
-                          <Image
-                            src={ticket?.dropdown ? arrowup : arrowdown}
-                            width={11}
-                            height={11}
-                            alt="arrow"
-                          />
+                        <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
+                          <p className="text-sm text-gray-500 uppercase">WHATS INCLUDED</p>
+                          <Image src={ticket?.dropdown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                         </div>
                         {ticket?.dropdown && (
                           <div>
@@ -1434,31 +1237,13 @@ function EditeventOnBack() {
                               <div
                                 key={option.id}
                                 className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                onClick={() =>
-                                  handleOptionToggle(index, option)
-                                }
+                                onClick={() => handleOptionToggle(index, option)}
                               >
                                 <div className="flex items-center gap-[10px]">
-                                  <Image
-                                    src={option?.image}
-                                    width={16}
-                                    height={16}
-                                    alt="img"
-                                  />
-                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                    {option.label}
-                                  </p>
+                                  <Image src={option?.image} width={16} height={16} alt="img" />
+                                  <p className="text-[16px] text-[#FFFFFF] font-normal items-center">{option.label}</p>
                                 </div>
-                                {ticket?.options?.some(
-                                  (o) => o?.id === option?.id
-                                ) && (
-                                  <Image
-                                    src={tick}
-                                    width={10}
-                                    height={10}
-                                    alt="tick"
-                                  />
-                                )}
+                                {ticket?.options?.some((o) => o?.id === option?.id) && <Image src={tick} width={10} height={10} alt="tick" />}
                               </div>
                             ))}
                           </div>
@@ -1565,9 +1350,7 @@ function EditeventOnBack() {
                   name="fburl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Facebook
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Facebook</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -1589,9 +1372,7 @@ function EditeventOnBack() {
                   name="instaurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Instagram
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Instagram</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -1615,9 +1396,7 @@ function EditeventOnBack() {
                   name="telegramurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Twitter
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Twitter</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -1639,9 +1418,7 @@ function EditeventOnBack() {
                   name="youtubeurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Youtube
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Youtube</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -1664,9 +1441,7 @@ function EditeventOnBack() {
                   name="tiktokurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Tiktok
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Tiktok</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -1688,9 +1463,7 @@ function EditeventOnBack() {
                   name="linkedinurl"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                        Linkedin
-                      </FormLabel>
+                      <FormLabel className="text-sm text-gray-500 absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Linkedin</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter URL"
@@ -1730,15 +1503,11 @@ function EditeventOnBack() {
                   </Button>
                 </div>
               </div>
-                          </form>
+            </form>
           </Form>
         </div>
         {isWalletModalOpen && (
-          <WalletChooseModal
-            onClose={() => setisWalletModalOpen(false)}
-            open={() => setisWalletModalOpen(true)}
-            eventData={eventAllData}
-          />
+          <WalletChooseModal onClose={() => setisWalletModalOpen(false)} open={() => setisWalletModalOpen(true)} eventData={eventAllData} />
         )}
       </div>
     </section>

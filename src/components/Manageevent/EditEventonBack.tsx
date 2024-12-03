@@ -30,7 +30,7 @@ import arrowup from "@/assets/Arrow up.svg";
 import whiteaddicon from "@/assets/Wallet/white_plus_icon.svg";
 import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
 // import { DatePicker } from "@/components/organisms/DatePicker";
-import CryptoJS from 'crypto-js';
+import CryptoJS from "crypto-js";
 
 import { useRouter } from "next/navigation";
 
@@ -1593,15 +1593,14 @@ function EditeventOnBack() {
   const categorylabels = categoryTypes?.label;
 
   // Hashing is here
-  const encryptionKey = 'naitramV2SecretKey';
+  const encryptionKey = "naitramV2SecretKey";
   const encryptArray = (arrayOfStrings: string[], secretKey: string) => {
     // Encrypt each string in the array and store the encrypted values in a new array
-    const encryptedArray = arrayOfStrings.map(item => {
+    const encryptedArray = arrayOfStrings.map((item) => {
       return CryptoJS.AES.encrypt(item, secretKey).toString(); // AES encryption
     });
     return encryptedArray;
   };
-
 
   // Event Creating sending Dat through API
   async function EventCreation(values: z.infer<typeof formSchema>) {
@@ -2287,20 +2286,20 @@ function EditeventOnBack() {
               price: ticket?.price,
               no: ticket?.no,
               typename: ticket?.typename,
-              ticketstart: convertToLocal(ticket?.ticketstart),
-              ticketend: convertToLocal(ticket?.ticketend),
+              ticketstart: ticket?.ticketstart,
+              ticketend: ticket?.ticketend,
               isTicketStartPickerOpen: false,
               isTicketEndPickerOpen: false,
               eventdates: [
                 {
-                  startDate: convertToLocal(ticket?.eventstart),
-                  endDate: convertToLocal(ticket?.eventend),
+                  startDate: ticket?.eventstart,
+                  endDate: ticket?.eventend,
                   isStartEventPickerOpen: false,
                   isEndEventPickerOpen: false,
                 },
                 ...ticket?.eventdates.map((d: any, i: number) => ({
-                  startDate: convertToLocal(d?.startDate),
-                  endDate: convertToLocal(d?.endDate),
+                  startDate: d?.startDate,
+                  endDate: d?.endDate,
                   isStartEventPickerOpen: false,
                   isEndEventPickerOpen: false,
                 })),
@@ -2608,20 +2607,20 @@ function EditeventOnBack() {
         price: ticket?.price,
         no: ticket?.no,
         typename: ticket?.typename,
-        ticketstart: convertToLocal(ticket?.ticketstart),
-        ticketend: convertToLocal(ticket?.ticketend),
+        ticketstart: ticket?.ticketstart,
+        ticketend: ticket?.ticketend,
         isTicketStartPickerOpen: false,
         isTicketEndPickerOpen: false,
         eventdates: [
           {
-            startDate: convertToLocal(ticket?.startDate),
-            endDate: convertToLocal(ticket?.endDate),
+            startDate: ticket?.startDate,
+            endDate: ticket?.endDate,
             isStartEventPickerOpen: false,
             isEndEventPickerOpen: false,
           },
           ...ticket?.eventdates.map((d: any, i: number) => ({
-            startDate: convertToLocal(d?.startDate),
-            endDate: convertToLocal(d?.endDate),
+            startDate: d?.startDate,
+            endDate: d?.endDate,
             isStartEventPickerOpen: false,
             isEndEventPickerOpen: false,
           })),

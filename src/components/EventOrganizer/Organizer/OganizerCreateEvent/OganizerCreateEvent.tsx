@@ -1798,17 +1798,17 @@ function OganizerCreateEvent() {
         ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
           ? {
               ...ticket,
-              ticketstart: convertToUTC(ticket.ticketstart),
-              ticketend: convertToUTC(ticket.ticketend),
-              eventstart: convertToUTC(ticket?.eventdates?.[0]?.startDate),
-              eventend: convertToUTC(ticket?.eventdates?.[ticket?.eventdates?.length - 1]?.endDate),
+              ticketstart: ticket.ticketstart,
+              ticketend: ticket.ticketend,
+              eventstart: ticket?.eventdates?.[0]?.startDate,
+              eventend: ticket?.eventdates?.[ticket?.eventdates?.length - 1]?.endDate,
               eventdates: ticket?.eventdates
                 ?.map(
                   (e: FestivalEventsDate, i: number) =>
                     i !== 0
                       ? {
-                          startDate: convertToUTC(e?.startDate),
-                          endDate: convertToUTC(e?.endDate),
+                          startDate: e?.startDate,
+                          endDate: e?.endDate,
                         }
                       : null // Return null for i === 0
                 )
@@ -1817,30 +1817,30 @@ function OganizerCreateEvent() {
           : ticket.type === "RSVP Ticketing"
           ? {
               ...ticket,
-              deadline: convertToUTC(ticket.deadline),
+              deadline: ticket.deadline,
             }
           : ticket.type === "Private Event Ticketing"
           ? {
               ...ticket,
-              ticketstart: convertToUTC(ticket.ticketstart),
-              ticketend: convertToUTC(ticket.ticketend),
-              eventstart: convertToUTC(ticket.eventstart),
-              eventend: convertToUTC(ticket.eventend),
+              ticketstart: ticket.ticketstart,
+              ticketend: ticket.ticketend,
+              eventstart: ticket.eventstart,
+              eventend: ticket.eventend,
             }
           : ticket.type === "Passworded / Discounted Voucher Event"
           ? {
               ...ticket,
-              ticketstart: convertToUTC(ticket.ticketstart),
-              ticketend: convertToUTC(ticket.ticketend),
-              eventstart: convertToUTC(ticket.eventstart),
-              eventend: convertToUTC(ticket.eventend),
+              ticketstart: ticket.ticketstart,
+              ticketend: ticket.ticketend,
+              eventstart: ticket.eventstart,
+              eventend: ticket.eventend,
             }
           : {
               ...ticket,
-              ticketstart: convertToUTC(ticket.ticketstart),
-              ticketend: convertToUTC(ticket.ticketend),
-              eventstart: convertToUTC(ticket.eventstart),
-              eventend: convertToUTC(ticket.eventend),
+              ticketstart: ticket.ticketstart,
+              ticketend: ticket.ticketend,
+              eventstart: ticket.eventstart,
+              eventend: ticket.eventend,
             }
       );
 
@@ -1966,12 +1966,12 @@ function OganizerCreateEvent() {
         eventcategory: categorylabels?.label,
 
         // For Event
-        eventstarttime: convertToUTC(timings?.startTime),
-        eventendtime: convertToUTC(timings?.endTime),
+        eventstarttime: timings?.startTime,
+        eventendtime: timings?.endTime,
 
         // For Ticket
-        eventstartdate: convertToUTC(timings?.ticketStartDate),
-        eventenddate: convertToUTC(timings?.ticketEndDate),
+        eventstartdate: timings?.ticketStartDate,
+        eventenddate: timings?.ticketEndDate,
       };
       console.log("my updated values are", updatedValues);
 
