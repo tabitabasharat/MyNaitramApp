@@ -6358,7 +6358,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                              Facebook
+                              Facebok
                             </FormLabel>
                             {/* {isFbVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -6369,14 +6369,15 @@ function OganizerCreateEvent() {
                                 Verify
                               </FormLabel>
                             )} */}
-                            <FormControl className="flex items-center">
+                            <FormControl>
                               <Input
                                 placeholder="Enter URL"
                                 className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
-                                {...form}
+                                {...field}
                                 onChange={(e) => {
                                   const value = e.target.value;
-                                  // setFBUrl(value);
+                                  // Prevent the user from modifying the base URL
+                                  // setTelegramUrl(value);
                                   // field.onChange(value);
 
                                   if (value.startsWith("https://www.facebook.com/")) {
@@ -6411,16 +6412,15 @@ function OganizerCreateEvent() {
                             <FormControl>
                               <Input
                                 placeholder="Enter URL"
-                                // value={InstaUrl}
                                 className="pt-12 pb-6 pr-24 placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F] placeholder:leading-[16.2px] placeholder:text-left flex-1"
                                 {...field}
                                 onChange={(e) => {
                                   const value = e.target.value;
-
-                                  // setInstaUrl(value);
+                                  // Prevent the user from modifying the base URL
+                                  // setTelegramUrl(value);
                                   // field.onChange(value);
 
-                                  if (value.startsWith("https://www.instagram.com/")) {
+                                  if (value.startsWith("https://instagram.com/")) {
                                     setInstaUrl(value);
                                     field.onChange(value);
                                   }
