@@ -729,7 +729,7 @@ function OganizerCreateEvent() {
   const [CoverImgName, setCoverImgName] = useState<any>("");
 
   const [FBUrl, setFBUrl] = useState("https://www.facebook.com/");
-  const [InstaUrl, setInstaUrl] = useState("https://instagram.com/");
+  const [InstaUrl, setInstaUrl] = useState("https://www.instagram.com/");
   const [TwitterUrl, setTwitterUrl] = useState("https://www.x.com/");
   const [TelegramUrl, setTelegramUrl] = useState("https://t.me/");
   const [YoutubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/");
@@ -1153,7 +1153,7 @@ function OganizerCreateEvent() {
 
       // compticketno: "",
       fburl: "https://www.facebook.com/",
-      instaurl: "https://instagram.com/",
+      instaurl: "https://www.instagram.com/",
       youtubeurl: "https://www.youtube.com/",
       twitterurl: "https://www.x.com/",
       telegramurl: "https://t.me/",
@@ -2279,6 +2279,15 @@ function OganizerCreateEvent() {
     );
   };
 
+  // Remove Event in Festival Events
+  const removeEventDateInFestival = (ticketIndex: number, eventIndex: number) => {
+    setTicketTypes((prevTickets: any) =>
+      prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex ? { ...ticket, eventdates: ticket?.eventdates.filter((e: any, e_Idx: number) => e_Idx !== eventIndex) } : ticket
+      )
+    );
+  };
+
   // handle start picker
   const festivalStartEventPicker = (ticketIndex: number, eventIndex: number) => {
     setTicketTypes((prevTickets: any) =>
@@ -2369,6 +2378,34 @@ function OganizerCreateEvent() {
 
   // add manual emails
   const addManualEmailField = (ticketIndex: number) => {
+    // Check if the last indexed element of manualEmails matches any other elements
+    const manualEmails = ticketTypes?.[ticketIndex]?.emailmanual || [];
+
+    if (manualEmails.length > 1) {
+      const lastEmail = manualEmails[manualEmails.length - 1]; // Get the last indexed element
+      const isDuplicate = manualEmails.slice(0, -1).includes(lastEmail); // Check if it exists elsewhere
+
+      if (isDuplicate) {
+        ErrorToast("Duplicate email detected in the list!");
+
+        // Reset the last indexed element to an empty value
+        setTicketTypes((prevTickets: any) =>
+          prevTickets.map((ticket: any, i: number) =>
+            i === ticketIndex
+              ? {
+                  ...ticket,
+                  emailmanual: ticket.emailmanual.map((email: string, emIndex: number) => (emIndex === manualEmails.length - 1 ? "" : email)),
+                }
+              : ticket
+          )
+        );
+
+        // Reset the form input for the last email field
+        form.setValue(`tickets.${ticketIndex}.emailmanual.${manualEmails.length - 1}`, "");
+        return;
+      }
+    }
+
     setTicketTypes((prevTickets: any) => {
       const newEmailsFields = prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex ? { ...ticket, emailmanual: [...ticket.emailmanual, ""] } : ticket
@@ -2402,6 +2439,34 @@ function OganizerCreateEvent() {
 
   // add manual password
   const addManualPasswrdField = (ticketIndex: number) => {
+    // Check if the last indexed element of manualEmails matches any other elements
+    const manualPSWRDS = ticketTypes?.[ticketIndex]?.pswrdmanual || [];
+
+    if (manualPSWRDS.length > 1) {
+      const lastPSWRD = manualPSWRDS[manualPSWRDS.length - 1]; // Get the last indexed element
+      const isDuplicate = manualPSWRDS.slice(0, -1).includes(lastPSWRD); // Check if it exists elsewhere
+
+      if (isDuplicate) {
+        ErrorToast("Duplicate password detected in the list!");
+
+        // Reset the last indexed element to an empty value
+        setTicketTypes((prevTickets: any) =>
+          prevTickets.map((ticket: any, i: number) =>
+            i === ticketIndex
+              ? {
+                  ...ticket,
+                  pswrdmanual: ticket.pswrdmanual.map((PSWRD: string, pswrdIndex: number) => (pswrdIndex === manualPSWRDS.length - 1 ? "" : PSWRD)),
+                }
+              : ticket
+          )
+        );
+
+        // Reset the form input for the last email field
+        form.setValue(`tickets.${ticketIndex}.pswrdmanual.${manualPSWRDS.length - 1}`, "");
+        return;
+      }
+    }
+
     setTicketTypes((prevTickets: any) => {
       const newPswrdFields = prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex ? { ...ticket, pswrdmanual: [...ticket.pswrdmanual, ""] } : ticket
@@ -6420,7 +6485,7 @@ function OganizerCreateEvent() {
                                   // setTelegramUrl(value);
                                   // field.onChange(value);
 
-                                  if (value.startsWith("https://instagram.com/")) {
+                                  if (value.startsWith("https://www.instagram.com/")) {
                                     setInstaUrl(value);
                                     field.onChange(value);
                                   }

@@ -1228,7 +1228,7 @@ function EditeventOnBack() {
 
       // compticketno: "",
       fburl: "https://www.facebook.com/",
-      instaurl: "https://instagram.com/",
+      instaurl: "https://www.instagram.com/",
       youtubeurl: "https://www.youtube.com/",
       twitterurl: "https://www.x.com/",
       telegramurl: "https://t.me/",
@@ -7053,13 +7053,12 @@ function EditeventOnBack() {
                             <FormControl>
                               <Input
                                 placeholder="Enter URL"
-                                className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
+                                className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF]"
                                 {...field}
                                 // onChange={(e) => {
-                                //   setInstaUrl(e.target.value);
+                                //   setTwitterUrl(e.target.value);
                                 //   field.onChange(e);
                                 // }}
-
                                 onChange={(e) => {
                                   const value = e.target.value;
 
