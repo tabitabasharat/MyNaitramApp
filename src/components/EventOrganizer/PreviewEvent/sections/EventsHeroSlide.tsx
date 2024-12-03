@@ -114,14 +114,17 @@ const EventsHeroSlide = ({
       return "";
     }
 
-    console.log("Converted UTC time:", originalDateStr);
-    const isUTC = originalDateStr.endsWith("Z");
-    const utcDate = new Date(isUTC ? originalDateStr : `${originalDateStr}Z`);
+    // console.log("Converted UTC time:", originalDateStr);
+    // const isUTC = originalDateStr.endsWith("Z");
+    // const utcDate = new Date(isUTC ? originalDateStr : `${originalDateStr}Z`);
+
+    console.log("Input local time:", originalDateStr);
+    const localDate = new Date(originalDateStr);
 
     // Check if the input already has a timezone indicator
 
     // Check if the date is valid
-    if (isNaN(utcDate.getTime())) {
+    if (isNaN(localDate.getTime())) {
       console.error("Invalid date format");
       return "";
     }
@@ -130,19 +133,19 @@ const EventsHeroSlide = ({
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     // Extract local time parts using toLocaleDateString with time zone adjustment
-    const dayOfWeek = utcDate.toLocaleDateString("en-US", {
+    const dayOfWeek = localDate.toLocaleDateString("en-US", {
       weekday: "long",
       timeZone: timeZone,
     });
-    const dayOfMonth = utcDate.toLocaleDateString("en-US", {
+    const dayOfMonth = localDate.toLocaleDateString("en-US", {
       day: "numeric",
       timeZone: timeZone,
     });
-    const month = utcDate.toLocaleDateString("en-US", {
+    const month = localDate.toLocaleDateString("en-US", {
       month: "long",
       timeZone: timeZone,
     });
-    const year = utcDate.toLocaleDateString("en-US", {
+    const year = localDate.toLocaleDateString("en-US", {
       year: "numeric",
       timeZone: timeZone,
     });
