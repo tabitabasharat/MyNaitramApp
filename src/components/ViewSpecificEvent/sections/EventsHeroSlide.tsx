@@ -44,6 +44,8 @@ const EventsHeroSlide = ({
   ticketStartDate,
   soldout,
   salesStop,
+  allTickets,
+  eventTags,
 }: any) => {
   const [isOpenDropdown, setisOpenDropdown] = useState(false);
 
@@ -416,6 +418,7 @@ const EventsHeroSlide = ({
             </div>
           </div>
           <div>
+            {/* Description Section */}
             <div className="relative">
               <div className="mb-4 md:mt-[48px] mt-[24px]">
                 <button onClick={AboutToggle} className="text-white flex items-center gap-[10px]">
@@ -443,6 +446,22 @@ const EventsHeroSlide = ({
               )}
             </div>
           </div>
+          {/* Tags Section */}
+          <div>
+            <div className="flex w-full gap-[8px] flex-wrap mb-[48px] mt-[10px]">
+              {eventTags &&
+                eventTags.map((tag: string, index: number) => {
+                  return (
+                    <div
+                      key={index}
+                      className="gradient-bg gradient-border-edit py-[8px] px-[10px] gradient-slate w-fit text-[12px] font-extrabold leading-[16.2px] text-left"
+                    >
+                      {`#${tag}`}
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
           <BuyTicket
             eventType={eventType}
             event={event}
@@ -456,6 +475,7 @@ const EventsHeroSlide = ({
             ticketStartTime={ticketStartDate}
             soldout={soldout}
             salesStop={salesStop}
+            allTickets={allTickets}
           />
         </div>
       </div>

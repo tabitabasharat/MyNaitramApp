@@ -262,10 +262,16 @@ body {
 .border-secondary {
   background: linear-gradient(145deg, #ffc100, #6b4400, #000000, #6b4400, #ff8a08);
 }
+.bg-v2 {
+  background-image: url("../assets/V2assets/green-effect.svg");
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position-x: center;
+}
 .bg-reward {
   background-image: url("/blur-green.png");
-  background-position: right;
   background-repeat: no-repeat;
+  background-position: right;
   background-size: cover;
 }
 .claimable-container {
@@ -287,6 +293,9 @@ body {
   .claim-container {
     width: 100%;
     flex-direction: column;
+  }
+  .bg-v2 {
+    background: transparent;
   }
   .bg-reward {
     background: transparent;
@@ -375,6 +384,20 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   padding: 0px;
+}
+.gradient-profile{
+    border-radius: 9px; /* This controls the rounding of the corners */
+}
+.gradient-profile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9px; /* Inherit the border-radius from the parent */
+  padding: 1px; /* Adjust this value to control the thickness of the border */
+  background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 .gradient-bg-auth {
   position: relative;
@@ -568,8 +591,7 @@ body {
   position: relative;
   border-radius: 12px !important; /* Controls the rounding of the corners */
   background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a); /* Solid background color */
-  border: 1px solid transparent; /* Border needs to be transparent to see the gradient border */
-; /* Ensure it is above the pseudo-element */
+  border: 1px solid transparent; /* Border needs to be transparent to see the gradient border */ /* Ensure it is above the pseudo-element */
 }
 .custom-quill .ql-snow .ql-picker-options {
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%) !important;
@@ -701,23 +723,23 @@ body {
   position: relative;
   /* height: 512px; */
   border-radius: 8px; /* Rounded corners */
-  background: linear-gradient(135deg, #13FF7A 0.2%, #002B12 50.2%, #13FF7A 100.2%); /* Gradient border */
+  background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%); /* Gradient border */
   padding: 1px; /* Thickness of border */
   overflow: hidden; /* Ensures content stays within rounded corners */
 }
 
 .BuyNowMarketPlace-gradient > * {
   position: relative;
- height: 100%;
+  height: 100%;
   border-radius: 8px; /* Match parent's radius */
-  background: linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%); /* Inner dark gradient */
+  background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%); /* Inner dark gradient */
   z-index: 1; /* Ensure content stays above the gradient */
 }
 .BuyNowInputFieldMP {
   position: relative;
   padding: 20px 12px;
   border-radius: 8px;
-  background: linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%);
+  background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
 }
 
 .BuyNowInputFieldMP::before {
@@ -734,7 +756,6 @@ body {
   pointer-events: none;
   z-index: -1;
 }
-
 
 .gradient-chat {
   background: linear-gradient(
@@ -793,13 +814,13 @@ body {
   scrollbar-width: none; /* Hide scrollbar in Firefox */
 }
 .element2 {
-  box-shadow: 0px 2.56px 5.11px 0px #0000000A; /* Soft shadow with subtle opacity */
+  box-shadow: 0px 2.56px 5.11px 0px #0000000a; /* Soft shadow with subtle opacity */
   backdrop-filter: blur(64px); /* Frosted glass effect with heavy blur */
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
 }
 .element {
-  box-shadow: 0px 2.56px 5.11px 0px #0000000A; /* Soft shadow with subtle opacity */
+  box-shadow: 0px 2.56px 5.11px 0px #0000000a; /* Soft shadow with subtle opacity */
   backdrop-filter: blur(64px); /* Frosted glass effect with heavy blur */
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
@@ -855,7 +876,7 @@ input[type="number"] {
 .no-border-table .MuiTableRow-root {
   border: none; /* Removes any potential border on table rows */
 }
-.border-linear{
+.border-linear {
   border: 1px solid;
 
   border-image-source: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
@@ -1095,7 +1116,38 @@ input[type="number"] {
   }
 }
 
+/* /////////////////////// /////////////////////////////////// */
 
+.gradient-border-Radius_BTN {
+  border-width: 2px; /* Adjust border thickness */
+  border-style: solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(180deg, rgba(251, 251, 251, 0.6) 0%, rgba(251, 251, 251, 0.7) 100%);
+  border-radius: 0.5rem; /* Adjust radius as needed */
+  background-color: transparent; /* Optional for a clear background */
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #13ff7a;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #13ff79b9;
+}
+/* ///////////////////////////////////  Jabaars Screns Btn */
 .gradient-border-rounded-nft {
   position: relative;
   padding-top: 12px;

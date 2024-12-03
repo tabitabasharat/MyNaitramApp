@@ -133,8 +133,7 @@ function Specificqrcode() {
   const [TicketNoAccessOpen, setTicketNoAccessOpen] = useState(false);
 
   useEffect(() => {
-    const currentUrl: any =
-      typeof window !== "undefined" ? window.location.href : null;
+    const currentUrl: any = typeof window !== "undefined" ? window.location.href : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventId(value);
@@ -142,9 +141,7 @@ function Specificqrcode() {
     dispatch(getTicketByQR(value));
   }, []);
 
-  const TicketData = useAppSelector(
-    (state) => state?.getTicketByQR?.myQRTickets?.data
-  );
+  const TicketData = useAppSelector((state) => state?.getTicketByQR?.myQRTickets?.data);
   console.log("MY ticket data enlarge qr is", TicketData);
   const ConvertDate = (originalDateStr: string): string => {
     const originalDate = new Date(originalDateStr);
@@ -245,24 +242,19 @@ function Specificqrcode() {
     {
       id: 2,
       image: candendar,
-      address: `${ConvertDate(TicketData?.event?.startTime)} - ${ConvertTime(
-        TicketData?.event?.startTime
-      )}`,
+      address: `${ConvertDate(TicketData?.event?.startTime)} - ${ConvertTime(TicketData?.event?.startTime)}`,
     },
     {
       id: 3,
       image: time,
-      address: `${ConvertDate(TicketData?.event?.endTime)} - ${ConvertTime(
-        TicketData?.event?.endTime
-      )}`,
+      address: `${ConvertDate(TicketData?.event?.endTime)} - ${ConvertTime(TicketData?.event?.endTime)}`,
     },
   ];
 
   const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
   useEffect(() => {
     if (TicketData) {
-      const id =
-        typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+      const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
       if (TicketData?.userId != id) {
         setTicketNoAccessOpen(true);
       }
@@ -272,113 +264,67 @@ function Specificqrcode() {
   return (
     <section className="min-h-screen py-[8rem]  bg-cover bg-no-repeat px-[24px] md:px-[100px]   bg-reward  ">
       <div className="max-w-screen-lg lg:gap-[0px]  mx-auto text-center lg:text-left">
-       
-          <>
-            <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-[52px] lg:mb-[34px]">
-              <Image
-                src={Backbtn}
-                alt="back"
-                onClick={() => router.back()}
-                className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]"
-              />
-              <p className="text-[20px] lg:text-[24px] font-bold">
-                {TicketData?.event?.name}
-              </p>
-            </div>
-            {/* Main content container */}
-            <div className="flex flex-col-reverse justify-between items-center gap-[62px]  lg:flex-row">
-              <div className="flex w-full flex-col">
-                <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
-                  <div className="flex w-full gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 w-full lg:w-[100%] flex-wrap">
-                    {TicketData?.event?.category?.length > 0 &&
-                      TicketData?.event?.category?.map(
-                        (category: any, index: any) => (
-                          <Badge
-                            key={index}
-                            className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]"
-                          >
-                            {category}
-                          </Badge>
-                        )
-                      )}
+        <>
+          <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-[52px] lg:mb-[34px]">
+            <Image src={Backbtn} alt="back" onClick={() => router.back()} className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]" />
+            <p className="text-[20px] lg:text-[24px] font-bold">{TicketData?.event?.name}</p>
+          </div>
+          {/* Main content container */}
+          <div className="flex flex-col-reverse justify-between items-center gap-[62px]  lg:flex-row">
+            <div className="flex w-full flex-col">
+              <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
+                <div className="flex w-full gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 w-full lg:w-[100%] flex-wrap">
+                  {TicketData?.event?.category?.length > 0 &&
+                    TicketData?.event?.category?.map((category: any, index: any) => (
+                      <Badge
+                        key={index}
+                        className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]"
+                      >
+                        {category}
+                      </Badge>
+                    ))}
+                </div>
+              </div>
+              <div>
+                <h2 className="font-extrabold text-start pb-[12px] lg:pb-[24px] text-[32px] lg:text-[48px]">{TicketData?.event?.name}</h2>
+                <div className="flex flex-col justify-center">
+                  {locations.map((location) => (
+                    <div key={location.id} className="flex items-center mb-[12px] gap-[8px]">
+                      <Image
+                        src={location.image}
+                        width={30}
+                        height={30}
+                        // className=" "
+                        alt="Location Icon"
+                      />
+                      <p className="font-bold text-start text-[16px]">{location.address}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="">
+                  <div>
+                    <p className="text-[#00D059] text-[13px] text-start font-bold mt-[12px] mb-[12px] md:mb-[8px]">Ticket ID</p>
+                    <p className="font-bold text-start text-[24px]">{TicketData?.id}</p>
+                  </div>
+                  <div>
+                    <p className="text-[#00D059] text-start text-[13px] font-bold mt-[12px] mb-[12px] md:mb-[8px]">Ticket Type</p>
+                    <p className="font-bold text-start text-[24px]"> {TicketData?.event?.tickets[TicketData?.isIndex]?.selectedEventTicketType}</p>
+                  </div>
+                  <div>
+                    <p className="text-[#00D059] text-start text-[13px] font-bold mt-[12px] mb-[12px] md:mb-[8px]">Ticket Price</p>
+                    <p className="font-bold text-start text-[24px]">£{TicketData?.event?.tickets[TicketData?.isIndex]?.ticketPrice}</p>
                   </div>
                 </div>
-                <div>
-                  <h2 className="font-extrabold text-start pb-[12px] lg:pb-[24px] text-[32px] lg:text-[48px]">
-                    {TicketData?.event?.name}
-                  </h2>
-                  <div className="flex flex-col justify-center">
-                    {locations.map((location) => (
-                      <div
-                        key={location.id}
-                        className="flex items-center mb-[12px] gap-[8px]"
-                      >
-                        <Image
-                          src={location.image}
-                          width={30}
-                          height={30}
-                          // className=" "
-                          alt="Location Icon"
-                        />
-                        <p className="font-bold text-start text-[16px]">
-                          {location.address}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="">
-                    <div>
-                      <p className="text-[#00D059] text-[13px] text-start font-bold mt-[12px] mb-[12px] md:mb-[8px]">
-                        Ticket ID
-                      </p>
-                      <p className="font-bold text-start text-[24px]">
-                        {TicketData?.id}
-                      </p>
+                <div className="flex flex-col justify-center">
+                  <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">Included in this ticket type</h3>
+                  {TicketData?.event?.tickets[TicketData?.isIndex]?.whatsIncluded?.map((Ticket: any) => (
+                    <div key={Ticket.id} className="flex items-center mb-[12px]">
+                      <Image src={imageMap[Ticket?.label]} width={20} height={20} alt={`${Ticket.label} icon`} className=" me-[8px]" />
+                      <p className="font-bold text-start text-[16px]">{Ticket?.label}</p>
                     </div>
-                    <div>
-                      <p className="text-[#00D059] text-start text-[13px] font-bold mt-[12px] mb-[12px] md:mb-[8px]">
-                        Ticket Type
-                      </p>
-                      <p className="font-bold text-start text-[24px]">
-                        {" "}
-                        {TicketData?.event?.tickets[TicketData?.isIndex]?.type}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[#00D059] text-start text-[13px] font-bold mt-[12px] mb-[12px] md:mb-[8px]">
-                        Ticket Price
-                      </p>
-                      <p className="font-bold text-start text-[24px]">
-                        £
-                        {TicketData?.event?.tickets[TicketData?.isIndex]?.price}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
-                      Included in this ticket type
-                    </h3>
-                    {TicketData?.event?.tickets[
-                      TicketData?.isIndex
-                    ]?.options.map((Ticket: any) => (
-                      <div
-                        key={Ticket.id}
-                        className="flex items-center mb-[12px]"
-                      >
-                        <Image
-                          src={imageMap[Ticket?.label]}
-                          width={20}
-                          height={20}
-                          alt={`${Ticket.label} icon`}
-                          className=" me-[8px]"
-                        />
-                        <p className="font-bold text-start text-[16px]">
-                          {Ticket?.label}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                  {/* <div className="flex flex-col justify-center">
+                  ))}
+                </div>
+                {/* <div className="flex flex-col justify-center">
                 <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
                   Included in this ticket type
                 </h3>
@@ -409,34 +355,32 @@ function Specificqrcode() {
                   )
                 )}
               </div> */}
-                </div>
               </div>
-              {/* <div style={{background:"#00A849",borderRadius:"12px"}}  */}
-              {/* > */}
-              <div>
-                <Image
-                  style={{ borderRadius: "12px" }}
-                  width={320}
-                  height={320}
-                  // src={TicketData?.qrCode}
-                  src={blurqrcode}
-                  alt="rhs"
-                  className="pt-[0px]  hidden lg:block  w-[100%] md:w-[320px]"
-                />
-                <Image
-                  style={{ borderRadius: "12px" }}
-                  width={320}
-                  height={320}
-                  // src={TicketData?.qrCode}
-                  src={blurqrmb}
-                  alt="rhs"
-                  className="pt-[0px] block lg:hidden w-[100%] md:w-[320px]"
-                />
-                <p className="py-[24px] text-center w-[320px] font-normal text-[18px]">
-                  Please view the ticket QR code on the Naitram Mobile App{" "}
-                </p>
-                <div className="flex gap-[16px] justify-center ">
-                  {/* <Button
+            </div>
+            {/* <div style={{background:"#00A849",borderRadius:"12px"}}  */}
+            {/* > */}
+            <div>
+              <Image
+                style={{ borderRadius: "12px" }}
+                width={320}
+                height={320}
+                // src={TicketData?.qrCode}
+                src={blurqrcode}
+                alt="rhs"
+                className="pt-[0px]  hidden lg:block  w-[100%] md:w-[320px]"
+              />
+              <Image
+                style={{ borderRadius: "12px" }}
+                width={320}
+                height={320}
+                // src={TicketData?.qrCode}
+                src={blurqrmb}
+                alt="rhs"
+                className="pt-[0px] block lg:hidden w-[100%] md:w-[320px]"
+              />
+              <p className="py-[24px] text-center w-[320px] font-normal text-[18px]">Please view the ticket QR code on the Naitram Mobile App </p>
+              <div className="flex gap-[16px] justify-center ">
+                {/* <Button
               onClick={() => {
                 router.push("/download-app");
               }}
@@ -447,28 +391,18 @@ function Specificqrcode() {
                 Download App
               </p>
             </Button> */}
-                  <Button
-                    onClick={() => {
-                      window.open(
-                        `https://sepolia.lineascan.build/tx/${TicketData?.txHash}`,
-                        "_blank",
-                        "noopener,noreferrer"
-                      );
-                    }}
-                    className="flex items-center gap-[4px] p-[12px]"
-                  >
-                    <p className=" font-extrabold text-sm">
-                      {" "}
-                      View on Blockchain
-                    </p>
-                  </Button>
-                </div>
+                <Button
+                  onClick={() => {
+                    window.open(`https://sepolia.lineascan.build/tx/${TicketData?.txHash}`, "_blank", "noopener,noreferrer");
+                  }}
+                  className="flex items-center gap-[4px] p-[12px]"
+                >
+                  <p className=" font-extrabold text-sm"> View on Blockchain</p>
+                </Button>
               </div>
             </div>
-          </>
-      
-         
-      
+          </div>
+        </>
       </div>
     </section>
   );

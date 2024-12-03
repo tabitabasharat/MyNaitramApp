@@ -119,7 +119,7 @@ const imageMap: any = {
   "Ticketing & Registration": img20,
 };
 
- function SpecificEventTickets() {
+function SpecificEventTickets() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [eventID, setEventId] = useState("");
@@ -128,10 +128,8 @@ const imageMap: any = {
 
   const [TicketNoAccessOpen, setTicketNoAccessOpen] = useState(false);
 
-
   useEffect(() => {
-    const currentUrl: any =
-      typeof window !== "undefined" ? window.location.href : null;
+    const currentUrl: any = typeof window !== "undefined" ? window.location.href : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventId(value);
@@ -139,10 +137,7 @@ const imageMap: any = {
     dispatch(getTicketByQR(value));
   }, []);
 
-
-  const TicketData = useAppSelector(
-    (state) => state?.getTicketByQR?.myQRTickets?.data
-  );
+  const TicketData = useAppSelector((state) => state?.getTicketByQR?.myQRTickets?.data);
   console.log("MY ticket data is", TicketData);
 
   const userLoading = useAppSelector((state) => state?.getTicketByQR);
@@ -253,11 +248,9 @@ const imageMap: any = {
     },
     {
       id: 2,
-      image: candendar,
+      image: time,
       // address: ConvertDate(TicketData?.event?.startTime),
-      address: `${ConvertDate(TicketData?.event?.startTime)} - ${ConvertTime(
-        TicketData?.event?.startTime
-      )}`,
+      address: `${ConvertDate(TicketData?.event?.startTime)} - ${ConvertTime(TicketData?.event?.startTime)}`,
     },
     {
       id: 3,
@@ -265,9 +258,7 @@ const imageMap: any = {
       // address: `${ConvertTime(TicketData?.event?.startTime)} - ${ConvertTime(
       //   TicketData?.event?.endTime
       // )}`,
-      address: `${ConvertDate(TicketData?.event?.endTime)} - ${ConvertTime(
-        TicketData?.event?.endTime
-      )}`,
+      address: `${ConvertDate(TicketData?.event?.endTime)} - ${ConvertTime(TicketData?.event?.endTime)}`,
     },
   ];
   const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -279,15 +270,8 @@ const imageMap: any = {
           <>
             {/* Container for back button and title */}
             <div className="flex justify-start items-center lg:gap-[16px] gap-[12px] mb-8">
-              <Image
-                src={Backbtn}
-                alt="back"
-                className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]"
-                onClick={() => router.back()}
-              />
-              <p className="text-[20px] lg:text-[24px] font-bold">
-                {TicketData?.event?.name}
-              </p>
+              <Image src={Backbtn} alt="back" className="w-[28px] h-[28px] lg:w-[44px] lg:h-[44px]" onClick={() => router.back()} />
+              <p className="text-[20px] lg:text-[24px] font-bold">{TicketData?.event?.name}</p>
             </div>
             {/* Main content container */}
             <div className="flex flex-col-reverse gap-[62px] justify-between items-center lg:flex-row">
@@ -295,16 +279,14 @@ const imageMap: any = {
                 <div className="flex flex-col lg:flex-row items-center  lg:items-start gap-[16px]">
                   <div className="flex gap-[8px] mb-[12px] mt-[11px] lg:mt-[0px] lg:mb-0 flex-wrap w-full lg:w-[100%]">
                     {TicketData?.event?.category?.length > 0 &&
-                      TicketData?.event?.category?.map(
-                        (category: any, index: any) => (
-                          <Badge
-                            key={index}
-                            className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]"
-                          >
-                            {category}
-                          </Badge>
-                        )
-                      )}
+                      TicketData?.event?.category?.map((category: any, index: any) => (
+                        <Badge
+                          key={index}
+                          className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]"
+                        >
+                          {category}
+                        </Badge>
+                      ))}
 
                     {/* <Badge className="bg-[#FFFFFF33] pt-[6px] px-[10px] lg:pt-[8px] lg:px-[12px] text-center lg:bg-[#292929] text-[11px] lg:text-[12px]">
                   Party
@@ -316,15 +298,10 @@ const imageMap: any = {
                   </div>
                 </div>
                 <div>
-                  <h2 className="font-extrabold text-start text-[32px] lg:text-[48px] mb-[24px]">
-                    {TicketData?.event?.name}
-                  </h2>
+                  <h2 className="font-extrabold text-start text-[32px] lg:text-[48px] mb-[24px]">{TicketData?.event?.name}</h2>
                   <div className="flex flex-col justify-center">
                     {locations?.map((location) => (
-                      <div
-                        key={location?.id}
-                        className="flex items-center mb-[12px] gap-[8px]"
-                      >
+                      <div key={location?.id} className="flex items-center mb-[12px] gap-[8px]">
                         <Image
                           src={location?.image}
                           width={30}
@@ -332,33 +309,16 @@ const imageMap: any = {
                           // className=" "
                           alt="Location Icon"
                         />
-                        <p className="font-bold text-start text-[16px]">
-                          {location?.address}
-                        </p>
+                        <p className="font-bold text-start text-[16px]">{location?.address}</p>
                       </div>
                     ))}
                   </div>
                   <div className="flex flex-col justify-center">
-                    <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">
-                      Included in this ticket type
-                    </h3>
-                    {TicketData?.event?.tickets[
-                      TicketData?.isIndex
-                    ]?.options.map((Ticket: any) => (
-                      <div
-                        key={Ticket.id}
-                        className="flex items-center mb-[12px]"
-                      >
-                        <Image
-                          src={imageMap[Ticket?.label]}
-                          width={20}
-                          height={20}
-                          alt="Location Icon"
-                          className=" me-[8px]"
-                        />
-                        <p className="font-bold text-start text-[16px]">
-                          {Ticket?.label}
-                        </p>
+                    <h3 className="font-bold text-start text-[20px] lg:pt-[24px] pt-[16px] pb-[12px]">Included in this ticket type</h3>
+                    {TicketData?.event?.tickets[TicketData?.isIndex]?.whatsIncluded?.map((Ticket: any) => (
+                      <div key={Ticket.id} className="flex items-center mb-[12px]">
+                        <Image src={imageMap[Ticket?.label]} width={20} height={20} alt="Location Icon" className=" me-[8px]" />
+                        <p className="font-bold text-start text-[16px]">{Ticket?.label}</p>
                       </div>
                     ))}
                   </div>
@@ -422,9 +382,7 @@ const imageMap: any = {
 
                     <button
                       className="font-extrabold text-sm rounded-[100px]  px-[16px] py-[10px] bg-[#00D059] text-black"
-                       onClick={() => setenlargeOpen(true)}
-
-
+                      onClick={() => setenlargeOpen(true)}
                     >
                       Enlarge Code
                     </button>
@@ -432,28 +390,18 @@ const imageMap: any = {
                   {/* </Link> */}
                 </div>
                 <div>
-                  <h2 className="font-normal text-sm pb-[4px] text-start">
-                    Event Name
-                  </h2>
-                  <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">
-                    {TicketData?.event?.name}
-                  </h3>
+                  <h2 className="font-normal text-sm pb-[4px] text-start">Event Name</h2>
+                  <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">{TicketData?.event?.name}</h3>
                 </div>
                 <div className="pt-[24px]">
-                  <h2 className="font-normal text-sm pb-[4px] text-start">
-                    Ticket Type
-                  </h2>
+                  <h2 className="font-normal text-sm pb-[4px] text-start">Ticket Type</h2>
                   <h3 className="font-extrabold text-base pb-[24px] border-b border-dashed border-[#00D059] text-start">
-                    {TicketData?.event?.tickets[TicketData?.isIndex]?.type}
+                    {TicketData?.event?.tickets[TicketData?.isIndex]?.selectedEventTicketType}
                   </h3>
                 </div>
                 <div className="pt-[24px]">
-                  <h2 className="font-normal text-sm pb-[4px] text-start">
-                    Ticket ID
-                  </h2>
-                  <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">
-                    {TicketData?.id}
-                  </h3>
+                  <h2 className="font-normal text-sm pb-[4px] text-start">Ticket ID</h2>
+                  <h3 className="font-extrabold text-base pb-[20px] border-b border-dashed border-[#00D059] text-start">{TicketData?.id}</h3>
                 </div>
                 <div className="flex justify-center items center">
                   <Link href={`/verifiy-ticket/${eventID}`} className="w-full">
@@ -463,9 +411,7 @@ const imageMap: any = {
                     >
                       <div className="flex">
                         <Image src={blockchainblack} alt="block-chain" />
-                        <p className="font-extrabold text-start text-sm mt-[3px] text-black ms-[12px]">
-                          Verify on Blockchain
-                        </p>
+                        <p className="font-extrabold text-start text-sm mt-[3px] text-black ms-[12px]">Verify on Blockchain</p>
                       </div>
                       <div>
                         <Image src={arrow} alt="arrow" />
@@ -495,27 +441,10 @@ const imageMap: any = {
             </div> */}
               </div>
             </div>
-            {enlargeOpen && (
-              <EnlargeCodePopUp
-                onClose={() => setenlargeOpen(false)}
-                open={() => setenlargeOpen(true)}
-               qrCode={TicketData?.qrCode}
-              />
-            )}
+            {enlargeOpen && <EnlargeCodePopUp onClose={() => setenlargeOpen(false)} open={() => setenlargeOpen(true)} qrCode={TicketData?.qrCode} />}
           </>
         ) : (
-          <>
-      
-         
-          {
-            TicketNoAccessOpen && (
-              <TicketNoAccessPopUp
-                onClose={() => setTicketNoAccessOpen(false)}
-                open={() => setTicketNoAccessOpen(true)}
-              />
-            )
-          }
-              </>
+          <>{TicketNoAccessOpen && <TicketNoAccessPopUp onClose={() => setTicketNoAccessOpen(false)} open={() => setTicketNoAccessOpen(true)} />}</>
         )}
       </div>
     </section>

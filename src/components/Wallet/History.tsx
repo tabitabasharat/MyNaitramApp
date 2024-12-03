@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getUserSocialProfile } from "@/lib/middleware/profile";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-// import { Image } from "next/image";
 import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

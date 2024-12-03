@@ -1,5 +1,12 @@
 "use client";
-
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { TableFooter } from '@mui/material';
+import Paper from '@mui/material/Paper';
 import Image from "next/image";
 import React, { useState } from "react";
 import bg from "@/assets/V2assets/Frame 1597878436.svg";
@@ -12,6 +19,30 @@ import userlogo from "@/assets/V2assets/yIm-M5-BpSDdTEIJRt5D6xphizhIdozXjqSITgK4
 import AllEventsGrid from "../reusable-components/AllEventsGrid";
 import EventCard from "../reusable-components/EventCard";
 import Card from "../reusable-components/Card";
+import avatar from "@/assets/V2assets/Avatar.svg"
+
+import { ArrowElbowRightDown } from '@phosphor-icons/react';
+
+function createData2(
+
+    item: string,
+    Price: string,
+    Rarity: number,
+    Quantity: number,
+    From: string,
+    To: any,
+    month: string,
+    php: any,
+
+) {
+    return { item, Price, Rarity, Quantity, From, To, month, php };
+}
+
+const analytics = [
+    createData2("AKEMIWRLD", "1,249 ETH", 1234, 1, "Null Address", "You", "10 Mon Ago..", avatar),
+    createData2("AKEMIWRLD", "1,249 ETH", 1234, 1, "Null Address", "12345678", "10 Mon Ago..", avatar),
+    createData2("AKEMIWRLD", "-----", 1234, 1, "Null Address", "You", "10 Mon Ago..", avatar),
+];
 
 const Profile = () => {
     const [selectedTab, setSelectedTab] = useState("Collected");
@@ -70,148 +101,454 @@ const Profile = () => {
     );
 
     const FilterButton = () => (
-        <div className="gradient-slate flex justify-between items-center w-[143px] p-[16px] rounded-md cursor-pointer">
+        <div className="gradient-slate gradient-slate-input flex justify-between items-center w-full sm:w-[143px] p-[16px] rounded-md cursor-pointer">
             <p className="text-[#BFBFBF] text-base">Filter</p>
             <Image src={filter} alt="filter-icon" />
         </div>
     );
 
     return (
-        <div>
+        <section
+            className="min-h-screen pb-[8rem] lg:px-0 bg-v2 "
+        >
+            {/* // <section className="min-h-screen bg-cover bg-no-repeat bg-reward"> */}
             {/* Background Image */}
             <div className="pt-[0px] lg:pt-[85px] ">
-                <Image src={bg} alt="bg" className="w-full" />
+                <Image src={bg} alt="bg" className="w-full object-none h-[360px] sm:h-auto sm:object-contain" />
             </div>
 
-            <div className="xl:px-[90px] sm:px-[35px] px-[24px] pb-[247px]">
+            <div className="xl:px-[90px] sm:px-[35px] px-[24px] pb-[66px] sm:pb-[247px]">
                 {/* Profile Info */}
-                <div className="relative">
-                    <Image src={userlogo} alt="user-logo" className=" w-[88px] h-[88px] border border-red bottom-[160px] sm:bottom-[145px] absolute" />
+                <div className="relative ">
+                    <div className='gradient-profile max-[386px]:bottom-[170px] bottom-[145px] md:bottom-[177px] sm:bottom-[145px] absolute'>
+                        <Image src={userlogo} alt="user-logo" className=" w-[88px] rounded-[9px] h-[88px]" />
+                    </div>
                     <h3 className="text-[24px] md:text-[30px] font-extrabold pt-[60px] pb-[20px]">AKEMIWRLD</h3>
-                    <p className="flex items-center pt-[32px] flex-wrap pb-[10px] md:pt-[30px]">
-                        <Image src={ether} alt="ether-icon" className="w-[20px] h-[20px]" />
-                        <span className="md:text-[20px] text-base ps-[10px] font-extrabold">
-                            0xC377...e1eB
-                        </span>
-                        <span className="text-[#8F8F8F] md:text-[20px] text-base font-normal pt-[10px] sm:pt-[0px] ps-[30px]">
-                            Joined September 2024
-                        </span>
+                    <p className="flex items-center gap-[10px] sm:gap-[30px] flex-wrap text-[end] mt-[32px] pb-[10px] md:pt-[30px]">
+                        <div className='flex'>
+                            <Image src={ether} alt="ether-icon" className="w-[20px] h-[20px]" />
+                            <span className="md:text-[20px] text-base ps-[10px] font-extrabold">
+                                0xC377...e1eB
+                            </span>
+                        </div>
+                        <div>
+                            <span className="text-[#8F8F8F] md:text-[20px] text-base font-normal sm:pt-[0px]">
+                                Joined September 2024
+                            </span>
+                        </div>
                     </p>
                 </div>
 
                 {/* Tabs */}
-                <div className="mt-[30px]">
-                    <div className="flex">
-                        {tabs.map((tab) => renderTab(tab))}
+                <div className="mt-[30px] flex flex-col">
+                    <div className='flex'>
+                        <div className="flex w-full sm:w-[300px] mb-[24px] md:mb-[32px]">
+
+                            {tabs.map((tab) => renderTab(tab))}
+
+                        </div>
+                        <div className="flex sm:block hidden border-b-2 border-b-[#292929] border border-x-transparent border-t-transparent mb-[24px] w-[0px] sm:w-[70%] md:mb-[32px]"></div>
                     </div>
                     <div>
-                     <div className="flex flex-wrap xl:flex-nowrap gap-[17px] md:mt-[32px] mt-[24px]">
+                        {selectedTab === "Collected" ? (<div>
+                            <div className="flex flex-wrap xl:flex-nowrap gap-[17px] md:mt-[32px] mt-[24px]">
+                                <FilterButton />
+                                <div className="relative gradient-slate-input inline-block text-left w-[158px]">
+
+                                    <button
+                                        onClick={toggleDropdown}
+                                        className="flex items-center justify-between w-full gradient-slate text-white p-4 rounded-md"
+                                    >
+                                        <span className="text-sm font-normal">{selectedFilter}</span>
+                                        <Image src={dropdown} alt="dropwodn-icon" className={`w-[24px] h-[24px] transform transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`} />
+                                    </button>
+
+
+                                    {isOpen && (
+                                        <div className="absolute z-10 mt-2 w-full gradient-slate rounded-md shadow-lg">
+                                            <ul className="py-1">
+                                                {filters.map((filter) => (
+                                                    <li
+                                                        key={filter}
+                                                        onClick={() => applyFilter(filter)}
+                                                        className={`px-4 py-2 cursor-pointer ${selectedFilter === filter ? "font-bold text-[#00D059]" : ""
+                                                            }`}
+                                                    >
+                                                        {filter}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="relative gradient-slate-input inline-block text-left w-[158px]">
+                                    <button
+                                        onClick={toggleDropdownchain}
+                                        className="flex items-center justify-between w-full gradient-slate text-white p-4 rounded-md"
+                                    >
+                                        <span className="text-sm font-normal">{selectedChain}</span>
+                                        <Image src={dropdown} alt="dropwodn-icon" className={`w-[24px] h-[24px] transform transition-transform duration-300 ${isOpenchain ? "rotate-180" : "rotate-0"}`} />
+                                    </button>
+
+
+                                    {isOpenchain && (
+                                        <div className="absolute z-10 mt-2 w-full gradient-slate rounded-md shadow-lg">
+                                            <ul className="py-1">
+                                                {chain.map((filter) => (
+                                                    <li
+                                                        key={filter}
+                                                        onClick={() => applychain(filter)}
+                                                        className={`px-4 py-2 cursor-pointer ${selectedChain === filter ? "font-bold text-[#00D059]" : ""
+                                                            }`}
+                                                    >
+                                                        {filter}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="w-[510px] gradient-slate-input relative ">
+                                    <Input
+                                        className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
+                                        placeholder="Search"
+                                    />
+                                    <MagnifyingGlass size={20} className="absolute top-1/2 -translate-y-1/2 right-5" />
+                                </div>
+                                <div className="relative inline-block  text-left w-[220px]">
+                                    <button
+                                        onClick={toggleDropdownrecent}
+                                        className="flex items-center justify-between w-full gradient-slate text-white p-4 rounded-md"
+                                    >
+                                        <span className="text-sm font-normal">{selectedrecent}</span>
+                                        <Image src={dropdown} alt="dropwodn-icon" className={`w-[24px] h-[24px] transform transition-transform duration-300 ${isOpenrecent ? "rotate-180" : "rotate-0"}`} />
+                                    </button>
+
+
+                                    {isOpenrecent && (
+                                        <div className="absolute z-10 mt-2 w-full gradient-slate rounded-md shadow-lg">
+                                            <ul className="py-1">
+                                                {recent.map((filter) => (
+                                                    <li
+                                                        key={filter}
+                                                        onClick={() => applyrecent(filter)}
+                                                        className={`px-4 py-2 cursor-pointer ${selectedrecent === filter ? "font-bold text-[#00D059]" : ""
+                                                            }`}
+                                                    >
+                                                        {filter}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            <div>
+                                <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-[24px] md:mt-[70px]">
+                                    <Card />
+                                    <Card />
+                                    <Card />
+                                    <Card />
+                                    <Card />
+                                    <Card />
+                                </div>
+
+                            </div>
+                        </div>) : (<div>
                             <FilterButton />
-                            <div className="relative inline-block text-left w-[158px]">
-                            
-                                <button
-                                    onClick={toggleDropdown}
-                                    className="flex items-center justify-between w-full gradient-slate text-white p-4 rounded-md"
+                            <TableContainer component={Paper} className='w-full mt-[24px] md:mt-[70px] xl:w-[900px]' sx={{
+                                boxShadow: "none", background: "transparent",
+                                overflow: "auto",
+                                maxHeight: "100%",
+                                '&::-webkit-scrollbar': {
+                                    width: 0,
+                                    height: 0,
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    display: 'none',
+                                },
+                                scrollbarWidth: 'none',
+                                msOverflowStyle: 'none',
+                            }}>
+                                <Table
+                                    sx={{
+                                        minWidth: 650,
+                                        borderBottom: "none",
+                                        // borderTop: "1px solid #292929",
+                                        borderLeft: "none",
+                                        borderRight: "none",
+                                        fontFamily: "var(--font-base)",
+                                        color: "white",
+                                        // background: "#0F0F0F",
+                                        fontSize: 16,
+                                        fontweight: 500,
+
+                                    }}
+                                    aria-label="simple table"
                                 >
-                                    <span className="text-sm font-normal">{selectedFilter}</span>
-                                    <Image src={dropdown} alt="dropwodn-icon" className={`w-[24px] h-[24px] transform transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`} />
-                                </button>
+                                    <TableHead className="table-gradient-new gradient-slate" >
+                                        <TableRow sx={{ border: "none" }} className=' gradient-slate'>
+                                            <TableCell
+                                                className="w-[123.33px] px-[16.5px] lg:px-[20px] lg:w-[105px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                                align="left"
+                                                sx={{
+                                                    color: "#A6A6A6",
+                                                    borderBottom: "1px solid #292929",
+                                                    fontFamily: "var(--font-base)",
+                                                    borderTop: "none",
+                                                    borderLeft: "none"
+                                                }}
+                                            >
+                                                PFP
+                                            </TableCell>
+                                            <TableCell
+                                                className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[210px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                                align="left"
+                                                sx={{
+                                                    color: "#A6A6A6",
+                                                    borderBottom: "1px solid #292929",
+                                                    fontFamily: "var(--font-base)",
+                                                    borderTop: "none",
+                                                    borderLeft: "none"
+                                                }}
+                                            >
+                                                Item
+                                            </TableCell>
+                                            <TableCell
+                                                className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[136px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                                align="left"
+                                                sx={{
+                                                    color: "#A6A6A6",
+                                                    borderBottom: "1px solid #292929",
+                                                    fontFamily: "var(--font-base)",
+                                                    borderTop: "none",
+                                                    borderLeft: "none"
+                                                }}
+                                            >
+                                                Price
+                                            </TableCell>
+                                            <TableCell
+                                                className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[130px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                                align="left"
+                                                sx={{
+                                                    color: "#A6A6A6",
+                                                    borderBottom: "1px solid #292929",
+                                                    fontFamily: "var(--font-base)",
+                                                    borderTop: "none",
+                                                    borderLeft: "none"
+                                                }}
+                                            >
+                                                Rarity
+                                            </TableCell>
+                                            <TableCell
+                                                className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[130px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                                align="left"
+                                                sx={{
+                                                    color: "#A6A6A6",
+                                                    borderBottom: "1px solid #292929",
+                                                    fontFamily: "var(--font-base)",
+                                                    borderTop: "none",
+                                                    borderLeft: "none"
+                                                }}
+                                            >
+                                                Quantity
+                                            </TableCell>
+                                            <TableCell
+                                                className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[180px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                                align="left"
+                                                sx={{
+                                                    color: "#A6A6A6",
+                                                    borderBottom: "1px solid #292929",
+                                                    fontFamily: "var(--font-base)",
+                                                    borderTop: "none",
+                                                    borderLeft: "none"
+                                                }}
+                                            >
+                                                From
+                                            </TableCell>
+                                            <TableCell
+                                                className="w-[60px] px-[16.5px] lg:px-[20px] lg:w-[180px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                                align="left"
+                                                sx={{
+                                                    color: "#A6A6A6",
+                                                    borderBottom: "1px solid #292929",
+                                                    fontFamily: "var(--font-base)",
+                                                    borderTop: "none",
+                                                    borderLeft: "none"
+                                                }}
+                                            >
+                                                To
+                                            </TableCell>
+                                            <TableCell
+                                                className="w-[90px] px-[16.5px] lg:px-[20px] lg:w-[180px] text-[#A6A6A6] font-mormal text-[10px] lg:text-sm "
+                                                align="left"
+                                                sx={{
+                                                    color: "#A6A6A6",
+                                                    borderBottom: "1px solid #292929",
+                                                    fontFamily: "var(--font-base)",
+                                                    borderTop: "none",
+                                                    borderLeft: "none"
+                                                }}
+                                            >
+                                                To
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableRow
+                                        sx={{
 
-                             
-                                {isOpen && (
-                                    <div className="absolute z-10 mt-2 w-full gradient-slate rounded-md shadow-lg">
-                                        <ul className="py-1">
-                                            {filters.map((filter) => (
-                                                <li
-                                                    key={filter}
-                                                    onClick={() => applyFilter(filter)}
-                                                    className={`px-4 py-2 cursor-pointer ${selectedFilter === filter ? "font-bold text-[#00D059]" : ""
-                                                        }`}
+                                            backgroundColor: "transparent",
+                                            height: "8px",
+                                        }}
+                                    >
+                                        <TableCell
+                                            colSpan={5}
+                                            sx={{
+                                                padding: 0,
+                                                border: "none",
+                                            }}
+                                        />
+                                    </TableRow>
+                                    <TableBody className="border-0 gradient-slate">
+                                        {analytics.map((row, rowIndex) => (
+                                            <TableRow
+                                                key={row.item}
+                                                sx={{
+                                                    "&:last-child td, &:last-child th": { border: 0 },
+                                                    borderBottom: "none",
+                                                    fontFamily: "var(--font-base)",
+                                                    padding: "20px",
+                                                }}
+                                                className=" text-[white] border-0 text-[10px] font-normal lg:text-sm"
+                                            >
+                                                <TableCell
+                                                    sx={{
+                                                        padding: "20px",
+                                                        borderBottom: "none",
+                                                        fontFamily: "var(--font-base)",
+                                                    }}
+                                                    align="left"
+                                                    component="th"
+                                                    scope="row"
+                                                    className=" text-[white] text-[10px] font-normal lg:text-sm"
                                                 >
-                                                    {filter}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
-                            </div>
-                            <div className="relative inline-block text-left w-[158px]">
-                                <button
-                                    onClick={toggleDropdownchain}
-                                    className="flex items-center justify-between w-full gradient-slate text-white p-4 rounded-md"
-                                >
-                                    <span className="text-sm font-normal">{selectedChain}</span>
-                                    <Image src={dropdown} alt="dropwodn-icon" className={`w-[24px] h-[24px] transform transition-transform duration-300 ${isOpenchain ? "rotate-180" : "rotate-0"}`} />
-                                </button>
-
-                                
-                                {isOpenchain && (
-                                    <div className="absolute z-10 mt-2 w-full gradient-slate rounded-md shadow-lg">
-                                        <ul className="py-1">
-                                            {chain.map((filter) => (
-                                                <li
-                                                    key={filter}
-                                                    onClick={() => applychain(filter)}
-                                                    className={`px-4 py-2 cursor-pointer ${selectedChain === filter ? "font-bold text-[#00D059]" : ""
-                                                        }`}
+                                                    <Image
+                                                        src={row.php}
+                                                        alt={`${row.item} image`}
+                                                    />
+                                                </TableCell>
+                                                <TableCell
+                                                    sx={{
+                                                        borderBottom: "none",
+                                                        borderLeft: "none",
+                                                        fontFamily: "var(--font-base)",
+                                                        padding: "20px",
+                                                        color: "white",
+                                                    }}
+                                                    align="left"
+                                                    component="th"
+                                                    scope="row"
+                                                    className=" text-[white] text-[10px] font-normal lg:text-sm"
                                                 >
-                                                    {filter}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
-                            </div>
-                            <div className="w-[510px] relative ">
-                                <Input
-                                    className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
-                                    placeholder="Search"
-                                />
-                                <MagnifyingGlass size={20} className="absolute top-1/2 -translate-y-1/2 right-5" />
-                            </div>
-                            <div className="relative inline-block text-left w-[220px]">
-                                <button
-                                    onClick={toggleDropdownrecent}
-                                    className="flex items-center justify-between w-full gradient-slate text-white p-4 rounded-md"
-                                >
-                                    <span className="text-sm font-normal">{selectedrecent}</span>
-                                    <Image src={dropdown} alt="dropwodn-icon" className={`w-[24px] h-[24px] transform transition-transform duration-300 ${isOpenrecent ? "rotate-180" : "rotate-0"}`} />
-                                </button>
-
-                               
-                                {isOpenrecent && (
-                                    <div className="absolute z-10 mt-2 w-full gradient-slate rounded-md shadow-lg">
-                                        <ul className="py-1">
-                                            {recent.map((filter) => (
-                                                <li
-                                                    key={filter}
-                                                    onClick={() => applyrecent(filter)}
-                                                    className={`px-4 py-2 cursor-pointer ${selectedrecent === filter ? "font-bold text-[#00D059]" : ""
-                                                        }`}
+                                                    {row.item}
+                                                </TableCell>
+                                                <TableCell
+                                                    sx={{
+                                                        borderBottom: "none",
+                                                        borderLeft: "none",
+                                                        fontFamily: "var(--font-base)",
+                                                        padding: "20px",
+                                                        color: "#8F8F8F",
+                                                    }}
+                                                    align="left"
+                                                    component="th"
+                                                    scope="row"
+                                                    className=" text-[10px] font-normal lg:text-sm"
                                                 >
-                                                    {filter}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                        <div>
-                            <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-[24px] md:mt-[70px]">
-                                <Card />
-                                <Card />
-                                <Card />
-                                <Card />
-                                <Card />
-                                <Card />
-                            </div>
-
-                        </div>
+                                                    {row.Price}
+                                                </TableCell>
+                                                <TableCell
+                                                    sx={{
+                                                        borderBottom: "none",
+                                                        borderLeft: "none",
+                                                        fontFamily: "var(--font-base)",
+                                                        padding: "20px",
+                                                        color: "#8F8F8F",
+                                                    }}
+                                                    align="left"
+                                                    component="th"
+                                                    scope="row"
+                                                    className="text-[10px] font-normal lg:text-sm"
+                                                >
+                                                    #{row.Rarity}
+                                                </TableCell>
+                                                <TableCell
+                                                    sx={{
+                                                        borderBottom: "none",
+                                                        borderLeft: "none",
+                                                        fontFamily: "var(--font-base)",
+                                                        padding: "20px",
+                                                        color: "#8F8F8F",
+                                                    }}
+                                                    align="left"
+                                                    component="th"
+                                                    scope="row"
+                                                    className="text-[10px] font-normal lg:text-sm"
+                                                >
+                                                    {row.Quantity}
+                                                </TableCell>
+                                                <TableCell
+                                                    sx={{
+                                                        borderBottom: "none",
+                                                        borderLeft: "none",
+                                                        fontFamily: "var(--font-base)",
+                                                        padding: "20px",
+                                                        color: "#8F8F8F",
+                                                    }}
+                                                    align="left"
+                                                    component="th"
+                                                    scope="row"
+                                                    className="text-[10px] font-normal lg:text-sm"
+                                                >
+                                                    {row.From}
+                                                </TableCell>
+                                                <TableCell
+                                                    sx={{
+                                                        borderBottom: "none",
+                                                        borderLeft: "none",
+                                                        fontFamily: "var(--font-base)",
+                                                        padding: "20px",
+                                                        color: "#8F8F8F",
+                                                    }}
+                                                    align="left"
+                                                    component="th"
+                                                    scope="row"
+                                                    className=" text-[10px] font-normal lg:text-sm"
+                                                >
+                                                    {row.To}
+                                                </TableCell>
+                                                <TableCell
+                                                    sx={{
+                                                        padding: "20px",
+                                                        borderBottom: "none",
+                                                        color: "#8F8F8F",
+                                                        fontFamily: "var(--font-base)",
+                                                    }}
+                                                    className="border-0 text-[10px] font-normal lg:text-sm"
+                                                    align="left"
+                                                >
+                                                    {row.month}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>)}
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

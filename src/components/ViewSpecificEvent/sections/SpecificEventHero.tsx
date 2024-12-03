@@ -73,6 +73,8 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   const [modalContent, setModalContent] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [allTickets, setAllTickets] = useState<any[]>([]);
+  const [buyModelTickets, setBuyModelTickets] = useState<any[]>([]);
   const [currentUserID, setCurrentUserID] = useState<string>("");
 
   const handleLinkClick = (link: string) => {
@@ -239,6 +241,9 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
   useEffect(() => {
     dispatch(getOrganizerSocialProfile(EventData?.userId));
+    console.log("Event Tickets data is as ==> ", EventData?.tickets);
+    setAllTickets((prev) => EventData?.tickets.filter((t: any) => t?.selectedEventTicketType !== "RSVP Ticketing"));
+    setBuyModelTickets(EventData?.tickets);
   }, [EventData]);
 
   useEffect(() => {
@@ -255,7 +260,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
     // dispatch(getOrganizerSocialProfile(userId));
   }, []);
 
-  console.log(EventData, "this is my event data");
+  console.log(EventData?.tickets, "this is my event data");
 
   // async function StopSalesMethod() {
   //   console.log("My EVENT DATA IS AS ===> ", EventData, "AND Event ID is as ===> ", eventID);
@@ -295,6 +300,10 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
   //   }
   // }
 
+  useEffect(() => {
+    console.log("This are states tickets===> ", allTickets);
+  }, [allTickets]);
+
   return (
     <section className="bg-img ">
       {(userLoading?.loading || loading) && <ScreenLoader />}
@@ -309,7 +318,9 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
 
       <div className="">
         <div className="main-abovee px-[24px] w-full md:px-[100px] lg:pe-[100px] lg:ps-[100px] xl:px-[216px] pt-[8rem] lg:justify-center lg:pt-[9rem] pb-[6rem] z-[2] gap-[32px] lg:gap-12 w-full md:w-[100%] xl:w-full relative   ">
+          {/* Header of Current Ticket */}
           <div className="flex mb-[32px] justify-between items-center">
+            {/* Back Button */}
             <div className="flex items-center gap-4 ">
               {/* <div className="flex items-center gap-4 mb-6"> */}
               <button onClick={() => router.back()} type="button">
@@ -319,7 +330,9 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                 <span className="text-[#BFBFBF]">Event</span> / <span>{EventData?.name}</span>
               </p>
             </div>
+            {/* Buttons to share and report and feedback */}
             <div className="flex gap-[11px] relative">
+              {/* Share Button */}
               <button
                 className="bg-[#13FF7A] text-sm font-extrabold flex w-full sm:w-fit justify-center p-[10px] gap-[6px] rounded-[100px] text-[black]"
                 onClick={copyUrlToClipboard}
@@ -327,6 +340,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                 <Image src={shareicon} sizes="16px" alt="share icon" />
                 <p>Share</p>
               </button>
+              {/* Report and Feed back Button and dropDwon and Model */}
               <div className="relative">
                 <Image src={menuicon} className="w-[36px] h-[36px] cursor-pointer" alt="share-menu-icon" onClick={toggleDropdown} />
                 {isDropdownOpen && (
@@ -389,24 +403,31 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                 />
               )}
             </div>
+            {/* Model here to share and copy the link */}
             {sharemodal && <ShareModal onClose={() => setShareModal(false)} open={() => setShareModal(true)} eventUrl={copiedUrl} />}
           </div>
+          {/* Body of current Ticket */}
           <div className="flex gap-[40px] event-spacing-adjustment flex-col lg:flex-row">
+            {/* Image section of Ticket */}
             <div className="">
               <div className="lhs-hero w-full lg:w-[392px]  flex items-center justify-center flex-col relative ">
+                {/* Main Image */}
                 <Image src={EventData?.coverEventImage} alt="takeover" width={392} height={200} className="img-center rounded-lg relative" />
 
                 {/* <div className="bg-white/20 p-[1rem] rounded-full backdrop-blur-lg webkit-header-blur w-fit absolute right-[24px] bottom-0">
                 <Heart size={23} weight="fill" />
               </div> */}
-
+                {/* Follow Button and Organizer Details section */}
                 {EventData?.userId && <Followpromoter EventData={EventData} userId={EventData?.userId} eventName={EventData?.name} />}
               </div>
             </div>
 
+            {/* Ticket Right Sise Section */}
             <div className="main-div-takeoverr ">
               <div className="rhs-hero event-width-adjustment mt-0">
+                {/* RIGHT SIDE ALL UPPER DATA SECTION including (name, tags, catgories, description, location, buy tickets, ticket (start and end times) etc) */}
                 <EventsHeroSlide
+                  allTickets={buyModelTickets}
                   instaUrl={EventData?.instaUrl}
                   tiktokUrl={EventData?.tiktokUrl}
                   event={EventData?.id}
@@ -417,6 +438,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   startTime={EventData?.startTime}
                   img={EventData?.eventPicture}
                   location={EventData?.location}
+                  eventTags={EventData?.tags}
                   eventdescription={EventData?.eventDescription}
                   // activeIndex={activeIndex}
                   setShowTicket={setShowTicket}
@@ -431,12 +453,12 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   //     : EventData?.tickets[0]?.price
                   // }
                   ticketStartPrice={
-                    EventData?.tickets?.length === 1
-                      ? Number(EventData?.tickets[0]?.price) // Return the price of the single ticket as a number
-                      : EventData?.tickets && EventData?.tickets.length > 0
+                    allTickets?.length === 1
+                      ? Number(allTickets[0]?.ticketPrice) // Return the price of the single ticket as a number
+                      : allTickets && allTickets.length > 0
                       ? Math.min(
-                          ...EventData?.tickets.map((ticket: any) => {
-                            const price = Number(ticket.price); // Convert price to number
+                          ...allTickets.map((ticket: any) => {
+                            const price = Number(ticket?.ticketPrice || 0); // Convert price to number
                             return isNaN(price) ? Infinity : price; // Return Infinity if price is NaN
                           })
                         ).toString() // Find the lowest price and convert to string
@@ -447,9 +469,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   // }
 
                   ticketEndPrice={
-                    EventData?.tickets && EventData?.tickets?.length > 0
-                      ? Math.max(...EventData.tickets.map((ticket: any) => Number(ticket.price) || 0))
-                      : 0 // Default to 0 if there are no tickets
+                    allTickets && allTickets.length > 0 ? Math.max(...allTickets.map((ticket: any) => Number(ticket?.ticketPrice) || 0)) : 0 // Default to 0 if there are no tickets
                   }
                   // handleBulletClick={() => handleBulletClick(event)}
                   AboutDrop={isAbout}
@@ -479,6 +499,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
               </div>
             )} */}
 
+                {/* MEDIA SECTION */}
                 {EventData?.eventmedia?.length > 0 && Array.isArray(EventData?.eventmedia) && (
                   <div className="w-[665px] event-width-adjustment h-[350px] mt-[48px] slider-main-div">
                     <Slider {...settings}>
@@ -508,7 +529,7 @@ const SpecificEventHero = ({ setShowTicket, eventType }: any) => {
                   </div>
                 )}
 
-                {/* LIVE ACTIVITY */}
+                {/* LIVE ACTIVITY SECTION */}
                 <GradientBorder className="mt-[48px] w-full ">
                   <div
                     style={{

@@ -21,7 +21,8 @@ const AllEventsGrid = ({ events, eventType }: any) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userid =
+      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     const data = {
       page: 1,
@@ -41,7 +42,7 @@ const AllEventsGrid = ({ events, eventType }: any) => {
 
     dispatch(getViewAllEvent(data));
     dispatch(getViewPastEvents(data));
-    dispatch(getLiveEventById(datalive)); 
+    dispatch(getLiveEventById(datalive));
   }, []);
   const handlePageChange = (page: number) => {
     const data = {
@@ -53,19 +54,34 @@ const AllEventsGrid = ({ events, eventType }: any) => {
     dispatch(getLiveEventById(data));
   };
 
-  const EventsAllData = useAppSelector((state) => state?.getViewAllEvents?.ViewallEvents?.data);
+  const EventsAllData = useAppSelector(
+    (state) => state?.getViewAllEvents?.ViewallEvents?.data
+  );
 
   console.log("All Events are new", EventsAllData);
 
-  const EventsPastData = useAppSelector((state) => state?.getPastEvents?.ViewPastEvents?.data);
+  const EventsPastData = useAppSelector(
+    (state) => state?.getPastEvents?.ViewPastEvents?.data
+  );
 
   console.log("All Past Events are", EventsPastData);
 
-  const myEvents = useAppSelector((state) => state?.getUserLiveEvents?.myLiveEvents?.data);
+  const myEvents = useAppSelector(
+    (state) => state?.getUserLiveEvents?.myLiveEvents?.data
+  );
 
   console.log("my Live Events are", myEvents);
 
   console.log("event type", eventType);
+
+  function getTicketData(item: any) {
+    const prices = item
+      .map((ticket: any) => ticket.ticketPrice)
+      .filter((value: any) => value !== undefined);
+    const minPrice = Math.min(...prices);
+    const ticketPrice = minPrice > 0 ? minPrice : "0";
+    return ticketPrice;
+  }
 
   return (
     <>
@@ -86,14 +102,18 @@ const AllEventsGrid = ({ events, eventType }: any) => {
                     endTime={event?.endTime}
                     startTime={event?.startTime}
                     likedEvents={event?.likes}
-                    price={event?.tickets[0]?.price}
+                    price={getTicketData(event?.tickets)}
                   />
                 ))}
 
               <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
             </div>
             <div className="container p-0">
-              <Pagination currentPage={EventsAllData?.currentPage} totalPages={EventsAllData?.totalPages} onPageChange={handlePageChange} />
+              <Pagination
+                currentPage={EventsAllData?.currentPage}
+                totalPages={EventsAllData?.totalPages}
+                onPageChange={handlePageChange}
+              />
             </div>
           </>
         ) : (
@@ -128,14 +148,18 @@ const AllEventsGrid = ({ events, eventType }: any) => {
                     endTime={event?.endTime}
                     startTime={event?.startTime}
                     likedEvents={event?.likes}
-                    price={event?.tickets[0]?.price}
+                    price={getTicketData(event?.tickets)}
                   />
                 ))}
 
               <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
             </div>
             <div className="container p-0">
-              <Pagination currentPage={EventsPastData?.currentPage} totalPages={EventsPastData?.totalPages} onPageChange={handlePageChange} />
+              <Pagination
+                currentPage={EventsPastData?.currentPage}
+                totalPages={EventsPastData?.totalPages}
+                onPageChange={handlePageChange}
+              />
             </div>
           </>
         ) : (
@@ -166,13 +190,17 @@ const AllEventsGrid = ({ events, eventType }: any) => {
                   eventId={event?.id}
                   eventType={eventType}
                   likedEvents={event?.likes}
-                  price={event?.tickets[0]?.price}
+                  price={getTicketData(event?.tickets)}
                 />
               ))}
               <div className="absolute inset-0 to-transparent z-[3] pointer-events-none"></div>
             </div>
             <div className="container p-0">
-              <Pagination currentPage={myEvents?.currentPage} totalPages={myEvents?.totalPages} onPageChange={handlePageChange} />
+              <Pagination
+                currentPage={myEvents?.currentPage}
+                totalPages={myEvents?.totalPages}
+                onPageChange={handlePageChange}
+              />
             </div>
           </>
         ) : (
