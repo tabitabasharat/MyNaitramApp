@@ -1630,17 +1630,10 @@ function Editevent() {
               eventStartDT: convertToUTC(ticket?.eventdates?.[0]?.startDate),
               eventEndDT: convertToUTC(ticket?.eventdates?.[ticket?.eventdates?.length - 1]?.endDate),
               whatsIncluded: ticket?.options,
-              festivalEventDates: ticket?.eventdates
-                ?.map(
-                  (t: FestivalEventsDate, i: number) =>
-                    i !== 0
-                      ? {
-                          eventStartDateTime: convertToUTC(t?.startDate),
-                          eventEndDateTime: convertToUTC(t?.endDate),
-                        }
-                      : null // Return null for i === 0
-                )
-                ?.filter((item: any) => item !== null),
+              festivalEventDates: ticket?.eventdates?.map((t: FestivalEventsDate, i: number) => ({
+                eventStartDateTime: convertToUTC(t?.startDate),
+                eventEndDateTime: convertToUTC(t?.endDate),
+              })),
             }
           : ticket.type === "RSVP Ticketing"
           ? {
@@ -1978,12 +1971,12 @@ function Editevent() {
               isTicketStartPickerOpen: false,
               isTicketEndPickerOpen: false,
               eventdates: [
-                {
-                  startDate: convertToLocal(ticket?.eventStartDT),
-                  endDate: convertToLocal(ticket?.eventEndDT),
-                  isStartEventPickerOpen: false,
-                  isEndEventPickerOpen: false,
-                },
+                // {
+                //   startDate: convertToLocal(ticket?.eventStartDT),
+                //   endDate: convertToLocal(ticket?.eventEndDT),
+                //   isStartEventPickerOpen: false,
+                //   isEndEventPickerOpen: false,
+                // },
                 ...ticket?.festivalEventDates.map((d: any, i: number) => ({
                   startDate: convertToLocal(d?.eventStartDateTime),
                   endDate: convertToLocal(d?.eventEndDateTime),

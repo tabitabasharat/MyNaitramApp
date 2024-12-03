@@ -1685,17 +1685,10 @@ function EditeventOnBack() {
               eventStartDT: convertToUTC(ticket?.eventdates?.[0]?.startDate),
               eventEndDT: convertToUTC(ticket?.eventdates?.[ticket?.eventdates?.length - 1]?.endDate),
               whatsIncluded: ticket?.options,
-              festivalEventDates: ticket?.eventdates
-                ?.map(
-                  (t: FestivalEventsDate, i: number) =>
-                    i !== 0
-                      ? {
-                          eventStartDateTime: convertToUTC(t?.startDate),
-                          eventEndDateTime: convertToUTC(t?.endDate),
-                        }
-                      : null // Return null for i === 0
-                )
-                ?.filter((item: any) => item !== null),
+              festivalEventDates: ticket?.eventdates?.map((t: FestivalEventsDate, i: number) => ({
+                eventStartDateTime: convertToUTC(t?.startDate),
+                eventEndDateTime: convertToUTC(t?.endDate),
+              })),
             }
           : ticket.type === "RSVP Ticketing"
           ? {
@@ -1753,77 +1746,7 @@ function EditeventOnBack() {
             }
       );
 
-      /*
-      // set Dates for Event...!
-      let eventStartingDate = "";
-      let eventEndingDate = "";
-      let ticketStartingDate = "";
-      let ticketEndingDate = "";
-
-      const totalRSVP = ticketTypes.filter((t: any, index: number) => t?.type == "RSVP Ticketing");
-      if (totalRSVP?.length == ticketTypes?.length) {
-        // get maximum Last date first
-        const maxDate = Math.max(...totalRSVP.map((t: any) => new Date(t?.deadline).getTime()));
-        const currentDate = new Date();
-        eventEndingDate = convertToUTC(maxDate.toString());
-        ticketEndingDate = convertToUTC(maxDate.toString());
-        eventStartingDate = convertToUTC(currentDate.toISOString().slice(0, 16));
-        ticketStartingDate = convertToUTC(currentDate.toISOString().slice(0, 16));
-      } else {
-        const currentDate = new Date();
-        // Filter the Event Start Date
-        const eventMinDate = Math.min(
-          ...ticketTypes.map((t: any) => {
-            if (t?.deadline) {
-              return currentDate.getTime();
-            } else {
-              return new Date(t?.eventStartDT).getTime();
-            }
-          })
-        );
-
-        // Filter the Event End date
-        const eventMaxDate = Math.max(
-          ...ticketTypes.map((t: any) => {
-            if (t?.deadline) {
-              return new Date(t?.deadline).getTime();
-            } else {
-              return new Date(t?.eventEndDT).getTime();
-            }
-          })
-        );
-
-        // Filter the Ticket Start Date
-        const ticketMinDate = Math.min(
-          ...ticketTypes.map((t: any) => {
-            if (t?.deadline) {
-              return currentDate.getTime();
-            } else {
-              return new Date(t?.ticketStartDT).getTime();
-            }
-          })
-        );
-
-        // Filter the Ticket End Date
-        const ticketMaxDate = Math.min(
-          ...ticketTypes.map((t: any) => {
-            if (t?.deadline) {
-              return currentDate.getTime();
-            } else {
-              return new Date(t?.ticketEndDT).getTime();
-            }
-          })
-        );
-
-        eventEndingDate = convertToUTC(eventMaxDate.toString());
-        ticketEndingDate = convertToUTC(ticketMaxDate.toString());
-        eventStartingDate = convertToUTC(eventMinDate.toString());
-        ticketStartingDate = convertToUTC(ticketMinDate.toString());
-      } 
-      */
-
       /////////// Getting maximim and minimum dates for ////
-      console.log(ticketTypes, "this is ticket data");
       const nonRsvpTickets = ticketTypes.filter((ticket: any) => ticket.type !== "RSVP Ticketing");
 
       let timings: any = {
@@ -1925,6 +1848,9 @@ function EditeventOnBack() {
         }
       }
 
+      console.log("this is timming==>", timings);
+      console.log("This is ticketTypes==>", ticketTypes);
+
       //////////////////////////////////////////////////////
 
       setLoader(true);
@@ -1957,10 +1883,10 @@ function EditeventOnBack() {
           linkedinUrl: linkedinUrl || EventData?.linkedinurl || "",
           eventmedia: updatedEventMedia || EventData?.eventmedia || "",
           stopBy: false,
-          ticketStartDate: convertToUTC(timings?.eventstartdate),
-          ticketEndDate: convertToUTC(timings?.eventenddate),
-          startTime: convertToUTC(timings?.eventstarttime),
-          endTime: convertToUTC(timings?.eventendtime),
+          ticketStartDate: convertToUTC(timings?.ticketStartDate),
+          ticketEndDate: convertToUTC(timings?.ticketEndDate),
+          startTime: convertToUTC(timings?.startTime),
+          endTime: convertToUTC(timings?.endTime),
         };
 
         console.log("This is data here =====> ", data);
@@ -2027,15 +1953,6 @@ function EditeventOnBack() {
       console.log("my values", values);
       const imagesOfGallery = await handleFileChangeapi();
 
-      /*const utcEventStartTime = convertToUTC(EventStartTime);
-        // setEventStartTime(utcEventStartTime);
-        const utcEventEndTime = convertToUTC(EventEndTime);
-        // setEventEndTime(utcEventEndTime);
-        const utcTicketStartTime = convertToUTC(TicketStartDate);
-        // setTicketStartDate(utcTicketStartTime);
-        const utcTicketEndTime = convertToUTC(TicketEndDate);
-        // setTicketEndDate(utcTicketEndTime); */
-
       const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
         ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
           ? {
@@ -2044,17 +1961,10 @@ function EditeventOnBack() {
               ticketend: ticket.ticketend,
               eventstart: ticket?.eventdates?.[0]?.startDate,
               eventend: ticket?.eventdates?.[ticket?.eventdates?.length - 1]?.endDate,
-              eventdates: ticket?.eventdates
-                ?.map(
-                  (e: FestivalEventsDate, i: number) =>
-                    i !== 0
-                      ? {
-                          startDate: e?.startDate,
-                          endDate: e?.endDate,
-                        }
-                      : null // Return null for i === 0
-                )
-                ?.filter((item: any) => item !== null),
+              eventdates: ticket?.eventdates?.map((e: FestivalEventsDate, i: number) => ({
+                startDate: e?.startDate,
+                endDate: e?.endDate,
+              })),
             }
           : ticket.type === "RSVP Ticketing"
           ? {
@@ -2183,8 +2093,8 @@ function EditeventOnBack() {
         if (maxEventEndDateTime !== null && minEventStartTime !== null) {
           timings = {
             ...timings,
-            endTime: timings.endTime > maxEventEndDateTime.toISOString() ? timings.endTime : maxEventEndDateTime.toISOString(),
-            startTime: new Date(timings.startTime) < new Date(minEventStartTime) ? timings.startTime : minEventStartTime.toISOString(),
+            endTime: timings.endTime > maxEventEndDateTime ? timings.endTime : maxEventEndDateTime,
+            startTime: new Date(timings.startTime) < new Date(minEventStartTime) ? timings.startTime : minEventStartTime,
           };
         }
       }
@@ -2294,12 +2204,12 @@ function EditeventOnBack() {
               isTicketStartPickerOpen: false,
               isTicketEndPickerOpen: false,
               eventdates: [
-                {
-                  startDate: ticket?.eventstart,
-                  endDate: ticket?.eventend,
-                  isStartEventPickerOpen: false,
-                  isEndEventPickerOpen: false,
-                },
+                // {
+                //   startDate: ticket?.eventstart,
+                //   endDate: ticket?.eventend,
+                //   isStartEventPickerOpen: false,
+                //   isEndEventPickerOpen: false,
+                // },
                 ...ticket?.eventdates.map((d: any, i: number) => ({
                   startDate: d?.startDate,
                   endDate: d?.endDate,
@@ -2482,6 +2392,8 @@ function EditeventOnBack() {
 
       /////////  Event Nane  ///////////////
       setEventname(EventData?.eventname);
+
+      ///// Set Dates for event and Ticket ////
 
       form.reset({
         eventname: EventData?.eventname || form.getValues("eventname"),

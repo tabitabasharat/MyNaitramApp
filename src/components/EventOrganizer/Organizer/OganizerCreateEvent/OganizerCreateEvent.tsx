@@ -1400,17 +1400,10 @@ function OganizerCreateEvent() {
               eventStartDT: convertToUTC(ticket?.eventdates?.[0]?.startDate),
               eventEndDT: convertToUTC(ticket?.eventdates?.[ticket?.eventdates?.length - 1]?.endDate),
               whatsIncluded: ticket?.options,
-              festivalEventDates: ticket?.eventdates
-                ?.map(
-                  (t: FestivalEventsDate, i: number) =>
-                    i !== 0
-                      ? {
-                          eventStartDateTime: convertToUTC(t?.startDate),
-                          eventEndDateTime: convertToUTC(t?.endDate),
-                        }
-                      : null // Return null for i === 0
-                )
-                ?.filter((item: any) => item !== null),
+              festivalEventDates: ticket?.eventdates?.map((t: FestivalEventsDate, i: number) => ({
+                eventStartDateTime: convertToUTC(t?.startDate),
+                eventEndDateTime: convertToUTC(t?.endDate),
+              })),
             }
           : ticket.type === "RSVP Ticketing"
           ? {
@@ -1468,122 +1461,10 @@ function OganizerCreateEvent() {
             }
       );
 
-      // set Dates for Event tyftyfhtyufhtyufhtu...!
-      // let eventStartingDate = "";
-      // let eventEndingDate = "";
-      // let ticketStartingDate = "";
-      // let ticketEndingDate = "";
-
-      // console.log(ticketTypes,"this is ticket type")
-
-      // // Check if all ticket types are RSVP Ticketing
-      // const totalRSVP = ticketTypes.filter(
-      //   (t: any) => t?.type === "RSVP Ticketing"
-      // );
-
-      // if (totalRSVP?.length === ticketTypes?.length) {
-      //   const maxDate = Math.max(
-      //     ...totalRSVP.map((t: any) => new Date(t?.deadline).getTime())
-      //   );
-      //   const currentDate = new Date();
-      //   eventEndingDate = convertToUTC(maxDate.toString());
-      //   ticketEndingDate = convertToUTC(maxDate.toString());
-      //   eventStartingDate = convertToUTC(
-      //     currentDate.toISOString().slice(0, 16)
-      //   );
-      //   ticketStartingDate = convertToUTC(
-      //     currentDate.toISOString().slice(0, 16)
-      //   );
-      // } else {
-      //   const eventMinDate = Math.min(
-      //     ...ticketTypes.map((t: any) =>
-      //       new Date(t?.eventstart || t?.deadline).getTime()
-      //     )
-      //   );
-
-      //   const eventMaxDate = Math.max(
-      //     ...ticketTypes.map((t: any) =>
-      //       new Date(t?.eventend || t?.deadline).getTime()
-      //     )
-      //   );
-
-      //   const ticketMinDate = Math.min(
-      //     ...ticketTypes.map((t: any) =>
-      //       new Date(t?.ticketstart || t?.deadline).getTime()
-      //     )
-      //   );
-
-      //   const ticketMaxDate = Math.max(
-      //     ...ticketTypes.map((t: any) =>
-      //       new Date(t?.ticketend || t?.deadline).getTime()
-      //     )
-      //   );
-
-      //   eventEndingDate = convertToUTC(eventMaxDate.toString());
-      //   ticketEndingDate = convertToUTC(ticketMaxDate.toString());
-      //   eventStartingDate = convertToUTC(eventMinDate.toString());
-      //   ticketStartingDate = convertToUTC(ticketMinDate.toString());
-      // }
-
-      let eventStartingDate = "";
-      let eventEndingDate = "";
-      let ticketStartingDate = "";
-      let ticketEndingDate = "";
-
       console.log(ticketTypes, "this is ticket type");
 
-      // Check if all ticket types are RSVP Ticketing
-      // const totalRSVP = ticketTypes.filter(
-      //   (t: any) => t?.type === "RSVP Ticketing"
-      // );
+      ///////////////////////////////////////////////////
 
-      // if (totalRSVP?.length === ticketTypes?.length) {
-      //   const maxDate = totalRSVP.reduce((max, t) => {
-      //     const date = new Date(t?.deadline
-      //       ).getTime();
-      //     return date > max ? date : max;
-      //   }, 0);
-
-      //   const currentDate = new Date();
-      //   eventEndingDate = convertToUTC(maxDate.toString());
-      //   ticketEndingDate = convertToUTC(maxDate.toString());
-      //   eventStartingDate = convertToUTC(
-      //     currentDate.toISOString().slice(0, 16)
-      //   );
-      //   ticketStartingDate = convertToUTC(
-      //     currentDate.toISOString().slice(0, 16)
-      //   );
-      // } else {
-      //   const { eventMinDate, eventMaxDate } = ticketTypes.reduce(
-      //     (acc, t: any) => {
-      //       const eventStart = new Date(t?.eventstart || t?.deadline).getTime();
-      //       const eventEnd = new Date(t?.eventend || t?.deadline).getTime();
-      //       acc.eventMinDate = Math.min(acc.eventMinDate, eventStart);
-      //       acc.eventMaxDate = Math.max(acc.eventMaxDate, eventEnd);
-      //       return acc;
-      //     },
-      //     { eventMinDate: Infinity, eventMaxDate: -Infinity }
-      //   );
-
-      //   const { ticketMinDate, ticketMaxDate } = ticketTypes.reduce(
-      //     (acc, t: any) => {
-      //       const ticketStart = new Date(
-      //         t?.ticketstart || t?.deadline
-      //       ).getTime();
-      //       const ticketEnd = new Date(t?.ticketend || t?.deadline).getTime();
-      //       acc.ticketMinDate = Math.min(acc.ticketMinDate, ticketStart);
-      //       acc.ticketMaxDate = Math.max(acc.ticketMaxDate, ticketEnd);
-      //       return acc;
-      //     },
-      //     { ticketMinDate: Infinity, ticketMaxDate: -Infinity }
-      //   );
-
-      //   eventEndingDate = convertToUTC(eventMaxDate.toString());
-      //   ticketEndingDate = convertToUTC(ticketMaxDate.toString());
-      //   eventStartingDate = convertToUTC(eventMinDate.toString());
-      //   ticketStartingDate = convertToUTC(ticketMinDate.toString());
-      // }
-      console.log(ticketTypes, "this is ticket data");
       const nonRsvpTickets = ticketTypes.filter((ticket: any) => ticket.type !== "RSVP Ticketing");
 
       let timings: any = {
@@ -1686,6 +1567,8 @@ function OganizerCreateEvent() {
       }
 
       console.log("this is timming", timings);
+
+      // //////////////////////////////////////////////////////////////////////////////
 
       setLoader(true);
       const categorylabels = categoryTypes;
@@ -1802,17 +1685,10 @@ function OganizerCreateEvent() {
               ticketend: ticket.ticketend,
               eventstart: ticket?.eventdates?.[0]?.startDate,
               eventend: ticket?.eventdates?.[ticket?.eventdates?.length - 1]?.endDate,
-              eventdates: ticket?.eventdates
-                ?.map(
-                  (e: FestivalEventsDate, i: number) =>
-                    i !== 0
-                      ? {
-                          startDate: e?.startDate,
-                          endDate: e?.endDate,
-                        }
-                      : null // Return null for i === 0
-                )
-                ?.filter((item: any) => item !== null),
+              eventdates: ticket?.eventdates?.map((e: FestivalEventsDate, i: number) => ({
+                startDate: e?.startDate,
+                endDate: e?.endDate,
+              })),
             }
           : ticket.type === "RSVP Ticketing"
           ? {
@@ -1941,8 +1817,8 @@ function OganizerCreateEvent() {
         if (maxEventEndDateTime !== null && minEventStartTime !== null) {
           timings = {
             ...timings,
-            endTime: timings.endTime > maxEventEndDateTime.toISOString() ? timings.endTime : maxEventEndDateTime.toISOString(),
-            startTime: new Date(timings.startTime) < new Date(minEventStartTime) ? timings.startTime : minEventStartTime.toISOString(),
+            endTime: timings.endTime > maxEventEndDateTime ? timings.endTime : maxEventEndDateTime,
+            startTime: new Date(timings.startTime) < new Date(minEventStartTime) ? timings.startTime : minEventStartTime,
           };
         }
       }
@@ -2467,8 +2343,13 @@ function OganizerCreateEvent() {
 
   // handle end value
   const festivalEndEventValue = (ticketIndex: number, eventIndex: number, formattedDate: string) => {
-    const currentTicket: any | null = ticketTypes?.filter((t: any, t_Idx: number) => t_Idx === ticketIndex);
-    const nextEvent: any | null = currentTicket?.eventdates?.filter((e: any, e_Idx: number) => e_Idx === eventIndex + 1);
+    // const currentTicket: any | null = ticketTypes?.filter((t: any, t_Idx: number) => t_Idx === ticketIndex);
+    // const nextEvent: any | null = currentTicket?.eventdates?.filter((e: any, e_Idx: number) => e_Idx === eventIndex + 1);
+
+    // if (nextEvent && new Date(formattedDate) > new Date(nextEvent?.startDate)) {
+    //   ErrorToast("Event Can't End after Next Event start");
+    //   return;
+    // }
 
     setTicketTypes((prevTickets: any) =>
       prevTickets.map((ticket: any, i: number) =>
