@@ -1557,7 +1557,7 @@ function Editevent() {
     rsvpTicketChecks.forEach((ticket: any) => {
       if (ticket?.additional?.length > 0 || ticket.username || ticket.useremail || ticket.usernumb) {
       } else {
-        ErrorToast("At least one csv field is required");
+        ErrorToast("At least one field is required in RSVP");
         isFormValid = false;
         return;
       }
@@ -3775,7 +3775,7 @@ function Editevent() {
                                           render={({ field }) => {
                                             let currentDateTime = dayjs(
                                               eventIndex === 0
-                                                ? ticket?.ticketstart || new Date()
+                                                ? ticket?.ticketend || new Date()
                                                 : ticket?.eventdates[eventIndex - 1]?.endDate || new Date()
                                             );
                                             currentDateTime = currentDateTime.add(10, "minute");
@@ -3872,11 +3872,7 @@ function Editevent() {
                                           control={form.control}
                                           name={`tickets.${index}.eventdates.${eventIndex}.endDate`}
                                           render={({ field }) => {
-                                            let currentDateTime = dayjs(
-                                              eventIndex === 0
-                                                ? ticket?.ticketend || new Date()
-                                                : ticket?.eventdates[eventIndex]?.startDate || new Date()
-                                            );
+                                            let currentDateTime = dayjs(ticket?.eventdates[eventIndex]?.startDate || new Date());
                                             currentDateTime = currentDateTime.add(10, "minute");
                                             // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
@@ -4154,9 +4150,7 @@ function Editevent() {
                                         const currentDateTime = dayjs();
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
-                                              Ticket Start Date & Time
-                                            </FormLabel>
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">RSVP Deadline</FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
                                               <div className="w-full" onClick={() => toggleRSVPTicketDeadlinePicker(index)}>
@@ -4823,7 +4817,7 @@ function Editevent() {
                                       control={form.control}
                                       name={`tickets.${index}.eventstart`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(ticket?.ticketstart || new Date());
+                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
                                         currentDateTime = currentDateTime.add(10, "minute");
                                         // const minStartTime = dayjs(TicketEndDate || new Date());
 
@@ -4916,7 +4910,7 @@ function Editevent() {
                                       control={form.control}
                                       name={`tickets.${index}.eventend`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
+                                        let currentDateTime = dayjs(ticket?.eventstart || new Date());
                                         currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
@@ -5577,7 +5571,7 @@ function Editevent() {
                                       control={form.control}
                                       name={`tickets.${index}.eventstart`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(ticket?.ticketstart || new Date());
+                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
                                         currentDateTime = currentDateTime.add(10, "minute");
                                         // const minStartTime = dayjs(TicketEndDate || new Date());
 
@@ -5669,7 +5663,7 @@ function Editevent() {
                                       control={form.control}
                                       name={`tickets.${index}.eventend`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
+                                        let currentDateTime = dayjs(ticket?.eventstart || new Date());
                                         currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
@@ -6503,7 +6497,7 @@ function Editevent() {
                                       control={form.control}
                                       name={`tickets.${index}.eventstart`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(ticket?.ticketstart || new Date());
+                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
                                         currentDateTime = currentDateTime.add(10, "minute");
                                         // const minStartTime = dayjs(TicketEndDate || new Date());
 
@@ -6596,7 +6590,7 @@ function Editevent() {
                                       control={form.control}
                                       name={`tickets.${index}.eventend`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
+                                        let currentDateTime = dayjs(ticket?.eventstart || new Date());
                                         currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 

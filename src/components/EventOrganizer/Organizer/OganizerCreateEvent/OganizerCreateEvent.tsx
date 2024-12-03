@@ -2467,6 +2467,9 @@ function OganizerCreateEvent() {
 
   // handle end value
   const festivalEndEventValue = (ticketIndex: number, eventIndex: number, formattedDate: string) => {
+    const currentTicket: any | null = ticketTypes?.filter((t: any, t_Idx: number) => t_Idx === ticketIndex);
+    const nextEvent: any | null = currentTicket?.eventdates?.filter((e: any, e_Idx: number) => e_Idx === eventIndex + 1);
+
     setTicketTypes((prevTickets: any) =>
       prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex
@@ -3468,7 +3471,7 @@ function OganizerCreateEvent() {
                                           render={({ field }) => {
                                             let currentDateTime = dayjs(
                                               eventIndex === 0
-                                                ? ticket?.ticketstart || new Date()
+                                                ? ticket?.ticketend || new Date()
                                                 : ticket?.eventdates[eventIndex - 1]?.endDate || new Date()
                                             );
                                             currentDateTime = currentDateTime.add(10, "minute");
@@ -3568,11 +3571,7 @@ function OganizerCreateEvent() {
                                           control={form.control}
                                           name={`tickets.${index}.eventdates.${eventIndex}.endDate`}
                                           render={({ field }) => {
-                                            let currentDateTime = dayjs(
-                                              eventIndex === 0
-                                                ? ticket?.ticketend || new Date()
-                                                : ticket?.eventdates[eventIndex]?.startDate || new Date()
-                                            );
+                                            let currentDateTime = dayjs(ticket?.eventdates[eventIndex]?.startDate || new Date());
                                             currentDateTime = currentDateTime.add(10, "minute");
                                             // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
@@ -6206,7 +6205,7 @@ function OganizerCreateEvent() {
                                       control={form.control}
                                       name={`tickets.${index}.eventstart`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(ticket?.ticketstart || new Date());
+                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
                                         currentDateTime = currentDateTime.add(10, "minute");
                                         // const minStartTime = dayjs(TicketEndDate || new Date());
 
@@ -6299,7 +6298,7 @@ function OganizerCreateEvent() {
                                       control={form.control}
                                       name={`tickets.${index}.eventend`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
+                                        let currentDateTime = dayjs(ticket?.eventstart || new Date());
                                         currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
