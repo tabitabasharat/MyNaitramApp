@@ -141,13 +141,6 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
       console.log("Individual No Backed Code");
     }
   }, []);
-  //   useEffect(() => {
-  //     console.log("Data is as now ===> ", ownerForm);
-  //   }, [ownerForm]);
-
-  const handleCatDropdownToggle = (index: number) => {
-    setOwnerForm((prevTickets) => prevTickets.map((formObject, i) => (i === index ? { ...formObject, dropDown: !formObject.dropDown } : formObject)));
-  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -163,26 +156,13 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
     setOwnerForm((prevForm) =>
       prevForm.map((currentForm, i) => {
         if (i === index) {
-          if (option.label === "Other") {
-            return {
-              ...currentForm,
-              iscustomcatgory: true,
-              eventcatagory: null,
-            };
-          } else if (option.label === currentForm?.eventcatagory?.label) {
-            return {
-              ...currentForm,
-              dropDown: false,
-            };
-          } else {
-            return {
-              ...currentForm,
-              eventcatagory: { label: option.label },
-              customcategoryinput: "",
-              iscustomcatgory: false,
-              dropDown: false,
-            };
-          }
+          return {
+            ...currentForm,
+            eventcatagory: { label: option.label },
+            customcategoryinput: "",
+            iscustomcatgory: false,
+            dropDown: false,
+          };
         }
         return currentForm;
       })
@@ -190,51 +170,6 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
 
     form.setValue(`ownerforms.${index}.eventcatagory`, option);
     form.clearErrors(`ownerforms.${index}.eventcatagory`);
-  };
-
-  const handleCustomCatgory = (e: any, index: number) => {
-    const inputValue = e.target.value;
-
-    setOwnerForm((prevForm) =>
-      prevForm.map((currentForm, i) => {
-        if (i === index) {
-          return {
-            ...currentForm,
-            customcategotyinput: inputValue,
-            categoryalert: false,
-          };
-        }
-        return currentForm;
-      })
-    );
-
-    form.setValue(`ownerforms.${index}.eventcatagory`, { label: inputValue });
-    form.clearErrors(`ownerforms.${index}.eventcatagory`);
-  };
-
-  const handleCustomCatBtn = (index: number, inputValue: string) => {
-    setOwnerForm((prevForm) =>
-      prevForm.map((currentForm, i) => {
-        if (i === index) {
-          if (inputValue === "") {
-            return {
-              ...currentForm,
-              categoryalert: true,
-            };
-          } else {
-            return {
-              ...currentForm,
-              eventcatagory: { label: inputValue },
-              customcategotyinput: "",
-              iscustomcatgory: false,
-              categoryalert: false,
-              dropDown: false,
-            };
-          }
-        }
-        return currentForm;
-      })
-    );
   };
 
   const addMoreOwner = (e: any) => {
@@ -258,24 +193,36 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
   const handleRemoveOwner = (e: any, fieldID: string) => {
     e.preventDefault();
 
-    // console.log("This is Owner form ==> ", ownerForm);
-    const updatedFormFields = ownerForm
-      .filter((field) => field.id !== fieldID)
-      .map((field) => ({
-        // id: field.id,
-        eventcatagory: field.eventcatagory ?? { label: "" }, // Default if eventcatagory is null
-        percentageSchema: field.percentageSchema || "",
-        firstname: field.firstname || "", // Default if firstname is empty
-        lastname: field.lastname || "",
-      }));
-    // console.log("Remaining values of frms are as==> ", updatedFormFields);
+    // Filter out the field to remove
+    const updatedFormFields = ownerForm.filter((field) => field.id !== fieldID);
 
-    updatedFormFields.forEach((element: any, index: number) => {
-      form.setValue(`ownerforms.${index}`, element);
-      // console.log("State is => ", element, " form is ==> ", form.getValues(`ownerforms.${index}`));
-    });
+    // Update the form values based on the filtered list
+    // updatedFormFields.forEach((element, index) => {
+    //   form.setValue(`ownerforms.${index}`, {
+    //     eventcatagory: element.eventcatagory ?? { label: "" }, // Default if eventcatagory is null
+    //     percentageSchema: element.percentageSchema || "",
+    //     firstname: element.firstname || "",
+    //     lastname: element.lastname || "",
+    //   });
+    // });
 
-    setOwnerForm((prevTickets) => prevTickets.filter((_) => _.id !== fieldID));
+    // // Remove extra form fields that are no longer needed
+    // const remainingIndices = updatedFormFields.length;
+    // for (let i = remainingIndices; form.getValues(`ownerforms.${i}`); i++) {
+    //   form.unregister(`ownerforms.${i}`);
+    // }
+
+    const formUpdatedFields = updatedFormFields.map((f) => ({
+      eventcatagory: f.eventcatagory ?? { label: "" }, // Default if eventcatagory is null
+      percentageSchema: f.percentageSchema || "",
+      firstname: f.firstname || "",
+      lastname: f.lastname || "",
+    }));
+
+    form.setValue("ownerforms", formUpdatedFields);
+
+    // Update the state
+    setOwnerForm(updatedFormFields);
   };
 
   function EventCreation(values: z.infer<typeof formSchema>) {
@@ -331,94 +278,6 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                   <div key={index} className="lg:flex w-full mb-[8px] gap-[24px]">
                     {/* Owner types are here */}
                     <div className="w-full">
-                      {/* <FormField
-                        control={form.control}
-                        name={`ownerforms.${index}.eventcatagory`}
-                        render={({ field }) => (
-                          <FormItem className="relative mb-[16px] md:mb-4 w-full rounded-md border border-[#292929] gradient-slate py-[8px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                            <div key={index} className="flex items-center justify-between" onClick={() => handleCatDropdownToggle(index)}>
-                              <div className="flex flex-col">
-                                <p className="text-[12px] font-bold text-[#8F8F8F] uppercase">RELATIONSHIP WITH COMPANY</p>
-                                <p>{ticketform?.eventcatagory ? ticketform?.eventcatagory?.label : "Select Relationship"}</p>
-                              </div>
-                              <Image src={ticketform?.dropDown ? arrowdown : arrowdown} width={11} height={11} alt="arrow" />
-                            </div>
-                            {ticketform?.dropDown && (
-                              <div
-                                key={index}
-                                className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]"
-                              >
-                                {optionscate?.map((option) => (
-                                  <div
-                                    key={option.label}
-                                    className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                    onClick={() => handleCateOptionToggle(option, index)}
-                                  >
-                                    <div className="flex items-center gap-[10px]">
-                                      <p
-                                        className={`text-[16px] font-normal items-center ${
-                                          ticketform?.eventcatagory?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                        }`}
-                                      >
-                                        {option.label}
-                                      </p>
-                                    </div>
-                                    {ticketform?.eventcatagory?.label === option.label && <Image src={tick} width={10} height={10} alt="tick" />}
-                                  </div>
-                                ))}
-                                {ticketform?.iscustomcatgory && (
-                                  <>
-                                    {ticketform?.categoryalert === true && <p className="text-[red] text-[16px]">Input is empty!</p>}
-                                    <div
-                                      style={{
-                                        width: "100%",
-                                        marginTop: "10px",
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        gap: "20px",
-                                      }}
-                                    >
-                                      <input
-                                        type="text"
-                                        placeholder="Enter the Category name"
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e, index)}
-                                        value={ticketform?.customcategotyinput}
-                                        style={{
-                                          width: "100%",
-                                          paddingLeft: "5px",
-                                          paddingTop: "5px",
-                                          paddingBottom: "5px",
-                                          borderRadius: "6px",
-                                        }}
-                                      />
-                                      <button
-                                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                                          e.preventDefault(); // Prevents default action (optional if button is not inside a form)
-                                          handleCustomCatBtn(index, ticketform?.customcategotyinput);
-                                        }}
-                                        style={{
-                                          background: "green",
-                                          paddingLeft: "10px",
-                                          paddingRight: "10px",
-                                          lineHeight: "10px",
-                                          paddingTop: "10px",
-                                          paddingBottom: "10px",
-                                          borderRadius: "5px",
-                                          marginRight: "5px",
-                                        }}
-                                      >
-                                        Add
-                                      </button>
-                                    </div>
-                                  </>
-                                )}
-                              </div>
-                            )}
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      /> */}
                       <FormField
                         control={form.control}
                         name={`ownerforms.${index}.eventcatagory`}
