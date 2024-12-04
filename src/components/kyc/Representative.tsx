@@ -91,7 +91,7 @@ const Representative = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps
     resolver: zodResolver(formSchema),
     defaultValues: {
       eventcatagory: {
-        label: "something",
+        label: "",
       },
       firstname: "",
       lastname: "",
@@ -108,20 +108,21 @@ const Representative = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps
   const { isValid } = form.formState;
 
   const handleCateOptionToggle = (option: any) => {
-    if (option.label === "Other") {
-      setIsCustomCategory(true);
-      setCategoryTypes(null);
-    } else if (option.label === categoryTypes?.label) {
-      // setCategoryTypes(null);
-      setIsCatDropdownOpen(false);
-      return;
-    } else {
-      setCategoryTypes({ label: option.label });
-      setCustomCatgoryInput("");
-      setIsCustomCategory(false);
-      setCategoryAlert(false);
-      setIsCatDropdownOpen(false);
-    }
+    // if (option.label === "Other") {
+    //   setIsCustomCategory(true);
+    //   setCategoryTypes(null);
+    // } else if (option.label === categoryTypes?.label) {
+    //   // setCategoryTypes(null);
+    //   setIsCatDropdownOpen(false);
+    //   return;
+    // } else {
+    //   setCategoryTypes({ label: option.label });
+    //   setCustomCatgoryInput("");
+    //   setIsCustomCategory(false);
+    //   setCategoryAlert(false);
+    //   setIsCatDropdownOpen(false);
+    // }
+    setCategoryTypes({ label: option.label });
     // Update the form field's value with the selected category
     form.setValue("eventcatagory", option); // Use the form controller to set the value
     form.clearErrors("eventcatagory"); // Clear any errors once a selection is made
@@ -209,86 +210,38 @@ const Representative = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps
                   control={form.control}
                   name="eventcatagory"
                   render={({ field }) => (
-                    <FormItem className="relative mb-[16px] md:mb-4 w-full rounded-md border border-[#292929] gradient-slate py-[8px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                      <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
-                        <div className="flex flex-col">
-                          <p className="text-[12px] font-bold text-[#8F8F8F] uppercase">RELATIONSHIP WITH COMPANY</p>
-                          <p>{categoryTypes ? categoryTypes?.label : "Select Relationship"}</p>
-                        </div>
-                        <Image src={isCatDropdownOpen ? arrowdown : arrowdown} width={11} height={11} alt="arrow" />
-                      </div>
-                      {isCatDropdownOpen && (
-                        <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                          {optionscate?.map((option) => (
-                            <div
-                              key={option.label}
-                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                              onClick={() => handleCateOptionToggle(option)}
-                            >
-                              <div className="flex items-center gap-[10px]">
-                                {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
-                                  {option.label}
-                                </p> */}
-                                <p
-                                  className={`text-[16px] font-normal items-center ${
-                                    categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                  }`}
-                                >
-                                  {option.label}
-                                </p>
-                              </div>
-                              {categoryTypes?.label === option.label && <Image src={tick} width={10} height={10} alt="tick" />}
-                            </div>
-                          ))}
-                          {isCustomCatgory && (
-                            <>
-                              {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
-                              <div
-                                style={{
-                                  width: "100%",
-                                  marginTop: "10px",
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  gap: "20px",
-                                }}
-                              >
-                                <input
-                                  type="text"
-                                  placeholder="Enter the Category name"
-                                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e)}
-                                  value={customCategotyInput}
-                                  style={{
-                                    width: "100%",
-                                    paddingLeft: "5px",
-                                    paddingTop: "5px",
-                                    paddingBottom: "5px",
-                                    borderRadius: "6px",
-                                  }}
-                                />
-                                <button
-                                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                                    e.preventDefault(); // Prevents default action (optional if button is not inside a form)
-                                    handleCustomCatBtn();
-                                  }}
-                                  style={{
-                                    background: "green",
-                                    paddingLeft: "10px",
-                                    paddingRight: "10px",
-                                    lineHeight: "10px",
-                                    paddingTop: "10px",
-                                    paddingBottom: "10px",
-                                    borderRadius: "5px",
-                                    marginRight: "5px",
-                                  }}
-                                >
-                                  Add
-                                </button>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      )}
+                    <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">RELATIONSHIP WITH COMPANY</FormLabel>
+                      <Image src={user} alt="img" className="absolute right-3 top-[30%]" />
+                      <FormControl className="text-[white]">
+                        <Input
+                          type="text"
+                          placeholder="Select Relationship"
+                          className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                          value={field.value?.label || ""} // Extract the `label` value from the object
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            // Allow the input, but prevent leading space
+                            if (value.trimStart().length === 0) {
+                              handleCateOptionToggle({ label: "" });
+                              field.onChange({ label: "" }); // Set label to an empty string
+                            } else {
+                              handleCateOptionToggle({ label: value });
+                              field.onChange({ label: value }); // Update the label property
+                            }
+                          }}
+                          onKeyDown={(e) => {
+                            // Prevent leading space
+                            if (e.key === " " && field.value?.label?.length === 0) {
+                              e.preventDefault();
+                            }
+                            // Allow letters and spaces
+                            if (!/^[A-Za-z\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
+                              e.preventDefault();
+                            }
+                          }}
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
