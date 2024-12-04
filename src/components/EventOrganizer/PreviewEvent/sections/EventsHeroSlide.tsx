@@ -114,14 +114,17 @@ const EventsHeroSlide = ({
       return "";
     }
 
-    console.log("Converted UTC time:", originalDateStr);
-    const isUTC = originalDateStr.endsWith("Z");
-    const utcDate = new Date(isUTC ? originalDateStr : `${originalDateStr}Z`);
+    // console.log("Converted UTC time:", originalDateStr);
+    // const isUTC = originalDateStr.endsWith("Z");
+    // const utcDate = new Date(isUTC ? originalDateStr : `${originalDateStr}Z`);
+
+    console.log("Input local time:", originalDateStr);
+    const localDate = new Date(originalDateStr);
 
     // Check if the input already has a timezone indicator
 
     // Check if the date is valid
-    if (isNaN(utcDate.getTime())) {
+    if (isNaN(localDate.getTime())) {
       console.error("Invalid date format");
       return "";
     }
@@ -130,19 +133,19 @@ const EventsHeroSlide = ({
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     // Extract local time parts using toLocaleDateString with time zone adjustment
-    const dayOfWeek = utcDate.toLocaleDateString("en-US", {
+    const dayOfWeek = localDate.toLocaleDateString("en-US", {
       weekday: "long",
       timeZone: timeZone,
     });
-    const dayOfMonth = utcDate.toLocaleDateString("en-US", {
+    const dayOfMonth = localDate.toLocaleDateString("en-US", {
       day: "numeric",
       timeZone: timeZone,
     });
-    const month = utcDate.toLocaleDateString("en-US", {
+    const month = localDate.toLocaleDateString("en-US", {
       month: "long",
       timeZone: timeZone,
     });
-    const year = utcDate.toLocaleDateString("en-US", {
+    const year = localDate.toLocaleDateString("en-US", {
       year: "numeric",
       timeZone: timeZone,
     });
@@ -172,6 +175,57 @@ const EventsHeroSlide = ({
     return formattedDate;
   };
 
+  // const ConvertTime = (timeStr: string): string => {
+  //   // Ensure input is a string
+  //   if (typeof timeStr !== "string") {
+  //     console.error("Input must be a string");
+  //     return "";
+  //   }
+
+  //   // Convert the input UTC time to a local time using the Date object
+  //   const utcDate = new Date(`${timeStr}Z`); // Appending 'Z' to ensure UTC parsing
+  //   if (isNaN(utcDate.getTime())) {
+  //     console.error("Invalid time format");
+  //     return "";
+  //   }
+
+  //   // Detect local time zone
+  //   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  //   // Convert UTC date to local time string in "HH:MM" format
+  //   const localTime = utcDate.toLocaleTimeString("en-GB", {
+  //     timeZone: timeZone,
+  //     hour12: false,
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //   });
+
+  //   // Split the time into hours and minutes
+  //   const [hoursStr, minutesStr] = localTime.split(":");
+  //   const hours = parseInt(hoursStr, 10);
+  //   const minutes = parseInt(minutesStr, 10);
+
+  //   // Ensure the hours and minutes are valid numbers
+  //   if (isNaN(hours) || isNaN(minutes)) {
+  //     console.error("Invalid time format");
+  //     return "";
+  //   }
+
+  //   // Determine AM or PM
+  //   const period = hours >= 12 ? "PM" : "AM";
+
+  //   // Convert hours from 24-hour to 12-hour format
+  //   const formattedHours = hours % 12 || 12; // Handle 0 as 12 for midnight
+
+  //   // Format minutes with leading zero if necessary
+  //   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  //   // Combine hours, minutes, and period
+  //   const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
+
+  //   return formattedTime;
+  // };
+
   const ConvertTime = (timeStr: string): string => {
     // Ensure input is a string
     if (typeof timeStr !== "string") {
@@ -179,9 +233,9 @@ const EventsHeroSlide = ({
       return "";
     }
 
-    // Convert the input UTC time to a local time using the Date object
-    const utcDate = new Date(`${timeStr}Z`); // Appending 'Z' to ensure UTC parsing
-    if (isNaN(utcDate.getTime())) {
+    // Convert the input local time string to a Date object
+    const localDate = new Date(timeStr);
+    if (isNaN(localDate.getTime())) {
       console.error("Invalid time format");
       return "";
     }
@@ -189,8 +243,8 @@ const EventsHeroSlide = ({
     // Detect local time zone
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    // Convert UTC date to local time string in "HH:MM" format
-    const localTime = utcDate.toLocaleTimeString("en-GB", {
+    // Convert the date to a local time string in "HH:MM" format
+    const localTime = localDate.toLocaleTimeString("en-GB", {
       timeZone: timeZone,
       hour12: false,
       hour: "2-digit",
@@ -222,6 +276,7 @@ const EventsHeroSlide = ({
 
     return formattedTime;
   };
+
   interface Ticket {
     id: number;
     address: string;

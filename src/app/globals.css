@@ -254,7 +254,9 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
+.bg-color{
+  background: linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%);
+}
 .border-primary {
   background: linear-gradient(161deg, #13ff7a, #002b12, #13ff7a);
 }
