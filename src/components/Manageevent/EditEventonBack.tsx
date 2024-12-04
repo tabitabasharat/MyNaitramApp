@@ -390,7 +390,7 @@ const PasswordedTypeSchema = z
     }
   );
 
-//                            Define Custom Event Ticketing Schema
+// Define Custom Event Ticketing Schema
 
 const CustomTypeSchema = z
   .object({
