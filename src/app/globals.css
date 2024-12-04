@@ -254,6 +254,12 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.bg-img-effect{
+  background-image: url(../assets/V2assets/Blur.svg) !important;
+  background-position-y: bottom;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
 .bg-color{
   background: linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%);
 }
@@ -298,6 +304,9 @@ body {
   }
   .bg-v2 {
     background: transparent;
+  }
+  .bg-img-effect{
+    background: transparent !important;
   }
   .bg-reward {
     background: transparent;
