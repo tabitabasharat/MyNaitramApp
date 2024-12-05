@@ -94,8 +94,8 @@ const MpHome = () => {
           <div className="lg:hidden flex space-x-8">
             {[
               { value: "£240k+", label: "Total Sale" },
-              { value: "£100k+", label: "Collections" },
-              { value: "£10k+", label: "Creators" },
+              { value: "100k+", label: "Collections" },
+              { value: "10k+", label: "Creators" },
             ].map((item, index) => (
               <div key={index} className="flex flex-col items-start space-y-1">
                 <h2 className="text-white text-xl font-extrabold">{item.value}</h2>

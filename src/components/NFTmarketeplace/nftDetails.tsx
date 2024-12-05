@@ -238,15 +238,15 @@ const NftDetails = () => {
               </div>
               <div className="pt-[50px] flex flex-col hidden  hiddenEventDetail">
                 <p className="eventDetail pb-[16px] font-[800] text-[24px] leading-[28.8px]">Event Detail</p>
-                <div className="items-center flex gap-[8px] mb-[12px]">
+                <div className="items-start flex gap-[8px] mb-[12px]">
                   <Image src={location} alt="Location" />
                   <p className="eventPoint font-[700] text-[16px] leading-[24px]">DOMA PUB Main floor, Light Street, London</p>
                 </div>
-                <div className="items-center flex gap-[8px] mb-[12px]">
+                <div className="items-start flex gap-[8px] mb-[12px]">
                   <Image src={v2Calender} alt="Calendar" />
                   <p className="eventPoint font-[700] text-[16px] leading-[16px]">Saturday, 5th March 2024 - Sunday, 6th March 2024</p>
                 </div>
-                <div className="items-center flex gap-[8px]">
+                <div className="items-start flex gap-[8px]">
                   <Image src={clock} alt="clock" />
                   <p className="eventPoint font-[700] text-[16px] leading-[24px]">5 PM - 12 AM</p>
                 </div>
