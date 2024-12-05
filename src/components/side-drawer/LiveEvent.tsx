@@ -59,7 +59,7 @@ const pages = [
     createDatapages('Lorem Ispum Lorem Uspum', 305),
 ];
 
-type SelectedOption = "tickets" | "collectables" | null;
+    type SelectedOption = "tickets" | "collectables" | null;
 
 const LiveEvent = () => {
     const [selected, setSelected] = useState<SelectedOption>("tickets");

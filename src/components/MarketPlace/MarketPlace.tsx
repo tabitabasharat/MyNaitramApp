@@ -18,7 +18,7 @@ const page = () => {
         <div className="flex flex-col space-y-8 lg:space-y-10 lg:w-1/2">
           <div className="flex flex-col space-y-5 pt-8 md:pt-0">
             <h2 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              Discover digital <br /> art & Collect <br /> NFTs
+              Discover Digital <br /> Art & Collect <br /> NFTs
             </h2>
             <p className="text-gray-400 text-lg md:text-xl leading-relaxed">
               NFT marketplace Collect, buy and sell art from more <br /> than 20k NFT artists.

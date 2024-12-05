@@ -30,11 +30,11 @@ const MpHome = () => {
           <div className="flex flex-col space-y-5 pt-8 md:pt-0">
             <h2 className="text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mt-4 sm:mt-6">
               {/* Without <br> for small and medium screens */}
-              <span className="block lg:hidden">Discover digital art & Collect NFTs</span>
+              <span className="block lg:hidden">Discover Digital Art & Collect NFTs</span>
 
               {/* With <br> for large screens */}
               <span className="hidden lg:block">
-                Discover digital <br /> art & Collect <br /> NFTs
+                Discover Digital <br /> Art & Collect <br /> NFTs
               </span>
             </h2>
 
@@ -94,15 +94,17 @@ const MpHome = () => {
 
       <div className="relative flex flex-col px-4 lg:px-14 pb-36 space-y-4 md:space-y-10">
         {/* Heading */}
-        <div className="flex items-center justify-between">
-          <h2 className="text-white text-2xl md:text-4xl font-extrabold leading-tight">Trending NFTs</h2>
-          <div className="flex gap-[10px] lg:flex-row flex-col hidden lg:flex">
+        <div className="flex flex-col gap-[16px] xl:gap-[0px] xl:flex-row xl:items-center xl:justify-between">
+          <div className="w-full xl:w-[40%]">
+            <h2 className="text-white text-2xl md:text-4xl font-extrabold leading-tight">Trending NFTs</h2>
+          </div> 
+          <div className="flex gap-[10px] w-full xl:justify-end lg:flex-row lg:flex">
             {/* First Input */}
-            <div className="relative">
+            <div className="relative w-full sm:w-[376px]">
               <input
                 type="text"
                 placeholder="Search NFT"
-                className="w-[376px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323] placeholder:text-[#BFBFBF] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[19.6px] placeholder:text-left focus:outline-none"
+                className="w-full sm:w-[376px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323] placeholder:text-[#BFBFBF] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[19.6px] placeholder:text-left focus:outline-none"
                 style={{ textOverflow: "ellipsis" }}
               />
               <img
@@ -115,19 +117,18 @@ const MpHome = () => {
             {/* Second Input */}
             <div className="relative">
               {/* Dropdown Trigger */}
-              <div className="relative">
+              <div className="relative w-full">
                 {/* Dropdown Trigger */}
                 <div
-                  className="appearance-none w-[175px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] shadow-[inset_0px_3px_5px_#232323] text-[#BFBFBF] text-[14px] leading-[19.6px] font-normal text-center cursor-pointer flex items-center justify-start relative"
+                  className="appearance-none w-full md:w-[175px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] shadow-[inset_0px_3px_5px_#232323] text-[#BFBFBF] text-[14px] leading-[19.6px] font-normal text-center cursor-pointer flex items-center justify-start relative"
                   onClick={() => setIsOpen(!isOpen)} // Toggle dropdown visibility
                 >
                   {selected} {/* Display selected option */}
                   <img
                     src="/Images/Market/arrd.svg"
                     alt="Dropdown Icon"
-                    className={`absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none transition-transform duration-200 ${
-                      isOpen ? "rotate-180" : "rotate-0"
-                    }`} // Conditionally rotate arrow
+                    className={`absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none transition-transform duration-200 ${isOpen ? "rotate-180" : "rotate-0"
+                      }`} // Conditionally rotate arrow
                   />
                 </div>
 
@@ -170,8 +171,8 @@ const MpHome = () => {
             </div>
 
             {/* Third Input */}
-            <div className="relative">
-              <button className="w-[143px] h-[54px] px-[16px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323] flex items-center justify-between text-[#BFBFBF] text-[14px] leading-[19.6px] font-normal text-left focus:outline-none">
+            <div className="relative w-full">
+              <button className=" w-full md:w-[143px] h-[54px] px-[16px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323] flex items-center justify-between text-[#BFBFBF] text-[14px] leading-[19.6px] font-normal text-left focus:outline-none">
                 Filter
                 <img src="/Images/Market/filter.svg" alt="Filter Icon" />
               </button>

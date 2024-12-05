@@ -50,23 +50,29 @@
 #tab-toolbar {
   background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a) !important;
 }
+
 #tab-panel {
   background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a) !important;
 }
+
 #emoji-palatte {
   width: 300px !important;
 }
+
 @supports (-webkit-appearance: none) {
   ol {
-    list-style-position: inside !important; /* Change list style position for iOS */
+    list-style-position: inside !important;
+    /* Change list style position for iOS */
   }
 }
+
 .flex-adjustmentoforganiserinner {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
 }
+
 .flex-adjustmentoforganiser {
   display: flex;
   flex-direction: row;
@@ -81,6 +87,7 @@
   /* padding: 29px 35px; */
   /* padding: 29px, 35px, 29px, 35px; */
 }
+
 .bg-enlarge-img {
   background-image: url("../assets/Wallet/enlarge-qr-bg.svg");
   background-repeat: no-repeat;
@@ -94,6 +101,7 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
 ::-webkit-calendar-picker-indicator {
   position: absolute;
   right: 12px;
@@ -102,9 +110,11 @@
   padding: 0.5rem;
   cursor: pointer;
 }
+
 ::-webkit-calendar-picker-indicator {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="%23bbbbbb" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
 }
+
 /* ::-webkit-calendar-picker-indicator {
   filter: invert(1) !important;
 } */
@@ -123,6 +133,7 @@
 input {
   color-scheme: dark;
 }
+
 input[type="date"]::-webkit-calendar-picker-indicator {
   background: transparent;
   bottom: 0;
@@ -139,28 +150,34 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .menu-show {
   display: none;
 }
+
 .nav-inside {
   display: flex;
   align-items: center;
   gap: 3rem;
 }
+
 body {
   font-family: var(--font-base), var(--font-poppins), sans-serif;
 }
+
 .main-box {
   width: 100% !important;
   padding: 0px 24px 0px 250px !important;
 }
+
 .lunch-event-stlying {
   width: 100% !important;
   padding: 0px 0px 0px 250px !important;
 }
+
 @media (max-width: 768px) {
   .del-verification-input {
     padding: 19px 22px;
     height: auto;
     width: 100% !important;
   }
+
   .main-box {
     width: 100% !important;
     padding: 80px 24px 0px 24px !important;
@@ -168,15 +185,18 @@ body {
     align-items: center;
     justify-content: center;
   }
+
   .lunch-event-stlying {
     width: 100% !important;
     padding: 0px 0px 0px 0px !important;
   }
 }
+
 .max-width-adjustment-in-graph {
   width: 120% !important;
   /* max-width: 425px; */
 }
+
 @media (max-width: 430px) {
   .max-width-adjustment-in-graph {
     width: 130% !important;
@@ -188,26 +208,31 @@ body {
   .menu-show {
     display: block;
   }
+
   .nav-inside {
     display: none;
   }
 }
+
 @media (max-width: 425px) {
   .max-width-adjustment-in-graph {
     width: 130% !important;
     max-width: 425px;
   }
 }
+
 @media (max-width: 992px) {
   .main-box {
     width: 100% !important;
     padding: 0px 24px 0px 24px !important;
   }
+
   .lunch-event-stlying {
     width: 100% !important;
     padding: 0px !important;
   }
 }
+
 .pxpx {
   @apply px-[1.5rem] lg:px-[4rem];
 }
@@ -245,6 +270,7 @@ body {
 .border-muted {
   @apply border-[#282828];
 }
+
 /* .border-primary {
   @apply border-[#13FF7A];
 } */
@@ -255,6 +281,17 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+.bg-img-effect {
+  background-image: url(../assets/V2assets/Blur.svg) !important;
+  background-position-y: bottom;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.bg-color {
+  background: linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%);
+}
+
 .border-primary {
   background: linear-gradient(161deg, #13ff7a, #002b12, #13ff7a);
 }
@@ -262,12 +299,21 @@ body {
 .border-secondary {
   background: linear-gradient(145deg, #ffc100, #6b4400, #000000, #6b4400, #ff8a08);
 }
+
+.bg-v2 {
+  background-image: url("../assets/V2assets/green-effect.svg");
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position-x: center;
+}
+
 .bg-reward {
   background-image: url("/blur-green.png");
-  background-position: right;
   background-repeat: no-repeat;
+  background-position: right;
   background-size: cover;
 }
+
 .claimable-container {
   display: flex;
   align-items: center;
@@ -284,30 +330,46 @@ body {
     background-size: cover;
     background-position: center;
   }
+
   .claim-container {
     width: 100%;
     flex-direction: column;
   }
+
+  .bg-v2 {
+    background: transparent;
+  }
+
+  .bg-img-effect {
+    background: transparent !important;
+  }
+
   .bg-reward {
     background: transparent;
   }
+
   .claimable-container {
     width: 100%;
     flex-direction: column;
   }
+
   .textbr br {
     display: none;
   }
+
   .img-contain {
     width: 100%;
   }
 }
+
 .custom-quill .ql-toolbar .ql-picker {
   color: #fff !important;
 }
+
 .custom-quill .ql-container {
   border: none !important;
 }
+
 .custom-quill .ql-toolbar .ql-stroke {
   fill: none;
   stroke: #fff;
@@ -317,6 +379,7 @@ body {
   fill: #fff;
   stroke: none;
 }
+
 .custom-quill .ql-editor::before {
   font-family: var(--font-base) !important;
   font-size: 16px !important;
@@ -325,10 +388,12 @@ body {
   text-align: left;
   color: white !important;
 }
+
 .custom-quill .ql-toolbar {
   border: none !important;
   /* height: 200px; */
 }
+
 .custom-quill::placeholder {
   font-family: Nexa;
   font-size: 16px !important;
@@ -352,8 +417,10 @@ body {
   word-wrap: break-word;
   height: 200px !important;
 }
+
 .ql-editor::-webkit-scrollbar {
-  display: none !important; /* Hide scrollbar in Chrome, Safari, Edge */
+  display: none !important;
+  /* Hide scrollbar in Chrome, Safari, Edge */
 }
 
 .ql-snow .ql-picker.ql-expanded .ql-picker-options {
@@ -367,60 +434,95 @@ body {
 
   border-color: #292929 !important;
 }
+
 .ql-snow .ql-picker.ql-header {
   width: 120px !important;
 }
+
 .bg-lunchevent-img {
   background-image: url("../assets/Image.svg");
   background-size: cover;
   background-repeat: no-repeat;
   padding: 0px;
 }
+
+.gradient-profile {
+  border-radius: 9px;
+  /* This controls the rounding of the corners */
+}
+
+.gradient-profile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9px;
+  /* Inherit the border-radius from the parent */
+  padding: 1px;
+  /* Adjust this value to control the thickness of the border */
+  background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
 .gradient-bg-auth {
   position: relative;
-  border-radius: 8px; /* This controls the rounding of the corners */
+  border-radius: 8px;
+  /* This controls the rounding of the corners */
 }
 
 .gradient-bg-auth::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: inherit; /* Inherit the border-radius from the parent */
-  padding: 1px; /* Adjust this value to control the thickness of the border */
+  border-radius: inherit;
+  /* Inherit the border-radius from the parent */
+  padding: 1px;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
 .gradient-bg {
   position: relative;
-  border-radius: 8px; /* This controls the rounding of the corners */
+  border-radius: 8px;
+  /* This controls the rounding of the corners */
 }
 
 .gradient-bg::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: inherit; /* Inherit the border-radius from the parent */
-  padding: 1px; /* Adjust this value to control the thickness of the border */
+  border-radius: inherit;
+  /* Inherit the border-radius from the parent */
+  padding: 1px;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
 .drop-bod {
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%) !important;
 }
+
 .gradient-border-edit {
   position: relative;
-  border-radius: 44px; /* This controls the rounding of the corners */
+  border-radius: 44px;
+  /* This controls the rounding of the corners */
 }
+
 .gradient-border-edit::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: "44px"; /* Inherit the border-radius from the parent */
-  padding: 2px; /* Adjust this value to control the thickness of the border */
+  border-radius: "44px";
+  /* Inherit the border-radius from the parent */
+  padding: 2px;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -429,15 +531,18 @@ body {
 
 /* Cs  for verify Button here */
 .verify-gradient-border {
-  border-radius: 50px; /* This controls the rounding of the corners */
+  border-radius: 50px;
+  /* This controls the rounding of the corners */
 }
 
 .verify-gradient-border::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 50px; /* Inherit the border-radius from the parent */
-  padding: 1px; /* Adjust this value to control the thickness of the border */
+  border-radius: 50px;
+  /* Inherit the border-radius from the parent */
+  padding: 1px;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -448,17 +553,22 @@ body {
 
 .gradient-border-notify {
   position: relative;
-  border-radius: 44px !important; /* This controls the rounding of the corners */
+  border-radius: 44px !important;
+  /* This controls the rounding of the corners */
 }
+
 .hide-text {
   display: none;
 }
+
 .gradient-border-notify::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 44px !important; /* Inherit the border-radius from the parent */
-  padding: 2px; /* Adjust this value to control the thickness of the border */
+  border-radius: 44px !important;
+  /* Inherit the border-radius from the parent */
+  padding: 2px;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -467,7 +577,8 @@ body {
 
 .gradient-border {
   position: relative !important;
-  border-radius: 8px !important; /* This controls the rounding of the corners */
+  border-radius: 8px !important;
+  /* This controls the rounding of the corners */
 }
 
 .Toastify__progress-bar--success {
@@ -478,8 +589,10 @@ body {
   content: "";
   position: absolute !important;
   inset: 0;
-  border-radius: inherit; /* Inherit the border-radius from the parent */
-  padding: 2px !important   ; /* Adjust this value to control the thickness of the border */
+  border-radius: inherit;
+  /* Inherit the border-radius from the parent */
+  padding: 2px !important;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%) !important;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
   -webkit-mask-composite: xor !important;
@@ -490,15 +603,18 @@ body {
 
 .hover-gradient-border:hover {
   position: relative !important;
-  border-radius: 8px !important; /* This controls the rounding of the corners */
+  border-radius: 8px !important;
+  /* This controls the rounding of the corners */
 }
 
 .hover-gradient-border:hover::before {
   content: "";
   position: absolute !important;
   inset: 0;
-  border-radius: inherit; /* Inherit the border-radius from the parent */
-  padding: 2px !important; /* Adjust this value to control the thickness of the border */
+  border-radius: inherit;
+  /* Inherit the border-radius from the parent */
+  padding: 2px !important;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%) !important;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
   -webkit-mask-composite: xor !important;
@@ -509,36 +625,44 @@ body {
 
 .gradient-border-btn {
   position: relative;
-  border-radius: 44px !important; /* This controls the rounding of the corners */
+  border-radius: 44px !important;
+  /* This controls the rounding of the corners */
 }
 
 .gradient-border-btn::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 44px !important; /* Inherit the border-radius from the parent */
-  padding: 2px; /* Adjust this value to control the thickness of the border */
+  border-radius: 44px !important;
+  /* Inherit the border-radius from the parent */
+  padding: 2px;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
 .gradient-border-rounded {
   position: relative;
-  border-radius: 8px; /* This controls the rounding of the corners */
+  border-radius: 8px;
+  /* This controls the rounding of the corners */
 }
 
 .gradient-border-rounded::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 8px; /* Inherit the border-radius from the parent */
-  padding: 2px !important; /* Adjust this value to control the thickness of the border */
+  border-radius: 8px;
+  /* Inherit the border-radius from the parent */
+  padding: 2px !important;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
 .spacer-row .MuiTableCell-root {
   height: 0;
   border: none;
@@ -550,42 +674,55 @@ body {
     height: 16px;
   }
 }
+
 .border-avatar {
   background: linear-gradient(145deg, #13ff7a, #002b12, #002b12, #13ff7a);
 }
+
 .table-head-gradient {
   background: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
   box-shadow: 0px 0.96px 1.91px 0px #1e1e240f;
 }
+
 .Toastify__toast-icon {
   width: 40px !important;
 }
+
 .gradient-slate {
   background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a);
 }
 
 .gradient-slate-input {
   position: relative;
-  border-radius: 12px !important; /* Controls the rounding of the corners */
-  background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a); /* Solid background color */
-  border: 1px solid transparent; /* Border needs to be transparent to see the gradient border */ /* Ensure it is above the pseudo-element */
+  border-radius: 12px !important;
+  /* Controls the rounding of the corners */
+  background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a);
+  /* Solid background color */
+  border: 1px solid transparent;
+  /* Border needs to be transparent to see the gradient border */
+  /* Ensure it is above the pseudo-element */
 }
+
 .custom-quill .ql-snow .ql-picker-options {
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%) !important;
   border-radius: 12px !important;
 }
+
 .custom-quill .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
   color: white !important;
 }
+
 .custom-quill .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
   border-radius: 8px !important;
   border: 1px solid !important;
 
   border-image-source: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%) !important;
 }
+
 .custom-quill .ql-toolbar.ql-snow .ql-picker-label {
   color: white !important;
 }
+
 /* .gradient-border {
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
   border: 4px solid transparent;
@@ -598,29 +735,38 @@ body {
 .gradient-border-drp {
   border: 6px solid;
   border-image-source: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
-  border-image-slice: 1; /* Applies the gradient across the border */
-  border-radius: 8px; /* Optional for rounded effect */
+  border-image-slice: 1;
+  /* Applies the gradient across the border */
+  border-radius: 8px;
+  /* Optional for rounded effect */
 }
 
 .gradient-border-drp {
   position: relative;
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
-  padding: 4px; /* Border thickness */
-  border-radius: 8px; /* Optional */
+  padding: 4px;
+  /* Border thickness */
+  border-radius: 8px;
+  /* Optional */
 }
 
-.gradient-border-drp > .inner-content {
-  background: #1a1a1a; /* Inner content background */
-  border-radius: 8px; /* Match gradient outer corners if rounded */
+.gradient-border-drp>.inner-content {
+  background: #1a1a1a;
+  /* Inner content background */
+  border-radius: 8px;
+  /* Match gradient outer corners if rounded */
 }
 
 .gradient-border-drp {
   position: relative;
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
-  border-radius: 8px; /* For a smooth border with round ends */
+  border-radius: 8px;
+  /* For a smooth border with round ends */
   padding: 8px;
-  -webkit-mask: linear-gradient(transparent 4px, rgba(0, 0, 0, 1) 4px); /* Cut the border inside of the box */
+  -webkit-mask: linear-gradient(transparent 4px, rgba(0, 0, 0, 1) 4px);
+  /* Cut the border inside of the box */
 }
+
 .ql-toolbar.ql-snow {
   padding-top: 12px !important;
   padding-bottom: 12px !important;
@@ -641,14 +787,17 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 12px !important; /* Inherit the border-radius from the parent */
-  padding: 1px; /* Adjust this value to control the thickness of the border */
+  border-radius: 12px !important;
+  /* Inherit the border-radius from the parent */
+  padding: 1px;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   /* Place behind the main element */
-  border: 1px solid transparent; /* The actual border visible due to gradient */
+  border: 1px solid transparent;
+  /* The actual border visible due to gradient */
   border-image: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
   border-image-slice: 1;
 }
@@ -662,56 +811,75 @@ body {
 .box-shadow-inset-empty {
   box-shadow: 0px 3px 5px 0px #232323 inset;
 }
+
 .bg-gradient {
   background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
 }
 
 .gradient-border-edit {
   position: relative;
-  border-radius: 44px; /* This controls the rounding of the corners */
+  border-radius: 44px;
+  /* This controls the rounding of the corners */
 }
+
 .gradient-border-edit::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 44px !important; /* Inherit the border-radius from the parent */
-  padding: 2px; /* Adjust this value to control the thickness of the border */
+  border-radius: 44px !important;
+  /* Inherit the border-radius from the parent */
+  padding: 2px;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
 .makeAnOffer-gradient {
   position: relative;
-  border-radius: 9px; /* This controls the rounding of the corners */
+  border-radius: 9px;
+  /* This controls the rounding of the corners */
 }
+
 .makeAnOffer-gradient::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 9px !important; /* Inherit the border-radius from the parent */
-  padding: 2px; /* Adjust this value to control the thickness of the border */
+  border-radius: 9px !important;
+  /* Inherit the border-radius from the parent */
+  padding: 2px;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
 .BuyNowMarketPlace-gradient {
   position: relative;
   /* height: 512px; */
-  border-radius: 8px; /* Rounded corners */
-  background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%); /* Gradient border */
-  padding: 1px; /* Thickness of border */
-  overflow: hidden; /* Ensures content stays within rounded corners */
+  border-radius: 8px;
+  /* Rounded corners */
+  background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
+  /* Gradient border */
+  padding: 1px;
+  /* Thickness of border */
+  overflow: hidden;
+  /* Ensures content stays within rounded corners */
 }
 
-.BuyNowMarketPlace-gradient > * {
+.BuyNowMarketPlace-gradient>* {
   position: relative;
   height: 100%;
-  border-radius: 8px; /* Match parent's radius */
-  background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%); /* Inner dark gradient */
-  z-index: 1; /* Ensure content stays above the gradient */
+  border-radius: 8px;
+  /* Match parent's radius */
+  background: linear-gradient(360deg, #0f0f0f 72%, #1a1a1a 100%);
+  /* Inner dark gradient */
+  z-index: 1;
+  /* Ensure content stays above the gradient */
 }
+
 .BuyNowInputFieldMP {
   position: relative;
   padding: 20px 12px;
@@ -735,20 +903,18 @@ body {
 }
 
 .gradient-chat {
-  background: linear-gradient(
-    to top,
-    #000000,
-    #000000,
-    #0000005e,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent
-  );
+  background: linear-gradient(to top,
+      #000000,
+      #000000,
+      #0000005e,
+      transparent,
+      transparent,
+      transparent,
+      transparent,
+      transparent,
+      transparent,
+      transparent,
+      transparent);
 }
 
 .webkit-header-blur {
@@ -760,74 +926,104 @@ body {
   width: 2px;
   background-color: white;
 }
+
 .custom-viewport-style {
-  display: block !important; /* Override all other styles */
+  display: block !important;
+  /* Override all other styles */
 }
+
 .swiper-custom-bullet.swiper-custom-bullet-active {
   height: 2px;
   width: 2px;
   background-color: orange;
 }
+
 .scrollbar-hide::-webkit-scrollbar {
-  display: none; /* Hide scrollbar in Chrome, Safari, Edge */
+  display: none;
+  /* Hide scrollbar in Chrome, Safari, Edge */
 }
+
 .MuiDateTimePickerTabs-root {
   display: none !important;
 }
+
 .MuiTypography-root-MuiPickersToolbarText-root {
   display: none !important;
 }
+
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3; /* Show up to 3 lines */
+  -webkit-line-clamp: 3;
+  /* Show up to 3 lines */
   overflow: hidden;
 }
+
 .MuiPickersToolbarText-root.Mui-selected {
   display: none !important;
 }
+
 .scrollbar-hide {
-  -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
-  scrollbar-width: none; /* Hide scrollbar in Firefox */
+  -ms-overflow-style: none;
+  /* Hide scrollbar in IE and Edge */
+  scrollbar-width: none;
+  /* Hide scrollbar in Firefox */
 }
+
 .element2 {
-  box-shadow: 0px 2.56px 5.11px 0px #0000000a; /* Soft shadow with subtle opacity */
-  backdrop-filter: blur(64px); /* Frosted glass effect with heavy blur */
+  box-shadow: 0px 2.56px 5.11px 0px #0000000a;
+  /* Soft shadow with subtle opacity */
+  backdrop-filter: blur(64px);
+  /* Frosted glass effect with heavy blur */
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  background: rgba(255, 255, 255, 0.1);
+  /* Semi-transparent background */
 }
+
 .element {
-  box-shadow: 0px 2.56px 5.11px 0px #0000000a; /* Soft shadow with subtle opacity */
-  backdrop-filter: blur(64px); /* Frosted glass effect with heavy blur */
+  box-shadow: 0px 2.56px 5.11px 0px #0000000a;
+  /* Soft shadow with subtle opacity */
+  backdrop-filter: blur(64px);
+  /* Frosted glass effect with heavy blur */
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  background: rgba(255, 255, 255, 0.1);
+  /* Semi-transparent background */
 }
+
 .swiper-button-next,
 .swiper-button-prev {
   @apply fill-white scale-[1.8] w-10 h-10;
 }
+
 .bg-effect2 {
   background-image: none;
 }
+
 .scrollbar-hidden::-webkit-scrollbar {
   display: none !important;
 }
+
 .chat-wid {
   width: 400px !important;
 }
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 input[type="number"] {
-  -moz-appearance: textfield; /* Firefox */
+  -moz-appearance: textfield;
+  /* Firefox */
 }
+
 .event-bg-effect {
   background-image: url("../assets/eventsaleblur.svg");
   background-repeat: no-repeat;
   background-position: bottom;
 }
+
 .webkit-blur {
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
@@ -835,45 +1031,60 @@ input[type="number"] {
   -o-backdrop-filter: blur(30px);
   -ms-backdrop-filter: blur(30px);
 }
+
 .no-border-table .MuiTableCell-root {
-  border: none; /* Removes borders from all table cells */
+  border: none;
+  /* Removes borders from all table cells */
 }
+
 .rounded-stlying {
   border-radius: 12px;
 }
+
 .scrolling-issue {
   overflow-y: auto !important;
 }
+
 .event-width-adjustment {
   width: 100% !important;
 }
+
 .event-width-adjustments {
   width: 100% !important;
 }
+
 .no-border-table .MuiTableRow-root {
-  border: none; /* Removes any potential border on table rows */
+  border: none;
+  /* Removes any potential border on table rows */
 }
+
 .border-linear {
   border: 1px solid;
 
   border-image-source: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%);
 }
+
 .live-chat {
   width: 420px !important;
 }
+
 .table-gradient {
   background: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%) !important;
   border-bottom: 1px solid #292929 !important;
 }
+
 .table-gradient-new {
   background: linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%) !important;
 }
+
 .slider-wid {
   width: fit-content !important;
 }
+
 .btons-wrap-adjustment {
   flex-wrap: nowrap;
 }
+
 .bg-img-blur {
   /* width: 100%;
        height: auto;
@@ -882,36 +1093,47 @@ input[type="number"] {
        filter: blur(100px);
        transform: "translate(125px, 125px)"; */
 }
+
 .add-bank-account-border {
   position: relative;
-  border-radius: 100px !important; /* This controls the rounding of the corners */
+  border-radius: 100px !important;
+  /* This controls the rounding of the corners */
 }
+
 .add-bank-account-border input {
   position: relative;
   z-index: 1;
 }
+
 .add-bank-account-border::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 100px !important; /* Inherit the border-radius from the parent */
-  padding: 2px; /* Adjust this value to control the thickness of the border */
+  border-radius: 100px !important;
+  /* Inherit the border-radius from the parent */
+  padding: 2px;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
 .scrolling-issue {
   overflow-y: auto !important;
   scroll-behavior: none;
 }
+
 .no-border-table {
-  border-collapse: collapse; /* Ensures no spacing between cells */
+  border-collapse: collapse;
+  /* Ensures no spacing between cells */
 }
+
 .alignment-text {
   text-align: end;
   width: 60%;
 }
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none !important;
@@ -922,22 +1144,27 @@ input[type="number"] {
     scrollbar-width: none !important;
   }
 }
+
 @media (max-width: 992px) {
   .dialog-custom {
     max-width: 90% !important;
   }
+
   .spacer-row .MuiTableCell-root {
     height: auto;
   }
+
   .event-bg-effect {
     background: transparent;
   }
 }
+
 @media (max-width: 1118px) {
   .flex-adjustmentoforganiser {
     display: flex;
     flex-direction: column !important;
   }
+
   .flex-adjustmentoforganiserinner {
     display: flex;
     justify-content: center;
@@ -945,31 +1172,39 @@ input[type="number"] {
     flex-direction: column;
   }
 }
+
 @media (min-width: 1440px) {
   .wid-adjustment {
     width: 90% !important;
   }
 }
+
 @media (max-width: 425px) {
   .gradient-border-rounded {
     position: relative;
-    border-radius: 44px !important; /* This controls the rounding of the corners */
+    border-radius: 44px !important;
+    /* This controls the rounding of the corners */
   }
+
   .gradient-border-rounded::before {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 44px !important; /* Inherit the border-radius from the parent */
-    padding: 2px; /* Adjust this value to control the thickness of the border */
+    border-radius: 44px !important;
+    /* Inherit the border-radius from the parent */
+    padding: 2px;
+    /* Adjust this value to control the thickness of the border */
     background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
   }
+
   .bg-effect2 {
     background-image: url("../assets/Blur2.svg") !important;
     background-repeat: no-repeat;
   }
+
   .bg-lunchevent-img {
     background-image: url("../assets/Image.svg");
     background-size: cover;
@@ -977,113 +1212,166 @@ input[type="number"] {
     padding: 24px;
   }
 }
+
 @media (max-width: 768px) {
   .gradient-border-rounded {
     position: relative;
-    border-radius: 44px !important; /* This controls the rounding of the corners */
+    border-radius: 44px !important;
+    /* This controls the rounding of the corners */
   }
+
   .rounded-stlying {
     border-radius: 44px;
   }
+
   .gradient-border-rounded::before {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 44px !important; /* Inherit the border-radius from the parent */
-    padding: 2px; /* Adjust this value to control the thickness of the border */
+    border-radius: 44px !important;
+    /* Inherit the border-radius from the parent */
+    padding: 2px;
+    /* Adjust this value to control the thickness of the border */
     background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
   }
 }
+
 @media (min-width: 425px) {
   .bg-effect {
     background-image: url("../assets/Blur.svg");
     background-repeat: no-repeat;
   }
 }
+
 @media (max-width: 558px) {
   .chat-wid {
     width: 300px !important;
   }
 }
+
 @media (max-width: 447px) {
   .chat-wid {
     width: 250px !important;
   }
 }
+
 @media (max-width: 376px) {
   .chat-wid {
     width: 200px !important;
   }
 }
+
 @media (min-width: 1023px) and (max-width: 1090px) {
   .event-width-adjustment {
     width: 500px !important;
   }
+
   .event-width-adjustments {
     width: 500px !important;
   }
 }
+
 @media (max-width: 1023px) {
   .live-chat {
     width: 475px !important;
   }
 }
+
 @media (max-width: 890px) {
   .live-chat {
     width: 475px !important;
   }
+  .truncate-styling {
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+  }
+  .truncate-styling2 {
+    width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+  }
 }
+@media (max-width: 1160px) {
+  .truncate-styling2 {
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+  }
+}
+
+
 @media (min-width: 1090px) {
   .event-width-adjustment {
     width: 576px !important;
   }
+
   .event-width-adjustments {
     width: 576px !important;
   }
 }
+
 @media (min-width: 1470px) {
   .hide-text {
     display: block;
   }
 }
+
 @media (max-width: 360px) {
   .btons-wrap-adjustment {
     flex-wrap: wrap;
   }
 }
+
 @media (max-width: 769px) {
   .width-card-ajustment-get-paid {
     width: 345px;
     height: 345px;
   }
 }
-@media (max-width: 374px) {
+
+@media (max-width: 392px) {
   .wallet-div-content {
     display: flex;
     flex-direction: column;
   }
+}
+
+@media (max-width: 374px) {
+
   .alignment-text {
     text-align: start;
   }
+
   .live-chat {
     width: 235px !important;
   }
+
   .chat-wid {
     width: 200px !important;
   }
 }
+
 @media (max-width: 600px) {
   .scrolling-issue {
     overflow-y: auto !important;
     scroll-behavior: none;
   }
+
   .chat-wid {
     /* width: 250px !important; */
   }
 }
+
 @media (max-width: 320px) {
   .chat-wid {
     width: 150px !important;
@@ -1093,12 +1381,15 @@ input[type="number"] {
 /* /////////////////////// /////////////////////////////////// */
 
 .gradient-border-Radius_BTN {
-  border-width: 2px; /* Adjust border thickness */
+  border-width: 2px;
+  /* Adjust border thickness */
   border-style: solid;
   border-image-slice: 1;
   border-image-source: linear-gradient(180deg, rgba(251, 251, 251, 0.6) 0%, rgba(251, 251, 251, 0.7) 100%);
-  border-radius: 0.5rem; /* Adjust radius as needed */
-  background-color: transparent; /* Optional for a clear background */
+  border-radius: 0.5rem;
+  /* Adjust radius as needed */
+  background-color: transparent;
+  /* Optional for a clear background */
 }
 
 /* width */
@@ -1121,45 +1412,56 @@ input[type="number"] {
 ::-webkit-scrollbar-thumb:hover {
   background: #13ff79b9;
 }
+
 /* ///////////////////////////////////  Jabaars Screns Btn */
 .gradient-border-rounded-nft {
   position: relative;
   padding-top: 12px;
   padding-bottom: 12px;
-  border-radius: 100px !important; /* This controls the rounding of the corners */
+  border-radius: 100px !important;
+  /* This controls the rounding of the corners */
 }
+
 .gradient-border-rounded-nft::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 100px !important; /* Inherit the border-radius from the parent */
-  padding: 1px; /* Adjust this value to control the thickness of the border */
+  border-radius: 100px !important;
+  /* Inherit the border-radius from the parent */
+  padding: 1px;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
 .custom-dropdown option:hover {
   background-color: none !important;
 }
 
 .gradient-border-rounded-nft2 {
   position: relative;
-  border-radius: 8px; /* Match the hover div border-radius */
+  border-radius: 8px;
+  /* Match the hover div border-radius */
 }
 
 .gradient-border-rounded-nft2::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 8px; /* Same border-radius as the element */
-  padding: 1px; /* Adjust this value to control the thickness of the border */
+  border-radius: 8px;
+  /* Same border-radius as the element */
+  padding: 1px;
+  /* Adjust this value to control the thickness of the border */
   background: linear-gradient(135deg, #13ff7a 0.2%, #002b12 50.2%, #13ff7a 100.2%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  pointer-events: none; /* Ensure it doesn't interfere with user interactions */
-  z-index: -1; /* Keep the gradient border behind the content */
+  pointer-events: none;
+  /* Ensure it doesn't interfere with user interactions */
+  z-index: -1;
+  /* Keep the gradient border behind the content */
 }
 
 .gradient-border-rounded-nft2:hover::before {
