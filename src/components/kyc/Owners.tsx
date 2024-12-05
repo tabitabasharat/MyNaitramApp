@@ -154,10 +154,10 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
     defaultValues: {
       ownerforms: [],
     },
-    mode: "onChange",
+    // mode: "onChange",
   });
 
-  const { isValid } = form.formState;
+  // const { isValid } = form.formState;
 
   const handleCateOptionToggle = (option: any, index: number) => {
     setOwnerForm((prevForm) =>
@@ -258,16 +258,22 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
   const handleRemoveOwner = (e: any, fieldID: string) => {
     e.preventDefault();
 
+    // console.log("This is Owner form ==> ", ownerForm);
     const updatedFormFields = ownerForm
       .filter((field) => field.id !== fieldID)
       .map((field) => ({
+        // id: field.id,
         eventcatagory: field.eventcatagory ?? { label: "" }, // Default if eventcatagory is null
         percentageSchema: field.percentageSchema || "",
         firstname: field.firstname || "", // Default if firstname is empty
         lastname: field.lastname || "",
       }));
-    console.log("Remaining values of frms are as==> ", updatedFormFields);
-    form.setValue("ownerforms", updatedFormFields);
+    // console.log("Remaining values of frms are as==> ", updatedFormFields);
+
+    updatedFormFields.forEach((element: any, index: number) => {
+      form.setValue(`ownerforms.${index}`, element);
+      // console.log("State is => ", element, " form is ==> ", form.getValues(`ownerforms.${index}`));
+    });
 
     setOwnerForm((prevTickets) => prevTickets.filter((_) => _.id !== fieldID));
   };
@@ -325,7 +331,7 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                   <div key={index} className="lg:flex w-full mb-[8px] gap-[24px]">
                     {/* Owner types are here */}
                     <div className="w-full">
-                      <FormField
+                      {/* <FormField
                         control={form.control}
                         name={`ownerforms.${index}.eventcatagory`}
                         render={({ field }) => (
@@ -350,8 +356,9 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                                   >
                                     <div className="flex items-center gap-[10px]">
                                       <p
-                                        className={`text-[16px] font-normal items-center ${ticketform?.eventcatagory?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                          }`}
+                                        className={`text-[16px] font-normal items-center ${
+                                          ticketform?.eventcatagory?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                        }`}
                                       >
                                         {option.label}
                                       </p>
@@ -408,6 +415,46 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                                 )}
                               </div>
                             )}
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      /> */}
+                      <FormField
+                        control={form.control}
+                        name={`ownerforms.${index}.eventcatagory`}
+                        render={({ field }) => (
+                          <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                            <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">RELATIONSHIP WITH COMPANY</FormLabel>
+                            {/* <Image src={user} alt="img" className="absolute right-3 top-[30%]" /> */}
+                            <FormControl>
+                              <Input
+                                key={ticketform?.id}
+                                type="text"
+                                placeholder="Enter Relation"
+                                className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                                // {...field}
+                                value={field.value?.label || ""}
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  if (value.trimStart().length === 0) {
+                                    handleCateOptionToggle({ label: "" }, index);
+                                    field.onChange({ label: "" });
+                                  } else {
+                                    handleCateOptionToggle({ label: value }, index);
+                                    field.onChange({ label: value });
+                                  }
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === " " && field.value?.label?.length === 0) {
+                                    e.preventDefault();
+                                  }
+                                  // Allow letters and spaces
+                                  if (!/^[A-Za-z\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
+                              />
+                            </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -590,7 +637,7 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
               >
                 Back
               </Button>
-              <Button type="submit" disabled={!isValid} className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
+              <Button type="submit" /*disabled={!isValid}*/ className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
                 Next
               </Button>
             </div>
