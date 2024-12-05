@@ -283,7 +283,7 @@ const BuyNow = () => {
                         </div>
                         <Button
                 //   onClick={() => FeedBackOnEvent()}
-                className=" text-[16px] leading-[22.4px] font-[800] text-center w-full rounded-[100px] py-[12px] text-[black] bg-[#00D059]"
+                className=" text-[16px] leading-[22.4px] font-extrabold text-center w-full rounded-[100px] py-[12px] text-[black] bg-[#00D059]"
               style={{fontFamily: "var(--font-base)",}}>
                Complete Listing
               </Button>
