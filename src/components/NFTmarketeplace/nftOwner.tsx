@@ -125,7 +125,7 @@ const NftOwner = () => {
           </div>
         </div>
       </div>
-      <div className="px-[24px] md:pl-[92px] sm:pr-[35px] sm:pl-[35px] lg:pr-[163px]">
+      <div className="px-[24px] sm:pl-[35px]  md:pl-[92px] sm:pr-[35px] lg:pr-[163px]">
         <div className="flex items-center justify-end gap-[10px] mt-[100px] md:flex">
           <div className="flex items-center justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[376px]">
             <input
