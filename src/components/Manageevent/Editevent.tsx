@@ -1231,10 +1231,10 @@ function Editevent() {
         const totalFiles = prevFiles.length + filesArray.length;
 
         // If adding the new files exceeds 10, limit the number of added files
-        if (totalFiles > 10) {
-          const remainingSlots = 10 - prevFiles.length;
+        if (totalFiles > 8) {
+          const remainingSlots = 8 - prevFiles.length;
           const limitedFilesArray = filesArray.slice(0, remainingSlots);
-          ErrorToast("You can only select 10 media items");
+          ErrorToast("You can only select 8 media items");
           return [...prevFiles, ...limitedFilesArray];
         }
 
@@ -1551,6 +1551,17 @@ function Editevent() {
   // Event Creating sending Dat through API
   async function EventCreation(values: z.infer<typeof formSchema>) {
     let isFormValid: boolean = true;
+
+    //Check weather the last Object TicketTypoes have options or not
+    const lastTicket = ticketTypes?.[ticketTypes.length - 1]; // Get the last ticket object
+    if (lastTicket) {
+      const options = lastTicket?.options || []; // Retrieve the options array
+      if (options.length === 0) {
+        ErrorToast(`${lastTicket?.type} is required at least one include`);
+        isFormValid = false;
+        return; // Options array is empty
+      }
+    }
 
     // RSVP Form validation
     const rsvpTicketChecks: TicketType[] | any = ticketTypes.filter((ticket: any) => ticket.type === "RSVP Ticketing");
@@ -2482,6 +2493,15 @@ function Editevent() {
     e.preventDefault();
 
     setTicketTypes((prevTickets) => {
+      // Get the last ticket type from the current state
+      const lastTicket = prevTickets[prevTickets.length - 1];
+
+      // Check if the `options` key exists and is an array
+      if (lastTicket && Array.isArray(lastTicket.options) && lastTicket.options.length === 0) {
+        ErrorToast("Please select atleast one include!");
+        return prevTickets; // Return the existing state without adding a new ticket
+      }
+
       const newValues = [...prevTickets, festivalTicket];
       form.setValue(`tickets.${newValues.length - 1}.type`, "Festivals / Multi-Day Tickets / Season Passes");
       return newValues;
@@ -2810,7 +2830,7 @@ function Editevent() {
 
         if (!isValidEmail) {
           ErrorToast(`Please enter a valid email in the ${manualEmails.length} email`);
-
+          form.clearErrors(`tickets.${ticketIndex}`);
           // Remove the invalid email field from the state
           setTicketTypes((prevTickets: any) =>
             prevTickets.map((ticket: any, i: number) =>
@@ -2830,7 +2850,7 @@ function Editevent() {
 
         if (isDuplicate) {
           ErrorToast("Duplicate email detected in the list!");
-
+          form.clearErrors(`tickets.${ticketIndex}`);
           // Reset the last indexed element to an empty value
           setTicketTypes((prevTickets: any) =>
             prevTickets.map((ticket: any, i: number) =>
@@ -2885,6 +2905,48 @@ function Editevent() {
     });
   };
 
+  // Validate Emial
+  const validateManualEmail = (ticketIndex: number, emailIndex: number, currentEmail: string) => {
+    // Retrieve manual emails for the specific ticket index
+    const manualEmails = (ticketTypes?.[ticketIndex] as any)?.emailmanual || [];
+    console.log("Validating Manual Email => ", currentEmail);
+
+    // Check if the email format is valid
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmail = emailRegex.test(currentEmail);
+
+    if (!isValidEmail) {
+      // Set error in form for invalid email
+      form.setError(`tickets.${ticketIndex}.emailmanual.${emailIndex}`, {
+        type: "manual",
+        message: "Invalid email format",
+      });
+      return; // Do not remove or empty the email field
+    } else {
+      // Clear the error if the email is valid
+      form.clearErrors(`tickets.${ticketIndex}.emailmanual.${emailIndex}`);
+    }
+
+    // Check if the email is a duplicate
+    const isDuplicate = manualEmails.some((email: string, index: number) => index !== emailIndex && email === currentEmail);
+
+    if (isDuplicate) {
+      // Set error in form for duplicate email
+      form.setError(`tickets.${ticketIndex}.emailmanual.${emailIndex}`, {
+        type: "manual",
+        message: "Duplicate email detected",
+      });
+
+      return;
+    } else {
+      // Clear the error if the email is unique
+      form.clearErrors(`tickets.${ticketIndex}.emailmanual.${emailIndex}`);
+    }
+
+    // If the email is valid and not duplicate, do nothing
+    console.log("Email is valid and unique.");
+  };
+
   // handle Manual Emails Values
   const handleManualEnmailValues = (ticketIndex: number, e_Index: number, value: string) => {
     setTicketTypes((prevTickets) =>
@@ -2912,7 +2974,7 @@ function Editevent() {
 
         if (isDuplicate) {
           ErrorToast("Duplicate password detected in the list!");
-
+          form.clearErrors(`tickets.${ticketIndex}`);
           // Reset the last indexed element to an empty value
           setTicketTypes((prevTickets: any) =>
             prevTickets.map((ticket: any, i: number) =>
@@ -2974,6 +3036,77 @@ function Editevent() {
       form.setValue(`tickets.${ticketIndex}.pswrdmanual`, newPswrdFields);
       return newPswrdFields;
     });
+  };
+
+  // Validate Password
+  const validatePSWRDEmail = (ticketIndex: number, paswrdIndex: number, currentPSWRD: string) => {
+    // Retrieve manual passwords for the specific ticket index
+    const manualPASWRD = (ticketTypes?.[ticketIndex] as any)?.pswrdmanual || [];
+    console.log("Validating Manual Password => ", currentPSWRD);
+
+    // Check if the password is a duplicate
+    const isDuplicate = manualPASWRD.some((pswrd: string, index: number) => index !== paswrdIndex && pswrd === currentPSWRD);
+
+    if (isDuplicate) {
+      // Set error in form for duplicate password
+      form.setError(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`, {
+        type: "manual",
+        message: "Duplicate password detected",
+      });
+      return;
+    }
+
+    // Password validation rules
+    const minLength = 13;
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const numberRegex = /\d/;
+
+    // Check if the password meets all requirements
+    if (currentPSWRD.length < minLength) {
+      form.setError(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`, {
+        type: "manual",
+        message: "Password must be at least 13 characters long",
+      });
+      return;
+    }
+
+    if (!specialCharRegex.test(currentPSWRD)) {
+      form.setError(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`, {
+        type: "manual",
+        message: "Password must contain at least one special character",
+      });
+      return;
+    }
+
+    if (!uppercaseRegex.test(currentPSWRD)) {
+      form.setError(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`, {
+        type: "manual",
+        message: "Password must contain at least one uppercase letter",
+      });
+      return;
+    }
+
+    if (!lowercaseRegex.test(currentPSWRD)) {
+      form.setError(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`, {
+        type: "manual",
+        message: "Password must contain at least one lowercase letter",
+      });
+      return;
+    }
+
+    if (!numberRegex.test(currentPSWRD)) {
+      form.setError(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`, {
+        type: "manual",
+        message: "Password must contain at least one number",
+      });
+      return;
+    }
+
+    // Clear any errors if the password is valid and unique
+    form.clearErrors(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`);
+    console.log("Password is valid and unique.");
   };
 
   // handle mauual password input change
@@ -3447,7 +3580,7 @@ function Editevent() {
                                     <div
                                       key={index}
                                       onClick={() => removeTag(ht)}
-                                      className="bg-green-600 rounded-md flex justify-center items-center px-[4px] text-[14px]"
+                                      className="bg-green-600 rounded-md flex justify-center items-center px-[4px] text-[14px] cursor-pointer"
                                     >
                                       {ht}
                                     </div>
@@ -3714,19 +3847,33 @@ function Editevent() {
                                       {...field}
                                       value={ticket.price}
                                       onChange={(e) => {
-                                        const value = e.target.value;
+                                        let value = e.target.value;
 
-                                        if (value.startsWith("-")) {
-                                          e.target.value = value.replace("-", ""); // Remove negative sign
+                                        // Remove negative (-) or plus (+) signs
+                                        value = value.replace(/[-+]/g, "");
+
+                                        // Remove any non-numeric characters (excluding a single period for decimals)
+                                        value = value.replace(/[^\d.]/g, "");
+
+                                        // If there are multiple periods (.), keep only the first one
+                                        const parts = value.split(".");
+                                        if (parts.length > 2) {
+                                          value = `${parts[0]}.${parts[1]}`;
                                         }
 
-                                        if (!/^\d*\.?\d*$/.test(value)) {
-                                          e.target.value = value.replace(/[^\d.]/g, "");
+                                        // Convert the sanitized value to a number
+                                        const numericValue = parseFloat(value);
+
+                                        // Check if the numeric value exceeds 10,000
+                                        if (numericValue > 10000) {
+                                          ErrorToast("Price cannot exceed 10,000!");
+                                          return; // Prevent further processing if the value is invalid
                                         }
 
-                                        // handleInputChange(index, "price", parseFloat(e.target.value));
-                                        field.onChange(e);
-                                        handlTicketPriceChange(value, index);
+                                        e.target.value = value; // Update the input value directly
+
+                                        field.onChange(value); // Update the form field value
+                                        handlTicketPriceChange(value, index); // Custom function for ticket price
                                       }}
                                     />
                                   </FormControl>
@@ -3754,8 +3901,16 @@ function Editevent() {
                                       value={ticket.no}
                                       onChange={(e) => {
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                        handleNoTickets(e.target.value, index);
-                                        field.onChange(e);
+                                        const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+                                        handleNoTickets(value, index);
+                                        field.onChange(value);
+                                      }}
+                                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                        const key = e.key;
+                                        // Prevent any non-numeric character except numbers
+                                        if (!/^\d$/.test(key)) {
+                                          e.preventDefault();
+                                        }
                                       }}
                                     />
                                   </FormControl>
@@ -3791,7 +3946,7 @@ function Editevent() {
                                                   //open={ticket.isTicketStartPickerOpen} // Control the open state with local state
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
-                                                  value={ticket.ticketstart ? dayjs(ticket.ticketstart) : null}
+                                                  value={ticket?.ticketstart ? dayjs(ticket?.ticketstart) : null}
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   autoOk={false}
                                                   onChange={(e: any) => {
@@ -3876,7 +4031,7 @@ function Editevent() {
                                                   // referenceDate={referenceTicketDate}
                                                   referenceDate={currentDateTime}
                                                   // minDate={currentDateTime}
-                                                  value={ticket.ticketend ? dayjs(ticket.ticketend) : null}
+                                                  value={ticket?.ticketend ? dayjs(ticket?.ticketend) : null}
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
@@ -3893,6 +4048,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (!(ticketTypes[index] as any)?.ticketstart) {
+                                                            ErrorToast("Ticket start date is empty!");
+                                                            e.stopPropagation();
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -3998,6 +4160,21 @@ function Editevent() {
                                                         slots={{
                                                           openPickerIcon: () => (
                                                             <CalendarTodayIcon
+                                                              onClick={(e) => {
+                                                                if (eventIndex === 0) {
+                                                                  if (!ticketTypes[index]?.ticketstart) {
+                                                                    ErrorToast("Ticket start date is empty!");
+                                                                    e.stopPropagation(); // Prevent the click event from propagating further
+                                                                    return;
+                                                                  }
+                                                                } else {
+                                                                  if (!ticketTypes[index]?.eventdates[eventIndex]?.endDate) {
+                                                                    ErrorToast("Last event end date is empty!");
+                                                                    e.stopPropagation(); // Prevent the click event from propagating further
+                                                                    return;
+                                                                  }
+                                                                }
+                                                              }}
                                                               style={{
                                                                 color: "#5e5e5e",
                                                                 fontSize: "15px",
@@ -4088,6 +4265,13 @@ function Editevent() {
                                                         slots={{
                                                           openPickerIcon: () => (
                                                             <CalendarTodayIcon
+                                                              onClick={(e) => {
+                                                                if (!ticketTypes[index]?.eventdates[eventIndex]?.startDate) {
+                                                                  ErrorToast("Last event Start date is empty!");
+                                                                  e.stopPropagation(); // Prevent the click event from propagating further
+                                                                  return;
+                                                                }
+                                                              }}
                                                               style={{
                                                                 color: "#5e5e5e",
                                                                 fontSize: "15px",
@@ -4138,7 +4322,7 @@ function Editevent() {
                                       }}
                                     >
                                       <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
-                                      Delete Ticket
+                                      Delete Event
                                     </Button>
                                   </div>
                                 )}
@@ -4420,8 +4604,17 @@ function Editevent() {
                                         className="pt-[2.83rem] pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                         {...field}
                                         onChange={(e) => {
-                                          handleCapacityRSVPTicket(e.target.value, index);
-                                          field.onChange(e);
+                                          // handleInputChange(index, "no", parseInt(e.target.value, 10));
+                                          const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+                                          handleNoTickets(value, index);
+                                          field.onChange(value);
+                                        }}
+                                        onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                          const key = e.key;
+                                          // Prevent any non-numeric character except numbers
+                                          if (!/^\d$/.test(key)) {
+                                            e.preventDefault();
+                                          }
                                         }}
                                       />
                                     </FormControl>
@@ -4777,19 +4970,33 @@ function Editevent() {
                                       {...field}
                                       value={ticket.price}
                                       onChange={(e) => {
-                                        const value = e.target.value;
+                                        let value = e.target.value;
 
-                                        if (value.startsWith("-")) {
-                                          e.target.value = value.replace("-", ""); // Remove negative sign
+                                        // Remove negative (-) or plus (+) signs
+                                        value = value.replace(/[-+]/g, "");
+
+                                        // Remove any non-numeric characters (excluding a single period for decimals)
+                                        value = value.replace(/[^\d.]/g, "");
+
+                                        // If there are multiple periods (.), keep only the first one
+                                        const parts = value.split(".");
+                                        if (parts.length > 2) {
+                                          value = `${parts[0]}.${parts[1]}`;
                                         }
 
-                                        if (!/^\d*\.?\d*$/.test(value)) {
-                                          e.target.value = value.replace(/[^\d.]/g, "");
+                                        // Convert the sanitized value to a number
+                                        const numericValue = parseFloat(value);
+
+                                        // Check if the numeric value exceeds 10,000
+                                        if (numericValue > 10000) {
+                                          ErrorToast("Price cannot exceed 10,000!");
+                                          return; // Prevent further processing if the value is invalid
                                         }
 
-                                        // handleInputChange(index, "price", parseFloat(e.target.value));
-                                        field.onChange(e);
-                                        handlTicketPriceChange(value, index);
+                                        e.target.value = value; // Update the input value directly
+
+                                        field.onChange(value); // Update the form field value
+                                        handlTicketPriceChange(value, index); // Custom function for ticket price
                                       }}
                                     />
                                   </FormControl>
@@ -4817,8 +5024,16 @@ function Editevent() {
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                        field.onChange(e);
-                                        handleNoTickets(e.target.value, index);
+                                        const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+                                        handleNoTickets(value, index);
+                                        field.onChange(value);
+                                      }}
+                                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                        const key = e.key;
+                                        // Prevent any non-numeric character except numbers
+                                        if (!/^\d$/.test(key)) {
+                                          e.preventDefault();
+                                        }
                                       }}
                                     />
                                   </FormControl>
@@ -4854,7 +5069,7 @@ function Editevent() {
                                                   //open={ticket.isTicketStartPickerOpen} // Control the open state with local state
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
-                                                  value={ticket.ticketstart ? dayjs(ticket.ticketstart) : null}
+                                                  value={ticket?.ticketstart ? dayjs(ticket?.ticketstart) : null}
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   autoOk={false}
                                                   onChange={(e: any) => {
@@ -4935,7 +5150,7 @@ function Editevent() {
                                                 <StyledDateTimePicker
                                                   //open={ticket.isTicketEndPickerOpen}
                                                   // value={validStartTime}
-                                                  value={ticket.ticketend ? dayjs(ticket.ticketend) : null}
+                                                  value={ticket?.ticketend ? dayjs(ticket?.ticketend) : null}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceTicketDate}
                                                   referenceDate={currentDateTime}
@@ -4956,6 +5171,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (!(ticketTypes[index] as any)?.ticketstart) {
+                                                            ErrorToast("Ticket start date is empty!");
+                                                            e.stopPropagation();
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -5029,7 +5251,7 @@ function Editevent() {
                                                 <StyledDateTimePicker
                                                   //open={ticket.isStartEventPickerOpen}
                                                   //  value={validStartTime}
-                                                  value={ticket.eventstart ? dayjs(ticket.eventstart) : null}
+                                                  value={ticket?.eventstart ? dayjs(ticket?.eventstart) : null}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceEventDate}
                                                   referenceDate={currentDateTime}
@@ -5052,6 +5274,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (!(ticketTypes[index] as any)?.ticketend) {
+                                                            ErrorToast("Ticket end date is empty!");
+                                                            e.stopPropagation();
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -5117,7 +5346,7 @@ function Editevent() {
                                                   //open={ticket.isEndEventPickerOpen}
                                                   // referenceDate={defaultEndTime}
                                                   referenceDate={currentDateTime}
-                                                  value={ticket.eventend ? dayjs(ticket.eventend) : null}
+                                                  value={ticket?.eventend ? dayjs(ticket?.eventend) : null}
                                                   formatDensity="spacious"
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
@@ -5140,6 +5369,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (!(ticketTypes[index] as any)?.eventstart) {
+                                                            ErrorToast("Event start date is empty!");
+                                                            e.stopPropagation();
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -5256,6 +5492,7 @@ function Editevent() {
                                                 if (value.startsWith(" ")) {
                                                   return;
                                                 }
+                                                validateManualEmail(index, e_Index, value);
                                                 field.onChange(e);
                                                 handleManualEnmailValues(index, e_Index, value);
                                               }}
@@ -5539,19 +5776,33 @@ function Editevent() {
                                       {...field}
                                       value={ticket.price}
                                       onChange={(e) => {
-                                        const value = e.target.value;
+                                        let value = e.target.value;
 
-                                        if (value.startsWith("-")) {
-                                          e.target.value = value.replace("-", ""); // Remove negative sign
+                                        // Remove negative (-) or plus (+) signs
+                                        value = value.replace(/[-+]/g, "");
+
+                                        // Remove any non-numeric characters (excluding a single period for decimals)
+                                        value = value.replace(/[^\d.]/g, "");
+
+                                        // If there are multiple periods (.), keep only the first one
+                                        const parts = value.split(".");
+                                        if (parts.length > 2) {
+                                          value = `${parts[0]}.${parts[1]}`;
                                         }
 
-                                        if (!/^\d*\.?\d*$/.test(value)) {
-                                          e.target.value = value.replace(/[^\d.]/g, "");
+                                        // Convert the sanitized value to a number
+                                        const numericValue = parseFloat(value);
+
+                                        // Check if the numeric value exceeds 10,000
+                                        if (numericValue > 10000) {
+                                          ErrorToast("Price cannot exceed 10,000!");
+                                          return; // Prevent further processing if the value is invalid
                                         }
 
-                                        // handleInputChange(index, "price", parseFloat(e.target.value));
-                                        field.onChange(e);
-                                        handlTicketPriceChange(value, index);
+                                        e.target.value = value; // Update the input value directly
+
+                                        field.onChange(value); // Update the form field value
+                                        handlTicketPriceChange(value, index); // Custom function for ticket price
                                       }}
                                     />
                                   </FormControl>
@@ -5579,8 +5830,16 @@ function Editevent() {
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                        field.onChange(e);
-                                        handleNoTickets(e.target.value, index);
+                                        const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+                                        handleNoTickets(value, index);
+                                        field.onChange(value);
+                                      }}
+                                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                        const key = e.key;
+                                        // Prevent any non-numeric character except numbers
+                                        if (!/^\d$/.test(key)) {
+                                          e.preventDefault();
+                                        }
                                       }}
                                     />
                                   </FormControl>
@@ -5618,7 +5877,7 @@ function Editevent() {
                                                   formatDensity="spacious"
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   autoOk={false}
-                                                  value={ticket.ticketstart ? dayjs(ticket.ticketstart) : null}
+                                                  value={ticket?.ticketstart ? dayjs(ticket?.ticketstart) : null}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
@@ -5701,7 +5960,7 @@ function Editevent() {
                                                   // referenceDate={referenceTicketDate}
                                                   referenceDate={currentDateTime}
                                                   // minDate={currentDateTime}
-                                                  value={ticket.ticketend ? dayjs(ticket.ticketend) : null}
+                                                  value={ticket?.ticketend ? dayjs(ticket?.ticketend) : null}
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
@@ -5718,6 +5977,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (!(ticketTypes[index] as any)?.ticketstart) {
+                                                            ErrorToast("Ticket start date is empty!");
+                                                            e.stopPropagation();
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -5791,7 +6057,7 @@ function Editevent() {
                                                 <StyledDateTimePicker
                                                   // open={ticket.isStartEventPickerOpen}
                                                   //  value={validStartTime}
-                                                  value={ticket.eventstart ? dayjs(ticket.eventstart) : null}
+                                                  value={ticket?.eventstart ? dayjs(ticket?.eventstart) : null}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceEventDate}
                                                   referenceDate={currentDateTime}
@@ -5813,6 +6079,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (!(ticketTypes[index] as any)?.ticketend) {
+                                                            ErrorToast("Ticket end date is empty!");
+                                                            e.stopPropagation();
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -5878,7 +6151,7 @@ function Editevent() {
                                                   // open={ticket.isEndEventPickerOpen}
                                                   // referenceDate={defaultEndTime}
                                                   referenceDate={currentDateTime}
-                                                  value={ticket.eventend ? dayjs(ticket.eventend) : null}
+                                                  value={ticket?.eventend ? dayjs(ticket?.eventend) : null}
                                                   formatDensity="spacious"
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
@@ -5901,6 +6174,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (!(ticketTypes[index] as any)?.eventstart) {
+                                                            ErrorToast("Event start date is empty!");
+                                                            e.stopPropagation();
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -6019,6 +6299,7 @@ function Editevent() {
                                                   if (value.startsWith(" ")) {
                                                     return;
                                                   }
+                                                  validateManualEmail(index, e_Index, value);
                                                   field.onChange(e);
                                                   handleManualEnmailValues(index, e_Index, value);
                                                 }}
@@ -6090,6 +6371,7 @@ function Editevent() {
                                                   if (value.startsWith(" ")) {
                                                     return;
                                                   }
+                                                  validatePSWRDEmail(index, p_Index, value);
                                                   field.onChange(e);
                                                   handleManualPswrdInput(index, p_Index, value);
                                                 }}
@@ -6496,19 +6778,33 @@ function Editevent() {
                                       {...field}
                                       value={ticket.price}
                                       onChange={(e) => {
-                                        const value = e.target.value;
+                                        let value = e.target.value;
 
-                                        if (value.startsWith("-")) {
-                                          e.target.value = value.replace("-", ""); // Remove negative sign
+                                        // Remove negative (-) or plus (+) signs
+                                        value = value.replace(/[-+]/g, "");
+
+                                        // Remove any non-numeric characters (excluding a single period for decimals)
+                                        value = value.replace(/[^\d.]/g, "");
+
+                                        // If there are multiple periods (.), keep only the first one
+                                        const parts = value.split(".");
+                                        if (parts.length > 2) {
+                                          value = `${parts[0]}.${parts[1]}`;
                                         }
 
-                                        if (!/^\d*\.?\d*$/.test(value)) {
-                                          e.target.value = value.replace(/[^\d.]/g, "");
+                                        // Convert the sanitized value to a number
+                                        const numericValue = parseFloat(value);
+
+                                        // Check if the numeric value exceeds 10,000
+                                        if (numericValue > 10000) {
+                                          ErrorToast("Price cannot exceed 10,000!");
+                                          return; // Prevent further processing if the value is invalid
                                         }
 
-                                        // handleInputChange(index, "price", parseFloat(e.target.value));
-                                        field.onChange(e);
-                                        handlTicketPriceChange(value, index);
+                                        e.target.value = value; // Update the input value directly
+
+                                        field.onChange(value); // Update the form field value
+                                        handlTicketPriceChange(value, index); // Custom function for ticket price
                                       }}
                                     />
                                   </FormControl>
@@ -6536,8 +6832,16 @@ function Editevent() {
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                        field.onChange(e);
-                                        handleNoTickets(e.target.value, index);
+                                        const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+                                        handleNoTickets(value, index);
+                                        field.onChange(value);
+                                      }}
+                                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                        const key = e.key;
+                                        // Prevent any non-numeric character except numbers
+                                        if (!/^\d$/.test(key)) {
+                                          e.preventDefault();
+                                        }
                                       }}
                                     />
                                   </FormControl>
@@ -6573,7 +6877,7 @@ function Editevent() {
                                                   // Control the open state with local state
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
-                                                  value={ticket.ticketstart ? dayjs(ticket.ticketstart) : null}
+                                                  value={ticket?.ticketstart ? dayjs(ticket?.ticketstart) : null}
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   autoOk={false}
                                                   onChange={(e: any) => {
@@ -6655,7 +6959,7 @@ function Editevent() {
 
                                                 <StyledDateTimePicker
                                                   // value={validStartTime}
-                                                  value={ticket.ticketend ? dayjs(ticket.ticketend) : null}
+                                                  value={ticket?.ticketend ? dayjs(ticket?.ticketend) : null}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceTicketDate}
                                                   referenceDate={currentDateTime}
@@ -6676,6 +6980,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (!(ticketTypes[index] as any)?.ticketstart) {
+                                                            ErrorToast("Ticket start date is empty!");
+                                                            e.stopPropagation();
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -6750,7 +7061,7 @@ function Editevent() {
 
                                                 <StyledDateTimePicker
                                                   //  value={validStartTime}
-                                                  value={ticket.eventstart ? dayjs(ticket.eventstart) : null}
+                                                  value={ticket?.eventstart ? dayjs(ticket?.eventstart) : null}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceEventDate}
                                                   referenceDate={currentDateTime}
@@ -6772,6 +7083,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (!(ticketTypes[index] as any)?.ticketend) {
+                                                            ErrorToast("Ticket end date is empty!");
+                                                            e.stopPropagation();
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -6838,7 +7156,7 @@ function Editevent() {
                                                 <StyledDateTimePicker
                                                   // referenceDate={defaultEndTime}
                                                   referenceDate={currentDateTime}
-                                                  value={ticket.eventend ? dayjs(ticket.eventend) : null}
+                                                  value={ticket?.eventend ? dayjs(ticket?.eventend) : null}
                                                   formatDensity="spacious"
                                                   onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
@@ -6860,6 +7178,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (!(ticketTypes[index] as any)?.eventstart) {
+                                                            ErrorToast("Event start date is empty!");
+                                                            e.stopPropagation();
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",

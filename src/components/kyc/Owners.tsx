@@ -25,16 +25,10 @@ type CateOption = {
 
 type OwnerForm = {
   id: string;
-  eventcatagory: {
-    label: string;
-  } | null;
+  relation: string;
   firstname: string;
   lastname: string;
   percentageSchema: string;
-  dropDown: boolean;
-  categoryalert: boolean;
-  iscustomcatgory: boolean;
-  customcategotyinput: string;
 };
 
 const optionscate: CateOption[] = [
@@ -49,34 +43,10 @@ const optionscate: CateOption[] = [
 const formSchema = z.object({
   ownerforms: z.array(
     z.object({
-      eventcatagory: z.object({
-        label: z.string().min(1, { message: "Category cannot be empty" }),
-      }),
-      percentageSchema: z
-        .string()
-        .min(1, { message: "Percentage cannot be empty." })
-        .regex(/^(?:\d{1,4}(\.\d+)?%?)$/, {
-          message: "Invalid percentage. Enter up to 4 digits with optional decimal and % symbol.",
-        })
-        .refine(
-          (value) => {
-            const numericValue = value.endsWith("%") ? value.slice(0, -1) : value;
-            return !isNaN(parseFloat(numericValue)) && parseFloat(numericValue) <= 5000;
-          },
-          { message: "Percentage must be a valid number no greater than 5000." }
-        ),
-      firstname: z
-        .string()
-        .min(1, { message: "First name cannot be empty." })
-        .regex(/^[A-Za-z]+$/, { message: "First name must contain only letters." })
-        .trim(),
-      lastname: z
-        .string()
-        .min(1, { message: "Last name cannot be empty." })
-        .regex(/^[A-Za-z][A-Za-z\s]*$/, {
-          message: "Last name must contain only letters.",
-        })
-        .trim(),
+      relation: z.string().optional(), // Optional field
+      percentageSchema: z.string().optional(), // Optional field
+      firstname: z.string().optional(), // Optional field
+      lastname: z.string().optional(), // Optional field
     })
   ),
 });
@@ -92,14 +62,10 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
   const [ownerForm, setOwnerForm] = useState<OwnerForm[]>([
     {
       id: uuidv4(),
-      eventcatagory: null,
+      relation: "",
       firstname: "",
       lastname: "",
       percentageSchema: "",
-      dropDown: false,
-      categoryalert: false,
-      iscustomcatgory: false,
-      customcategotyinput: "",
     },
   ]);
 
@@ -113,9 +79,7 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
       form.reset({
         ownerforms: PageData?.Owner?.map((_: any, index: number) => {
           return {
-            eventcatagory: {
-              label: _.relationship,
-            },
+            relation: _.relationship,
             percentageSchema: _.percentage,
             firstname: _.FirstName,
             lastname: _.LastName,
@@ -126,14 +90,10 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
       const oldDateisAs = PageData?.Owner?.map((_: any, index: number) => {
         return {
           id: uuidv4(),
-          eventcatagory: { label: _.relationship },
+          relation: _.relationship,
           firstname: _.FirstName,
           lastname: _.LastName,
           percentageSchema: _.percentage,
-          dropDown: false,
-          categoryalert: false,
-          iscustomcatgory: false,
-          customcategotyinput: "",
         };
       });
       setOwnerForm(oldDateisAs);
@@ -141,36 +101,19 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
       console.log("Individual No Backed Code");
     }
   }, []);
+  //   useEffect(() => {
+  //     console.log("Data is as now ===> ", ownerForm);
+  //   }, [ownerForm]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       ownerforms: [],
     },
-    // mode: "onChange",
+    mode: "onChange",
   });
 
-  // const { isValid } = form.formState;
-
-  const handleCateOptionToggle = (option: any, index: number) => {
-    setOwnerForm((prevForm) =>
-      prevForm.map((currentForm, i) => {
-        if (i === index) {
-          return {
-            ...currentForm,
-            eventcatagory: { label: option.label },
-            customcategoryinput: "",
-            iscustomcatgory: false,
-            dropDown: false,
-          };
-        }
-        return currentForm;
-      })
-    );
-
-    form.setValue(`ownerforms.${index}.eventcatagory`, option);
-    form.clearErrors(`ownerforms.${index}.eventcatagory`);
-  };
+  const { isValid } = form.formState;
 
   const addMoreOwner = (e: any) => {
     e.preventDefault();
@@ -178,14 +121,10 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
       ...prevTickets,
       {
         id: uuidv4(),
-        eventcatagory: null,
+        relation: "",
         firstname: "",
         lastname: "",
         percentageSchema: "",
-        dropDown: false,
-        categoryalert: false,
-        iscustomcatgory: false,
-        customcategotyinput: "",
       },
     ]);
   };
@@ -193,36 +132,18 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
   const handleRemoveOwner = (e: any, fieldID: string) => {
     e.preventDefault();
 
-    // Filter out the field to remove
-    const updatedFormFields = ownerForm.filter((field) => field.id !== fieldID);
+    const updatedFormFields = ownerForm
+      .filter((field) => field.id !== fieldID)
+      .map((field) => ({
+        relation: field.relation || "", // Default if relation is empty
+        percentageSchema: field.percentageSchema || "",
+        firstname: field.firstname || "", // Default if firstname is empty
+        lastname: field.lastname || "",
+      }));
+    console.log("Remaining values of frms are as==> ", updatedFormFields);
+    form.setValue("ownerforms", updatedFormFields);
 
-    // Update the form values based on the filtered list
-    // updatedFormFields.forEach((element, index) => {
-    //   form.setValue(`ownerforms.${index}`, {
-    //     eventcatagory: element.eventcatagory ?? { label: "" }, // Default if eventcatagory is null
-    //     percentageSchema: element.percentageSchema || "",
-    //     firstname: element.firstname || "",
-    //     lastname: element.lastname || "",
-    //   });
-    // });
-
-    // // Remove extra form fields that are no longer needed
-    // const remainingIndices = updatedFormFields.length;
-    // for (let i = remainingIndices; form.getValues(`ownerforms.${i}`); i++) {
-    //   form.unregister(`ownerforms.${i}`);
-    // }
-
-    const formUpdatedFields = updatedFormFields.map((f) => ({
-      eventcatagory: f.eventcatagory ?? { label: "" }, // Default if eventcatagory is null
-      percentageSchema: f.percentageSchema || "",
-      firstname: f.firstname || "",
-      lastname: f.lastname || "",
-    }));
-
-    form.setValue("ownerforms", formUpdatedFields);
-
-    // Update the state
-    setOwnerForm(updatedFormFields);
+    setOwnerForm((prevTickets) => prevTickets.filter((_) => _.id !== fieldID));
   };
 
   function EventCreation(values: z.infer<typeof formSchema>) {
@@ -232,7 +153,7 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
         FirstName: value?.firstname,
         LastName: value?.lastname,
         Email: "example@gmail.com",
-        relationship: value?.eventcatagory?.label,
+        relationship: value?.relation,
         percentage: value?.percentageSchema,
       };
     });
@@ -280,7 +201,7 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                     <div className="w-full">
                       <FormField
                         control={form.control}
-                        name={`ownerforms.${index}.eventcatagory`}
+                        name={`ownerforms.${index}.relation`}
                         render={({ field }) => (
                           <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
                             <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">RELATIONSHIP WITH COMPANY</FormLabel>
@@ -289,22 +210,26 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                               <Input
                                 key={ticketform?.id}
                                 type="text"
-                                placeholder="Enter Relation"
+                                placeholder="Select Relationship"
                                 className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
-                                // {...field}
-                                value={field.value?.label || ""}
+                                {...field}
                                 onChange={(e) => {
                                   const value = e.target.value;
                                   if (value.trimStart().length === 0) {
-                                    handleCateOptionToggle({ label: "" }, index);
-                                    field.onChange({ label: "" });
+                                    setOwnerForm((prevTickets) =>
+                                      prevTickets.map((formObject, i) => (i === index ? { ...formObject, relation: "" } : formObject))
+                                    );
+                                    field.onChange("");
                                   } else {
-                                    handleCateOptionToggle({ label: value }, index);
-                                    field.onChange({ label: value });
+                                    setOwnerForm((prevTickets) =>
+                                      prevTickets.map((formObject, i) => (i === index ? { ...formObject, relation: value } : formObject))
+                                    );
+                                    field.onChange(value);
                                   }
                                 }}
                                 onKeyDown={(e) => {
-                                  if (e.key === " " && field.value?.label?.length === 0) {
+                                  const value = field.value ?? ""; // Fallback to an empty string if undefined
+                                  if (e.key === " " && value.length === 0) {
                                     e.preventDefault();
                                   }
                                   // Allow letters and spaces
@@ -350,7 +275,8 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                                   }
                                 }}
                                 onKeyDown={(e) => {
-                                  if (e.key === " " && field.value.length === 0) {
+                                  const value = field.value ?? ""; // Fallback to an empty string if undefined
+                                  if (e.key === " " && value.length === 0) {
                                     e.preventDefault();
                                   }
                                   // Allow letters and spaces
@@ -402,8 +328,8 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                                   }
                                 }}
                                 onKeyDown={(e) => {
-                                  // Prevent leading space
-                                  if (e.key === " " && field.value.length === 0) {
+                                  const value = field.value ?? ""; // Fallback to an empty string if undefined
+                                  if (e.key === " " && value.length === 0) {
                                     e.preventDefault();
                                   }
                                   // Allow letters and spaces
@@ -496,7 +422,7 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
               >
                 Back
               </Button>
-              <Button type="submit" /*disabled={!isValid}*/ className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
+              <Button type="submit" disabled={!isValid} className="w-full sm:w-[200px] font-extrabold py-[12px] text-base">
                 Next
               </Button>
             </div>

@@ -18,50 +18,19 @@ import deleteicon from "@/assets/Wallet/delete-icon.svg";
 
 import { v4 as uuidv4 } from "uuid";
 
-type CateOption = {
-  label: string;
-};
-
 type ExecutiveForm = {
   id: string;
-  eventcatagory: {
-    label: string;
-  } | null;
+  relation: string;
   firstname: string;
   lastname: string;
-  dropDown: boolean;
-  categoryalert: boolean;
-  iscustomcatgory: boolean;
-  customcategotyinput: string;
 };
-
-const optionscate: CateOption[] = [
-  { label: "Executive_1" },
-  { label: "Executive_2" },
-  { label: "Executive_3" },
-  { label: "Executive_4" },
-  { label: "Executive_5" },
-  { label: "Other" },
-];
 
 const formSchema = z.object({
   executiveforms: z.array(
     z.object({
-      eventcatagory: z.object({
-        label: z.string().min(1, { message: "Category cannot be empty" }),
-      }),
-      firstname: z
-        .string()
-        .min(1, { message: "First name cannot be empty." })
-        .regex(/^[A-Za-z]+$/, { message: "First name must contain only letters." })
-        .trim(),
-      lastname: z
-        .string()
-        .min(1, { message: "Last name cannot be empty." })
-        .regex(/^[A-Za-z][A-Za-z\s]*$/, {
-          message: "Last name must contain only letters.",
-        })
-        .trim(),
+      relation: z.string().optional(), // Relation is now optional
+      firstname: z.string().optional(), // First name is now optional
+      lastname: z.string().optional(), // Last name is now optional
     })
   ),
 });
@@ -77,13 +46,9 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
   const [executivForm, setExecutiveForm] = useState<ExecutiveForm[]>([
     {
       id: uuidv4(),
-      eventcatagory: null,
+      relation: "",
       firstname: "",
       lastname: "",
-      dropDown: false,
-      categoryalert: false,
-      iscustomcatgory: false,
-      customcategotyinput: "",
     },
   ]);
 
@@ -108,11 +73,9 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
           console.log("Tyoe of Element is as ======> ", _);
           if (Object.keys(_).length !== 0) {
             return {
-              eventcatagory: {
-                label: _?.eventcatagory?.label || null,
-              },
-              firstname: _?.firstname,
-              lastname: _?.lastname,
+              relation: _?.relation || "",
+              firstname: _?.firstname || "",
+              lastname: _?.lastname || "",
             };
           }
         }),
@@ -122,13 +85,9 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
         if (Object.keys(_).length !== 0) {
           return {
             id: uuidv4(),
-            eventcatagory: { label: _?.eventcatagory?.label || null },
-            firstname: _?.firstname,
-            lastname: _?.lastname,
-            dropDown: false,
-            categoryalert: false,
-            iscustomcatgory: false,
-            customcategotyinput: "",
+            relation: _?.relation || "",
+            firstname: _?.firstname || "",
+            lastname: _?.lastname || "",
           };
         }
       });
@@ -142,12 +101,6 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
   //   console.log("Data is as now ===> ", executivForm);
   // }, [executivForm]);
 
-  const handleCatDropdownToggle = (index: number) => {
-    setExecutiveForm((prevTickets) =>
-      prevTickets.map((formObject, i) => (i === index ? { ...formObject, dropDown: !formObject.dropDown } : formObject))
-    );
-  };
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -158,97 +111,15 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
 
   const { isValid } = form.formState;
 
-  const handleCateOptionToggle = (option: any, index: number) => {
-    setExecutiveForm((prevForm) =>
-      prevForm.map((currentForm, i) => {
-        if (i === index) {
-          if (option.label === "Other") {
-            return {
-              ...currentForm,
-              iscustomcatgory: true,
-              eventcatagory: null,
-            };
-          } else if (option.label === currentForm?.eventcatagory?.label) {
-            return {
-              ...currentForm,
-              dropDown: false,
-            };
-          } else {
-            return {
-              ...currentForm,
-              eventcatagory: { label: option.label },
-              customcategoryinput: "",
-              iscustomcatgory: false,
-              dropDown: false,
-            };
-          }
-        }
-        return currentForm;
-      })
-    );
-
-    form.setValue(`executiveforms.${index}.eventcatagory`, option);
-    form.clearErrors(`executiveforms.${index}.eventcatagory`);
-  };
-
-  const handleCustomCatgory = (e: any, index: number) => {
-    const inputValue = e.target.value;
-
-    setExecutiveForm((prevForm) =>
-      prevForm.map((currentForm, i) => {
-        if (i === index) {
-          return {
-            ...currentForm,
-            customcategotyinput: inputValue,
-            categoryalert: false,
-          };
-        }
-        return currentForm;
-      })
-    );
-
-    form.setValue(`executiveforms.${index}.eventcatagory`, { label: inputValue });
-    form.clearErrors(`executiveforms.${index}.eventcatagory`);
-  };
-
-  const handleCustomCatBtn = (index: number, inputValue: string) => {
-    setExecutiveForm((prevForm) =>
-      prevForm.map((currentForm, i) => {
-        if (i === index) {
-          if (inputValue === "") {
-            return {
-              ...currentForm,
-              categoryalert: true,
-            };
-          } else {
-            return {
-              ...currentForm,
-              eventcatagory: { label: inputValue },
-              customcategotyinput: "",
-              iscustomcatgory: false,
-              categoryalert: false,
-              dropDown: false,
-            };
-          }
-        }
-        return currentForm;
-      })
-    );
-  };
-
   const addMoreExecuters = (e: any) => {
     e.preventDefault();
     setExecutiveForm((prevTickets) => [
       ...prevTickets,
       {
         id: uuidv4(),
-        eventcatagory: null,
+        relation: "",
         firstname: "",
         lastname: "",
-        dropDown: false,
-        categoryalert: false,
-        iscustomcatgory: false,
-        customcategotyinput: "",
       },
     ]);
   };
@@ -259,7 +130,7 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
     const updatedFormFields = executivForm
       .filter((field) => field.id !== fieldID)
       .map((field) => ({
-        eventcatagory: field.eventcatagory ?? { label: "" }, // Default if eventcatagory is null
+        relation: field.relation || "", // Default if relation is empty
         firstname: field.firstname || "", // Default if firstname is empty
         lastname: field.lastname || "",
       }));
@@ -276,7 +147,7 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
         FirstName: value?.firstname,
         LastName: value?.lastname,
         Email: "example@gmail.com",
-        relationship: value?.eventcatagory?.label,
+        relationship: value?.relation,
       };
     });
     const exectiveData = {
@@ -322,87 +193,45 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
                     <div className="lg:w-[49%]">
                       <FormField
                         control={form.control}
-                        name={`executiveforms.${index}.eventcatagory`}
+                        name={`executiveforms.${index}.relation`}
                         render={({ field }) => (
-                          <FormItem className="relative mb-[16px] md:mb-4 w-full rounded-md border border-[#292929] gradient-slate py-[8px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                            <div key={index} className="flex items-center justify-between" onClick={() => handleCatDropdownToggle(index)}>
-                              <div className="flex flex-col">
-                                <p className="text-[12px] font-bold text-[#8F8F8F] uppercase">RELATIONSHIP WITH COMPANY </p>
-                                <p>{ticketform?.eventcatagory ? ticketform?.eventcatagory?.label : "Select Relationship"}</p>
-                              </div>
-                              <Image src={ticketform?.dropDown ? arrowdown : arrowdown} width={11} height={11} alt="arrow" />
-                            </div>
-                            {ticketform?.dropDown && (
-                              <div
+                          <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                            <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">RELATIONSHIP WITH COMPANY</FormLabel>
+                            {/* <Image src={user} alt="img" className="absolute right-3 top-[30%]" /> */}
+                            <FormControl>
+                              <Input
                                 key={index}
-                                className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]"
-                              >
-                                {optionscate?.map((option) => (
-                                  <div
-                                    key={option.label}
-                                    className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                    onClick={() => handleCateOptionToggle(option, index)}
-                                  >
-                                    <div className="flex items-center gap-[10px]">
-                                      <p
-                                        className={`text-[16px] font-normal items-center ${ticketform?.eventcatagory?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
-                                          }`}
-                                      >
-                                        {option.label}
-                                      </p>
-                                    </div>
-                                    {ticketform?.eventcatagory?.label === option.label && <Image src={tick} width={10} height={10} alt="tick" />}
-                                  </div>
-                                ))}
-                                {ticketform?.iscustomcatgory && (
-                                  <>
-                                    {ticketform?.categoryalert === true && <p className="text-[red] text-[16px]">Input is empty!</p>}
-                                    <div
-                                      style={{
-                                        width: "100%",
-                                        marginTop: "10px",
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        gap: "20px",
-                                      }}
-                                    >
-                                      <input
-                                        type="text"
-                                        placeholder="Enter the Category name"
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e, index)}
-                                        value={ticketform?.customcategotyinput}
-                                        style={{
-                                          width: "100%",
-                                          paddingLeft: "5px",
-                                          paddingTop: "5px",
-                                          paddingBottom: "5px",
-                                          borderRadius: "6px",
-                                        }}
-                                      />
-                                      <button
-                                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                                          e.preventDefault(); // Prevents default action (optional if button is not inside a form)
-                                          handleCustomCatBtn(index, ticketform?.customcategotyinput);
-                                        }}
-                                        style={{
-                                          background: "green",
-                                          paddingLeft: "10px",
-                                          paddingRight: "10px",
-                                          lineHeight: "10px",
-                                          paddingTop: "10px",
-                                          paddingBottom: "10px",
-                                          borderRadius: "5px",
-                                          marginRight: "5px",
-                                        }}
-                                      >
-                                        Add
-                                      </button>
-                                    </div>
-                                  </>
-                                )}
-                              </div>
-                            )}
+                                type="text"
+                                placeholder="Enter Relation"
+                                className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
+                                {...field}
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  // Prevent leading space
+                                  if (value.trimStart().length === 0) {
+                                    setExecutiveForm((prevTickets) =>
+                                      prevTickets.map((formObject, i) => (i === index ? { ...formObject, relation: "" } : formObject))
+                                    );
+                                    field.onChange("");
+                                  } else {
+                                    setExecutiveForm((prevTickets) =>
+                                      prevTickets.map((formObject, i) => (i === index ? { ...formObject, relation: value } : formObject))
+                                    );
+                                    field.onChange(value);
+                                  }
+                                }}
+                                onKeyDown={(e) => {
+                                  const value = field.value ?? ""; // Fallback to an empty string if undefined
+                                  if (e.key === " " && value.length === 0) {
+                                    e.preventDefault();
+                                  }
+                                  // Allow letters and spaces
+                                  if (!/^[A-Za-z\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
+                              />
+                            </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -422,7 +251,7 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
                             <FormControl>
                               <Input
                                 key={index}
-                                // type="firstname"
+                                type="firstname"
                                 placeholder="Enter First Name"
                                 className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                                 {...field}
@@ -442,8 +271,8 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
                                   }
                                 }}
                                 onKeyDown={(e) => {
-                                  // Prevent leading space
-                                  if (e.key === " " && field.value.length === 0) {
+                                  const value = field.value ?? ""; // Fallback to an empty string if undefined
+                                  if (e.key === " " && value.length === 0) {
                                     e.preventDefault();
                                   }
                                   // Allow letters and spaces
@@ -470,7 +299,7 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
                             <FormControl className="text-[white]">
                               <Input
                                 key={index}
-                                // type="lastname"
+                                type="lastname"
                                 placeholder="Enter Last Name"
                                 className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                                 {...field}
@@ -491,8 +320,8 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
                                   }
                                 }}
                                 onKeyDown={(e) => {
-                                  // Prevent leading space
-                                  if (e.key === " " && field.value.length === 0) {
+                                  const value = field.value ?? ""; // Fallback to an empty string if undefined
+                                  if (e.key === " " && value.length === 0) {
                                     e.preventDefault();
                                   }
                                   // Allow letters and spaces
@@ -520,7 +349,7 @@ const Executive = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => 
                   console.log("RRRRRRRRRRRRRRRR===> ", form.getValues());
                   const exeData = form
                     .getValues()
-                    ?.executiveforms?.filter((fieldObject, index) => fieldObject?.eventcatagory && fieldObject?.firstname && fieldObject?.lastname);
+                    ?.executiveforms?.filter((fieldObject, index) => fieldObject?.relation && fieldObject?.firstname && fieldObject?.lastname);
                   localStorage.setItem("exeData", JSON.stringify({ executiveforms: exeData }));
                 }}
               >
