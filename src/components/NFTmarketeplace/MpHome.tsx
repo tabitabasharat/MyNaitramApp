@@ -2,7 +2,6 @@
 
 "use client";
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const MpHome = () => {
@@ -24,17 +23,21 @@ const MpHome = () => {
     "/Images/Market/tradingnft-a-3.svg",
   ];
 
-  const handleClickOutside = (event: MouseEvent) => { 
+  const handleClickOutside = (event: MouseEvent) => {
     // Check if the click is outside the dropdown
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) { setIsOpen(false); // Close the dropdown 
-      } };
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      setIsOpen(false); // Close the dropdown
+    }
+  };
 
-      useEffect(() => {
-         // Attach event listener when the component mounts
-        document.addEventListener("click", handleClickOutside); return () => { 
-          // Clean up event listener when the component unmounts
-          document.removeEventListener("click", handleClickOutside); }; 
-        }, []);
+  useEffect(() => {
+    // Attach event listener when the component mounts
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      // Clean up event listener when the component unmounts
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -111,7 +114,7 @@ const MpHome = () => {
         <div className="flex flex-col gap-[16px] xl:gap-[0px] xl:flex-row xl:items-center xl:justify-between">
           <div className="w-full xl:w-[40%]">
             <h2 className="text-white text-2xl md:text-4xl font-extrabold leading-tight">Trending NFTs</h2>
-          </div> 
+          </div>
           <div className="flex gap-[10px] w-full xl:justify-end lg:flex-row lg:flex">
             {/* First Input */}
             <div className="relative w-full sm:w-[376px]">
@@ -130,23 +133,21 @@ const MpHome = () => {
 
             {/* Second Input */}
             <div className="relative" ref={dropdownRef}>
-             
               <div className="relative w-full">
-             
                 <div
                   className="appearance-none w-full md:w-[175px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] shadow-[inset_0px_3px_5px_#232323] text-[#BFBFBF] text-[14px] leading-[19.6px] font-normal text-center cursor-pointer flex items-center justify-start relative"
-                  onClick={() => setIsOpen(!isOpen)} 
+                  onClick={() => setIsOpen(!isOpen)}
                 >
-                  {selected} 
+                  {selected}
                   <img
                     src="/Images/Market/arrd.svg"
                     alt="Dropdown Icon"
-                    className={`absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none transition-transform duration-200 ${isOpen ? "rotate-180" : "rotate-0"
-                      }`} 
+                    className={`absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none transition-transform duration-200 ${
+                      isOpen ? "rotate-180" : "rotate-0"
+                    }`}
                   />
                 </div>
 
-              
                 {isOpen && (
                   <ul className="absolute z-10 mt-2 w-[175px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] shadow-[0_4px_6px_#232323] rounded-[8px]">
                     {options.map((option) => (
@@ -154,8 +155,8 @@ const MpHome = () => {
                         key={option}
                         className="px-[16px] py-[8px] text-[#BFBFBF] hover:text-[#13FF7A] cursor-pointer text-center"
                         onClick={() => {
-                          setSelected(option); 
-                          setIsOpen(false); 
+                          setSelected(option);
+                          setIsOpen(false);
                         }}
                       >
                         {option}
@@ -197,7 +198,7 @@ const MpHome = () => {
         {/* Image Grid */}
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ">
           {images.map((src, index) => (
-            <div key={index} className="relative group overflow-hidden rounded-[8px]">
+            <div key={index} className="relative group overflow-hidden rounded-[8px]" onClick={() => router.push("/marketPlace/owner")}>
               {/* Image */}
               <img src={src} alt={`Trending NFT ${index + 1}`} className="w-full h-auto rounded-[8px]" />
               {/* Hover Effect */}
