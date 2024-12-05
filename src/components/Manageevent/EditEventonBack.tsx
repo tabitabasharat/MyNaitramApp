@@ -71,7 +71,6 @@ import img18 from "../../assets/Whats-Included/option18.svg";
 import img19 from "../../assets/Whats-Included/option19.svg";
 import img20 from "../../assets/Whats-Included/option20.svg";
 import img21 from "../../assets/Whats-Included/option21.svg";
-
 import tick from "../../assets/fi-rr-check.svg";
 import { updateEvent } from "@/lib/middleware/event";
 import Protectedroute from "@/lib/ProtectedRoute/Protectedroute";
@@ -295,9 +294,6 @@ const RsvpTypeSchema = z.object({
     ),
     z.number().min(1, { message: "Capacity must be greater than 0." }),
   ]),
-  // username: z.boolean().default(false),
-  // useremail: z.boolean().default(false),
-  // usernumb: z.boolean().default(false),
   additional: z.array(AdditionalFieldsSchema).optional().default([]),
 });
 
@@ -3700,7 +3696,6 @@ function EditeventOnBack() {
                           </FormItem>
                         )}
                       />
-
                       {/* Event Catagory */}
                       <FormField
                         control={form.control}

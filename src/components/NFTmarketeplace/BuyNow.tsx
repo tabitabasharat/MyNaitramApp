@@ -1,6 +1,8 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import Back from "@/assets/Back-2.svg";
 import RadioButton from "@/assets/RadioButtonImage.svg";
@@ -9,7 +11,12 @@ import SetaPrice from "@/assets/setAPrice.svg";
 import Select, { SingleValue } from 'react-select';
 import ArrowDown from "@/assets/arrowBottom-white.svg";
 import left from '@/assets/Caret Left.svg';
+
 import "./makeOffer.css";
+
+
+
+
 
 interface OptionType {
     value: string;
@@ -28,6 +35,8 @@ const SaleOption: React.FC<SaleOptionProps> = ({
     selected,
     onSelect,
 }) => {
+
+ 
     return (
         <div
             className='gradient-slate-input flex justify-between w-full py-[20px] px-[12px] items-center'
@@ -152,10 +161,11 @@ const durationOptions = [
   ];
 
 const BuyNow = () => {
+ 
     const [selectedOption, setSelectedOption] = React.useState<string>("fixed-price");
     const [selectedCurrency, setSelectedCurrency] = useState<string>('ETH');
     const [selectedDuration, setSelectedDuration] = useState<string>('1 Month');
-
+    const router = useRouter();
     const handleChange = (selectedOptions: SingleValue<OptionType>) => {
         if (selectedOptions) {
             setSelectedCurrency(selectedOptions.value);
@@ -166,12 +176,14 @@ const BuyNow = () => {
           setSelectedDuration(selectedOption.value);
         }
       };
+      
+     
     return (
       <div className="relative">
         <section className=" pt-[173px] pb-[108px] flex flex-col gap-[40px] b pl-[92px] pr-[97px] max-[992px]:pl-[0px] max-[992px]:pr-[0px]  max-[992px]:pt-[0px] max-[992px]:pb-[0px] ">
             <div className=" max-[992px]:bg-buyNow withoutImage max-[992px]:pl-[92px] max-[992px]:pr-[97px]  max-[992px]:pt-[174px]  max-[992px]:pb-[108px] max-[768px]:pl-[24px] max-[768px]:pr-[24px]  max-[768px]:pt-[100px]  max-[768px]:pb-[100px] ">
             <div className="flex gap-[16px] items-center custom-border max-[1180px]:pb-[24px] max-[1180px]:mb-[24px]  ">
-            <Image className="block max-[992px]:hidden" src={Back} alt="backButton" />
+            <Image   onClick={() => router.back()} className="block max-[992px]:hidden" src={Back} alt="backButton" />
 <Image className="hidden max-[992px]:block" src={left} alt="Left" />
 
 
@@ -234,7 +246,7 @@ const BuyNow = () => {
                         </div>
                         <div className="flex  w-full justify-between align-center">
                             <p className="font-[800] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">More Options</p>
-                            <Image src={ArrowDown} alt="down Arrow" />
+                            <Image style={{marginRight:"0"}} src={ArrowDown} alt="down Arrow" />
 
 
                         </div>
@@ -271,7 +283,7 @@ const BuyNow = () => {
                         </div>
                         <Button
                 //   onClick={() => FeedBackOnEvent()}
-                className=" text-sm font-extrabold text-center w-full rounded-[100px] py-[12px] text-[black] bg-[#00D059]"
+                className=" text-[16px] leading-[22.4px] font-extrabold text-center w-full rounded-[100px] py-[12px] text-[black] bg-[#00D059]"
               style={{fontFamily: "var(--font-base)",}}>
                Complete Listing
               </Button>

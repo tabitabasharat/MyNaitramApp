@@ -13,7 +13,6 @@ import { getEventById, getLiveEventById } from "@/lib/middleware/event";
 import rocket from "@/assets/Wallet/rocket-empty.svg";
 import YourEvents from "./YourEvents";
 import { useRouter } from "next/navigation";
-import getPastEvents from "@/lib/reducer/getPastEvents";
 
 const AllEventsGrid = ({ events, eventType }: any) => {
   const dispatch = useAppDispatch();
