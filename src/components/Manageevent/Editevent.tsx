@@ -4162,13 +4162,13 @@ function Editevent() {
                                                             <CalendarTodayIcon
                                                               onClick={(e) => {
                                                                 if (eventIndex === 0) {
-                                                                  if (!ticketTypes[index]?.ticketstart) {
-                                                                    ErrorToast("Ticket start date is empty!");
+                                                                  if (!(ticketTypes[index] as any)?.ticketend) {
+                                                                    ErrorToast("Ticket end date is empty!");
                                                                     e.stopPropagation(); // Prevent the click event from propagating further
                                                                     return;
                                                                   }
                                                                 } else {
-                                                                  if (!ticketTypes[index]?.eventdates[eventIndex]?.endDate) {
+                                                                  if (!ticket?.eventdates[eventIndex - 1]?.endDate) {
                                                                     ErrorToast("Last event end date is empty!");
                                                                     e.stopPropagation(); // Prevent the click event from propagating further
                                                                     return;
@@ -4266,7 +4266,7 @@ function Editevent() {
                                                           openPickerIcon: () => (
                                                             <CalendarTodayIcon
                                                               onClick={(e) => {
-                                                                if (!ticketTypes[index]?.eventdates[eventIndex]?.startDate) {
+                                                                if (!ticket?.eventdates[eventIndex]?.startDate) {
                                                                   ErrorToast("Last event Start date is empty!");
                                                                   e.stopPropagation(); // Prevent the click event from propagating further
                                                                   return;
