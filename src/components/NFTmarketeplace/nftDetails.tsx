@@ -106,15 +106,15 @@ const NftDetails = () => {
             </div>
             <div className="pt-[50px] flex flex-col ">
               <p className="pb-[16px] font-[800] text-[24px] leading-[28.8px]">Event Detail</p>
-              <div className="items-center flex gap-[8px] mb-[12px]">
+              <div className="items-start flex gap-[8px] mb-[12px]">
                 <Image src={location} alt="Location" />
                 <p className="font-[700] text-[16px] leading-[24px]">DOMA PUB Main floor, Light Street, London</p>
               </div>
-              <div className="items-center flex gap-[8px] mb-[12px]">
+              <div className="items-start flex gap-[8px] mb-[12px]">
                 <Image src={v2Calender} alt="Calendar" />
                 <p className="font-[700] text-[16px] leading-[16px]">Saturday, 5th March 2024 - Sunday, 6th March 2024</p>
               </div>
-              <div className="items-center flex gap-[8px]">
+              <div className="items-start flex gap-[8px]">
                 <Image src={clock} alt="clock" />
                 <p className="font-[700] text-[16px] leading-[24px]">5 PM - 12 AM</p>
               </div>
@@ -287,7 +287,7 @@ const NftDetails = () => {
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
-                      className={`Tab text-[16px] leading-[23.2px] w-[140px] pb-[7px] border-b-[2px] ${activeTab === tab ? "text-customGreen font-[700]" : "text-white font-[400]"
+                      className={`Tab text-[16px] leading-[23.2px] w-[140px] pb-[7px] border-b-[2px]  ${activeTab === tab ? "text-customGreen font-[700]" : "text-white font-[400]"
                         } hover:text-green-500 focus:outline-none`}
                       style={{
                         borderBottomColor: activeTab === tab ? "rgba(0, 168, 73, 1)" : "rgba(41, 41, 41, 1)",
@@ -503,22 +503,22 @@ const NftDetails = () => {
                               <TableRow>
                                 <TableCell className="tableRow"
                                   style={{ fontFamily: "var(--font-base)", }}
-                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
+                                  sx={{ borderBottom: "none",textDecoration:"underline", textUnderlineOffset: "3px", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
                                   0.00001 ETH
                                 </TableCell>
                                 <TableCell className="tableRow"
                                   style={{ fontFamily: "var(--font-base)", }}
-                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
+                                  sx={{ borderBottom: "none", textDecoration:"underline", textUnderlineOffset: "3px",borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
                                   $0.30
                                 </TableCell>
                                 <TableCell className="tableRow"
                                   style={{ fontFamily: "var(--font-base)", }}
-                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
+                                  sx={{ borderBottom: "none", textDecoration:"underline", textUnderlineOffset: "3px",borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
                                   1
                                 </TableCell>
                                 <TableCell className="tableRow"
                                   style={{ fontFamily: "var(--font-base)", }}
-                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
+                                  sx={{ borderBottom: "none",textDecoration:"underline", textUnderlineOffset: "3px", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
                                   In 6 Months
                                 </TableCell>
                                 <TableCell
@@ -636,28 +636,28 @@ const NftDetails = () => {
                                 <TableCell
                                   className="tableRow2"
                                   style={{ fontFamily: "var(--font-base)", font: '18px !important', fontWeight: '700 !important', lineHeight: '18px !important' }}
-                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
+                                  sx={{ borderBottom: "none",textDecoration:"underline", textUnderlineOffset: "3px", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.event}
                                 </TableCell>
                                 <TableCell
                                   className="tableRow2"
                                   style={{ fontFamily: "var(--font-base)" }}
-                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
+                                  sx={{ borderBottom: "none",textDecoration:"underline", textUnderlineOffset: "3px", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.price}
                                 </TableCell>
                                 <TableCell
                                   className="tableRow2"
                                   style={{ fontFamily: "var(--font-base)" }}
-                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
+                                  sx={{ borderBottom: "none",textDecoration:"underline", textUnderlineOffset: "3px", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.from}
                                 </TableCell>
                                 <TableCell
                                   className="tableRow2"
                                   style={{ fontFamily: "var(--font-base)" }}
-                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
+                                  sx={{ borderBottom: "none",textDecoration:"underline", textUnderlineOffset: "3px", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.to}
                                 </TableCell>
@@ -665,7 +665,7 @@ const NftDetails = () => {
                                   className="tableRow2"
                                   style={{ fontFamily: "var(--font-base)" }}
 
-                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
+                                  sx={{ borderBottom: "none",textDecoration:"underline", textUnderlineOffset: "3px", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
                                   {row.date}
                                 </TableCell>

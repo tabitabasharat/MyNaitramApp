@@ -200,6 +200,14 @@
     padding: 132px 60px;
   }
 }
+ @media (max-width:800px){
+  .customizeButton{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+ }
 @media (max-width: 425px) {
   .bg-reward-outer {
     width: 100%;
@@ -216,11 +224,7 @@
   }
 }
 @media (max-width: 477px) {
-  .Tab {
-    width: auto !important;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-  }
+  
   .hiddenPicture {
     width: 100% !important;
   }
@@ -323,6 +327,9 @@
     font-weight: 400;
   }
   .Tab {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100%;
     font-size: 14px;
     line-height: 20.3px;
   }
