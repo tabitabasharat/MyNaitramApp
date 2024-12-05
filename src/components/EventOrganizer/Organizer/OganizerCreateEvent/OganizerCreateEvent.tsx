@@ -3755,21 +3755,21 @@ function OganizerCreateEvent() {
                                                         slots={{
                                                           openPickerIcon: () => (
                                                             <CalendarTodayIcon
-                                                            onClick={(e) => {
-                                                              if (eventIndex === 0) {
-                                                                if (!(ticketTypes[index] as any)?.ticketend) {
-                                                                  ErrorToast("Ticket end date is empty!");
-                                                                  e.stopPropagation(); // Prevent the click event from propagating further
-                                                                  return;
+                                                              onClick={(e) => {
+                                                                if (eventIndex === 0) {
+                                                                  if (!(ticketTypes[index] as any)?.ticketend) {
+                                                                    ErrorToast("Ticket end date is empty!");
+                                                                    e.stopPropagation(); // Prevent the click event from propagating further
+                                                                    return;
+                                                                  }
+                                                                } else {
+                                                                  if (!ticket?.eventdates[eventIndex - 1]?.endDate) {
+                                                                    ErrorToast("Last event end date is empty!");
+                                                                    e.stopPropagation(); // Prevent the click event from propagating further
+                                                                    return;
+                                                                  }
                                                                 }
-                                                              } else {
-                                                                if (!ticket?.eventdates[eventIndex - 1]?.endDate) {
-                                                                  ErrorToast("Last event end date is empty!");
-                                                                  e.stopPropagation(); // Prevent the click event from propagating further
-                                                                  return;
-                                                                }
-                                                              }
-                                                            }}
+                                                              }}
                                                               style={{
                                                                 color: "#5e5e5e",
                                                                 fontSize: "15px",
@@ -3862,13 +3862,13 @@ function OganizerCreateEvent() {
                                                         slots={{
                                                           openPickerIcon: () => (
                                                             <CalendarTodayIcon
-                                                            onClick={(e) => {
-                                                              if (!ticket?.eventdates[eventIndex]?.startDate) {
-                                                                ErrorToast("Last event Start date is empty!");
-                                                                e.stopPropagation(); // Prevent the click event from propagating further
-                                                                return;
-                                                              }
-                                                            }}
+                                                              onClick={(e) => {
+                                                                if (!ticket?.eventdates[eventIndex]?.startDate) {
+                                                                  ErrorToast("Last event Start date is empty!");
+                                                                  e.stopPropagation(); // Prevent the click event from propagating further
+                                                                  return;
+                                                                }
+                                                              }}
                                                               style={{
                                                                 color: "#5e5e5e",
                                                                 fontSize: "15px",
