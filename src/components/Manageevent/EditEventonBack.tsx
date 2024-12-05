@@ -1266,7 +1266,7 @@ function EditeventOnBack() {
         if (totalFiles > 8) {
           const remainingSlots = 8 - prevFiles.length;
           const limitedFilesArray = filesArray.slice(0, remainingSlots);
-          ErrorToast("You can only select 10 media items");
+          ErrorToast("You can only select 8 media items");
 
           return [...prevFiles, ...limitedFilesArray];
         }
