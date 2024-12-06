@@ -335,7 +335,9 @@ body {
     width: 100%;
     flex-direction: column;
   }
-
+.bg-imag{
+  background: transparent;
+}
   .bg-v2 {
     background: transparent;
   }
@@ -1104,7 +1106,12 @@ input[type="number"] {
   position: relative;
   z-index: 1;
 }
-
+.bg-imag{
+  background-image: url(../assets/V2assets/Blur\ Green.svg);
+  background-position-y:bottom;
+  background-position-x: right;
+  background-repeat: no-repeat;
+}
 .add-bank-account-border::before {
   content: "";
   position: absolute;

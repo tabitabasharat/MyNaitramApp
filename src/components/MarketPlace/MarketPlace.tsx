@@ -55,10 +55,7 @@ const page = () => {
       </div>
 
       <div className="relative flex flex-col px-4 lg:px-14 pb-36 space-y-10">
-        {/* Heading */}
         <h2 className="text-white text-3xl md:text-4xl font-extrabold leading-tight">Trending NFTs</h2>
-
-        {/* Image Grid */}
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {images.map((src, index) => (
             <img key={index} src={src} alt={`Trending NFT ${index + 1}`} className="w-full h-auto" />

@@ -1,8 +1,8 @@
-// jabbar branch
-
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import blurbg from "@/assets/V2assets/Blur Green.svg"
+import Image from "next/image"
 
 const MpHome = () => {
   const router = useRouter();
@@ -41,7 +41,7 @@ const MpHome = () => {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row justify-between items-center px-6 lg:px-14 py-14 lg:py-36 space-y-10 lg:space-y-0 w-full ">
+      <div className="flex  flex-col lg:flex-row justify-between items-center px-6 lg:px-14 py-14 lg:py-36 space-y-10 lg:space-y-0 w-full ">
         {/* Left Section */}
         <div className="flex flex-col space-y-8 lg:space-y-10 lg:w-1/2">
           <div className="flex flex-col space-y-5 pt-8 md:pt-0">
@@ -107,11 +107,11 @@ const MpHome = () => {
           </div>
         </div>
       </div>
-      <div className="relative flex flex-col px-4 lg:px-14 pb-36 space-y-4 md:space-y-10">
+      <div className="relative overflow-hidden flex flex-col px-4 lg:px-14 pb-36 space-y-4 md:space-y-10">
         {/* Heading */}
         <div className="flex flex-col gap-[16px] xl:gap-[0px] xl:flex-row xl:items-center xl:justify-between">
           <div className="w-full xl:w-[40%]">
-            <h2 className="text-white text-2xl md:text-4xl font-extrabold leading-tight">Trending NFTs</h2>
+            <h2 className="text-white text-2xl md:text-4xl font-bold leading-tight">Trending NFTs</h2>
           </div>
           <div className="flex gap-[10px]  xl:justify-end lg:flex-row lg:flex">
             {/* First Input */}
@@ -193,7 +193,7 @@ const MpHome = () => {
         </div>
 
         {/* Image Grid */}
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ">
+        <div className="grid gap-5 z-[1] sm:grid-cols-2 lg:grid-cols-3 ">
           {images.map((src, index) => (
             <div key={index} className="relative group overflow-hidden rounded-[8px]" onClick={() => router.push("/marketPlace/owner")}>
               {/* Image */}
@@ -227,12 +227,13 @@ const MpHome = () => {
             </div>
           ))}
         </div>
-
+        <Image src={blurbg} alt="bg-blur" className="absolute bottom-[-170px] z-[0] right-[0px]" />
         {/* Background Blur */}
-        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[#00D059] blur-[500px] rounded-[30%] -z-10" />
+        {/* <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[#00D059] blur-[500px] rounded-[30%] -z-10" /> */}
       </div>
     </>
   );
 };
 
 export default MpHome;
+ 
