@@ -129,11 +129,11 @@ const NftDetails = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-[32px]">
+          <div className="flex flex-col gap-[12px] sm:gap-[32px]">
             <p className="font-[800] text-[48px] leading-[57.6px] fasty ">A Fasty Brush Flower Arts</p>
-            <div className="flex flex-col gap-[16px]">
+            <div className="flex flex-col gap-[12px] sm:gap-[16px]">
               <p className="font-[800] text-[24px] leading-[28.8px] description ">Description</p>
-              <p className="font-[400] text-[16px] leading-[19.2px] para">
+              <p className="font-[400] text-[16px] mb-[38px] sm:mb-[0px] leading-[19.2px] para">
                 Join us for the PIZDEZ Women’s Day Party 2024, an unforgettable celebration of women's achievements and empowerment! Enjoy an
                 electrifying night filled with live music, dancing, and entertainment.{" "}
               </p>
@@ -142,24 +142,24 @@ const NftDetails = () => {
               <div className="w-full flex justify-center">
                 <Image className="w-[500px] hiddenPicture" src={image1} alt="/" />
               </div>
-              <div className="flex flex-row gap-[25px]">
-                <div className="flex gap-[10px] pt-[32px]">
+              <div className="flex flex-row mt-[16px] sm:mt-[32px] gap-[25px]">
+                <div className="flex gap-[10px] ">
                   <Image src={eye} alt="Eye" />
                   <p className="font-[800] text-[14px] leading-[16.8px] ">44 Views</p>
                 </div>
-                <div className="flex gap-[10px] pt-[32px]">
+                <div className="flex gap-[10px]">
                   <Image src={heart} alt="heart" />
                   <p className="font-[800] text-[14px] leading-[16.8px] ">3 Favorites</p>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col gap-[8px]">
+            <div className="flex flex-col mt-[38px] sm:mt-[0px] gap-[8px]">
               <p className="text-customGreen font-[700] text-[13px] leading-[16.25px] tickett">Ticket Type</p>
               <p className="font-[800] text-[24px] leading-[27.6px] festivals ">Festivals / Multi-Day Tickets </p>
             </div>
-            <div className="customizeDiv flex gap-[32px]">
+            <div className="customizeDiv my-[38px] sm:my-[0px] flex gap-[32px]">
               <div
-                className="rounded-[8px] bg-[linear-gradient(360deg,_#0F0F0F_72%,_#1A1A1A_100%)] flex flex-col gap-[8px] px-[40.5px] py-[8px] customizeButton"
+                className="rounded-[8px]  bg-[linear-gradient(360deg,_#0F0F0F_72%,_#1A1A1A_100%)] flex flex-col gap-[8px] px-[40.5px] py-[8px] customizeButton"
                 style={{
                   borderWidth: "1px",
                   borderStyle: "solid",
@@ -194,11 +194,11 @@ const NftDetails = () => {
               </div>
             </div>
             <div className="flex flex-col gap-[40px]">
-              <div className="buttonsrounded flex gap-[32px]">
+              <div className="buttonsrounded flex mt-[20px] sm:mt-[0px] gap-[32px]">
                 <Button
                  onClick={handleOpen}
                   size="lg"
-                  className="buttonrounded h-[59px] w-[290px]  font-[800] text-[16px] leading-[22.4px] flex items-center ready-btn   px-[110.5px] py-[19.5px] "
+                  className="buttonrounded h-[59px]  w-[290px]  font-[800] text-[16px] leading-[22.4px] flex items-center ready-btn   px-[110.5px] py-[19.5px] "
                 >
                   Buy Now
                 </Button>
@@ -216,13 +216,13 @@ const NftDetails = () => {
                   <MakeOfferModal open={isModalOpen} onClose={handleClose} />
                 )}
               </div>
-              <div className="pt-[50px] flex flex-col hidden  hiddenEventDetail">
-                <p className="eventDetail pb-[16px] font-[800] text-[24px] leading-[28.8px]">Event Detail</p>
-                <div className="items-start flex gap-[8px] mb-[12px]">
+              <div className="sm:pt-[50px] flex flex-col hidden  hiddenEventDetail">
+                <p className="eventDetail pb-[20px] sm:pb-[16px] font-[800] text-[24px] leading-[28.8px]">Event Detail</p>
+                <div className="items-start flex gap-[8px] mb-[8px] sm:mb-[12px]">
                   <Image src={location} alt="Location" />
                   <p className="eventPoint font-[700] text-[16px] leading-[24px]">DOMA PUB Main floor, Light Street, London</p>
                 </div>
-                <div className="items-start flex gap-[8px] mb-[12px]">
+                <div className="items-start flex gap-[8px] mb-[8px] sm:mb-[12px]">
                   <Image src={v2Calender} alt="Calendar" />
                   <p className="eventPoint font-[700] text-[16px] leading-[16px]">Saturday, 5th March 2024 - Sunday, 6th March 2024</p>
                 </div>
@@ -231,8 +231,8 @@ const NftDetails = () => {
                   <p className="eventPoint font-[700] text-[16px] leading-[24px]">5 PM - 12 AM</p>
                 </div>
               </div>
-              <div className="pt-[30px] hidden  hidenTicketType">
-                <p className="ticket1 font-[800] text-[24px] leading-[28.8px] pb-[16px] ">Ticket Types</p>
+              <div className="hidden  hidenTicketType">
+                <p className="ticket1 font-[800] text-[24px] leading-[28.8px] pb-[20px] pt-[10px] sm:pt-[0px] sm:pb-[16px] ">Ticket Types</p>
                 <div className="flex flex-col gap-[12px]">
                   <div className="flex gap-[8px] items-center">
                     <Image src={ticketType} alt="ticketType" />
@@ -262,7 +262,7 @@ const NftDetails = () => {
               </div>
               <div className="block">
 
-                <div className="block mb-[24px] flex justify-start">
+                <div className="block mb-[20px] flex justify-start">
                   {tabs.map((tab) => (
                     <button
                       key={tab}
@@ -306,7 +306,7 @@ const NftDetails = () => {
                     ></div>
 
                     <div
-                      className="upperdiv w-[671px] max-[1150px]:w-[100%]  flex justify-between items-center px-[24px] py-[28px]"
+                      className="upperdiv w-[671px] sm:mb-[24px] my-[20px] sm:my-[0px] max-[1150px]:w-[100%]  flex justify-between items-center px-[24px] py-[28px]"
                       style={{ borderBottom: "1.41px solid rgba(41, 41, 41, 0.5)" }}
                     >
                       <div className="flex gap-[15px] topDiv">
@@ -371,7 +371,7 @@ const NftDetails = () => {
                               value: "Volume (ETH)",
                               angle: -90,
                               position: "outside-center",
-                              fill: "#BFBFBF",
+                              fill: "white",
                             }}
                           />
                           <YAxis
@@ -396,7 +396,7 @@ const NftDetails = () => {
                               value: "Average Price (ETH)",
                               angle: 90,
                               position: "outside-center",
-                              fill: "#BFBFBF",
+                              fill: "white",
                             }}
                           />
 

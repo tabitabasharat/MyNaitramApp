@@ -265,7 +265,7 @@ const EventAnalytics = () => {
             <div className='flex flex-col lg:flex-row gap-[22px]'>
                 <div className='flex gap-[12px] flex-col'>
                     <div className='flex flex-col sm:flex-row gap-[12px]'>
-                        <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-full lg:w-[250px] h-[220px]'>
+                        <div className='gradient-slate p-[24px] border border-[#292929] rounded-[8px] w-full lg:w-[250px] h-[220px]'>
 
                             <p className='font-bold text-[20px] mb-[16px]'>Revenue</p>
                             <LineChart width={200} height={51} data={Revenue}>
@@ -281,7 +281,7 @@ const EventAnalytics = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-full lg:w-[250px] h-[220px]'>
+                        <div className='gradient-slate p-[24px] border border-[#292929] rounded-[8px] w-full lg:w-[250px] h-[220px]'>
                             <p className='font-bold text-[20px] mb-[16px]'>Ticket Sales</p>
                             <LineChart width={200} height={51} data={ticketsale}>
                                 <Line type="monotone" dot={false} dataKey="uv" strokeWidth={2} stroke="#32D583" />
@@ -298,7 +298,7 @@ const EventAnalytics = () => {
                         </div>
                     </div>
                     <div className='flex flex-col sm:flex-row gap-[12px]'>
-                        <div className='gradient-slate  p-[24px] gradient-slate-input rounded-[8px] w-full lg:w-[250px] h-[220px]'>
+                        <div className='gradient-slate  p-[24px] border border-[#292929] rounded-[8px] w-full lg:w-[250px] h-[220px]'>
 
                             <p className='font-bold text-[20px] mb-[16px]'>Rep Ticket Sales</p>
                             <LineChart width={200} height={51} data={redticketsale}>
@@ -314,7 +314,7 @@ const EventAnalytics = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-full lg:w-[250px] h-[220px]'>
+                        <div className='gradient-slate p-[24px] border border-[#292929] rounded-[8px] w-full lg:w-[250px] h-[220px]'>
 
                             <p className='font-bold text-[20px] mb-[16px]'>Page Views</p>
                             <LineChart width={200} height={51} data={pageview}>
@@ -332,7 +332,7 @@ const EventAnalytics = () => {
                         </div>
                     </div>
                 </div>
-                <div className='gradient-slate p-[24px] gradient-slate-input rounded-[8px] w-full lg:w-[465px] h-[452px]'>
+                <div className='gradient-slate p-[24px] border border-[#292929] rounded-[8px] w-full lg:w-[465px] h-[452px]'>
                     <p className='font-bold text-[20px]'>Followers</p>
                     <p className='mt-[20px] flex items-center gap-[20px] mb-[30px]'><span className='text-[#00D059] font-extrabold text-[48px]'>+130</span> <span className='text-[#D9D9D9] text-[20px]'>(169 all time)</span></p>
                     <ResponsiveContainer width="100%" height={258}>
@@ -573,7 +573,7 @@ const EventAnalytics = () => {
                 <div
                     style={{
                     }}
-                    className=" lg:p-[24px] w-full md:w-[618px] border-linear rounded-[8px] gradient-slate p-[16px]"
+                    className=" lg:p-[24px] w-full md:w-[618px] border-linear rounded-[8px] border border-[#292929] gradient-slate p-[16px]"
                 >
                     <div className="flex justify-between">
                         <p className="font-bold text-[20px]">Sales</p>
@@ -656,7 +656,7 @@ const EventAnalytics = () => {
                     </ResponsiveContainer>
                 </div>
                 {/* <Analyticbarchart /> */}
-                <div className='gradient-slate gradient-slate-input h-[228px] w-full md:w-[369px] flex flex-col rounded-[8px] gap-[30px] py-[24px] px-[28px]'>
+                <div className='gradient-slate h-[228px] w-full md:w-[369px] flex flex-col rounded-[8px] gap-[30px] py-[24px] px-[28px]'>
                     <div>
                         <h3>CSV Reports</h3>
 
