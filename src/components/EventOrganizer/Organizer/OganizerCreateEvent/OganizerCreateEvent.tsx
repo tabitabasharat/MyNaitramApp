@@ -3730,8 +3730,9 @@ function OganizerCreateEvent() {
                         name="eventHashtags" // Form field name
                         render={({ field }) => (
                           <FormItem className="relative w-ful w-full rounded-md border border-[#292929] gradient-slate px-3 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-4 pb-2">
-                            <FormLabel className="text-sm text-gray-500 left-3 uppercase pt-[16px] pb-[0px] flex justify-start items-center gap-[2px]">
-                              Hashtags<span className="text-red-600 text-[20px] relative">*</span>
+                            <FormLabel className="text-sm text-gray-500 left-3 uppercase pb-[0px] flex justify-start items-center gap-[2px]">
+                              Hashtags
+                              <span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <div className="flex flex-wrap gap-2 w-full">
@@ -3748,7 +3749,7 @@ function OganizerCreateEvent() {
                                 })}
                                 <Input
                                   placeholder="Enter Hashtag"
-                                  className="flex h-10 w-full rounded-md border-none px-0 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-0 pb-0 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                  className="flex h-10 w-full rounded-md border-none px-0 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-0 pb-0 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                   value={hashINputValue}
                                   onChange={(e) => {
                                     handleHashFieldInput(e);
@@ -7672,8 +7673,8 @@ function OganizerCreateEvent() {
                         name="youtubeurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                              Youtube
+                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Youtube<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             {/* {isYtVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7713,8 +7714,8 @@ function OganizerCreateEvent() {
                         name="tiktokurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                              Tiktok
+                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Tiktok<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             {/* {isTikTokVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7753,8 +7754,8 @@ function OganizerCreateEvent() {
                         name="linkedinurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                              Linkedin
+                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Linkedin<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             {/* {isLinkedInVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7794,8 +7795,8 @@ function OganizerCreateEvent() {
                         name="twitterurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                              Twitter
+                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Twitter<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             {/* {isXVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">

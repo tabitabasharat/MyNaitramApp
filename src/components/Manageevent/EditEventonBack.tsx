@@ -4246,8 +4246,8 @@ function EditeventOnBack() {
                         name="eventname"
                         render={({ field }) => (
                           <FormItem className="relative w-full space-y-0">
-                            <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                              Event Name
+                            <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Event Name<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -4273,7 +4273,9 @@ function EditeventOnBack() {
                           <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                             <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
                               <div className="flex flex-col">
-                                <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase">EVENT category</p>
+                                <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                  EVENT category<span className="text-red-600 text-[20px] relative">*</span>
+                                </p>
                                 <p>{categoryTypes ? categoryTypes?.label : "Select Event Category"}</p>
                               </div>
                               <Image src={isCatDropdownOpen ? arrowdown : arrowdown} width={11} height={11} alt="arrow" />
@@ -4365,8 +4367,8 @@ function EditeventOnBack() {
                         name="eventdescription"
                         render={({ field }) => (
                           <FormItem className="relative w-full gradient-slate-input space-y-0  h-[260px]  pb-3">
-                            <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                              Event Description
+                            <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Event Description<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl className="relative">
                               {/* <Textarea
@@ -4403,7 +4405,9 @@ function EditeventOnBack() {
                         name="eventHashtags" // Form field name
                         render={({ field }) => (
                           <FormItem className="relative w-ful w-full rounded-md border border-[#292929] gradient-slate px-3 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-4 pb-2">
-                            <FormLabel className="text-sm text-gray-500 left-3 uppercase pt-[16px] pb-[0px]">Hashtags</FormLabel>
+                            <FormLabel className="text-sm text-gray-500 left-3 uppercase pb-[0px] flex justify-start items-center gap-[2px]">
+                              Hashtags<span className="text-red-600 text-[20px] relative">*</span>
+                            </FormLabel>
                             <FormControl>
                               <div className="flex flex-wrap gap-2 w-full">
                                 {chooseHashTags.map((ht: string, index: number) => {
@@ -4465,7 +4469,9 @@ function EditeventOnBack() {
                         name="eventlocation"
                         render={({ field }) => (
                           <FormItem className="relative w-full space-y-0">
-                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">Event Location</FormLabel>
+                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Event Location<span className="text-red-600 text-[20px] relative">*</span>
+                            </FormLabel>
                             <FormControl>
                               <LocationAutocomplete
                                 value={field.value || EventData?.location || ""}
@@ -8167,7 +8173,9 @@ function EditeventOnBack() {
                         name="fburl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Facebook</FormLabel>
+                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Facebook<span className="text-red-600 text-[20px] relative">*</span>
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="Enter URL"
@@ -8196,7 +8204,9 @@ function EditeventOnBack() {
                         name="instaurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Instagram</FormLabel>
+                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Instagram<span className="text-red-600 text-[20px] relative">*</span>
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="Enter URL"
@@ -8227,7 +8237,9 @@ function EditeventOnBack() {
                         name="twitterurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Twitter</FormLabel>
+                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Twitter<span className="text-red-600 text-[20px] relative">*</span>
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="Enter URL"
@@ -8256,7 +8268,9 @@ function EditeventOnBack() {
                         name="youtubeurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Youtube</FormLabel>
+                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Youtube<span className="text-red-600 text-[20px] relative">*</span>
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="Enter URL"
@@ -8287,7 +8301,9 @@ function EditeventOnBack() {
                         name="tiktokurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Tiktok</FormLabel>
+                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Tiktok<span className="text-red-600 text-[20px] relative">*</span>
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="Enter URL"
@@ -8317,7 +8333,9 @@ function EditeventOnBack() {
                         name="linkedinurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Linkedin</FormLabel>
+                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Linkedin<span className="text-red-600 text-[20px] relative">*</span>
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="Enter URL"
@@ -8347,7 +8365,9 @@ function EditeventOnBack() {
                         name="telegramurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">Telegram</FormLabel>
+                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Telegram<span className="text-red-600 text-[20px] relative">*</span>
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="Enter URL"
