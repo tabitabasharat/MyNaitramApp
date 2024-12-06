@@ -710,13 +710,6 @@ function OganizerCreateEvent() {
     setEventLocation(location);
   };
 
-  const [TicketStartDate, setTicketStartDate] = useState("");
-  const [TicketEndDate, setTicketEndDate] = useState("");
-
-  const [EventStartTime, setEventStartTime] = useState("");
-
-  const [EventEndTime, setEventEndTime] = useState("");
-
   // //////////////////////////////////////////////////////////////////////////////////
   const [Eventdescription, setEventdescription] = useState("");
   // console.log("event des", EventEndTime);
@@ -1125,7 +1118,9 @@ function OganizerCreateEvent() {
 
   function convertToUTC(localDateTime: string): string {
     // Create a Date object from the local date-time string
+    console.log("This is Date obtained Date==>  ", localDateTime);
     const localDate = new Date(localDateTime);
+    console.log("This is Date local Date==>  ", localDate);
 
     // Extract UTC time components
     const utcYear = localDate.getUTCFullYear();
@@ -1140,6 +1135,7 @@ function OganizerCreateEvent() {
       "0"
     )}:${String(utcMinutes).padStart(2, "0")}`;
 
+    console.log("This is Date converted Date==>  ", localDate);
     return formattedUTC;
   }
 
@@ -1347,10 +1343,6 @@ function OganizerCreateEvent() {
 
   console.log("is cat", isCategorySelected);
 
-  const utcEventStartTime = convertToUTC(EventStartTime);
-  console.log("my utc event start time is", utcEventStartTime);
-  console.log("my  event start time is", EventStartTime);
-
   // Hashing is here
   const encryptionKey = "naitramV2SecretKey";
   const encryptArray = (arrayOfStrings: string[], secretKey: string) => {
@@ -1371,41 +1363,311 @@ function OganizerCreateEvent() {
       const options = lastTicket?.options || []; // Retrieve the options array
       if (options.length === 0) {
         ErrorToast(`${lastTicket?.type} is required at least one include`);
+        setTicketTypes((prevTickets: any) =>
+          prevTickets.map((ticket: any, i: number) => (i === ticketTypes?.length - 1 ? { ...ticket, optionDropDown: true } : ticket))
+        );
         isFormValid = false;
         return; // Options array is empty
       }
     }
 
-    // RSVP Form validation
-    const rsvpTicketChecks: TicketType[] | any = ticketTypes.filter((ticket: any) => ticket.type === "RSVP Ticketing");
-    rsvpTicketChecks.forEach((ticket: any) => {
-      if (ticket?.additional.length > 0 || ticket.username || ticket.useremail || ticket.usernumb) {
-      } else {
-        ErrorToast("At least one csv field is required");
-        isFormValid = false;
-        return;
-      }
-    });
+    ticketTypes.forEach((ticket: any, ticketIndex: number) => {
+      // Private Form Validation
+      if (ticket.type === "Private Event Ticketing") {
+        if (ticket?.emailmanual.length === 0 || ticket?.emailmanual[ticket?.emailmanual?.length - 1] === "") {
+          ErrorToast("At least one Email is required for Private Ticketing");
 
-    // Private Form Validation
-    const privateTicketChecks: TicketType[] | any = ticketTypes.filter((ticket: any) => ticket.type === "Private Event Ticketing");
-    privateTicketChecks.forEach((ticket: any) => {
-      if (ticket?.emailmanual.length > 0) {
-      } else {
-        ErrorToast("At least one Email is required for Private Ticketing");
-        isFormValid = false;
-        return;
+          form.setError(`tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}`, {
+            type: "manual",
+            message: "At least one Email is required for Private Ticketing",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.ticketstart) > new Date(ticket?.ticketend)) {
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.ticketend`, {
+            type: "manual",
+            message: "End date can't be smaaler than start date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.ticketend) > new Date(ticket?.eventstart)) {
+          // ErrorToast("At least one Email is required for Private Ticketing");
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.eventstart`, {
+            type: "manual",
+            message: "Event start date can't be smaller then ticket end date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventstart"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.eventstart) > new Date(ticket?.eventend)) {
+          // ErrorToast("At least one Email is required for Private Ticketing");
+          form.setError(`tickets.${ticketIndex}.eventend`, {
+            type: "manual",
+            message: "End date can't be smaller than start date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
       }
-    });
 
-    // Password Form Validation
-    const paswrdTicketChecks: TicketType[] | any = ticketTypes.filter((ticket: any) => ticket.type === "Passworded / Discounted Voucher Event");
-    paswrdTicketChecks.forEach((ticket: any) => {
-      if (ticket?.pswrdmanual.length > 0 || ticket?.autoGeneratedPswrd.length > 0 || ticket?.emailmanual.length > 0) {
-      } else {
-        ErrorToast("At least one Password or Email is required for private ticketing");
-        isFormValid = false;
-        return;
+      // Password Ticket type
+      if (ticket.type === "Passworded / Discounted Voucher Event") {
+        if (ticket?.pswrdmanual.length === 0 && ticket?.autoGeneratedPswrd.length === 0 && ticket?.emailmanual.length === 0) {
+          ErrorToast("At least one Email or password required for password/discounted Ticketing");
+          isFormValid = false;
+          return;
+        }
+
+        if (ticket?.emailmanual[ticket?.emailmanual?.length - 1] === "") {
+          form.setError(`tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}`, {
+            type: "manual",
+            message: "Required",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+
+        if (ticket?.pswrdmanual[ticket?.pswrdmanual?.length - 1] === "") {
+          form.setError(`tickets.${ticketIndex}.pswrdmanual.${ticket?.pswrdmanual?.length - 1}`, {
+            type: "manual",
+            message: "Required",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.pswrdmanual.${ticket?.pswrdmanual?.length - 1}"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+
+        if (new Date(ticket?.ticketstart) > new Date(ticket?.ticketend)) {
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.ticketend`, {
+            type: "manual",
+            message: "End date can't be smaller than start",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.ticketend) > new Date(ticket?.eventstart)) {
+          // ErrorToast("At least one Email is required for Private Ticketing");
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.eventstart`, {
+            type: "manual",
+            message: "Event start date can't be smaller than ticket end date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventstart"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.eventstart) > new Date(ticket?.eventend)) {
+          // ErrorToast("At least one Email is required for Private Ticketing");
+          form.setError(`tickets.${ticketIndex}.eventend`, {
+            type: "manual",
+            message: "End date can't be smaller than start date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+      }
+
+      // Custom Ticket type
+      if (ticket.type === "Custom Ticketing") {
+        if (new Date(ticket?.ticketstart) > new Date(ticket?.ticketend)) {
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.ticketend`, {
+            type: "manual",
+            message: "End date can't be smaller than start",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.ticketend) > new Date(ticket?.eventstart)) {
+          // ErrorToast("At least one Email is required for Private Ticketing");
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.eventstart`, {
+            type: "manual",
+            message: "Event start date can't be smaller than ticket end date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventstart"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.eventstart) > new Date(ticket?.eventend)) {
+          // ErrorToast("At least one Email is required for Private Ticketing");
+          form.setError(`tickets.${ticketIndex}.eventend`, {
+            type: "manual",
+            message: "End date can't be smaller than start date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+      }
+
+      // RSVP Ticket
+      if (ticket.type === "RSVP Ticketing") {
+        if (ticket?.additional.length > 0 || ticket.username || ticket.useremail || ticket.usernumb) {
+        } else {
+          ErrorToast("At least one RSVP field is required");
+          isFormValid = false;
+          return;
+        }
+      }
+
+      // Festival Ticket
+      if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+        if (new Date(ticket?.ticketstart) > new Date(ticket?.ticketend)) {
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.ticketend`, {
+            type: "manual",
+            message: "End date can't be smaller than start",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        ticket?.eventdates?.forEach((date: any, d_Idx: number) => {
+          if (d_Idx === 0) {
+            if (new Date(ticket?.ticketend) > new Date(date?.startDate)) {
+              // ErrorToast("At least one Email is required for Private Ticketing");
+              // Set error in form for invalid email
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.startDate`, {
+                type: "manual",
+                message: "Event start date can't be smaller than ticket end date",
+              });
+              // Focus on the error field
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.startDate"]`);
+              if (errorField) {
+                errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+                (errorField as HTMLElement).focus(); // Ensure the field gets focused
+              }
+              isFormValid = false;
+              return;
+            }
+            if (new Date(date?.startDate) > new Date(date?.endDate)) {
+              // ErrorToast("At least one Email is required for Private Ticketing");
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.endDate`, {
+                type: "manual",
+                message: "End date can't be smaller than start date",
+              });
+              // Focus on the error field
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.endDate"]`);
+              if (errorField) {
+                errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+                (errorField as HTMLElement).focus(); // Ensure the field gets focused
+              }
+              isFormValid = false;
+              return;
+            }
+          } else {
+            if (new Date(ticket?.eventdates[d_Idx - 1]?.endDate) > new Date(date?.startDate)) {
+              // ErrorToast("At least one Email is required for Private Ticketing");
+              // Set error in form for invalid email
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.startDate`, {
+                type: "manual",
+                message: "Event start date can't be smaller than previous event end date",
+              });
+              // Focus on the error field
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.startDate"]`);
+              if (errorField) {
+                errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+                (errorField as HTMLElement).focus(); // Ensure the field gets focused
+              }
+              isFormValid = false;
+              return;
+            }
+            if (new Date(date?.startDate) > new Date(date?.endDate)) {
+              // ErrorToast("At least one Email is required for Private Ticketing");
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.endDate`, {
+                type: "manual",
+                message: "End date can't be smaller than start date",
+              });
+              // Focus on the error field
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.endDate"]`);
+              if (errorField) {
+                errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+                (errorField as HTMLElement).focus(); // Ensure the field gets focused
+              }
+              isFormValid = false;
+              return;
+            }
+          }
+        });
       }
     });
 
@@ -1418,6 +1680,7 @@ function OganizerCreateEvent() {
               ticketName: ticket?.typename,
               ticketPrice: ticket?.price,
               noOfTickets: ticket?.no,
+              originalNoOfTickets: ticket?.no,
 
               ticketStartDT: convertToUTC(ticket?.ticketstart),
               ticketEndDT: convertToUTC(ticket?.ticketend),
@@ -1435,6 +1698,7 @@ function OganizerCreateEvent() {
               ticketName: ticket?.name,
               rsvpDeadline: convertToUTC(ticket?.deadline),
               noOfTickets: ticket?.capacity,
+              originalNoOfTickets: ticket?.capacity,
               whatsIncluded: ticket?.options,
               rsvpName: ticket?.username,
               rsvpMail: ticket?.useremail,
@@ -1448,6 +1712,7 @@ function OganizerCreateEvent() {
               ticketName: ticket?.name,
               ticketPrice: ticket?.price,
               noOfTickets: ticket?.no,
+              originalNoOfTickets: ticket?.no,
               ticketStartDT: convertToUTC(ticket?.ticketstart),
               ticketEndDT: convertToUTC(ticket?.ticketend),
               eventStartDT: convertToUTC(ticket?.eventstart),
@@ -1462,14 +1727,17 @@ function OganizerCreateEvent() {
               ticketName: ticket?.name,
               ticketPrice: ticket?.price,
               noOfTickets: ticket?.no,
+              originalNoOfTickets: ticket?.no,
               ticketStartDT: convertToUTC(ticket?.ticketstart),
               ticketEndDT: convertToUTC(ticket?.ticketend),
               eventStartDT: convertToUTC(ticket?.eventstart),
               eventEndDT: convertToUTC(ticket?.eventend),
               whatsIncluded: ticket?.options,
               privateEventAdditionalFields: ticket?.emailmanual,
-              passwordFields: encryptArray([...(ticket?.pswrdmanual || []), ...(ticket?.autoGeneratedPswrd || [])], encryptionKey),
-              autoPasswordFields: [],
+              // passwordFields: encryptArray([...(ticket?.pswrdmanual || []), ...(ticket?.autoGeneratedPswrd || [])], encryptionKey),
+              // autoPasswordFields: [],
+              passwordFields: encryptArray(ticket?.pswrdmanual || [], encryptionKey),
+              autoPasswordFields: encryptArray(ticket?.autoGeneratedPswrd || [], encryptionKey),
             }
           : {
               selectedEventTicketType: ticket?.type,
@@ -1477,6 +1745,7 @@ function OganizerCreateEvent() {
               ticketName: ticket?.name,
               ticketPrice: ticket?.price,
               noOfTickets: ticket?.no,
+              originalNoOfTickets: ticket?.no,
               ticketStartDT: convertToUTC(ticket?.ticketstart),
               ticketEndDT: convertToUTC(ticket?.ticketend),
               eventStartDT: convertToUTC(ticket?.eventstart),
@@ -1652,36 +1921,317 @@ function OganizerCreateEvent() {
   async function handlePreviewClick(values: z.infer<typeof formSchema | typeof formSchema2>) {
     let isFormValid: boolean = true;
 
-    // RSVP Form validation
-    const rsvpTicketChecks: TicketType[] | any = ticketTypes.filter((ticket: any) => ticket.type === "RSVP Ticketing");
-    rsvpTicketChecks.forEach((ticket: any) => {
-      if (ticket?.additional.length > 0 || ticket.username || ticket.useremail || ticket.usernumb) {
-      } else {
-        ErrorToast("At least one RSVP field is required");
+    //Check weather the last Object TicketTypoes have options or not
+    const lastTicket = ticketTypes?.[ticketTypes.length - 1]; // Get the last ticket object
+    if (lastTicket) {
+      const options = lastTicket?.options || []; // Retrieve the options array
+      if (options.length === 0) {
+        ErrorToast(`${lastTicket?.type} is required at least one include`);
+        setTicketTypes((prevTickets: any) =>
+          prevTickets.map((ticket: any, i: number) => (i === ticketTypes?.length - 1 ? { ...ticket, optionDropDown: true } : ticket))
+        );
         isFormValid = false;
-        return;
+        return; // Options array is empty
       }
-    });
+    }
 
-    // Private Form Validation
-    const privateTicketChecks: TicketType[] | any = ticketTypes.filter((ticket: any) => ticket.type === "Private Event Ticketing");
-    privateTicketChecks.forEach((ticket: any) => {
-      if (ticket?.emailmanual.length > 0) {
-      } else {
-        ErrorToast("At least one Email is required for Private Ticketing");
-        isFormValid = false;
-        return;
+    ticketTypes.forEach((ticket: any, ticketIndex: number) => {
+      // Private Form Validation
+      if (ticket.type === "Private Event Ticketing") {
+        if (ticket?.emailmanual.length === 0 || ticket?.emailmanual[ticket?.emailmanual?.length - 1] === "") {
+          ErrorToast("At least one Email is required for Private Ticketing");
+
+          form.setError(`tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}`, {
+            type: "manual",
+            message: "At least one Email is required for Private Ticketing",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.ticketstart) > new Date(ticket?.ticketend)) {
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.ticketend`, {
+            type: "manual",
+            message: "End date can't be smaaler than start date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.ticketend) > new Date(ticket?.eventstart)) {
+          // ErrorToast("At least one Email is required for Private Ticketing");
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.eventstart`, {
+            type: "manual",
+            message: "Event start date can't be smaller then ticket end date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventstart"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.eventstart) > new Date(ticket?.eventend)) {
+          // ErrorToast("At least one Email is required for Private Ticketing");
+          form.setError(`tickets.${ticketIndex}.eventend`, {
+            type: "manual",
+            message: "End date can't be smaller than start date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
       }
-    });
 
-    // Password Form Validation
-    const paswrdTicketChecks: TicketType[] | any = ticketTypes.filter((ticket: any) => ticket.type === "Passworded / Discounted Voucher Event");
-    paswrdTicketChecks.forEach((ticket: any) => {
-      if (ticket?.pswrdmanual.length > 0 || ticket?.autoGeneratedPswrd.length > 0 || ticket?.emailmanual.length > 0) {
-      } else {
-        ErrorToast("At least one Password or Email is required for private ticketing");
-        isFormValid = false;
-        return;
+      // Password Ticket type
+      if (ticket.type === "Passworded / Discounted Voucher Event") {
+        if (ticket?.pswrdmanual.length === 0 && ticket?.autoGeneratedPswrd.length === 0 && ticket?.emailmanual.length === 0) {
+          ErrorToast("At least one Email or password required for password/discounted Ticketing");
+          isFormValid = false;
+          return;
+        }
+
+        if (ticket?.emailmanual[ticket?.emailmanual?.length - 1] === "") {
+          form.setError(`tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}`, {
+            type: "manual",
+            message: "Required",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+
+        if (ticket?.pswrdmanual[ticket?.pswrdmanual?.length - 1] === "") {
+          form.setError(`tickets.${ticketIndex}.pswrdmanual.${ticket?.pswrdmanual?.length - 1}`, {
+            type: "manual",
+            message: "Required",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.pswrdmanual.${ticket?.pswrdmanual?.length - 1}"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+
+        if (new Date(ticket?.ticketstart) > new Date(ticket?.ticketend)) {
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.ticketend`, {
+            type: "manual",
+            message: "End date can't be smaller than start",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.ticketend) > new Date(ticket?.eventstart)) {
+          // ErrorToast("At least one Email is required for Private Ticketing");
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.eventstart`, {
+            type: "manual",
+            message: "Event start date can't be smaller than ticket end date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventstart"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.eventstart) > new Date(ticket?.eventend)) {
+          // ErrorToast("At least one Email is required for Private Ticketing");
+          form.setError(`tickets.${ticketIndex}.eventend`, {
+            type: "manual",
+            message: "End date can't be smaller than start date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+      }
+
+      // Custom Ticket type
+      if (ticket.type === "Custom Ticketing") {
+        if (new Date(ticket?.ticketstart) > new Date(ticket?.ticketend)) {
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.ticketend`, {
+            type: "manual",
+            message: "End date can't be smaller than start",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.ticketend) > new Date(ticket?.eventstart)) {
+          // ErrorToast("At least one Email is required for Private Ticketing");
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.eventstart`, {
+            type: "manual",
+            message: "Event start date can't be smaller than ticket end date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventstart"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        if (new Date(ticket?.eventstart) > new Date(ticket?.eventend)) {
+          // ErrorToast("At least one Email is required for Private Ticketing");
+          form.setError(`tickets.${ticketIndex}.eventend`, {
+            type: "manual",
+            message: "End date can't be smaller than start date",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+      }
+
+      // RSVP Ticket
+      if (ticket.type === "RSVP Ticketing") {
+        if (ticket?.additional.length > 0 || ticket.username || ticket.useremail || ticket.usernumb) {
+        } else {
+          ErrorToast("At least one RSVP field is required");
+          isFormValid = false;
+          return;
+        }
+      }
+
+      // Festival Ticket
+      if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+        if (new Date(ticket?.ticketstart) > new Date(ticket?.ticketend)) {
+          // Set error in form for invalid email
+          form.setError(`tickets.${ticketIndex}.ticketend`, {
+            type: "manual",
+            message: "End date can't be smaller than start",
+          });
+          // Focus on the error field
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
+          if (errorField) {
+            errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            (errorField as HTMLElement).focus(); // Ensure the field gets focused
+          }
+          isFormValid = false;
+          return;
+        }
+        ticket?.eventdates?.forEach((date: any, d_Idx: number) => {
+          if (d_Idx === 0) {
+            if (new Date(ticket?.ticketend) > new Date(date?.startDate)) {
+              // ErrorToast("At least one Email is required for Private Ticketing");
+              // Set error in form for invalid email
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.startDate`, {
+                type: "manual",
+                message: "Event start date can't be smaller than ticket end date",
+              });
+              // Focus on the error field
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.startDate"]`);
+              if (errorField) {
+                errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+                (errorField as HTMLElement).focus(); // Ensure the field gets focused
+              }
+              isFormValid = false;
+              return;
+            }
+            if (new Date(date?.startDate) > new Date(date?.endDate)) {
+              // ErrorToast("At least one Email is required for Private Ticketing");
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.endDate`, {
+                type: "manual",
+                message: "End date can't be smaller than start date",
+              });
+              // Focus on the error field
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.endDate"]`);
+              if (errorField) {
+                errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+                (errorField as HTMLElement).focus(); // Ensure the field gets focused
+              }
+              isFormValid = false;
+              return;
+            }
+          } else {
+            if (new Date(ticket?.eventdates[d_Idx - 1]?.endDate) > new Date(date?.startDate)) {
+              // ErrorToast("At least one Email is required for Private Ticketing");
+              // Set error in form for invalid email
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.startDate`, {
+                type: "manual",
+                message: "Event start date can't be smaller than previous event end date",
+              });
+              // Focus on the error field
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.startDate"]`);
+              if (errorField) {
+                errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+                (errorField as HTMLElement).focus(); // Ensure the field gets focused
+              }
+              isFormValid = false;
+              return;
+            }
+            if (new Date(date?.startDate) > new Date(date?.endDate)) {
+              // ErrorToast("At least one Email is required for Private Ticketing");
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.endDate`, {
+                type: "manual",
+                message: "End date can't be smaller than start date",
+              });
+              // Focus on the error field
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.endDate"]`);
+              if (errorField) {
+                errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+                (errorField as HTMLElement).focus(); // Ensure the field gets focused
+              }
+              isFormValid = false;
+              return;
+            }
+          }
+        });
       }
     });
 
@@ -2053,8 +2603,9 @@ function OganizerCreateEvent() {
     setTicketTypes((prevTickets: any) => prevTickets.map((ticket: any, i: any) => (i === index ? { ...ticket, [field]: value } : ticket)));
   };
 
+  let isOptionErrorShown = false;
   // Add ticket Type in state When user click on add button
-  const handleAddTicketType = (e: any) => {
+  const handleAddTicketType = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     setTicketTypes((prevTickets: any) => {
@@ -2062,13 +2613,26 @@ function OganizerCreateEvent() {
       const lastTicket = prevTickets[prevTickets.length - 1];
 
       // Check if the `options` key exists and is an array
-      if (lastTicket && Array.isArray(lastTicket.options) && lastTicket.options.length === 0) {
-        ErrorToast("Please select atleast one include!");
-        return prevTickets; // Return the existing state without adding a new ticket
+      if (lastTicket && Array.isArray(lastTicket?.options) && lastTicket?.options?.length === 0) {
+        if (!isOptionErrorShown) {
+          ErrorToast(`Please select at least one include in ${lastTicket?.type}`);
+          isOptionErrorShown = true; // Set the flag to prevent multiple toasts
+        }
+
+        return prevTickets?.map((t: any, i: number) =>
+          i == prevTickets.length - 1
+            ? {
+                ...t,
+                optionDropDown: true,
+              }
+            : t
+        ); // Return the existing state without adding a new ticket
       }
 
+      isOptionErrorShown = false;
       const newValues = [...prevTickets, festivalTicket];
       form.setValue(`tickets.${newValues.length - 1}.type`, "Festivals / Multi-Day Tickets / Season Passes");
+      form.clearErrors("tickets");
       return newValues;
     });
   };
@@ -2114,6 +2678,7 @@ function OganizerCreateEvent() {
 
     //tickets.${index}.selected  change the value in form fields
     form.setValue(`tickets.${ticketIndex}.selected`, option); // Update form state
+    form.clearErrors(`tickets.${ticketIndex}.selected`);
     // "Free", "Paid"
     option === "Paid" ? form.setValue(`tickets.${ticketIndex}.price`, "") : form.setValue(`tickets.${ticketIndex}.price`, "0");
   };
@@ -2148,6 +2713,7 @@ function OganizerCreateEvent() {
 
   // Handle Includes DropDown
   const handleDropdown = (ticketIndex: number) => {
+    isOptionErrorShown = false;
     setTicketTypes((prevTickets: any) =>
       prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, optionDropDown: !ticket.optionDropDown } : ticket))
     );
@@ -2155,6 +2721,7 @@ function OganizerCreateEvent() {
 
   // Ticket Option Toggle Dropdown handleing
   const handleOptionToggle = (ticketIndex: number, option: TicketTypeOption) => {
+    isOptionErrorShown = false;
     setTicketTypes((prevTickets: any) =>
       prevTickets.map((ticket: any, i: any) =>
         i === ticketIndex
@@ -4209,7 +4776,7 @@ function OganizerCreateEvent() {
                                         onChange={(e) => {
                                           // handleInputChange(index, "no", parseInt(e.target.value, 10));
                                           const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-                                          handleNoTickets(value, index);
+                                          handleCapacityRSVPTicket(value, index);
                                           field.onChange(value);
                                         }}
                                         onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -6902,7 +7469,7 @@ function OganizerCreateEvent() {
                             "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
                         }}
                         className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] py-[10px] px-[22px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[16px] font-extrabold leading-[24px]"
-                        onClick={handleAddTicketType}
+                        onClick={(e) => handleAddTicketType(e)}
                       >
                         <Image src={addicon} alt="Add-icon" height={13} width={13} />
                         Add Ticket Type
