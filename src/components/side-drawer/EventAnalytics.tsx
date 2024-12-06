@@ -255,9 +255,9 @@ const EventAnalytics = () => {
 
     return (
         <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[97px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[25px] lg:mt-[120px] lg:mx-0 relative h-full">
-            <div className="flex mt-[24px]">
+            <div className="flex sm:mt-[0px] mt-[24px]">
                 <p
-                    className={`text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold cursor-pointer`}
+                    className={`text-[24px] ps-[20px] mb-[4px] sm:ps-[0px]  md:text-[32px] font-extrabold cursor-pointer`}
                 >
                     {activeText}
                 </p>
@@ -379,7 +379,7 @@ const EventAnalytics = () => {
                 </div>
             </div>
             {/* table */}
-            <div className='p-[24px] gradient-slate gradient-slate-input rounded-[8px]'>
+            <div className='p-[24px] gradient-slate border border-[#292929] rounded-[8px]'>
                 <h2 className='font-bold text-[20px] mb-[24px]'>Top Events</h2>
                 <TableContainer component={Paper} sx={{ boxShadow: "none" }} className='gradient-slate'>
                     <Table

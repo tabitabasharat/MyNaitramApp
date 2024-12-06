@@ -31,7 +31,7 @@ const NftOwner = () => {
       third: "Total Volume",
     },
     floorPrice: {
-      first: "<0.0001",
+      first: "<0.01",
       second: "ETH",
       third: "Floor Price",
     },
@@ -50,13 +50,13 @@ const NftOwner = () => {
     <>
       <div className="pt-20 animakid_Hero">
         <div
-          className="Animakid_HeroBackground bg-cover bg-no-repeat h-[360px] w-full"
-          style={{ backgroundImage: "url('/Images/Nft_animakid_img/ImagePlaceHolder.png')" }}
+          className="Animakid_HeroBackground-img bg-cover bg-no-repeat h-[360px] w-full"
+          // style={{ backgroundImage: "url('/Images/Nft_animakid_img/ImagePlaceHolder.png')" }}
         ></div>
 
         <div className=" mt-[-50px] px-[92px] Animakida_Container_LOgo">
           <img className="ml-[5px] md:ml-0" src="/Images/Animkiad.svg" alt="Logo" />
-          <div className="flex justify-between items-center mt-10 Animkaida_Btn_text_Container">
+          <div className="flex justify-between items-center mt-[20px] max-[78px]:mt-10 Animkaida_Btn_text_Container">
             <h2 className="text-[24px] font-extrabold leading-[26.6px] md:text-[37px] md:leading-[48.6px] lg:text-[56px] lg:leading-[61.6px]">
               Animakid
             </h2>
@@ -131,7 +131,7 @@ const NftOwner = () => {
         <div className="flex items-center justify-end gap-[10px] mt-[100px] md:flex">
          <div className="flex  items-center relative justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[308px] min-[348px]:w-[376px]">
             <input
-              className="text-[16px] block font-normal leading-5 text-[#BFBFBF] w-[90%] outline-none pr-10"
+              className="text-[16px] bg-transparent block font-normal leading-5 text-[#BFBFBF] placeholder:text-[#BFBFBF] w-[90%] outline-none pr-10"
               type="text"
               placeholder="Search NFT"
             />
@@ -156,7 +156,7 @@ const NftOwner = () => {
 
           </div>
         </div>
-        <div className="flex flex-wrap  gap-[35px] w-full w-full pt-[33px] pb-[173px] justify-center ">
+        <div className="flex flex-wrap  gap-[35px] w-full w-full pt-[60px] md:pt-[30px] pb-[173px] justify-center ">
 
           {[...Array(12)].map((_, index) => (
             <div
@@ -183,7 +183,7 @@ const NftOwner = () => {
                     </div>
                   </div>
                   <div>
-                    <p className="text-[12px] font-normal text-white">Highest Bid</p>
+                    <p className="text-[12px] font-normal text-right text-white">Highest Bid</p>
                     <p className="text-[14px] font-bold mt-[8px] text-white">0.33 wETH</p>
                   </div>
                 </div>
