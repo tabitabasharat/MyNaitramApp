@@ -91,7 +91,7 @@ const NftDetails = () => {
       <section className=" pt-[173px] pb-[236px]   main pl-[92px] pr-[97px]">
         <div className="flex gap-[80px] md-1150:flex-col">
           <div className="flex flex-col w-full rightDive">
-            <div className=" image w-full h-full">
+            <div className=" image w-full ">
               <Image className="img w-full  min-[1500px]:w-[75%]" src={image1} alt="/" />
             </div>
             <div className="flex flex-row gap-[25px]">
@@ -184,7 +184,7 @@ const NftDetails = () => {
                   borderWidth: "1px",
                   borderStyle: "solid",
                   borderImageSource: "linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%)",
-                  borderImageSlice: 1, // This ensures the border-image will cover the full border
+                 
                 }}
               >
                 <p className="current  font-[400] text-[16px] leading-[19.2px] ">Current Price</p>
