@@ -90,7 +90,6 @@ const MpHome = () => {
         <div className="lg:w-1/2 flex flex-col items-center space-y-5">
           <img src="/Images/Market/Group 1597877996.png" alt="NFT Art" className="w-full lg:w-auto" />
 
-          {/* Get Started Button & Total Sale Section for Small Screens */}
           <button className="lg:hidden w-full h-12 bg-green-500 text-black font-extrabold text-base rounded-full py-2 px-6 hover:bg-[#13FF7A]">
             Get Started
           </button>
@@ -108,7 +107,6 @@ const MpHome = () => {
           </div>
         </div>
       </div>
-
       <div className="relative flex flex-col px-4 lg:px-14 pb-36 space-y-4 md:space-y-10">
         {/* Heading */}
         <div className="flex flex-col gap-[16px] xl:gap-[0px] xl:flex-row xl:items-center xl:justify-between">
@@ -142,9 +140,8 @@ const MpHome = () => {
                   <img
                     src="/Images/Market/arrd.svg"
                     alt="Dropdown Icon"
-                    className={`absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none transition-transform duration-200 ${
-                      isOpen ? "rotate-180" : "rotate-0"
-                    }`}
+                    className={`absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none transition-transform duration-200 ${isOpen ? "rotate-180" : "rotate-0"
+                      }`}
                   />
                 </div>
 
