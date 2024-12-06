@@ -3553,6 +3553,19 @@ function EditeventOnBack() {
     });
   };
 
+  const removeAdditionalToRSVP = (ticketIndex: number, f_index: number) => {
+    setTicketTypes((prevTickets: any) => {
+      const updatedTypes = prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex ? { ...ticket, additional: ticket?.additional.filter((f: any, fIdx: number) => fIdx !== f_index) } : ticket
+      );
+
+      // Set values in map
+      form.setValue(`tickets.${ticketIndex}.additional`, updatedTypes[ticketIndex]?.additional);
+
+      return updatedTypes;
+    });
+  };
+
   // Handling the festival Events Dates
 
   // Add new Event in Festival Events
@@ -4550,7 +4563,9 @@ function EditeventOnBack() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Festivals / Multi-Day Tickets / Season Passes</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
@@ -4596,7 +4611,9 @@ function EditeventOnBack() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        paid or free<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
                                         {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
@@ -4641,8 +4658,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.typename`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
-                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    Ticket TYPE Name
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Ticket TYPE Name<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -4671,8 +4688,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.price`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                                    Event Ticket Price (£)
+                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Ticket Price (£)<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -4725,8 +4742,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.no`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                                    Event Number of Tickets
+                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Number of Tickets<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -4771,8 +4788,8 @@ function EditeventOnBack() {
                                         const currentDateTime = dayjs();
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
-                                              Ticket Start Date & Time
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
@@ -4853,9 +4870,9 @@ function EditeventOnBack() {
                                         // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
 
                                         return (
-                                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                          <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px] flex justify-start items-center gap-[2px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Ticket End Date & Time
+                                              Ticket End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
@@ -4962,8 +4979,8 @@ function EditeventOnBack() {
 
                                               return (
                                                 <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                                  <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                                    Event Start Date & Time
+                                                  <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                                    Event Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                                   </FormLabel>
                                                   <FormControl>
                                                     <div className=" w-full" onClick={() => festivalStartEventPicker(index, eventIndex)}>
@@ -5068,8 +5085,8 @@ function EditeventOnBack() {
 
                                               return (
                                                 <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                                  <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                                    Event End Date & Time
+                                                  <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                                    Event End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                                   </FormLabel>
                                                   <FormControl>
                                                     <div className=" w-full" onClick={() => festivalEndEventPicker(index, eventIndex)}>
@@ -5189,7 +5206,9 @@ function EditeventOnBack() {
                           <div className="flex items-start gap-[24px] w-full common-container">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                               <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
-                                <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                                <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
+                                  WHAT'S INCLUDED<span className="text-red-600 text-[20px] relative">*</span>
+                                </p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket.optionDropDown && (
@@ -5284,7 +5303,9 @@ function EditeventOnBack() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">RSVP Ticketing</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
@@ -5324,8 +5345,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.name`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
-                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    EVENT TICKET NAME
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    EVENT TICKET NAME<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -5361,7 +5382,9 @@ function EditeventOnBack() {
                                         const currentDateTime = dayjs();
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">RSVP Deadline</FormLabel>
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              RSVP Deadline<span className="text-red-600 text-[20px] relative">*</span>
+                                            </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
                                               <div className="w-full" onClick={() => toggleRSVPTicketDeadlinePicker(index)}>
@@ -5431,8 +5454,8 @@ function EditeventOnBack() {
                                 name={`tickets.${index}.capacity`}
                                 render={({ field }) => (
                                   <FormItem className="relative w-full space-y-0">
-                                    <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                      RSVP Capacity
+                                    <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                      RSVP Capacity<span className="text-red-600 text-[20px] relative">*</span>
                                     </FormLabel>
                                     <FormControl>
                                       <Input
@@ -5467,7 +5490,9 @@ function EditeventOnBack() {
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                               <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
-                                <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                                <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
+                                  WHAT'S INCLUDED<span className="text-red-600 text-[20px] relative">*</span>
+                                </p>
                                 <Image src={ticket?.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket?.optionDropDown && (
@@ -5567,6 +5592,14 @@ function EditeventOnBack() {
                                           <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
                                             Additional field {f_index + 1}
                                           </FormLabel>
+                                          <Image
+                                            src="/Images/CreateEventPage/trash.svg"
+                                            alt="delete-icon"
+                                            height={24}
+                                            width={24}
+                                            className="cursor-pointer absolute right-3 top-6 py-[4px]"
+                                            onClick={() => removeAdditionalToRSVP(index, f_index)}
+                                          />
                                           <FormControl>
                                             <Input
                                               onWheel={(e: any) => e.target.blur()}
@@ -5672,7 +5705,9 @@ function EditeventOnBack() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Private Event Ticketing</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
@@ -5718,7 +5753,9 @@ function EditeventOnBack() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        paid or free<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
                                         {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
@@ -5763,8 +5800,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.name`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
-                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    Event Ticket Name
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Ticket Name<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -5794,8 +5831,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.price`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                                    Event Ticket Price (£)
+                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Ticket Price (£)<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -5848,8 +5885,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.no`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                                    Event Number of Tickets
+                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Number of Tickets<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -5894,8 +5931,8 @@ function EditeventOnBack() {
                                         const currentDateTime = dayjs();
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
-                                              Ticket Start Date & Time
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
@@ -5977,8 +6014,8 @@ function EditeventOnBack() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Ticket End Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
@@ -6078,8 +6115,8 @@ function EditeventOnBack() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event Start Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Event Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
@@ -6174,8 +6211,8 @@ function EditeventOnBack() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event End Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Event End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
@@ -6257,7 +6294,9 @@ function EditeventOnBack() {
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                               <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
-                                <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                                <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
+                                  WHAT'S INCLUDED<span className="text-red-600 text-[20px] relative">*</span>
+                                </p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket.optionDropDown && (
@@ -6305,8 +6344,9 @@ function EditeventOnBack() {
                                       name={`tickets.${index}.emailmanual.${e_Index}`}
                                       render={({ field }) => (
                                         <FormItem className="relative w-full space-y-0 input-custom-container">
-                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                             Email {e_Index + 1}
+                                            <span className="text-red-600 text-[20px] relative">*</span>
                                           </FormLabel>
                                           <Image
                                             src="/Images/CreateEventPage/trash.svg"
@@ -6344,7 +6384,6 @@ function EditeventOnBack() {
                               </div>
 
                               {/* Add Aditional field Button */}
-
                               <div className="flex justify-end items-center ticket-btn">
                                 <Button
                                   onClick={(e) => {
@@ -6478,7 +6517,9 @@ function EditeventOnBack() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Passworded / Discounted Voucher Event</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
@@ -6524,7 +6565,9 @@ function EditeventOnBack() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        paid or free<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
                                         {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
@@ -6569,8 +6612,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.name`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
-                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    EVENT Ticket Type
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -6600,8 +6643,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.price`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                                    Event Ticket Price (£)
+                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Ticket Price (£)<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -6654,8 +6697,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.no`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                                    Event Number of Tickets
+                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Number of Tickets<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -6700,8 +6743,8 @@ function EditeventOnBack() {
                                         const currentDateTime = dayjs();
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
-                                              Ticket Start Date & Time
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
@@ -6783,8 +6826,8 @@ function EditeventOnBack() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Ticket End Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
@@ -6884,8 +6927,8 @@ function EditeventOnBack() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event Start Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Event Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
@@ -6979,8 +7022,8 @@ function EditeventOnBack() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event End Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Event End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
@@ -7062,7 +7105,9 @@ function EditeventOnBack() {
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                               <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
-                                <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                                <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
+                                  WHAT'S INCLUDED<span className="text-red-600 text-[20px] relative">*</span>
+                                </p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket.optionDropDown && (
@@ -7112,8 +7157,9 @@ function EditeventOnBack() {
                                         name={`tickets.${index}.emailmanual.${e_Index}`}
                                         render={({ field }) => (
                                           <FormItem className="relative w-full space-y-0 input-custom-container ">
-                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                               Email {e_Index + 1}
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <Image
                                               src="/Images/CreateEventPage/trash.svg"
@@ -7184,8 +7230,9 @@ function EditeventOnBack() {
                                         name={`tickets.${index}.pswrdmanual.${p_Index}`}
                                         render={({ field }) => (
                                           <FormItem className="relative w-full space-y-0 input-custom-container">
-                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                               Password {p_Index + 1}
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <Image
                                               src="/Images/CreateEventPage/trash.svg"
@@ -7257,8 +7304,9 @@ function EditeventOnBack() {
                                       name={`tickets.${index}.autoGeneratedPswrd.${ag_Index}`}
                                       render={({ field }) => (
                                         <FormItem className="relative w-full space-y-0 input-custom-container">
-                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                             password {ag_Index + 1}
+                                            <span className="text-red-600 text-[20px] relative">*</span>
                                           </FormLabel>
                                           <div className="absolute right-3 top-6 py-[4px] flex justify-center items-center gap-3">
                                             <Image
@@ -7480,7 +7528,9 @@ function EditeventOnBack() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Custom Ticketing</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
@@ -7526,7 +7576,9 @@ function EditeventOnBack() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        paid or free<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
                                         {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
@@ -7571,8 +7623,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.name`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
-                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    Event Ticket Name
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Ticket Name<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -7602,8 +7654,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.price`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                                    Event Ticket Price (£)
+                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Ticket Price (£)<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -7656,8 +7708,8 @@ function EditeventOnBack() {
                               name={`tickets.${index}.no`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                                    Event Number of Tickets
+                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Number of Tickets<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -7702,8 +7754,8 @@ function EditeventOnBack() {
                                         const currentDateTime = dayjs();
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
-                                              Ticket Start Date & Time
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
@@ -7787,8 +7839,8 @@ function EditeventOnBack() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Ticket End Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
@@ -7889,8 +7941,8 @@ function EditeventOnBack() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event Start Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Event Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
@@ -7985,8 +8037,8 @@ function EditeventOnBack() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event End Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Event End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
@@ -8068,7 +8120,9 @@ function EditeventOnBack() {
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                               <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
-                                <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                                <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
+                                  WHAT'S INCLUDED<span className="text-red-600 text-[20px] relative">*</span>
+                                </p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket.optionDropDown && (

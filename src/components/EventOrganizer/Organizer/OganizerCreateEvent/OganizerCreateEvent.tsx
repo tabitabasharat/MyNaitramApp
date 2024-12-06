@@ -2870,6 +2870,19 @@ function OganizerCreateEvent() {
     });
   };
 
+  const removeAdditionalToRSVP = (ticketIndex: number, f_index: number) => {
+    setTicketTypes((prevTickets: any) => {
+      const updatedTypes = prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex ? { ...ticket, additional: ticket?.additional.filter((f: any, fIdx: number) => fIdx !== f_index) } : ticket
+      );
+
+      // Set values in map
+      form.setValue(`tickets.${ticketIndex}.additional`, updatedTypes[ticketIndex]?.additional);
+
+      return updatedTypes;
+    });
+  };
+
   // Handling the festival Events Dates
 
   // Add new Event in Festival Events
@@ -4929,11 +4942,19 @@ function OganizerCreateEvent() {
                                             Additional field {f_index + 1}
                                             {/* <span className="text-red-600 text-[20px] relative">*</span> */}
                                           </FormLabel>
+                                          <Image
+                                            src="/Images/CreateEventPage/trash.svg"
+                                            alt="delete-icon"
+                                            height={24}
+                                            width={24}
+                                            className="cursor-pointer absolute right-3 top-6 py-[4px]"
+                                            onClick={() => removeAdditionalToRSVP(index, f_index)}
+                                          />
                                           <FormControl>
                                             <Input
                                               onWheel={(e: any) => e.target.blur()}
                                               placeholder="Enter Field Name"
-                                              className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                              className="pt-12 pb-6 pr-10 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                               {...field}
                                               value={addField.title}
                                               onChange={(e) => {
