@@ -458,7 +458,7 @@ const NftDetails = () => {
                       }}
                     ></div>
 
-                    <div className="upperdiv   width-[671px] max-[1150px]:w-[100%]  flex justify-between items-center px-[24px] py-[28px]">
+                    <div className="upperdiv   w-[671px] max-[1150px]:w-[100%]  flex justify-between items-center px-[24px] py-[28px]">
                       <div className="flex gap-[15px] topDiv">
                         <Image className="arrowImage" src={listing} alt="Listings" />
                         <p className="Listings">listings</p>

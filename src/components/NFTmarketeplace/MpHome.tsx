@@ -227,7 +227,7 @@ const MpHome = () => {
             </div>
           ))}
         </div>
-        <Image src={blurbg} alt="bg-blur" className="absolute bottom-[-170px] z-[0] right-[0px]" />
+        <Image src={blurbg} alt="bg-blur" className="absolute bottom-[-354px] z-[0] right-[0px]" />
         {/* Background Blur */}
         {/* <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[#00D059] blur-[500px] rounded-[30%] -z-10" /> */}
       </div>
