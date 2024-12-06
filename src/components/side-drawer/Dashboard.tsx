@@ -8,6 +8,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useState } from 'react';
 import { Button } from '../ui/button';
+import Image from "next/image";
+import PlusImage from "@/assets/V2assets/fi-rr-plus-small.svg"
 function createData(
     name: string,
     calories: number,
@@ -59,7 +61,7 @@ const Dashboard = () => {
                     Dashboard
                 </h1>
             </div>
-            <div className='p-[24px] gradient-slate gradient-slate-input rounded-[8px]'>
+            <div className='p-[24px] gradient-slate border border-[#292929]  rounded-[8px]'>
                 <div>
                     <div>
                         <div>
@@ -70,7 +72,7 @@ const Dashboard = () => {
                             <div className="relative flex flex-col sm:flex-row gap-[12px] sm:gap-[24px] mt-4">
                                 {/* Dropdown trigger */}
                                 <div
-                                    className="gradient-slate gradient-slate-input w-full sm:w-[456px] h-[52px] bg-black rounded-md font-bold text-base pt-[18px] pb-[14px] px-[12px] cursor-pointer flex justify-between items-center"
+                                    className="gradient-slate border border-[#292929] rounded-[8px] w-full sm:w-[456px] h-[52px] bg-black rounded-md font-bold text-base pt-[18px] pb-[14px] px-[12px] cursor-pointer flex justify-between items-center"
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 >
                                     <span>{selectedEvent || 'Lorem Ispum'}</span>
@@ -107,7 +109,7 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-            <div className='p-[24px] gradient-slate gradient-slate-input rounded-[8px]'>
+            <div className='p-[24px] gradient-slate border border-[#292929]  rounded-[8px]'>
                 <h2 className='font-bold text-[20px] mb-[24px]'>Daily Sales</h2>
                 <TableContainer component={Paper} sx={{ boxShadow: "none" }} className='gradient-slate'>
                     <Table
@@ -225,7 +227,10 @@ const Dashboard = () => {
                                         scope="row"
                                         className="bg-[#0F0F0F] text-[white] text-[10px] font-normal lg:text-sm"
                                     >
-                                        {row.name} +
+                                       <div style={{ display: "flex", alignItems: "center" }}>
+          <span>{row.name}</span>
+          <Image src={PlusImage} alt="Plus Icon" />
+        </div>
                                     </TableCell>
                                     <TableCell
                                         sx={{
@@ -303,7 +308,7 @@ const Dashboard = () => {
                     </Table>
                 </TableContainer>
             </div>
-            <div className=' p-[24px] lg:w-[698px] rounded-[8px] gradient-slate-input gradient-slate '>
+            <div className=' p-[24px] lg:w-[698px] rounded-[8px] gradient-slate border border-[#292929] '>
                 <h2 className='font-bold text-[20px] mb-[24px]'>Pages</h2>
                 <TableContainer component={Paper} sx={{ boxShadow: "none" }} className='gradient-slate'>
                     <Table

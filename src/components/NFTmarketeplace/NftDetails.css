@@ -27,6 +27,17 @@
   gap: 40px;
  
 }
+@media (min-width: 1147px) and (max-width: 1366px) {
+  .saturday {
+    align-items: start;
+  }
+}
+
+@media (min-width:1147px) and (max-width: 1360px){
+.doma{
+  align-items: start;
+}
+}
 
 @media (min-width: 1500px) {
   .image {
@@ -239,6 +250,7 @@
 @media (max-width: 768px) {
   .main {
     padding-top: 120px !important;
+    padding-bottom: 63px !important;
   }
   .arrowImage {
     width: 12.34px !important;

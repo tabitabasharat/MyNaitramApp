@@ -87,34 +87,34 @@ const NftDetails = () => {
     router.push("/marketPlace/nft/buy-now"); // Navigate to the Buy Now page
   };
   return (
-    <div className="relative">
-      <section className=" pt-[173px] pb-[108px]   main pl-[92px] pr-[97px]">
+    <div className="relative overflow-hidden">
+      <section className=" pt-[173px] pb-[236px]  main pl-[92px] pr-[97px]">
         <div className="flex gap-[80px] md-1150:flex-col">
           <div className="flex flex-col w-full rightDive">
-            <div className=" image w-full h-full">
+            <div className=" image w-full ">
               <Image className="img w-full  min-[1500px]:w-[75%]" src={image1} alt="/" />
             </div>
             <div className="flex flex-row gap-[25px]">
-              <div className="flex gap-[10px] pt-[32px]">
+              <div className="flex gap-[10px] pt-[32px] items-center">
                 <Image src={eye} alt="Eye" />
-                <p>44 Views</p>
+                <p className="font-[700] text-[14px] leading-[16.8px]">44 Views</p>
               </div>
-              <div className="flex gap-[10px] pt-[32px]">
+              <div className="flex gap-[10px] pt-[32px] items-center">
                 <Image src={heart} alt="heart" />
-                <p>3 Favorites</p>
+                <p className="font-[700] text-[14px] leading-[16.8px]">3 Favorites</p>
               </div>
             </div>
             <div className="pt-[50px] flex flex-col ">
               <p className="pb-[16px] font-[800] text-[24px] leading-[28.8px]">Event Detail</p>
-              <div className="items-start flex gap-[8px] mb-[12px]">
+              <div className="doma items-center flex gap-[8px] mb-[12px]">
                 <Image src={location} alt="Location" />
                 <p className="font-[700] text-[16px] leading-[24px]">DOMA PUB Main floor, Light Street, London</p>
               </div>
-              <div className="items-start flex gap-[8px] mb-[12px]">
+              <div className=" saturday  items-center flex gap-[8px] mb-[12px]">
                 <Image src={v2Calender} alt="Calendar" />
-                <p className="font-[700] text-[16px] leading-[16px]">Saturday, 5th March 2024 - Sunday, 6th March 2024</p>
+                <p className=" font-[700] text-[16px] leading-[24px]">Saturday, 5th March 2024 - Sunday, 6th March 2024</p>
               </div>
-              <div className="items-start flex gap-[8px]">
+              <div className="items-center flex gap-[8px]">
                 <Image src={clock} alt="clock" />
                 <p className="font-[700] text-[16px] leading-[24px]">5 PM - 12 AM</p>
               </div>
@@ -125,26 +125,6 @@ const NftDetails = () => {
                 <div className="flex gap-[8px] items-center">
                   <Image src={ticketType} alt="ticketType" />
                   <p className="font-[700] text-[16px] leading-[24px] ">Custom Ticket</p>
-                </div>
-                <div className="flex gap-[8px] items-center">
-                  <Image src={ticketType} alt="ticketType" />
-                  <p className="font-[700] text-[16px] leading-[24px] ">Festivals / Multi-Day Tickets </p>
-                </div>
-                <div className="flex gap-[8px] items-center">
-                  <Image src={ticketType} alt="ticketType" />
-                  <p className="font-[700] text-[16px] leading-[24px] ">RSVP Ticketing </p>
-                </div>
-                <div className="flex gap-[8px] items-center">
-                  <Image src={ticketType} alt="ticketType" />
-                  <p className="font-[700] text-[16px] leading-[24px] ">Private Event Ticketing </p>
-                </div>
-                <div className="flex gap-[8px] items-center">
-                  <Image src={ticketType} alt="ticketType" />
-                  <p className="font-[700] text-[16px] leading-[24px] ">Passworded / Discounted Voucher Event </p>
-                </div>
-                <div className="flex gap-[8px] items-center">
-                  <Image src={ticketType} alt="ticketType" />
-                  <p className="font-[700] text-[16px] leading-[24px] ">Whitelist / Waitlist Event Ticketing </p>
                 </div>
               </div>
             </div>
@@ -184,7 +164,7 @@ const NftDetails = () => {
                   borderWidth: "1px",
                   borderStyle: "solid",
                   borderImageSource: "linear-gradient(360deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.06) 100%)",
-                  borderImageSlice: 1, // This ensures the border-image will cover the full border
+                 
                 }}
               >
                 <p className="current  font-[400] text-[16px] leading-[19.2px] ">Current Price</p>
@@ -216,19 +196,19 @@ const NftDetails = () => {
             <div className="flex flex-col gap-[40px]">
               <div className="buttonsrounded flex gap-[32px]">
                 <Button
-                  onClick={handleBuyNowClick}
+                 onClick={handleOpen}
                   size="lg"
-                  className="buttonrounded h-[59px]  font-[800] text-[16px] leading-[22.4px] flex items-center ready-btn   px-[110.5px] py-[19.5px] "
+                  className="buttonrounded h-[59px] w-[290px]  font-[800] text-[16px] leading-[22.4px] flex items-center ready-btn   px-[110.5px] py-[19.5px] "
                 >
                   Buy Now
                 </Button>
 
                 <Button
-                  onClick={handleOpen}
+                   onClick={handleBuyNowClick}
                   style={{ border: "none" }}
                   variant="outline"
                   size="lg"
-                  className="buttonrounded h-[59px] flex items-center transition duration-300 ease-in-out hover:bg-transparent hover:text-customGreen bg-none relative ready-btn px-[102.5px] py-[19.5px] text-customGreen font-[800] text-[16px] leading-[22.4px] gradient-border-edit hover:filter  hover:brightness-[0.7]"
+                  className="buttonrounded h-[59px]  w-[290px] flex items-center transition duration-300 ease-in-out hover:bg-transparent hover:text-customGreen bg-none relative ready-btn px-[102.5px] py-[19.5px] text-customGreen font-[800] text-[16px] leading-[22.4px] gradient-border-edit hover:filter  hover:brightness-[0.7]"
                 >
                   Create an offer
                 </Button>
@@ -258,7 +238,7 @@ const NftDetails = () => {
                     <Image src={ticketType} alt="ticketType" />
                     <p className="ticketpoint font-[700] text-[16px] leading-[24px] ">Custom Ticket</p>
                   </div>
-                  <div className="flex gap-[8px] items-center">
+                  {/* <div className="flex gap-[8px] items-center">
                     <Image src={ticketType} alt="ticketType" />
                     <p className=" ticketpoint font-[700] text-[16px] leading-[24px] ">Festivals / Multi-Day Tickets </p>
                   </div>
@@ -273,11 +253,11 @@ const NftDetails = () => {
                   <div className="flex gap-[8px] items-center">
                     <Image src={ticketType} alt="ticketType" />
                     <p className="ticketpoint font-[700] text-[16px] leading-[24px] ">Passworded / Discounted Voucher Event </p>
-                  </div>
-                  <div className="flex gap-[8px] items-center">
+                  </div> */}
+                  {/* <div className="flex gap-[8px] items-center">
                     <Image src={ticketType} alt="ticketType" />
                     <p className="ticketpoint font-[700] text-[16px] leading-[24px] ">Whitelist / Waitlist Event Ticketing </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="block">
@@ -301,6 +281,7 @@ const NftDetails = () => {
                 {activeTab === "Price History" ? (
                   <div
                     style={{
+                    
                       position: "relative",
                       background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
                       borderRadius: "8px",
@@ -325,7 +306,7 @@ const NftDetails = () => {
                     ></div>
 
                     <div
-                      className="upperdiv flex justify-between items-center px-[24px] py-[28px]"
+                      className="upperdiv w-[671px] max-[1150px]:w-[100%]  flex justify-between items-center px-[24px] py-[28px]"
                       style={{ borderBottom: "1.41px solid rgba(41, 41, 41, 0.5)" }}
                     >
                       <div className="flex gap-[15px] topDiv">
@@ -344,26 +325,41 @@ const NftDetails = () => {
 
                     {visibleSections.section1 && (
                       <ResponsiveContainer width="100%" height={200} style={{ paddingLeft: "24px", paddingRight: "23px", paddingTop: "36px" }}>
-                        <BarChart width={400} data={data} margin={{ top: 20, bottom: 20 }}>
-                          <defs>
-                            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="0%" stopColor="#00D059" />
-                              <stop offset="100%" stopColor="#1A1A1A" />
-                            </linearGradient>
-                          </defs>
+                        <BarChart  style={{ color: "rgba(0, 208, 89, 1)" }} width={400} data={data} margin={{ top: 20, bottom: 20 }}>
+                         
 
                           {/* Cartesian grid */}
-                          <CartesianGrid stroke="#444" />
+                          <CartesianGrid stroke="#444" vertical={false} />
 
                           {/* X-axis */}
-                          <XAxis dataKey="name" tick={{ fill: "#BFBFBF" }} />
+                          <XAxis dataKey="name" tickLine={false} tick={{
+                              fill: "rgba(180, 180, 183, 1)", // Change tick text color here
+                              fontSize: "12px",
+                              fontWeight: "400",
+                            }}
+                          label={{
+                        
+                          
+                            style: {
+                              fontSize: "14px",
+                              fontWeight: "400",
+                              color: "red", // Change label color here
+                            },
+                          }}
+                           />
 
                           {/* Left Y-axis without stroke */}
                           <YAxis
                             yAxisId="left"
-                            tick={{ fill: "#BFBFBF" }}
+                            // tick={{ fill: "#BFBFBF" }}
                             ticks={[0, 0.8, 1.6]}
-                            axisLine={false} // Remove Y-axis stroke
+                            tick={{
+                              fill: "rgba(180, 180, 183, 1)", // Change tick text color here
+                              fontSize: "12px",
+                              fontWeight: "400",
+                            }}
+                            axisLine={false}                       
+                            tickLine={false}
                             label={{
                               style: {
                                 fontSize: "16px",
@@ -378,14 +374,17 @@ const NftDetails = () => {
                               fill: "#BFBFBF",
                             }}
                           />
-
-                          {/* Right Y-axis without stroke */}
                           <YAxis
                             yAxisId="right"
                             orientation="right"
-                            tick={{ fill: "#BFBFBF" }}
                             ticks={[-1, 1, 3]}
-                            axisLine={false} // Remove Y-axis stroke
+                            tick={{
+                              fill: "rgba(180, 180, 183, 1)", // Change tick text color here
+                              fontSize: "12px",
+                              fontWeight: "400",
+                            }}
+                            axisLine={false} 
+                            tickLine={false}
                             label={{
                               style: {
                                 fontSize: "16px",
@@ -405,7 +404,8 @@ const NftDetails = () => {
                           <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
 
                           {/* Bar data */}
-                          <Bar dataKey="value" fill="url(#colorUv)" yAxisId="left" radius={[5, 5, 0, 0]} />
+                        
+                          <Bar dataKey="value"  fill="rgba(0, 208, 89, 1)" yAxisId="left" radius={[5, 5, 0, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
                     )}
@@ -413,6 +413,7 @@ const NftDetails = () => {
                 ) : activeTab === "Listings" ? (
                   <div
                     style={{
+                    
                       position: "relative",
                       background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
                       borderRadius: "8px",
@@ -422,6 +423,7 @@ const NftDetails = () => {
                   >
                     <div
                       style={{
+                
                         position: "absolute",
                         top: 0,
                         left: 0,
@@ -436,7 +438,7 @@ const NftDetails = () => {
                       }}
                     ></div>
 
-                    <div className="upperdiv flex justify-between items-center px-[24px] py-[28px]">
+                    <div className="upperdiv   w-[671px] max-[1150px]:w-[100%]  flex justify-between items-center px-[24px] py-[28px]">
                       <div className="flex gap-[15px] topDiv">
                         <Image className="arrowImage" src={listing} alt="Listings" />
                         <p className="Listings">listings</p>
@@ -460,7 +462,7 @@ const NftDetails = () => {
                             borderImageSlice: 1,
                             color: "white",
                           }}
-                          component={Paper}
+                          // component={Paper}
                         >
                           <Table>
                             <TableHead>
@@ -500,7 +502,7 @@ const NftDetails = () => {
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              <TableRow>
+                              <TableRow sx={{borderBottom:"none"}}>
                                 <TableCell className="tableRow"
                                   style={{ fontFamily: "var(--font-base)", }}
                                   sx={{ borderBottom: "none",textDecoration:"underline", textUnderlineOffset: "3px", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
@@ -526,14 +528,14 @@ const NftDetails = () => {
                                   style={{ fontFamily: "var(--font-base)", }}
                                   sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
-                                  <Button className=" size-lg px-[27px] rounded-[100px]">Buy</Button>
+                                  <Button className="w-[73px] h-[32px] size-lg px-[27px] rounded-[100px]">Buy</Button>
                                 </TableCell>
                               </TableRow>
                             </TableBody>
                           </Table>
                         </TableContainer>
 
-                        <Button className="latertobeDis hidden size-lg  px-[14px] py-[10px] rounded-[51.42px] mt-[12.99px] ml-[10.8px] mb-[14px]">
+                        <Button className="latertobeDis h-[27px] w-[47px] hidden size-lg  px-[14px] py-[10px] rounded-[51.42px] mt-[12.99px] ml-[10.8px] mb-[14px]">
                           Buy
                         </Button>
                       </div>
@@ -565,7 +567,7 @@ const NftDetails = () => {
                       }}
                     ></div>
 
-                    <div className="upperdiv flex justify-between items-center px-[24px] py-[28px]">
+                    <div className="upperdiv w-[671px] max-[1150px]:w-[100%] flex justify-between items-center px-[24px] py-[28px]">
                       <div className="flex gap-[15px] topDiv ">
                         <Image className="arrowImage" src={itemActivity} alt="Item Activity" />
                         <p className="Listings">Item Activity</p>
@@ -683,7 +685,7 @@ const NftDetails = () => {
         </div>
 
       </section>
-      <div className="absolute right-0 bottom-0 w-[30%] h-[30%] bg-[#00D059] blur-[500px] rounded-[30%] -z-10 max-[992px]:hidden">
+      <div className="absolute right-[1px] bottom-[-26%] w-[57%] h-[40%] bg-[#00D059] blur-[275px] rounded-[30%] -z-10 max-[992px]:hidden">
       </div>
 
 

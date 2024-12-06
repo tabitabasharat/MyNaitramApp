@@ -39,7 +39,7 @@ const SaleOption: React.FC<SaleOptionProps> = ({
  
     return (
         <div
-            className='gradient-slate-input flex justify-between w-full py-[20px] px-[12px] items-center'
+            className='gradient-slate border border-[#292929] rounded-[8px] flex justify-between w-full py-[20px] px-[12px] items-center'
             style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)", }}
 
             onClick={onSelect}
@@ -176,13 +176,15 @@ const BuyNow = () => {
           setSelectedDuration(selectedOption.value);
         }
       };
-      
+      const Profile = () => {
+        router.push("/marketPlace/Profile"); // Navigate to the Buy Now page
+      };
      
     return (
-      <div className="relative">
+      <div className="relative overflow-hidden">
         <section className=" pt-[173px] pb-[108px] flex flex-col gap-[40px] b pl-[92px] pr-[97px] max-[992px]:pl-[0px] max-[992px]:pr-[0px]  max-[992px]:pt-[0px] max-[992px]:pb-[0px] ">
             <div className=" max-[992px]:bg-buyNow withoutImage max-[992px]:pl-[92px] max-[992px]:pr-[97px]  max-[992px]:pt-[174px]  max-[992px]:pb-[108px] max-[768px]:pl-[24px] max-[768px]:pr-[24px]  max-[768px]:pt-[100px]  max-[768px]:pb-[100px] ">
-            <div className="flex gap-[16px] items-center custom-border max-[1180px]:pb-[24px] max-[1180px]:mb-[24px]  ">
+            <div className="flex gap-[16px] items-center custom-border topDiv max-[1180px]:mb-[24px]  ">
             <Image   onClick={() => router.back()} className="block max-[992px]:hidden" src={Back} alt="backButton" />
 <Image className="hidden max-[992px]:block" src={left} alt="Left" />
 
@@ -213,12 +215,12 @@ const BuyNow = () => {
 
                                 <input
                                     type="number"
-                                    className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px]  bg-transparent gradient-slate-input focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[540px]:w-[50%] "
+                                    className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] gradient-slate border border-[#292929] rounded-[8px] bg-transparent focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[540px]:w-[50%] "
                                     placeholder="Price"
                                     style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)", }}
                                 />
 <Select
-  className="w-[40%] h-[54px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[50%]"
+  className="w-[40%] h-[54px] bg-transparent rounded-[8px] gradient-slate border border-[#292929]  text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[50%]"
   options={options}
   onChange={handleChange}
   styles={customStyles}
@@ -235,7 +237,7 @@ const BuyNow = () => {
                         <div className="flex flex-col gap-[12px]">
                             <p className="font-[800] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">Duration</p>
                             <Select
-  className="w-full h-[54px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[100%]"
+  className="w-full h-[54px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[100%]"
   placeholder="1 Month"
                   options={durationOptions}
                   onChange={handleDurationChange}
@@ -252,7 +254,7 @@ const BuyNow = () => {
                         </div>
                         <div className="flex flex-col gap-[12px]">
                             <p className="font-[800] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">Summary</p>
-                            <div className="flex flex-col gap-[20px] gradient-slate-input p-[16px]">
+                            <div className="flex flex-col gap-[20px] gradient-slate border border-[#292929] rounded-[12px] p-[16px]">
                                 <div className="flex w-full justify-between">
                                     <p className="font-[400] text-[14px] leading-[19.6px]">Listing Price</p>
                                     <p className="text-[#757575]  text-[16px] leading-[22.4px] font-[400] max-[500px]:text-[14px] max-[500px]:leading-[19.6px]">-- ETH</p>
@@ -262,8 +264,8 @@ const BuyNow = () => {
                                     <p className="text-[#757575]  text-[16px] leading-[22.4px] font-[400] max-[500px]:text-[14px] max-[500px]:leading-[19.6px]">2.5%</p>
                                 </div>
                                 <div className="flex w-full justify-between">
-                                    <p className="font-[400] text-[14px] leading-[19.6px]">Creator Earnings</p>
-                                    <p className="font-[400] text-[14px] leading-[19.6px] max-[500px]:leading-[16.8px]">6.55%</p>
+                                    <p className="font-[400] text-[14px] leading-[16.8px]">Creator Earnings</p>
+                                    <p className="font-[400] text-[14px] leading-[16.8px] max-[500px]:leading-[16.8px]">6.55%</p>
                                 </div>
 
                             </div>
@@ -278,11 +280,11 @@ const BuyNow = () => {
                         borderImageSlice: 1,
                       }}>
                         <div className="flex w-full justify-between align-center">
-                            <p className="font-[800] text-[20px] leading-[32px] max-[350px]:text-[16px] max-[350px]:font-[600]">Total Potential Earnings</p>
-                            <p className="text-[#00D059] font-[700] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">-- ETH</p>
+                            <p className="font-[800] text-[20px] leading-[32px] max-[350px]:text-[16px] max-[350px]:font-[600]">Total Cost for Listing</p>
+                            <p className="text-[#00D059] font-[700] text-[20px] pr-[34px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">-- ETH</p>
                         </div>
                         <Button
-                //   onClick={() => FeedBackOnEvent()}
+                 onClick={Profile}
                 className=" text-[16px] leading-[22.4px] font-extrabold text-center w-full rounded-[100px] py-[12px] text-[black] bg-[#00D059]"
               style={{fontFamily: "var(--font-base)",}}>
                Complete Listing
@@ -292,7 +294,7 @@ const BuyNow = () => {
                     </div>
 
                 </div>
-                <div className="BuyNowMarketPlace-gradient w-[400px]  h-[512px] max-[450px]:w-full  max-[450px]:h-auto">
+                <div className="BuyNowMarketPlace-gradient w-[400px] marginull mt-[40px] h-[512px]  max-[450px]:w-full  max-[450px]:h-auto">
                     <div className="flex flex-col p-[16px] w-full gap-[20px]">
                         <Image className='w-full h-[342px] max-[450px]:h-[219px] max-[450px]:w-[400px] max-[450px]:h-[400px] max-[395px]:h-auto' src={BuyNowImage} alt='Image PlaceHolder' />
                         <div className="flex flex-col gap-[12px]">
@@ -311,7 +313,7 @@ const BuyNow = () => {
 
             </div>
         </section>
-        <div className="absolute bottom: 0; right-0 w-[30%] h-[30%] bg-[#00D059] blur-[400px] rounded-[30%] -z-10 max-[992px]:hidden">
+        <div className="absolute left-[54%] top-[88%] bottom: 0; right-0 w-[50%] h-[103%] bg-[#00D059] blur-[400px] rounded-[30%] -z-10 max-[992px]:hidden">
         </div>
         </div>
     )
