@@ -52,7 +52,7 @@ const NftOwner = () => {
           style={{ backgroundImage: "url('/Images/Nft_animakid_img/ImagePlaceHolder.png')" }}
         ></div>
 
-        <div className="mt-[-76px] px-[60px] Animakida_Container_LOgo">
+        <div className="mt-[-76px] px-[92px] Animakida_Container_LOgo">
           <img className="ml-[5px] md:ml-0" src="/Images/Animkiad.svg" alt="Logo" />
           <div className="flex justify-between items-center mt-10 Animkaida_Btn_text_Container">
             <h2 className="text-[24px] font-extrabold leading-[26.6px] md:text-[37px] md:leading-[48.6px] lg:text-[56px] lg:leading-[61.6px]">
@@ -63,17 +63,17 @@ const NftOwner = () => {
             </button>
           </div>
         </div>
-        <div className="flex flex-col gap-[40px] pl-[60px] pr-[92px] Animakid__HeroSection_container sm:gap-[55px]">
-          <div className="flex flex-wrap justify-start items-center gap-10 Animakid__Container_small_TExt mt-[40px] md:mt-[65px]">
+        <div className="flex flex-col gap-[40px] pl-[92px] pr-[92px] Animakid__HeroSection_container sm:gap-[55px]">
+          <div className="flex flex-wrap justify-start items-center gap-10 max-[450px]:gap-[29px] Animakid__Container_small_TExt mt-[40px] md:mt-[65px]">
             {Object.keys(statesData).map((key) => {
               const data = statesData[key as keyof StatesData];
               return (
-                <div className="flex flex-col gap-[0px] md:gap-[-20px]">
+                <div className="flex flex-col gap-[0px] md:gap-[-20px] ">
                   <h3 className="text-[22px] md:text-[32px] font-bold leading-[10.8px] text-white text-left">
                     {data.first || ""}
-                    <span className="text-[14px] font-bold leading-[10px] text-white text-left">{data.second || ""}</span>
+                    <span className="text-[14px] md:text-[20px] font-bold leading-[28px] text-white text-left">{data.second || ""}</span>
                   </h3>
-                  <p className="text-[14px] md:text-[24px] font-normal leading-[38.4px] md:leading-[60px] text-[#BFBFBF] text-left">
+                  <p className="text-[14px] md:text-[24px] font-normal leading-[16.8px] md:leading-[60px] text-[#BFBFBF] text-left">
                     {data.third || ""}
                   </p>
                 </div>
@@ -125,7 +125,7 @@ const NftOwner = () => {
           </div>
         </div>
       </div>
-      <div className="px-[24px] md:pl-[60px] sm:pr-[35px] lg:pr-[106px]">
+      <div className="px-[24px] sm:pl-[35px]  md:pl-[92px] sm:pr-[35px] lg:pr-[163px]">
         <div className="flex items-center justify-end gap-[10px] mt-[100px] md:flex">
           <div className="flex items-center justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[376px]">
             <input
@@ -141,7 +141,7 @@ const NftOwner = () => {
 
           </div>
         </div>
-        <div className="flex flex-wrap gap-[35px] w-full w-full pt-[33px] pb-[173px] justify-center xl:justify-end">
+        <div className="flex flex-wrap gap-[35px] w-full w-full pt-[33px] pb-[173px] justify-center ">
 
           {[...Array(12)].map((_, index) => (
             <div

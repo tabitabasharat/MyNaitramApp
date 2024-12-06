@@ -75,8 +75,8 @@ const MpHome = () => {
           <div className="hidden lg:flex space-x-8">
             {[
               { value: "£240k+", description: "Total Sale" },
-              { value: "£100k+", description: "Collections" },
-              { value: "£10k+", description: "Creators" },
+              { value: "100k+", description: "Collections" },
+              { value: "10k+", description: "Creators" },
             ].map((item, index) => (
               <div key={index} className="flex flex-col items-start space-y-1">
                 <h2 className="text-white text-xl font-extrabold">{item.value}</h2>
@@ -97,8 +97,8 @@ const MpHome = () => {
           <div className="lg:hidden flex space-x-8">
             {[
               { value: "£240k+", label: "Total Sale" },
-              { value: "£100k+", label: "Collections" },
-              { value: "£10k+", label: "Creators" },
+              { value: "100k+", label: "Collections" },
+              { value: "10k+", label: "Creators" },
             ].map((item, index) => (
               <div key={index} className="flex flex-col items-start space-y-1">
                 <h2 className="text-white text-xl font-extrabold">{item.value}</h2>
@@ -115,7 +115,7 @@ const MpHome = () => {
           <div className="w-full xl:w-[40%]">
             <h2 className="text-white text-2xl md:text-4xl font-extrabold leading-tight">Trending NFTs</h2>
           </div>
-          <div className="flex gap-[10px] w-full xl:justify-end lg:flex-row lg:flex">
+          <div className="flex gap-[10px]  xl:justify-end lg:flex-row lg:flex">
             {/* First Input */}
             <div className="relative w-full sm:w-[376px]">
               <input

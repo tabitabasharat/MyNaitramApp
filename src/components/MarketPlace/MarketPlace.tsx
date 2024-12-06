@@ -44,7 +44,7 @@ const page = () => {
           {/* Get Started Button & Total Sale Section for Small Screens */}
           <button className="lg:hidden w-full h-12 bg-green-500 text-black font-extrabold text-base rounded-full py-2 px-6">Get Started</button>
           <div className="lg:hidden flex space-x-8">
-            {["£240k+", "£300k+", "£500k+"].map((value, index) => (
+            {["£240k+", "300k+", "500k+"].map((value, index) => (
               <div key={index} className="flex flex-col items-start space-y-1">
                 <h2 className="text-white text-xl font-extrabold">{value}</h2>
                 <p className="text-gray-400 text-lg sm:text-base sm:font-normal">Total Sale</p>
