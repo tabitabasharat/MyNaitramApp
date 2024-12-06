@@ -85,15 +85,15 @@ const CustomTicket = () => {
     };
 
     return (
-        <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[73px] ps-[0px] min-[993px]:ps-[92px] min-[769px]:ps-[300px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
+        <div className="w-full flex flex-col gap-[24px] lg:w-[70%] xl:pe-[73px] ps-[0px] min-[993px]:ps-[92px] min-[769px]:ps-[300px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
             <div>
-                <h1 className="text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold">
+                <h1 className="text-[24px] ps-[20px] sm:ps-[0px] mb-[12px] md:text-[32px] font-extrabold">
                     Festivals / Multi-Day Tickets
                 </h1>
             </div>
             <div className="flex gap-[12px] w-full">
                 <div
-                    className={`gradient-slate rounded-stlying px-[12px] md:w-[397px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer
+                    className={`gradient-slate  border border-[#292929] rounded-stlying px-[12px] md:w-[397px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer
                          ${selected === "Sales"
                             ? "gradient-border-rounded text-[#00A849]"
                             : ""
@@ -116,7 +116,7 @@ const CustomTicket = () => {
                     <p>Sales</p>
                 </div>
                 <div
-                    className={`gradient-slate rounded-stlying px-[12px] md:w-[397px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer 
+                    className={`gradient-slate  border border-[#292929] rounded-stlying px-[12px] md:w-[397px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer 
                         ${selected === "Attendance"
                             ? "gradient-border-rounded text-[#00A849]"
                             : ""
@@ -143,7 +143,7 @@ const CustomTicket = () => {
                 {selected === "Sales" ? (
                     <div>
                         <div>
-                            <p className='mb-[22px] text-[#E6E6E6] text-[18px] font-bold'>Premier League</p>
+                            <p className='mb-[24px] text-[#E6E6E6] text-[18px] font-bold'>Premier League</p>
                             <TableContainer component={Paper} className='w-full xl:w-[900px]' sx={{
                                 overflow: "auto",
                                 maxHeight: "100%",
@@ -701,7 +701,7 @@ const CustomTicket = () => {
                     </div>
                 ) : (
                     <div>
-                        <p className='mb-[22px] text-[#E6E6E6] text-[18px] font-bold'>Premier League</p>
+                        <p className='mb-[24px] text-[#E6E6E6] text-[18px] font-bold'>Premier League</p>
                         <TableContainer component={Paper} className='w-full xl:w-[900px]' sx={{
                             boxShadow: "none", background: "transparent",
                             overflow: "auto",

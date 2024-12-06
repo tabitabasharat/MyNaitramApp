@@ -42,9 +42,9 @@ const Rsvpticketing = () => {
     };
 
     return (
-        <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[73px] min-[993px]:ps-[92px] min-[769px]:ps-[300px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
+        <div className="w-full flex flex-col gap-[24px] lg:w-[70%] xl:pe-[73px] min-[993px]:ps-[92px] min-[769px]:ps-[300px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
             <div>
-                <h1 className="text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold">
+                <h1 className="text-[24px] ps-[20px] mb-[12px] sm:ps-[0px]  md:text-[32px] font-extrabold">
                     RSVP Ticketing
                 </h1>
             </div>
@@ -288,7 +288,7 @@ const Rsvpticketing = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Button className='text-[#030303] text-sm font-extrabold pt-[13px] mt-[24px] mb-[40px] sm:w-fit w-full pb-[11px] px-[31.5px]'>
+                <Button className='text-[#030303] text-sm font-extrabold pt-[13px] mt-[24px] mb-[24px] sm:w-fit w-full pb-[11px] px-[31.5px]'>
                     Download CSV
                 </Button>
             </div>

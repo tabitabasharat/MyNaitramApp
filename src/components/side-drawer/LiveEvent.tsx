@@ -59,7 +59,7 @@ const pages = [
     createDatapages('Lorem Ispum Lorem Uspum', 305),
 ];
 
-    type SelectedOption = "tickets" | "collectables" | null;
+type SelectedOption = "tickets" | "collectables" | null;
 
 const LiveEvent = () => {
     const [selected, setSelected] = useState<SelectedOption>("tickets");
@@ -74,59 +74,65 @@ const LiveEvent = () => {
     };
 
     return (
-        <Link href="/side-drawer/ticket-data" className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[97px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
-            <div className='mt-[45px] lg:mt-[0px]'>
-                <div className="flex gap-[12px] w-full">
-                    <div
-                        className={`gradient-slate rounded-stlying px-[12px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${selected === "tickets"
-                            ? "gradient-border-rounded text-[#00A849]"
-                            : ""
-                            }`}
-                        onClick={() => setSelected("tickets")}
-                    >
-                        {selected === "tickets" ? (
-                            <Image
-                                src={caledndergreen}
-                                className="pb-[8px] hidden md:block"
-                                alt="Green Ticket"
-                            />
-                        ) : (
-                            <Image
-                                src={calender}
-                                className="pb-[8px] hidden md:block"
-                                alt="Default Ticket"
-                            />
-                        )}
-                        <p>Live Events</p>
-                    </div>
-                    <div
-                        className={`gradient-slate rounded-stlying px-[12px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${selected === "collectables"
+        <>
+            <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[97px] ps-[0px] xl:ps-[92px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
+                <div className='mt-[45px] lg:mt-[0px] '>
+                    <div className="flex gap-[12px] w-full">
+                        <div
+                            className={`gradient-slate border border-[#292929] rounded-stlying px-[12px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${selected === "tickets"
                                 ? "gradient-border-rounded text-[#00A849]"
                                 : ""
-                            }`}
-                        onClick={() => setSelected("collectables")}
-                    >
-                        {selected === "collectables" ? (
-                            <Image
-                                src={calenderXgreen}
-                                className="pb-[8px] hidden md:block"
-                                alt="Green Collectibles"
-                            />
-                        ) : (
-                            <Image
-                                src={calenderX}
-                                className="pb-[8px] hidden md:block"
-                                alt="Default Collectibles"
-                            />
-                        )}
-                        <p>Past Events</p>
+                                }`}
+                            onClick={() => setSelected("tickets")}
+                        >
+                            {selected === "tickets" ? (
+                                <Image
+                                    src={caledndergreen}
+                                    className="pb-[8px] hidden md:block"
+                                    alt="Green Ticket"
+                                />
+                            ) : (
+                                <Image
+                                    src={calender}
+                                    className="pb-[8px] hidden md:block"
+                                    alt="Default Ticket"
+                                />
+                            )}
+                            <p>Live Events</p>
+                        </div>
+                        <div
+                            className={`gradient-slate border border-[#292929] rounded-stlying px-[12px] flex w-full md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer ${selected === "collectables"
+                                ? "gradient-border-rounded text-[#00A849]"
+                                : ""
+                                }`}
+                            onClick={() => setSelected("collectables")}
+                        >
+                            {selected === "collectables" ? (
+                                <Image
+                                    src={calenderXgreen}
+                                    className="pb-[8px] hidden md:block"
+                                    alt="Green Collectibles"
+                                />
+                            ) : (
+                                <Image
+                                    src={calenderX}
+                                    className="pb-[8px] hidden md:block"
+                                    alt="Default Collectibles"
+                                />
+                            )}
+                            <p>Past Events</p>
+                        </div>
                     </div>
+                    <h1 className="text-[24px] mt-[38px] ps-[20px] sm:ps-[0px] mb-[32px] md:text-[48px] font-extrabold">
+                        Live Events                </h1>
+                    <Link href="/side-drawer/ticket-data" >
+                        <EventcardText />
+                    </Link>
                 </div>
-                <h1 className="text-[24px] mt-[38px] ps-[20px] sm:ps-[0px]  md:text-[48px] font-extrabold">
-                    Live Events                </h1>
             </div>
-            <EventcardText />
-        </Link>
+
+
+        </>
     )
 }
 export default LiveEvent
