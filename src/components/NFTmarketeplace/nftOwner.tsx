@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import "./NftOwner.css";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import blurbg from "@/assets/V2assets/Blur Green.svg"
+import Image from "next/image"
 
 interface StateDataItem {
   first: string;
@@ -52,7 +54,7 @@ const NftOwner = () => {
           style={{ backgroundImage: "url('/Images/Nft_animakid_img/ImagePlaceHolder.png')" }}
         ></div>
 
-        <div className="mt-[-76px] px-[92px] Animakida_Container_LOgo">
+        <div className=" mt-[-50px] px-[92px] Animakida_Container_LOgo">
           <img className="ml-[5px] md:ml-0" src="/Images/Animkiad.svg" alt="Logo" />
           <div className="flex justify-between items-center mt-10 Animkaida_Btn_text_Container">
             <h2 className="text-[24px] font-extrabold leading-[26.6px] md:text-[37px] md:leading-[48.6px] lg:text-[56px] lg:leading-[61.6px]">
@@ -125,23 +127,36 @@ const NftOwner = () => {
           </div>
         </div>
       </div>
-      <div className="px-[24px] sm:pl-[35px]  md:pl-[92px] sm:pr-[35px] lg:pr-[163px]">
+      <div className="px-[24px] sm:pl-[35px] bg-imag md:pl-[92px] sm:pr-[35px] lg:pr-[163px]">
         <div className="flex items-center justify-end gap-[10px] mt-[100px] md:flex">
-          <div className="flex items-center justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[376px]">
+         <div className="flex  items-center relative justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[308px] min-[348px]:w-[376px]">
             <input
-              className="flex-1 bg-none border-none text-[16px] font-normal leading-5 text-[#BFBFBF] outline-none pr-10"
+              className="text-[16px] block font-normal leading-5 text-[#BFBFBF] w-[90%] outline-none pr-10"
               type="text"
               placeholder="Search NFT"
             />
-            <img src="/Images/Nft_animakid_img/serchicon.svg" className="w-5 h-5" />
-          </div>
-          <div className="border border-[#292929] gradient-slate py-[19px] px-[16px] rounded-lg w-[143px] flex items-center justify-between ">
-            <h2 className="text-[16px] font-normal leading-5 text-[ #BFBFBF]">Filter</h2>
-            <img src="/Images/Nft_animakid_img/filtr.svg" />
+            <img src="/Images/Nft_animakid_img/serchicon.svg" className="w-5 h-5 absolute right-[16px] top-1/2 transform -translate-y-1/2" />
+          </div> 
+          {/* <div className="relative w-full sm:w-[376px]">
+            <input
+              type="text"
+              placeholder="Search NFT"
+              className="w-full sm:w-[376px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323] placeholder:text-[#BFBFBF] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[19.6px] placeholder:text-left focus:outline-none"
+              style={{ textOverflow: "ellipsis" }}
+            />
+            <img
+              src="/Images/Market/srchicon.svg"
+              alt="Search Icon"
+              className="absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none"
+            />
+          </div> */}
+          <div className="border border-[#292929] gradient-slate w-[30%] min-[390px]:py-[19px] min-[390px]:px-[16px] rounded-lg min-[390px]:w-[143px] flex items-center justify-between ">
+            <h2 className="text-[16px] font-normal max-[390px]:hidden leading-5 text-[#BFBFBF]">Filter</h2>
+            <img src="/Images/Nft_animakid_img/filtr.svg"  className="max-[390px]:my-[19px] max-[390px]:mx-[16px]"/>
 
           </div>
         </div>
-        <div className="flex flex-wrap gap-[35px] w-full w-full pt-[33px] pb-[173px] justify-center ">
+        <div className="flex flex-wrap  gap-[35px] w-full w-full pt-[33px] pb-[173px] justify-center ">
 
           {[...Array(12)].map((_, index) => (
             <div
@@ -150,32 +165,33 @@ const NftOwner = () => {
                 router.push("/marketPlace/nft");
               }}
               className="cursor-pointer relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] p-[30px_11.5px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden hover-gradient-border"
-              style={{ width: "270px", height: "373px" }}
+              style={{ width: "270px" }}
             >
 
               <img src="/Images/Nft_animakid_img/Crads.svg" alt="Card" />
               <div className="px-[12px]">
-                <h3 className="text-[18px] font-extrabold leading-[24px] text-left text-white">The Orbitians</h3>
+                <h3 className="text-[18px] font-extrabold text-left text-white">The Orbitians</h3>
                 <div className="flex justify-between items-center mt-[20px]">
                   <div >
-                    <p className="text-[12px] font-normal leading-[24px] text-white">Price</p>
-                    <div className="flex items-center gap-[6px]">
+                    <p className="text-[12px] font-normal text-white">Price</p>
+                    <div className="flex items-center mt-[8px] gap-[6px]">
                       <img className="mb-[5px]" src="/Images/Nft_animakid_img/Price.svg" alt="Price Icon" />
-                      <p className="flex items-center gap-[5px] text-[14px] font-bold leading-[24px] text-left text-[#00D059]">
+                      <p className="flex items-center gap-[5px] text-[14px] font-bold text-left text-[#00D059]">
 
                         0.25 ETH
                       </p>
                     </div>
                   </div>
                   <div>
-                    <p className="text-[12px] font-normal leading-[24px] text-white">Highest Bid</p>
-                    <p className="text-[14px] font-bold leading-[24px] text-white">0.33 wETH</p>
+                    <p className="text-[12px] font-normal text-white">Highest Bid</p>
+                    <p className="text-[14px] font-bold mt-[8px] text-white">0.33 wETH</p>
                   </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
+        {/* <Image src={blurbg} alt="bg-blur" className="" /> */}
       </div>
 
     </>
