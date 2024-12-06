@@ -75,8 +75,8 @@ const MpHome = () => {
           <div className="hidden lg:flex space-x-8">
             {[
               { value: "£240k+", description: "Total Sale" },
-              { value: "£100k+", description: "Collections" },
-              { value: "£10k+", description: "Creators" },
+              { value: "100k+", description: "Collections" },
+              { value: "10k+", description: "Creators" },
             ].map((item, index) => (
               <div key={index} className="flex flex-col items-start space-y-1">
                 <h2 className="text-white text-xl font-extrabold">{item.value}</h2>
@@ -90,15 +90,14 @@ const MpHome = () => {
         <div className="lg:w-1/2 flex flex-col items-center space-y-5">
           <img src="/Images/Market/Group 1597877996.png" alt="NFT Art" className="w-full lg:w-auto" />
 
-          {/* Get Started Button & Total Sale Section for Small Screens */}
           <button className="lg:hidden w-full h-12 bg-green-500 text-black font-extrabold text-base rounded-full py-2 px-6 hover:bg-[#13FF7A]">
             Get Started
           </button>
           <div className="lg:hidden flex space-x-8">
             {[
               { value: "£240k+", label: "Total Sale" },
-              { value: "£100k+", label: "Collections" },
-              { value: "£10k+", label: "Creators" },
+              { value: "100k+", label: "Collections" },
+              { value: "10k+", label: "Creators" },
             ].map((item, index) => (
               <div key={index} className="flex flex-col items-start space-y-1">
                 <h2 className="text-white text-xl font-extrabold">{item.value}</h2>
@@ -108,14 +107,13 @@ const MpHome = () => {
           </div>
         </div>
       </div>
-
       <div className="relative flex flex-col px-4 lg:px-14 pb-36 space-y-4 md:space-y-10">
         {/* Heading */}
         <div className="flex flex-col gap-[16px] xl:gap-[0px] xl:flex-row xl:items-center xl:justify-between">
           <div className="w-full xl:w-[40%]">
             <h2 className="text-white text-2xl md:text-4xl font-extrabold leading-tight">Trending NFTs</h2>
           </div>
-          <div className="flex gap-[10px] w-full xl:justify-end lg:flex-row lg:flex">
+          <div className="flex gap-[10px]  xl:justify-end lg:flex-row lg:flex">
             {/* First Input */}
             <div className="relative w-full sm:w-[376px]">
               <input
@@ -142,9 +140,8 @@ const MpHome = () => {
                   <img
                     src="/Images/Market/arrd.svg"
                     alt="Dropdown Icon"
-                    className={`absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none transition-transform duration-200 ${
-                      isOpen ? "rotate-180" : "rotate-0"
-                    }`}
+                    className={`absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none transition-transform duration-200 ${isOpen ? "rotate-180" : "rotate-0"
+                      }`}
                   />
                 </div>
 
