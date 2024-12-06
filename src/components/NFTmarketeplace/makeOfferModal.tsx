@@ -184,7 +184,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
             </div>
 
 
-            <div className="mt-[32px] rounded-[12px] gradient-slate-input p-[16px] ml-[24px] mr-[24px]"
+            <div className="mt-[32px] rounded-[12px] gradient-slate border border-[#292929]  p-[16px] ml-[24px] mr-[24px]"
               style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)", }}>
               <div className="flex flex-col gap-[15px]">
 
@@ -208,13 +208,13 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
 
               <input
                  type="number"
-                className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px]  bg-transparent gradient-slate-input focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[540px]:w-[50%] "
+                className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px]  bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[540px]:w-[50%] "
                 placeholder="Price"
                 style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)", }}
               />
 
               <Select
-                className="w-[40%] h-[54px]   bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400]
+                className="w-[40%] h-[54px]   bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400]
     text-[16px] leading-[21.6px] max-[540px]:w-[50%]"
                 options={options}
                 onChange={handleChange}
@@ -228,7 +228,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
               <p className="font-[800] text-[14px] leading-[19.6px] text-[#FFFFFF]">Duration</p>
               <div className="flex gap-[5px]">
                 <Select
-                  className="w-[40%] h-[54px]  bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
+                  className="w-[40%] h-[54px]  bg-transparent  gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
                   placeholder="Select"
                   options={durationOptions}
                   onChange={handleDurationChange}
@@ -243,7 +243,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
       readOnly
       value={startDate ? startDate.toDateString() : ""}
       onClick={toggleStartPicker}
-      className="w-full h-[54px] pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px]"
+      className="w-full h-[54px] pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent  gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px]"
       placeholder="Start Date"
       style={{
         background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
@@ -265,9 +265,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
       readOnly
       value={endDate ? endDate.toDateString() : ""}
       onClick={toggleEndPicker}
-      className={`w-full h-[54px] pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent rounded-[8px] gradient-slate-input text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] border ${
-        startDate ? "border-green-500" : "border-transparent"
-      }`}
+      className={`w-full h-[54px] pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] `}
                   placeholder="End Date"
       style={{
         background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
@@ -289,7 +287,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
   // Show single input for default duration
   <input
     type="text"
-    className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] bg-transparent gradient-slate-input focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF]"
+    className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF]"
     placeholder="5th Nov, 2024 - 5:25 PM"
     style={{
       background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",

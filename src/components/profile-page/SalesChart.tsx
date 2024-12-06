@@ -90,7 +90,6 @@ const SalesChart = () => {
           <XAxis
             dataKey="name"
             axisLine={false}
-            // tick={<CustomXAxisTick />}
             tick={{ fill: "#BFBFBF", fontSize: "11px", fontWeight: "900" }}
             tickLine={false}
           />
