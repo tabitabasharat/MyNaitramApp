@@ -250,6 +250,7 @@
 @media (max-width: 768px) {
   .main {
     padding-top: 120px !important;
+    padding-bottom: 63px !important;
   }
   .arrowImage {
     width: 12.34px !important;

@@ -336,7 +336,7 @@ body {
     flex-direction: column;
   }
 .bg-imag{
-  background: transparent;
+  background: transparent !important;
 }
   .bg-v2 {
     background: transparent;

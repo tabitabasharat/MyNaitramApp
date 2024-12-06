@@ -172,8 +172,8 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
             <Separator className="scale--[1.12] bg-[#292929]" />
 
 
-            <div className="flex gap-[16px] pt-[24px] pl-[24px] "> 
-              <div className="w-[120px] h-[120px] makeAnOffer-gradient max-[360px]:w-[88px] max-[360px]:h-[70px] max-[450px]:h-[88px] ">
+            <div className="flex gap-[16px] pt-[24px] pl-[24px] pr-[24px] "> 
+              <div className="w-[120px] imageFolder h-[120px] makeAnOffer-gradient  max-[360px]:h-[70px] max-[450px]:h-[88px]  ">
                 <Image className=" pt-[1px] rounded-[9px] w-full h-[99%] object-cover" src={image1} alt="/" />
               </div>
               <div className="flex flex-col gap-[11px] justify-center ">

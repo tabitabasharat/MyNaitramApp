@@ -88,7 +88,7 @@ const NftDetails = () => {
   };
   return (
     <div className="relative overflow-hidden">
-      <section className=" pt-[173px] pb-[236px]   main pl-[92px] pr-[97px]">
+      <section className=" pt-[173px] pb-[236px]  main pl-[92px] pr-[97px]">
         <div className="flex gap-[80px] md-1150:flex-col">
           <div className="flex flex-col w-full rightDive">
             <div className=" image w-full ">
@@ -126,26 +126,6 @@ const NftDetails = () => {
                   <Image src={ticketType} alt="ticketType" />
                   <p className="font-[700] text-[16px] leading-[24px] ">Custom Ticket</p>
                 </div>
-                {/* <div className="flex gap-[8px] items-center">
-                  <Image src={ticketType} alt="ticketType" />
-                  <p className="font-[700] text-[16px] leading-[24px] ">Festivals / Multi-Day Tickets </p>
-                </div>
-                <div className="flex gap-[8px] items-center">
-                  <Image src={ticketType} alt="ticketType" />
-                  <p className="font-[700] text-[16px] leading-[24px] ">RSVP Ticketing </p>
-                </div>
-                <div className="flex gap-[8px] items-center">
-                  <Image src={ticketType} alt="ticketType" />
-                  <p className="font-[700] text-[16px] leading-[24px] ">Private Event Ticketing </p>
-                </div> */}
-                {/* <div className="flex gap-[8px] items-center">
-                  <Image src={ticketType} alt="ticketType" />
-                  <p className="font-[700] text-[16px] leading-[24px] ">Passworded / Discounted Voucher Event </p>
-                </div>
-                <div className="flex gap-[8px] items-center">
-                  <Image src={ticketType} alt="ticketType" />
-                  <p className="font-[700] text-[16px] leading-[24px] ">Whitelist / Waitlist Event Ticketing </p>
-                </div> */}
               </div>
             </div>
           </div>
@@ -216,7 +196,7 @@ const NftDetails = () => {
             <div className="flex flex-col gap-[40px]">
               <div className="buttonsrounded flex gap-[32px]">
                 <Button
-                  onClick={handleBuyNowClick}
+                 onClick={handleOpen}
                   size="lg"
                   className="buttonrounded h-[59px] w-[290px]  font-[800] text-[16px] leading-[22.4px] flex items-center ready-btn   px-[110.5px] py-[19.5px] "
                 >
@@ -224,7 +204,7 @@ const NftDetails = () => {
                 </Button>
 
                 <Button
-                  onClick={handleOpen}
+                   onClick={handleBuyNowClick}
                   style={{ border: "none" }}
                   variant="outline"
                   size="lg"
@@ -482,7 +462,7 @@ const NftDetails = () => {
                             borderImageSlice: 1,
                             color: "white",
                           }}
-                          component={Paper}
+                          // component={Paper}
                         >
                           <Table>
                             <TableHead>
@@ -522,7 +502,7 @@ const NftDetails = () => {
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              <TableRow>
+                              <TableRow sx={{borderBottom:"none"}}>
                                 <TableCell className="tableRow"
                                   style={{ fontFamily: "var(--font-base)", }}
                                   sx={{ borderBottom: "none",textDecoration:"underline", textUnderlineOffset: "3px", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}>
