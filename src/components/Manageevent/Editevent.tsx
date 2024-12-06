@@ -4581,7 +4581,7 @@ function Editevent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
@@ -4859,7 +4859,7 @@ function Editevent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
                                 <Image src={ticket?.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
@@ -5649,7 +5649,7 @@ function Editevent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
@@ -6454,7 +6454,7 @@ function Editevent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
@@ -7460,7 +7460,7 @@ function Editevent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>

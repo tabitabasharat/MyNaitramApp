@@ -3868,7 +3868,9 @@ function OganizerCreateEvent() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Festivals / Multi-Day Tickets / Season Passes</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
@@ -3914,7 +3916,9 @@ function OganizerCreateEvent() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        paid or free<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
                                         {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
@@ -3959,8 +3963,8 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.typename`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
-                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    Ticket TYPE Name
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Ticket TYPE Name<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -3989,8 +3993,8 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.price`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                                    Event Ticket Price (£)
+                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Ticket Price (£)<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -4043,8 +4047,8 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.no`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                                    Event Number of Tickets
+                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Number of Tickets<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -4089,8 +4093,8 @@ function OganizerCreateEvent() {
                                         const currentDateTime = dayjs();
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
-                                              Ticket Start Date & Time
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
@@ -4174,8 +4178,8 @@ function OganizerCreateEvent() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Ticket End Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
@@ -4288,8 +4292,8 @@ function OganizerCreateEvent() {
 
                                               return (
                                                 <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                                  <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                                    Event Start Date & Time
+                                                  <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                                    Event Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                                   </FormLabel>
                                                   <FormControl>
                                                     <div className=" w-full" onClick={() => festivalStartEventPicker(index, eventIndex)}>
@@ -4397,8 +4401,8 @@ function OganizerCreateEvent() {
 
                                               return (
                                                 <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                                  <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                                    Event End Date & Time
+                                                  <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                                    Event End Date & Time <span className="text-red-600 text-[20px] relative">*</span>
                                                   </FormLabel>
                                                   <FormControl>
                                                     <div className=" w-full" onClick={() => festivalEndEventPicker(index, eventIndex)}>
@@ -4519,8 +4523,10 @@ function OganizerCreateEvent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
-                                <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
+                                <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
+                                  WHAT'S INCLUDED<span className="text-red-600 text-[20px] relative">*</span>
+                                </p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket.optionDropDown && (
@@ -4615,7 +4621,9 @@ function OganizerCreateEvent() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">RSVP Ticketing</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
@@ -4655,8 +4663,8 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.name`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
-                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    EVENT TICKET NAME
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    EVENT TICKET NAME<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -4692,7 +4700,9 @@ function OganizerCreateEvent() {
                                         const currentDateTime = dayjs();
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">RSVP Deadline</FormLabel>
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              RSVP Deadline<span className="text-red-600 text-[20px] relative">*</span>
+                                            </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
                                               <div className="w-full" onClick={() => toggleRSVPTicketDeadlinePicker(index)}>
@@ -4764,8 +4774,8 @@ function OganizerCreateEvent() {
                                 name={`tickets.${index}.capacity`}
                                 render={({ field }) => (
                                   <FormItem className="relative w-full space-y-0">
-                                    <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                      RSVP Capacity
+                                    <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                      RSVP Capacity<span className="text-red-600 text-[20px] relative">*</span>
                                     </FormLabel>
                                     <FormControl>
                                       <Input
@@ -4799,8 +4809,10 @@ function OganizerCreateEvent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
-                                <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
+                                <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
+                                  WHAT'S INCLUDED<span className="text-red-600 text-[20px] relative">*</span>
+                                </p>
                                 <Image src={ticket?.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket?.optionDropDown && (
@@ -4846,7 +4858,9 @@ function OganizerCreateEvent() {
                                   onClick={() => handleRsvpRadioSelections("username", index)}
                                   className="hover-gradient-border rounded-md border border-[#292929] gradient-slate flex justify-between items-center py-[18px] px-[12px] w-full"
                                 >
-                                  <p>Name</p>
+                                  <p className="flex justify-start items-center gap-[2px]">
+                                    Name<span className="text-red-600 text-[20px] relative">*</span>
+                                  </p>
                                   <div
                                     className={`w-[15px] h-[15px] rounded-lg ${
                                       ticket.username ? "border-[#00D059]" : "border-[#FBFBFBB2]"
@@ -4860,7 +4874,9 @@ function OganizerCreateEvent() {
                                   onClick={() => handleRsvpRadioSelections("useremail", index)}
                                   className="hover-gradient-border rounded-md border border-[#292929] gradient-slate flex justify-between items-center py-[18px] px-[12px] w-full"
                                 >
-                                  <p>Email</p>
+                                  <p className="flex justify-start items-center gap-[2px]">
+                                    Email<span className="text-red-600 text-[20px] relative">*</span>
+                                  </p>
                                   <div
                                     className={`w-[15px] h-[15px] rounded-lg ${
                                       ticket.useremail ? "border-[#00D059]" : "border-[#FBFBFBB2]"
@@ -4876,7 +4892,9 @@ function OganizerCreateEvent() {
                                   onClick={() => handleRsvpRadioSelections("usernumb", index)}
                                   className="hover-gradient-border rounded-md border border-[#292929] gradient-slate flex justify-between items-center py-[18px] px-[12px] md:w-[49%] w-full"
                                 >
-                                  <p>Phone Number</p>
+                                  <p className="flex justify-start items-center gap-[2px]">
+                                    Phone Number<span className="text-red-600 text-[20px] relative">*</span>
+                                  </p>
                                   <div
                                     className={`w-[15px] h-[15px] rounded-lg ${
                                       ticket.usernumb ? "border-[#00D059]" : "border-[#FBFBFBB2]"
@@ -4897,8 +4915,9 @@ function OganizerCreateEvent() {
                                       name={`tickets.${index}.additional.${f_index}.title`}
                                       render={({ field }) => (
                                         <FormItem className="relative w-full lg:w-[48%] xl:w-[49%] space-y-0 input-custom-container">
-                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                             Additional field {f_index + 1}
+                                            <span className="text-red-600 text-[20px] relative">*</span>
                                           </FormLabel>
                                           <FormControl>
                                             <Input
@@ -5005,7 +5024,9 @@ function OganizerCreateEvent() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Private Event Ticketing</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
@@ -5051,7 +5072,9 @@ function OganizerCreateEvent() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        paid or free<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
                                         {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
@@ -5096,8 +5119,8 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.name`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
-                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    Event Ticket Name
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Ticket Name<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -5127,8 +5150,8 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.price`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                                    Event Ticket Price (£)
+                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Ticket Price (£)<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -5181,8 +5204,8 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.no`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                                    Event Number of Tickets
+                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Number of Tickets<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -5227,8 +5250,8 @@ function OganizerCreateEvent() {
                                         const currentDateTime = dayjs();
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
-                                              Ticket Start Date & Time
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
@@ -5312,8 +5335,8 @@ function OganizerCreateEvent() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Ticket End Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
@@ -5414,8 +5437,8 @@ function OganizerCreateEvent() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event Start Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Event Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
@@ -5510,8 +5533,8 @@ function OganizerCreateEvent() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event End Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Event End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
@@ -5592,8 +5615,10 @@ function OganizerCreateEvent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
-                                <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
+                                <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
+                                  WHAT'S INCLUDED<span className="text-red-600 text-[20px] relative">*</span>
+                                </p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket.optionDropDown && (
@@ -5641,8 +5666,9 @@ function OganizerCreateEvent() {
                                       name={`tickets.${index}.emailmanual.${e_Index}`}
                                       render={({ field }) => (
                                         <FormItem className="relative w-full space-y-0 input-custom-container">
-                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                             Email {e_Index + 1}
+                                            <span className="text-red-600 text-[20px] relative">*</span>
                                           </FormLabel>
                                           <Image
                                             src="/Images/CreateEventPage/trash.svg"
@@ -5814,7 +5840,9 @@ function OganizerCreateEvent() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Passworded / Discounted Voucher Event</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
@@ -5860,7 +5888,9 @@ function OganizerCreateEvent() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        paid or free<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
                                         {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
@@ -5906,7 +5936,7 @@ function OganizerCreateEvent() {
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
                                   <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    EVENT Ticket Type
+                                    EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -5937,7 +5967,7 @@ function OganizerCreateEvent() {
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                                    Event Ticket Price (£)
+                                    Event Ticket Price (£)<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -5991,7 +6021,7 @@ function OganizerCreateEvent() {
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                                    Event Number of Tickets
+                                    Event Number of Tickets<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -6037,7 +6067,7 @@ function OganizerCreateEvent() {
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
-                                              Ticket Start Date & Time
+                                              Ticket Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
@@ -6121,7 +6151,7 @@ function OganizerCreateEvent() {
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Ticket End Date & Time
+                                              Ticket End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
@@ -6223,7 +6253,7 @@ function OganizerCreateEvent() {
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event Start Date & Time
+                                              Event Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
@@ -6318,7 +6348,7 @@ function OganizerCreateEvent() {
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event End Date & Time
+                                              Event End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
@@ -6399,8 +6429,10 @@ function OganizerCreateEvent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
-                                <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
+                                <p className="text-sm text-[#8F8F8F] uppercase">
+                                  WHAT'S INCLUDED<span className="text-red-600 text-[20px] relative">*</span>
+                                </p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket.optionDropDown && (
@@ -6452,6 +6484,7 @@ function OganizerCreateEvent() {
                                           <FormItem className="relative w-full space-y-0 input-custom-container ">
                                             <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
                                               Email {e_Index + 1}
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <Image
                                               src="/Images/CreateEventPage/trash.svg"
@@ -6524,6 +6557,7 @@ function OganizerCreateEvent() {
                                           <FormItem className="relative w-full space-y-0 input-custom-container">
                                             <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
                                               Password {p_Index + 1}
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <Image
                                               src="/Images/CreateEventPage/trash.svg"
@@ -6595,8 +6629,9 @@ function OganizerCreateEvent() {
                                       name={`tickets.${index}.autoGeneratedPswrd.${ag_Index}`}
                                       render={({ field }) => (
                                         <FormItem className="relative w-full space-y-0 input-custom-container">
-                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                             password {ag_Index + 1}
+                                            <span className="text-red-600 text-[20px] relative">*</span>
                                           </FormLabel>
                                           <div className="absolute right-3 top-6 py-[4px] flex justify-center items-center gap-3">
                                             <Image
@@ -7406,7 +7441,7 @@ function OganizerCreateEvent() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div className="flex items-center justify-between" onClick={() => handleDropdown(index)}>
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
