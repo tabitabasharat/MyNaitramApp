@@ -20,6 +20,7 @@ import AllEventsGrid from "../reusable-components/AllEventsGrid";
 import EventCard from "../reusable-components/EventCard";
 import Card from "../reusable-components/Card";
 import avatar from "@/assets/V2assets/Avatar.svg"
+import arrowdown from "@/assets/V2assets/Frame.svg";
 
 import { ArrowElbowRightDown } from '@phosphor-icons/react';
 
@@ -87,7 +88,7 @@ const Profile = () => {
     }, []);
 
 
-     const applyFilter = (filter: string) => {
+    const applyFilter = (filter: string) => {
         setSelectedFilter(filter);
         setIsOpen(false);
     };
@@ -170,111 +171,113 @@ const Profile = () => {
                         <div className="flex sm:block hidden border-b-2 border-b-[#292929] border border-x-transparent border-t-transparent mb-[24px] w-[0px] sm:w-[70%] md:mb-[32px]"></div>
                     </div>
                     <div>
-                        {selectedTab === "Collected" ? (<div>
-                            <div className="flex flex-wrap xl:flex-nowrap gap-[17px]">
-                                <FilterButton />
-                                <div className="relative  inline-block text-left w-[158px]">
+                        {selectedTab === "Collected" ? (
 
-                                    <button
-                                        onClick={() => setIsOpen(!isOpen)}
-                                        className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
-                                    >
-                                        <span className="text-sm font-normal">{selectedFilter}</span>
-                                        <Image src={dropdown} alt="dropwodn-icon" className={`w-[24px] h-[24px] transform transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`} />
-                                    </button>
-
-
-                                    {isOpen && (
-                                        <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
-                                            <ul className="py-1">
-                                                {filters.map((filter) => (
-                                                    <li
-                                                        key={filter}
-                                                        onClick={() => applyFilter(filter)}
-                                                        className={`px-4 py-2 cursor-pointer ${selectedFilter === filter ? "font-bold text-[#00D059]" : ""
-                                                            }`}
-                                                    >
-                                                        {filter}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="relative inline-block text-left w-[158px]">
-                                    <button
-                                          onClick={() => setIsOpenchain(!isOpenchain)}
-                                        className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
-                                    >
-                                        <span className="text-sm font-normal">{selectedChain}</span>
-                                        <Image src={dropdown} alt="dropwodn-icon" className={`w-[24px] h-[24px] transform transition-transform duration-300 ${isOpenchain ? "rotate-180" : "rotate-0"}`} />
-                                    </button>
-
-
-                                    {isOpenchain && (
-                                        <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
-                                            <ul className="py-1">
-                                                {chain.map((filter) => (
-                                                    <li
-                                                        key={filter}
-                                                        onClick={() => applychain(filter)}
-                                                        className={`px-4 py-2 cursor-pointer ${selectedChain === filter ? "font-bold text-[#00D059]" : ""
-                                                            }`}
-                                                    >
-                                                        {filter}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="w-[510px] relative ">
-                                    <Input
-                                        className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal"
-                                        placeholder="Search"
-                                    />
-                                    <MagnifyingGlass size={20} className="absolute top-1/2 -translate-y-1/2 right-5" />
-                                </div>
-                                <div className="relative inline-block text-left w-[220px]">
-                                    <button
-                                         onClick={() => setIsOpenrecent(!isOpenrecent)}
-                                        className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
-                                    >
-                                        <span className="text-sm font-normal">{selectedrecent}</span>
-                                        <Image src={dropdown} alt="dropwodn-icon" className={`w-[24px] h-[24px] transform transition-transform duration-300 ${isOpenrecent ? "rotate-180" : "rotate-0"}`} />
-                                    </button>
-
-
-                                    {isOpenrecent && (
-                                        <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
-                                            <ul className="py-1">
-                                                {recent.map((filter) => (
-                                                    <li
-                                                        key={filter}
-                                                        onClick={() => applyrecent(filter)}
-                                                        className={`px-4 py-2 cursor-pointer ${selectedrecent === filter ? "font-bold text-[#00D059]" : ""
-                                                            }`}
-                                                    >
-                                                        {filter}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
                             <div>
-                                <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-[24px] md:mt-[70px]">
-                                    <Card />
-                                    <Card />
-                                    <Card />
-                                    <Card />
-                                    <Card />
-                                    <Card />
+                                <div className="flex flex-wrap xl:flex-nowrap gap-[17px]">
+                                    <FilterButton />
+                                    {/* Filter Dropdown */}
+                                    <div className="relative inline-block text-left w-[158px]" ref={filterRef}>
+                                        <button
+                                            onClick={() => setIsOpen(!isOpen)}
+                                            className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
+                                        >
+                                            <span className="text-sm font-normal">{selectedFilter}</span>
+                                            <Image src={arrowdown} alt="dropdown-icon" className={`w-[22px] h-[22px] transform transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`} />
+                                        </button>
+                                        {isOpen && (
+                                            <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
+                                                <ul className="py-1">
+                                                    {filters.map((filter) => (
+                                                        <li
+                                                            key={filter}
+                                                            onClick={() => applyFilter(filter)}
+                                                            className={`px-4 py-2 cursor-pointer ${selectedFilter === filter ? "font-bold text-[#00D059]" : ""}`}
+                                                        >
+                                                            {filter}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Chain Dropdown */}
+                                    <div className="relative inline-block text-left w-[158px]" ref={chainRef}>
+                                        <button
+                                            onClick={() => setIsOpenchain(!isOpenchain)}
+                                            className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
+                                        >
+                                            <span className="text-sm font-normal">{selectedChain}</span>
+                                            <Image src={arrowdown} alt="dropdown-icon" className={`w-[24px] h-[24px] transform transition-transform duration-300 ${isOpenchain ? "rotate-180" : "rotate-0"}`} />
+                                        </button>
+                                        {isOpenchain && (
+                                            <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
+                                                <ul className="py-1">
+                                                    {chain.map((filter) => (
+                                                        <li
+                                                            key={filter}
+                                                            onClick={() => applychain(filter)}
+                                                            className={`px-4 py-2 cursor-pointer ${selectedChain === filter ? "font-bold text-[#00D059]" : ""}`}
+                                                        >
+                                                            {filter}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Search Input */}
+                                    <div className="w-[510px] relative">
+                                        <input
+                                            className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal gradient-slate border border-[#292929]"
+                                            placeholder="Search"
+                                        />
+                                        <MagnifyingGlass size={20} className="absolute top-1/2 -translate-y-1/2 right-5" />
+                                    </div>
+
+                                    {/* Recent Dropdown */}
+                                    <div className="relative inline-block text-left w-[220px]" ref={recentRef}>
+                                        <button
+                                            onClick={() => setIsOpenrecent(!isOpenrecent)}
+                                            className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
+                                        >
+                                            <span className="text-sm font-normal">{selectedrecent}</span>
+                                            <Image src={arrowdown} alt="dropdown-icon" className={`w-[24px] h-[24px] transform transition-transform duration-300 ${isOpenrecent ? "rotate-180" : "rotate-0"}`} />
+                                        </button>
+                                        {isOpenrecent && (
+                                            <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
+                                                <ul className="py-1">
+                                                    {recent.map((filter) => (
+                                                        <li
+                                                            key={filter}
+                                                            onClick={() => applyrecent(filter)}
+                                                            className={`px-4 py-2 cursor-pointer ${selectedrecent === filter ? "font-bold text-[#00D059]" : ""}`}
+                                                        >
+                                                            {filter}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
 
+                                <div>
+                                    <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-[24px] md:mt-[70px]">
+                                        <Card />
+                                        <Card />
+                                        <Card />
+                                        <Card />
+                                        <Card />
+                                        <Card />
+                                    </div>
+
+                                </div>
                             </div>
-                        </div>) : (<div>
+
+                        ) : (<div>
                             <FilterButton />
                             <TableContainer component={Paper} className='w-full mt-[24px] md:mt-[70px] xl:w-[900px]' sx={{
                                 boxShadow: "none", background: "transparent",
