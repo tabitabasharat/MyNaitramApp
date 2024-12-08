@@ -13,7 +13,7 @@ import "./EventHero.css";
 import EventsHeroSlide from "./EventsHeroSlide";
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
+import { EventSubmmitModal } from "@/components/EventSubmmitModal/EventSubmmitModal";
 import { createevent } from "@/lib/middleware/event";
 
 import Image from "next/image";

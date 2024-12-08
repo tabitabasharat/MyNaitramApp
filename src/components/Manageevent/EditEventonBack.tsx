@@ -28,7 +28,7 @@ import { API_URL } from "@/lib/client";
 import crossicon from "@/assets/cross-img-icon.svg";
 import arrowup from "@/assets/Arrow up.svg";
 import whiteaddicon from "@/assets/Wallet/white_plus_icon.svg";
-import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
+import {EventSubmmitModal} from "@/components/EventSubmmitModal/EventSubmmitModal";
 // import { DatePicker } from "@/components/organisms/DatePicker";
 import CryptoJS from "crypto-js";
 
