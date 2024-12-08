@@ -97,11 +97,26 @@ display: none !important;
       padding: 132px 100px;
     }
   }
+  @media(max-width:1180px){
+    .topDiv{
+      padding-bottom: 20px !important;
+    }
+  }
   @media (max-width: 1090px) {
     .bg-buyNow-outer{
       width: 100%;
       display: block;
       padding: 132px 60px;
+    }
+  }
+  @media (max-width:786px){
+    .marginull{
+      margin-top: 0 !important;
+    }
+  }
+  @media(max-width:450px){
+    .imageFolder{
+      width: 88px !important;
     }
   }
   @media (max-width: 425px) {
