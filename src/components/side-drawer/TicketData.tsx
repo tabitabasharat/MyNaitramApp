@@ -85,22 +85,22 @@ const TicketData = () => {
     return (
         <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[57px] ps-[0px] min-[993px]:ps-[92px] min-[769px]:ps-[300px]   md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
             <div>
-                <h1 className="text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold">
+                <h1 className="text-[24px] ps-[20px] sm:ps-[0px] mb-[4px]  md:text-[32px] font-extrabold">
                     PIZDEZ Womens Day Party 2024
                 </h1>
             </div>
             <div className='flex gap-[12px] w-full max-[425px]:flex-col'>                            
-                <div className='w-full px-[12px] lg:w-[495px] py-[16px] gradient-slate gradient-slate-input rounded-[8px]'>
+                <div className='w-full px-[12px] lg:w-[495px] py-[16px] gradient-slate border border-[#292929] rounded-[8px]'>
                     <p className='text-sm'>Total Sales</p>
                     <h3 className='text-[#00D059] text-[30px] font-extrabold'>54</h3>
                 </div>
-                <div className='w-full px-[12px] lg:w-[495px] py-[16px] gradient-slate gradient-slate-input rounded-[8px]'>
+                <div className='w-full px-[12px] lg:w-[495px] py-[16px] gradient-slate border border-[#292929] rounded-[8px]'>
                     <p className='text-sm'>Total Revenue</p>
                     <h3 className='text-[#00D059] text-[30px] font-extrabold'>£10,950.6</h3>
                 </div>
             </div>
             <div>
-                <h2 className='font-extrabold text-[32px] mb-[24px]'>Sales</h2>
+                <h2 className='font-extrabold text-[32px] sm:mt-[18px] md:mb-[32px] mb-[24px]'>Ticket Types:</h2>
                 <TableContainer component={Paper} sx={{
                     boxShadow: "none", background: "transparent", overflow: "auto",
                     maxHeight: "100%",

@@ -77,15 +77,15 @@ const WhitelistEvent = () => {
     };
 
     return (
-        <div className="w-full flex flex-col gap-[32px] lg:w-[70%] xl:pe-[57px] min-[993px]:ps-[92px] min-[769px]:ps-[300px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
+        <div className="w-full flex flex-col gap-[24px] lg:w-[70%] xl:pe-[57px] min-[993px]:ps-[92px] min-[769px]:ps-[300px] md:mx-auto lg:w-full mt-[48px] lg:mt-[120px] lg:mx-0 relative h-[100vh]">
             <div>
-                <h1 className="text-[24px] ps-[20px] sm:ps-[0px]  md:text-[32px] font-extrabold">
+                <h1 className="text-[24px] ps-[20px] sm:ps-[0px] mb-[12px] md:text-[32px] font-extrabold">
                     Whitelist / Waitlist Event Ticketing
                 </h1>
             </div>
             <div className="flex gap-[12px] w-full">
                 <div
-                    className={`gradient-slate rounded-stlying px-[12px]  md:w-[397px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer
+                    className={`gradient-slate  border border-[#292929] rounded-stlying px-[12px]  md:w-[397px] w-full flex md:items-start flex-col justify-center items-center  pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer
                          ${selected === "Sales"
                             ? "gradient-border-rounded text-[#00A849]"
                             : ""
@@ -108,7 +108,7 @@ const WhitelistEvent = () => {
                     <p>Sales</p>
                 </div>
                 <div
-                    className={`gradient-slate rounded-stlying md:w-[397px] w-full px-[12px] flex md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer 
+                    className={`gradient-slate  border border-[#292929] rounded-stlying md:w-[397px] w-full px-[12px] flex md:items-start flex-col justify-center items-center pt-[14px] pb-[10px] md:pt-[16px] md:pb-[12px] cursor-pointer 
                         ${selected === "Attendance"
                             ? "gradient-border-rounded text-[#00A849]"
                             : ""

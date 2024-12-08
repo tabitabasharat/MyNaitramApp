@@ -319,6 +319,14 @@ body {
   align-items: center;
   gap: 40px;
 }
+.Animakid_HeroBackground-img{
+  background-image: url(../assets/V2assets/Image\ PlaceHolder.svg) !important;
+}
+@media (max-width: 600px) {
+  .Animakid_HeroBackground-img{
+    background-image: url(../assets/V2assets/Image\ PlaceHolder2.svg) !important;
+  }
+}
 
 @media (max-width: 992px) {
   .bg-ticket-img {
