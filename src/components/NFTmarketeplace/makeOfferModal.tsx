@@ -15,6 +15,8 @@ import { useRouter } from "next/navigation";
 import image1 from "@/assets/image28.svg";
 import Image from "next/image";
 import Select, { SingleValue } from 'react-select';
+// import { Input } from "@mui/material";
+import {Input} from "@/components/ui/input";
 import './makeOffer.css';
 import { DatePicker } from "../organisms/DatePicker";
 const formSchema = z.object({
@@ -206,11 +208,17 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
             </div>
             <div className='flex gap-[10px] mt-[17px] mr-[24px] ml-[24px] max-[450px]:gap-[5px]'>
 
-              <input
+              {/* <input
                 type="number"
                 className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px]  bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[450px]:w-[60%] "
                 placeholder="Price"
                 style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)", }}
+              /> */}
+              <Input
+                type="number"
+                className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none hover:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[450px]:w-[60%] "
+                placeholder="Price"
+                style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)" }}
               />
 
               <Select
@@ -238,7 +246,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                 {selectedDuration === "custom" ? (
 
                   <div className="flex  max-[540px]:flex-col  gap-[5px]  relative">
-                    <input
+                    <Input
                       type="text"
                       readOnly
                       value={startDate ? startDate.toDateString() : ""}
@@ -263,7 +271,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                         />
                       </div>
                     )}
-                    <input
+                    <Input
                       type="text"
                       readOnly
                       value={endDate ? endDate.toDateString() : ""}
@@ -288,7 +296,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                   </div>
                 ) : (
                   // Show single input for default duration
-                  <input
+                  <Input
                     type="text"
                     className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF]"
                     placeholder="5th Nov, 2024 - 5:25 PM"
