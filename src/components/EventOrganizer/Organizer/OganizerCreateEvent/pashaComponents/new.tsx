@@ -6,7 +6,7 @@ import whitefree from "@/assets/Wallet/white free.svg";
 import greenfree from "@/assets/Wallet/Green free.svg";
 import LocationAutocomplete from "@/components/create-event/Locationinput";
 import Receviepayment from "@/components/popups/receviepayment/Receviepayment";
-import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
+import {EventSubmmitModal} from "@/components/EventSubmmitModal/EventSubmmitModal";
 import WalletChooseModal from "@/components/Walletchoose/WalletChooseModal";
 import React from "react";
 import "@/components/create-event/CreateEvent.css";

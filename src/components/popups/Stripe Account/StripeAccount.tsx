@@ -36,7 +36,7 @@ import close from "@/assets/close12.svg";
 import { Envelope, TelegramLogo } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import tick from "@/assets/fi-rr-check.svg";
-import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
+import {EventSubmmitModal} from "@/components/EventSubmmitModal/EventSubmmitModal";
 import { createevent } from "@/lib/middleware/event";
 import {
   SuccessToast,
