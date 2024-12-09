@@ -8,14 +8,7 @@ import { Envelope, Lock, User } from "@phosphor-icons/react/dist/ssr";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { PasswordInput } from "@/components/ui/password-input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -23,20 +16,14 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useState, useEffect, useRef } from "react";
 import { getUserByID, updateProfile } from "@/lib/middleware/profile";
 import ScreenLoader from "../loader/Screenloader";
-import {
-  SuccessToast,
-  ErrorToast,
-} from "../reusable-components/Toaster/Toaster";
+import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
 import api from "@/lib/apiInterceptor";
 import { API_URL } from "@/lib/client";
 
 const formSchema = z.object({
   full_name: z.string().min(2, { message: "Full name cannot be empty." }),
 
-  email: z
-    .string()
-    .min(1, { message: "Email cannot be empty." })
-    .email({ message: "Invalid email address." }),
+  email: z.string().min(1, { message: "Email cannot be empty." }).email({ message: "Invalid email address." }),
 
   password: z
     .string()
@@ -61,9 +48,7 @@ const AccountSettings = () => {
   const [Password, setPassword] = useState("");
   const [imageSrc, setImageSrc] = useState("");
 
-  const myProfile = useAppSelector(
-    (state) => state?.getUserDetail?.userProfile?.data
-  );
+  const myProfile = useAppSelector((state) => state?.getUserDetail?.userProfile?.data);
 
   console.log("my Profile info is", myProfile);
 
@@ -78,9 +63,7 @@ const AccountSettings = () => {
     },
   });
 
-  const handleSingleFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     console.log("Selected r img is:", file);
 
@@ -90,15 +73,11 @@ const AccountSettings = () => {
       try {
         const formData = new FormData();
         formData.append("file", file);
-        const res: any = await api.post(
-          `${API_URL}/upload/uploadimage`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         if (res.status === 200) {
           setLoader(false);
@@ -117,9 +96,10 @@ const AccountSettings = () => {
       }
     }
   };
+
   async function profileclick(values: z.infer<typeof formSchema>) {
     setLoader(true);
-    const userID =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     try {
       const data = {
         fullName: Name || myProfile?.fullname || "",
@@ -146,7 +126,7 @@ const AccountSettings = () => {
   }
 
   useEffect(() => {
-    const userid =typeof window !== "undefined" ?  localStorage.getItem("_id") : null;
+    const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     dispatch(getUserByID(userid));
   }, []);
@@ -170,9 +150,7 @@ const AccountSettings = () => {
       {loader && <ScreenLoader />}
       {userLoading?.loading && <ScreenLoader />}
 
-      <h2 className="font-bold ms-[24px] md:ms-[24px] lg:ms-[0px] text-[20px] lg:text-[32px]">
-        Account Settings
-      </h2>
+      <h2 className="font-bold ms-[24px] md:ms-[24px] lg:ms-[0px] text-[20px] lg:text-[32px]">Account Settings</h2>
       <div className="flex flex-col lg:flex-row gap-8 mt-[30px]  lg:mt-[32px]">
         <div className="flex flex-col mx-auto lg:mx-0 gap-[16px] items-center  w-fit">
           <GradientBorder className="rounded-full p-[3px] w-fit">
@@ -183,9 +161,7 @@ const AccountSettings = () => {
                   width={216}
                   height={216}
                   className="size-[216px] w-[156px] h-[156px] sm:w-[216px] sm:h-[216px] object-cover object-top rounded-full"
-                  placeholder={`data:image/svg+xml;base64,${toBase64(
-                    shimmer(1200, 1800)
-                  )}`}
+                  placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(1200, 1800))}`}
                   alt="DP"
                 />
               </label>
@@ -209,22 +185,14 @@ const AccountSettings = () => {
         </div>
         <div className="w-full lg:w-[428px]">
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(profileclick)}
-              className=" w-full"
-            >
+            <form onSubmit={form.handleSubmit(profileclick)} className=" w-full">
               <FormField
                 control={form.control}
                 name="full_name"
                 render={({ field }) => (
                   <FormItem className="relative mb-6 space-y-0">
-                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                      FULL NAME
-                    </FormLabel>
-                    <User
-                      className="absolute right-3  top-[35%]"
-                      size={20}
-                    />
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">FULL NAME</FormLabel>
+                    <User className="absolute right-3  top-[35%]" size={20} />
                     <FormControl>
                       <Input
                         placeholder="Enter Fullname"
@@ -245,20 +213,10 @@ const AccountSettings = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem className="relative mb-6 space-y-0">
-                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                      EMAIL
-                    </FormLabel>
-                    <Envelope
-                      className="absolute right-3  top-[35%]"
-                      size={20}
-                    />
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">EMAIL</FormLabel>
+                    <Envelope className="absolute right-3  top-[35%]" size={20} />
                     <FormControl>
-                      <Input
-                        readOnly
-                        placeholder="youremail@example.com"
-                        className="pt-11 pb-5 text-base placeholder:font-extrabold"
-                        {...field}
-                      />
+                      <Input readOnly placeholder="youremail@example.com" className="pt-11 pb-5 text-base placeholder:font-extrabold" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -293,9 +251,7 @@ const AccountSettings = () => {
                 )}
               /> */}
               <p className="opacity-70 text-sm pt-2 text-[12px] font-bold hover:opacity-100 underline translate-y-[-0.4rem]">
-                <Link href="/auth/resetpasspage">
-                  Want to change your password?
-                </Link>
+                <Link href="/auth/resetpasspage">Want to change your password?</Link>
               </p>
               {/* <div className="flex justify-start lg:justify-end md:mt-[32px] mt-[57px]">
                 <Button
@@ -307,13 +263,10 @@ const AccountSettings = () => {
               </div> */}
 
               <div className="flex justify-start lg:justify-end  absolute bottom-[0px] mb-[32px] md:mt-[43px]  sm:relative mt-[57px] w-full">
-                <Button
-                  type="submit"
-               className="w-full  px-[30.5px] py-[12px]  md:mb-[0px] font-extrabold text-base md:w-fit"
-                >
+                <Button type="submit" className="w-full  px-[30.5px] py-[12px]  md:mb-[0px] font-extrabold text-base md:w-fit">
                   Update Changes
                 </Button>
-                </div>
+              </div>
             </form>
           </Form>
         </div>

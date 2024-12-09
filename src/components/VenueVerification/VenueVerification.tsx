@@ -3,7 +3,6 @@
 import Backward from "../Backward/Backward";
 import ufo from "@/assets/UFO_SVG.png";
 import Image from "next/image";
-import blur from "@/assets/V2assets/Blur.svg";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,111 +10,311 @@ import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import arrowdown from "../../assets/arrow-down-drop.svg";
-import link from "@/assets/V2assets/Link Simple.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import ScreenLoader from "../loader/Screenloader";
+
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { createVeueForm } from "@/lib/middleware/venue";
+// import { getEventByEventId } from "@/lib/middleware/event";
+import { ErrorToast, SuccessToast } from "../reusable-components/Toaster/Toaster";
+
+import api from "@/lib/apiInterceptor";
+import { API_URL } from "@/lib/client";
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Venue Name cannot be empty." }),
-  address: z.string().min(1, { message: "Venue Address cannot be empty." }),
-  city: z.string().min(1, { message: "City cannot be empty." }),
+  v_name: z.string().min(1, { message: "Venue Name cannot be empty." }),
+  v_address: z.string().min(1, { message: "Venue Address cannot be empty." }),
+  v_city: z.string().min(1, { message: "City cannot be empty." }),
   state: z.string().min(1, { message: "State/Region cannot be empty." }),
   postalcode: z.string().min(1, { message: "Postal Code cannot be empty." }),
   country: z.string().min(1, { message: "Country cannot be empty." }),
-  managerName: z.string().min(1, { message: "Manager Name cannot be empty." }),
+
   capacity: z.string().min(1, { message: "Capacity cannot be empty." }),
-  licensed: z.string().min(1, { message: "licensed cannot be empty." }),
-  email: z
+  v_type: z.string().min(1, { message: "Venue Type cannot be empty." }),
+  e_type: z.string().min(1, { message: "Event Type cannot be empty." }),
+  is_licenseForEvent: z.string().min(1, { message: "Field cannot be empty." }),
+  license_copy: z.string().min(1, { message: "License Copy required" }),
+
+  managerName: z.string().min(1, { message: "Manager Name cannot be empty." }),
+  m_email: z
     .string()
     .email({ message: "Please enter a valid email address." }) // Email validation
     .nonempty({ message: "Email cannot be empty." }),
-  phone: z
+  m_phone: z
     .string()
     .regex(/^\+?[0-9]{10,15}$/, { message: "Please enter a valid phone number." }) // Only digits and optional leading '+'
     .nonempty({ message: "Phone number cannot be empty." }),
   inspection: z.string().min(1, { message: "Inspection cannot be empty." }),
 });
-const cities = ["New York", "Los Angeles", "Chicago", "Houston"];
+
+//  DropDown Options
+const venueTypes = [{ label: "Indoor" }, { label: "Outdoor" }];
+const eventType = [
+  { label: "Festivals / Multi-Day Tickets / Season Passes" },
+  { label: "RSVP Ticketing" },
+  { label: "Private Event Ticketing" },
+  { label: "Passworded / Discounted Voucher Event Ticketing" },
+  { label: "Custom Ticket type" },
+];
+const liscenseType = [{ label: "Yes" }, { label: "No" }];
 
 function VenueVerification() {
-  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      const fileArray = Array.from(files); // Convert FileList to an array
-      setGalleryFiles(fileArray); // Update state with selected files
-    }
-  };
+  // Stte for Lisence Copy
+  const [galleryFiles, setGalleryFiles] = useState<File[]>([]); //This is fir API will accept Link
+  const [copyLiscenceUrl, setCopyLiscenceURL] = useState<string | null>(null); // This is for form UI Filhaall
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      address: "",
-      city: "",
+      v_name: "",
+      v_address: "",
+      v_city: "",
       state: "",
       postalcode: "",
       country: "",
-      managerName: "",
+
       capacity: "",
-      email: "",
-      phone: "",
-      licensed: "",
+      v_type: "",
+      e_type: "",
+      is_licenseForEvent: "",
+      license_copy: "",
+
+      managerName: "",
+      m_email: "",
+      m_phone: "",
       inspection: "",
     },
   });
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDropdownOpenvenue, setIsDropdownOpenvenue] = useState(false);
-  const [isDropdownOpentype, setIsDropdownOpentype] = useState(false);
-  const [customCategory, setCustomCategory] = useState("");
-  const [customvenue, setCustomvenue] = useState("");
-  const [customtype, setCustomtype] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedtype, setSelectedtype] = useState<string | null>(null);
-  const [selectedvenue, setSelectedvenue] = useState<string | null>(null);
-  const [categories, setCategories] = useState([{ label: "Category 1" }, { label: "Category 2" }, { label: "Category 3" }]);
-  const [type, setType] = useState([{ label: "Category 1" }, { label: "Category 2" }, { label: "Category 3" }]);
-  const [venue, setVenue] = useState([{ label: "Category 1" }, { label: "Category 2" }, { label: "Category 3" }]);
 
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-  const toggleDropdowntype = () => setIsDropdownOpentype(!isDropdownOpentype);
-  const toggleDropdownlicensed = () => setIsDropdownOpenvenue(!isDropdownOpenvenue);
+  // Drop Downs
+  const [venueDropDOWN, setVenueDropDown] = useState(false);
+  const [eventDropDOWN, setEventDropDown] = useState(false);
+  const [lisenceDropDOWN, setLiscenseDropDown] = useState(false);
+  // Selected Values
+  const [selctdVenueType, setVenueTYPE] = useState<string | null>(null);
+  const [slectdEventType, setEventTYPE] = useState<string | null>(null);
+  const [selctdLisence, setLISCENCE] = useState<string | null>(null);
 
-  const handleAddCategory = () => {
-    if (customCategory.trim() && customCategory.length <= 15) {
-      setCategories((prev) => [...prev, { label: customCategory }]);
-      setCustomCategory("");
+  const venueDropdown = () => setVenueDropDown(!venueDropDOWN);
+  const eventDropDown = () => setEventDropDown(!eventDropDOWN);
+  const liscenceDropDown = () => setLiscenseDropDown(!lisenceDropDOWN);
+
+  // Loader
+  const [loader, setLoader] = useState(false);
+
+  //User ID and Event ID state
+  const [userID, setUserID] = useState<string | null>(null);
+  const [eventID, setEventID] = useState<string | null>(null);
+
+  // Venue Type Selection
+  const handleVenueTypeSelection = (s_type: string) => {
+    setVenueTYPE(s_type);
+    setVenueDropDown(!venueDropDOWN);
+    form.clearErrors("v_type");
+    form.setValue("v_type", s_type);
+  };
+
+  // Event Type Selection
+  const hanldeEventTypeSelection = (e_type: string) => {
+    setEventTYPE(e_type);
+    setEventDropDown(!eventDropDOWN);
+    form.clearErrors("e_type");
+    form.setValue("e_type", e_type);
+  };
+
+  // Lisence Type Selection
+  const handleLiscenceTypeSelection = (l_type: string) => {
+    setLISCENCE(l_type);
+    setLiscenseDropDown(!lisenceDropDOWN);
+    form.clearErrors("is_licenseForEvent");
+    form.setValue("is_licenseForEvent", l_type);
+  };
+
+  //Uploading Lisence Copy
+  // const uploadLisenceCopy = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = event.target.files;
+  //   if (files) {
+
+  //     form.clearErrors("license_copy");
+  //     form.setValue("license_copy", fileArray[0]?.name);
+  //   }
+  // };
+
+  // Uploadiung Liscence Copy
+  const uploadLisenceCopy = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      setLoader(true);
+
+      // Validate file type
+      const allowedFileTypes = [
+        "image/png",
+        "image/jpeg",
+        "image/jpg",
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ];
+      if (!allowedFileTypes.includes(file.type)) {
+        setLoader(false);
+        ErrorToast("Unsupported file type. Please upload an image, PDF, or DOC file.");
+        form.setError("license_copy", {
+          type: "manual",
+          message: "Unsupported file type.",
+        });
+        return;
+      }
+
+      try {
+        // Check if the file is an image
+        if (file.type.startsWith("image/")) {
+          const imgUrl = URL.createObjectURL(file);
+          const img = new window.Image();
+
+          img.onload = async () => {
+            try {
+              // Upload the image file
+              const formData = new FormData();
+              formData.append("file", file);
+
+              const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              });
+
+              if (res.status === 200) {
+                setLoader(false);
+                form.setValue("license_copy", file.name);
+                form.clearErrors("license_copy");
+                setCopyLiscenceURL(res.data.data);
+                SuccessToast("License copy uploaded successfully.");
+              } else {
+                throw new Error(res.payload?.message || "Error uploading license copy");
+              }
+            } catch (error) {
+              console.error("Error:", error);
+              setLoader(false);
+              ErrorToast("An error occurred while uploading license copy.");
+              form.setError("license_copy", {
+                type: "manual",
+                message: "Try another copy.",
+              });
+            }
+          };
+
+          img.onerror = () => {
+            setLoader(false);
+            ErrorToast("Failed to load the image.");
+          };
+
+          img.src = imgUrl;
+        } else {
+          // Handle non-image files
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+
+          if (res.status === 200) {
+            setLoader(false);
+            form.setValue("license_copy", file.name);
+            form.clearErrors("license_copy");
+            setCopyLiscenceURL(res.data.data);
+            SuccessToast("License copy uploaded successfully.");
+          } else {
+            throw new Error(res.payload?.message || "Error uploading license copy");
+          }
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        setLoader(false);
+        ErrorToast("An error occurred while uploading license copy.");
+        form.setError("license_copy", {
+          type: "manual",
+          message: "Try another copy.",
+        });
+      }
     }
   };
 
-  const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category);
-    setIsDropdownOpen(false);
-  };
-  const handleAddCategoryvenue = () => {
-    if (customvenue.trim() && customvenue.length <= 15) {
-      setVenue((prev) => [...prev, { label: customvenue }]);
-      setCustomvenue("");
-    }
-  };
+  //Getting user ID
+  useEffect(() => {
+    const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    console.log("user id ", userid);
+    setUserID(userid);
+  }, []);
 
-  const handleCategorySelectvenue = (category: string) => {
-    setSelectedvenue(category);
-    setIsDropdownOpenvenue(false);
-  };
-  const handleAddCategoryType = () => {
-    if (customtype.trim() && customtype.length <= 15) {
-      setType((prev) => [...prev, { label: customtype }]);
-      setCustomtype("");
-    }
-  };
+  //getting event ID from link
+  useEffect(() => {
+    const currentUrl: any = typeof window !== "undefined" ? window.location.href : null;
+    const parts = currentUrl.split("/");
+    const value = parts[parts.length - 1];
+    setEventID(value);
+    console.log("my event id is", value);
+    // dispatch(getEventByEventId(value));
+  }, []);
 
-  const handleCategorySelectType = (category: string) => {
-    setSelectedtype(category);
-    setIsDropdownOpentype(false);
-  };
+  //Get the Data of Specific Event
+  // const EventsData = useAppSelector((state) => state?.getEventByEventID?.eventIdEvents?.data);
+  // const EventDataLoader = useAppSelector((state) => state?.getEventByEventID?.loading);
+  // useEffect(() => {
+  //   console.log("Ticket that havn't venue Verification is ==>", EventsData);
+  // }, [EventsData]);
+
+  //Foem Submission here
+  async function SubmitVebueForm(values: z.infer<typeof formSchema>) {
+    setLoader(true);
+    try {
+      const data = {
+        eventId: eventID,
+        userId: userID || localStorage.getItem("_id"),
+        City: form.getValues("v_city"),
+        Country: form.getValues("country"),
+        InspectionNotes: form.getValues("inspection"),
+        IsVenueLisenced: form.getValues("is_licenseForEvent") === "Yes" ? true : false,
+        LicensedCopy: copyLiscenceUrl || form.getValues("license_copy") || "",
+        Region: form.getValues("state"),
+        Venue_Address: form.getValues("v_address"),
+        Venue_Capacity: form.getValues("capacity"),
+        Venue_ManagerEmail: form.getValues("m_email"),
+        Venue_ManagerName: form.getValues("v_name"),
+        Venue_ManagerPhoneNo: form.getValues("m_phone"),
+        Venue_Name: form.getValues("v_name"),
+        Venue_Type: form.getValues("v_type"),
+        postalCode: form.getValues("postalcode"),
+      };
+      dispatch(createVeueForm(data)).then((res: any) => {
+        if (res?.payload?.status === 200) {
+          setLoader(false);
+          console.log("Venue update res", res?.payload?.data);
+          SuccessToast("Venue submitted Successfully");
+          router.back();
+        } else {
+          setLoader(false);
+          console.log(res?.payload?.message);
+          ErrorToast(res?.payload?.message);
+        }
+      });
+    } catch (error) {
+      setLoader(false);
+      console.error("Error:", error);
+    }
+  }
 
   return (
     <section className="bg-img-effect bg-cover bg-center ">
+      {loader && <ScreenLoader />}
+      {/* {EventDataLoader && <ScreenLoader />} */}
       <div className="pt-[120px] z-[1200] md:pt-[132px] pb-[100px] md:pb-[132px] md:px-[35px] lg:px-[75px] xl:px-[180px] px-[24px]">
         <div className="flex flex-col items-center">
           <div className="flex flex-col w-full xl:w-[1080px] ">
@@ -125,8 +324,10 @@ function VenueVerification() {
             </div>
             <div className="flex flex-col gap-[52px] md:gap-[32px]">
               <Form {...form}>
-                <form onSubmit={form.handleSubmit((values) => console.log(values))}>
+                <form onSubmit={form.handleSubmit(SubmitVebueForm)}>
+                  {/* Venuw Information Section */}
                   <div className="gradient-slate w-full rounded-[12px] mb-[52px] md:mb-[32px] ">
+                    {/* Imformation Head */}
                     <div className="flex h-[56px] bg-color rounded-t-[12px]">
                       <p className="text-[18px] w-full py-[16px] px-[24px] font-extrabold md:text-[24px]">
                         <span className="text-[#13FF7A]">Venue </span>
@@ -134,12 +335,13 @@ function VenueVerification() {
                       </p>
                       <Image src={ufo} width={350} height={350} className="hidden sm:block" alt="ufo" />
                     </div>
+                    {/* Information Body */}
                     <div className="pt-[8px] flex flex-col gap-[16px] sm:gap-[24px] p-[24px] md:pb-[32px] md:pt-[32px] md:px-[60px]">
                       <div className="flex flex-col sm:flex-row items-start gap-[16px] sm:gap-[24px] w-full common-container">
-                        {/* Event Name fields */}
+                        {/* Venue Name fields */}
                         <FormField
                           control={form.control}
-                          name="name"
+                          name="v_name"
                           render={({ field }) => (
                             <FormItem className="relative space-b-[16px] md:space-b-[24px] w-full">
                               <FormLabel className="text-base text-white font-extrabold absolute left-3 top-[25px] uppercase">venue NAME</FormLabel>
@@ -154,9 +356,10 @@ function VenueVerification() {
                             </FormItem>
                           )}
                         />
+                        {/* Venue Address */}
                         <FormField
                           control={form.control}
-                          name="address"
+                          name="v_address"
                           render={({ field }) => (
                             <FormItem className="relative space-b-[16px] md:space-b-[24px] w-full">
                               <FormLabel className="text-base text-white font-extrabold absolute left-3 top-[25px] uppercase">
@@ -175,10 +378,10 @@ function VenueVerification() {
                         />
                       </div>
                       <div className="flex flex-col sm:flex-row items-start gap-[16px] sm:gap-[24px] w-full common-container">
-                        {/* Event Name fields */}
+                        {/* City */}
                         <FormField
                           control={form.control}
-                          name="city"
+                          name="v_city"
                           render={({ field }) => (
                             <FormItem className="relative w-full space-b-[16px] md:space-b-[24px]">
                               <FormLabel className="text-base text-white font-extrabold absolute left-3 top-[25px] uppercase">City</FormLabel>
@@ -193,6 +396,7 @@ function VenueVerification() {
                             </FormItem>
                           )}
                         />
+                        {/* State Region */}
                         <FormField
                           control={form.control}
                           name="state"
@@ -212,7 +416,7 @@ function VenueVerification() {
                         />
                       </div>
                       <div className="flex flex-col sm:flex-row items-start gap-[16px] sm:gap-[24px] w-full common-container">
-                        {/* Event Name fields */}
+                        {/* Postal Code */}
                         <FormField
                           control={form.control}
                           name="postalcode"
@@ -230,17 +434,16 @@ function VenueVerification() {
                             </FormItem>
                           )}
                         />
+                        {/* Country */}
                         <FormField
                           control={form.control}
                           name="country"
                           render={({ field }) => (
                             <FormItem className="relative space-b-[16px] md:space-b-[24px] w-full">
-                              <FormLabel className="text-base text-white font-extrabold absolute left-3 top-[25px] uppercase">
-                                venue country
-                              </FormLabel>
+                              <FormLabel className="text-base text-white font-extrabold absolute left-3 top-[25px] uppercase">country</FormLabel>
                               <FormControl>
                                 <Input
-                                  placeholder="Enter Venue Country"
+                                  placeholder="Enter Country"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
                                 />
@@ -252,7 +455,9 @@ function VenueVerification() {
                       </div>
                     </div>
                   </div>
+                  {/* Venue Details Section fields */}
                   <div className="gradient-slate w-full rounded-[12px] mb-[52px] md:mb-[32px] xl:w-[1080px]">
+                    {/* Detail Header */}
                     <div className="flex h-[56px] bg-color rounded-t-[12px]">
                       <p className="text-[18px] w-full py-[16px] px-[24px] font-extrabold md:text-[24px]">
                         <span className="text-[#13FF7A]">Venue </span>
@@ -260,15 +465,17 @@ function VenueVerification() {
                       </p>
                       <Image src={ufo} width={350} height={350} className="hidden sm:block" alt="ufo" />
                     </div>
+                    {/* Detail Body */}
                     <div className="pt-[8px] flex flex-col gap-[16px] sm:gap-[24px] p-[24px] md:pb-[32px] md:pt-[32px] md:px-[60px]">
+                      {/* Venue Type and Capacity */}
                       <div className="flex flex-col sm:flex-row items-start gap-[16px] sm:gap-[24px] w-full common-container">
-                        {/* Event Name fields */}
+                        {/* Venue Capacity Field */}
                         <FormField
                           control={form.control}
                           name="capacity"
                           render={({ field }) => (
                             <FormItem className="relative space-b-[16px] md:space-b-[24px] w-full">
-                              <FormLabel className="text-base text-white text-white font-extrabold absolute left-3 top-[25px] uppercase">
+                              <FormLabel className="text-base text-white font-extrabold absolute left-3 top-[25px] uppercase">
                                 venue capacity
                               </FormLabel>
                               <FormControl>
@@ -276,221 +483,251 @@ function VenueVerification() {
                                   placeholder="Enter Capacity"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
+                                  type="text" // Change to text for complete control over input
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Allow only digits and prevent negative/decimal signs
+                                    if (/^\d*$/.test(value)) {
+                                      field.onChange(value); // Update the field only with valid input
+                                    }
+                                  }}
+                                  onPaste={(e) => {
+                                    const pastedValue = e.clipboardData.getData("text");
+                                    // Prevent pasting invalid characters
+                                    if (!/^\d+$/.test(pastedValue)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
+                                  onKeyDown={(e) => {
+                                    // Prevent typing invalid characters directly (e.g., '-', '+', '.')
+                                    if (
+                                      e.key === "-" ||
+                                      e.key === "+" ||
+                                      e.key === "." ||
+                                      e.key === "e" // For scientific notation in browsers
+                                    ) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
-                        <div className="relative py-[13px] mt-[8px] w-full rounded-md border border-[#292929] gradient-slate px-[12px]">
-                          {/* Header */}
-                          <div className="flex items-center justify-between cursor-pointer" onClick={toggleDropdown}>
-                            <div className="flex flex-col">
-                              <p className="text-base text-white text-white font-extrabold pb-[4px] uppercase">Venue Type</p>
-                              <p className="text-[12px] font-bold text-[#8F8F8F]">{selectedCategory || "Select Venue Type"}</p>
-                            </div>
-                            <Image
-                              src={arrowdown} // Replace with your actual image path
-                              width={11}
-                              height={11}
-                              alt="Toggle Dropdown"
-                            />
-                          </div>
-
-                          {/* Dropdown */}
-                          {isDropdownOpen && (
-                            <div className="absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px] h-[210px] overflow-auto">
-                              {/* Custom Category Input */}
-                              <div className="flex items-center gap-4 mb-4">
-                                <input
-                                  type="text"
-                                  placeholder="Enter new category"
-                                  value={customCategory}
-                                  onChange={(e) => setCustomCategory(e.target.value)}
-                                  className="w-full px-2 py-1 rounded-md border border-gray-500 text-sm text-white bg-transparent focus:outline-none"
-                                />
-                                <button onClick={handleAddCategory} className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
-                                  Add
-                                </button>
+                        {/* Venue Type Field */}
+                        <div className="w-full">
+                          <div className="relative py-[13px] mt-[8px] w-full rounded-md border border-[#292929] gradient-slate px-[12px]">
+                            <div className="flex items-center justify-between cursor-pointer" onClick={venueDropdown}>
+                              <div className="flex flex-col">
+                                <p className="text-base text-white font-extrabold pb-[4px] uppercase">Venue Type</p>
+                                <p className="text-[12px] font-bold text-[#8F8F8F]">{selctdVenueType || "Select Venue Type"}</p>
                               </div>
+                              <Image
+                                src={arrowdown} // Replace with your actual image path
+                                width={11}
+                                height={11}
+                                alt="Toggle Dropdown"
+                              />
+                            </div>
 
-                              {/* Category Options */}
-                              {categories.map((category, idx) => (
-                                <div
-                                  key={idx}
-                                  className="flex justify-between items-center py-2 cursor-pointer"
-                                  onClick={() => handleCategorySelect(category.label)}
-                                >
-                                  <p
-                                    className={`text-[16px] font-normal ${selectedCategory === category.label ? "text-[#00d059]" : "text-[#FFFFFF]"}`}
+                            {/* Dropdown */}
+                            {venueDropDOWN && (
+                              <div className="absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px] h-fit overflow-auto">
+                                {/* Category Options */}
+                                {venueTypes.map((v_types: any, idx: number) => (
+                                  <div
+                                    key={idx}
+                                    className="flex justify-between items-center py-2 cursor-pointer"
+                                    onClick={() => handleVenueTypeSelection(v_types?.label)}
                                   >
-                                    {category.label}
-                                  </p>
-                                  {selectedCategory === category.label && (
-                                    <Image
-                                      src={arrowdown} // Replace with your actual tick image path
-                                      width={10}
-                                      height={10}
-                                      alt="Selected"
-                                    />
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row items-start gap-[16px] sm:gap-[24px] w-full common-container">
-                        {/* Event Name fields */}
-                        <div className="relative w-full sm:w-[50%] py-[13px] mt-[8px] w-full rounded-md border border-[#292929] gradient-slate px-[12px]">
-                          {/* Header */}
-                          <div className="flex items-center justify-between cursor-pointer" onClick={toggleDropdowntype}>
-                            <div className="flex flex-col">
-                              <p className="text-base text-white text-white font-extrabold pb-[4px] uppercase">event Type</p>
-                              <p className="text-[12px] font-bold text-[#8F8F8F]">{selectedCategory || "Select Event Type"}</p>
-                            </div>
-                            <Image
-                              src={arrowdown} // Replace with your actual image path
-                              width={11}
-                              height={11}
-                              alt="Toggle Dropdown"
-                            />
-                          </div>
-
-                          {/* Dropdown */}
-                          {isDropdownOpentype && (
-                            <div className="absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px] h-[210px] overflow-auto">
-                              {/* Custom Category Input */}
-                              <div className="flex items-center gap-4 mb-4">
-                                <input
-                                  type="text"
-                                  placeholder="Enter new category"
-                                  value={customCategory}
-                                  onChange={(e) => setCustomtype(e.target.value)}
-                                  className="w-full px-2 py-1 rounded-md border border-gray-500 text-sm text-white bg-transparent focus:outline-none"
-                                />
-                                <button onClick={handleAddCategoryType} className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
-                                  Add
-                                </button>
-                              </div>
-
-                              {/* Category Options */}
-                              {categories.map((category, idx) => (
-                                <div
-                                  key={idx}
-                                  className="flex justify-between items-center py-2 cursor-pointer"
-                                  onClick={() => handleCategorySelectType(category.label)}
-                                >
-                                  <p
-                                    className={`text-[16px] font-normal ${selectedCategory === category.label ? "text-[#00d059]" : "text-[#FFFFFF]"}`}
-                                  >
-                                    {category.label}
-                                  </p>
-                                  {selectedCategory === category.label && (
-                                    <Image
-                                      src={arrowdown} // Replace with your actual tick image path
-                                      width={10}
-                                      height={10}
-                                      alt="Selected"
-                                    />
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                        <div className="relative w-full sm:w-[50%] py-[13px] mt-[8px] w-full rounded-md border border-[#292929] gradient-slate px-[12px]">
-                          {/* Header */}
-                          <div className="flex items-center justify-between cursor-pointer" onClick={toggleDropdownlicensed}>
-                            <div className="flex w-[95%] flex-col">
-                              <p className="text-base text-white text-white truncate-styling2 font-extrabold pb-[4px] uppercase">
-                                is the venue licensed for the event type?
-                              </p>
-                              <p className="text-[12px] font-bold text-[#8F8F8F]">{selectedCategory || "Select"}</p>
-                            </div>
-                            <Image
-                              src={arrowdown} // Replace with your actual image path
-                              width={11}
-                              height={11}
-                              alt="Toggle Dropdown"
-                            />
-                          </div>
-
-                          {/* Dropdown */}
-                          {isDropdownOpenvenue && (
-                            <div className="absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px] h-[210px] overflow-auto">
-                              {/* Custom Category Input */}
-                              <div className="flex items-center gap-4 mb-4">
-                                <input
-                                  type="text"
-                                  placeholder="Enter new category"
-                                  value={customCategory}
-                                  onChange={(e) => setCustomvenue(e.target.value)}
-                                  className="w-full px-2 py-1 rounded-md border border-gray-500 text-sm text-white bg-transparent focus:outline-none"
-                                />
-                                <button onClick={handleAddCategoryvenue} className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
-                                  Add
-                                </button>
-                              </div>
-
-                              {/* Category Options */}
-                              {categories.map((category, idx) => (
-                                <div
-                                  key={idx}
-                                  className="flex justify-between items-center py-2 cursor-pointer"
-                                  onClick={() => handleCategorySelectvenue(category.label)}
-                                >
-                                  <p
-                                    className={`text-[16px] font-normal ${selectedCategory === category.label ? "text-[#00d059]" : "text-[#FFFFFF]"}`}
-                                  >
-                                    {category.label}
-                                  </p>
-                                  {selectedCategory === category.label && (
-                                    <Image
-                                      src={arrowdown} // Replace with your actual tick image path
-                                      width={10}
-                                      height={10}
-                                      alt="Selected"
-                                    />
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row items-start gap-[16px] sm:gap-[24px] w-full common-container">
-                        {/* Event Name fields */}
-                        <form className="w-full max-w-md gradient-slate gradient-slate-input rounded-lg shadow-lg py-[16px] px-[12px] space-y-4">
-                          <div className="relative space-y-0">
-                            <p className="text-base text-white font-extrabold uppercase">licensed copy</p>
-                            <label
-                              htmlFor="fileUpload"
-                              className={`gallery-box-same border-none text-[#8F8F8F] font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold gradient-slatee rounded-md cursor-pointer flex items-end ${
-                                galleryFiles?.length > 0 ? "gallery-box" : "gallery-tops"
-                              }`}
-                            >
-                              <span>{galleryFiles?.length > 0 ? `${galleryFiles.length} file(s) selected` : "Attach Licensed Copy"}</span>
-                              <input type="file" multiple accept="image/*, video/*" id="fileUpload" className="hidden" onChange={handleFileChange} />
-                            </label>
-                          </div>
-
-                          {/* Display selected file names */}
-                          {galleryFiles?.length > 0 && (
-                            <div className="mt-4">
-                              <p className="text-gray-300 text-sm font-semibold">Selected Files:</p>
-                              <ul className="list-disc list-inside text-gray-400 text-sm mt-2">
-                                {galleryFiles.map((file, index) => (
-                                  <li key={index}>{file.name}</li>
+                                    <p
+                                      className={`text-[16px] font-normal ${
+                                        selctdVenueType === v_types?.label ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                      }`}
+                                    >
+                                      {v_types?.label}
+                                    </p>
+                                    {selctdVenueType === v_types?.label && (
+                                      <Image
+                                        src={arrowdown} // Replace with your actual tick image path
+                                        width={10}
+                                        height={10}
+                                        alt="Selected"
+                                      />
+                                    )}
+                                  </div>
                                 ))}
-                              </ul>
-                            </div>
+                              </div>
+                            )}
+                          </div>
+                          {/* Error Message */}
+                          {form.formState.errors?.v_type?.message && (
+                            <p className="text-red-500 text-sm mt-2">{String(form.formState.errors?.v_type?.message)}</p>
                           )}
-                        </form>
+                        </div>
+                      </div>
+
+                      {/* Event Type and liscence Information */}
+                      <div className="flex flex-col sm:flex-row items-start gap-[16px] sm:gap-[24px] w-full common-container">
+                        {/* Event Type field */}
+                        <div className=" w-full sm:w-[49%]">
+                          <div className="relative w-full py-[13px] mt-[8px] rounded-md border border-[#292929] gradient-slate px-[12px]">
+                            {/* Field */}
+                            <div className="flex items-center justify-between cursor-pointer" onClick={eventDropDown}>
+                              <div className="flex flex-col">
+                                <p className="text-base text-white font-extrabold pb-[4px] uppercase">event Type</p>
+                                <p className="text-[12px] font-bold text-[#8F8F8F]">{slectdEventType || "Select Event Type"}</p>
+                              </div>
+                              <Image
+                                src={arrowdown} // Replace with your actual image path
+                                width={11}
+                                height={11}
+                                alt="Toggle Dropdown"
+                              />
+                            </div>
+
+                            {/* Dropdown */}
+                            {eventDropDOWN && (
+                              <div className="absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px] h-fit overflow-auto">
+                                {/* Category Options */}
+                                {eventType.map((e_type: any, idx: number) => (
+                                  <div
+                                    key={idx}
+                                    className="flex justify-between items-center py-2 cursor-pointer"
+                                    onClick={() => hanldeEventTypeSelection(e_type?.label)}
+                                  >
+                                    <p
+                                      className={`text-[16px] font-normal ${slectdEventType === e_type?.label ? "text-[#00d059]" : "text-[#FFFFFF]"}`}
+                                    >
+                                      {e_type?.label}
+                                    </p>
+                                    {slectdEventType === e_type?.label && (
+                                      <Image
+                                        src={arrowdown} // Replace with your actual tick image path
+                                        width={10}
+                                        height={10}
+                                        alt="Selected"
+                                      />
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                          {/* Error Message */}
+                          {form.formState.errors?.e_type?.message && (
+                            <p className="text-red-500 text-sm mt-2">{String(form.formState.errors?.e_type?.message)}</p>
+                          )}
+                        </div>
+
+                        {/* Is the Venew Liscense For the Event Type */}
+                        <div className=" w-full sm:w-[49%]">
+                          <div className="relative w-full py-[13px] mt-[8px] rounded-md border border-[#292929] gradient-slate px-[12px]">
+                            {/* Field */}
+                            <div className="flex items-center justify-between cursor-pointer" onClick={liscenceDropDown}>
+                              <div className="flex w-[95%] flex-col">
+                                <p className="text-base text-white truncate-styling2 font-extrabold pb-[4px] uppercase">
+                                  is the venue licensed for the event type?
+                                </p>
+                                <p className="text-[12px] font-bold text-[#8F8F8F]">{selctdLisence || "Select"}</p>
+                              </div>
+                              <Image
+                                src={arrowdown} // Replace with your actual image path
+                                width={11}
+                                height={11}
+                                alt="Toggle Dropdown"
+                              />
+                            </div>
+
+                            {/* Dropdown */}
+                            {lisenceDropDOWN && (
+                              <div className="absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px] h-fit overflow-auto">
+                                {/* Category Options */}
+                                {liscenseType.map((l_type: any, idx: number) => (
+                                  <div
+                                    key={idx}
+                                    className="flex justify-between items-center py-2 cursor-pointer"
+                                    onClick={() => handleLiscenceTypeSelection(l_type?.label)}
+                                  >
+                                    <p className={`text-[16px] font-normal ${selctdLisence === l_type?.label ? "text-[#00d059]" : "text-[#FFFFFF]"}`}>
+                                      {l_type?.label}
+                                    </p>
+                                    {selctdLisence === l_type?.label && (
+                                      <Image
+                                        src={arrowdown} // Replace with your actual tick image path
+                                        width={10}
+                                        height={10}
+                                        alt="Selected"
+                                      />
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                          {/* Error Message */}
+                          {form.formState.errors?.is_licenseForEvent?.message && (
+                            <p className="text-red-500 text-sm mt-2">{String(form.formState.errors?.is_licenseForEvent?.message)}</p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Liscence Uploading */}
+                      <div className="flex flex-col sm:flex-row items-start gap-[16px] sm:gap-[24px] w-full common-container">
+                        {/* Liscense PDF or Image Uploading Field */}
+                        <div className="w-full lg:w-[49%]">
+                          <div className="w-full xl:w-[49%] gradient-slate gradient-slate-input rounded-lg shadow-lg py-[16px] px-[12px] space-y-4">
+                            <div className="relative space-y-0">
+                              <p className="text-base text-white font-extrabold uppercase">licensed copy</p>
+                              <label
+                                htmlFor="fileUpload"
+                                className={`gallery-box-same border-none text-[#8F8F8F] font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold gradient-slatee rounded-md cursor-pointer flex items-end ${
+                                  galleryFiles?.length > 0 ? "gallery-box" : "gallery-tops"
+                                }`}
+                              >
+                                <span>{galleryFiles?.length > 0 ? `${galleryFiles.length} file(s) selected` : "Attach Licensed Copy"}</span>
+                                <input
+                                  type="file"
+                                  multiple
+                                  accept="image/*,application/pdf"
+                                  id="fileUpload"
+                                  className="hidden"
+                                  onChange={uploadLisenceCopy}
+                                />
+                              </label>
+                              <Image
+                                className="absolute top-[30%] right-0 cursor-pointer"
+                                src="/Images/linkIcon.svg" // Replace with your actual image path
+                                width={18}
+                                height={18}
+                                alt="Link Icon"
+                              />
+                            </div>
+
+                            {/* Display selected file names */}
+                            {galleryFiles?.length > 0 && (
+                              <div className="mt-4">
+                                <p className="text-gray-300 text-sm font-semibold">Selected Files:</p>
+                                <ul className="list-disc list-inside text-gray-400 text-sm mt-2">
+                                  {galleryFiles.map((file, index) => (
+                                    <li key={index}>{file.name}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                          {/* Error Message */}
+                          {form.formState.errors?.license_copy?.message && (
+                            <p className="text-red-500 text-sm mt-2">{String(form.formState.errors?.license_copy?.message)}</p>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
+                  {/* Contact Information Section */}
                   <div className="gradient-slate w-full rounded-[12px] mb-[52px] md:mb-[32px] xl:w-[1080px]">
+                    {/* Contact informatio head */}
                     <div className="flex h-[56px] rounded-t-[12px] bg-color">
                       <p className="text-[18px] w-full py-[16px] px-[24px] font-extrabold md:text-[24px]">
                         <span className="text-[#13FF7A]">Venue </span>
@@ -498,6 +735,7 @@ function VenueVerification() {
                       </p>
                       <Image src={ufo} width={350} height={350} className="hidden sm:block" alt="ufo" />
                     </div>
+                    {/* Contact information Body */}
                     <div className="pt-[8px] flex flex-col gap-[16px] sm:gap-[24px] p-[24px] md:pb-[32px] md:pt-[8px] md:px-[60px]">
                       <div className="flex flex-col sm:flex-row items-start gap-[16px] sm:gap-[24px] w-full common-container">
                         {/* Event Name fields */}
@@ -512,6 +750,7 @@ function VenueVerification() {
 
                               <FormControl>
                                 <Input
+                                  type="name"
                                   placeholder="Enter Venue Manager Name"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
@@ -523,7 +762,7 @@ function VenueVerification() {
                         />
                         <FormField
                           control={form.control}
-                          name="email"
+                          name="m_email"
                           render={({ field }) => (
                             <FormItem className="relative space-b-[16px] md:space-b-[24px] w-full">
                               <FormLabel className="text-base truncate-styling text-white font-extrabold absolute left-3 top-[25px] uppercase">
@@ -531,6 +770,7 @@ function VenueVerification() {
                               </FormLabel>
                               <FormControl>
                                 <Input
+                                  type="email"
                                   placeholder="Enter Venue Manager Email"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
@@ -545,7 +785,7 @@ function VenueVerification() {
                         {/* Event Name fields */}
                         <FormField
                           control={form.control}
-                          name="phone"
+                          name="m_phone"
                           render={({ field }) => (
                             <FormItem className="relative w-full space-b-[16px] md:space-b-[24px]">
                               <FormLabel className="text-base truncate-styling text-white truncate-styling font-extrabold absolute left-3 top-[25px] uppercase">
@@ -556,10 +796,31 @@ function VenueVerification() {
                                   placeholder="Enter Phone Number"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
-                                  // onInput={(e) => {
-                                  //     // Remove any non-numeric characters
-                                  //     e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                                  // }}
+                                  type="text" // Use text for better input control
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Allow only valid phone number characters: digits, spaces, dashes, parentheses, and `+`
+                                    if (/^[\d\s()+-]*$/.test(value)) {
+                                      field.onChange(value);
+                                    }
+                                  }}
+                                  onPaste={(e) => {
+                                    const pastedValue = e.clipboardData.getData("text");
+                                    // Prevent pasting invalid characters
+                                    if (!/^[\d\s()+-]+$/.test(pastedValue)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
+                                  onKeyDown={(e) => {
+                                    // Prevent invalid characters such as letters or symbols
+                                    if (
+                                      e.key.match(/[^0-9()+-\s]/) || // Allow only numbers and valid phone symbols
+                                      e.key === "e" || // Prevent scientific notation
+                                      e.key === "." // Prevent decimal points
+                                    ) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -588,13 +849,16 @@ function VenueVerification() {
                       </div>
                     </div>
                   </div>
+                  {/* Declaration Section */}
                   <div className="gradient-slate w-full rounded-[12px] xl:w-[1080px]">
+                    {/* Declaration head */}
                     <div className="flex h-[56px] bg-color rounded-[12px]">
                       <p className="text-[18px] w-full py-[16px] px-[24px] font-extrabold md:text-[24px]">
                         <span className="text-[#13FF7A]">Declaration </span>
                       </p>
                       <Image src={ufo} width={350} height={350} className="hidden sm:block" alt="ufo" />
                     </div>
+                    {/* Declaration body */}
                     <div className="p-[24px] md:py-[32px] md:px-[60px]">
                       <div className="items-start gap-[24px] w-full common-container">
                         <p className="text-sm md:text-base mb-[20px]">
@@ -614,7 +878,7 @@ function VenueVerification() {
                   <div className="w-full flex justify-end">
                     <Button
                       type="submit"
-                      className="mt-8 px-4 py-[12px] bg-[#00A849]  text-sm md:text-base font-extrabold w-full sm:w-[200px] text-black font-bold rounded-[200px]"
+                      className="mt-8 px-4 py-[12px] bg-[#00A849]  text-sm md:text-base w-full sm:w-[200px] text-black font-bold rounded-[200px]"
                     >
                       Submit
                     </Button>
