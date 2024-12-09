@@ -317,15 +317,15 @@ const NftDetails = () => {
                       </div>
                       <div className="text-gray-500" onClick={() => toggleSection("section1")}>
                         <Image
-                          // className={`arrowImage transform transition-all duration-300 ${visibleSections.section1 ? "rotate-180" : "rotate-0"
-                          //   }`}
+                          className={`arrowImage transform transition-all duration-300 ${visibleSections.section1 ? "rotate-180" : "rotate-0"
+                            }`}
                           src={arrowDown}
                           alt="arrow"
                         />
                       </div>
                     </div>
 
-                    {/* {visibleSections.section1 && ( */}
+                    {visibleSections.section1 && (
                       <ResponsiveContainer width="100%" height={200} style={{ paddingLeft: "0px", paddingRight: "0px", paddingBottom:"20px", paddingTop: "36px" }}>
                         <BarChart  style={{ color: "rgba(0, 208, 89, 1)" }} width={400} data={data} margin={{ top: 20, bottom: 20 }}>
                          
@@ -410,7 +410,7 @@ const NftDetails = () => {
                           <Bar dataKey="value"  fill="rgba(0, 208, 89, 1)" yAxisId="left" radius={[5, 5, 0, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
-                    {/* )} */}
+                     )} 
                   </div>
                 ) : activeTab === "Listings" ? (
                   <div
@@ -455,8 +455,8 @@ const NftDetails = () => {
                         />
                       </div>
                     </div>
-                    {/* {visibleSections.section2 && (
-                      <div> */}
+                    {visibleSections.section2 && (
+                      <div>
                         <TableContainer
                           sx={{
                             background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
@@ -541,8 +541,8 @@ const NftDetails = () => {
                         <Button className="latertobeDis h-[27px] w-[47px] hidden size-lg  px-[14px] py-[10px] rounded-[51.42px] mt-[12.99px] ml-[10.8px] mb-[14px]">
                           Buy
                         </Button>
-                      {/* </div>
-                    )} */}
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div
@@ -585,7 +585,7 @@ const NftDetails = () => {
                         />
                       </div>
                     </div>
-                    {/* {visibleSections.section3 && ( */}
+                    {visibleSections.section3 && (
                       <TableContainer
                         sx={{
                           background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
@@ -680,7 +680,7 @@ const NftDetails = () => {
                           </TableBody>
                         </Table>
                       </TableContainer>
-                    {/* // )} */}
+                     )}
                   </div>
                 )}
               </div>
