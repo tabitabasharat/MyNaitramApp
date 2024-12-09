@@ -2,7 +2,7 @@
 import whitefree from "@/assets/Wallet/white free.svg";
 import greenfree from "@/assets/Wallet/Green free.svg";
 import LocationAutocomplete from "@/components/create-event/Locationinput";
-import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
+import { EventSubmmitModal } from "@/components/EventSubmmitModal/EventSubmmitModal";
 import React from "react";
 import "@/components/create-event/CreateEvent.css";
 import Image from "next/image";
@@ -2870,6 +2870,19 @@ function OganizerCreateEvent() {
     });
   };
 
+  const removeAdditionalToRSVP = (ticketIndex: number, f_index: number) => {
+    setTicketTypes((prevTickets: any) => {
+      const updatedTypes = prevTickets.map((ticket: any, i: number) =>
+        i === ticketIndex ? { ...ticket, additional: ticket?.additional.filter((f: any, fIdx: number) => fIdx !== f_index) } : ticket
+      );
+
+      // Set values in map
+      form.setValue(`tickets.${ticketIndex}.additional`, updatedTypes[ticketIndex]?.additional);
+
+      return updatedTypes;
+    });
+  };
+
   // Handling the festival Events Dates
 
   // Add new Event in Festival Events
@@ -3572,8 +3585,8 @@ function OganizerCreateEvent() {
                         name="eventname"
                         render={({ field }) => (
                           <FormItem className="relative w-full space-y-0">
-                            <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                              Event Name
+                            <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Event Name<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -3603,7 +3616,9 @@ function OganizerCreateEvent() {
                           >
                             <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
                               <div className="flex flex-col">
-                                <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT category</p>
+                                <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                  EVENT category<span className="text-red-600 text-[20px] relative">*</span>
+                                </p>
                                 <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
                                   {categoryTypes ? categoryTypes?.label : "Select Event Category"}
                                 </p>
@@ -3697,8 +3712,8 @@ function OganizerCreateEvent() {
                         name="eventdescription"
                         render={({ field }) => (
                           <FormItem className="relative w-full gradient-slate-input space-y-0  h-[280px]  pb-3">
-                            <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                              Event Description
+                            <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Event Description<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl className="relative  ">
                               <div className=" absolute inset-0 pb-3 overflow-y-auto scrollbar-hide top-[28px] h-[240px] no-scrollbar">
@@ -3728,7 +3743,10 @@ function OganizerCreateEvent() {
                         name="eventHashtags" // Form field name
                         render={({ field }) => (
                           <FormItem className="relative w-ful w-full rounded-md border border-[#292929] gradient-slate px-3 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-4 pb-2">
-                            <FormLabel className="text-sm text-gray-500 left-3 uppercase pt-[16px] pb-[0px]">Hashtags</FormLabel>
+                            <FormLabel className="text-sm text-gray-500 left-3 uppercase pb-[0px] flex justify-start items-center gap-[2px]">
+                              Hashtags
+                              <span className="text-red-600 text-[20px] relative">*</span>
+                            </FormLabel>
                             <FormControl>
                               <div className="flex flex-wrap gap-2 w-full">
                                 {chooseHashTags.map((ht: string, index: number) => {
@@ -3744,7 +3762,7 @@ function OganizerCreateEvent() {
                                 })}
                                 <Input
                                   placeholder="Enter Hashtag"
-                                  className="flex h-10 w-full rounded-md border-none px-0 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-0 pb-0 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                  className="flex h-10 w-full rounded-md border-none px-0 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-0 pb-0 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                   value={hashINputValue}
                                   onChange={(e) => {
                                     handleHashFieldInput(e);
@@ -3790,7 +3808,9 @@ function OganizerCreateEvent() {
                         name="eventlocation"
                         render={({ field }) => (
                           <FormItem className="relative w-full space-y-0">
-                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">Event Location</FormLabel>
+                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Event Location<span className="text-red-600 text-[20px] relative">*</span>
+                            </FormLabel>
                             <FormControl>
                               <LocationAutocomplete
                                 onLocationSelect={(location) => {
@@ -4859,7 +4879,8 @@ function OganizerCreateEvent() {
                                   className="hover-gradient-border rounded-md border border-[#292929] gradient-slate flex justify-between items-center py-[18px] px-[12px] w-full"
                                 >
                                   <p className="flex justify-start items-center gap-[2px]">
-                                    Name<span className="text-red-600 text-[20px] relative">*</span>
+                                    Name
+                                    {/* <span className="text-red-600 text-[20px] relative">*</span> */}
                                   </p>
                                   <div
                                     className={`w-[15px] h-[15px] rounded-lg ${
@@ -4875,7 +4896,8 @@ function OganizerCreateEvent() {
                                   className="hover-gradient-border rounded-md border border-[#292929] gradient-slate flex justify-between items-center py-[18px] px-[12px] w-full"
                                 >
                                   <p className="flex justify-start items-center gap-[2px]">
-                                    Email<span className="text-red-600 text-[20px] relative">*</span>
+                                    Email
+                                    {/* <span className="text-red-600 text-[20px] relative">*</span> */}
                                   </p>
                                   <div
                                     className={`w-[15px] h-[15px] rounded-lg ${
@@ -4893,7 +4915,8 @@ function OganizerCreateEvent() {
                                   className="hover-gradient-border rounded-md border border-[#292929] gradient-slate flex justify-between items-center py-[18px] px-[12px] md:w-[49%] w-full"
                                 >
                                   <p className="flex justify-start items-center gap-[2px]">
-                                    Phone Number<span className="text-red-600 text-[20px] relative">*</span>
+                                    Phone Number
+                                    {/* <span className="text-red-600 text-[20px] relative">*</span> */}
                                   </p>
                                   <div
                                     className={`w-[15px] h-[15px] rounded-lg ${
@@ -4917,13 +4940,21 @@ function OganizerCreateEvent() {
                                         <FormItem className="relative w-full lg:w-[48%] xl:w-[49%] space-y-0 input-custom-container">
                                           <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                             Additional field {f_index + 1}
-                                            <span className="text-red-600 text-[20px] relative">*</span>
+                                            {/* <span className="text-red-600 text-[20px] relative">*</span> */}
                                           </FormLabel>
+                                          <Image
+                                            src="/Images/CreateEventPage/trash.svg"
+                                            alt="delete-icon"
+                                            height={24}
+                                            width={24}
+                                            className="cursor-pointer absolute right-3 top-6 py-[4px]"
+                                            onClick={() => removeAdditionalToRSVP(index, f_index)}
+                                          />
                                           <FormControl>
                                             <Input
                                               onWheel={(e: any) => e.target.blur()}
                                               placeholder="Enter Field Name"
-                                              className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                              className="pt-12 pb-6 pr-10 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                               {...field}
                                               value={addField.title}
                                               onChange={(e) => {
@@ -5935,7 +5966,7 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.name`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
-                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
@@ -5966,7 +5997,7 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.price`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Event Ticket Price (£)<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
@@ -6020,7 +6051,7 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.no`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
+                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Event Number of Tickets<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
@@ -6066,7 +6097,7 @@ function OganizerCreateEvent() {
                                         const currentDateTime = dayjs();
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Ticket Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
@@ -6150,7 +6181,7 @@ function OganizerCreateEvent() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Ticket End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
@@ -6252,7 +6283,7 @@ function OganizerCreateEvent() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Event Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
@@ -6347,7 +6378,7 @@ function OganizerCreateEvent() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Event End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
@@ -6430,7 +6461,7 @@ function OganizerCreateEvent() {
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                               <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
-                                <p className="text-sm text-[#8F8F8F] uppercase">
+                                <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
                                   WHAT'S INCLUDED<span className="text-red-600 text-[20px] relative">*</span>
                                 </p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
@@ -6482,7 +6513,7 @@ function OganizerCreateEvent() {
                                         name={`tickets.${index}.emailmanual.${e_Index}`}
                                         render={({ field }) => (
                                           <FormItem className="relative w-full space-y-0 input-custom-container ">
-                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                               Email {e_Index + 1}
                                               <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
@@ -6555,7 +6586,7 @@ function OganizerCreateEvent() {
                                         name={`tickets.${index}.pswrdmanual.${p_Index}`}
                                         render={({ field }) => (
                                           <FormItem className="relative w-full space-y-0 input-custom-container">
-                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                               Password {p_Index + 1}
                                               <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
@@ -6854,7 +6885,9 @@ function OganizerCreateEvent() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">EVENT Ticket Type</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Custom Ticketing</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
@@ -6900,7 +6933,9 @@ function OganizerCreateEvent() {
                                 >
                                   <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
-                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">paid or free</p>
+                                      <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        paid or free<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
                                         {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
@@ -6945,8 +6980,8 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.name`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0">
-                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px]">
-                                    Event Ticket Name
+                                  <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Ticket Name<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -6976,8 +7011,8 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.price`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                                    Event Ticket Price (£)
+                                  <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Ticket Price (£)<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -7030,8 +7065,8 @@ function OganizerCreateEvent() {
                               name={`tickets.${index}.no`}
                               render={({ field }) => (
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
-                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px]">
-                                    Event Number of Tickets
+                                  <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                    Event Number of Tickets<span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -7076,8 +7111,8 @@ function OganizerCreateEvent() {
                                         const currentDateTime = dayjs();
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] ">
-                                              Ticket Start Date & Time
+                                            <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
@@ -7161,8 +7196,8 @@ function OganizerCreateEvent() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Ticket End Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Ticket End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
@@ -7263,8 +7298,8 @@ function OganizerCreateEvent() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event Start Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Event Start Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
@@ -7359,8 +7394,8 @@ function OganizerCreateEvent() {
 
                                         return (
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
-                                              Event End Date & Time
+                                            <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                              Event End Date & Time<span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
@@ -7442,7 +7477,9 @@ function OganizerCreateEvent() {
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                               <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
-                                <p className="text-sm text-[#8F8F8F] uppercase">WHAT'S INCLUDED</p>
+                                <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
+                                  WHAT'S INCLUDED<span className="text-red-600 text-[20px] relative">*</span>
+                                </p>
                                 <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket.optionDropDown && (
@@ -7536,8 +7573,8 @@ function OganizerCreateEvent() {
                         name="fburl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                              Facebok
+                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Facebok<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             {/* {isFbVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7576,8 +7613,8 @@ function OganizerCreateEvent() {
                         name="instaurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                              Instagram
+                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Instagram<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             {/* {isInstaVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7617,8 +7654,8 @@ function OganizerCreateEvent() {
                         name="telegramurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                              Telegram
+                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Telegram<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             {/* {isTeleVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7657,8 +7694,8 @@ function OganizerCreateEvent() {
                         name="youtubeurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                              Youtube
+                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Youtube<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             {/* {isYtVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7698,8 +7735,8 @@ function OganizerCreateEvent() {
                         name="tiktokurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                              Tiktok
+                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Tiktok<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             {/* {isTikTokVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7738,8 +7775,8 @@ function OganizerCreateEvent() {
                         name="linkedinurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                              Linkedin
+                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Linkedin<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             {/* {isLinkedInVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7779,8 +7816,8 @@ function OganizerCreateEvent() {
                         name="twitterurl"
                         render={({ field }) => (
                           <FormItem className="relative w-full">
-                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px]">
-                              Twitter
+                            <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                              Twitter<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             {/* {isXVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
