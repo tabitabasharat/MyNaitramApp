@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import blurbg from "@/assets/V2assets/Blur Green.svg"
 import Image from "next/image"
 import img from "@/assets/V2assets/img.svg"
+import { Button } from "../ui/button";
 
 const MpHome = () => {
   const router = useRouter();
@@ -42,10 +43,10 @@ const MpHome = () => {
 
   return (
     <>
-      <div className="flex  flex-col lg:flex-row justify-between items-center px-6 lg:pe-[8.44px] lg:px-14 pt-14 md:pb-[172px] pb-[88px] lg:ps-[92px] space-y-10 lg:space-y-0 w-full ">
+      <div className="flex  flex-col lg:flex-row justify-between items-center px-6 lg:pe-[8.44px] lg:px-14 pt-[140px] md:pt-[170px] md:pb-[172px] pb-[88px] lg:ps-[92px] space-y-10 lg:space-y-0 w-full ">
         {/* Left Section */}
         <div className="flex flex-col space-y-8 lg:space-y-10 lg:w-1/2">
-          <div className="flex flex-col space-y-5 pt-8 md:pt-0">
+          <div className="flex flex-col space-y-5 md:pt-0">
             <h2 className="text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mt-4 sm:mt-6">
               {/* Without <br> for small and medium screens */}
               <span className="block lg:hidden">Discover Digital Art & Collect NFTs</span>
