@@ -84,7 +84,7 @@ const NftDetails = () => {
 
 
   const handleBuyNowClick = () => {
-    router.push("/marketPlace/nft/buy-now"); // Navigate to the Buy Now page
+    router.push("/marketPlace/nft/buy-now");
   };
   return (
     <div className="relative overflow-hidden">
