@@ -183,18 +183,18 @@ const BuyNow = () => {
     return (
       <div className="relative overflow-hidden">
         <section className=" pt-[173px] pb-[108px] flex flex-col gap-[40px] b pl-[92px] pr-[97px] max-[992px]:pl-[0px] max-[992px]:pr-[0px]  max-[992px]:pt-[0px] max-[992px]:pb-[0px] ">
-            <div className=" max-[992px]:bg-buyNow withoutImage max-[992px]:pl-[92px] max-[992px]:pr-[97px]  max-[992px]:pt-[174px]  max-[992px]:pb-[108px] max-[768px]:pl-[24px] max-[768px]:pr-[24px]  max-[768px]:pt-[100px]  max-[768px]:pb-[100px] ">
-            <div className="flex gap-[16px] items-center custom-border topDiv max-[1180px]:mb-[24px]  ">
+            <div className=" max-[992px]:bg-buyNow withoutImage max-[992px]:pl-[92px] max-[992px]:pr-[97px]  max-[992px]:pt-[174px]  max-[992px]:pb-[108px] max-[768px]:pl-[0px] max-[768px]:pr-[0px]  max-[768px]:pt-[100px]  max-[768px]:pb-[100px] ">
+            <div className="flex gap-[16px] items-center custom-border BuytopDiv max-[1180px]:mb-[24px]   max-[768px]:pl-[24px] max-[768px]:pr-[24px] ">
             <Image   onClick={() => router.back()} className="block max-[992px]:hidden" src={Back} alt="backButton" />
-<Image className="hidden max-[992px]:block" src={left} alt="Left" />
+<Image onClick={() => router.back()} className="hidden max-[992px]:block" src={left} alt="Left" />
 
 
 
                 <p className="font-[800] text-[24px] leading-[27.6px] max-[500px]:text-[20px] max-[500px]:leading-[24px] "> List For Sale</p>
             </div>
-            <div className="flex w-full justify-between  max-[1180px]:flex-col-reverse max-[1180px]:gap-[40px]">
+            <div className="flex w-full justify-between  max-[1180px]:flex-col-reverse max-[1180px]:gap-[40px] max-[768px]:pl-[24px] max-[768px]:pr-[24px]">
                 <div className="flex flex-col w-[50%] max-[1000px]:w-[70%] max-[850px]:w-[85%] max-[768px]:w-[100%]">
-                    <div className="flex flex-col gap-[40px] mt-[40px]">
+                    <div className="flex flex-col gap-[40px] mt-[40px] max-[786px]:mt-[0px]">
                         <div className="flex flex-col gap-[12px]">
                             <p className="font-[800] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">Choose a Type of Sale</p>
 
@@ -248,7 +248,7 @@ const BuyNow = () => {
                         </div>
                         <div className="flex  w-full justify-between align-center">
                             <p className="font-[800] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">More Options</p>
-                            <Image style={{marginRight:"0"}} src={ArrowDown} alt="down Arrow" />
+                            <Image style={{marginRight:"0"}}  className="max-[786px]:pr-[7.9px]"src={ArrowDown} alt="down Arrow" />
 
 
                         </div>
@@ -281,7 +281,7 @@ const BuyNow = () => {
                       }}>
                         <div className="flex w-full justify-between align-center">
                             <p className="font-[800] text-[20px] leading-[32px] max-[350px]:text-[16px] max-[350px]:font-[600]">Total Cost for Listing</p>
-                            <p className="text-[#00D059] font-[700] text-[20px] pr-[34px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">-- ETH</p>
+                            <p className="text-[#00D059] font-[700] text-[20px] pr-[34px] max-[786px]:pr-[0px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">-- ETH</p>
                         </div>
                         <Button
                  onClick={Profile}
