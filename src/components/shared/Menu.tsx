@@ -135,8 +135,8 @@ const Menu = ({
                 <Image src={naitramLogo} alt="Naitram-Logo" />
               </div>
             </Link>
-            <button onClick={toggleMenu} className="flex items-center w-[40px] h-[40px] gap-[0.1rem] translate-x-[0.6rem]">
-              <div className="text-white w-[40px] flex h-[40px]">
+            <button onClick={toggleMenu} className="flex items-center w-[40px]  h-[40px] gap-[0.1rem] translate-x-[0.6rem]">
+              <div className="text-white w-[40px]  flex h-[40px]">
                 <Hamburger toggled={menuIsOpen} size={22} />
               </div>
             </button>

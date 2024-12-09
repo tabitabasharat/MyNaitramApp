@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import blurbg from "@/assets/V2assets/Blur Green.svg"
 import Image from "next/image"
+import img from "@/assets/V2assets/img.svg"
 
 const MpHome = () => {
   const router = useRouter();
@@ -41,7 +42,7 @@ const MpHome = () => {
 
   return (
     <>
-      <div className="flex  flex-col lg:flex-row justify-between items-center px-6 lg:px-14 py-14 lg:py-36 space-y-10 lg:space-y-0 w-full ">
+      <div className="flex  flex-col lg:flex-row justify-between items-center px-6 lg:pe-[8.44px] lg:px-14 pt-14 md:pb-[172px] pb-[88px] lg:ps-[92px] space-y-10 lg:space-y-0 w-full ">
         {/* Left Section */}
         <div className="flex flex-col space-y-8 lg:space-y-10 lg:w-1/2">
           <div className="flex flex-col space-y-5 pt-8 md:pt-0">
@@ -87,8 +88,8 @@ const MpHome = () => {
         </div>
 
         {/* Right Section */}
-        <div className="lg:w-1/2 flex flex-col items-center space-y-5">
-          <img src="/Images/Market/Group 1597877996.png" alt="NFT Art" className="w-full lg:w-auto" />
+        <div className="lg:w-1/2 flex flex-col items-center lg:items-end space-y-5">
+          <Image src={img} alt="NFT Art" className="w-full lg:w-auto" />
 
           <button className="lg:hidden w-full h-12 bg-green-500 text-black font-extrabold text-base rounded-full py-2 px-6 hover:bg-[#13FF7A]">
             Get Started
@@ -107,7 +108,7 @@ const MpHome = () => {
           </div>
         </div>
       </div>
-      <div className="relative overflow-hidden flex flex-col px-4 lg:px-14 pb-36 space-y-4 md:space-y-10">
+      <div className="relative overflow-hidden flex flex-col px-4 lg:ps-[92px] lg:pe-[108px] pb-36 space-y-4 md:space-y-10">
         {/* Heading */}
         <div className="flex flex-col gap-[16px] xl:gap-[0px] xl:flex-row xl:items-center xl:justify-between">
           <div className="w-full xl:w-[40%]">
@@ -120,7 +121,7 @@ const MpHome = () => {
                 type="text"
                 placeholder="Search NFT"
                 className="w-full bg-transparent sm:w-[376px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323] placeholder:text-[#BFBFBF] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[19.6px] placeholder:text-left focus:outline-none"
-                // style={{ textOverflow: "ellipsis" }}
+              // style={{ textOverflow: "ellipsis" }}
               />
               <img
                 src="/Images/Market/srchicon.svg"
@@ -236,4 +237,3 @@ const MpHome = () => {
 };
 
 export default MpHome;
- 

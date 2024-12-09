@@ -91,8 +91,8 @@ const customStyles = {
     background: state.isSelected
       ? 'transparent'
       : state.isFocused
-      ? 'transparent'
-      : 'transparent',
+        ? 'transparent'
+        : 'transparent',
     borderRadius: '8px',
     '&:hover': {
       background: 'transparent',
@@ -172,7 +172,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
             <Separator className="scale--[1.12] bg-[#292929]" />
 
 
-            <div className="flex gap-[16px] pt-[24px] pl-[24px] pr-[24px] "> 
+            <div className="flex gap-[16px] pt-[24px] pl-[24px] pr-[24px] ">
               <div className="w-[120px] imageFolder h-[120px] makeAnOffer-gradient  max-[360px]:h-[70px] max-[450px]:h-[88px]  ">
                 <Image className=" pt-[1px] rounded-[9px] w-full h-[99%] object-cover" src={image1} alt="/" />
               </div>
@@ -207,7 +207,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
             <div className='flex gap-[10px] mt-[17px] mr-[24px] ml-[24px]'>
 
               <input
-                 type="number"
+                type="number"
                 className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px]  bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[540px]:w-[50%] "
                 placeholder="Price"
                 style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)", }}
@@ -226,7 +226,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
             </div>
             <div className="flex flex-col mt-[32px] gap-[8px] mr-[24px] ml-[24px]">
               <p className="font-[800] text-[14px] leading-[19.6px] text-[#FFFFFF]">Duration</p>
-              <div className="flex gap-[5px]">
+              <div className="flex flex-col gap-[5px]">
                 <Select
                   className="w-[40%] h-[54px]  bg-transparent  gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
                   placeholder="Select"
@@ -235,67 +235,67 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                   styles={customStyles}
                   value={durationOptions.find(option => option.value === selectedDuration)}
                 />
-              {selectedDuration === "custom" ? (
+                {selectedDuration === "custom" ? (
 
-  <div className="flex gap-[5px]  relative">
-    <input
-      type="text"
-      readOnly
-      value={startDate ? startDate.toDateString() : ""}
-      onClick={toggleStartPicker}
-      className="w-full h-[54px] pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent  gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px]"
-      placeholder="Start Date"
-      style={{
-        background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
-      }}
-    />
-    {isStartPickerOpen && (
-      <div className="absolute z-50 mt-2">
-        <DatePicker
-          setSelectedDate={(date) => {
-            setStartDate(date);
-            setIsStartPickerOpen(false);
-          }}
-          closeDatePicker={() => setIsStartPickerOpen(false)}
-        />
-      </div>
-    )}
-    <input
-      type="text"
-      readOnly
-      value={endDate ? endDate.toDateString() : ""}
-      onClick={toggleEndPicker}
-      className={`w-full h-[54px] pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] `}
-                  placeholder="End Date"
-      style={{
-        background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
-      }}
-    />
-    {isEndPickerOpen && (
-      <div className="absolute z-50 mt-2">
-        <DatePicker
-          setSelectedDate={(date) => {
-            setEndDate(date);
-            setIsEndPickerOpen(false);
-          }}
-          closeDatePicker={() => setIsEndPickerOpen(false)}
-        />
-      </div>
-    )}
-  </div>
-) : (
-  // Show single input for default duration
-  <input
-    type="text"
-    className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF]"
-    placeholder="5th Nov, 2024 - 5:25 PM"
-    style={{
-      background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
-    }}
-  />
-)}
+                  <div className="flex flex-col gap-[5px] relative">
+                    <input
+                      type="text"
+                      readOnly
+                      value={startDate ? startDate.toDateString() : ""}
+                      onClick={toggleStartPicker}
+                      className="w-full h-[54px] pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent  gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px]"
+                      placeholder="Start Date"
+                      style={{
+                        background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+                      }}
+                    />
+                    {isStartPickerOpen && (
+                      <div className="absolute z-50 mt-2">
+                        <DatePicker
+                          setSelectedDate={(date) => {
+                            setStartDate(date);
+                            setIsStartPickerOpen(false);
+                          }}
+                          closeDatePicker={() => setIsStartPickerOpen(false)}
+                        />
+                      </div>
+                    )}
+                    <input
+                      type="text"
+                      readOnly
+                      value={endDate ? endDate.toDateString() : ""}
+                      onClick={toggleEndPicker}
+                      className={`w-full h-[54px] pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] `}
+                      placeholder="End Date"
+                      style={{
+                        background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+                      }}
+                    />
+                    {isEndPickerOpen && (
+                      <div className="absolute  z-50 mt-2">
+                        <DatePicker
+                          setSelectedDate={(date) => {
+                            setEndDate(date);
+                            setIsEndPickerOpen(false);
+                          }}
+                          closeDatePicker={() => setIsEndPickerOpen(false)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  // Show single input for default duration
+                  <input
+                    type="text"
+                    className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF]"
+                    placeholder="5th Nov, 2024 - 5:25 PM"
+                    style={{
+                      background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+                    }}
+                  />
+                )}
 
-                
+
 
 
               </div>
