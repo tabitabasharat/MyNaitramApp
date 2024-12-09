@@ -121,7 +121,8 @@ const MpHome = () => {
               <input
                 type="text"
                 placeholder="Search NFT"
-                className="w-full bg-transparent sm:w-[376px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323] placeholder:text-[#BFBFBF] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[19.6px] placeholder:text-left focus:outline-none"
+                className="w-full bg-transparent sm:w-[376px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323]
+               placeholder:text-[#BFBFBF] placeholder:font-normal placeholder:text-[12px] placeholder:leading-[19.6px] placeholder:text-left focus:outline-none"
               // style={{ textOverflow: "ellipsis" }}
               />
               <img
@@ -185,9 +186,14 @@ const MpHome = () => {
             </div>
 
             {/* Third Input */}
-            <div className="relative w-full">
-              <button className=" w-full md:w-[143px] h-[54px] px-[16px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323] flex items-center justify-between text-[#BFBFBF] text-[14px] leading-[19.6px] font-normal text-left focus:outline-none">
-                Filter
+            {/* <div className="border border-[#292929] gradient-slate w-[30%] min-[390px]:py-[19px] min-[390px]:px-[16px] rounded-lg min-[390px]:w-[143px] flex items-center justify-between ">
+            <h2 className="text-[16px] font-normal max-[390px]:hidden leading-5 text-[#BFBFBF]">Filter</h2>
+            <img src="/Images/Nft_animakid_img/filtr.svg"  className="max-[390px]:my-[19px] max-[390px]:mx-[16px]"/>
+
+          </div> */}
+            <div className="relative w-full max-[430px]:w-[57px]">
+              <button className=" max-[430px]:w-[57px] w-full md:w-[143px] h-[54px] px-[16px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323] flex items-center justify-between text-[#BFBFBF] text-[14px] leading-[19.6px] font-normal text-left focus:outline-none">
+               <p className="text-[16px] max-[430px]:hidden">Filter</p>
                 <img src="/Images/Market/filter.svg" alt="Filter Icon" />
               </button>
             </div>
