@@ -98,7 +98,7 @@ display: none !important;
     }
   }
   @media(max-width:1180px){
-    .topDiv{
+    .BuytopDiv{
       padding-bottom: 20px !important;
     }
   }
@@ -119,6 +119,16 @@ display: none !important;
       width: 88px !important;
     }
   }
+  @media (min-width: 370px) and (max-width: 410px) {
+    .imageFolder{
+      height: 75px !important;
+    }
+  }
+  @media(max-width:369px){
+    .imageFolder{
+      height: 70px !important;
+    }
+  }
   @media (max-width: 425px) {
     .bg-buyNow-outer{
       width: 100%;
@@ -127,7 +137,7 @@ display: none !important;
     }
   }
 
-  @media (max-width:335px) {
+  @media (max-width:650px) {
     .css-19bb58m{
       display: none !important;
     }

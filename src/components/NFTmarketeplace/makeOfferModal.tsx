@@ -165,7 +165,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
     <Form {...form}>
       <Dialog open={open} onOpenChange={onClose}>
         <form className=" w-full">
-          <DialogContent className="w-[650px] h-[723px] max-h-[90vh] p-[0] gap-[0px] overflow-y-auto scrollbar-hide">
+          <DialogContent className=" w-full max-w-[650px] h-[723px] max-h-[90vh] p-[0] gap-[0px] over-flow-x-hidden overflow-y-auto scrollbar-hide">
             <DialogHeader className="space-y-0 pl-[24px] w-full pr-[24px] pt-[20px]">
               <DialogTitle className="font-extrabold  pb-[16px] text-[20px] md:text-[24px] leading-[27.6px]">Make an Offer</DialogTitle>
             </DialogHeader>
@@ -173,7 +173,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
 
 
             <div className="flex gap-[16px] pt-[24px] pl-[24px] pr-[24px] "> 
-              <div className="w-[120px] imageFolder h-[120px] makeAnOffer-gradient  max-[360px]:h-[70px] max-[450px]:h-[88px]  ">
+              <div className="w-[120px] imageFolder h-[120px] makeAnOffer-gradient  max-[600px]:h-[100px]  max-[600px]:w-[100px]  ">
                 <Image className=" pt-[1px] rounded-[9px] w-full h-[99%] object-cover" src={image1} alt="/" />
               </div>
               <div className="flex flex-col gap-[11px] justify-center ">
@@ -204,18 +204,18 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
 
 
             </div>
-            <div className='flex gap-[10px] mt-[17px] mr-[24px] ml-[24px]'>
+            <div className='flex gap-[10px] mt-[17px] mr-[24px] ml-[24px] max-[450px]:gap-[5px]'>
 
               <input
                  type="number"
-                className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px]  bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[540px]:w-[50%] "
+                className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px]  bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[450px]:w-[60%] "
                 placeholder="Price"
                 style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)", }}
               />
 
               <Select
                 className="w-[40%] h-[54px]   bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400]
-    text-[16px] leading-[21.6px] max-[540px]:w-[50%]"
+    text-[16px] leading-[21.6px] "
                 options={options}
                 onChange={handleChange}
                 styles={customStyles}
@@ -226,7 +226,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
             </div>
             <div className="flex flex-col mt-[32px] gap-[8px] mr-[24px] ml-[24px]">
               <p className="font-[800] text-[14px] leading-[19.6px] text-[#FFFFFF]">Duration</p>
-              <div className="flex gap-[5px]">
+              <div className="flex justify-between max-[540px]:flex-col gap-[5px]">
                 <Select
                   className="w-[40%] h-[54px]  bg-transparent  gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
                   placeholder="Select"
@@ -237,20 +237,23 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                 />
               {selectedDuration === "custom" ? (
 
-  <div className="flex gap-[5px]  relative">
+  <div className="flex  max-[540px]:flex-col  gap-[5px]  relative">
     <input
       type="text"
       readOnly
       value={startDate ? startDate.toDateString() : ""}
       onClick={toggleStartPicker}
-      className="w-full h-[54px] pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent  gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px]"
+      className=" h-[54px]  w-full pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent  gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px]"
       placeholder="Start Date"
       style={{
         background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
       }}
     />
     {isStartPickerOpen && (
-      <div className="absolute z-50 mt-2">
+       <div
+       className="fixed inset-0 z-50 flex items-end max-[540px]:justify-center justify-end"
+     
+     >
         <DatePicker
           setSelectedDate={(date) => {
             setStartDate(date);
@@ -272,7 +275,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
       }}
     />
     {isEndPickerOpen && (
-      <div className="absolute z-50 mt-2">
+      <div className="fixed inset-0  z-50 mt-2 flex items-end justify-end max-[540px]:justify-center">
         <DatePicker
           setSelectedDate={(date) => {
             setEndDate(date);
@@ -306,11 +309,10 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
 
 
 
-            <DialogFooter className="w-[92.5%] mt-[104px] mb-[24px] mr-[24px] ml-[24px] ">
+            <DialogFooter className="w-[92.5%] mt-[104px] mb-[24px] mr-[24px] ml-[24px] max-[615px]:w-[90.5%] max-[515px]:w-[89.5%] max-[480px]:w-[88.5%] max-[445px]:w-[87%]  max-[397px]:w-[86%] max-[364px]:w-[85%] max-[347px]:w-[84%]">
 
               <Button
-                //   onClick={() => FeedBackOnEvent()}
-                className=" text-sm font-extrabold text-center w-full rounded-[100px] py-[12px] text-[black] bg-[#00D059]"
+                className="w-full text-sm font-extrabold text-center w-full rounded-[100px] py-[12px] text-[black] bg-[#00D059]"
               >
                 Make Offer
               </Button>
