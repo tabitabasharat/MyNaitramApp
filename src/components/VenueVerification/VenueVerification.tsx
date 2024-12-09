@@ -146,9 +146,43 @@ function VenueVerification() {
 
   // Uploadiung Liscence Copy
   const uploadLisenceCopy = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    if (e.target.files) {
+      setLoader(true);
+      try {
+        const filesArray = Array.from(e.target.files);
+        setGalleryFiles(filesArray);
 
-    if (file) {
+        const formData = new FormData();
+        filesArray.forEach((file) => formData.append("files", file));
+
+        const res: any = await api.post(`${API_URL}/upload/uploadMultiple`, formData);
+
+        if (res?.status === 200) {
+          setLoader(false);
+          setCopyLiscenceURL(res?.data?.imageUrls[0]);
+          form.setValue("license_copy", filesArray?.[0]?.name);
+          form.clearErrors("license_copy");
+          SuccessToast("Liscense Copy Uploaded Successfully");
+          return res?.data?.imageUrls;
+        } else {
+          setLoader(false);
+          ErrorToast(res?.payload?.message || "Error uploading lisence copy");
+          form.setError("license_copy", {
+            type: "manual",
+            message: "Choose any other image",
+          });
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        form.setError("license_copy", {
+          type: "manual",
+          message: "Choose any other Image",
+        });
+      }
+    }
+
+    // const file = e.target.files?.[0];
+    /* if (file) {
       setLoader(true);
 
       // Validate file type
@@ -244,7 +278,7 @@ function VenueVerification() {
           message: "Try another copy.",
         });
       }
-    }
+    } */
   };
 
   //Getting user ID

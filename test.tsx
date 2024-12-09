@@ -2,7 +2,7 @@
 import whitefree from "@/assets/Wallet/white free.svg";
 import greenfree from "@/assets/Wallet/Green free.svg";
 import LocationAutocomplete from "@/components/create-event/Locationinput";
-import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
+import { EventSubmmitModal } from "@/components/EventSubmmitModal/EventSubmmitModal";
 import React from "react";
 import "@/components/create-event/CreateEvent.css";
 import Image from "next/image";
