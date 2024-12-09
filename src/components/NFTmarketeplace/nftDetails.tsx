@@ -280,6 +280,7 @@ const NftDetails = () => {
 
                 {activeTab === "Price History" ? (
                   <div
+                  className="w-fit Graph1"
                     style={{
                     
                       position: "relative",
@@ -287,6 +288,7 @@ const NftDetails = () => {
                       borderRadius: "8px",
                       color: "white",
                       overflow: "hidden",
+                    
                     }}
                   >
                     <div
@@ -306,25 +308,25 @@ const NftDetails = () => {
                     ></div>
 
                     <div
-                      className="upperdiv w-[671px] sm:mb-[24px] my-[20px] sm:my-[0px] max-[1150px]:w-[100%]  flex justify-between items-center px-[24px] py-[28px]"
+                      className="upperdiv w-[671px] sm:my-[0px] max-[1150px]:w-[100%]  flex justify-between items-center px-[24px] py-[14.4px] sm:py-[28px]"
                       style={{ borderBottom: "1.41px solid rgba(41, 41, 41, 0.5)" }}
                     >
-                      <div className="flex gap-[15px] topDiv">
+                      <div className="flex gap-[15px]">
                         <Image className="arrowImage" src={priceHistory} alt="Price History" />
                         <p className="Listings">Price History</p>
                       </div>
                       <div className="text-gray-500" onClick={() => toggleSection("section1")}>
                         <Image
-                          className={`arrowImage transform transition-all duration-300 ${visibleSections.section1 ? "rotate-180" : "rotate-0"
-                            }`}
+                          // className={`arrowImage transform transition-all duration-300 ${visibleSections.section1 ? "rotate-180" : "rotate-0"
+                          //   }`}
                           src={arrowDown}
                           alt="arrow"
                         />
                       </div>
                     </div>
 
-                    {visibleSections.section1 && (
-                      <ResponsiveContainer width="100%" height={200} style={{ paddingLeft: "24px", paddingRight: "23px", paddingTop: "36px" }}>
+                    {/* {visibleSections.section1 && ( */}
+                      <ResponsiveContainer width="100%" height={200} style={{ paddingLeft: "0px", paddingRight: "0px", paddingBottom:"20px", paddingTop: "36px" }}>
                         <BarChart  style={{ color: "rgba(0, 208, 89, 1)" }} width={400} data={data} margin={{ top: 20, bottom: 20 }}>
                          
 
@@ -408,10 +410,11 @@ const NftDetails = () => {
                           <Bar dataKey="value"  fill="rgba(0, 208, 89, 1)" yAxisId="left" radius={[5, 5, 0, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
-                    )}
+                    {/* )} */}
                   </div>
                 ) : activeTab === "Listings" ? (
                   <div
+                       className="w-fit Graph1"
                     style={{
                     
                       position: "relative",
@@ -438,8 +441,8 @@ const NftDetails = () => {
                       }}
                     ></div>
 
-                    <div className="upperdiv   w-[671px] max-[1150px]:w-[100%]  flex justify-between items-center px-[24px] py-[28px]">
-                      <div className="flex gap-[15px] topDiv">
+                    <div className="upperdiv   w-[671px] max-[1150px]:w-[100%]  flex justify-between items-center px-[24px] sm:py-[28px]">
+                      <div className="flex gap-[15px] ">
                         <Image className="arrowImage" src={listing} alt="Listings" />
                         <p className="Listings">listings</p>
                       </div>
@@ -452,8 +455,8 @@ const NftDetails = () => {
                         />
                       </div>
                     </div>
-                    {visibleSections.section2 && (
-                      <div>
+                    {/* {visibleSections.section2 && (
+                      <div> */}
                         <TableContainer
                           sx={{
                             background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
@@ -538,11 +541,12 @@ const NftDetails = () => {
                         <Button className="latertobeDis h-[27px] w-[47px] hidden size-lg  px-[14px] py-[10px] rounded-[51.42px] mt-[12.99px] ml-[10.8px] mb-[14px]">
                           Buy
                         </Button>
-                      </div>
-                    )}
+                      {/* </div>
+                    )} */}
                   </div>
                 ) : (
                   <div
+                     className="w-fit Graph1"
                     style={{
                       position: "relative",
                       background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
@@ -567,8 +571,8 @@ const NftDetails = () => {
                       }}
                     ></div>
 
-                    <div className="upperdiv w-[671px] max-[1150px]:w-[100%] flex justify-between items-center px-[24px] py-[28px]">
-                      <div className="flex gap-[15px] topDiv ">
+                    <div className="upperdiv w-[671px] max-[1150px]:w-[100%] flex justify-between items-center px-[24px] sm:py-[28px]">
+                      <div className="flex gap-[15px]">
                         <Image className="arrowImage" src={itemActivity} alt="Item Activity" />
                         <p className="Listings">Item Activity</p>
                       </div>
@@ -581,7 +585,7 @@ const NftDetails = () => {
                         />
                       </div>
                     </div>
-                    {visibleSections.section3 && (
+                    {/* {visibleSections.section3 && ( */}
                       <TableContainer
                         sx={{
                           background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
@@ -676,7 +680,7 @@ const NftDetails = () => {
                           </TableBody>
                         </Table>
                       </TableContainer>
-                    )}
+                    {/* // )} */}
                   </div>
                 )}
               </div>

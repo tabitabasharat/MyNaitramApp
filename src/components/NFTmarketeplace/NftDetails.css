@@ -138,6 +138,7 @@
   .TableHeader {
     font-size: 11px !important;
     padding: 7px !important;
+    padding-left: 10.3px !important;
   }
   .tableRow {
     font-size: 10px !important;
@@ -149,12 +150,14 @@
     /* font-size: 10px !important; */
     font-weight: 400 !important;
     /* font-size: 8px !important; */
-    padding: 5px !important;
+    padding-left: 10.8px !important;
+    padding-top: 10.28px !important;
+    padding-bottom: 8.45px !important;
   }
   .tableRow {
     font-weight: 400 !important;
     font-size: 10px !important;
-    padding-left: 5px !important;
+    padding-left: 10.8px !important;
     padding-top: 5px !important;
     padding-bottom: 5px !important;
     padding-right: 5px !important;
@@ -211,6 +214,11 @@
     padding: 132px 60px;
   }
 }
+@media (max-width:1150px){
+  .Graph1{
+    width: 100% !important;
+  }
+}
  @media (max-width:800px){
   .customizeButton{
     display: flex;
@@ -225,8 +233,14 @@
     display: block;
     padding: 100px 24px 54px !important;
   }
-}
 
+}
+@media (max-width:650px) {
+  .arrowImage {
+    width: 12.34px !important;
+    height: 12.34px !important;
+  }
+}
 @media (max-width: 334px) {
   .Tab {
     font-size: 12px !important;
@@ -251,10 +265,6 @@
   .main {
     padding-top: 120px !important;
     padding-bottom: 63px !important;
-  }
-  .arrowImage {
-    width: 12.34px !important;
-    height: 12.34px !important;
   }
 
   .topDiv {
