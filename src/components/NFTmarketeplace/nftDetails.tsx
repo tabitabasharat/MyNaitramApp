@@ -90,9 +90,9 @@ const NftDetails = () => {
     <div className="relative overflow-hidden">
       <section className=" pt-[173px] pb-[236px]  main pl-[92px] pr-[97px]">
         <div className="flex gap-[80px] md-1150:flex-col">
-          <div className="flex flex-col w-full rightDive">
+          <div className="flex flex-col w-full min-[1500px]:w-[593px] rightDive">
             <div className=" image w-full ">
-              <Image className="img w-full  min-[1500px]:w-[75%]" src={image1} alt="/" />
+              <Image className="img w-full rounded-[8px]  " src={image1} alt="/" />
             </div>
             <div className="flex flex-row gap-[25px]">
               <div className="flex gap-[10px] pt-[32px] items-center">
@@ -129,7 +129,7 @@ const NftDetails = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-[12px] sm:gap-[32px]">
+          <div className="flex flex-col gap-[12px] sm:gap-[32px] min-[1500px]:w-[671px]">
             <p className="font-[800] text-[48px] leading-[57.6px] fasty ">A Fasty Brush Flower Arts</p>
             <div className="flex flex-col gap-[12px] sm:gap-[16px]">
               <p className="font-[800] text-[24px] leading-[28.8px] description ">Description</p>
@@ -140,7 +140,7 @@ const NftDetails = () => {
             </div>
             <div className="hidden  hiddenclass">
               <div className="w-full flex justify-center">
-                <Image className="w-[500px] hiddenPicture" src={image1} alt="/" />
+                <Image className="w-[500px] rounded-[8px] hiddenPicture" src={image1} alt="/" />
               </div>
               <div className="flex flex-row mt-[16px] sm:mt-[32px] gap-[25px]">
                 <div className="flex gap-[10px] ">
@@ -460,12 +460,11 @@ const NftDetails = () => {
                         <TableContainer
                           sx={{
                             background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
-
                             borderImageSource: "linear-gradient(360deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06))",
                             borderImageSlice: 1,
                             color: "white",
                           }}
-                          // component={Paper}
+                        
                         >
                           <Table>
                             <TableHead>
@@ -487,7 +486,7 @@ const NftDetails = () => {
                                 <TableCell
                                   className="TableHeader"
                                   style={{ fontFamily: "var(--font-base)", }}
-                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
+                                  sx={{ borderBottom: "none",  borderTop: "1.41px solid  #29292980", color: "#BFBFBF" }}
                                 >
                                   Quantity
                                 </TableCell>
