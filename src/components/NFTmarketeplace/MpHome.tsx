@@ -5,10 +5,11 @@ import blurbg from "@/assets/V2assets/Blur Green.svg"
 import Image from "next/image"
 import img from "@/assets/V2assets/img.svg"
 import { Button } from "../ui/button";
+import {Input} from "@/components/ui/input";
 
 const MpHome = () => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false); // Track dropdown open/close state
+  const [isOpen, setIsOpen] = useState(false); 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [selected, setSelected] = useState("Category"); // Track selected item
 
@@ -47,7 +48,7 @@ const MpHome = () => {
         {/* Left Section */}
         <div className="flex flex-col space-y-8 lg:space-y-10 lg:w-1/2">
           <div className="flex flex-col space-y-5 md:pt-0">
-            <h2 className="text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mt-4 sm:mt-6">
+            <h2 className="text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight sm:mt-6">
               {/* Without <br> for small and medium screens */}
               <span className="block lg:hidden">Discover Digital Art & Collect NFTs</span>
 
@@ -70,9 +71,9 @@ const MpHome = () => {
             </p>
           </div>
 
-          <button className="hidden lg:block w-40 h-12 bg-green-500 hover:bg-[#13FF7A] text-black font-extrabold text-base rounded-full py-2 px-6">
+          <Button className="hidden lg:block w-40 h-12 bg-green-500 hover:bg-[#13FF7A] text-black font-extrabold text-base rounded-full py-2 px-6">
             Get Started
-          </button>
+          </Button>
 
           <div className="hidden lg:flex space-x-8">
             {[
@@ -118,7 +119,7 @@ const MpHome = () => {
           <div className="flex gap-[10px]  xl:justify-end lg:flex-row lg:flex">
             {/* First Input */}
             <div className="relative w-full sm:w-[376px]">
-              <input
+              <Input
                 type="text"
                 placeholder="Search NFT"
                 className="w-full bg-transparent sm:w-[376px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323]
