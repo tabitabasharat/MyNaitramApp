@@ -168,7 +168,7 @@ const Profile = () => {
                             {tabs.map((tab) => renderTab(tab))}
 
                         </div>
-                        <div className="flex sm:block hidden border-b-2 border-b-[#292929] border border-x-transparent border-t-transparent mb-[24px] w-[0px] sm:w-[70%] md:mb-[32px]"></div>
+                        <div className="flex sm:block hidden border-b-2 border-b-[#292929] border border-x-transparent border-t-transparent mb-[24px] w-[0px]  sm:w-[76%] md:mb-[32px]"></div>
                     </div>
                     <div>
                         {selectedTab === "Collected" ? (

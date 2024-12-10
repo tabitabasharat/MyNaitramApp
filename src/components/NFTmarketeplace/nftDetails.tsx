@@ -260,9 +260,9 @@ const NftDetails = () => {
                   </div> */}
                 </div>
               </div>
-              <div className="block">
+              <div style={{visibility: "visible"}} className="block">
 
-                <div className="block mb-[20px] flex justify-start">
+                <div style={{visibility: "visible"}} className="block mb-[20px] flex justify-start">
                   {tabs.map((tab) => (
                     <button
                       key={tab}
