@@ -129,7 +129,7 @@ const NftOwner = () => {
       </div>
       <div className="px-[24px] sm:pl-[35px] bg-imag md:pl-[92px] sm:pr-[35px] lg:pr-[163px]">
         <div className="flex items-center justify-end gap-[10px] mt-[100px] md:flex">
-         <div className="flex  items-center relative justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[308px] min-[348px]:w-[376px]">
+         <div className="flex  items-center relative justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[308px] max-[430px]:h-[54px] min-[348px]:w-[376px]">
             <input
               className="text-[16px] bg-transparent block font-normal leading-5 text-[#BFBFBF] placeholder:text-[#BFBFBF] w-[90%] outline-none pr-10"
               type="text"
@@ -150,13 +150,20 @@ const NftOwner = () => {
               className="absolute right-[16px] top-1/2 transform -translate-y-1/2 pointer-events-none"
             />
           </div> */}
-          <div className="border border-[#292929] gradient-slate w-[30%] min-[390px]:py-[19px] min-[390px]:px-[16px] rounded-lg min-[390px]:w-[143px] flex items-center justify-between ">
-            <h2 className="text-[16px] font-normal max-[390px]:hidden leading-5 text-[#BFBFBF]">Filter</h2>
-            <img src="/Images/Nft_animakid_img/filtr.svg"  className="max-[390px]:my-[19px] max-[390px]:mx-[16px]"/>
+{/* <div className="relative w-full max-[430px]:w-[54px]">
+              <button className=" max-[430px]:w-[54px] w-full md:w-[143px] h-[54px] px-[16px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323] flex items-center justify-between text-[#BFBFBF] text-[14px] leading-[19.6px] font-normal text-left focus:outline-none">
+               <p className="text-[16px] max-[430px]:hidden">Filter</p>
+                <img src="/Images/Market/filter.svg" alt="Filter Icon" />
+              </button>
+            </div> */}
+          
+          <div className="border border-[#292929] gradient-slate w-[143px] max-[430px]:w-[54px] max-[430px]:justify-center max-[430px]:h-[54px]  py-[19px] px-[16px] rounded-lg min-[430px]:w-[143px] flex items-center justify-between ">
+            <h2 className="text-[16px] font-normal max-[430px]:hidden leading-5 text-[#BFBFBF] ">Filter</h2>
+            <img src="/Images/Nft_animakid_img/filtr.svg" className=" max-[430px]:h-[22px] filterImage " alt="Filter"/>
 
           </div>
         </div>
-        <div className="flex flex-wrap  gap-[35px] w-full w-full pt-[60px] md:pt-[30px] pb-[173px] justify-center ">
+        <div className="flex flex-wrap  gap-[35px] w-full w-full pt-[60px] md:pt-[30px] pb-[173px] justify-center mainCardss">
 
           {[...Array(12)].map((_, index) => (
             <div
@@ -164,8 +171,8 @@ const NftOwner = () => {
               onClick={() => {
                 router.push("/marketPlace/nft");
               }}
-              className="cursor-pointer relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] p-[30px_11.5px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden hover-gradient-border"
-              style={{ width: "270px" }}
+              className="cursor-pointer w-[270px] relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] p-[30px_11.5px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden hover-gradient-border"
+              // style={{ width: "270px" }}
             >
 
               <img src="/Images/Nft_animakid_img/Crads.svg" alt="Card" />
