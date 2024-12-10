@@ -55,7 +55,7 @@ const NftOwner = () => {
         ></div>
 
         <div className=" mt-[-50px] px-[92px] Animakida_Container_LOgo">
-          <img className="ml-[5px] md:ml-0" src="/Images/Animkiad.svg" alt="Logo" />
+          <Image className="ml-[5px] w-[98px] h-[98px] md:w-[123px] md:h-[123px] md:ml-0" width={123} height={123} src="/Images/Animkiad.svg" alt="Logo"/>
           <div className="flex justify-between items-center mt-[20px] max-[78px]:mt-10 Animkaida_Btn_text_Container">
             <h2 className="text-[24px] font-extrabold leading-[26.6px] md:text-[37px] md:leading-[48.6px] lg:text-[56px] lg:leading-[61.6px]">
               Animakid
