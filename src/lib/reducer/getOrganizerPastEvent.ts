@@ -16,7 +16,7 @@ const getOrganizerPastEventsSlice = createSlice({
     });
     builder.addCase(getOrganizerPastEvents.fulfilled, (state, action) => {
       state.loading = false;
-      state.eventIdEvents = action.payload;
+      state.organizerPastEvents = action.payload;
     });
     builder.addCase(getOrganizerPastEvents.rejected, (state, action) => {
       state.loading = false;

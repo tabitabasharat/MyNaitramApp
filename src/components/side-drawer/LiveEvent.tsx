@@ -22,6 +22,7 @@ type SelectedOption = "live" | "past" | null;
 const LiveEvent = () => {
   const dispatch = useAppDispatch();
   const [selected, setSelected] = useState<SelectedOption>("live");
+  const [currentData, setCurentData] = useState<any>({});
 
   useEffect(() => {
     const userid: string | null = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -30,6 +31,22 @@ const LiveEvent = () => {
     dispatch(getOrganizerProfileFutures(userid));
     dispatch(getOrganizerPastEvents(userid));
   }, []);
+
+  const OrganizerLiveEvent = useAppSelector((state) => state?.getOrganizerProfileFutures?.allOrganizerProfileFutures?.data);
+  const OrganizerPastEvent = useAppSelector((state) => state?.getOrganizerPastEvents?.organizerPastEvents?.data);
+
+  useEffect(() => {
+    console.log("All Events are new", OrganizerLiveEvent);
+    console.log("All Past Events are", OrganizerPastEvent);
+  }, [OrganizerLiveEvent, OrganizerPastEvent]);
+
+  useEffect(() => {
+    if (selected === "live") {
+      setCurentData(OrganizerLiveEvent);
+    } else {
+      setCurentData(OrganizerPastEvent);
+    }
+  }, [selected]);
 
   return (
     <>
