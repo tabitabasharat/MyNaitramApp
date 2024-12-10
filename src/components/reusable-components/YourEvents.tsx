@@ -315,8 +315,10 @@ const YourEvents = ({
     return `- ${startFormatted} - ${endFormatted}`;
   }
 
-  function setPriceIndications(price: string): string {
+  function setPriceIndications(price: string | number): string {
     if (price === "0") {
+      return "FREE";
+    } else if (price === Infinity) {
       return "FREE";
     } else {
       return `From £${price}`;

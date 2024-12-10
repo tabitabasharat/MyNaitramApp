@@ -456,7 +456,7 @@ const EventsHeroSlide = ({
                       key={index}
                       className="gradient-bg gradient-border-edit py-[8px] px-[10px] gradient-slate w-fit text-[12px] font-extrabold leading-[16.2px] text-left"
                     >
-                      {`#${tag}`}
+                      {tag?.startsWith("#") ? `${tag}` : `#${tag}`}
                     </div>
                   );
                 })}
