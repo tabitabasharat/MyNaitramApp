@@ -19,14 +19,7 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { deleteAccount } from "@/lib/middleware/profile";
 import { Wall, Wallet } from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
@@ -36,12 +29,9 @@ import close from "@/assets/close12.svg";
 import { TelegramLogo } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import tick from "@/assets/fi-rr-check.svg";
-import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
+import { EventSubmmitModal } from "@/components/EventSubmmitModal/EventSubmmitModal";
 import { createevent } from "@/lib/middleware/event";
-import {
-  SuccessToast,
-  ErrorToast,
-} from "@/components/reusable-components/Toaster/Toaster";
+import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
 import ScreenLoader from "@/components/loader/Screenloader";
 import Eventsubmitted from "../eventsubmitted/Eventsubmitted";
 type Option = {
@@ -59,9 +49,7 @@ const options: Option[] = [
 ];
 
 const formSchema = z.object({
-  walletAddress: z
-    .string()
-    .min(1, { message: "Wallet Address cannot be empty." }),
+  walletAddress: z.string().min(1, { message: "Wallet Address cannot be empty." }),
 });
 
 type LunchModalProps = {
@@ -102,8 +90,7 @@ const Cryptowallet = ({ onClose, open, eventData }: any) => {
     console.log("clicked");
   };
   useEffect(() => {
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);
@@ -175,29 +162,18 @@ const Cryptowallet = ({ onClose, open, eventData }: any) => {
             <DialogHeader>
               <DialogTitle className="flex justify-between font-bold px-[24px] text-2xl mb-1">
                 <h2 className="font-extrabold text-[24px]">Cryptos Wallet</h2>
-                <Image
-                  src={close}
-                  sizes="28px"
-                  alt="close-btn"
-                  className="cursor-pointer"
-                  onClick={onClose}
-                />
+                <Image src={close} sizes="28px" alt="close-btn" className="cursor-pointer" onClick={onClose} />
               </DialogTitle>
               <Separator className="scale--[1.12] bg-[#292929]" />
             </DialogHeader>
           </div>
           <div className="px-6">
             <p className="text-[#BFBFBF] pb-[20px] lg:pb-[24px] text-sm font-bold lg:font-normal">
-              Gorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero et velit interdum, ac aliquet odio mattis. Class
-              aptent taciti sociosqu ad litora torquent per conubia nostra, per
-              inceptos himenaeos. Curabitur tempus urna at turpis condimentum
-              lobortis.
+              Gorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent
+              taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis condimentum lobortis.
             </p>
             <div>
-              <h2 className="text-[20px] font-bold text-[#BFBFBF] lg:text-[14px] font-bold">
-                Please Choose Your Wallet
-              </h2>
+              <h2 className="text-[20px] font-bold text-[#BFBFBF] lg:text-[14px] font-bold">Please Choose Your Wallet</h2>
               <Form {...form}>
                 <form
                   className="w-full my-[12px] mt-[5px]"
@@ -211,13 +187,8 @@ const Cryptowallet = ({ onClose, open, eventData }: any) => {
                     name="walletAddress"
                     render={({ field }) => (
                       <FormItem className="relative md:mb-6 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          Wallet
-                        </FormLabel>
-                        <Wallet
-                          className="absolute right-3 top-[30%]"
-                          size={28}
-                        />
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">Wallet</FormLabel>
+                        <Wallet className="absolute right-3 top-[30%]" size={28} />
 
                         <FormControl>
                           <Input
@@ -238,9 +209,7 @@ const Cryptowallet = ({ onClose, open, eventData }: any) => {
 
                   <div className="pb-[8px] mt-[12px] mb-[30px] lg:mb-[42px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                     <div className="flex items-center justify-between">
-                      <p className="text-base font-bold pb-[16px] text-white">
-                        Chain
-                      </p>
+                      <p className="text-base font-bold pb-[16px] text-white">Chain</p>
                     </div>
                     <Separator className="scale--[1.12] bg-[#292929]" />
                     {Dropdown && (
@@ -252,27 +221,14 @@ const Cryptowallet = ({ onClose, open, eventData }: any) => {
                             onClick={() => handleOptionToggle(option)}
                           >
                             <div className="flex items-center gap-[10px]">
-                              <p className="text-[14px] text-[#FFFFFF] font-normal items-center">
-                                {option.label}
-                              </p>
+                              <p className="text-[14px] text-[#FFFFFF] font-normal items-center">{option.label}</p>
                             </div>
-                            {selectedOption?.id === option.id && (
-                              <Image
-                                src={tick}
-                                width={10}
-                                height={10}
-                                alt="tick"
-                              />
-                            )}
+                            {selectedOption?.id === option.id && <Image src={tick} width={10} height={10} alt="tick" />}
                           </div>
                         ))}
                       </div>
                     )}
-                    {validationError && (
-                      <p className="text-red-500 text-sm mt-2">
-                        {validationError}
-                      </p>
-                    )}
+                    {validationError && <p className="text-red-500 text-sm mt-2">{validationError}</p>}
                   </div>
 
                   <DialogFooter className="w-full border-t border-muted">
@@ -280,18 +236,11 @@ const Cryptowallet = ({ onClose, open, eventData }: any) => {
                       <Button
                         type="submit" // Change to "button" to prevent form submission
                         className="w-full"
-                        disabled={
-                          !selectedOption || !form.watch("walletAddress")
-                        }
+                        disabled={!selectedOption || !form.watch("walletAddress")}
                       >
                         Submit
                       </Button>
-                      {isCreateModalOpen && (
-                        <Eventsubmitted
-                          onClose={() => setisCreateModalOpen(false)}
-                          open={() => setisCreateModalOpen(true)}
-                        />
-                      )}
+                      {isCreateModalOpen && <Eventsubmitted onClose={() => setisCreateModalOpen(false)} open={() => setisCreateModalOpen(true)} />}
                     </div>
                   </DialogFooter>
                 </form>

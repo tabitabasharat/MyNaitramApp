@@ -1,8 +1,5 @@
 "use client";
-import {
-  createPayoutCrypto,
-  getPayoutCryptoDetail,
-} from "@/lib/middleware/payout";
+import { createPayoutCrypto, getPayoutCryptoDetail } from "@/lib/middleware/payout";
 import backward from "@/assets/Back - Button.svg";
 import Image from "next/image";
 import Iconpop from "@/assets/launchprofileicon.svg";
@@ -10,14 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { deleteAccount } from "@/lib/middleware/profile";
 import { Wall, Wallet } from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
@@ -27,12 +17,9 @@ import close from "@/assets/close12.svg";
 import { TelegramLogo, User } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import tick from "@/assets/fi-rr-check.svg";
-import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
+import { EventSubmmitModal } from "@/components/EventSubmmitModal/EventSubmmitModal";
 import { createevent } from "@/lib/middleware/event";
-import {
-  SuccessToast,
-  ErrorToast,
-} from "@/components/reusable-components/Toaster/Toaster";
+import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
 import ScreenLoader from "@/components/loader/Screenloader";
 import { Separator } from "@/components/ui/separator";
 import SubmitSucessModal from "../../GetPaidOrganiser/SubmitSuccessModal";
@@ -100,8 +87,7 @@ const AddCryptowallet = ({ eventData }: any) => {
     setActiveIndex(index);
   };
   useEffect(() => {
-    const userid =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     dispatch(getPayoutCryptoDetail(userid));
   }, []);
 
@@ -123,8 +109,7 @@ const AddCryptowallet = ({ eventData }: any) => {
   };
 
   useEffect(() => {
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);
@@ -211,8 +196,7 @@ const AddCryptowallet = ({ eventData }: any) => {
     }
 
     const selectedChain = selectedOption?.label.split(" ")[0];
-    const normalizedChain =
-    selectedChain === "Polygon" ? "Matic" : selectedChain;
+    const normalizedChain = selectedChain === "Polygon" ? "Matic" : selectedChain;
     const isValid = validate(walletaddress, normalizedChain);
     // const isValid = validate(walletaddress, selectedOption.label);
     const format = addressFormats[selectedOption.label];
@@ -228,9 +212,7 @@ const AddCryptowallet = ({ eventData }: any) => {
     let errorMessages = [];
 
     if (!isValid) {
-      errorMessages.push(
-        `Invalid wallet address for the selected chain. eg:${example}`
-      );
+      errorMessages.push(`Invalid wallet address for the selected chain. eg:${example}`);
     }
 
     // if (walletaddress.length !== length) {
@@ -282,28 +264,14 @@ const AddCryptowallet = ({ eventData }: any) => {
   return (
     <div className="pt-[42px] pb-[59.12px] lg:pb-[26.25p] px-[24px] lg:px-[100px] xl:px-[216px] md:pt-[90px] mx-auto">
       <div className="w-full md:w-[676px]">
-        <p className="block ms-[25px] mb-[32px] sm:mb-[0px] sm:hidden text-[24px] font-extrabold">
-          Profile Menu
-        </p>
-        <div
-          onClick={() => router.back()}
-          className="mb-[32px] gap-[16px] w-full lg:w-[676px] items-center flex lg:w-[903px] w-full "
-        >
-          <Image
-            src={backward}
-            alt="back-btn"
-            className="w-[40px] h-[40px] md:w-[44px] md:h-[44px]"
-            sizes="44px"
-          />
-          <p className="lg:text-[24px] font-extrabold text-[15px]">
-            {" "}
-            Add Crypto Wallet{" "}
-          </p>
+        <p className="block ms-[25px] mb-[32px] sm:mb-[0px] sm:hidden text-[24px] font-extrabold">Profile Menu</p>
+        <div onClick={() => router.back()} className="mb-[32px] gap-[16px] w-full lg:w-[676px] items-center flex lg:w-[903px] w-full ">
+          <Image src={backward} alt="back-btn" className="w-[40px] h-[40px] md:w-[44px] md:h-[44px]" sizes="44px" />
+          <p className="lg:text-[24px] font-extrabold text-[15px]"> Add Crypto Wallet </p>
         </div>
         <div>
           <p className="text-[#BFBFBF] text-sm lmd:text-base font-bold mb-[32px]">
-            Receive your payout in crypto by entering your wallet address and
-            selecting the correct chain. Payouts are processed within 48 hours.
+            Receive your payout in crypto by entering your wallet address and selecting the correct chain. Payouts are processed within 48 hours.
           </p>
           <Form {...form}>
             <form
@@ -343,9 +311,7 @@ const AddCryptowallet = ({ eventData }: any) => {
                 name="walletAddress"
                 render={({ field }) => (
                   <FormItem className="mb-[12px] relative md:mb-4 space-y-0">
-                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                      Wallet
-                    </FormLabel>
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">Wallet</FormLabel>
                     <Wallet className="absolute right-3 top-[30%]" size={20} />
                     <FormControl>
                       <Input
@@ -365,9 +331,7 @@ const AddCryptowallet = ({ eventData }: any) => {
               />
               <div className="pb-[8px] mb-[30px] lg:mb-[42px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                 <div className="flex items-center justify-between">
-                  <p className="text-base font-bold pb-[16px] text-white">
-                    Chain
-                  </p>
+                  <p className="text-base font-bold pb-[16px] text-white">Chain</p>
                 </div>
                 <Separator className="scale--[1.12] bg-[#292929]" />
                 {Dropdown && (
@@ -379,40 +343,21 @@ const AddCryptowallet = ({ eventData }: any) => {
                         onClick={() => handleOptionToggle(option)}
                       >
                         <div className="flex items-center gap-[10px]">
-                          <p className="text-[14px] text-[#FFFFFF] font-normal items-center">
-                            {option.label}
-                          </p>
+                          <p className="text-[14px] text-[#FFFFFF] font-normal items-center">{option.label}</p>
                         </div>
-                        {selectedOption?.id === option.id && (
-                          <Image src={tick} width={10} height={10} alt="tick" />
-                        )}
+                        {selectedOption?.id === option.id && <Image src={tick} width={10} height={10} alt="tick" />}
                       </div>
                     ))}
                   </div>
                 )}
-                {validationError && (
-                  <p className="text-red-500 text-sm mt-2">{validationError}</p>
-                )}
+                {validationError && <p className="text-red-500 text-sm mt-2">{validationError}</p>}
               </div>
               <div className="w-full ">
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={
-                    !selectedOption ||
-                    !form.watch("walletAddress") 
-                 
-                  }
-                >
+                <Button type="submit" className="w-full" disabled={!selectedOption || !form.watch("walletAddress")}>
                   Add
                 </Button>
               </div>
-              {openModal && (
-                <Addcryptopopup
-                  onClose={() => setOpenModal(false)}
-                  open={() => setOpenModal(true)}
-                />
-              )}
+              {openModal && <Addcryptopopup onClose={() => setOpenModal(false)} open={() => setOpenModal(true)} />}
             </form>
           </Form>
         </div>

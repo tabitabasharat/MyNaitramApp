@@ -19,14 +19,7 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { deleteAccount } from "@/lib/middleware/profile";
 import { Wall, Wallet } from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
@@ -36,12 +29,9 @@ import close from "@/assets/close12.svg";
 import { Envelope, TelegramLogo } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import tick from "@/assets/fi-rr-check.svg";
-import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
+import { EventSubmmitModal } from "@/components/EventSubmmitModal/EventSubmmitModal";
 import { createevent } from "@/lib/middleware/event";
-import {
-  SuccessToast,
-  ErrorToast,
-} from "@/components/reusable-components/Toaster/Toaster";
+import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
 import ScreenLoader from "@/components/loader/Screenloader";
 type Option = {
   id: number;
@@ -103,8 +93,7 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
     console.log("clicked");
   };
   useEffect(() => {
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);
@@ -173,21 +162,14 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
             <DialogHeader className="">
               <DialogTitle className="flex justify-between font-bold px-[24px] text-2xl mb-1">
                 <h2 className="font-extrabold text-[24px]">Stripe Account</h2>
-                <Image
-                  src={close}
-                  sizes="28px"
-                  alt="close-btn"
-                  className="cursor-pointer"
-                  onClick={onClose}
-                />
+                <Image src={close} sizes="28px" alt="close-btn" className="cursor-pointer" onClick={onClose} />
               </DialogTitle>
               <Separator className="scale--[1.12] bg-[#292929]" />
             </DialogHeader>
           </div>
           <div className="px-6">
             <p className="text-[#BFBFBF] pb-[20px] lg:pb-[24px] text-sm font-bold lg:font-normal">
-              Enter your registered Stripe account email to set up your payout
-              method. Payments are processed through Stripe for card and bank
+              Enter your registered Stripe account email to set up your payout method. Payments are processed through Stripe for card and bank
               transactions. Payouts are sent 3 days after the successful event
             </p>
             <div>
@@ -205,13 +187,8 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
                     name="walletAddress"
                     render={({ field }) => (
                       <FormItem className="relative md:mb-6 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          Email
-                        </FormLabel>
-                        <Envelope
-                          className="absolute right-3 top-[30%]"
-                          size={20}
-                        />
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">Email</FormLabel>
+                        <Envelope className="absolute right-3 top-[30%]" size={20} />
 
                         <FormControl>
                           <Input
@@ -247,12 +224,7 @@ const StripeAccount = ({ onClose, open, eventData }: any) => {
                       >
                         Submit
                       </Button>
-                      {isCreateModalOpen && (
-                        <EventSubmmitModal
-                          onClose={() => setisCreateModalOpen(false)}
-                          open={() => setisCreateModalOpen(true)}
-                        />
-                      )}
+                      {isCreateModalOpen && <EventSubmmitModal onClose={() => setisCreateModalOpen(false)} open={() => setisCreateModalOpen(true)} />}
                     </div>
                   </DialogFooter>
                 </form>

@@ -22,3 +22,23 @@ export const kycSubmition = createAsyncThunk("whitelistcheck", async (data: any)
     };
   }
 });
+
+export const updateKYCStatusss = createAsyncThunk("updateKYCStatusss", async (data: any) => {
+  try {
+    console.log("Inside updateKYCStatusss check");
+    const res = await api.put(`${API_URL}/helpcenter/updateKYCStatusss/${data?.userID}`);
+    console.log("Inside KYC API check", res);
+
+    // localStorage.setItem("token", res?.data?.token);
+    return {
+      status: res?.status,
+      data: res?.data,
+      token: res?.data?.token,
+    };
+  } catch (error: any) {
+    return {
+      message: error?.response?.data?.error,
+      status: error?.response?.status,
+    };
+  }
+});

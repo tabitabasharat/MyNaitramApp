@@ -7,14 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import building from "@/assets/Buildings.svg";
 import adress from "@/assets/Address Book.svg";
 import company from "@/assets/fi_2803248.svg";
@@ -27,12 +20,9 @@ import close from "@/assets/close12.svg";
 import { TelegramLogo, User } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import tick from "@/assets/fi-rr-check.svg";
-import EventSubmmitModal from "@/components/EventSubmmitModal/EventSubmmitModal";
+import { EventSubmmitModal } from "@/components/EventSubmmitModal/EventSubmmitModal";
 import { createevent } from "@/lib/middleware/event";
-import {
-  SuccessToast,
-  ErrorToast,
-} from "@/components/reusable-components/Toaster/Toaster";
+import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
 import bank from "@/assets/Bank.svg";
 import ScreenLoader from "@/components/loader/Screenloader";
 import { Separator } from "@/components/ui/separator";
@@ -83,14 +73,13 @@ const formSchema = z.object({
         // Allow undefined or empty string as valid optional values
         return (
           val === undefined ||
-          val === "" || 
+          val === "" ||
           /^\d{5}$/.test(val) || // 5-digit ZIP code
           /^\d{5}-\d{4}$/.test(val) // 9-digit ZIP code
         );
       },
       {
-        message:
-          "Invalid zip code format. Expected format: 12345 or 12345-6789.",
+        message: "Invalid zip code format. Expected format: 12345 or 12345-6789.",
       }
     ),
 
@@ -100,15 +89,13 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "IBAN cannot be empty." })
     .regex(/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/, {
-      message:
-        "Invalid IBAN format. Expected format: e.g., 'GB29NWBK60161331926819'.",
+      message: "Invalid IBAN format. Expected format: e.g., 'GB29NWBK60161331926819'.",
     }),
   bankswiftcode: z
     .string()
     .min(1, { message: "Swift Code cannot be empty." })
     .regex(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/, {
-      message:
-        "Invalid SWIFT Code format. Expected format: 8 or 11 characters, e.g., 'XXXXYY12' or 'XXXXYY12345'.",
+      message: "Invalid SWIFT Code format. Expected format: 8 or 11 characters, e.g., 'XXXXYY12' or 'XXXXYY12345'.",
     }),
 });
 
@@ -125,7 +112,7 @@ const AddBankAccount = ({ eventData }: any) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      currencypaid:"",
+      currencypaid: "",
       country: "",
       companyname: "",
       companyaddress: "",
@@ -156,8 +143,7 @@ const AddBankAccount = ({ eventData }: any) => {
 
   const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
-  const [selectedbankOption, setSelectedbankOption] =
-    useState<BankOption | null>(null);
+  const [selectedbankOption, setSelectedbankOption] = useState<BankOption | null>(null);
   const [Dropdown, setDropdown] = useState(true);
   const [validationError, setValidationError] = useState("");
   const [userid, setUserid] = useState<any>("");
@@ -190,8 +176,7 @@ const AddBankAccount = ({ eventData }: any) => {
     console.log("clicked");
   };
   useEffect(() => {
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);
@@ -258,13 +243,7 @@ const AddBankAccount = ({ eventData }: any) => {
           bankIBAN,
           bankSwiftCode,
         ]
-      : [
-          selectedbankOption?.label,
-          bankname,
-          bankTitle,
-          bankIBAN,
-          bankSwiftCode,
-        ];
+      : [selectedbankOption?.label, bankname, bankTitle, bankIBAN, bankSwiftCode];
 
     // Check for empty required fields
     const emptyFields = requiredFields.some((field) => !field);
@@ -297,7 +276,7 @@ const AddBankAccount = ({ eventData }: any) => {
         setLoader(false);
 
         setOpenModal(true);
-        router.push("/organizer-event/payout-detail/bankaccount")
+        router.push("/organizer-event/payout-detail/bankaccount");
       } else {
         setLoader(false);
         ErrorToast(res?.payload?.message);
@@ -317,27 +296,14 @@ const AddBankAccount = ({ eventData }: any) => {
   return (
     <div className="pt-[42px] pb-[59.12px] lg:pb-[26.25px] px-[24px] lg:px-[100px] xl:px-[216px] md:pt-[90px] mx-auto">
       <div className="w-full md:w-[600px]">
-        <p className="block ms-[25px] mb-[32px] sm:mb-[0px] sm:hidden text-[24px] font-extrabold">
-          Profile Menu
-        </p>
-        <div
-          onClick={() => router.back()}
-          className="mb-[32px] gap-[16px] w-full lg:w-[676px] items-center flex lg:w-[903px] w-full "
-        >
-          <Image
-            src={backward}
-            alt="back-btn"
-            className="w-[40px] h-[40px] md:w-[44px] md:h-[44px]"
-            sizes="44px"
-          />
-          <p className="lg:text-[24px] font-extrabold text-[15px]">
-            {" "}
-            Add Bank Account{" "}
-          </p>
+        <p className="block ms-[25px] mb-[32px] sm:mb-[0px] sm:hidden text-[24px] font-extrabold">Profile Menu</p>
+        <div onClick={() => router.back()} className="mb-[32px] gap-[16px] w-full lg:w-[676px] items-center flex lg:w-[903px] w-full ">
+          <Image src={backward} alt="back-btn" className="w-[40px] h-[40px] md:w-[44px] md:h-[44px]" sizes="44px" />
+          <p className="lg:text-[24px] font-extrabold text-[15px]"> Add Bank Account </p>
         </div>
         <div>
           <p className="text-[#BFBFBF] text-sm lmd:text-base font-bold mb-[32px]">
-          Receive your payout in bank by entering your bank details. Payouts are processed within 48 hours.
+            Receive your payout in bank by entering your bank details. Payouts are processed within 48 hours.
           </p>
           <Form {...form}>
             <form
@@ -352,18 +318,15 @@ const AddBankAccount = ({ eventData }: any) => {
                 name="currencypaid"
                 render={({ field }) => (
                   <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
-                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                      CURRENCY YOU WILL BE PAID
-                    </FormLabel>
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">CURRENCY YOU WILL BE PAID</FormLabel>
                     <FormControl>
                       <Input
                         // type="number"
                         placeholder="U.S. Dollars $"
                         className="pt-11 pb-5 palceholder:text-base placeholder:text-[white] placeholder:font-normal"
                         {...field}
-                      
                         onChange={(e) => {
-                          const trimmedValue = e.target.value.trimStart(); 
+                          const trimmedValue = e.target.value.trimStart();
                           field.onChange(trimmedValue);
                           setValidationError("");
                           setPaidCurrency(trimmedValue);
@@ -379,9 +342,7 @@ const AddBankAccount = ({ eventData }: any) => {
                 name="country"
                 render={({ field }) => (
                   <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
-                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                      COUNTRY
-                    </FormLabel>
+                    <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">COUNTRY</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="United States"
@@ -398,10 +359,7 @@ const AddBankAccount = ({ eventData }: any) => {
                             e.preventDefault();
                           }
                           // Allow letters and spaces
-                          if (
-                            !/^[A-Za-z\s]*$/.test(e.key) &&
-                            !["Backspace", "Tab"].includes(e.key)
-                          ) {
+                          if (!/^[A-Za-z\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
                             e.preventDefault();
                           }
                         }}
@@ -413,9 +371,7 @@ const AddBankAccount = ({ eventData }: any) => {
               />
               <div className="pb-[8px] mb-[12px] lg:mb-5 w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                 <div className="flex items-center justify-between">
-                  <p className="text-base font-bold pb-[16px] text-white">
-                    Account Holder Information
-                  </p>
+                  <p className="text-base font-bold pb-[16px] text-white">Account Holder Information</p>
                 </div>
                 <Separator className="scale--[1.12] bg-[#292929]" />
                 {Dropdown && (
@@ -427,20 +383,14 @@ const AddBankAccount = ({ eventData }: any) => {
                         onClick={() => handleOptionToggle(option)}
                       >
                         <div className="flex items-center gap-[10px]">
-                          <p className="text-[14px] text-[#FFFFFF] font-normal items-center">
-                            {option.label}
-                          </p>
+                          <p className="text-[14px] text-[#FFFFFF] font-normal items-center">{option.label}</p>
                         </div>
-                        {selectedOption?.id === option.id && (
-                          <Image src={tick} width={10} height={10} alt="tick" />
-                        )}
+                        {selectedOption?.id === option.id && <Image src={tick} width={10} height={10} alt="tick" />}
                       </div>
                     ))}
                   </div>
                 )}
-                {validationError && (
-                  <p className="text-red-500 text-sm mt-2">{validationError}</p>
-                )}
+                {validationError && <p className="text-red-500 text-sm mt-2">{validationError}</p>}
               </div>
               {selectedOption?.label === "Company" && (
                 <div>
@@ -450,29 +400,20 @@ const AddBankAccount = ({ eventData }: any) => {
                       name="companyname"
                       render={({ field }) => (
                         <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
-                          <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                            COMPANY NAME
-                          </FormLabel>
-                          <Image
-                            src={building}
-                            alt="company-building"
-                            className="absolute right-3 top-[30%]"
-                          />
+                          <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">COMPANY NAME</FormLabel>
+                          <Image src={building} alt="company-building" className="absolute right-3 top-[30%]" />
                           <FormControl>
                             <Input
                               placeholder="Enter Company Name"
                               className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                               {...field}
                               onChange={(e) => {
-                                const trimmedValue = e.target.value.trimStart(); 
+                                const trimmedValue = e.target.value.trimStart();
                                 field.onChange(trimmedValue);
                                 setValidationError("");
                                 setCompanyname(trimmedValue);
                               }}
-
-
                             />
-                            
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -483,23 +424,15 @@ const AddBankAccount = ({ eventData }: any) => {
                       name="companyaddress"
                       render={({ field }) => (
                         <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
-                          <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                            ADDRESS
-                          </FormLabel>
-                          <Image
-                            src={adress}
-                            alt="address-icon"
-                            className="absolute right-3 top-[30%]"
-                          />
+                          <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">ADDRESS</FormLabel>
+                          <Image src={adress} alt="address-icon" className="absolute right-3 top-[30%]" />
                           <FormControl>
                             <Input
                               placeholder="Enter Address"
                               className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                               {...field}
-                            
-
                               onChange={(e) => {
-                                const trimmedValue = e.target.value.trimStart(); 
+                                const trimmedValue = e.target.value.trimStart();
                                 field.onChange(trimmedValue);
                                 setValidationError("");
                                 setCompanyAddress(trimmedValue);
@@ -515,22 +448,15 @@ const AddBankAccount = ({ eventData }: any) => {
                       name="companyanotheraddress"
                       render={({ field }) => (
                         <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
-                          <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                            ADDRESS 2
-                          </FormLabel>
-                          <Image
-                            src={adress}
-                            alt="address-icon"
-                            className="absolute right-3 top-[30%]"
-                          />
+                          <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">ADDRESS 2</FormLabel>
+                          <Image src={adress} alt="address-icon" className="absolute right-3 top-[30%]" />
                           <FormControl>
                             <Input
                               placeholder="Enter Address 2"
                               className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                               {...field}
-                             
                               onChange={(e) => {
-                                const trimmedValue = e.target.value.trimStart(); 
+                                const trimmedValue = e.target.value.trimStart();
                                 field.onChange(trimmedValue);
                                 setValidationError("");
                                 setCompanyAddress2(trimmedValue);
@@ -546,27 +472,19 @@ const AddBankAccount = ({ eventData }: any) => {
                       name="city"
                       render={({ field }) => (
                         <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
-                          <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                            CITY
-                          </FormLabel>
-                          <Image
-                            src={company}
-                            alt="company-icon"
-                            className="absolute right-3 top-[30%]"
-                          />
+                          <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">CITY</FormLabel>
+                          <Image src={company} alt="company-icon" className="absolute right-3 top-[30%]" />
                           <FormControl>
                             <Input
                               placeholder="Enter City"
                               className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                               {...field}
                               onChange={(e) => {
-                                const trimmedValue = e.target.value.trimStart(); 
+                                const trimmedValue = e.target.value.trimStart();
                                 field.onChange(trimmedValue);
                                 setValidationError("");
                                 setCity(trimmedValue);
                               }}
-                              
-                           
                             />
                           </FormControl>
                           <FormMessage />
@@ -578,22 +496,15 @@ const AddBankAccount = ({ eventData }: any) => {
                       name="zipcode"
                       render={({ field }) => (
                         <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
-                          <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                            ZIP CODE
-                          </FormLabel>
-                          <User
-                            className="absolute right-3 top-[30%]"
-                            size={20}
-                          />
+                          <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">ZIP CODE</FormLabel>
+                          <User className="absolute right-3 top-[30%]" size={20} />
                           <FormControl>
                             <Input
-                          
                               placeholder="Enter Zip Code"
                               className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                               {...field}
                               onChange={(e) => {
-                               
-                                const trimmedValue = e.target.value.trimStart(); 
+                                const trimmedValue = e.target.value.trimStart();
                                 field.onChange(trimmedValue);
                                 setValidationError("");
                                 setZipcode(trimmedValue);
@@ -607,14 +518,11 @@ const AddBankAccount = ({ eventData }: any) => {
                   </div>
                 </div>
               )}
-              {(selectedOption?.label === "Individual" ||
-                selectedOption?.label === "Company") && (
+              {(selectedOption?.label === "Individual" || selectedOption?.label === "Company") && (
                 <>
                   <div className="pb-[8px] mb-[12px] lg:mb-5 w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
                     <div className="flex items-center justify-between">
-                      <p className="text-base font-bold pb-[16px] text-white">
-                        Bank Account Information
-                      </p>
+                      <p className="text-base font-bold pb-[16px] text-white">Bank Account Information</p>
                     </div>
                     <Separator className="scale--[1.12] bg-[#292929]" />
                     {Dropdown && (
@@ -626,41 +534,22 @@ const AddBankAccount = ({ eventData }: any) => {
                             onClick={() => handleBankOptionToggle(bankoption)}
                           >
                             <div className="flex items-center gap-[10px]">
-                              <p className="text-[14px] text-[#FFFFFF] font-normal items-center">
-                                {bankoption.label}
-                              </p>
+                              <p className="text-[14px] text-[#FFFFFF] font-normal items-center">{bankoption.label}</p>
                             </div>
-                            {selectedbankOption?.id === bankoption.id && (
-                              <Image
-                                src={tick}
-                                width={10}
-                                height={10}
-                                alt="tick"
-                              />
-                            )}
+                            {selectedbankOption?.id === bankoption.id && <Image src={tick} width={10} height={10} alt="tick" />}
                           </div>
                         ))}
                       </div>
                     )}
-                    {validationError && (
-                      <p className="text-red-500 text-sm mt-2">
-                        {validationError}
-                      </p>
-                    )}
+                    {validationError && <p className="text-red-500 text-sm mt-2">{validationError}</p>}
                   </div>
                   <FormField
                     control={form.control}
                     name="bankname"
                     render={({ field }) => (
                       <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          BANK NAME
-                        </FormLabel>
-                        <Image
-                          src={bank}
-                          alt="bank-icon"
-                          className="absolute right-3 top-[30%]"
-                        />
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">BANK NAME</FormLabel>
+                        <Image src={bank} alt="bank-icon" className="absolute right-3 top-[30%]" />
                         <FormControl>
                           <Input
                             placeholder="Enter Bank Name"
@@ -672,24 +561,19 @@ const AddBankAccount = ({ eventData }: any) => {
                             //   setbankname(e.target.value);
                             // }}
 
-                                          onChange={(e) => {
-                              const trimmedValue = e.target.value.trimStart(); 
+                            onChange={(e) => {
+                              const trimmedValue = e.target.value.trimStart();
                               field.onChange(trimmedValue);
                               setValidationError("");
                               setbankname(trimmedValue);
                             }}
-                           
-
                             onKeyDown={(e) => {
                               // Prevent leading space
                               if (e.key === " " && field.value.length === 0) {
                                 e.preventDefault();
                               }
                               // Allow letters, numbers, and spaces
-                              if (
-                                !/^[A-Za-z\s]*$/.test(e.key) &&
-                                !["Backspace", "Tab"].includes(e.key)
-                              ) {
+                              if (!/^[A-Za-z\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
                                 e.preventDefault();
                               }
                             }}
@@ -704,9 +588,7 @@ const AddBankAccount = ({ eventData }: any) => {
                     name="banktitle"
                     render={({ field }) => (
                       <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          Title of Account
-                        </FormLabel>
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">Title of Account</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Enter Account Title"
@@ -723,10 +605,7 @@ const AddBankAccount = ({ eventData }: any) => {
                                 e.preventDefault();
                               }
                               // Allow letters, numbers, and spaces
-                              if (
-                                !/^[A-Za-z\s]*$/.test(e.key) &&
-                                !["Backspace", "Tab"].includes(e.key)
-                              ) {
+                              if (!/^[A-Za-z\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
                                 e.preventDefault();
                               }
                             }}
@@ -741,9 +620,7 @@ const AddBankAccount = ({ eventData }: any) => {
                     name="bankiban"
                     render={({ field }) => (
                       <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          IBAN
-                        </FormLabel>
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">IBAN</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Enter IBAN"
@@ -754,17 +631,13 @@ const AddBankAccount = ({ eventData }: any) => {
                               setValidationError("");
                               setbankIBAN(e.target.value);
                             }}
-
                             onKeyDown={(e) => {
                               // Prevent leading space
                               if (e.key === " " && field.value.length === 0) {
                                 e.preventDefault();
                               }
-                              
-                              if (
-                                !/^[A-Za-z0-9\s]*$/.test(e.key) &&
-                                !["Backspace", "Tab"].includes(e.key)
-                              ) {
+
+                              if (!/^[A-Za-z0-9\s]*$/.test(e.key) && !["Backspace", "Tab"].includes(e.key)) {
                                 e.preventDefault();
                               }
                             }}
@@ -779,18 +652,14 @@ const AddBankAccount = ({ eventData }: any) => {
                     name="bankswiftcode"
                     render={({ field }) => (
                       <FormItem className="mb-[12px] relative md:mb-5 space-y-0">
-                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">
-                          SWIFT CODE
-                        </FormLabel>
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">SWIFT CODE</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Enter Swift Code"
                             className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                             {...field}
-                          
-
                             onChange={(e) => {
-                              const trimmedValue = e.target.value.trimStart(); 
+                              const trimmedValue = e.target.value.trimStart();
                               field.onChange(trimmedValue);
                               setValidationError("");
                               setbankSwiftCode(trimmedValue);
@@ -972,24 +841,13 @@ const AddBankAccount = ({ eventData }: any) => {
                         !bankIBAN ||
                         !bankSwiftCode)) ||
                     (selectedOption.label === "Individual" &&
-                      (!bankname ||
-                        !Paid ||
-                        !Country ||
-                        !bankTitle ||
-                        !bankIBAN ||
-                        !bankSwiftCode ||
-                        !selectedbankOption))
+                      (!bankname || !Paid || !Country || !bankTitle || !bankIBAN || !bankSwiftCode || !selectedbankOption))
                   }
                 >
                   Add
                 </Button>
               </div>
-              {openModal && (
-                <Addcryptopopup
-                  onClose={() => setOpenModal(false)}
-                  open={() => setOpenModal(true)}
-                />
-              )}
+              {openModal && <Addcryptopopup onClose={() => setOpenModal(false)} open={() => setOpenModal(true)} />}
             </form>
           </Form>
         </div>

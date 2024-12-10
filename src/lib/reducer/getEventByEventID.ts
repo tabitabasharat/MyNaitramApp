@@ -1,27 +1,27 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getEventByEventId } from "../middleware/event";
 
-const initialState:any = {
+const initialState: any = {
   loading: false,
   error: "",
- eventIdEvents: [],
+  eventIdEvents: [],
 };
 const getEventByEventIDSlice = createSlice({
   name: "getEventByEventID",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getEventByEventId .pending, (state) => {
+    builder.addCase(getEventByEventId.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(getEventByEventId .fulfilled, (state, action) => {
+    builder.addCase(getEventByEventId.fulfilled, (state, action) => {
       state.loading = false;
       state.eventIdEvents = action.payload;
     });
-    builder.addCase(getEventByEventId .rejected, (state, action) => {
+    builder.addCase(getEventByEventId.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error || "something wrong";
     });
   },
 });
-export default  getEventByEventIDSlice.reducer;
+export default getEventByEventIDSlice.reducer;
