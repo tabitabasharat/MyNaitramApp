@@ -47,8 +47,9 @@ import getPastEventBox from "./reducer/getPastEventsBox";
 import getPhotoRollChat from "./reducer/getPhotoRollChat";
 import getUserInfoById from "./reducer/getUserInfo";
 import createExpressAccount from "./reducer/createExpressAcnt";
-
 import getTicketStutus from "./reducer/getTicketStutus";
+import getOrganizerProfileFutures from "./reducer/getOrganizerProfileFutures";
+import getOrganizerPastEvents from "./reducer/getOrganizerPastEvent";
 
 const appReducer = combineReducers({
   getAllEvents: getAllEvents,
@@ -57,7 +58,6 @@ const appReducer = combineReducers({
   signIn: sign,
   getEventsCount: getAllEventsCount,
   getViewAllEvents: getViewAllEvents,
-  getEventByEventID: getEventByEventID,
   getPastEvents: getPastEvents,
   getPastEventsBox: getPastEventBox,
   getEventCount: getEventCount,
@@ -99,6 +99,10 @@ const appReducer = combineReducers({
   getUserInfoById: getUserInfoById,
   createExpressAccount: createExpressAccount,
   ticketStatus: getTicketStutus,
+  //For sales and anayltics
+  getOrganizerProfileFutures: getOrganizerProfileFutures,
+  getOrganizerPastEvents: getOrganizerPastEvents,
+  getEventByEventID: getEventByEventID,
 });
 const rootReducer = (state: ReturnType<typeof appReducer> | undefined, action: AnyAction) => {
   if (action.type === "LOGOUT") {

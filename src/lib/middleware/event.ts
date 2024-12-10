@@ -162,6 +162,7 @@ export const getViewAllEvent = createAsyncThunk("getViewAllEvent", async (data: 
   }
 });
 
+////// This is for analytics too
 export const getEventByEventId = createAsyncThunk("getEventByEventId", async (data: any) => {
   try {
     console.log("inside get Event By Eventid");

@@ -68,6 +68,10 @@ const AllEventsGrid = ({ events, eventType }: any) => {
 
   function getTicketData(item: any) {
     const prices = item.map((ticket: any) => ticket?.ticketPrice).filter((value: any) => value !== undefined);
+    console.log("Length of prices as==>sdsdd ", prices);
+    if (prices?.length == 0) {
+      return "0";
+    }
     const minPrice = Math.min(...prices);
     const ticketPrice = minPrice > 0 ? minPrice : "0";
     return ticketPrice;
