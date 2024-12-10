@@ -78,6 +78,27 @@ const Profile = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>("Status");
   const [selectedChain, setSelectedChain] = useState<string>("Chains");
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownVisible(false);
+        setIsOpen(false);
+        setIsOpenchain(false);
+        setIsOpenrecent(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  
   const [selectedrecent, setSelectedrecent] =
     useState<string>("Recently Received");
 
@@ -175,7 +196,7 @@ const Profile = () => {
 
   const FilterButton1 = () => (
     <>
-      <div className="flex relative flex-col">
+      <div className="flex relative flex-col" ref={dropdownRef}>
         {/* Filter Button */}
         <div
           onClick={toggleDropdown}
