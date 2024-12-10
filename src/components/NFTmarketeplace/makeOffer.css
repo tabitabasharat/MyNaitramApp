@@ -117,6 +117,7 @@ display: none !important;
   @media(max-width:450px){
     .imageFolder{
       width: 88px !important;
+      height: 88px !important;
     }
   }
   @media (min-width: 370px) and (max-width: 410px) {

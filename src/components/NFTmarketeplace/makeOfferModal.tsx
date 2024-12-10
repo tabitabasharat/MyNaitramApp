@@ -168,11 +168,11 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
             </DialogHeader>
             <Separator className="scale--[1.12] bg-[#292929]" />
 
-            <div className="flex gap-[16px] pt-[24px] pl-[24px] pr-[24px] ">
+            <div className="flex gap-[20px] sm:gap-[16px] pt-[24px] pl-[24px] pr-[24px] ">
               <div className="w-[120px] imageFolder h-[120px] makeAnOffer-gradient  max-[600px]:h-[100px]  max-[600px]:w-[100px]  ">
                 <Image className=" pt-[1px] rounded-[9px] w-full h-[99%] object-cover" src={image1} alt="/" />
               </div>
-              <div className="flex flex-col gap-[11px] justify-center ">
+              <div className="flex flex-col gp-[5px] sm:gap-[11px] justify-center ">
                 <p className="text-[24px] leading-[27.6px] font-[800] text-[white] max-[540px]:text-[20px] max-[540px]:leading-[20px]  ">
                   A Fasty Brush Flower Arts
                 </p>
@@ -181,7 +181,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
             </div>
 
             <div
-              className="mt-[32px] rounded-[12px] gradient-slate border border-[#292929]  p-[16px] ml-[24px] mr-[24px]"
+              className="mt-[24px] sm:mt-[32px] rounded-[12px] gradient-slate border border-[#292929] px-[12px] py-[16px] sm:p-[16px] ml-[24px] mr-[24px]"
               style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)" }}
             >
               <div className="flex flex-col gap-[15px]">
@@ -205,7 +205,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                 </div>
               </div>
             </div>
-            <div className="flex gap-[10px] mt-[17px] mr-[24px] ml-[24px] max-[450px]:gap-[5px]">
+            <div className="flex gap-[10px] mt-[10px] sm:mt-[17px] mr-[24px] ml-[24px] max-[450px]:gap-[5px]">
               {/* <input
                 type="number"
                 className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px]  bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[450px]:w-[60%] "
@@ -227,7 +227,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                 value={options.find((option) => option.value === selectedCurrency)}
               />
             </div>
-            <div className="flex flex-col mt-[32px] gap-[8px] mr-[24px] ml-[24px]">
+            <div className="flex flex-col mt-[20px] sm:mt-[32px] gap-[10px] sm:gap-[8px] mr-[24px] ml-[24px]">
               <p className="font-[800] text-[14px] leading-[19.6px] text-[#FFFFFF]">Duration</p>
               <div className="flex justify-between max-[540px]:flex-col gap-[5px]">
                 <Select

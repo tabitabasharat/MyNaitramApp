@@ -5,11 +5,10 @@ import blurbg from "@/assets/V2assets/Blur Green.svg"
 import Image from "next/image"
 import img from "@/assets/V2assets/img.svg"
 import { Button } from "../ui/button";
-import {Input} from "@/components/ui/input";
 
 const MpHome = () => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false); 
+  const [isOpen, setIsOpen] = useState(false); // Track dropdown open/close state
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [selected, setSelected] = useState("Category"); // Track selected item
 
@@ -48,17 +47,17 @@ const MpHome = () => {
         {/* Left Section */}
         <div className="flex flex-col space-y-8 lg:space-y-10 lg:w-1/2">
           <div className="flex flex-col space-y-5 md:pt-0">
-            <h2 className="text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight sm:mt-6">
+            <h2 className="text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight  sm:mt-6">
               {/* Without <br> for small and medium screens */}
-              <span className="block lg:hidden">Discover Digital Art & Collect NFTs</span>
+              <span className="block text-[32px] lg:hidden">Discover Digital Art & Collect NFTs</span>
 
               {/* With <br> for large screens */}
-              <span className="hidden lg:block">
+              <span className="hidden mt-4 lg:block">
                 Discover Digital <br /> Art & Collect <br /> NFTs
               </span>
             </h2>
 
-            <p className="text-[rgba(255,255,255,1)]  text-sm capitalize  sm:text-lg md:text-xl leading-relaxed mt-4 sm:mt-6">
+            <p className="text-[rgba(255,255,255,1)]  text-sm capitalize  sm:text-lg md:text-xl leading-relaxed mt-3 sm:mt-4 sm:mt-6">
               {/* Without <br> for small and medium screens */}
               <span className="block lg:hidden text-[rgba(255,255,255,1)]">
                 NFT Marketplace Collect, Buy And Sell Art From More Than 20k NFT Artists.
@@ -71,9 +70,9 @@ const MpHome = () => {
             </p>
           </div>
 
-          <Button className="hidden lg:block w-40 h-12 bg-green-500 hover:bg-[#13FF7A] text-black font-extrabold text-base rounded-full py-2 px-6">
+          <button className="hidden lg:block w-40 h-12 bg-green-500 hover:bg-[#13FF7A] text-black font-extrabold text-base rounded-full py-2 px-6">
             Get Started
-          </Button>
+          </button>
 
           <div className="hidden lg:flex space-x-8">
             {[
@@ -90,10 +89,10 @@ const MpHome = () => {
         </div>
 
         {/* Right Section */}
-        <div className="lg:w-1/2 flex flex-col items-center lg:items-end space-y-5">
-          <Image src={img} alt="NFT Art" className="w-full lg:w-auto" />
+        <div className="lg:w-1/2 flex flex-col items-center lg:items-end space-y-8">
+          <Image src={img} alt="NFT Art" className="w-full lg:w-auto " />
 
-          <button className="lg:hidden w-full h-12 bg-green-500 text-black font-extrabold text-base rounded-full py-2 px-6 hover:bg-[#13FF7A]">
+          <button className="lg:hidden w-full h-12 bg-green-500 space-y-[0px] space-y-[40px] text-black font-extrabold text-sm rounded-full py-2 px-6 hover:bg-[#13FF7A]">
             Get Started
           </button>
           <div className="lg:hidden flex space-x-8">
@@ -103,8 +102,8 @@ const MpHome = () => {
               { value: "10k+", label: "Creators" },
             ].map((item, index) => (
               <div key={index} className="flex flex-col items-start space-y-1">
-                <h2 className="text-white text-xl font-extrabold">{item.value}</h2>
-                <p className="text-gray-400 text-[15px] font-[400] sm:text-base sm:font-normal">{item.label}</p>
+                <h2 className="text-white text-[22px] font-extrabold">{item.value}</h2>
+                <p className="text-gray-400 font-[400] text-base sm:font-normal">{item.label}</p>
               </div>
             ))}
           </div>
@@ -119,7 +118,7 @@ const MpHome = () => {
           <div className="flex gap-[10px]  xl:justify-end lg:flex-row lg:flex">
             {/* First Input */}
             <div className="relative w-full sm:w-[376px]">
-              <Input
+              <input
                 type="text"
                 placeholder="Search NFT"
                 className="w-full bg-transparent sm:w-[376px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323]
@@ -213,9 +212,9 @@ const MpHome = () => {
          opacity-0 group-hover:opacity-100  transition-all duration-[300ms]"
               ></div>
               {/* Overlay Text */}
-              <div className="absolute bottom-0 left-0 pl-[15px] pr-[15px] pb-[15px] w-full text-white z-20">
-                <h2 className="text-[20px] sm:text-[24px] font-extrabold leading-[19.15px] text-left m-0">The Orbitians {index + 1}</h2>
-                <p className="mt-[8px] text-[12px] sm:text-[16px] font-normal leading-[19.15px] text-left text-[#BFBFBF] m-0">
+              <div className="absolute bottom-0 left-0 pl-[24px] pr-[24px] sm:pl-[25px] sm:pr-[25px] pb-[24px] sm:pb-[25px] w-full text-white z-20">
+                <h2 className="text-[22px] sm:text-[24px] font-extrabold leading-[19.15px] text-left m-0">The Orbitians {index + 1}</h2>
+                <p className="mt-[8px] text-sm sm:text-base font-normal leading-[19.15px] text-left text-[#BFBFBF] m-0">
                   What’s New {index + 1}
                 </p>
                 {/* Additional Content (only visible on hover) */}

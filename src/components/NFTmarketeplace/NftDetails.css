@@ -15,6 +15,9 @@
   line-height: 24px;
   color: #ffffff;
 }
+.wid{
+  width: 100% ;
+}
 .bg-reward-outer2 {
   display: flex;
   align-items: start;
@@ -207,6 +210,11 @@
     padding: 132px 100px;
   }
 }
+@media (min-width:1151px) {
+  .wid{
+    width: 60% !important;
+  }
+}
 @media (max-width: 1090px) {
   .bg-reward-outer {
     width: 100%;
@@ -218,6 +226,7 @@
   .Graph1{
     width: 100% !important;
   }
+
 }
  @media (max-width:800px){
   .customizeButton{

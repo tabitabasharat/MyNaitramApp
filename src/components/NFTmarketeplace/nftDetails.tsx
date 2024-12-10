@@ -89,8 +89,8 @@ const NftDetails = () => {
   return (
     <div className="relative overflow-hidden">
       <section className=" pt-[173px] pb-[236px]  main pl-[92px] pr-[97px]">
-        <div className="flex gap-[80px] md-1150:flex-col">
-          <div className="flex flex-col w-full min-[1500px]:w-[593px] rightDive">
+        <div className="flex gap-[50px] xl:gap-[80px]">
+          <div className="flex flex-col w-full lg:w-[40%] min-[1500px]:w-[593px] rightDive">
             <div className=" image w-full ">
               <Image className="img w-full rounded-[8px]  " src={image1} alt="/" />
             </div>
@@ -129,11 +129,11 @@ const NftDetails = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-[12px] sm:gap-[32px] min-[1500px]:w-[671px]">
-            <p className="font-[800] text-[48px] leading-[57.6px] fasty ">A Fasty Brush Flower Arts</p>
+          <div className="flex flex-col gap-[12px] sm:gap-[32px] wid min-[1500px]:w-[671px]">
+            <p className="font-[800] text-[48px] leading-[57.6px] fasty ">A Fasty Brush Flower Adfvfdrts</p>
             <div className="flex flex-col gap-[12px] sm:gap-[16px]">
               <p className="font-[800] text-[24px] leading-[28.8px] description ">Description</p>
-              <p className="font-[400] text-[16px] mb-[38px] sm:mb-[0px] leading-[19.2px] para">
+              <p className="font-[400] text-[16px] mb-[8px] sm:mb-[0px] leading-[19.2px] para">
                 Join us for the PIZDEZ Women’s Day Party 2024, an unforgettable celebration of women's achievements and empowerment! Enjoy an
                 electrifying night filled with live music, dancing, and entertainment.{" "}
               </p>

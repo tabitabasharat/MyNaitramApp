@@ -56,8 +56,8 @@ const NftOwner = () => {
 
         <div className=" mt-[-50px] px-[92px] Animakida_Container_LOgo">
           <Image className="ml-[5px] w-[98px] h-[98px] md:w-[123px] md:h-[123px] md:ml-0" width={123} height={123} src="/Images/Animkiad.svg" alt="Logo"/>
-          <div className="flex justify-between items-center mt-[20px] max-[78px]:mt-10 Animkaida_Btn_text_Container">
-            <h2 className="text-[24px] font-extrabold leading-[26.6px] md:text-[37px] md:leading-[48.6px] lg:text-[56px] lg:leading-[61.6px]">
+          <div className="flex justify-between items-center mt-[20px] md:mt-[40px] Animkaida_Btn_text_Container">
+            <h2 className="text-[24px] font-extrabold leading-[26.6px] md:text-[37px] md:leading-[48.6px] lg:text-[55px] lg:leading-[61.6px]">
               Animakid
             </h2>
             <button className="bg-[#00D059] px-8 py-4 rounded-full text-[14px] font-extrabold leading-[19.6px] text-[#030303] Animkaid_Button hidden md:block hover:bg-opacity-[80%]">
@@ -66,7 +66,7 @@ const NftOwner = () => {
           </div>
         </div>
         <div className="flex flex-col gap-[40px] pl-[92px] pr-[92px] Animakid__HeroSection_container sm:gap-[55px]">
-          <div className="flex flex-wrap justify-start items-center gap-10 max-[450px]:gap-[29px] Animakid__Container_small_TExt mt-[40px] md:mt-[65px]">
+          <div className="flex flex-wrap justify-start items-center lg:gap-[50px] gap-[29px] Animakid__Container_small_TExt mt-[40px] md:mt-[55px]">
             {Object.keys(statesData).map((key) => {
               const data = statesData[key as keyof StatesData];
               return (
@@ -85,17 +85,17 @@ const NftOwner = () => {
           <div className="flex flex-col gap-3">
             <h2 className="text-[18px] md:text-[24px] font-bold leading-[28.8px] md:leading-[38.4px] text-left text-[#00D059]">Description</h2>
             <div>
-              <h3 className="hidden md:block text-[14px] md:text-[20px] font-normal md:font-bold leading-[21px] md:leading-[28px] text-left text-white">
+              <h3 className="hidden md:block text-[14px] md:text-[20px] mb-[8px] font-normal md:font-bold leading-[21px] md:leading-[28px] text-left text-white">
                 Join us for the PIZDEZ Women’s Day Party 2024
               </h3>
-              <p className="text-[14px] md:text-[16px] font-normal leading-[21px] md:leading-[24px] text-left text-white mt-2 Join_Us_Animakid">
+              <p className="text-[14px] md:text-[16px] font-normal leading-[21px] md:leading-[24px] text-left text-white Join_Us_Animakid">
                 Join us for the PIZDEZ Women’s Day Party 2024, an unforgettable celebration of women's achievements and empowerment! Enjoy an
                 electrifying night filled with live music, dancing, and entertainment. Mingle with amazing people in a vibrant atmosphere, and take
                 part in special activities designed to honor and uplift women. Delicious food and drinks will be available, making it a perfect night
                 out. Don’t miss this exciting event—come and celebrate with us!
               </p>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col sm:gap-[12px]  md:mt-[0px] mt-[8px] gap-[12px]">
               <div className="flex items-start sm:items-center gap-2">
                 <img src="/Images/Nft_animakid_img/Loctaion.svg" alt="Location Icon" />
                 <p className="text-[16px] font-bold leading-6 text-[#FFFFFF] ">DOMA PUB Main floor, Light Street, London</p>
@@ -112,23 +112,23 @@ const NftOwner = () => {
           </div>
           <div >
             <div className="flex items-center max-sm:gap-[6px] gap-[12px]">
-              <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/facboklogo.svg" alt="Event Icon" />
-              <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/camer.svg" alt="camera-img" />
-              <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/twiterlogo.svg" alt="twitr-img" />
-              <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/linked-in.svg" alt="linkedin-img" />
-              <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/tiktok.svg" alt="tiktok-img" />
-              <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/instalogo.svg" alt="insta-img" />
-              <img className="max-sm:h-9 max-sm:w-9 hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/youtube.svg" alt="youtube-img" />
+              <img className="w-[36px] h-[36px] sm:w-[44px] sm:h-[44px] hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/facboklogo.svg" alt="Event Icon" />
+              <img className="w-[36px] h-[36px] sm:w-[44px] sm:h-[44px] hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/camer.svg" alt="camera-img" />
+              <img className="w-[36px] h-[36px] sm:w-[44px] sm:h-[44px] hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/twiterlogo.svg" alt="twitr-img" />
+              <img className="w-[36px] h-[36px] sm:w-[44px] sm:h-[44px] hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/linked-in.svg" alt="linkedin-img" />
+              <img className="w-[36px] h-[36px] sm:w-[44px] sm:h-[44px] hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/tiktok.svg" alt="tiktok-img" />
+              <img className="w-[36px] h-[36px] sm:w-[44px] sm:h-[44px] hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/instalogo.svg" alt="insta-img" />
+              <img className="w-[36px] h-[36px] sm:w-[44px] sm:h-[44px] hover:bg-[#00D059] rounded-[200px]" src="/Images/Nft_animakid_img/youtube.svg" alt="youtube-img" />
             </div>
 
-            <Button className="bg-[#00D059] w-full py-4 rounded-full text-[14px] font-extrabold leading-[19.6px] text-[#030303] Animkaid_Button block md:hidden mt-4">
+            <Button className="bg-[#00D059] w-full py-4 rounded-full text-[14px] font-extrabold leading-[19.6px] text-[#030303] Animkaid_Button block md:hidden mt-[40px]">
               Go To Event
             </Button>
           </div>
         </div>
       </div>
       <div className="px-[24px] sm:pl-[35px] bg-imag md:pl-[92px] sm:pr-[35px] lg:pr-[163px]">
-        <div className="flex items-center justify-end gap-[10px] mt-[100px] md:flex">
+        <div className="flex items-center justify-end gap-[10px] mt-[60px] sm:mt-[100px] md:flex">
          <div className="flex  items-center relative justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[308px] max-[430px]:h-[54px] min-[348px]:w-[376px]">
             <input
               className="text-[16px] bg-transparent block font-normal leading-5 text-[#BFBFBF] placeholder:text-[#BFBFBF] w-[90%] outline-none pr-10"
@@ -163,7 +163,7 @@ const NftOwner = () => {
 
           </div>
         </div>
-        <div className="flex flex-wrap gap-[35px] w-full w-full pt-[60px] md:pt-[30px] pb-[173px] justify-center mainCardss">
+        <div className="flex flex-wrap gap-[20px] sm:gap-[35px] w-full w-full pt-[60px] md:pt-[30px] pb-[173px] justify-center mainCardss">
 
           {[...Array(15)].map((_, index) => (
             <div
