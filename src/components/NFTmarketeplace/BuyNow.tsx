@@ -211,7 +211,7 @@ const BuyNow = () => {
                                 <Image src={SetaPrice} alt='setPrice' />
                             </div>
                             <p className="font-[800] text-[16px] leading-[19.2px]">Starting Price</p>
-                            <div className='flex gap-[10px]'>
+                            <div className='flex gap-[10px] max-[450px]:gap-[5px]'>
                             <Input
                 type="number"
                 className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] gradient-slate border border-[#292929] rounded-[8px] bg-transparent focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[540px]:w-[50%] "
@@ -299,8 +299,9 @@ const BuyNow = () => {
                     </div>
 
                 </div>
+                <div className="max-[786px]:flex max-[786px]:width-full max-[786px]:justify-center">
                 <div className="BuyNowMarketPlace-gradient w-[400px] marginull mt-[40px] h-[512px]  max-[450px]:w-full  max-[450px]:h-auto">
-                    <div className="flex flex-col p-[16px] w-full gap-[20px]">
+                    <div className="flex flex-col p-[16px] w-full gap-[20px]  max-[425px]:p-[13.8px]">
                         <Image className='w-full h-[342px] max-[450px]:h-[219px] max-[450px]:w-[400px] max-[450px]:h-[400px] max-[395px]:h-auto' src={BuyNowImage} alt='Image PlaceHolder' />
                         <div className="flex flex-col gap-[12px]">
                             <p className="text-white font-[800] text-[18px] leading-[19.15px] max-[500px]:text-[16px] max-[500px]:leading-[16.51px] ">The Orbitians</p>
@@ -309,6 +310,7 @@ const BuyNow = () => {
                         <p className="text-[#00D059] font-[800] text-[24px] leading-[27.6px] -tracking-[0.04em] pb-[28px] max-[500px]:text-[20px] max-[500px]:leading-[23px]">-- ETH</p>
                     </div>
 
+                </div>
                 </div>
 
             </div>
