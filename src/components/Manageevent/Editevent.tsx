@@ -1922,6 +1922,7 @@ function Editevent() {
               rsvpDeadline: convertToUTC(ticket?.deadline),
               noOfTickets: ticket?.capacity,
               originalNoOfTickets: ticket?.capacity,
+              rsvpCapacity: ticket?.capacity,
               whatsIncluded: ticket?.options,
               rsvpName: ticket?.username,
               rsvpMail: ticket?.useremail,
