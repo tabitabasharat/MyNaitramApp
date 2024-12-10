@@ -1,7 +1,9 @@
 /* Nomi branch CSS */
 @media (min-width:1500px){
   .mainCardss{
-    justify-content: space-between !important;
+    /* justify-content: space-between !important; */
+    gap: 78px !important;
+    display: flex;
   }
  
 }
@@ -38,6 +40,7 @@
   select,
   textarea {
     display: none;
+
   }
 }
 

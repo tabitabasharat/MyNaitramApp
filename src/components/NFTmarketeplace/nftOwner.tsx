@@ -163,9 +163,9 @@ const NftOwner = () => {
 
           </div>
         </div>
-        <div className="flex flex-wrap  gap-[35px] w-full w-full pt-[60px] md:pt-[30px] pb-[173px] justify-center mainCardss">
+        <div className="flex flex-wrap gap-[35px] w-full w-full pt-[60px] md:pt-[30px] pb-[173px] justify-center mainCardss">
 
-          {[...Array(12)].map((_, index) => (
+          {[...Array(15)].map((_, index) => (
             <div
               key={index}
               onClick={() => {
