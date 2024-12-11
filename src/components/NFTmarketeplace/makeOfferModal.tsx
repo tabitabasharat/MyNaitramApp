@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useState, useEffect, useRef } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -128,6 +127,9 @@ const durationOptions = [
   { value: "custom", label: "Custom Date" },
 ];
 const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
+  const [isMenuCurrencyOpen, setIsMenuCurrencyOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const selectRef =  useRef<HTMLDivElement | null>(null);
   const [selectedCurrency, setSelectedCurrency] = useState<string>("ETH");
   const [selectedDuration, setSelectedDuration] = useState<string>("Select");
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -158,6 +160,34 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
     setIsEndPickerOpen(!isEndPickerOpen);
     setIsStartPickerOpen(false); // Close start picker if open
   };
+  const handleMenuOpen = () => {
+    setIsMenuOpen(true);
+  };
+  const handlecurrencyMenuopen =()=>{
+    setIsMenuCurrencyOpen(true);
+  }
+
+  const handleMenuClose = () => {
+    setIsMenuOpen(false);
+  };
+
+  const handlecurrencyMenuclose = () => {
+    setIsMenuCurrencyOpen(false);
+  };
+
+  
+  const handleClickOutside = (event: MouseEvent) => {
+    if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+      setIsMenuOpen(false);
+      setIsMenuCurrencyOpen(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <Form {...form}>
       <Dialog open={open} onOpenChange={onClose}>
@@ -218,26 +248,35 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                 placeholder="Price"
                 style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)" }}
               />
-
+ <div className="w-[40%]" ref={selectRef}>
               <Select
-                className="w-[40%] h-[54px]   bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] "
+                className="w-[100%] h-[54px]   bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] "
                 options={options}
                 onChange={handleChange}
                 styles={customStyles}
                 value={options.find((option) => option.value === selectedCurrency)}
+                menuIsOpen={isMenuCurrencyOpen} // Control dropdown visibility
+                onMenuOpen={handlecurrencyMenuopen}
+                onMenuClose={handlecurrencyMenuclose}
               />
+              </div>
             </div>
             <div className="flex flex-col mt-[20px] sm:mt-[32px] gap-[10px] sm:gap-[8px] mr-[24px] ml-[24px]">
               <p className="font-[800] text-[14px] leading-[19.6px] text-[#FFFFFF]">Duration</p>
               <div className="flex justify-between max-[540px]:flex-col gap-[5px]">
-                <Select
-                  className="w-[40%] h-[54px]  bg-transparent  gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
-                  placeholder="Select"
-                  options={durationOptions}
-                  onChange={handleDurationChange}
-                  styles={customStyles}
-                  value={durationOptions.find((option) => option.value === selectedDuration)}
-                />
+              <div ref={selectRef} className="w-[40%] max-[540px]:w-full">
+      <Select
+        className="w-[100%] h-[54px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
+        placeholder="Select"
+        options={durationOptions}
+        onChange={handleDurationChange}
+        styles={customStyles}
+        menuIsOpen={isMenuOpen} // Control dropdown visibility
+        onMenuOpen={handleMenuOpen}
+        onMenuClose={handleMenuClose}
+        value={durationOptions.find((option) => option.value === selectedDuration)}
+      />
+    </div>
                 {selectedDuration === "custom" ? (
                   <div className="flex  max-[540px]:flex-col  gap-[5px]  relative">
                     <Input

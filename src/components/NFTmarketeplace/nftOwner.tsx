@@ -85,7 +85,7 @@ const NftOwner = () => {
           <div className="flex flex-col gap-3">
             <h2 className="text-[18px] md:text-[24px] font-bold leading-[28.8px] md:leading-[38.4px] text-left text-[#00D059]">Description</h2>
             <div>
-              <h3 className="hidden md:block text-[14px] md:text-[20px] mb-[8px] font-normal md:font-bold leading-[21px] md:leading-[28px] text-left text-white">
+              <h3 className=" text-[16px] sm:text-[20px] mb-[8px]  font-bold leading-[21px] md:leading-[28px] text-left text-white">
                 Join us for the PIZDEZ Women’s Day Party 2024
               </h3>
               <p className="text-[14px] md:text-[16px] font-normal leading-[21px] md:leading-[24px] text-left text-white Join_Us_Animakid">
@@ -171,7 +171,7 @@ const NftOwner = () => {
               onClick={() => {
                 router.push("/marketPlace/nft");
               }}
-              className="cursor-pointer w-[270px] relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] p-[30px_11.5px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden hover-gradient-border"
+              className="cursor-pointer w-[270px] relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] pt-[18.37px] pb-[19.05px] pr-[12.62px] pl-[11.82px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden hover-gradient-border"
               // style={{ width: "270px" }}
             >
 
