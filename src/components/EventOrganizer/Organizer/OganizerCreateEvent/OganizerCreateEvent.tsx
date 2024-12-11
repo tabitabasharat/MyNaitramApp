@@ -3592,11 +3592,15 @@ function OganizerCreateEvent() {
                             <FormControl>
                               <Input
                                 placeholder="Enter Event Name"
+                                // value={Eventname ?? ""}
                                 className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                 {...field}
                                 onChange={(e) => {
-                                  setEventname(e.target.value);
-                                  field.onChange(e);
+                                  const inputValue = e.target.value;
+                                  if (inputValue === "" || inputValue.trim() !== "") {
+                                    setEventname(inputValue);
+                                    field.onChange(e);
+                                  }
                                 }}
                               />
                             </FormControl>
@@ -4287,6 +4291,33 @@ function OganizerCreateEvent() {
                           {ticket.eventdates.map((event: any, eventIndex: number) => {
                             return (
                               <>
+                                {ticket?.eventdates?.length > 1 && (
+                                  <div className="w-full flex justify-center items-center">
+                                    <div
+                                      className="h-[1.5px] w-[70%] relative mb-[28px] mt-[4px]"
+                                      style={{
+                                        background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                                      }}
+                                    >
+                                      <div
+                                        className="absolute top-0 left-0 h-full"
+                                        style={{
+                                          width: "30%", // make the edges thinner
+                                          background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                          filter: "blur(8px)", // blur the edges to make them thin and faded
+                                        }}
+                                      ></div>
+                                      <div
+                                        className="absolute top-0 right-0 h-full"
+                                        style={{
+                                          width: "30%", // same width for both edges
+                                          background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                          filter: "blur(8px)", // blur the edges to make them thin and faded
+                                        }}
+                                      ></div>
+                                    </div>
+                                  </div>
+                                )}
                                 <div className="flex items-start gap-[24px] w-full common-container mt-[-9px] mb-[12px]">
                                   {/* Event Start */}
                                   <div className="w-full">
@@ -4505,7 +4536,7 @@ function OganizerCreateEvent() {
                                   </div>
                                 </div>
                                 {/* Delete Event */}
-                                {eventIndex !== 0 && (
+                                {ticket?.eventdates?.length > 1 && (
                                   <div className="flex justify-end items-center mt-[5px] mb-5 ticket-btn">
                                     <Button
                                       className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
@@ -4515,7 +4546,7 @@ function OganizerCreateEvent() {
                                       }}
                                     >
                                       <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
-                                      Delete Event
+                                      Delete event time
                                     </Button>
                                   </div>
                                 )}
@@ -5753,7 +5784,7 @@ function OganizerCreateEvent() {
                                   // onClick={handleAddTicketType}
                                 >
                                   <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                  Additional Field
+                                  Additional Email
                                 </Button>
                               </div>
                             </div>
@@ -6568,7 +6599,7 @@ function OganizerCreateEvent() {
                                     // onClick={handleAddTicketType}
                                   >
                                     <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                    Additional Field
+                                    Additional Email
                                   </Button>
                                 </div>
                               </div>
@@ -6641,7 +6672,7 @@ function OganizerCreateEvent() {
                                     // onClick={handleAddTicketType}
                                   >
                                     <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                    Additional Field
+                                    Additional Password
                                   </Button>
                                 </div>
                               </div>
@@ -6727,7 +6758,7 @@ function OganizerCreateEvent() {
                                   // onClick={handleAddTicketType}
                                 >
                                   <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                  Additional Field
+                                  Additional Password
                                 </Button>
                               </div>
                             </div>
