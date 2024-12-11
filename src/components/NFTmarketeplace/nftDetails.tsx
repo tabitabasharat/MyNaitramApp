@@ -130,7 +130,7 @@ const NftDetails = () => {
             </div>
           </div>
           <div className="flex flex-col gap-[12px] sm:gap-[32px] wid min-[1500px]:w-[671px]">
-            <p className="font-[800] text-[48px] leading-[57.6px] fasty ">A Fasty Brush Flower Adfvfdrts</p>
+            <p className="font-[800] text-[48px] leading-[57.6px] fasty ">A Fasty Brush Flower Arts</p>
             <div className="flex flex-col gap-[12px] sm:gap-[16px]">
               <p className="font-[800] text-[24px] leading-[28.8px] description ">Description</p>
               <p className="font-[400] text-[16px] mb-[8px] sm:mb-[0px] leading-[19.2px] para">

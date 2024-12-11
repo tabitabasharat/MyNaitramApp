@@ -15,8 +15,8 @@
   line-height: 24px;
   color: #ffffff;
 }
-.wid{
-  width: 100% ;
+.wid {
+  width: 100%;
 }
 .bg-reward-outer2 {
   display: flex;
@@ -28,7 +28,6 @@
   display: flex;
   align-items: center;
   gap: 40px;
- 
 }
 @media (min-width: 1147px) and (max-width: 1366px) {
   .saturday {
@@ -36,10 +35,10 @@
   }
 }
 
-@media (min-width:1147px) and (max-width: 1360px){
-.doma{
-  align-items: start;
-}
+@media (min-width: 1147px) and (max-width: 1360px) {
+  .doma {
+    align-items: start;
+  }
 }
 
 @media (min-width: 1500px) {
@@ -210,9 +209,14 @@
     padding: 132px 100px;
   }
 }
-@media (min-width:1151px) {
-  .wid{
+@media (min-width: 1151px) {
+  .wid {
     width: 60% !important;
+  }
+}
+@media (min-width: 1565px) {
+  .wid {
+    width: 45% !important;
   }
 }
 @media (max-width: 1090px) {
@@ -222,25 +226,23 @@
     padding: 132px 60px;
   }
 }
-@media (max-width:1150px){
-  .Graph1{
+@media (max-width: 1150px) {
+  .Graph1 {
     width: 100% !important;
   }
-
 }
- @media (max-width:800px){
-  .customizeButton{
+@media (max-width: 800px) {
+  .customizeButton {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
   }
- }
- @media (max-width: 427px) {
+}
+@media (max-width: 431px) {
   .tableRow {
-  padding-left: 15.6px !important;
+    padding-left: 15.6px !important;
   }
-
 }
 @media (max-width: 425px) {
   .bg-reward-outer {
@@ -248,14 +250,13 @@
     display: block;
     padding: 100px 24px 54px !important;
   }
-
 }
-@media (max-width:370px){
-  .tableRow{
+@media (max-width: 370px) {
+  .tableRow {
     padding-left: 10px !important;
   }
 }
-@media (max-width:650px) {
+@media (max-width: 650px) {
   .arrowImage {
     width: 12.34px !important;
     height: 12.34px !important;
@@ -269,7 +270,6 @@
   }
 }
 @media (max-width: 477px) {
-  
   .hiddenPicture {
     width: 100% !important;
   }
