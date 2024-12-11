@@ -284,12 +284,6 @@ const BuyNow = () => {
                           "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
                       }}
                     />
-                    {/* <input
-                                    type="number"
-                                    className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] gradient-slate border border-[#292929] rounded-[8px] bg-transparent focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[540px]:w-[50%] "
-                                    placeholder="Price"
-                                    style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)", }}
-                                /> */}
                     <div className="w-[40%]" ref={selectRef}>
                       <Select
                         className="w-[100%] h-[54px] bg-transparent rounded-[8px] gradient-slate border border-[#292929]  text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[100%]"
