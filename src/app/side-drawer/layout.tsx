@@ -5,27 +5,16 @@ import Image from "next/image";
 import useMedia from "@/hooks/useMedia";
 import Analytics from "@/components/side-drawer/Analytics";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const isMobile = useMedia("(max-width: 768px)", false);
   return (
     <div
-      style={
-        isMobile
-          ? { position: "relative" }
-          : { position: "relative", }
-      }
-      className=" flex main-box mx-2xl py-[8rem] px-[34px] lg:py-[9rem] xl:gap-12 lg:min-h-[135vh] "
+      style={isMobile ? { position: "relative" } : { position: "relative" }}
+      className=" flex main-box mx-2xl py-[8rem] px-[34px] lg:py-[9rem] xl:gap-12 "
     >
-      <div
-        style={isMobile?{ position: "relative" }:{ position: "relative", zIndex: "9" }}
-        className="w-full h-[100%]"
-      >
+      <div style={isMobile ? { position: "relative" } : { position: "relative", zIndex: "9" }} className="w-full h-[100%]">
         {/* <ProfileSideInfo /> */}
-        <Analytics/>
+        <Analytics />
         {children}
       </div>
       {!isMobile && (
@@ -35,14 +24,13 @@ export default function RootLayout({
             right: "10%",
             bottom: "0%",
             zIndex: "-1",
-          }}  
+          }}
         >
           <div
             style={{
               width: "860px",
               height: "880px",
-              background:
-                "radial-gradient(circle at center, rgba(15, 255, 119, 0.32), rgba(0, 0, 0, 0))",
+              background: "radial-gradient(circle at center, rgba(15, 255, 119, 0.32), rgba(0, 0, 0, 0))",
               filter: "blur(100px)",
               transform: "translate(125px, 125px)", // Adjust these values to move the blur further down and right
             }}

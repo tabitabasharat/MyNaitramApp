@@ -164,6 +164,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
             rsvpDeadline: convertToUTC(ticket?.deadline),
             noOfTickets: ticket?.capacity,
             originalNoOfTickets: ticket?.capacity,
+            rsvpCapacity: ticket?.capacity,
             whatsIncluded: ticket?.options,
             rsvpName: ticket?.username,
             rsvpMail: ticket?.useremail,

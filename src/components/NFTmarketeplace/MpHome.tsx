@@ -109,7 +109,7 @@ const MpHome = () => {
           </div>
         </div>
       </div>
-      <div className="relative overflow-hidden flex flex-col px-4 lg:ps-[92px] lg:pe-[108px] pb-36 space-y-4 md:space-y-10">
+      <div className="relative overflow-hidden flex flex-col px-[24px] lg:ps-[92px] lg:pe-[108px] pb-36 space-y-4 md:space-y-10">
         {/* Heading */}
         <div className="flex flex-col gap-[16px] xl:gap-[0px] xl:flex-row xl:items-center xl:justify-between">
           <div className="w-full xl:w-[40%]">
@@ -123,7 +123,6 @@ const MpHome = () => {
                 placeholder="Search NFT"
                 className="w-full bg-transparent sm:w-[376px] h-[54px] px-[16px] pr-[40px] rounded-[8px] bg-gradient-to-b from-[#0F0F0F] to-[#1A1A1A] border border-transparent shadow-[inset_0px_3px_5px_#232323]
                placeholder:text-[#BFBFBF] placeholder:font-normal placeholder:text-[12px] placeholder:leading-[19.6px] placeholder:text-left focus:outline-none"
-              // style={{ textOverflow: "ellipsis" }}
               />
               <img
                 src="/Images/Market/srchicon.svg"

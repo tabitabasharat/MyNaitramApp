@@ -16,7 +16,7 @@ const getOrganizerProfileFuturesSlice = createSlice({
     });
     builder.addCase(getOrganizerProfileFutures.fulfilled, (state, action) => {
       state.loading = false;
-      state.ViewPastEvents = action.payload;
+      state.allOrganizerProfileFutures = action.payload;
     });
     builder.addCase(getOrganizerProfileFutures.rejected, (state, action) => {
       state.loading = false;

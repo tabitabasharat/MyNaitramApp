@@ -17,20 +17,10 @@ import addicon from "@/assets/Wallet/Plus.svg";
 import greenpencile from "@/assets/Pencil.svg";
 import bgframe from "@/assets/Frame 1597878544.svg";
 import Link from "next/link";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  SuccessToast,
-  ErrorToast,
-} from "../reusable-components/Toaster/Toaster";
+import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
 import { useForm } from "react-hook-form";
 import { UploadSimple } from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
@@ -239,20 +229,13 @@ type CustomType = {
 };
 
 // Now define state type for holding ticket Data
-type TicketType =
-  | FestivalType
-  | RsvpType
-  | PrivateType
-  | PasswordedType
-  | CustomType;
+type TicketType = FestivalType | RsvpType | PrivateType | PasswordedType | CustomType;
 
 /////////////////////////// Defining Zode schemas for above types  ////////////////////////////////////////////
 
 //                            Define FestivalEventsDate schema
 const FestivalEventsDateSchema = z.object({
-  startDate: z
-    .string()
-    .min(1, { message: "Event start date cannot be empty." }),
+  startDate: z.string().min(1, { message: "Event start date cannot be empty." }),
   endDate: z.string().min(1, { message: "Event end date cannot be empty." }),
 });
 
@@ -265,20 +248,12 @@ const FestivalTypeSchema = z
       z.string().refine((val) => Number(val) > 0, {
         message: "Number of tickets must be greater than 0.",
       }),
-      z
-        .number()
-        .min(1, { message: "Number of tickets must be greater than 0." }),
+      z.number().min(1, { message: "Number of tickets must be greater than 0." }),
     ]),
     typename: z.string().min(1, { message: "Type name cannot be empty." }),
-    ticketstart: z
-      .string()
-      .min(1, { message: "Ticket start date cannot be empty." }),
-    ticketend: z
-      .string()
-      .min(1, { message: "Ticket end date cannot be empty." }),
-    eventdates: z
-      .array(FestivalEventsDateSchema)
-      .min(1, { message: "At least one event date is required." }),
+    ticketstart: z.string().min(1, { message: "Ticket start date cannot be empty." }),
+    ticketend: z.string().min(1, { message: "Ticket end date cannot be empty." }),
+    eventdates: z.array(FestivalEventsDateSchema).min(1, { message: "At least one event date is required." }),
   })
   .refine(
     (data) => {
@@ -286,9 +261,7 @@ const FestivalTypeSchema = z
       if (data.selected === "paid") {
         const priceIsValid =
           data.price !== undefined &&
-          ((typeof data.price === "string" &&
-            data.price.trim() !== "" &&
-            Number(data.price) > 0) ||
+          ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
             (typeof data.price === "number" && data.price > 0));
 
         return priceIsValid;
@@ -335,20 +308,12 @@ const PrivateTypeSchema = z
       z.string().refine((val) => Number(val) > 0, {
         message: "Number of tickets must be greater than 0.",
       }),
-      z
-        .number()
-        .min(1, { message: "Number of tickets must be greater than 0." }),
+      z.number().min(1, { message: "Number of tickets must be greater than 0." }),
     ]),
     name: z.string().min(1, { message: "Name cannot be empty." }),
-    ticketstart: z
-      .string()
-      .min(1, { message: "Ticket start date cannot be empty." }),
-    ticketend: z
-      .string()
-      .min(1, { message: "Ticket end date cannot be empty." }),
-    eventstart: z
-      .string()
-      .min(1, { message: "Event start date cannot be empty." }),
+    ticketstart: z.string().min(1, { message: "Ticket start date cannot be empty." }),
+    ticketend: z.string().min(1, { message: "Ticket end date cannot be empty." }),
+    eventstart: z.string().min(1, { message: "Event start date cannot be empty." }),
     eventend: z.string().min(1, { message: "Event end date cannot be empty." }),
     emailmanual: z
       .array(z.string().email({ message: "Invalid email address." }))
@@ -361,9 +326,7 @@ const PrivateTypeSchema = z
       if (data.selected === "paid") {
         const priceIsValid =
           data.price !== undefined &&
-          ((typeof data.price === "string" &&
-            data.price.trim() !== "" &&
-            Number(data.price) > 0) ||
+          ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
             (typeof data.price === "number" && data.price > 0));
 
         return priceIsValid;
@@ -387,20 +350,12 @@ const PasswordedTypeSchema = z
       z.string().refine((val) => Number(val) > 0, {
         message: "Number of tickets must be greater than 0.",
       }),
-      z
-        .number()
-        .min(1, { message: "Number of tickets must be greater than 0." }),
+      z.number().min(1, { message: "Number of tickets must be greater than 0." }),
     ]),
     name: z.string().min(1, { message: "Name cannot be empty." }),
-    ticketstart: z
-      .string()
-      .min(1, { message: "Ticket start date cannot be empty." }),
-    ticketend: z
-      .string()
-      .min(1, { message: "Ticket end date cannot be empty." }),
-    eventstart: z
-      .string()
-      .min(1, { message: "Event start date cannot be empty." }),
+    ticketstart: z.string().min(1, { message: "Ticket start date cannot be empty." }),
+    ticketend: z.string().min(1, { message: "Ticket end date cannot be empty." }),
+    eventstart: z.string().min(1, { message: "Event start date cannot be empty." }),
     eventend: z.string().min(1, { message: "Event end date cannot be empty." }),
     emailmanual: z
       .array(z.string().email({ message: "Invalid email address." }))
@@ -421,9 +376,7 @@ const PasswordedTypeSchema = z
       if (data.selected === "paid") {
         const priceIsValid =
           data.price !== undefined &&
-          ((typeof data.price === "string" &&
-            data.price.trim() !== "" &&
-            Number(data.price) > 0) ||
+          ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
             (typeof data.price === "number" && data.price > 0));
 
         return priceIsValid;
@@ -447,20 +400,12 @@ const CustomTypeSchema = z
       z.string().refine((val) => Number(val) > 0, {
         message: "Number of tickets must be greater than 0.",
       }),
-      z
-        .number()
-        .min(1, { message: "Number of tickets must be greater than 0." }),
+      z.number().min(1, { message: "Number of tickets must be greater than 0." }),
     ]),
     name: z.string().min(1, { message: "Name cannot be empty." }),
-    ticketstart: z
-      .string()
-      .min(1, { message: "Ticket start date cannot be empty." }),
-    ticketend: z
-      .string()
-      .min(1, { message: "Ticket end date cannot be empty." }),
-    eventstart: z
-      .string()
-      .min(1, { message: "Event start date cannot be empty." }),
+    ticketstart: z.string().min(1, { message: "Ticket start date cannot be empty." }),
+    ticketend: z.string().min(1, { message: "Ticket end date cannot be empty." }),
+    eventstart: z.string().min(1, { message: "Event start date cannot be empty." }),
     eventend: z.string().min(1, { message: "Event end date cannot be empty." }),
   })
   .refine(
@@ -469,9 +414,7 @@ const CustomTypeSchema = z
       if (data.selected === "paid") {
         const priceIsValid =
           data.price !== undefined &&
-          ((typeof data.price === "string" &&
-            data.price.trim() !== "" &&
-            Number(data.price) > 0) ||
+          ((typeof data.price === "string" && data.price.trim() !== "" && Number(data.price) > 0) ||
             (typeof data.price === "number" && data.price > 0));
 
         return priceIsValid;
@@ -485,13 +428,7 @@ const CustomTypeSchema = z
   );
 
 // Combine multiple ticket type schemas into one using `z.union`
-const TicketTypeSchema = z.union([
-  FestivalTypeSchema,
-  RsvpTypeSchema,
-  PrivateTypeSchema,
-  PasswordedTypeSchema,
-  CustomTypeSchema,
-]);
+const TicketTypeSchema = z.union([FestivalTypeSchema, RsvpTypeSchema, PrivateTypeSchema, PasswordedTypeSchema, CustomTypeSchema]);
 
 // Define the array of tickets
 const TicketsTypesArraySchema = z.array(TicketTypeSchema);
@@ -510,42 +447,17 @@ const formSchema = z.object({
     label: z.string().min(1, { message: "Category cannot be empty" }),
   }),
 
-  eventlocation: z
-    .string()
-    .min(1, { message: "Event location cannot be empty." }),
+  eventlocation: z.string().min(1, { message: "Event location cannot be empty." }),
 
-  eventdescription: z
-    .string()
-    .min(1, { message: "Event description cannot be empty." }),
+  eventdescription: z.string().min(1, { message: "Event description cannot be empty." }),
 
-  fburl: z
-    .string()
-    .url({ message: "Invalid Facebook URL." })
-    .min(1, { message: "Facebook URL cannot be empty." }),
-  instaurl: z
-    .string()
-    .url({ message: "Invalid Instagram URL." })
-    .min(1, { message: "Instagram URL cannot be empty." }),
-  youtubeurl: z
-    .string()
-    .url({ message: "Invalid Youtube URL." })
-    .min(1, { message: "Youtube URL cannot be empty." }),
-  tiktokurl: z
-    .string()
-    .url({ message: "Invalid TikTok URL." })
-    .min(1, { message: "TikTok URL cannot be empty." }),
-  linkedinurl: z
-    .string()
-    .url({ message: "Invalid LinkedIn URL." })
-    .min(1, { message: "LinkedIn URL cannot be empty." }),
-  twitterurl: z
-    .string()
-    .url({ message: "Invalid Twitter URL." })
-    .min(1, { message: "Twitter URL cannot be empty." }),
-  telegramurl: z
-    .string()
-    .url({ message: "Invalid Telegram URL." })
-    .min(1, { message: "Telegram URL cannot be empty." }),
+  fburl: z.string().url({ message: "Invalid Facebook URL." }).min(1, { message: "Facebook URL cannot be empty." }),
+  instaurl: z.string().url({ message: "Invalid Instagram URL." }).min(1, { message: "Instagram URL cannot be empty." }),
+  youtubeurl: z.string().url({ message: "Invalid Youtube URL." }).min(1, { message: "Youtube URL cannot be empty." }),
+  tiktokurl: z.string().url({ message: "Invalid TikTok URL." }).min(1, { message: "TikTok URL cannot be empty." }),
+  linkedinurl: z.string().url({ message: "Invalid LinkedIn URL." }).min(1, { message: "LinkedIn URL cannot be empty." }),
+  twitterurl: z.string().url({ message: "Invalid Twitter URL." }).min(1, { message: "Twitter URL cannot be empty." }),
+  telegramurl: z.string().url({ message: "Invalid Telegram URL." }).min(1, { message: "Telegram URL cannot be empty." }),
 
   eventmainimg: z.string().optional(),
   eventcoverimg: z.string().nonempty({ message: "Image URL cannot be empty." }),
@@ -742,14 +654,7 @@ function EditeventOnBack() {
   const theme = useTheme();
 
   function MuiIcon() {
-    return (
-      <Image
-        src={calendaricon}
-        alt="Date picker opening icon"
-        width={20}
-        className="opacity-90"
-      />
-    );
+    return <Image src={calendaricon} alt="Date picker opening icon" width={20} className="opacity-90" />;
   }
 
   const [isWalletModalOpen, setisWalletModalOpen] = useState(false);
@@ -798,29 +703,15 @@ function EditeventOnBack() {
   const [CoverImg, setCoverImg] = useState("");
   const [CoverImgName, setCoverImgName] = useState<any>("");
 
-  const [FBUrl, setFBUrl] = useState(
-    EventData?.fbUrl || "https://www.facebook.com/"
-  );
-  const [InstaUrl, setInstaUrl] = useState(
-    EventData?.instaUrl || "https://www.instagram.com/"
-  );
-  const [TwitterUrl, setTwitterUrl] = useState(
-    EventData?.twitterUrl || "https://www.x.com/"
-  );
+  const [FBUrl, setFBUrl] = useState(EventData?.fbUrl || "https://www.facebook.com/");
+  const [InstaUrl, setInstaUrl] = useState(EventData?.instaUrl || "https://www.instagram.com/");
+  const [TwitterUrl, setTwitterUrl] = useState(EventData?.twitterUrl || "https://www.x.com/");
 
-  const [YoutubeUrl, setYoutubeUrl] = useState(
-    EventData?.youtubeUrl || "https://www.youtube.com/"
-  );
+  const [YoutubeUrl, setYoutubeUrl] = useState(EventData?.youtubeUrl || "https://www.youtube.com/");
 
-  const [tiktokUrl, settiktokUrl] = useState(
-    EventData?.tiktokUrl || "https://www.tiktok.com/@"
-  );
-  const [linkedinUrl, setlinkedinUrl] = useState(
-    EventData?.linkedinUrl || "https://linkedin.com/in/"
-  );
-  const [telegramUrl, setTelegramUrl] = useState(
-    EventData?.telegramUrl || "https://t.me/"
-  );
+  const [tiktokUrl, settiktokUrl] = useState(EventData?.tiktokUrl || "https://www.tiktok.com/@");
+  const [linkedinUrl, setlinkedinUrl] = useState(EventData?.linkedinUrl || "https://linkedin.com/in/");
+  const [telegramUrl, setTelegramUrl] = useState(EventData?.telegramUrl || "https://t.me/");
 
   const [eventsFiles, setEventsFile] = useState<any>([]);
   const router = useRouter();
@@ -942,20 +833,10 @@ function EditeventOnBack() {
     optionDropDown: false,
   };
 
-  const AllDefinedTicketTypesArray: TicketType[] = [
-    festivalTicket,
-    rsvpTicket,
-    privateTicket,
-    pswrdTicket,
-    customTicket,
-  ];
-  const [ticketTypes, setTicketTypes] = useState<TicketType[]>([
-    festivalTicket,
-  ]); // Default ticket will be festival
+  const AllDefinedTicketTypesArray: TicketType[] = [festivalTicket, rsvpTicket, privateTicket, pswrdTicket, customTicket];
+  const [ticketTypes, setTicketTypes] = useState<TicketType[]>([festivalTicket]); // Default ticket will be festival
 
-  const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(
-    EventData?.eventcategory || null
-  );
+  const [categoryTypes, setCategoryTypes] = useState<{ label: string } | null>(EventData?.eventcategory || null);
   const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
 
   const [categoryAlert, setCategoryAlert] = useState<any>(false);
@@ -966,9 +847,7 @@ function EditeventOnBack() {
   const [isCustomCatgory, setIsCustomCategory] = useState<boolean>(false);
   const [customCategotyInput, setCustomCatgoryInput] = useState<string>("");
 
-  const [chooseHashTags, setChoosenHashtags] = useState<any>(
-    EventData?.tags || []
-  );
+  const [chooseHashTags, setChoosenHashtags] = useState<any>(EventData?.tags || []);
   const [filterHash, setFilterHash] = useState<any>([]);
   const [hashINputValue, setHashTagValue] = useState<string>("");
 
@@ -976,10 +855,7 @@ function EditeventOnBack() {
 
   const [file, setCsvFile] = useState<File | null>(null); // Track the current file
 
-  const handleCSVFileChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    ticketIndex: number
-  ) => {
+  const handleCSVFileChange = (event: React.ChangeEvent<HTMLInputElement>, ticketIndex: number) => {
     const uploadedFile = event.target.files ? event.target.files[0] : null;
 
     if (!uploadedFile) {
@@ -999,16 +875,10 @@ function EditeventOnBack() {
 
     // Check for empty email fields in the state
     const existingEmails = (ticketTypes[ticketIndex] as any)?.emailmanual || [];
-    const emptyEmailIndex = existingEmails.findIndex(
-      (email: string) => email.trim() === ""
-    );
+    const emptyEmailIndex = existingEmails.findIndex((email: string) => email.trim() === "");
 
     if (emptyEmailIndex !== -1) {
-      ErrorToast(
-        `Email ${
-          emptyEmailIndex + 1
-        } is empty. Please fill it before uploading a new CSV.`
-      );
+      ErrorToast(`Email ${emptyEmailIndex + 1} is empty. Please fill it before uploading a new CSV.`);
       return;
     }
 
@@ -1037,9 +907,7 @@ function EditeventOnBack() {
         }
 
         // Remove duplicate emails by checking against existing state
-        const newUniqueEmails = extractedEmails.filter(
-          (email) => !existingEmails.includes(email)
-        );
+        const newUniqueEmails = extractedEmails.filter((email) => !existingEmails.includes(email));
 
         if (newUniqueEmails.length === 0) {
           throw new Error("All emails in the file are already added.");
@@ -1066,14 +934,11 @@ function EditeventOnBack() {
         // Scroll to the bottom after adding new emails
         if (manualEmailRef.current) {
           setTimeout(() => {
-            manualEmailRef.current!.scrollTop =
-              manualEmailRef.current!.scrollHeight;
+            manualEmailRef.current!.scrollTop = manualEmailRef.current!.scrollHeight;
           }, 0.005);
         }
 
-        SuccessToast(
-          `${newUniqueEmails.length} new emails added successfully from the CSV file.`
-        );
+        SuccessToast(`${newUniqueEmails.length} new emails added successfully from the CSV file.`);
       } catch (err: any) {
         ErrorToast(err.message);
       }
@@ -1259,10 +1124,7 @@ function EditeventOnBack() {
   console.log("my event data ", EventData);
 
   const imageUrl =
-    EventData?.coverEventImage?.startsWith("http") ||
-    EventData?.coverEventImage?.startsWith("https")
-      ? EventData.coverEventImage
-      : bgframe;
+    EventData?.coverEventImage?.startsWith("http") || EventData?.coverEventImage?.startsWith("https") ? EventData.coverEventImage : bgframe;
   console.log("image src is", imageUrl);
 
   const userLoading = useAppSelector((state) => state?.getEventByEventID);
@@ -1455,12 +1317,8 @@ function EditeventOnBack() {
 
       try {
         // Separate simple objects and File objects
-        const simpleObjects = galleryFiles.filter(
-          (file: any) => file.url && typeof file.url === "string"
-        );
-        const fileObjects = galleryFiles.filter(
-          (file: any) => file instanceof File
-        );
+        const simpleObjects = galleryFiles.filter((file: any) => file.url && typeof file.url === "string");
+        const fileObjects = galleryFiles.filter((file: any) => file instanceof File);
 
         // Collect URLs from simple objects
         const simpleUrls = simpleObjects.map((obj: any) => obj.url);
@@ -1474,10 +1332,7 @@ function EditeventOnBack() {
           console.log("File objects to upload:", fileObjects);
 
           // Make API call to upload files
-          const res: any = await api.post(
-            `${API_URL}/upload/uploadMultiple`,
-            formData
-          );
+          const res: any = await api.post(`${API_URL}/upload/uploadMultiple`, formData);
 
           if (res?.status === 200) {
             fileUrls = res?.data?.imageUrls || [];
@@ -1547,9 +1402,7 @@ function EditeventOnBack() {
   //   });
   // };
 
-  const handleSingleFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     console.log("Selected Main cover img is:", file);
     const filename = file?.name;
@@ -1562,15 +1415,11 @@ function EditeventOnBack() {
       try {
         const formData = new FormData();
         formData.append("file", file);
-        const res: any = await api.post(
-          `${API_URL}/upload/uploadimage`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         if (res.status === 200) {
           setLoader(false);
@@ -1591,9 +1440,7 @@ function EditeventOnBack() {
     }
   };
 
-  const handleCoverSingleFileChangeOld = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleCoverSingleFileChangeOld = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     console.log("Selected  cover img is:", file);
     const filename = file?.name;
@@ -1605,15 +1452,11 @@ function EditeventOnBack() {
       try {
         const formData = new FormData();
         formData.append("file", file);
-        const res: any = await api.post(
-          `${API_URL}/upload/uploadimage`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         if (res.status === 200) {
           setLoader(false);
@@ -1635,9 +1478,7 @@ function EditeventOnBack() {
     }
   };
 
-  const handleCoverSingleFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleCoverSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
@@ -1664,15 +1505,11 @@ function EditeventOnBack() {
           const formData = new FormData();
           formData.append("file", file);
 
-          const res: any = await api.post(
-            `${API_URL}/upload/uploadimage`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          );
+          const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
 
           if (res.status === 200) {
             setLoader(false);
@@ -1725,8 +1562,7 @@ function EditeventOnBack() {
   };
 
   useEffect(() => {
-    const userID =
-      typeof window !== "undefined" ? localStorage.getItem("_id") : null;
+    const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);
@@ -1755,10 +1591,7 @@ function EditeventOnBack() {
     const utcMinutes = localDate.getUTCMinutes();
 
     // Format the components to match the 'yyyy-MM-ddTHH:mm' format
-    const formattedUTC = `${utcYear}-${String(utcMonth).padStart(
-      2,
-      "0"
-    )}-${String(utcDate).padStart(2, "0")}T${String(utcHours).padStart(
+    const formattedUTC = `${utcYear}-${String(utcMonth).padStart(2, "0")}-${String(utcDate).padStart(2, "0")}T${String(utcHours).padStart(
       2,
       "0"
     )}:${String(utcMinutes).padStart(2, "0")}`;
@@ -1793,11 +1626,7 @@ function EditeventOnBack() {
       if (options.length === 0) {
         ErrorToast(`${lastTicket?.type} is required at least one include`);
         setTicketTypes((prevTickets: any) =>
-          prevTickets.map((ticket: any, i: number) =>
-            i === ticketTypes?.length - 1
-              ? { ...ticket, optionDropDown: true }
-              : ticket
-          )
+          prevTickets.map((ticket: any, i: number) => (i === ticketTypes?.length - 1 ? { ...ticket, optionDropDown: true } : ticket))
         );
         isFormValid = false;
         return; // Options array is empty
@@ -1807,27 +1636,15 @@ function EditeventOnBack() {
     ticketTypes.forEach((ticket: any, ticketIndex: number) => {
       // Private Form Validation
       if (ticket.type === "Private Event Ticketing") {
-        if (
-          ticket?.emailmanual.length === 0 ||
-          ticket?.emailmanual[ticket?.emailmanual?.length - 1] === ""
-        ) {
+        if (ticket?.emailmanual.length === 0 || ticket?.emailmanual[ticket?.emailmanual?.length - 1] === "") {
           ErrorToast("At least one Email is required for Private Ticketing");
 
-          form.setError(
-            `tickets.${ticketIndex}.emailmanual.${
-              ticket?.emailmanual?.length - 1
-            }`,
-            {
-              type: "manual",
-              message: "At least one Email is required for Private Ticketing",
-            }
-          );
+          form.setError(`tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}`, {
+            type: "manual",
+            message: "At least one Email is required for Private Ticketing",
+          });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.emailmanual.${
-              ticket?.emailmanual?.length - 1
-            }"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -1842,9 +1659,7 @@ function EditeventOnBack() {
             message: "End date can't be smaaler than start date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.ticketend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -1860,9 +1675,7 @@ function EditeventOnBack() {
             message: "Event start date can't be smaller then ticket end date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.eventstart"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventstart"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -1877,9 +1690,7 @@ function EditeventOnBack() {
             message: "End date can't be smaller than start date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.eventend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -1891,34 +1702,19 @@ function EditeventOnBack() {
 
       // Password Ticket type
       if (ticket.type === "Passworded / Discounted Voucher Event") {
-        if (
-          ticket?.pswrdmanual.length === 0 &&
-          ticket?.autoGeneratedPswrd.length === 0 &&
-          ticket?.emailmanual.length === 0
-        ) {
-          ErrorToast(
-            "At least one Email or password required for password/discounted Ticketing"
-          );
+        if (ticket?.pswrdmanual.length === 0 && ticket?.autoGeneratedPswrd.length === 0 && ticket?.emailmanual.length === 0) {
+          ErrorToast("At least one Email or password required for password/discounted Ticketing");
           isFormValid = false;
           return;
         }
 
         if (ticket?.emailmanual[ticket?.emailmanual?.length - 1] === "") {
-          form.setError(
-            `tickets.${ticketIndex}.emailmanual.${
-              ticket?.emailmanual?.length - 1
-            }`,
-            {
-              type: "manual",
-              message: "Required",
-            }
-          );
+          form.setError(`tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}`, {
+            type: "manual",
+            message: "Required",
+          });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.emailmanual.${
-              ticket?.emailmanual?.length - 1
-            }"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -1928,21 +1724,12 @@ function EditeventOnBack() {
         }
 
         if (ticket?.pswrdmanual[ticket?.pswrdmanual?.length - 1] === "") {
-          form.setError(
-            `tickets.${ticketIndex}.pswrdmanual.${
-              ticket?.pswrdmanual?.length - 1
-            }`,
-            {
-              type: "manual",
-              message: "Required",
-            }
-          );
+          form.setError(`tickets.${ticketIndex}.pswrdmanual.${ticket?.pswrdmanual?.length - 1}`, {
+            type: "manual",
+            message: "Required",
+          });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.pswrdmanual.${
-              ticket?.pswrdmanual?.length - 1
-            }"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.pswrdmanual.${ticket?.pswrdmanual?.length - 1}"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -1958,9 +1745,7 @@ function EditeventOnBack() {
             message: "End date can't be smaller than start",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.ticketend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -1976,9 +1761,7 @@ function EditeventOnBack() {
             message: "Event start date can't be smaller than ticket end date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.eventstart"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventstart"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -1993,9 +1776,7 @@ function EditeventOnBack() {
             message: "End date can't be smaller than start date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.eventend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2014,9 +1795,7 @@ function EditeventOnBack() {
             message: "End date can't be smaller than start",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.ticketend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2032,9 +1811,7 @@ function EditeventOnBack() {
             message: "Event start date can't be smaller than ticket end date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.eventstart"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventstart"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2049,9 +1826,7 @@ function EditeventOnBack() {
             message: "End date can't be smaller than start date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.eventend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2063,12 +1838,7 @@ function EditeventOnBack() {
 
       // RSVP Ticket
       if (ticket.type === "RSVP Ticketing") {
-        if (
-          ticket?.additional.length > 0 ||
-          ticket.username ||
-          ticket.useremail ||
-          ticket.usernumb
-        ) {
+        if (ticket?.additional.length > 0 || ticket.username || ticket.useremail || ticket.usernumb) {
         } else {
           ErrorToast("At least one RSVP field is required");
           isFormValid = false;
@@ -2085,9 +1855,7 @@ function EditeventOnBack() {
             message: "End date can't be smaller than start",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.ticketend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2100,18 +1868,12 @@ function EditeventOnBack() {
             if (new Date(ticket?.ticketend) > new Date(date?.startDate)) {
               // ErrorToast("At least one Email is required for Private Ticketing");
               // Set error in form for invalid email
-              form.setError(
-                `tickets.${ticketIndex}.eventdates.${d_Idx}.startDate`,
-                {
-                  type: "manual",
-                  message:
-                    "Event start date can't be smaller than ticket end date",
-                }
-              );
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.startDate`, {
+                type: "manual",
+                message: "Event start date can't be smaller than ticket end date",
+              });
               // Focus on the error field
-              const errorField = document.querySelector(
-                `[name="tickets.${ticketIndex}.eventdates.${d_Idx}.startDate"]`
-              );
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.startDate"]`);
               if (errorField) {
                 errorField.scrollIntoView({
                   behavior: "smooth",
@@ -2124,17 +1886,12 @@ function EditeventOnBack() {
             }
             if (new Date(date?.startDate) > new Date(date?.endDate)) {
               // ErrorToast("At least one Email is required for Private Ticketing");
-              form.setError(
-                `tickets.${ticketIndex}.eventdates.${d_Idx}.endDate`,
-                {
-                  type: "manual",
-                  message: "End date can't be smaller than start date",
-                }
-              );
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.endDate`, {
+                type: "manual",
+                message: "End date can't be smaller than start date",
+              });
               // Focus on the error field
-              const errorField = document.querySelector(
-                `[name="tickets.${ticketIndex}.eventdates.${d_Idx}.endDate"]`
-              );
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.endDate"]`);
               if (errorField) {
                 errorField.scrollIntoView({
                   behavior: "smooth",
@@ -2146,24 +1903,15 @@ function EditeventOnBack() {
               return;
             }
           } else {
-            if (
-              new Date(ticket?.eventdates[d_Idx - 1]?.endDate) >
-              new Date(date?.startDate)
-            ) {
+            if (new Date(ticket?.eventdates[d_Idx - 1]?.endDate) > new Date(date?.startDate)) {
               // ErrorToast("At least one Email is required for Private Ticketing");
               // Set error in form for invalid email
-              form.setError(
-                `tickets.${ticketIndex}.eventdates.${d_Idx}.startDate`,
-                {
-                  type: "manual",
-                  message:
-                    "Event start date can't be smaller than previous event end date",
-                }
-              );
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.startDate`, {
+                type: "manual",
+                message: "Event start date can't be smaller than previous event end date",
+              });
               // Focus on the error field
-              const errorField = document.querySelector(
-                `[name="tickets.${ticketIndex}.eventdates.${d_Idx}.startDate"]`
-              );
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.startDate"]`);
               if (errorField) {
                 errorField.scrollIntoView({
                   behavior: "smooth",
@@ -2176,17 +1924,12 @@ function EditeventOnBack() {
             }
             if (new Date(date?.startDate) > new Date(date?.endDate)) {
               // ErrorToast("At least one Email is required for Private Ticketing");
-              form.setError(
-                `tickets.${ticketIndex}.eventdates.${d_Idx}.endDate`,
-                {
-                  type: "manual",
-                  message: "End date can't be smaller than start date",
-                }
-              );
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.endDate`, {
+                type: "manual",
+                message: "End date can't be smaller than start date",
+              });
               // Focus on the error field
-              const errorField = document.querySelector(
-                `[name="tickets.${ticketIndex}.eventdates.${d_Idx}.endDate"]`
-              );
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.endDate"]`);
               if (errorField) {
                 errorField.scrollIntoView({
                   behavior: "smooth",
@@ -2215,10 +1958,7 @@ function EditeventOnBack() {
 
       let updatedEventMedia: any = [];
       if (EventMediaAlready || imagesOfGallery) {
-        updatedEventMedia = [
-          ...(EventMediaAlready ?? []),
-          ...(imagesOfGallery ?? []),
-        ]?.filter((media) => !removedImages.includes(media));
+        updatedEventMedia = [...(EventMediaAlready ?? []), ...(imagesOfGallery ?? [])]?.filter((media) => !removedImages.includes(media));
       }
 
       console.log("images updated", updatedEventMedia);
@@ -2234,110 +1974,94 @@ function EditeventOnBack() {
       setCategoryTypes(updatedCategoryTypes);
 
       // Updating the hashtags
-      const updatedTags: string[] = chooseHashTags.map((tag: string) =>
-        tag.trim().startsWith("#") ? tag : `#${tag}`
-      );
+      const updatedTags: string[] = chooseHashTags.map((tag: string) => (tag.trim().startsWith("#") ? tag : `#${tag}`));
       console.log("Updated Tags are as ========>   ", updatedTags);
 
       //Updating all Ticket types
-      const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map(
-        (ticket: any, t_Index: number) =>
-          ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
-            ? {
-                selectedEventTicketType: ticket?.type,
-                ticketFreePaid: ticket?.selected,
-                ticketName: ticket?.typename,
-                ticketPrice: ticket?.price,
-                noOfTickets: ticket?.no,
-                originalNoOfTickets: ticket?.no,
-                ticketStartDT: convertToUTC(ticket?.ticketstart),
-                ticketEndDT: convertToUTC(ticket?.ticketend),
-                eventStartDT: convertToUTC(ticket?.eventdates?.[0]?.startDate),
-                eventEndDT: convertToUTC(
-                  ticket?.eventdates?.[ticket?.eventdates?.length - 1]?.endDate
-                ),
-                whatsIncluded: ticket?.options,
-                festivalEventDates: ticket?.eventdates?.map(
-                  (t: FestivalEventsDate, i: number) => ({
-                    eventStartDateTime: convertToUTC(t?.startDate),
-                    eventEndDateTime: convertToUTC(t?.endDate),
-                  })
-                ),
-              }
-            : ticket.type === "RSVP Ticketing"
-            ? {
-                selectedEventTicketType: ticket?.type,
-                ticketName: ticket?.name,
-                rsvpDeadline: convertToUTC(ticket?.deadline),
-                noOfTickets: ticket?.capacity,
-                originalNoOfTickets: ticket?.capacity,
-                whatsIncluded: ticket?.options,
-                rsvpName: ticket?.username,
-                rsvpMail: ticket?.useremail,
-                rsvpNumber: ticket?.usernumb,
-                rsvpAdditionalFields: ticket?.additional?.map(
-                  (add: AdditionalFields) => add?.title
-                ),
-              }
-            : ticket.type === "Private Event Ticketing"
-            ? {
-                selectedEventTicketType: ticket?.type,
-                ticketFreePaid: ticket?.selected,
-                ticketName: ticket?.name,
-                ticketPrice: ticket?.price,
-                noOfTickets: ticket?.no,
-                originalNoOfTickets: ticket?.no,
-                ticketStartDT: convertToUTC(ticket?.ticketstart),
-                ticketEndDT: convertToUTC(ticket?.ticketend),
-                eventStartDT: convertToUTC(ticket?.eventstart),
-                eventEndDT: convertToUTC(ticket?.eventend),
-                whatsIncluded: ticket?.options,
-                privateEventAdditionalFields: ticket?.emailmanual,
-              }
-            : ticket.type === "Passworded / Discounted Voucher Event"
-            ? {
-                selectedEventTicketType: ticket?.type,
-                ticketFreePaid: ticket?.selected,
-                ticketName: ticket?.name,
-                ticketPrice: ticket?.price,
-                noOfTickets: ticket?.no,
-                originalNoOfTickets: ticket?.no,
-                ticketStartDT: convertToUTC(ticket?.ticketstart),
-                ticketEndDT: convertToUTC(ticket?.ticketend),
-                eventStartDT: convertToUTC(ticket?.eventstart),
-                eventEndDT: convertToUTC(ticket?.eventend),
-                whatsIncluded: ticket?.options,
-                privateEventAdditionalFields: ticket?.emailmanual,
-                // passwordFields: encryptArray([...(ticket?.pswrdmanual || []), ...(ticket?.autoGeneratedPswrd || [])], encryptionKey),
-                // autoPasswordFields: [],
-                passwordFields: encryptArray(
-                  ticket?.pswrdmanual || [],
-                  encryptionKey
-                ),
-                autoPasswordFields: encryptArray(
-                  ticket?.autoGeneratedPswrd || [],
-                  encryptionKey
-                ),
-              }
-            : {
-                selectedEventTicketType: ticket?.type,
-                ticketFreePaid: ticket?.selected,
-                ticketName: ticket?.name,
-                ticketPrice: ticket?.price,
-                noOfTickets: ticket?.no,
-                originalNoOfTickets: ticket?.no,
-                ticketStartDT: convertToUTC(ticket?.ticketstart),
-                ticketEndDT: convertToUTC(ticket?.ticketend),
-                eventStartDT: convertToUTC(ticket?.eventstart),
-                eventEndDT: convertToUTC(ticket?.eventend),
-                whatsIncluded: ticket?.options,
-              }
+      const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
+        ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
+          ? {
+              selectedEventTicketType: ticket?.type,
+              ticketFreePaid: ticket?.selected,
+              ticketName: ticket?.typename,
+              ticketPrice: ticket?.price,
+              noOfTickets: ticket?.no,
+              originalNoOfTickets: ticket?.no,
+              ticketStartDT: convertToUTC(ticket?.ticketstart),
+              ticketEndDT: convertToUTC(ticket?.ticketend),
+              eventStartDT: convertToUTC(ticket?.eventdates?.[0]?.startDate),
+              eventEndDT: convertToUTC(ticket?.eventdates?.[ticket?.eventdates?.length - 1]?.endDate),
+              whatsIncluded: ticket?.options,
+              festivalEventDates: ticket?.eventdates?.map((t: FestivalEventsDate, i: number) => ({
+                eventStartDateTime: convertToUTC(t?.startDate),
+                eventEndDateTime: convertToUTC(t?.endDate),
+              })),
+            }
+          : ticket.type === "RSVP Ticketing"
+          ? {
+              selectedEventTicketType: ticket?.type,
+              ticketName: ticket?.name,
+              rsvpDeadline: convertToUTC(ticket?.deadline),
+              noOfTickets: ticket?.capacity,
+              originalNoOfTickets: ticket?.capacity,
+              rsvpCapacity: ticket?.capacity,
+              whatsIncluded: ticket?.options,
+              rsvpName: ticket?.username,
+              rsvpMail: ticket?.useremail,
+              rsvpNumber: ticket?.usernumb,
+              rsvpAdditionalFields: ticket?.additional?.map((add: AdditionalFields) => add?.title),
+            }
+          : ticket.type === "Private Event Ticketing"
+          ? {
+              selectedEventTicketType: ticket?.type,
+              ticketFreePaid: ticket?.selected,
+              ticketName: ticket?.name,
+              ticketPrice: ticket?.price,
+              noOfTickets: ticket?.no,
+              originalNoOfTickets: ticket?.no,
+              ticketStartDT: convertToUTC(ticket?.ticketstart),
+              ticketEndDT: convertToUTC(ticket?.ticketend),
+              eventStartDT: convertToUTC(ticket?.eventstart),
+              eventEndDT: convertToUTC(ticket?.eventend),
+              whatsIncluded: ticket?.options,
+              privateEventAdditionalFields: ticket?.emailmanual,
+            }
+          : ticket.type === "Passworded / Discounted Voucher Event"
+          ? {
+              selectedEventTicketType: ticket?.type,
+              ticketFreePaid: ticket?.selected,
+              ticketName: ticket?.name,
+              ticketPrice: ticket?.price,
+              noOfTickets: ticket?.no,
+              originalNoOfTickets: ticket?.no,
+              ticketStartDT: convertToUTC(ticket?.ticketstart),
+              ticketEndDT: convertToUTC(ticket?.ticketend),
+              eventStartDT: convertToUTC(ticket?.eventstart),
+              eventEndDT: convertToUTC(ticket?.eventend),
+              whatsIncluded: ticket?.options,
+              privateEventAdditionalFields: ticket?.emailmanual,
+              // passwordFields: encryptArray([...(ticket?.pswrdmanual || []), ...(ticket?.autoGeneratedPswrd || [])], encryptionKey),
+              // autoPasswordFields: [],
+              passwordFields: encryptArray(ticket?.pswrdmanual || [], encryptionKey),
+              autoPasswordFields: encryptArray(ticket?.autoGeneratedPswrd || [], encryptionKey),
+            }
+          : {
+              selectedEventTicketType: ticket?.type,
+              ticketFreePaid: ticket?.selected,
+              ticketName: ticket?.name,
+              ticketPrice: ticket?.price,
+              noOfTickets: ticket?.no,
+              originalNoOfTickets: ticket?.no,
+              ticketStartDT: convertToUTC(ticket?.ticketstart),
+              ticketEndDT: convertToUTC(ticket?.ticketend),
+              eventStartDT: convertToUTC(ticket?.eventstart),
+              eventEndDT: convertToUTC(ticket?.eventend),
+              whatsIncluded: ticket?.options,
+            }
       );
 
       /////////// Getting maximim and minimum dates for ////
-      const nonRsvpTickets = ticketTypes.filter(
-        (ticket: any) => ticket.type !== "RSVP Ticketing"
-      );
+      const nonRsvpTickets = ticketTypes.filter((ticket: any) => ticket.type !== "RSVP Ticketing");
 
       let timings: any = {
         ticketStartDate: "",
@@ -2350,27 +2074,16 @@ function EditeventOnBack() {
         let myTickets = nonRsvpTickets;
         const result = myTickets.reduce(
           (acc: any, ticket: any) => {
-            if (
-              new Date(ticket.eventstart) <
-              new Date(acc.minEventStartDT.eventstart)
-            ) {
+            if (new Date(ticket.eventstart) < new Date(acc.minEventStartDT.eventstart)) {
               acc.minEventStartDT = ticket;
             }
-            if (
-              new Date(ticket.ticketstart) <
-              new Date(acc.minTicketStartDT.ticketstart)
-            ) {
+            if (new Date(ticket.ticketstart) < new Date(acc.minTicketStartDT.ticketstart)) {
               acc.minTicketStartDT = ticket;
             }
-            if (
-              new Date(ticket.eventend) > new Date(acc.maxEventEndDT.eventend)
-            ) {
+            if (new Date(ticket.eventend) > new Date(acc.maxEventEndDT.eventend)) {
               acc.maxEventEndDT = ticket;
             }
-            if (
-              new Date(ticket.ticketend) >
-              new Date(acc.maxTicketEndDT.ticketend)
-            ) {
+            if (new Date(ticket.ticketend) > new Date(acc.maxTicketEndDT.ticketend)) {
               acc.maxTicketEndDT = ticket;
             }
             return acc;
@@ -2390,20 +2103,12 @@ function EditeventOnBack() {
           endTime: result.maxEventEndDT?.eventend || "",
         };
       } else {
-        const rsvpTickets = ticketTypes.filter(
-          (ticket: any) => ticket.type == "RSVP Ticketing"
-        );
+        const rsvpTickets = ticketTypes.filter((ticket: any) => ticket.type == "RSVP Ticketing");
         console.log(rsvpTickets, "rsvp Tickets--");
         let myTickets = rsvpTickets;
-        const ticketWithMaxRsvpDeadline = myTickets.reduce(
-          (maxTicket: any, currentTicket: any) => {
-            return new Date(currentTicket.deadline) >
-              new Date(maxTicket.deadline)
-              ? currentTicket
-              : maxTicket;
-          },
-          myTickets[0]
-        );
+        const ticketWithMaxRsvpDeadline = myTickets.reduce((maxTicket: any, currentTicket: any) => {
+          return new Date(currentTicket.deadline) > new Date(maxTicket.deadline) ? currentTicket : maxTicket;
+        }, myTickets[0]);
         // console.log(
         //   'Ticket with max rsvpDeadline:',
         //   ticketWithMaxRsvpDeadline?.rsvpDeadline,
@@ -2419,9 +2124,7 @@ function EditeventOnBack() {
       if (ticketTypes.length !== 0 && nonRsvpTickets?.length !== 0) {
         const getMaxEventEndDateTime = (tickets: any) => {
           return tickets.reduce((maxDate: Date | null, ticket: any) => {
-            if (
-              ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
-            ) {
+            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
               ticket.eventdates.forEach((festivalDate: any) => {
                 const eventEndDateTime = new Date(festivalDate.endDate);
                 if (!maxDate || eventEndDateTime > maxDate) {
@@ -2434,9 +2137,7 @@ function EditeventOnBack() {
         };
         const getMinEventStartDateTime = (tickets: any) => {
           return tickets.reduce((minDate: Date | null, ticket: any) => {
-            if (
-              ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
-            ) {
+            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
               ticket.eventdates.forEach((festivalDate: any) => {
                 const eventStartDateTime = new Date(festivalDate.startDate);
                 if (!minDate || eventStartDateTime < minDate) {
@@ -2450,23 +2151,13 @@ function EditeventOnBack() {
         const maxEventEndDateTime = getMaxEventEndDateTime(ticketTypes);
         const minEventStartTime = getMinEventStartDateTime(ticketTypes);
 
-        console.log(
-          "maxEventEndDateTime--",
-          maxEventEndDateTime,
-          minEventStartTime
-        );
+        console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
 
         if (maxEventEndDateTime !== null && minEventStartTime !== null) {
           timings = {
             ...timings,
-            endTime:
-              timings.endTime > maxEventEndDateTime.toISOString()
-                ? timings.endTime
-                : maxEventEndDateTime.toISOString(),
-            startTime:
-              new Date(timings.startTime) < new Date(minEventStartTime)
-                ? timings.startTime
-                : minEventStartTime.toISOString(),
+            endTime: timings.endTime > maxEventEndDateTime.toISOString() ? timings.endTime : maxEventEndDateTime.toISOString(),
+            startTime: new Date(timings.startTime) < new Date(minEventStartTime) ? timings.startTime : minEventStartTime.toISOString(),
           };
         }
       }
@@ -2491,8 +2182,7 @@ function EditeventOnBack() {
           name: Eventname || EventData?.eventname || "",
           category: [categorylabels?.label || updatedCategoryTypes || ""],
           tags: updatedTags || EventData?.eventHashtags[0] || [],
-          eventDescription:
-            Eventdescription || EventData?.eventDescription || "",
+          eventDescription: Eventdescription || EventData?.eventDescription || "",
           location: EventLocation || EventData?.eventlocation || "",
           // mainEventImage: eventData?.eventmainimg,
           coverEventImage: CoverImg || EventData?.eventcoverimg || "",
@@ -2544,11 +2234,7 @@ function EditeventOnBack() {
       if (options.length === 0) {
         ErrorToast(`${lastTicket?.type} is required at least one include`);
         setTicketTypes((prevTickets: any) =>
-          prevTickets.map((ticket: any, i: number) =>
-            i === ticketTypes?.length - 1
-              ? { ...ticket, optionDropDown: true }
-              : ticket
-          )
+          prevTickets.map((ticket: any, i: number) => (i === ticketTypes?.length - 1 ? { ...ticket, optionDropDown: true } : ticket))
         );
         isFormValid = false;
         return; // Options array is empty
@@ -2558,27 +2244,15 @@ function EditeventOnBack() {
     ticketTypes.forEach((ticket: any, ticketIndex: number) => {
       // Private Form Validation
       if (ticket.type === "Private Event Ticketing") {
-        if (
-          ticket?.emailmanual.length === 0 ||
-          ticket?.emailmanual[ticket?.emailmanual?.length - 1] === ""
-        ) {
+        if (ticket?.emailmanual.length === 0 || ticket?.emailmanual[ticket?.emailmanual?.length - 1] === "") {
           ErrorToast("At least one Email is required for Private Ticketing");
 
-          form.setError(
-            `tickets.${ticketIndex}.emailmanual.${
-              ticket?.emailmanual?.length - 1
-            }`,
-            {
-              type: "manual",
-              message: "At least one Email is required for Private Ticketing",
-            }
-          );
+          form.setError(`tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}`, {
+            type: "manual",
+            message: "At least one Email is required for Private Ticketing",
+          });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.emailmanual.${
-              ticket?.emailmanual?.length - 1
-            }"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2593,9 +2267,7 @@ function EditeventOnBack() {
             message: "End date can't be smaaler than start date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.ticketend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2611,9 +2283,7 @@ function EditeventOnBack() {
             message: "Event start date can't be smaller then ticket end date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.eventstart"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventstart"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2628,9 +2298,7 @@ function EditeventOnBack() {
             message: "End date can't be smaller than start date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.eventend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2642,34 +2310,19 @@ function EditeventOnBack() {
 
       // Password Ticket type
       if (ticket.type === "Passworded / Discounted Voucher Event") {
-        if (
-          ticket?.pswrdmanual.length === 0 &&
-          ticket?.autoGeneratedPswrd.length === 0 &&
-          ticket?.emailmanual.length === 0
-        ) {
-          ErrorToast(
-            "At least one Email or password required for password/discounted Ticketing"
-          );
+        if (ticket?.pswrdmanual.length === 0 && ticket?.autoGeneratedPswrd.length === 0 && ticket?.emailmanual.length === 0) {
+          ErrorToast("At least one Email or password required for password/discounted Ticketing");
           isFormValid = false;
           return;
         }
 
         if (ticket?.emailmanual[ticket?.emailmanual?.length - 1] === "") {
-          form.setError(
-            `tickets.${ticketIndex}.emailmanual.${
-              ticket?.emailmanual?.length - 1
-            }`,
-            {
-              type: "manual",
-              message: "Required",
-            }
-          );
+          form.setError(`tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}`, {
+            type: "manual",
+            message: "Required",
+          });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.emailmanual.${
-              ticket?.emailmanual?.length - 1
-            }"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.emailmanual.${ticket?.emailmanual?.length - 1}"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2679,21 +2332,12 @@ function EditeventOnBack() {
         }
 
         if (ticket?.pswrdmanual[ticket?.pswrdmanual?.length - 1] === "") {
-          form.setError(
-            `tickets.${ticketIndex}.pswrdmanual.${
-              ticket?.pswrdmanual?.length - 1
-            }`,
-            {
-              type: "manual",
-              message: "Required",
-            }
-          );
+          form.setError(`tickets.${ticketIndex}.pswrdmanual.${ticket?.pswrdmanual?.length - 1}`, {
+            type: "manual",
+            message: "Required",
+          });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.pswrdmanual.${
-              ticket?.pswrdmanual?.length - 1
-            }"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.pswrdmanual.${ticket?.pswrdmanual?.length - 1}"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2709,9 +2353,7 @@ function EditeventOnBack() {
             message: "End date can't be smaller than start",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.ticketend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2727,9 +2369,7 @@ function EditeventOnBack() {
             message: "Event start date can't be smaller than ticket end date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.eventstart"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventstart"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2744,9 +2384,7 @@ function EditeventOnBack() {
             message: "End date can't be smaller than start date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.eventend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2765,9 +2403,7 @@ function EditeventOnBack() {
             message: "End date can't be smaller than start",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.ticketend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2783,9 +2419,7 @@ function EditeventOnBack() {
             message: "Event start date can't be smaller than ticket end date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.eventstart"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventstart"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2800,9 +2434,7 @@ function EditeventOnBack() {
             message: "End date can't be smaller than start date",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.eventend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2814,12 +2446,7 @@ function EditeventOnBack() {
 
       // RSVP Ticket
       if (ticket.type === "RSVP Ticketing") {
-        if (
-          ticket?.additional.length > 0 ||
-          ticket.username ||
-          ticket.useremail ||
-          ticket.usernumb
-        ) {
+        if (ticket?.additional.length > 0 || ticket.username || ticket.useremail || ticket.usernumb) {
         } else {
           ErrorToast("At least one RSVP field is required");
           isFormValid = false;
@@ -2836,9 +2463,7 @@ function EditeventOnBack() {
             message: "End date can't be smaller than start",
           });
           // Focus on the error field
-          const errorField = document.querySelector(
-            `[name="tickets.${ticketIndex}.ticketend"]`
-          );
+          const errorField = document.querySelector(`[name="tickets.${ticketIndex}.ticketend"]`);
           if (errorField) {
             errorField.scrollIntoView({ behavior: "smooth", block: "center" });
             (errorField as HTMLElement).focus(); // Ensure the field gets focused
@@ -2851,18 +2476,12 @@ function EditeventOnBack() {
             if (new Date(ticket?.ticketend) > new Date(date?.startDate)) {
               // ErrorToast("At least one Email is required for Private Ticketing");
               // Set error in form for invalid email
-              form.setError(
-                `tickets.${ticketIndex}.eventdates.${d_Idx}.startDate`,
-                {
-                  type: "manual",
-                  message:
-                    "Event start date can't be smaller than ticket end date",
-                }
-              );
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.startDate`, {
+                type: "manual",
+                message: "Event start date can't be smaller than ticket end date",
+              });
               // Focus on the error field
-              const errorField = document.querySelector(
-                `[name="tickets.${ticketIndex}.eventdates.${d_Idx}.startDate"]`
-              );
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.startDate"]`);
               if (errorField) {
                 errorField.scrollIntoView({
                   behavior: "smooth",
@@ -2875,17 +2494,12 @@ function EditeventOnBack() {
             }
             if (new Date(date?.startDate) > new Date(date?.endDate)) {
               // ErrorToast("At least one Email is required for Private Ticketing");
-              form.setError(
-                `tickets.${ticketIndex}.eventdates.${d_Idx}.endDate`,
-                {
-                  type: "manual",
-                  message: "End date can't be smaller than start date",
-                }
-              );
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.endDate`, {
+                type: "manual",
+                message: "End date can't be smaller than start date",
+              });
               // Focus on the error field
-              const errorField = document.querySelector(
-                `[name="tickets.${ticketIndex}.eventdates.${d_Idx}.endDate"]`
-              );
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.endDate"]`);
               if (errorField) {
                 errorField.scrollIntoView({
                   behavior: "smooth",
@@ -2897,24 +2511,15 @@ function EditeventOnBack() {
               return;
             }
           } else {
-            if (
-              new Date(ticket?.eventdates[d_Idx - 1]?.endDate) >
-              new Date(date?.startDate)
-            ) {
+            if (new Date(ticket?.eventdates[d_Idx - 1]?.endDate) > new Date(date?.startDate)) {
               // ErrorToast("At least one Email is required for Private Ticketing");
               // Set error in form for invalid email
-              form.setError(
-                `tickets.${ticketIndex}.eventdates.${d_Idx}.startDate`,
-                {
-                  type: "manual",
-                  message:
-                    "Event start date can't be smaller than previous event end date",
-                }
-              );
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.startDate`, {
+                type: "manual",
+                message: "Event start date can't be smaller than previous event end date",
+              });
               // Focus on the error field
-              const errorField = document.querySelector(
-                `[name="tickets.${ticketIndex}.eventdates.${d_Idx}.startDate"]`
-              );
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.startDate"]`);
               if (errorField) {
                 errorField.scrollIntoView({
                   behavior: "smooth",
@@ -2927,17 +2532,12 @@ function EditeventOnBack() {
             }
             if (new Date(date?.startDate) > new Date(date?.endDate)) {
               // ErrorToast("At least one Email is required for Private Ticketing");
-              form.setError(
-                `tickets.${ticketIndex}.eventdates.${d_Idx}.endDate`,
-                {
-                  type: "manual",
-                  message: "End date can't be smaller than start date",
-                }
-              );
+              form.setError(`tickets.${ticketIndex}.eventdates.${d_Idx}.endDate`, {
+                type: "manual",
+                message: "End date can't be smaller than start date",
+              });
               // Focus on the error field
-              const errorField = document.querySelector(
-                `[name="tickets.${ticketIndex}.eventdates.${d_Idx}.endDate"]`
-              );
+              const errorField = document.querySelector(`[name="tickets.${ticketIndex}.eventdates.${d_Idx}.endDate"]`);
               if (errorField) {
                 errorField.scrollIntoView({
                   behavior: "smooth",
@@ -2960,59 +2560,53 @@ function EditeventOnBack() {
       console.log("my values", values);
       const imagesOfGallery = await handleFileChangeapi();
 
-      const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map(
-        (ticket: any, t_Index: number) =>
-          ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
-            ? {
-                ...ticket,
-                ticketstart: ticket.ticketstart,
-                ticketend: ticket.ticketend,
-                eventstart: ticket?.eventdates?.[0]?.startDate,
-                eventend:
-                  ticket?.eventdates?.[ticket?.eventdates?.length - 1]?.endDate,
-                eventdates: ticket?.eventdates?.map(
-                  (e: FestivalEventsDate, i: number) => ({
-                    startDate: e?.startDate,
-                    endDate: e?.endDate,
-                  })
-                ),
-              }
-            : ticket.type === "RSVP Ticketing"
-            ? {
-                ...ticket,
-                deadline: ticket.deadline,
-              }
-            : ticket.type === "Private Event Ticketing"
-            ? {
-                ...ticket,
-                ticketstart: ticket.ticketstart,
-                ticketend: ticket.ticketend,
-                eventstart: ticket.eventstart,
-                eventend: ticket.eventend,
-              }
-            : ticket.type === "Passworded / Discounted Voucher Event"
-            ? {
-                ...ticket,
-                ticketstart: ticket.ticketstart,
-                ticketend: ticket.ticketend,
-                eventstart: ticket.eventstart,
-                eventend: ticket.eventend,
-              }
-            : {
-                ...ticket,
-                ticketstart: ticket.ticketstart,
-                ticketend: ticket.ticketend,
-                eventstart: ticket.eventstart,
-                eventend: ticket.eventend,
-              }
+      const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
+        ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
+          ? {
+              ...ticket,
+              ticketstart: ticket.ticketstart,
+              ticketend: ticket.ticketend,
+              eventstart: ticket?.eventdates?.[0]?.startDate,
+              eventend: ticket?.eventdates?.[ticket?.eventdates?.length - 1]?.endDate,
+              eventdates: ticket?.eventdates?.map((e: FestivalEventsDate, i: number) => ({
+                startDate: e?.startDate,
+                endDate: e?.endDate,
+              })),
+            }
+          : ticket.type === "RSVP Ticketing"
+          ? {
+              ...ticket,
+              deadline: ticket.deadline,
+            }
+          : ticket.type === "Private Event Ticketing"
+          ? {
+              ...ticket,
+              ticketstart: ticket.ticketstart,
+              ticketend: ticket.ticketend,
+              eventstart: ticket.eventstart,
+              eventend: ticket.eventend,
+            }
+          : ticket.type === "Passworded / Discounted Voucher Event"
+          ? {
+              ...ticket,
+              ticketstart: ticket.ticketstart,
+              ticketend: ticket.ticketend,
+              eventstart: ticket.eventstart,
+              eventend: ticket.eventend,
+            }
+          : {
+              ...ticket,
+              ticketstart: ticket.ticketstart,
+              ticketend: ticket.ticketend,
+              eventstart: ticket.eventstart,
+              eventend: ticket.eventend,
+            }
       );
 
       ////// Getting maximimum and minimum Dates from ticketTypes //////
 
       console.log(ticketTypes, "this is ticket data");
-      const nonRsvpTickets = ticketTypes.filter(
-        (ticket: any) => ticket.type !== "RSVP Ticketing"
-      );
+      const nonRsvpTickets = ticketTypes.filter((ticket: any) => ticket.type !== "RSVP Ticketing");
 
       let timings: any = {
         ticketStartDate: "",
@@ -3025,27 +2619,16 @@ function EditeventOnBack() {
         let myTickets = nonRsvpTickets;
         const result = myTickets.reduce(
           (acc: any, ticket: any) => {
-            if (
-              new Date(ticket.eventstart) <
-              new Date(acc.minEventStartDT.eventstart)
-            ) {
+            if (new Date(ticket.eventstart) < new Date(acc.minEventStartDT.eventstart)) {
               acc.minEventStartDT = ticket;
             }
-            if (
-              new Date(ticket.ticketstart) <
-              new Date(acc.minTicketStartDT.ticketstart)
-            ) {
+            if (new Date(ticket.ticketstart) < new Date(acc.minTicketStartDT.ticketstart)) {
               acc.minTicketStartDT = ticket;
             }
-            if (
-              new Date(ticket.eventend) > new Date(acc.maxEventEndDT.eventend)
-            ) {
+            if (new Date(ticket.eventend) > new Date(acc.maxEventEndDT.eventend)) {
               acc.maxEventEndDT = ticket;
             }
-            if (
-              new Date(ticket.ticketend) >
-              new Date(acc.maxTicketEndDT.ticketend)
-            ) {
+            if (new Date(ticket.ticketend) > new Date(acc.maxTicketEndDT.ticketend)) {
               acc.maxTicketEndDT = ticket;
             }
             return acc;
@@ -3065,20 +2648,12 @@ function EditeventOnBack() {
           endTime: result.maxEventEndDT?.eventend || "",
         };
       } else {
-        const rsvpTickets = ticketTypes.filter(
-          (ticket: any) => ticket.type == "RSVP Ticketing"
-        );
+        const rsvpTickets = ticketTypes.filter((ticket: any) => ticket.type == "RSVP Ticketing");
         console.log(rsvpTickets, "rsvp Tickets--");
         let myTickets = rsvpTickets;
-        const ticketWithMaxRsvpDeadline = myTickets.reduce(
-          (maxTicket: any, currentTicket: any) => {
-            return new Date(currentTicket.deadline) >
-              new Date(maxTicket.deadline)
-              ? currentTicket
-              : maxTicket;
-          },
-          myTickets[0]
-        );
+        const ticketWithMaxRsvpDeadline = myTickets.reduce((maxTicket: any, currentTicket: any) => {
+          return new Date(currentTicket.deadline) > new Date(maxTicket.deadline) ? currentTicket : maxTicket;
+        }, myTickets[0]);
         // console.log(
         //   'Ticket with max rsvpDeadline:',
         //   ticketWithMaxRsvpDeadline?.rsvpDeadline,
@@ -3094,9 +2669,7 @@ function EditeventOnBack() {
       if (ticketTypes.length !== 0 && nonRsvpTickets?.length !== 0) {
         const getMaxEventEndDateTime = (tickets: any) => {
           return tickets.reduce((maxDate: Date | null, ticket: any) => {
-            if (
-              ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
-            ) {
+            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
               ticket.eventdates.forEach((festivalDate: any) => {
                 const eventEndDateTime = new Date(festivalDate.endDate);
                 if (!maxDate || eventEndDateTime > maxDate) {
@@ -3109,9 +2682,7 @@ function EditeventOnBack() {
         };
         const getMinEventStartDateTime = (tickets: any) => {
           return tickets.reduce((minDate: Date | null, ticket: any) => {
-            if (
-              ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
-            ) {
+            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
               ticket.eventdates.forEach((festivalDate: any) => {
                 const eventStartDateTime = new Date(festivalDate.startDate);
                 if (!minDate || eventStartDateTime < minDate) {
@@ -3125,22 +2696,12 @@ function EditeventOnBack() {
         const maxEventEndDateTime = getMaxEventEndDateTime(ticketTypes);
         const minEventStartTime = getMinEventStartDateTime(ticketTypes);
 
-        console.log(
-          "maxEventEndDateTime--",
-          maxEventEndDateTime,
-          minEventStartTime
-        );
+        console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
         if (maxEventEndDateTime !== null && minEventStartTime !== null) {
           timings = {
             ...timings,
-            endTime:
-              timings.endTime > maxEventEndDateTime
-                ? timings.endTime
-                : maxEventEndDateTime,
-            startTime:
-              new Date(timings.startTime) < new Date(minEventStartTime)
-                ? timings.startTime
-                : minEventStartTime,
+            endTime: timings.endTime > maxEventEndDateTime ? timings.endTime : maxEventEndDateTime,
+            startTime: new Date(timings.startTime) < new Date(minEventStartTime) ? timings.startTime : minEventStartTime,
           };
         }
       }
@@ -3152,10 +2713,7 @@ function EditeventOnBack() {
       const categorylabels = categoryTypes;
       const eventhashtags = chooseHashTags;
 
-      console.log(
-        "Ticket Types in Preview is As=====> ",
-        updatedAllTicketTypes
-      );
+      console.log("Ticket Types in Preview is As=====> ", updatedAllTicketTypes);
 
       // const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
 
@@ -3204,8 +2762,7 @@ function EditeventOnBack() {
     if (EventData) {
       // Main Image
       if (EventData?.eventmainimg) {
-        const imageName =
-          EventData?.eventmainimg.split("/").pop() || "Upload Image";
+        const imageName = EventData?.eventmainimg.split("/").pop() || "Upload Image";
         setMainImgName(imageName);
       }
 
@@ -3216,13 +2773,7 @@ function EditeventOnBack() {
             if (typeof media === "string") {
               // Handling URLs
               return {
-                type:
-                  media.endsWith(".mp4") ||
-                  media.endsWith(".avi") ||
-                  media.endsWith(".mov") ||
-                  media.endsWith(".mkv")
-                    ? "video"
-                    : "image",
+                type: media.endsWith(".mp4") || media.endsWith(".avi") || media.endsWith(".mov") || media.endsWith(".mkv") ? "video" : "image",
                 url: media,
               };
             } else if (media instanceof File) {
@@ -3240,171 +2791,160 @@ function EditeventOnBack() {
       }
 
       // setting all tickets Types
-      const ticketsFromAPIs: TicketType[] | any = EventData?.tickets?.map(
-        (ticket: any) =>
-          ticket?.type === "Festivals / Multi-Day Tickets / Season Passes"
-            ? {
-                type: ticket?.type,
-                typeDropDown: false,
-                selected: ticket?.selected,
-                selectedDropDown: false,
-                price: ticket?.price,
-                no: ticket?.no,
-                typename: ticket?.typename,
-                ticketstart: ticket?.ticketstart,
-                ticketend: ticket?.ticketend,
-                isTicketStartPickerOpen: false,
-                isTicketEndPickerOpen: false,
-                eventdates: [
-                  // {
-                  //   startDate: ticket?.eventstart,
-                  //   endDate: ticket?.eventend,
-                  //   isStartEventPickerOpen: false,
-                  //   isEndEventPickerOpen: false,
-                  // },
-                  ...ticket?.eventdates.map((d: any, i: number) => ({
-                    startDate: d?.startDate,
-                    endDate: d?.endDate,
-                    isStartEventPickerOpen: false,
-                    isEndEventPickerOpen: false,
-                  })),
-                ],
-                options: (ticket?.options || []).map((ticket: any) => ({
-                  ...ticket,
-                  options: (ticket?.options || []).map((option: any) => ({
-                    ...option,
-                    checked: (ticket?.options || []).some(
-                      (o: any) => o?.id === option?.id
-                    ),
-                  })),
+      const ticketsFromAPIs: TicketType[] | any = EventData?.tickets?.map((ticket: any) =>
+        ticket?.type === "Festivals / Multi-Day Tickets / Season Passes"
+          ? {
+              type: ticket?.type,
+              typeDropDown: false,
+              selected: ticket?.selected,
+              selectedDropDown: false,
+              price: ticket?.price,
+              no: ticket?.no,
+              typename: ticket?.typename,
+              ticketstart: ticket?.ticketstart,
+              ticketend: ticket?.ticketend,
+              isTicketStartPickerOpen: false,
+              isTicketEndPickerOpen: false,
+              eventdates: [
+                // {
+                //   startDate: ticket?.eventstart,
+                //   endDate: ticket?.eventend,
+                //   isStartEventPickerOpen: false,
+                //   isEndEventPickerOpen: false,
+                // },
+                ...ticket?.eventdates.map((d: any, i: number) => ({
+                  startDate: d?.startDate,
+                  endDate: d?.endDate,
+                  isStartEventPickerOpen: false,
+                  isEndEventPickerOpen: false,
                 })),
-                optionDropDown: false,
-              }
-            : ticket?.type === "RSVP Ticketing"
-            ? {
-                type: ticket?.type,
-                typeDropDown: false,
-                name: ticket?.name,
-                deadline: ticket?.deadline,
-                isDeadlinePickerOpen: false,
-                capacity: ticket?.capacity,
-                options: (ticket?.options || []).map((ticket: any) => ({
-                  ...ticket,
-                  options: (ticket?.options || []).map((option: any) => ({
-                    ...option,
-                    checked: (ticket?.options || []).some(
-                      (o: any) => o?.id === option?.id
-                    ),
-                  })),
+              ],
+              options: (ticket?.options || []).map((ticket: any) => ({
+                ...ticket,
+                options: (ticket?.options || []).map((option: any) => ({
+                  ...option,
+                  checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
                 })),
-                optionDropDown: false,
-                username: ticket?.username,
-                useremail: ticket?.useremail,
-                usernumb: ticket?.usernumb,
-                additional: ticket?.additional.map((t: any) => ({
-                  title: t?.title,
+              })),
+              optionDropDown: false,
+            }
+          : ticket?.type === "RSVP Ticketing"
+          ? {
+              type: ticket?.type,
+              typeDropDown: false,
+              name: ticket?.name,
+              deadline: ticket?.deadline,
+              isDeadlinePickerOpen: false,
+              capacity: ticket?.capacity,
+              options: (ticket?.options || []).map((ticket: any) => ({
+                ...ticket,
+                options: (ticket?.options || []).map((option: any) => ({
+                  ...option,
+                  checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
                 })),
-              }
-            : ticket?.type === "Private Event Ticketing"
-            ? {
-                type: ticket?.type,
-                typeDropDown: false,
-                selected: ticket?.selected,
-                selectedDropDown: false,
-                price: ticket?.price,
-                no: ticket?.no,
-                name: ticket?.name,
-                ticketstart: ticket?.ticketstart,
-                ticketend: ticket?.ticketend,
-                isTicketStartPickerOpen: false,
-                isTicketEndPickerOpen: false,
-                eventstart: ticket?.eventstart,
-                eventend: ticket?.eventend,
-                isStartEventPickerOpen: false,
-                isEndEventPickerOpen: false,
-                options: (ticket?.options || []).map((ticket: any) => ({
-                  ...ticket,
-                  options: (ticket?.options || []).map((option: any) => ({
-                    ...option,
-                    checked: (ticket?.options || []).some(
-                      (o: any) => o?.id === option?.id
-                    ),
-                  })),
+              })),
+              optionDropDown: false,
+              username: ticket?.username,
+              useremail: ticket?.useremail,
+              usernumb: ticket?.usernumb,
+              additional: ticket?.additional.map((t: any) => ({
+                title: t?.title,
+              })),
+            }
+          : ticket?.type === "Private Event Ticketing"
+          ? {
+              type: ticket?.type,
+              typeDropDown: false,
+              selected: ticket?.selected,
+              selectedDropDown: false,
+              price: ticket?.price,
+              no: ticket?.no,
+              name: ticket?.name,
+              ticketstart: ticket?.ticketstart,
+              ticketend: ticket?.ticketend,
+              isTicketStartPickerOpen: false,
+              isTicketEndPickerOpen: false,
+              eventstart: ticket?.eventstart,
+              eventend: ticket?.eventend,
+              isStartEventPickerOpen: false,
+              isEndEventPickerOpen: false,
+              options: (ticket?.options || []).map((ticket: any) => ({
+                ...ticket,
+                options: (ticket?.options || []).map((option: any) => ({
+                  ...option,
+                  checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
                 })),
-                optionDropDown: false,
+              })),
+              optionDropDown: false,
 
-                emailmanual: ticket?.emailmanual,
-                manualEmailCount: 0,
-                csvEmails: [],
-                isCSVuploaded: false,
-                allEmails: [],
-              }
-            : ticket?.type === "Passworded / Discounted Voucher Event"
-            ? {
-                type: ticket?.type,
-                typeDropDown: false,
-                selected: ticket?.selected,
-                selectedDropDown: false,
-                price: ticket?.price,
-                no: ticket?.no,
-                name: ticket?.name,
-                ticketstart: ticket?.ticketstart,
-                ticketend: ticket?.ticketend,
-                isTicketStartPickerOpen: false,
-                isTicketEndPickerOpen: false,
-                eventstart: ticket?.eventstart,
-                eventend: ticket?.eventend,
-                isStartEventPickerOpen: false,
-                isEndEventPickerOpen: false,
-                options: (ticket?.options || []).map((ticket: any) => ({
-                  ...ticket,
-                  options: (ticket?.options || []).map((option: any) => ({
-                    ...option,
-                    checked: (ticket?.options || []).some(
-                      (o: any) => o?.id === option?.id
-                    ),
-                  })),
+              emailmanual: ticket?.emailmanual,
+              manualEmailCount: 0,
+              csvEmails: [],
+              isCSVuploaded: false,
+              allEmails: [],
+            }
+          : ticket?.type === "Passworded / Discounted Voucher Event"
+          ? {
+              type: ticket?.type,
+              typeDropDown: false,
+              selected: ticket?.selected,
+              selectedDropDown: false,
+              price: ticket?.price,
+              no: ticket?.no,
+              name: ticket?.name,
+              ticketstart: ticket?.ticketstart,
+              ticketend: ticket?.ticketend,
+              isTicketStartPickerOpen: false,
+              isTicketEndPickerOpen: false,
+              eventstart: ticket?.eventstart,
+              eventend: ticket?.eventend,
+              isStartEventPickerOpen: false,
+              isEndEventPickerOpen: false,
+              options: (ticket?.options || []).map((ticket: any) => ({
+                ...ticket,
+                options: (ticket?.options || []).map((option: any) => ({
+                  ...option,
+                  checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
                 })),
-                optionDropDown: false,
+              })),
+              optionDropDown: false,
 
-                emailmanual: ticket?.emailmanual,
-                manualEmailCount: 0,
-                csvEmails: [],
-                isCSVuploaded: false,
-                allEmails: [],
+              emailmanual: ticket?.emailmanual,
+              manualEmailCount: 0,
+              csvEmails: [],
+              isCSVuploaded: false,
+              allEmails: [],
 
-                pswrdmanual: ticket?.pswrdmanual,
-                manualPswrdCount: 0,
-                autoGeneratedPswrd: ticket?.autoGeneratedPswrd,
-                allPswrd: [],
-              }
-            : {
-                type: ticket?.type,
-                typeDropDown: false,
-                selected: ticket?.selected,
-                selectedDropDown: false,
-                price: ticket?.price,
-                no: ticket?.no,
-                name: ticket?.name,
-                ticketstart: ticket?.ticketstart,
-                ticketend: ticket?.ticketend,
-                isTicketStartPickerOpen: false,
-                isTicketEndPickerOpen: false,
-                eventstart: ticket?.eventstart,
-                eventend: ticket?.eventend,
-                isStartEventPickerOpen: false,
-                isEndEventPickerOpen: false,
-                options: (ticket?.options || []).map((ticket: any) => ({
-                  ...ticket,
-                  options: (ticket?.options || []).map((option: any) => ({
-                    ...option,
-                    checked: (ticket?.options || []).some(
-                      (o: any) => o?.id === option?.id
-                    ),
-                  })),
+              pswrdmanual: ticket?.pswrdmanual,
+              manualPswrdCount: 0,
+              autoGeneratedPswrd: ticket?.autoGeneratedPswrd,
+              allPswrd: [],
+            }
+          : {
+              type: ticket?.type,
+              typeDropDown: false,
+              selected: ticket?.selected,
+              selectedDropDown: false,
+              price: ticket?.price,
+              no: ticket?.no,
+              name: ticket?.name,
+              ticketstart: ticket?.ticketstart,
+              ticketend: ticket?.ticketend,
+              isTicketStartPickerOpen: false,
+              isTicketEndPickerOpen: false,
+              eventstart: ticket?.eventstart,
+              eventend: ticket?.eventend,
+              isStartEventPickerOpen: false,
+              isEndEventPickerOpen: false,
+              options: (ticket?.options || []).map((ticket: any) => ({
+                ...ticket,
+                options: (ticket?.options || []).map((option: any) => ({
+                  ...option,
+                  checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
                 })),
-                optionDropDown: false,
-              }
+              })),
+              optionDropDown: false,
+            }
       );
       setTicketTypes(ticketsFromAPIs);
 
@@ -3463,14 +3003,11 @@ function EditeventOnBack() {
         eventname: EventData?.eventname || form.getValues("eventname"),
         eventcategory: updatedCategoryTypes || form.getValues("eventcategory"),
         eventHashtags: updatedTags || form.getValues("eventHashtags"),
-        eventdescription:
-          EventData?.eventdescription || form.getValues("eventdescription"),
-        eventlocation:
-          EventData?.eventlocation || form.getValues("eventlocation"),
+        eventdescription: EventData?.eventdescription || form.getValues("eventdescription"),
+        eventlocation: EventData?.eventlocation || form.getValues("eventlocation"),
 
         //  eventmainimg: mainimgName || form.getValues("eventmainimg"),
-        eventcoverimg:
-          EventData?.eventcoverimg || form.getValues("eventcoverimg"),
+        eventcoverimg: EventData?.eventcoverimg || form.getValues("eventcoverimg"),
 
         // compticketno: EventData?.totalComplemantaryTickets || form.getValues("compticketno"),
         fburl: EventData?.fburl || form.getValues("fburl"),
@@ -3503,11 +3040,7 @@ function EditeventOnBack() {
     return `${year}-${month}-${day}`;
   }
 
-  function addTimeToDate(
-    inputDate: string,
-    hoursToAdd: number,
-    minutesToAdd: number
-  ): string {
+  function addTimeToDate(inputDate: string, hoursToAdd: number, minutesToAdd: number): string {
     // Parse the input date
     const date = new Date(inputDate);
 
@@ -3526,19 +3059,12 @@ function EditeventOnBack() {
   }
 
   const removeTag = (ht: string): void => {
-    setChoosenHashtags((prevTags: string[]): string[] =>
-      prevTags.filter((tag: string) => tag !== ht)
-    );
+    setChoosenHashtags((prevTags: string[]): string[] => prevTags.filter((tag: string) => tag !== ht));
     const currentHasTag = ht.replace("#", "");
     // Get the current eventHashtags from the form, filter out the removed hashtag, and update the form
     const currentHashtags = form.getValues("eventHashtags") || [];
-    console.log(
-      "Current Hash tags are AS==================> ",
-      typeof EventData?.eventHashtags
-    );
-    const updatedHashtags = currentHashtags.filter(
-      (tag: string) => tag !== currentHasTag
-    );
+    console.log("Current Hash tags are AS==================> ", typeof EventData?.eventHashtags);
+    const updatedHashtags = currentHashtags.filter((tag: string) => tag !== currentHasTag);
     form.setValue("eventHashtags", updatedHashtags);
   };
 
@@ -3546,11 +3072,7 @@ function EditeventOnBack() {
     setFilterHash([]);
     setHashTagValue("");
 
-    if (
-      hashTag?.length >= 2 &&
-      !chooseHashTags.includes(`#${hashTag}`) &&
-      chooseHashTags?.length < 5
-    ) {
+    if (hashTag?.length >= 2 && !chooseHashTags.includes(`#${hashTag}`) && chooseHashTags?.length < 5) {
       setChoosenHashtags([...chooseHashTags, `#${hashTag}`]);
 
       // Get current eventHashtags from form and add the new hashtag
@@ -3576,9 +3098,7 @@ function EditeventOnBack() {
     if (inputValue === "") {
       setFilterHash([]);
     } else {
-      const filtered = hashtags.filter((hashtag) =>
-        hashtag.trim().toLowerCase().startsWith(inputValue.toLowerCase())
-      );
+      const filtered = hashtags.filter((hashtag) => hashtag.trim().toLowerCase().startsWith(inputValue.toLowerCase()));
       setFilterHash(() => (filtered?.length === 0 ? [inputValue] : filtered));
     }
 
@@ -3589,22 +3109,13 @@ function EditeventOnBack() {
   // ///////////////////////////////////////////// --- Handeling Ticket Types here below --- /////////////////////////////////
 
   useEffect(() => {
-    form.setValue(
-      `tickets.${0}.type`,
-      "Festivals / Multi-Day Tickets / Season Passes"
-    );
+    form.setValue(`tickets.${0}.type`, "Festivals / Multi-Day Tickets / Season Passes");
   }, []);
 
   //Send Ticket Object if the same type and index found in API Data
-  const findApiTicket = (
-    ticketType: string,
-    ticketIndex: number
-  ): TicketType | undefined | any => {
+  const findApiTicket = (ticketType: string, ticketIndex: number): TicketType | undefined | any => {
     console.log("Rgsfhgsfhsgfhdfghs ==> ", ticketType);
-    const ticket = EventData?.tickets?.find(
-      (ticket: any, i: number) =>
-        ticket?.type === ticketType && i === ticketIndex
-    );
+    const ticket = EventData?.tickets?.find((ticket: any, i: number) => ticket?.type === ticketType && i === ticketIndex);
 
     if (ticketType == "Festivals / Multi-Day Tickets / Season Passes") {
       return {
@@ -3637,9 +3148,7 @@ function EditeventOnBack() {
           ...ticket,
           options: (ticket?.options || []).map((option: any) => ({
             ...option,
-            checked: (ticket?.options || []).some(
-              (o: any) => o?.id === option?.id
-            ),
+            checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
           })),
         })),
         optionDropDown: false,
@@ -3656,9 +3165,7 @@ function EditeventOnBack() {
           ...ticket,
           options: (ticket?.options || []).map((option: any) => ({
             ...option,
-            checked: (ticket?.options || []).some(
-              (o: any) => o?.id === option?.id
-            ),
+            checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
           })),
         })),
         optionDropDown: false,
@@ -3688,9 +3195,7 @@ function EditeventOnBack() {
           ...ticket,
           options: (ticket?.options || []).map((option: any) => ({
             ...option,
-            checked: (ticket?.options || []).some(
-              (o: any) => o?.id === option?.id
-            ),
+            checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
           })),
         })),
         optionDropDown: false,
@@ -3722,9 +3227,7 @@ function EditeventOnBack() {
           ...ticket,
           options: (ticket?.options || []).map((option: any) => ({
             ...option,
-            checked: (ticket?.options || []).some(
-              (o: any) => o?.id === option?.id
-            ),
+            checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
           })),
         })),
         optionDropDown: false,
@@ -3761,9 +3264,7 @@ function EditeventOnBack() {
           ...ticket,
           options: (ticket?.options || []).map((option: any) => ({
             ...option,
-            checked: (ticket?.options || []).some(
-              (o: any) => o?.id === option?.id
-            ),
+            checked: (ticket?.options || []).some((o: any) => o?.id === option?.id),
           })),
         })),
         optionDropDown: false,
@@ -3775,26 +3276,15 @@ function EditeventOnBack() {
   const handleTicketTypeDropDown = (ticketIndex: number) => {
     // Open or close the current Ticket's Type DropDown
     setTicketTypes((prevTickets: any) => {
-      return prevTickets.map((ticket: any, index: number) =>
-        index === ticketIndex
-          ? { ...ticket, typeDropDown: !ticket.typeDropDown }
-          : ticket
-      );
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, typeDropDown: !ticket.typeDropDown } : ticket));
     });
   };
 
   // Type selecting for ticket
-  const handleTicketTypeSelection = (
-    ticketType: string,
-    ticketIndex: number
-  ) => {
+  const handleTicketTypeSelection = (ticketType: string, ticketIndex: number) => {
     // First Close the Type DropDown of Current Ticket
     setTicketTypes((prevTickets: any) => {
-      return prevTickets.map((ticket: any, index: number) =>
-        index === ticketIndex
-          ? { ...ticket, typeDropDown: !ticket.typeDropDown }
-          : ticket
-      );
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, typeDropDown: !ticket.typeDropDown } : ticket));
     });
 
     // First check weather ticketType is same as current Ticket Type
@@ -3803,10 +3293,7 @@ function EditeventOnBack() {
     // If the current ticket is not in the API Data then change the Ticket Type of Current index on the basis of param Type
     setTicketTypes((prevTickets) => {
       //Now check weather current type and index are same as in (API Data)
-      const existingTicket =
-        EventData?.tickets?.some(
-          (t: any, i: number) => t?.type === ticketType && i === ticketIndex
-        ) || false;
+      const existingTicket = EventData?.tickets?.some((t: any, i: number) => t?.type === ticketType && i === ticketIndex) || false;
 
       // defined an empty array
       let updatedTickets = [];
@@ -3824,10 +3311,7 @@ function EditeventOnBack() {
         // form.setValue(`tickets.${ticketIndex}.type`, ticketType);
       } else {
         // Find the object in the array that matches the received id
-        const choosenTicketType: TicketType | any | undefined =
-          AllDefinedTicketTypesArray.find(
-            (ticketObject) => ticketObject.type === ticketType
-          );
+        const choosenTicketType: TicketType | any | undefined = AllDefinedTicketTypesArray.find((ticketObject) => ticketObject.type === ticketType);
 
         // Replace the object at the specified index given in the param
         updatedTickets = prevTickets.map((obj: any, idx: number) => {
@@ -3843,16 +3327,8 @@ function EditeventOnBack() {
     });
   };
 
-  const handleInputChange = (
-    index: number,
-    field: keyof TicketType,
-    value: string | number | TicketTypeOption[]
-  ) => {
-    setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket, i) =>
-        i === index ? { ...ticket, [field]: value } : ticket
-      )
-    );
+  const handleInputChange = (index: number, field: keyof TicketType, value: string | number | TicketTypeOption[]) => {
+    setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, [field]: value } : ticket)));
   };
 
   let isOptionErrorShown = false;
@@ -3865,15 +3341,9 @@ function EditeventOnBack() {
       const lastTicket = prevTickets[prevTickets.length - 1];
 
       // Check if the `options` key exists and is an array
-      if (
-        lastTicket &&
-        Array.isArray(lastTicket?.options) &&
-        lastTicket?.options?.length === 0
-      ) {
+      if (lastTicket && Array.isArray(lastTicket?.options) && lastTicket?.options?.length === 0) {
         if (!isOptionErrorShown) {
-          ErrorToast(
-            `Please select at least one include in ${lastTicket?.type}`
-          );
+          ErrorToast(`Please select at least one include in ${lastTicket?.type}`);
           isOptionErrorShown = true; // Set the flag to prevent multiple toasts
         }
 
@@ -3889,10 +3359,7 @@ function EditeventOnBack() {
 
       isOptionErrorShown = false;
       const newValues = [...prevTickets, festivalTicket];
-      form.setValue(
-        `tickets.${newValues.length - 1}.type`,
-        "Festivals / Multi-Day Tickets / Season Passes"
-      );
+      form.setValue(`tickets.${newValues.length - 1}.type`, "Festivals / Multi-Day Tickets / Season Passes");
       form.clearErrors("tickets");
       return newValues;
     });
@@ -3913,9 +3380,7 @@ function EditeventOnBack() {
     //  Close or Open the selected DropDown of Current Ticket
     setTicketTypes((prevTickets: any) => {
       return prevTickets.map((ticket: any, index: number) =>
-        index === ticketIndex
-          ? { ...ticket, selectedDropDown: !ticket.selectedDropDown }
-          : ticket
+        index === ticketIndex ? { ...ticket, selectedDropDown: !ticket.selectedDropDown } : ticket
       );
     });
   };
@@ -3942,44 +3407,34 @@ function EditeventOnBack() {
     //tickets.${index}.selected  change the value in form fields
     form.setValue(`tickets.${ticketIndex}.selected`, option); // Update form state
     // "Free", "Paid"
-    option === "Paid"
-      ? form.setValue(`tickets.${ticketIndex}.price`, "")
-      : form.setValue(`tickets.${ticketIndex}.price`, "0");
+    option === "Paid" ? form.setValue(`tickets.${ticketIndex}.price`, "") : form.setValue(`tickets.${ticketIndex}.price`, "0");
   };
 
   // Handle Ticket Price change
   const handlTicketPriceChange = (value: string, ticketIndex: number) => {
     setTicketTypes((prevTickets: any) => {
-      return prevTickets.map((ticket: any, index: number) =>
-        index === ticketIndex ? { ...ticket, price: value } : ticket
-      );
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, price: value } : ticket));
     });
   };
 
   //Handle Festival Ticket Type
   const handleFestivalTicketType = (value: string, ticketIndex: number) => {
     setTicketTypes((prevTickets: any) => {
-      return prevTickets.map((ticket: any, index: number) =>
-        index === ticketIndex ? { ...ticket, typename: value } : ticket
-      );
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, typename: value } : ticket));
     });
   };
 
   //handle No. of Tickets
   const handleNoTickets = (value: string, ticketIndex: number) => {
     setTicketTypes((prevTickets: any) => {
-      return prevTickets.map((ticket: any, index: number) =>
-        index === ticketIndex ? { ...ticket, no: value } : ticket
-      );
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, no: value } : ticket));
     });
   };
 
   //handle ticket name
   const handleTicketNameChange = (value: string, ticketIndex: number) => {
     setTicketTypes((prevTickets: any) => {
-      return prevTickets.map((ticket: any, index: number) =>
-        index === ticketIndex ? { ...ticket, name: value } : ticket
-      );
+      return prevTickets.map((ticket: any, index: number) => (index === ticketIndex ? { ...ticket, name: value } : ticket));
     });
   };
 
@@ -3987,19 +3442,12 @@ function EditeventOnBack() {
   const handleDropdown = (ticketIndex: number) => {
     isOptionErrorShown = false;
     setTicketTypes((prevTickets: any) =>
-      prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex
-          ? { ...ticket, optionDropDown: !ticket.optionDropDown }
-          : ticket
-      )
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, optionDropDown: !ticket.optionDropDown } : ticket))
     );
   };
 
   // Ticket Option Toggle Dropdown handleing
-  const handleOptionToggle = (
-    ticketIndex: number,
-    option: TicketTypeOption
-  ) => {
+  const handleOptionToggle = (ticketIndex: number, option: TicketTypeOption) => {
     isOptionErrorShown = false;
     setTicketTypes((prevTickets: any) =>
       prevTickets.map((ticket: any, i: number) =>
@@ -4032,34 +3480,23 @@ function EditeventOnBack() {
   };
 
   // Start Ticket Date value
-  const setTheTicketStartValue = (
-    formattedDate: string,
-    ticketIndex: number
-  ) => {
+  const setTheTicketStartValue = (formattedDate: string, ticketIndex: number) => {
     setTicketTypes((prevTickets: any) =>
-      prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex ? { ...ticket, ticketstart: formattedDate } : ticket
-      )
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, ticketstart: formattedDate } : ticket))
     );
   };
 
   // End Ticket Picker
   const toggleTicketEndTimePicker = (ticketIndex: number) => {
     setTicketTypes((prevTickets: any) =>
-      prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex
-          ? { ...ticket, isTicketEndPickerOpen: !ticket.isTicketEndPickerOpen }
-          : ticket
-      )
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, isTicketEndPickerOpen: !ticket.isTicketEndPickerOpen } : ticket))
     );
   };
 
   // End Ticket Date value
   const setTheTicketEndValue = (formattedDate: string, ticketIndex: number) => {
     setTicketTypes((prevTickets: any) =>
-      prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex ? { ...ticket, ticketend: formattedDate } : ticket
-      )
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, ticketend: formattedDate } : ticket))
     );
   };
 
@@ -4078,34 +3515,23 @@ function EditeventOnBack() {
   };
 
   //Start Event Value (Private, Password) Types
-  const toggleStartEventValue = (
-    formattedDate: string,
-    ticketIndex: number
-  ) => {
+  const toggleStartEventValue = (formattedDate: string, ticketIndex: number) => {
     setTicketTypes((prevTickets: any) =>
-      prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex ? { ...ticket, eventstart: formattedDate } : ticket
-      )
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, eventstart: formattedDate } : ticket))
     );
   };
 
   //End Event Picker (Private, Password) Types
   const toggleEndEventTimePicker = (ticketIndex: number) => {
     setTicketTypes((prevTickets: any) =>
-      prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex
-          ? { ...ticket, isEndEventPickerOpen: !ticket.isEndEventPickerOpen }
-          : ticket
-      )
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, isEndEventPickerOpen: !ticket.isEndEventPickerOpen } : ticket))
     );
   };
 
   //End Event Value (Private, Password) Types
   const toggleEndEventValue = (formattedDate: string, ticketIndex: number) => {
     setTicketTypes((prevTickets: any) =>
-      prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex ? { ...ticket, eventend: formattedDate } : ticket
-      )
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, eventend: formattedDate } : ticket))
     );
   };
 
@@ -4114,67 +3540,39 @@ function EditeventOnBack() {
   // RSVP Ticket Date Picker
   const toggleRSVPTicketDeadlinePicker = (ticketIndex: number) => {
     setTicketTypes((prevTickets: any) =>
-      prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex
-          ? { ...ticket, isDeadlinePickerOpen: !ticket.isDeadlinePickerOpen }
-          : ticket
-      )
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, isDeadlinePickerOpen: !ticket.isDeadlinePickerOpen } : ticket))
     );
   };
 
   // RSVP Ticket Deadline Date Value
-  const toggleRSVPTicketDeadlineValue = (
-    formattedDate: string,
-    ticketIndex: number
-  ) => {
+  const toggleRSVPTicketDeadlineValue = (formattedDate: string, ticketIndex: number) => {
     setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex ? { ...ticket, deadline: formattedDate } : ticket
-      )
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, deadline: formattedDate } : ticket))
     );
   };
 
   // RSVP Ticket Capacity handle
-  const handleCapacityRSVPTicket = (
-    capacityNumber: string,
-    ticketIndex: number
-  ) => {
+  const handleCapacityRSVPTicket = (capacityNumber: string, ticketIndex: number) => {
     setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex ? { ...ticket, capacity: capacityNumber } : ticket
-      )
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, capacity: capacityNumber } : ticket))
     );
   };
 
   // RSVP Ticket Radio Selections
-  const handleRsvpRadioSelections = (
-    radioName: string,
-    ticketIndex: number
-  ) => {
+  const handleRsvpRadioSelections = (radioName: string, ticketIndex: number) => {
     setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex
-          ? { ...ticket, [radioName]: !ticket[radioName] }
-          : ticket
-      )
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, [radioName]: !ticket[radioName] } : ticket))
     );
   };
 
   // RSVP Addition Field Value
-  const handleRsvpAdditionField = (
-    ticketIndex: number,
-    f_index: number,
-    value: string
-  ) => {
+  const handleRsvpAdditionField = (ticketIndex: number, f_index: number, value: string) => {
     setTicketTypes((prevTickets) =>
       prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex
           ? {
               ...ticket,
-              additional: ticket.additional.map(
-                (f_object: AdditionalFields, fi: number) =>
-                  fi === f_index ? { title: value } : f_object
-              ),
+              additional: ticket.additional.map((f_object: AdditionalFields, fi: number) => (fi === f_index ? { title: value } : f_object)),
             }
           : ticket
       )
@@ -4185,9 +3583,7 @@ function EditeventOnBack() {
   const addAdditionalToRSVP = (ticketIndex: number) => {
     setTicketTypes((prevTickets) => {
       const updatedTypes = prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex
-          ? { ...ticket, additional: [...ticket.additional, { title: "" }] }
-          : ticket
+        i === ticketIndex ? { ...ticket, additional: [...ticket.additional, { title: "" }] } : ticket
       );
 
       // Scroll to the bottom after adding new content
@@ -4207,18 +3603,13 @@ function EditeventOnBack() {
         i === ticketIndex
           ? {
               ...ticket,
-              additional: ticket?.additional.filter(
-                (f: any, fIdx: number) => fIdx !== f_index
-              ),
+              additional: ticket?.additional.filter((f: any, fIdx: number) => fIdx !== f_index),
             }
           : ticket
       );
 
       // Set values in map
-      form.setValue(
-        `tickets.${ticketIndex}.additional`,
-        updatedTypes[ticketIndex]?.additional
-      );
+      form.setValue(`tickets.${ticketIndex}.additional`, updatedTypes[ticketIndex]?.additional);
 
       return updatedTypes;
     });
@@ -4229,27 +3620,18 @@ function EditeventOnBack() {
   // Add new Event in Festival Events
   const addNewEventDateInFestival = (ticketIndex: number) => {
     setTicketTypes((prevTickets) =>
-      prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex
-          ? { ...ticket, eventdates: [...ticket.eventdates, newEventObject] }
-          : ticket
-      )
+      prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, eventdates: [...ticket.eventdates, newEventObject] } : ticket))
     );
   };
 
   // Remove Event in Festival Events
-  const removeEventDateInFestival = (
-    ticketIndex: number,
-    eventIndex: number
-  ) => {
+  const removeEventDateInFestival = (ticketIndex: number, eventIndex: number) => {
     setTicketTypes((prevTickets: any) => {
       const newEventsDates = prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex
           ? {
               ...ticket,
-              eventdates: ticket?.eventdates.filter(
-                (e: any, e_Idx: number) => e_Idx !== eventIndex
-              ),
+              eventdates: ticket?.eventdates.filter((e: any, e_Idx: number) => e_Idx !== eventIndex),
             }
           : ticket
       );
@@ -4260,23 +3642,19 @@ function EditeventOnBack() {
   };
 
   // handle start picker
-  const festivalStartEventPicker = (
-    ticketIndex: number,
-    eventIndex: number
-  ) => {
+  const festivalStartEventPicker = (ticketIndex: number, eventIndex: number) => {
     setTicketTypes((prevTickets) =>
       prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex
           ? {
               ...ticket,
-              eventdates: ticket.eventdates.map(
-                (event: FestivalEventsDate, e_num: number) =>
-                  e_num === eventIndex
-                    ? {
-                        ...event,
-                        isStartEventPickerOpen: !event.isStartEventPickerOpen,
-                      }
-                    : event
+              eventdates: ticket.eventdates.map((event: FestivalEventsDate, e_num: number) =>
+                e_num === eventIndex
+                  ? {
+                      ...event,
+                      isStartEventPickerOpen: !event.isStartEventPickerOpen,
+                    }
+                  : event
               ),
             }
           : ticket
@@ -4293,14 +3671,13 @@ function EditeventOnBack() {
         i === ticketIndex
           ? {
               ...ticket,
-              eventdates: ticket.eventdates.map(
-                (event: FestivalEventsDate, e_num: number) =>
-                  e_num === eventIndex
-                    ? {
-                        ...event,
-                        isEndEventPickerOpen: !event.isEndEventPickerOpen,
-                      }
-                    : event
+              eventdates: ticket.eventdates.map((event: FestivalEventsDate, e_num: number) =>
+                e_num === eventIndex
+                  ? {
+                      ...event,
+                      isEndEventPickerOpen: !event.isEndEventPickerOpen,
+                    }
+                  : event
               ),
             }
           : ticket
@@ -4311,21 +3688,14 @@ function EditeventOnBack() {
   };
 
   // handle start value
-  const festivalStartEventValue = (
-    ticketIndex: number,
-    eventIndex: number,
-    formattedDate: string
-  ) => {
+  const festivalStartEventValue = (ticketIndex: number, eventIndex: number, formattedDate: string) => {
     setTicketTypes((prevTickets) =>
       prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex
           ? {
               ...ticket,
-              eventdates: ticket.eventdates.map(
-                (event: FestivalEventsDate, e_num: number) =>
-                  e_num === eventIndex
-                    ? { ...event, startDate: formattedDate }
-                    : event
+              eventdates: ticket.eventdates.map((event: FestivalEventsDate, e_num: number) =>
+                e_num === eventIndex ? { ...event, startDate: formattedDate } : event
               ),
             }
           : ticket
@@ -4334,21 +3704,14 @@ function EditeventOnBack() {
   };
 
   // handle end value
-  const festivalEndEventValue = (
-    ticketIndex: number,
-    eventIndex: number,
-    formattedDate: string
-  ) => {
+  const festivalEndEventValue = (ticketIndex: number, eventIndex: number, formattedDate: string) => {
     setTicketTypes((prevTickets) =>
       prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex
           ? {
               ...ticket,
-              eventdates: ticket.eventdates.map(
-                (event: FestivalEventsDate, e_num: number) =>
-                  e_num === eventIndex
-                    ? { ...event, endDate: formattedDate }
-                    : event
+              eventdates: ticket.eventdates.map((event: FestivalEventsDate, e_num: number) =>
+                e_num === eventIndex ? { ...event, endDate: formattedDate } : event
               ),
             }
           : ticket
@@ -4375,9 +3738,7 @@ function EditeventOnBack() {
         const isValidEmail = emailRegex.test(lastEmail);
 
         if (!isValidEmail) {
-          ErrorToast(
-            `Please enter a valid email in the ${manualEmails.length} email`
-          );
+          ErrorToast(`Please enter a valid email in the ${manualEmails.length} email`);
           form.clearErrors(`tickets.${ticketIndex}`);
           // Remove the invalid email field from the state
           setTicketTypes((prevTickets: any) =>
@@ -4385,20 +3746,14 @@ function EditeventOnBack() {
               i === ticketIndex
                 ? {
                     ...ticket,
-                    emailmanual: ticket.emailmanual.map(
-                      (email: string, emIndex: number) =>
-                        emIndex === manualEmails.length - 1 ? "" : email
-                    ),
+                    emailmanual: ticket.emailmanual.map((email: string, emIndex: number) => (emIndex === manualEmails.length - 1 ? "" : email)),
                   }
                 : ticket
             )
           );
 
           // Reset the form input for the invalid email field
-          form.setValue(
-            `tickets.${ticketIndex}.emailmanual.${manualEmails.length - 1}`,
-            ""
-          );
+          form.setValue(`tickets.${ticketIndex}.emailmanual.${manualEmails.length - 1}`, "");
           return;
         }
 
@@ -4411,20 +3766,14 @@ function EditeventOnBack() {
               i === ticketIndex
                 ? {
                     ...ticket,
-                    emailmanual: ticket.emailmanual.map(
-                      (email: string, emIndex: number) =>
-                        emIndex === manualEmails.length - 1 ? "" : email
-                    ),
+                    emailmanual: ticket.emailmanual.map((email: string, emIndex: number) => (emIndex === manualEmails.length - 1 ? "" : email)),
                   }
                 : ticket
             )
           );
 
           // Reset the form input for the last email field
-          form.setValue(
-            `tickets.${ticketIndex}.emailmanual.${manualEmails.length - 1}`,
-            ""
-          );
+          form.setValue(`tickets.${ticketIndex}.emailmanual.${manualEmails.length - 1}`, "");
           return;
         }
       } else {
@@ -4436,9 +3785,7 @@ function EditeventOnBack() {
     // Add a new empty email field
     setTicketTypes((prevTickets: any) => {
       const newEmailsFields = prevTickets.map((ticket: any, i: number) =>
-        i === ticketIndex
-          ? { ...ticket, emailmanual: [...ticket.emailmanual, ""] }
-          : ticket
+        i === ticketIndex ? { ...ticket, emailmanual: [...ticket.emailmanual, ""] } : ticket
       );
 
       // Reset the form input for the new email field
@@ -4447,8 +3794,7 @@ function EditeventOnBack() {
       // Scroll to the bottom after adding new content
       if (manualEmailRef.current) {
         setTimeout(() => {
-          manualEmailRef.current!.scrollTop =
-            manualEmailRef.current!.scrollHeight;
+          manualEmailRef.current!.scrollTop = manualEmailRef.current!.scrollHeight;
         }, 0);
       }
 
@@ -4463,9 +3809,7 @@ function EditeventOnBack() {
         i === ticketIndex
           ? {
               ...ticket,
-              emailmanual: ticket?.emailmanual?.filter(
-                (eml: string, eml_Idx: number) => eml_Idx !== emailIdx
-              ),
+              emailmanual: ticket?.emailmanual?.filter((eml: string, eml_Idx: number) => eml_Idx !== emailIdx),
             }
           : ticket
       );
@@ -4476,11 +3820,7 @@ function EditeventOnBack() {
   };
 
   // Validate Emial
-  const validateManualEmail = (
-    ticketIndex: number,
-    emailIndex: number,
-    currentEmail: string
-  ) => {
+  const validateManualEmail = (ticketIndex: number, emailIndex: number, currentEmail: string) => {
     // Retrieve manual emails for the specific ticket index
     const manualEmails = (ticketTypes?.[ticketIndex] as any)?.emailmanual || [];
     console.log("Validating Manual Email => ", currentEmail);
@@ -4502,10 +3842,7 @@ function EditeventOnBack() {
     }
 
     // Check if the email is a duplicate
-    const isDuplicate = manualEmails.some(
-      (email: string, index: number) =>
-        index !== emailIndex && email === currentEmail
-    );
+    const isDuplicate = manualEmails.some((email: string, index: number) => index !== emailIndex && email === currentEmail);
 
     if (isDuplicate) {
       // Set error in form for duplicate email
@@ -4525,20 +3862,13 @@ function EditeventOnBack() {
   };
 
   // handle Manual Emails Values
-  const handleManualEnmailValues = (
-    ticketIndex: number,
-    e_Index: number,
-    value: string
-  ) => {
+  const handleManualEnmailValues = (ticketIndex: number, e_Index: number, value: string) => {
     setTicketTypes((prevTickets) =>
       prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex
           ? {
               ...ticket,
-              emailmanual: ticket.emailmanual.map(
-                (email: string, emIndex: number) =>
-                  emIndex === e_Index ? value : email
-              ),
+              emailmanual: ticket.emailmanual.map((email: string, emIndex: number) => (emIndex === e_Index ? value : email)),
             }
           : ticket
       )
@@ -4568,35 +3898,26 @@ function EditeventOnBack() {
               i === ticketIndex
                 ? {
                     ...ticket,
-                    pswrdmanual: ticket.pswrdmanual.map(
-                      (PSWRD: string, pswrdIndex: number) =>
-                        pswrdIndex === manualPSWRDS.length - 1 ? "" : PSWRD
-                    ),
+                    pswrdmanual: ticket.pswrdmanual.map((PSWRD: string, pswrdIndex: number) => (pswrdIndex === manualPSWRDS.length - 1 ? "" : PSWRD)),
                   }
                 : ticket
             )
           );
 
           // Reset the form input for the last password field
-          form.setValue(
-            `tickets.${ticketIndex}.pswrdmanual.${manualPSWRDS.length - 1}`,
-            ""
-          );
+          form.setValue(`tickets.${ticketIndex}.pswrdmanual.${manualPSWRDS.length - 1}`, "");
           return;
         }
 
         setTicketTypes((prevTickets: any) => {
           const newPswrdFields = prevTickets?.map((ticket: any, i: number) =>
-            i === ticketIndex
-              ? { ...ticket, pswrdmanual: [...ticket.pswrdmanual, ""] }
-              : ticket
+            i === ticketIndex ? { ...ticket, pswrdmanual: [...ticket.pswrdmanual, ""] } : ticket
           );
 
           // Scroll to the bottom after adding new content
           if (manualPswrdRef.current) {
             setTimeout(() => {
-              manualPswrdRef.current!.scrollTop =
-                manualPswrdRef.current!.scrollHeight;
+              manualPswrdRef.current!.scrollTop = manualPswrdRef.current!.scrollHeight;
             }, 0);
           }
           return newPswrdFields;
@@ -4608,16 +3929,13 @@ function EditeventOnBack() {
     } else {
       setTicketTypes((prevTickets: any) => {
         const newPswrdFields = prevTickets.map((ticket: any, i: number) =>
-          i === ticketIndex
-            ? { ...ticket, pswrdmanual: [...ticket.pswrdmanual, ""] }
-            : ticket
+          i === ticketIndex ? { ...ticket, pswrdmanual: [...ticket.pswrdmanual, ""] } : ticket
         );
 
         // Scroll to the bottom after adding new content
         if (manualPswrdRef.current) {
           setTimeout(() => {
-            manualPswrdRef.current!.scrollTop =
-              manualPswrdRef.current!.scrollHeight;
+            manualPswrdRef.current!.scrollTop = manualPswrdRef.current!.scrollHeight;
           }, 0);
         }
         return newPswrdFields;
@@ -4632,9 +3950,7 @@ function EditeventOnBack() {
         i === ticketIndex
           ? {
               ...ticket,
-              pswrdmanual: ticket?.pswrdmanual?.filter(
-                (pswrd: string, p_Idx: number) => p_Idx !== pswrdIdx
-              ),
+              pswrdmanual: ticket?.pswrdmanual?.filter((pswrd: string, p_Idx: number) => p_Idx !== pswrdIdx),
             }
           : ticket
       );
@@ -4645,20 +3961,13 @@ function EditeventOnBack() {
   };
 
   // Validate Password
-  const validatePSWRDEmail = (
-    ticketIndex: number,
-    paswrdIndex: number,
-    currentPSWRD: string
-  ) => {
+  const validatePSWRDEmail = (ticketIndex: number, paswrdIndex: number, currentPSWRD: string) => {
     // Retrieve manual passwords for the specific ticket index
     const manualPASWRD = (ticketTypes?.[ticketIndex] as any)?.pswrdmanual || [];
     console.log("Validating Manual Password => ", currentPSWRD);
 
     // Check if the password is a duplicate
-    const isDuplicate = manualPASWRD.some(
-      (pswrd: string, index: number) =>
-        index !== paswrdIndex && pswrd === currentPSWRD
-    );
+    const isDuplicate = manualPASWRD.some((pswrd: string, index: number) => index !== paswrdIndex && pswrd === currentPSWRD);
 
     if (isDuplicate) {
       // Set error in form for duplicate password
@@ -4723,20 +4032,13 @@ function EditeventOnBack() {
   };
 
   // handle mauual password input change
-  const handleManualPswrdInput = (
-    ticketIndex: number,
-    p_Index: number,
-    value: string
-  ) => {
+  const handleManualPswrdInput = (ticketIndex: number, p_Index: number, value: string) => {
     setTicketTypes((prevTickets) =>
       prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex
           ? {
               ...ticket,
-              pswrdmanual: ticket.pswrdmanual.map(
-                (pswrd: string, emIndex: number) =>
-                  emIndex === p_Index ? value : pswrd
-              ),
+              pswrdmanual: ticket.pswrdmanual.map((pswrd: string, emIndex: number) => (emIndex === p_Index ? value : pswrd)),
             }
           : ticket
       )
@@ -4756,10 +4058,8 @@ function EditeventOnBack() {
     let password = "";
 
     // Ensure at least one character from each character set
-    password +=
-      upperCaseChars[Math.floor(Math.random() * upperCaseChars.length)];
-    password +=
-      lowerCaseChars[Math.floor(Math.random() * lowerCaseChars.length)];
+    password += upperCaseChars[Math.floor(Math.random() * upperCaseChars.length)];
+    password += lowerCaseChars[Math.floor(Math.random() * lowerCaseChars.length)];
     password += numbers[Math.floor(Math.random() * numbers.length)];
     password += specialChars[Math.floor(Math.random() * specialChars.length)];
 
@@ -4779,10 +4079,7 @@ function EditeventOnBack() {
 
     ticketTypes.forEach((ticket: any, i: number) => {
       if (i === ticketIndex) {
-        form.setValue(
-          `tickets.${ticketIndex}.autoGeneratedPswrd.${i + 1}`,
-          password
-        );
+        form.setValue(`tickets.${ticketIndex}.autoGeneratedPswrd.${i + 1}`, password);
       }
     });
 
@@ -4814,17 +4111,12 @@ function EditeventOnBack() {
         i === ticketIndex
           ? {
               ...ticket,
-              autoGeneratedPswrd: ticket?.autoGeneratedPswrd?.filter(
-                (pswrd: string, p_Idx: number) => p_Idx != pswrdIdx
-              ),
+              autoGeneratedPswrd: ticket?.autoGeneratedPswrd?.filter((pswrd: string, p_Idx: number) => p_Idx != pswrdIdx),
             }
           : ticket
       );
       // set In form
-      form.setValue(
-        `tickets.${ticketIndex}.autoGeneratedPswrd`,
-        newPswrdFields
-      );
+      form.setValue(`tickets.${ticketIndex}.autoGeneratedPswrd`, newPswrdFields);
       return newPswrdFields;
     });
   };
@@ -4849,8 +4141,7 @@ function EditeventOnBack() {
   return (
     <section
       style={{
-        backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
+        backgroundImage: "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)), url(/blur-green.png)",
         backgroundPosition: "center",
       }}
       className="min-h-screen  bg-cover bg-no-repeat  pb-[80px]"
@@ -4869,33 +4160,16 @@ function EditeventOnBack() {
                 </h1>
               </div>
 
-              <Image
-                src={ufo}
-                width={350}
-                height={350}
-                className="absolute right-[0] bottom-0"
-                alt="ufo"
-              />
+              <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
             </div>
             <div className="gradient-slate  w-full lg:w-[440px] pt-[16px] pb-[16px] px-[24px]  create-container-head relative ">
-              <Image
-                src={CoverImg || imageUrl}
-                alt="bg-frame"
-                className="w-full lg:w-[392px] lg:h-[392px] h-[345px] "
-                width={100}
-                height={345}
-              />
+              <Image src={CoverImg || imageUrl} alt="bg-frame" className="w-full lg:w-[392px] lg:h-[392px] h-[345px] " width={100} height={345} />
 
-              <label
-                htmlFor="uploadcover"
-                className="flex gap-2 items-center justify-between w-full cursor-pointer"
-              >
+              <label htmlFor="uploadcover" className="flex gap-2 items-center justify-between w-full cursor-pointer">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px] gradient-slate">
                     <Image src={greenpencile} alt="pencil" />
-                    <p className="text-[#00D059] text-sm font-extrabold">
-                      Edit Image
-                    </p>
+                    <p className="text-[#00D059] text-sm font-extrabold">Edit Image</p>
                   </div>
                 </div>
                 <input
@@ -4919,20 +4193,12 @@ function EditeventOnBack() {
                 {/* <Image src={Editicon} alt="Edit-icon" /> */}
               </div>
 
-              <Image
-                src={ufo}
-                width={350}
-                height={350}
-                className="absolute right-[0] bottom-0"
-                alt="ufo"
-              />
+              <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
             </div>
 
             <div
               className={`gradient-slate w-full pt-[16px] pb-[16px] px-[24px] h-[270px] lg:h-[424px] create-container-head relative${
-                galleryFiles?.length > 0
-                  ? " block"
-                  : "flex items-center justify-center"
+                galleryFiles?.length > 0 ? " block" : "flex items-center justify-center"
               }`}
             >
               {galleryFiles?.length > 0 ? (
@@ -4940,17 +4206,10 @@ function EditeventOnBack() {
                   <div className="mt-4 pb-4 relative">
                     <div className="flex flex-wrap gap-[24px] lg:gap-[13px] max-h-[148px] lg:max-h-[264px] pt-[9px] overflow-auto">
                       {galleryFiles.map((file: any, index) => (
-                        <div
-                          key={index}
-                          className="relative lg:w-[120px] lg:h-[120px]  h-[57px] w-[57px] rounded-[12px]"
-                        >
+                        <div key={index} className="relative lg:w-[120px] lg:h-[120px]  h-[57px] w-[57px] rounded-[12px]">
                           {file?.type === "video" ? (
                             <video
-                              src={
-                                typeof file.url === "string"
-                                  ? file.url
-                                  : URL.createObjectURL(file)
-                              }
+                              src={typeof file.url === "string" ? file.url : URL.createObjectURL(file)}
                               className="w-full h-full object-cover relative rounded-[12px]"
                               width={120}
                               height={120}
@@ -4960,28 +4219,15 @@ function EditeventOnBack() {
                             </video>
                           ) : (
                             <img
-                              src={
-                                typeof file.url === "string"
-                                  ? file.url
-                                  : URL.createObjectURL(file)
-                              }
+                              src={typeof file.url === "string" ? file.url : URL.createObjectURL(file)}
                               alt={`Gallery Image ${index + 1}`}
                               className="w-full h-full object-cover relative rounded-[12px]"
                               width={120}
                               height={120}
                             />
                           )}
-                          <button
-                            type="button"
-                            onClick={() => removeImage(index)}
-                            className="trash_button"
-                          >
-                            <Image
-                              src={crossicon}
-                              alt="remove"
-                              width={20}
-                              height={20}
-                            />
+                          <button type="button" onClick={() => removeImage(index)} className="trash_button">
+                            <Image src={crossicon} alt="remove" width={20} height={20} />
                           </button>
                         </div>
                       ))}
@@ -5012,9 +4258,7 @@ function EditeventOnBack() {
                       }}
                     >
                       <Image src={greenpencile} alt="pencil" />
-                      <p className="text-[#00D059] text-sm font-extrabold">
-                        Edit Media
-                      </p>
+                      <p className="text-[#00D059] text-sm font-extrabold">Edit Media</p>
                     </div>
 
                     <input
@@ -5035,23 +4279,17 @@ function EditeventOnBack() {
                     className="  py-[24px]  flex items-center flex-col gap-[12px] justify-center w-[345px] rounded-[12px]
                    gradient-slate box-shadow-inset-empty  border-gradient-emptyF"
                   >
-                    <p className="text-[16px] text-extrabold">
-                      There's No Gallery Media
-                    </p>
+                    <p className="text-[16px] text-extrabold">There's No Gallery Media</p>
                     <label
                       htmlFor="galleryUpload"
                       className={`pb-3 gallery-box-same  border-none font-bold border border-[#292929] placeholder:font-normal gradient-slatee rounded-md cursor-pointer flex justify-center items-end  ${
-                        galleryFiles?.length > 0
-                          ? " gallery-box"
-                          : " gallery-tops"
+                        galleryFiles?.length > 0 ? " gallery-box" : " gallery-tops"
                       }`}
                     >
                       <div className="flex justify-center items-center  rounded-[44px] gap-[6px] w-[151px] gradient-bg gradient-border-edit p-[12px]">
                         <Image src={greenpencile} alt="pencil" />
 
-                        <p className="text-[#00D059] text-sm font-extrabold">
-                          Upload Media
-                        </p>
+                        <p className="text-[#00D059] text-sm font-extrabold">Upload Media</p>
                       </div>
 
                       <input
@@ -5093,13 +4331,7 @@ function EditeventOnBack() {
                       </h1>
                     </div>
 
-                    <Image
-                      src={ufo}
-                      width={350}
-                      height={350}
-                      className="absolute right-[0] bottom-0"
-                      alt="ufo"
-                    />
+                    <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
                   </div>
 
                   {/* Ticket type Body */}
@@ -5114,9 +4346,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full space-y-0">
                             <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Event Name
-                              <span className="text-red-600 text-[20px] relative">
-                                *
-                              </span>
+                              <span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -5140,49 +4370,23 @@ function EditeventOnBack() {
                         name="eventcategory"
                         render={({ field }) => (
                           <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                            <div
-                              className="flex items-center justify-between"
-                              onClick={handleCatDropdownToggle}
-                            >
+                            <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
                               <div className="flex flex-col">
                                 <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                   EVENT category
-                                  <span className="text-red-600 text-[20px] relative">
-                                    *
-                                  </span>
+                                  <span className="text-red-600 text-[20px] relative">*</span>
                                 </p>
-                                <p>
-                                  {categoryTypes
-                                    ? categoryTypes?.label
-                                    : "Select Event Category"}
-                                </p>
+                                <p>{categoryTypes ? categoryTypes?.label : "Select Event Category"}</p>
                               </div>
-                              <Image
-                                src={isCatDropdownOpen ? arrowdown : arrowdown}
-                                width={11}
-                                height={11}
-                                alt="arrow"
-                              />
+                              <Image src={isCatDropdownOpen ? arrowdown : arrowdown} width={11} height={11} alt="arrow" />
                             </div>
                             {isCatDropdownOpen && (
                               <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
                                 {isCustomCatgory && (
                                   <>
-                                    {categoryAlert == true && (
-                                      <p className="text-[red] text-[16px]">
-                                        Input is empty!
-                                      </p>
-                                    )}
-                                    {catLength == true && (
-                                      <p className="text-[red] text-[16px]">
-                                        Put only 15 letters!
-                                      </p>
-                                    )}
-                                    {spaceError == true && (
-                                      <p className="text-[red] text-[16px]">
-                                        Put only single word!
-                                      </p>
-                                    )}
+                                    {categoryAlert == true && <p className="text-[red] text-[16px]">Input is empty!</p>}
+                                    {catLength == true && <p className="text-[red] text-[16px]">Put only 15 letters!</p>}
+                                    {spaceError == true && <p className="text-[red] text-[16px]">Put only single word!</p>}
                                     <div
                                       style={{
                                         width: "100%",
@@ -5196,9 +4400,7 @@ function EditeventOnBack() {
                                       <input
                                         type="text"
                                         placeholder="Enter the Category name"
-                                        onChange={(
-                                          e: React.ChangeEvent<HTMLInputElement>
-                                        ) => handleCustomCatgory(e)}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomCatgory(e)}
                                         value={customCategotyInput}
                                         style={{
                                           width: "100%",
@@ -5209,9 +4411,7 @@ function EditeventOnBack() {
                                         }}
                                       />
                                       <button
-                                        onClick={(
-                                          e: React.MouseEvent<HTMLButtonElement>
-                                        ) => {
+                                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                                           e.preventDefault(); // Prevents default action (optional if button is not inside a form)
                                           handleCustomCatBtn();
                                         }}
@@ -5235,9 +4435,7 @@ function EditeventOnBack() {
                                   <div
                                     key={option.label}
                                     className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                    onClick={() =>
-                                      handleCateOptionToggle(option)
-                                    }
+                                    onClick={() => handleCateOptionToggle(option)}
                                   >
                                     <div className="flex items-center gap-[10px]">
                                       {/* <p className="text-[16px] text-[#FFFFFF] font-normal items-center">
@@ -5245,22 +4443,13 @@ function EditeventOnBack() {
                                 </p> */}
                                       <p
                                         className={`text-[16px] font-normal items-center ${
-                                          categoryTypes?.label === option.label
-                                            ? "text-[#00d059]"
-                                            : "text-[#FFFFFF]"
+                                          categoryTypes?.label === option.label ? "text-[#00d059]" : "text-[#FFFFFF]"
                                         }`}
                                       >
                                         {option.label}
                                       </p>
                                     </div>
-                                    {categoryTypes?.label === option.label && (
-                                      <Image
-                                        src={tick}
-                                        width={10}
-                                        height={10}
-                                        alt="tick"
-                                      />
-                                    )}
+                                    {categoryTypes?.label === option.label && <Image src={tick} width={10} height={10} alt="tick" />}
                                   </div>
                                 ))}
                               </div>
@@ -5280,9 +4469,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full gradient-slate-input space-y-0  h-[260px]  pb-3">
                             <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Event Description
-                              <span className="text-red-600 text-[20px] relative">
-                                *
-                              </span>
+                              <span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl className="relative">
                               {/* <Textarea
@@ -5321,25 +4508,21 @@ function EditeventOnBack() {
                           <FormItem className="relative w-ful w-full rounded-md border border-[#292929] gradient-slate px-3 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-4 pb-2">
                             <FormLabel className="text-sm text-gray-500 left-3 uppercase pb-[0px] flex justify-start items-center gap-[2px]">
                               Hashtags
-                              <span className="text-red-600 text-[20px] relative">
-                                *
-                              </span>
+                              <span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <div className="flex flex-wrap gap-2 w-full">
-                                {chooseHashTags.map(
-                                  (ht: string, index: number) => {
-                                    return (
-                                      <div
-                                        key={index}
-                                        onClick={() => removeTag(ht)}
-                                        className="bg-green-600 rounded-md flex justify-center items-center px-[4px] text-[14px] cursor-pointer"
-                                      >
-                                        {ht}
-                                      </div>
-                                    );
-                                  }
-                                )}
+                                {chooseHashTags.map((ht: string, index: number) => {
+                                  return (
+                                    <div
+                                      key={index}
+                                      onClick={() => removeTag(ht)}
+                                      className="bg-green-600 rounded-md flex justify-center items-center px-[4px] text-[14px] cursor-pointer"
+                                    >
+                                      {ht}
+                                    </div>
+                                  );
+                                })}
                                 <Input
                                   placeholder="Enter Hashtag"
                                   className="flex h-10 w-full rounded-md border-none px-0 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-0 pb-0 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
@@ -5353,25 +4536,23 @@ function EditeventOnBack() {
                             {filterHash?.length > 0 ? (
                               <>
                                 <div className="h-auto overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                  {filterHash?.map(
-                                    (fh: string, index: number) => (
-                                      <div
-                                        key={index}
-                                        className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                        // onClick={() => handleCateOptionToggle(option)}
-                                      >
-                                        <div className="flex items-center gap-[10px]">
-                                          <p
-                                            className={`text-[16px] font-normal items-center text-[#b0e2c6]}
+                                  {filterHash?.map((fh: string, index: number) => (
+                                    <div
+                                      key={index}
+                                      className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                      // onClick={() => handleCateOptionToggle(option)}
+                                    >
+                                      <div className="flex items-center gap-[10px]">
+                                        <p
+                                          className={`text-[16px] font-normal items-center text-[#b0e2c6]}
                                     }`}
-                                            onClick={() => addUserHash(fh)}
-                                          >
-                                            {fh}
-                                          </p>
-                                        </div>
+                                          onClick={() => addUserHash(fh)}
+                                        >
+                                          {fh}
+                                        </p>
                                       </div>
-                                    )
-                                  )}
+                                    </div>
+                                  ))}
                                 </div>
                               </>
                             ) : (
@@ -5392,9 +4573,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full space-y-0">
                             <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Event Location
-                              <span className="text-red-600 text-[20px] relative">
-                                *
-                              </span>
+                              <span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <LocationAutocomplete
@@ -5421,41 +4600,31 @@ function EditeventOnBack() {
                     <div className="flex justify-between">
                       <h1 className="text-[24px] font-extrabold -tracking-[0.02em] leading-[27.6px]">
                         {" "}
-                        Ticket{" "}
-                        <span className="text-primary">Sales & Payments</span>
+                        Ticket <span className="text-primary">Sales & Payments</span>
                       </h1>
                     </div>
 
-                    <Image
-                      src={ufo}
-                      width={350}
-                      height={350}
-                      className="absolute right-[0] bottom-0"
-                      alt="ufo"
-                    />
+                    <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
                   </div>
 
                   {/* Ticket Types Body */}
                   <div className="gradient-slate pt-[32px] pb-[49px] px-[60px] rounded-b-[12px]">
                     {ticketTypes.map((ticket: any, index: number) =>
-                      ticket.type ===
-                      "Festivals / Multi-Day Tickets / Season Passes" ? (
+                      ticket.type === "Festivals / Multi-Day Tickets / Season Passes" ? (
                         <div key={index} className="mb-[24px]">
                           {/* Gradient Line to seperate Tickets from each other */}
                           {index !== 0 && (
                             <div
                               className="h-[3px] w-full relative mb-[28px] mt-[4px]"
                               style={{
-                                background:
-                                  "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                                background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
                               }}
                             >
                               <div
                                 className="absolute top-0 left-0 h-full"
                                 style={{
                                   width: "30%", // make the edges thinner
-                                  background:
-                                    "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                  background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
                                   filter: "blur(8px)", // blur the edges to make them thin and faded
                                 }}
                               ></div>
@@ -5463,8 +4632,7 @@ function EditeventOnBack() {
                                 className="absolute top-0 right-0 h-full"
                                 style={{
                                   width: "30%", // same width for both edges
-                                  background:
-                                    "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                  background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
                                   filter: "blur(8px)", // blur the edges to make them thin and faded
                                 }}
                               ></div>
@@ -5483,76 +4651,38 @@ function EditeventOnBack() {
                             file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                             disabled:opacity-50"
                                 >
-                                  <div
-                                    className="flex items-center justify-between"
-                                    onClick={() =>
-                                      handleTicketTypeDropDown(index)
-                                    }
-                                  >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
                                       <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                         EVENT Ticket Type
-                                        <span className="text-red-600 text-[20px] relative">
-                                          *
-                                        </span>
+                                        <span className="text-red-600 text-[20px] relative">*</span>
                                       </p>
-                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                                        Festivals / Multi-Day Tickets / Season
-                                        Passes
-                                      </p>
+                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Festivals / Multi-Day Tickets / Season Passes</p>
                                     </div>
-                                    <Image
-                                      src={
-                                        ticket.typeDropDown
-                                          ? arrowup
-                                          : arrowdown
-                                      }
-                                      width={11}
-                                      height={11}
-                                      alt="arrow"
-                                    />
+                                    <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
 
                                   {ticket.typeDropDown && (
                                     <>
                                       <div className="h-fit overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                        {ticketTypesOptions?.map(
-                                          (
-                                            T_type: string,
-                                            typeIndex: number
-                                          ) => (
-                                            <div
-                                              key={typeIndex}
-                                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                              onClick={() =>
-                                                handleTicketTypeSelection(
-                                                  T_type,
-                                                  index
-                                                )
-                                              }
-                                            >
-                                              <div className="flex items-center gap-[10px]">
-                                                <p
-                                                  className={`text-[16px] font-normal items-center ${
-                                                    ticket.type === T_type
-                                                      ? "text-[#00d059]"
-                                                      : "text-[#FFFFFF]"
-                                                  }`}
-                                                >
-                                                  {T_type}
-                                                </p>
-                                              </div>
-                                              {ticket.type === T_type && (
-                                                <Image
-                                                  src={tick}
-                                                  width={16}
-                                                  height={16}
-                                                  alt="tick"
-                                                />
-                                              )}
+                                        {ticketTypesOptions?.map((T_type: string, typeIndex: number) => (
+                                          <div
+                                            key={typeIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketTypeSelection(T_type, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket.type === T_type ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {T_type}
+                                              </p>
                                             </div>
-                                          )
-                                        )}
+                                            {ticket.type === T_type && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
                                       </div>
                                     </>
                                   )}
@@ -5570,77 +4700,40 @@ function EditeventOnBack() {
                             file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                             disabled:opacity-50"
                                 >
-                                  <div
-                                    className="flex items-center justify-between"
-                                    onClick={() =>
-                                      handleTicketSelectedOptionDropDown(index)
-                                    }
-                                  >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
                                       <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                         paid or free
-                                        <span className="text-red-600 text-[20px] relative">
-                                          *
-                                        </span>
+                                        <span className="text-red-600 text-[20px] relative">*</span>
                                       </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                                        {ticket?.selected
-                                          ? ticket?.selected
-                                          : "Select paid or free ticket"}
+                                        {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
                                     </div>
-                                    <Image
-                                      src={
-                                        ticket?.selectedDropDown
-                                          ? arrowup
-                                          : arrowdown
-                                      }
-                                      width={11}
-                                      height={11}
-                                      alt="arrow"
-                                    />
+                                    <Image src={ticket?.selectedDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
 
                                   {ticket?.selectedDropDown && (
                                     <>
                                       <div className="h-fit overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                        {["Free", "Paid"].map(
-                                          (
-                                            option: any,
-                                            optionIndex: number
-                                          ) => (
-                                            <div
-                                              key={optionIndex}
-                                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                              onClick={() =>
-                                                handleTicketSelectionOption(
-                                                  option,
-                                                  index
-                                                )
-                                              }
-                                            >
-                                              <div className="flex items-center gap-[10px]">
-                                                <p
-                                                  className={`text-[16px] font-normal items-center ${
-                                                    ticket?.selected === option
-                                                      ? "text-[#00d059]"
-                                                      : "text-[#FFFFFF]"
-                                                  }`}
-                                                >
-                                                  {option}
-                                                </p>
-                                              </div>
-                                              {ticket?.selected === option && (
-                                                <Image
-                                                  src={tick}
-                                                  width={16}
-                                                  height={16}
-                                                  alt="tick"
-                                                />
-                                              )}
+                                        {["Free", "Paid"].map((option: any, optionIndex: number) => (
+                                          <div
+                                            key={optionIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketSelectionOption(option, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket?.selected === option ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {option}
+                                              </p>
                                             </div>
-                                          )
-                                        )}
+                                            {ticket?.selected === option && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
                                       </div>
                                     </>
                                   )}
@@ -5659,9 +4752,7 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0">
                                   <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Ticket TYPE Name
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -5670,10 +4761,7 @@ function EditeventOnBack() {
                                       {...field}
                                       value={ticket.typename}
                                       onChange={(e) => {
-                                        handleFestivalTicketType(
-                                          e.target.value,
-                                          index
-                                        );
+                                        handleFestivalTicketType(e.target.value, index);
                                         field.onChange(e);
                                       }}
                                     />
@@ -5695,17 +4783,11 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Event Ticket Price (£)
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
-                                      disabled={
-                                        ticket.selected === "Free"
-                                          ? true
-                                          : false
-                                      }
+                                      disabled={ticket.selected === "Free" ? true : false}
                                       type="number"
                                       onWheel={(e: any) => e.target.blur()}
                                       placeholder="Enter Price"
@@ -5732,9 +4814,7 @@ function EditeventOnBack() {
 
                                         // Check if the numeric value exceeds 10,000
                                         if (numericValue > 10000) {
-                                          ErrorToast(
-                                            "Price cannot exceed 10,000!"
-                                          );
+                                          ErrorToast("Price cannot exceed 10,000!");
                                           return; // Prevent further processing if the value is invalid
                                         }
 
@@ -5758,9 +4838,7 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Event Number of Tickets
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -5772,16 +4850,11 @@ function EditeventOnBack() {
                                       value={ticket.no}
                                       onChange={(e) => {
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                        const value = e.target.value.replace(
-                                          /[^0-9]/g,
-                                          ""
-                                        ); // Remove non-numeric characters
+                                        const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
                                       }}
-                                      onKeyPress={(
-                                        e: React.KeyboardEvent<HTMLInputElement>
-                                      ) => {
+                                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
                                         // Prevent any non-numeric character except numbers
                                         if (!/^\d$/.test(key)) {
@@ -5801,12 +4874,8 @@ function EditeventOnBack() {
                             {/* Ticket Start */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.ticketstart`}
@@ -5816,56 +4885,27 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Ticket Start Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                              <div
-                                                className="w-full"
-                                                onClick={() =>
-                                                  toggleTicketStartTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className="w-full" onClick={() => toggleTicketStartTimePicker(index)}>
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
                                                   //open={ticket.isTicketStartPickerOpen} // Control the open state with local state
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
+                                                  referenceDate={currentDateTime}
                                                   formatDensity="spacious"
-                                                  value={
-                                                    ticket?.ticketstart
-                                                      ? dayjs(
-                                                          ticket?.ticketstart
-                                                        )
-                                                      : null
-                                                  }
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  value={ticket?.ticketstart ? dayjs(ticket?.ticketstart) : null}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   autoOk={false}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      setTheTicketStartValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      setTheTicketStartValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
                                                       // setIsPickerOpen(false); // Close the picker after selection
-                                                      toggleTicketStartTimePicker(
-                                                        index
-                                                      );
+                                                      toggleTicketStartTimePicker(index);
                                                     }
                                                   }}
                                                   disablePast
@@ -5895,8 +4935,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
                                                     },
                                                   }}
                                                 />
@@ -5915,23 +4954,14 @@ function EditeventOnBack() {
                             {/* Ticket End */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.ticketend`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(
-                                          ticket?.ticketstart || new Date()
-                                        );
-                                        currentDateTime = currentDateTime.add(
-                                          10,
-                                          "minute"
-                                        );
+                                        let currentDateTime = dayjs(ticket?.ticketstart || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
 
                                         // Default to the current time if the adjusted start time has passed
@@ -5941,19 +4971,10 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px] flex justify-start items-center gap-[2px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] ">
                                               Ticket End Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
-                                              <div
-                                                className=" w-full"
-                                                onClick={() =>
-                                                  toggleTicketEndTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
                                                 {/* <div className=" w-full" > */}
 
                                                 <StyledDateTimePicker
@@ -5961,34 +4982,16 @@ function EditeventOnBack() {
                                                   // value={validStartTime}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceTicketDate}
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
-                                                  value={
-                                                    ticket?.ticketend
-                                                      ? dayjs(ticket?.ticketend)
-                                                      : null
-                                                  }
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  referenceDate={currentDateTime}
+                                                  value={ticket?.ticketend ? dayjs(ticket?.ticketend) : null}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      setTheTicketEndValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      setTheTicketEndValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
                                                       // setIsEndDatePickerOpen(false);
-                                                      toggleTicketEndTimePicker(
-                                                        index
-                                                      );
+                                                      toggleTicketEndTimePicker(index);
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
@@ -5999,16 +5002,8 @@ function EditeventOnBack() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
-                                                          if (
-                                                            !(
-                                                              ticketTypes[
-                                                                index
-                                                              ] as any
-                                                            )?.ticketstart
-                                                          ) {
-                                                            ErrorToast(
-                                                              "Ticket start date is empty!"
-                                                            );
+                                                          if (!(ticketTypes[index] as any)?.ticketstart) {
+                                                            ErrorToast("Ticket start date is empty!");
                                                             e.stopPropagation();
                                                             return;
                                                           }
@@ -6038,8 +5033,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA ",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA ",
                                                     },
                                                   }}
                                                 />
@@ -6057,412 +5051,249 @@ function EditeventOnBack() {
                           </div>
 
                           {/* Event Start Date and Event End Date */}
-                          {ticket.eventdates.map(
-                            (event: any, eventIndex: number) => {
-                              return (
-                                <>
-                                  <div className="flex items-start gap-[24px] w-full common-container mt-[-9px] mb-[12px]">
-                                    {/* Event Start */}
-                                    <div className="w-full">
-                                      <ThemeProvider theme={themeMui}>
-                                        <LocalizationProvider
-                                          dateAdapter={AdapterDayjs}
-                                        >
-                                          <DemoContainer
-                                            components={["DateTimePicker"]}
-                                          >
-                                            <FormField
-                                              control={form.control}
-                                              name={`tickets.${index}.eventdates.${eventIndex}.startDate`}
-                                              render={({ field }) => {
-                                                let currentDateTime = dayjs(
-                                                  eventIndex === 0
-                                                    ? ticket?.ticketend ||
-                                                        new Date()
-                                                    : ticket?.eventdates[
-                                                        eventIndex - 1
-                                                      ]?.endDate || new Date()
-                                                );
-                                                currentDateTime =
-                                                  currentDateTime.add(
-                                                    10,
-                                                    "minute"
-                                                  );
-                                                // const minStartTime = dayjs(TicketEndDate || new Date());
+                          {ticket.eventdates.map((event: any, eventIndex: number) => {
+                            return (
+                              <>
+                                <div className="flex items-start gap-[24px] w-full common-container mt-[-9px] mb-[12px]">
+                                  {/* Event Start */}
+                                  <div className="w-full">
+                                    <ThemeProvider theme={themeMui}>
+                                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DemoContainer components={["DateTimePicker"]}>
+                                          <FormField
+                                            control={form.control}
+                                            name={`tickets.${index}.eventdates.${eventIndex}.startDate`}
+                                            render={({ field }) => {
+                                              let currentDateTime = dayjs(
+                                                eventIndex === 0
+                                                  ? ticket?.ticketend || new Date()
+                                                  : ticket?.eventdates[eventIndex - 1]?.endDate || new Date()
+                                              );
+                                              currentDateTime = currentDateTime.add(10, "minute");
+                                              // const minStartTime = dayjs(TicketEndDate || new Date());
 
-                                                // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
+                                              // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
 
-                                                // const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
+                                              // const validStartTime = defaultStartTime.isBefore(minStartTime) ? minStartTime : defaultStartTime;
 
-                                                // const referenceEventDate = validStartTime.add(10, "minute");
+                                              // const referenceEventDate = validStartTime.add(10, "minute");
 
-                                                return (
-                                                  <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                                    <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
-                                                      Event Start Date & Time
-                                                      <span className="text-red-600 text-[20px] relative">
-                                                        *
-                                                      </span>
-                                                    </FormLabel>
-                                                    <FormControl>
-                                                      <div
-                                                        className=" w-full"
-                                                        onClick={() =>
-                                                          festivalStartEventPicker(
-                                                            index,
-                                                            eventIndex
-                                                          )
-                                                        }
-                                                      >
-                                                        {/* <div className=" w-full"> */}
+                                              return (
+                                                <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                                  <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                                    Event Start Date & Time
+                                                    <span className="text-red-600 text-[20px] relative">*</span>
+                                                  </FormLabel>
+                                                  <FormControl>
+                                                    <div className=" w-full" onClick={() => festivalStartEventPicker(index, eventIndex)}>
+                                                      {/* <div className=" w-full"> */}
 
-                                                        <StyledDateTimePicker
-                                                          //open={event.isStartEventPickerOpen}
-                                                          //  value={validStartTime}
-                                                          formatDensity="spacious"
-                                                          // referenceDate={referenceEventDate}
-                                                          referenceDate={
-                                                            currentDateTime
+                                                      <StyledDateTimePicker
+                                                        //open={event.isStartEventPickerOpen}
+                                                        //  value={validStartTime}
+                                                        formatDensity="spacious"
+                                                        // referenceDate={referenceEventDate}
+                                                        referenceDate={currentDateTime}
+                                                        onKeyDown={(e: any) => e.preventDefault()}
+                                                        autoOk={false}
+                                                        value={event.startDate ? dayjs(event.startDate) : null}
+                                                        onChange={(e: any) => {
+                                                          if (e && e.isValid()) {
+                                                            const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                            festivalStartEventValue(index, eventIndex, formattedDate);
+                                                            field.onChange(formattedDate);
+                                                            // setIsStartEventPickerOpen(false);
+                                                            // toggleStartEventTimePicker(index);
+                                                            festivalStartEventPicker(index, eventIndex);
                                                           }
-                                                          onKeyDown={(e: any) =>
-                                                            e.preventDefault()
-                                                          }
-                                                          autoOk={false}
-                                                          value={
-                                                            event.startDate
-                                                              ? dayjs(
-                                                                  event.startDate
-                                                                )
-                                                              : null
-                                                          }
-                                                          onChange={(
-                                                            e: any
-                                                          ) => {
-                                                            if (
-                                                              e &&
-                                                              e.isValid()
-                                                            ) {
-                                                              const formattedDate =
-                                                                e.format(
-                                                                  "YYYY-MM-DDTHH:mm"
-                                                                );
-                                                              festivalStartEventValue(
-                                                                index,
-                                                                eventIndex,
-                                                                formattedDate
-                                                              );
-                                                              field.onChange(
-                                                                formattedDate
-                                                              );
-                                                              // setIsStartEventPickerOpen(false);
-                                                              // toggleStartEventTimePicker(index);
-                                                              festivalStartEventPicker(
-                                                                index,
-                                                                eventIndex
-                                                              );
-                                                            }
-                                                          }}
-                                                          //  label="Event End Date & Time"
-                                                          // minDateTime={minStartTime}
-                                                          // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
-                                                          disablePast
-                                                          // minDate={currentDateTime}
-                                                          minDateTime={
-                                                            currentDateTime
-                                                          }
-                                                          slots={{
-                                                            openPickerIcon:
-                                                              () => (
-                                                                <CalendarTodayIcon
-                                                                  onClick={(
-                                                                    e
-                                                                  ) => {
-                                                                    if (
-                                                                      eventIndex ===
-                                                                      0
-                                                                    ) {
-                                                                      if (
-                                                                        !(
-                                                                          ticketTypes[
-                                                                            index
-                                                                          ] as any
-                                                                        )
-                                                                          ?.ticketend
-                                                                      ) {
-                                                                        ErrorToast(
-                                                                          "Ticket end date is empty!"
-                                                                        );
-                                                                        e.stopPropagation(); // Prevent the click event from propagating further
-                                                                        return;
-                                                                      }
-                                                                    } else {
-                                                                      if (
-                                                                        !ticket
-                                                                          ?.eventdates[
-                                                                          eventIndex -
-                                                                            1
-                                                                        ]
-                                                                          ?.endDate
-                                                                      ) {
-                                                                        ErrorToast(
-                                                                          "Last event end date is empty!"
-                                                                        );
-                                                                        e.stopPropagation(); // Prevent the click event from propagating further
-                                                                        return;
-                                                                      }
-                                                                    }
-                                                                  }}
-                                                                  style={{
-                                                                    color:
-                                                                      "#5e5e5e",
-                                                                    fontSize:
-                                                                      "15px",
-                                                                    position:
-                                                                      "absolute",
-                                                                    top: "-17px",
-                                                                    right:
-                                                                      "5px",
-                                                                  }}
-                                                                />
-                                                              ),
-                                                          }}
-                                                          slotProps={{
-                                                            tabs: {
-                                                              hidden: false,
+                                                        }}
+                                                        //  label="Event End Date & Time"
+                                                        // minDateTime={minStartTime}
+                                                        // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                                        disablePast
+                                                        // minDate={currentDateTime}
+                                                        minDateTime={currentDateTime}
+                                                        slots={{
+                                                          openPickerIcon: () => (
+                                                            <CalendarTodayIcon
+                                                              onClick={(e) => {
+                                                                if (eventIndex === 0) {
+                                                                  if (!(ticketTypes[index] as any)?.ticketend) {
+                                                                    ErrorToast("Ticket end date is empty!");
+                                                                    e.stopPropagation(); // Prevent the click event from propagating further
+                                                                    return;
+                                                                  }
+                                                                } else {
+                                                                  if (!ticket?.eventdates[eventIndex - 1]?.endDate) {
+                                                                    ErrorToast("Last event end date is empty!");
+                                                                    e.stopPropagation(); // Prevent the click event from propagating further
+                                                                    return;
+                                                                  }
+                                                                }
+                                                              }}
+                                                              style={{
+                                                                color: "#5e5e5e",
+                                                                fontSize: "15px",
+                                                                position: "absolute",
+                                                                top: "-17px",
+                                                                right: "5px",
+                                                              }}
+                                                            />
+                                                          ),
+                                                        }}
+                                                        slotProps={{
+                                                          tabs: {
+                                                            hidden: false,
+                                                          },
+                                                          toolbar: {
+                                                            toolbarFormat: "YYYY",
+                                                            hidden: false,
+                                                          },
+                                                          calendarHeader: {
+                                                            sx: {
+                                                              color: "white",
                                                             },
-                                                            toolbar: {
-                                                              toolbarFormat:
-                                                                "YYYY",
-                                                              hidden: false,
+                                                          },
+                                                          textField: {
+                                                            inputProps: {
+                                                              readOnly: true,
                                                             },
-                                                            calendarHeader: {
-                                                              sx: {
-                                                                color: "white",
-                                                              },
-                                                            },
-                                                            textField: {
-                                                              inputProps: {
-                                                                readOnly: true,
-                                                              },
-                                                              placeholder:
-                                                                "MM / DD / YYYY HH:MM:AA",
-                                                            },
-                                                          }}
-                                                        />
-                                                      </div>
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                  </FormItem>
-                                                );
-                                              }}
-                                            />
-                                          </DemoContainer>
-                                        </LocalizationProvider>
-                                      </ThemeProvider>
-                                    </div>
-
-                                    {/* Event Ends */}
-                                    <div className="w-full">
-                                      <ThemeProvider theme={themeMui}>
-                                        <LocalizationProvider
-                                          dateAdapter={AdapterDayjs}
-                                        >
-                                          <DemoContainer
-                                            components={["DateTimePicker"]}
-                                          >
-                                            <FormField
-                                              control={form.control}
-                                              name={`tickets.${index}.eventdates.${eventIndex}.endDate`}
-                                              render={({ field }) => {
-                                                let currentDateTime = dayjs(
-                                                  ticket?.eventdates[eventIndex]
-                                                    ?.startDate || new Date()
-                                                );
-                                                currentDateTime =
-                                                  currentDateTime.add(
-                                                    10,
-                                                    "minute"
-                                                  );
-                                                // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
-
-                                                // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
-
-                                                return (
-                                                  <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
-                                                    <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
-                                                      Event End Date & Time
-                                                      <span className="text-red-600 text-[20px] relative">
-                                                        *
-                                                      </span>
-                                                    </FormLabel>
-                                                    <FormControl>
-                                                      <div
-                                                        className=" w-full"
-                                                        onClick={() =>
-                                                          festivalEndEventPicker(
-                                                            index,
-                                                            eventIndex
-                                                          )
-                                                        }
-                                                      >
-                                                        <StyledDateTimePicker
-                                                          //open={event.isEndEventPickerOpen}
-                                                          // referenceDate={defaultEndTime}
-                                                          referenceDate={
-                                                            currentDateTime
-                                                          }
-                                                          // minDate={currentDateTime}
-                                                          value={
-                                                            event.endDate
-                                                              ? dayjs(
-                                                                  event.endDate
-                                                                )
-                                                              : null
-                                                          }
-                                                          formatDensity="spacious"
-                                                          onKeyDown={(e: any) =>
-                                                            e.preventDefault()
-                                                          }
-                                                          onChange={(
-                                                            e: any
-                                                          ) => {
-                                                            if (
-                                                              e &&
-                                                              e.isValid()
-                                                            ) {
-                                                              const formattedDate =
-                                                                e.format(
-                                                                  "YYYY-MM-DDTHH:mm"
-                                                                );
-                                                              festivalEndEventValue(
-                                                                index,
-                                                                eventIndex,
-                                                                formattedDate
-                                                              );
-                                                              field.onChange(
-                                                                formattedDate
-                                                              );
-                                                              console.log(
-                                                                "my ened time",
-                                                                formattedDate
-                                                              );
-                                                              // setIsEndEventPickerOpen(false);
-                                                              // toggleEndEventTimePicker(index);
-                                                              festivalEndEventPicker(
-                                                                index,
-                                                                eventIndex
-                                                              );
-                                                              console.log(
-                                                                "my ened time",
-                                                                formattedDate
-                                                              );
-                                                            }
-                                                          }}
-                                                          disablePast
-                                                          minDateTime={
-                                                            currentDateTime
-                                                          }
-                                                          //  label="Event End Date & Time"
-                                                          // minDateTime={dayjs("2024-10-15T08:30")}
-                                                          // minDateTime={adjustedEventStartTime}
-                                                          // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
-                                                          slots={{
-                                                            openPickerIcon:
-                                                              () => (
-                                                                <CalendarTodayIcon
-                                                                  onClick={(
-                                                                    e
-                                                                  ) => {
-                                                                    if (
-                                                                      !ticket
-                                                                        ?.eventdates[
-                                                                        eventIndex
-                                                                      ]
-                                                                        ?.startDate
-                                                                    ) {
-                                                                      ErrorToast(
-                                                                        "Last event Start date is empty!"
-                                                                      );
-                                                                      e.stopPropagation(); // Prevent the click event from propagating further
-                                                                      return;
-                                                                    }
-                                                                  }}
-                                                                  style={{
-                                                                    color:
-                                                                      "#5e5e5e",
-                                                                    fontSize:
-                                                                      "15px",
-                                                                    position:
-                                                                      "absolute",
-                                                                    top: "-17px",
-                                                                    right:
-                                                                      "5px",
-                                                                  }}
-                                                                />
-                                                              ),
-                                                          }}
-                                                          slotProps={{
-                                                            tabs: {
-                                                              hidden: false,
-                                                            },
-                                                            toolbar: {
-                                                              toolbarFormat:
-                                                                "YYYY",
-                                                              hidden: false,
-                                                            },
-                                                            calendarHeader: {
-                                                              sx: {
-                                                                color: "white",
-                                                              },
-                                                            },
-                                                            textField: {
-                                                              inputProps: {
-                                                                readOnly: true,
-                                                              },
-                                                              placeholder:
-                                                                "MM / DD / YYYY HH:MM:AA",
-                                                            },
-                                                          }}
-                                                        />
-                                                      </div>
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                  </FormItem>
-                                                );
-                                              }}
-                                            />
-                                          </DemoContainer>
-                                        </LocalizationProvider>
-                                      </ThemeProvider>
-                                    </div>
+                                                            placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                          },
+                                                        }}
+                                                      />
+                                                    </div>
+                                                  </FormControl>
+                                                  <FormMessage />
+                                                </FormItem>
+                                              );
+                                            }}
+                                          />
+                                        </DemoContainer>
+                                      </LocalizationProvider>
+                                    </ThemeProvider>
                                   </div>
-                                  {/* Delete Event */}
-                                  {eventIndex !== 0 && (
-                                    <div className="flex justify-end items-center mt-[5px] mb-5 ticket-btn">
-                                      <Button
-                                        className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          removeEventDateInFestival(
-                                            index,
-                                            eventIndex
-                                          );
-                                        }}
-                                      >
-                                        <Image
-                                          src={deleteicon}
-                                          alt="delete-icon"
-                                          height={12}
-                                          width={12}
-                                        />
-                                        Delete Event
-                                      </Button>
-                                    </div>
-                                  )}
-                                </>
-                              );
-                            }
-                          )}
+
+                                  {/* Event Ends */}
+                                  <div className="w-full">
+                                    <ThemeProvider theme={themeMui}>
+                                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DemoContainer components={["DateTimePicker"]}>
+                                          <FormField
+                                            control={form.control}
+                                            name={`tickets.${index}.eventdates.${eventIndex}.endDate`}
+                                            render={({ field }) => {
+                                              let currentDateTime = dayjs(ticket?.eventdates[eventIndex]?.startDate || new Date());
+                                              currentDateTime = currentDateTime.add(10, "minute");
+                                              // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
+
+                                              // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
+
+                                              return (
+                                                <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
+                                                  <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
+                                                    Event End Date & Time
+                                                    <span className="text-red-600 text-[20px] relative">*</span>
+                                                  </FormLabel>
+                                                  <FormControl>
+                                                    <div className=" w-full" onClick={() => festivalEndEventPicker(index, eventIndex)}>
+                                                      <StyledDateTimePicker
+                                                        //open={event.isEndEventPickerOpen}
+                                                        // referenceDate={defaultEndTime}
+                                                        referenceDate={currentDateTime}
+                                                        // minDate={currentDateTime}
+                                                        value={event.endDate ? dayjs(event.endDate) : null}
+                                                        formatDensity="spacious"
+                                                        onKeyDown={(e: any) => e.preventDefault()}
+                                                        onChange={(e: any) => {
+                                                          if (e && e.isValid()) {
+                                                            const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                            festivalEndEventValue(index, eventIndex, formattedDate);
+                                                            field.onChange(formattedDate);
+                                                            console.log("my ened time", formattedDate);
+                                                            // setIsEndEventPickerOpen(false);
+                                                            // toggleEndEventTimePicker(index);
+                                                            festivalEndEventPicker(index, eventIndex);
+                                                            console.log("my ened time", formattedDate);
+                                                          }
+                                                        }}
+                                                        disablePast
+                                                        minDateTime={currentDateTime}
+                                                        //  label="Event End Date & Time"
+                                                        // minDateTime={dayjs("2024-10-15T08:30")}
+                                                        // minDateTime={adjustedEventStartTime}
+                                                        // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
+                                                        slots={{
+                                                          openPickerIcon: () => (
+                                                            <CalendarTodayIcon
+                                                              onClick={(e) => {
+                                                                if (!ticket?.eventdates[eventIndex]?.startDate) {
+                                                                  ErrorToast("Last event Start date is empty!");
+                                                                  e.stopPropagation(); // Prevent the click event from propagating further
+                                                                  return;
+                                                                }
+                                                              }}
+                                                              style={{
+                                                                color: "#5e5e5e",
+                                                                fontSize: "15px",
+                                                                position: "absolute",
+                                                                top: "-17px",
+                                                                right: "5px",
+                                                              }}
+                                                            />
+                                                          ),
+                                                        }}
+                                                        slotProps={{
+                                                          tabs: {
+                                                            hidden: false,
+                                                          },
+                                                          toolbar: {
+                                                            toolbarFormat: "YYYY",
+                                                            hidden: false,
+                                                          },
+                                                          calendarHeader: {
+                                                            sx: {
+                                                              color: "white",
+                                                            },
+                                                          },
+                                                          textField: {
+                                                            inputProps: {
+                                                              readOnly: true,
+                                                            },
+                                                            placeholder: "MM / DD / YYYY HH:MM:AA",
+                                                          },
+                                                        }}
+                                                      />
+                                                    </div>
+                                                  </FormControl>
+                                                  <FormMessage />
+                                                </FormItem>
+                                              );
+                                            }}
+                                          />
+                                        </DemoContainer>
+                                      </LocalizationProvider>
+                                    </ThemeProvider>
+                                  </div>
+                                </div>
+                                {/* Delete Event */}
+                                {eventIndex !== 0 && (
+                                  <div className="flex justify-end items-center mt-[5px] mb-5 ticket-btn">
+                                    <Button
+                                      className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        removeEventDateInFestival(index, eventIndex);
+                                      }}
+                                    >
+                                      <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
+                                      Delete Event
+                                    </Button>
+                                  </div>
+                                )}
+                              </>
+                            );
+                          })}
 
                           {/* Add more Event timimg button here */}
                           <div className="flex justify-end items-center ticket-btn mb-[24px]">
@@ -6477,12 +5308,7 @@ function EditeventOnBack() {
                                 addNewEventDateInFestival(index);
                               }}
                             >
-                              <Image
-                                src={addicon}
-                                alt="Add-icon"
-                                height={12}
-                                width={12}
-                              />
+                              <Image src={addicon} alt="Add-icon" height={12} width={12} />
                               Add Event Timings
                             </Button>
                           </div>
@@ -6490,24 +5316,12 @@ function EditeventOnBack() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div
-                                className="flex items-center justify-between cursor-pointer"
-                                onClick={() => handleDropdown(index)}
-                              >
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
                                   WHAT'S INCLUDED
-                                  <span className="text-red-600 text-[20px] relative">
-                                    *
-                                  </span>
+                                  <span className="text-red-600 text-[20px] relative">*</span>
                                 </p>
-                                <Image
-                                  src={
-                                    ticket.optionDropDown ? arrowup : arrowdown
-                                  }
-                                  width={11}
-                                  height={11}
-                                  alt="arrow"
-                                />
+                                <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket.optionDropDown && (
                                 <div className="grid-container">
@@ -6515,9 +5329,7 @@ function EditeventOnBack() {
                                     <div
                                       key={option.id}
                                       className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
-                                      onClick={() =>
-                                        handleOptionToggle(index, option)
-                                      }
+                                      onClick={() => handleOptionToggle(index, option)}
                                     >
                                       <div className="flex items-center gap-[10px]">
                                         <Image
@@ -6525,21 +5337,11 @@ function EditeventOnBack() {
                                           width={16}
                                           height={16}
                                           alt="img"
-                                          className={
-                                            ticket?.options?.some(
-                                              (o: any) => o?.id === option?.id
-                                            )
-                                              ? "filtergreen"
-                                              : ""
-                                          }
+                                          className={ticket?.options?.some((o: any) => o?.id === option?.id) ? "filtergreen" : ""}
                                         />
                                         <p
                                           className={`text-[16px] font-normal items-center ${
-                                            ticket?.options?.some(
-                                              (o: any) => o?.id === option?.id
-                                            )
-                                              ? "text-[#00d059]"
-                                              : "text-[#FFFFFF]"
+                                            ticket?.options?.some((o: any) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
                                           }`}
                                         >
                                           {option.label}
@@ -6547,8 +5349,7 @@ function EditeventOnBack() {
                                       </div>
                                     </div>
                                   ))}
-                                  <div className="column-separator"></div>{" "}
-                                  <div className="column-separator"></div>
+                                  <div className="column-separator"></div> <div className="column-separator"></div>
                                 </div>
                               )}
                             </div>
@@ -6564,12 +5365,7 @@ function EditeventOnBack() {
                                   handleDeleteTicketType(index);
                                 }}
                               >
-                                <Image
-                                  src={deleteicon}
-                                  alt="delete-icon"
-                                  height={12}
-                                  width={12}
-                                />
+                                <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
                                 Delete Ticket Type
                               </Button>
                             </div>
@@ -6582,16 +5378,14 @@ function EditeventOnBack() {
                             <div
                               className="h-[3px] w-full relative mb-[28px] mt-[4px]"
                               style={{
-                                background:
-                                  "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                                background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
                               }}
                             >
                               <div
                                 className="absolute top-0 left-0 h-full"
                                 style={{
                                   width: "30%", // make the edges thinner
-                                  background:
-                                    "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                  background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
                                   filter: "blur(8px)", // blur the edges to make them thin and faded
                                 }}
                               ></div>
@@ -6599,8 +5393,7 @@ function EditeventOnBack() {
                                 className="absolute top-0 right-0 h-full"
                                 style={{
                                   width: "30%", // same width for both edges
-                                  background:
-                                    "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                  background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
                                   filter: "blur(8px)", // blur the edges to make them thin and faded
                                 }}
                               ></div>
@@ -6620,75 +5413,38 @@ function EditeventOnBack() {
                             file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                             disabled:opacity-50"
                                 >
-                                  <div
-                                    className="flex items-center justify-between"
-                                    onClick={() =>
-                                      handleTicketTypeDropDown(index)
-                                    }
-                                  >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
                                       <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                         EVENT Ticket Type
-                                        <span className="text-red-600 text-[20px] relative">
-                                          *
-                                        </span>
+                                        <span className="text-red-600 text-[20px] relative">*</span>
                                       </p>
-                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                                        RSVP Ticketing
-                                      </p>
+                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">RSVP Ticketing</p>
                                     </div>
-                                    <Image
-                                      src={
-                                        ticket.typeDropDown
-                                          ? arrowup
-                                          : arrowdown
-                                      }
-                                      width={11}
-                                      height={11}
-                                      alt="arrow"
-                                    />
+                                    <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
 
                                   {ticket.typeDropDown && (
                                     <>
                                       <div className="h-fit overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                        {ticketTypesOptions?.map(
-                                          (
-                                            T_type: string,
-                                            typeIndex: number
-                                          ) => (
-                                            <div
-                                              key={typeIndex}
-                                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                              onClick={() =>
-                                                handleTicketTypeSelection(
-                                                  T_type,
-                                                  index
-                                                )
-                                              }
-                                            >
-                                              <div className="flex items-center gap-[10px]">
-                                                <p
-                                                  className={`text-[16px] font-normal items-center ${
-                                                    ticket.type === T_type
-                                                      ? "text-[#00d059]"
-                                                      : "text-[#FFFFFF]"
-                                                  }`}
-                                                >
-                                                  {T_type}
-                                                </p>
-                                              </div>
-                                              {ticket.type === T_type && (
-                                                <Image
-                                                  src={tick}
-                                                  width={16}
-                                                  height={16}
-                                                  alt="tick"
-                                                />
-                                              )}
+                                        {ticketTypesOptions?.map((T_type: string, typeIndex: number) => (
+                                          <div
+                                            key={typeIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketTypeSelection(T_type, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket.type === T_type ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {T_type}
+                                              </p>
                                             </div>
-                                          )
-                                        )}
+                                            {ticket.type === T_type && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
                                       </div>
                                     </>
                                   )}
@@ -6704,9 +5460,7 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0">
                                   <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     EVENT TICKET NAME
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -6716,10 +5470,7 @@ function EditeventOnBack() {
                                       value={ticket.name}
                                       onChange={(e) => {
                                         // setEventname(e.target.value);
-                                        handleTicketNameChange(
-                                          e.target.value,
-                                          index
-                                        );
+                                        handleTicketNameChange(e.target.value, index);
                                         field.onChange(e);
                                       }}
                                     />
@@ -6736,12 +5487,8 @@ function EditeventOnBack() {
                             {/* Ticket Deadline */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.deadline`}
@@ -6751,54 +5498,27 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               RSVP Deadline
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                              <div
-                                                className="w-full"
-                                                onClick={() =>
-                                                  toggleRSVPTicketDeadlinePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className="w-full" onClick={() => toggleRSVPTicketDeadlinePicker(index)}>
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
                                                   //open={ticket.isDeadlinePickerOpen} // Control the open state with local state
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
+                                                  referenceDate={currentDateTime}
                                                   formatDensity="spacious"
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   autoOk={false}
-                                                  value={
-                                                    ticket.deadline
-                                                      ? dayjs(ticket.deadline)
-                                                      : null
-                                                  }
+                                                  value={ticket.deadline ? dayjs(ticket.deadline) : null}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      toggleRSVPTicketDeadlineValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      toggleRSVPTicketDeadlineValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
                                                       //setIsPickerOpen(false); // Close the picker after selection
-                                                      toggleRSVPTicketDeadlinePicker(
-                                                        index
-                                                      );
+                                                      toggleRSVPTicketDeadlinePicker(index);
                                                     }
                                                   }}
                                                   disablePast
@@ -6828,8 +5548,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
                                                     },
                                                   }}
                                                 />
@@ -6854,9 +5573,7 @@ function EditeventOnBack() {
                                   <FormItem className="relative w-full space-y-0">
                                     <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                       RSVP Capacity
-                                      <span className="text-red-600 text-[20px] relative">
-                                        *
-                                      </span>
+                                      <span className="text-red-600 text-[20px] relative">*</span>
                                     </FormLabel>
                                     <FormControl>
                                       <Input
@@ -6866,19 +5583,11 @@ function EditeventOnBack() {
                                         {...field}
                                         onChange={(e) => {
                                           // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                          const value = e.target.value.replace(
-                                            /[^0-9]/g,
-                                            ""
-                                          ); // Remove non-numeric characters
-                                          handleCapacityRSVPTicket(
-                                            value,
-                                            index
-                                          );
+                                          const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+                                          handleCapacityRSVPTicket(value, index);
                                           field.onChange(value);
                                         }}
-                                        onKeyPress={(
-                                          e: React.KeyboardEvent<HTMLInputElement>
-                                        ) => {
+                                        onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                           const key = e.key;
                                           // Prevent any non-numeric character except numbers
                                           if (!/^\d$/.test(key)) {
@@ -6898,24 +5607,12 @@ function EditeventOnBack() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div
-                                className="flex items-center justify-between cursor-pointer"
-                                onClick={() => handleDropdown(index)}
-                              >
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
                                   WHAT'S INCLUDED
-                                  <span className="text-red-600 text-[20px] relative">
-                                    *
-                                  </span>
+                                  <span className="text-red-600 text-[20px] relative">*</span>
                                 </p>
-                                <Image
-                                  src={
-                                    ticket?.optionDropDown ? arrowup : arrowdown
-                                  }
-                                  width={11}
-                                  height={11}
-                                  alt="arrow"
-                                />
+                                <Image src={ticket?.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket?.optionDropDown && (
                                 <div className="grid-container">
@@ -6923,9 +5620,7 @@ function EditeventOnBack() {
                                     <div
                                       key={option.id}
                                       className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
-                                      onClick={() =>
-                                        handleOptionToggle(index, option)
-                                      }
+                                      onClick={() => handleOptionToggle(index, option)}
                                     >
                                       <div className="flex items-center gap-[10px]">
                                         <Image
@@ -6933,21 +5628,11 @@ function EditeventOnBack() {
                                           width={16}
                                           height={16}
                                           alt="img"
-                                          className={
-                                            ticket?.options?.some(
-                                              (o: any) => o?.id === option?.id
-                                            )
-                                              ? "filtergreen"
-                                              : ""
-                                          }
+                                          className={ticket?.options?.some((o: any) => o?.id === option?.id) ? "filtergreen" : ""}
                                         />
                                         <p
                                           className={`text-[16px] font-normal items-center ${
-                                            ticket?.options?.some(
-                                              (o: any) => o?.id === option?.id
-                                            )
-                                              ? "text-[#00d059]"
-                                              : "text-[#FFFFFF]"
+                                            ticket?.options?.some((o: any) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
                                           }`}
                                         >
                                           {option.label}
@@ -6955,8 +5640,7 @@ function EditeventOnBack() {
                                       </div>
                                     </div>
                                   ))}
-                                  <div className="column-separator"></div>{" "}
-                                  <div className="column-separator"></div>
+                                  <div className="column-separator"></div> <div className="column-separator"></div>
                                 </div>
                               )}
                             </div>
@@ -6964,142 +5648,100 @@ function EditeventOnBack() {
 
                           {/* RSVP Details Fields */}
                           <div className="w-full relative rounded-md border border-[#292929] gradient-slate flex flex-col items-start gap-[24px] common-container px-[12px] py-[16px]">
-                            <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">
-                              RSVP Details
-                            </p>
+                            <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase">RSVP Details</p>
                             {/* Default Fields To ask */}
-                            <div
-                              ref={containerRef}
-                              className="w-full max-h-[320px] overflow-y-auto mb-2"
-                            >
+                            <div ref={containerRef} className="w-full max-h-[320px] overflow-y-auto mb-2">
                               <div className="w-full common-container flex justify-start items-center gap-[24px] mb-[24px]">
                                 {/* Name radio */}
                                 <div
-                                  onClick={() =>
-                                    handleRsvpRadioSelections("username", index)
-                                  }
+                                  onClick={() => handleRsvpRadioSelections("username", index)}
                                   className="hover-gradient-border rounded-md border border-[#292929] gradient-slate flex justify-between items-center py-[18px] px-[12px] w-full"
                                 >
                                   <p>Name</p>
                                   <div
                                     className={`w-[15px] h-[15px] rounded-lg ${
-                                      ticket.username
-                                        ? "border-[#00D059]"
-                                        : "border-[#FBFBFBB2]"
+                                      ticket.username ? "border-[#00D059]" : "border-[#FBFBFBB2]"
                                     } border-[2px] flex justify-center items-center p-0`}
                                   >
-                                    {ticket.username && (
-                                      <div className="w-[8px] h-[8px] rounded-lg bg-[#00D059] m-0"></div>
-                                    )}
+                                    {ticket.username && <div className="w-[8px] h-[8px] rounded-lg bg-[#00D059] m-0"></div>}
                                   </div>
                                 </div>
                                 {/* Email Radio */}
                                 <div
-                                  onClick={() =>
-                                    handleRsvpRadioSelections(
-                                      "useremail",
-                                      index
-                                    )
-                                  }
+                                  onClick={() => handleRsvpRadioSelections("useremail", index)}
                                   className="hover-gradient-border rounded-md border border-[#292929] gradient-slate flex justify-between items-center py-[18px] px-[12px] w-full"
                                 >
                                   <p>Email</p>
                                   <div
                                     className={`w-[15px] h-[15px] rounded-lg ${
-                                      ticket.useremail
-                                        ? "border-[#00D059]"
-                                        : "border-[#FBFBFBB2]"
+                                      ticket.useremail ? "border-[#00D059]" : "border-[#FBFBFBB2]"
                                     } border-[2px] flex justify-center items-center p-0`}
                                   >
-                                    {ticket.useremail && (
-                                      <div className="w-[8px] h-[8px] rounded-lg bg-[#00D059] m-0"></div>
-                                    )}
+                                    {ticket.useremail && <div className="w-[8px] h-[8px] rounded-lg bg-[#00D059] m-0"></div>}
                                   </div>
                                 </div>
                               </div>
                               <div className="w-full common-container">
                                 {/* Phone Number Radio */}
                                 <div
-                                  onClick={() =>
-                                    handleRsvpRadioSelections("usernumb", index)
-                                  }
+                                  onClick={() => handleRsvpRadioSelections("usernumb", index)}
                                   className="hover-gradient-border rounded-md border border-[#292929] gradient-slate flex justify-between items-center py-[18px] px-[12px] md:w-[49%] w-full"
                                 >
                                   <p>Phone Number</p>
                                   <div
                                     className={`w-[15px] h-[15px] rounded-lg ${
-                                      ticket.usernumb
-                                        ? "border-[#00D059]"
-                                        : "border-[#FBFBFBB2]"
+                                      ticket.usernumb ? "border-[#00D059]" : "border-[#FBFBFBB2]"
                                     } border-[2px] flex justify-center items-center p-0`}
                                   >
-                                    {ticket.usernumb && (
-                                      <div className="w-[8px] h-[8px] rounded-lg bg-[#00D059] m-0"></div>
-                                    )}
+                                    {ticket.usernumb && <div className="w-[8px] h-[8px] rounded-lg bg-[#00D059] m-0"></div>}
                                   </div>
                                 </div>
                               </div>
 
                               {/* All Additional Fields are defining here */}
                               <div className="w-full flex flex-wrap mt-[24px] gap-x-[24px] gap-y-0">
-                                {ticket.additional.map(
-                                  (
-                                    addField: AdditionalFields,
-                                    f_index: number
-                                  ) => {
-                                    return (
-                                      <FormField
-                                        key={f_index}
-                                        control={form.control}
-                                        name={`tickets.${index}.additional.${f_index}.title`}
-                                        render={({ field }) => (
-                                          <FormItem className="relative w-full lg:w-[48%] xl:w-[49%] space-y-0 input-custom-container">
-                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
-                                              Additional field {f_index + 1}
-                                            </FormLabel>
-                                            <Image
-                                              src="/Images/CreateEventPage/trash.svg"
-                                              alt="delete-icon"
-                                              height={24}
-                                              width={24}
-                                              className="cursor-pointer absolute right-3 top-6 py-[4px]"
-                                              onClick={() =>
-                                                removeAdditionalToRSVP(
-                                                  index,
-                                                  f_index
-                                                )
-                                              }
-                                            />
-                                            <FormControl>
-                                              <Input
-                                                onWheel={(e: any) =>
-                                                  e.target.blur()
+                                {ticket.additional.map((addField: AdditionalFields, f_index: number) => {
+                                  return (
+                                    <FormField
+                                      key={f_index}
+                                      control={form.control}
+                                      name={`tickets.${index}.additional.${f_index}.title`}
+                                      render={({ field }) => (
+                                        <FormItem className="relative w-full lg:w-[48%] xl:w-[49%] space-y-0 input-custom-container">
+                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px]">
+                                            Additional field {f_index + 1}
+                                          </FormLabel>
+                                          <Image
+                                            src="/Images/CreateEventPage/trash.svg"
+                                            alt="delete-icon"
+                                            height={24}
+                                            width={24}
+                                            className="cursor-pointer absolute right-3 top-6 py-[4px]"
+                                            onClick={() => removeAdditionalToRSVP(index, f_index)}
+                                          />
+                                          <FormControl>
+                                            <Input
+                                              onWheel={(e: any) => e.target.blur()}
+                                              placeholder="Enter Field Name"
+                                              className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                              {...field}
+                                              value={addField.title}
+                                              onChange={(e) => {
+                                                const value = e.target.value;
+                                                if (value.startsWith(" ")) {
+                                                  return;
                                                 }
-                                                placeholder="Enter Field Name"
-                                                className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
-                                                {...field}
-                                                value={addField.title}
-                                                onChange={(e) => {
-                                                  const value = e.target.value;
-                                                  if (value.startsWith(" ")) {
-                                                    return;
-                                                  }
-                                                  field.onChange(e);
-                                                  handleRsvpAdditionField(
-                                                    index,
-                                                    f_index,
-                                                    value
-                                                  );
-                                                }}
-                                              />
-                                            </FormControl>
-                                            <FormMessage />
-                                          </FormItem>
-                                        )}
-                                      />
-                                    );
-                                  }
-                                )}
+                                                field.onChange(e);
+                                                handleRsvpAdditionField(index, f_index, value);
+                                              }}
+                                            />
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
+                                  );
+                                })}
                               </div>
                             </div>
 
@@ -7117,12 +5759,7 @@ function EditeventOnBack() {
                                 className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
                                 // onClick={handleAddTicketType}
                               >
-                                <Image
-                                  src={addicon}
-                                  alt="Add-icon"
-                                  height={12}
-                                  width={12}
-                                />
+                                <Image src={addicon} alt="Add-icon" height={12} width={12} />
                                 Additional Field
                               </Button>
                             </div>
@@ -7138,12 +5775,7 @@ function EditeventOnBack() {
                                   handleDeleteTicketType(index);
                                 }}
                               >
-                                <Image
-                                  src={deleteicon}
-                                  alt="delete-icon"
-                                  height={12}
-                                  width={12}
-                                />
+                                <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
                                 Delete Ticket Type
                               </Button>
                             </div>
@@ -7156,16 +5788,14 @@ function EditeventOnBack() {
                             <div
                               className="h-[3px] w-full relative mb-[28px] mt-[4px]"
                               style={{
-                                background:
-                                  "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                                background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
                               }}
                             >
                               <div
                                 className="absolute top-0 left-0 h-full"
                                 style={{
                                   width: "30%", // make the edges thinner
-                                  background:
-                                    "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                  background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
                                   filter: "blur(8px)", // blur the edges to make them thin and faded
                                 }}
                               ></div>
@@ -7173,8 +5803,7 @@ function EditeventOnBack() {
                                 className="absolute top-0 right-0 h-full"
                                 style={{
                                   width: "30%", // same width for both edges
-                                  background:
-                                    "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                  background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
                                   filter: "blur(8px)", // blur the edges to make them thin and faded
                                 }}
                               ></div>
@@ -7193,75 +5822,38 @@ function EditeventOnBack() {
                           file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                           disabled:opacity-50"
                                 >
-                                  <div
-                                    className="flex items-center justify-between"
-                                    onClick={() =>
-                                      handleTicketTypeDropDown(index)
-                                    }
-                                  >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
                                       <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                         EVENT Ticket Type
-                                        <span className="text-red-600 text-[20px] relative">
-                                          *
-                                        </span>
+                                        <span className="text-red-600 text-[20px] relative">*</span>
                                       </p>
-                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                                        Private Event Ticketing
-                                      </p>
+                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Private Event Ticketing</p>
                                     </div>
-                                    <Image
-                                      src={
-                                        ticket.typeDropDown
-                                          ? arrowup
-                                          : arrowdown
-                                      }
-                                      width={11}
-                                      height={11}
-                                      alt="arrow"
-                                    />
+                                    <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
 
                                   {ticket.typeDropDown && (
                                     <>
                                       <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                        {ticketTypesOptions?.map(
-                                          (
-                                            T_type: string,
-                                            typeIndex: number
-                                          ) => (
-                                            <div
-                                              key={typeIndex}
-                                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                              onClick={() =>
-                                                handleTicketTypeSelection(
-                                                  T_type,
-                                                  index
-                                                )
-                                              }
-                                            >
-                                              <div className="flex items-center gap-[10px]">
-                                                <p
-                                                  className={`text-[16px] font-normal items-center ${
-                                                    ticket.type === T_type
-                                                      ? "text-[#00d059]"
-                                                      : "text-[#FFFFFF]"
-                                                  }`}
-                                                >
-                                                  {T_type}
-                                                </p>
-                                              </div>
-                                              {ticket.type === T_type && (
-                                                <Image
-                                                  src={tick}
-                                                  width={16}
-                                                  height={16}
-                                                  alt="tick"
-                                                />
-                                              )}
+                                        {ticketTypesOptions?.map((T_type: string, typeIndex: number) => (
+                                          <div
+                                            key={typeIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketTypeSelection(T_type, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket.type === T_type ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {T_type}
+                                              </p>
                                             </div>
-                                          )
-                                        )}
+                                            {ticket.type === T_type && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
                                       </div>
                                     </>
                                   )}
@@ -7279,77 +5871,40 @@ function EditeventOnBack() {
                           file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                           disabled:opacity-50"
                                 >
-                                  <div
-                                    className="flex items-center justify-between"
-                                    onClick={() =>
-                                      handleTicketSelectedOptionDropDown(index)
-                                    }
-                                  >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
                                       <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                         paid or free
-                                        <span className="text-red-600 text-[20px] relative">
-                                          *
-                                        </span>
+                                        <span className="text-red-600 text-[20px] relative">*</span>
                                       </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                                        {ticket?.selected
-                                          ? ticket?.selected
-                                          : "Select paid or free ticket"}
+                                        {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
                                     </div>
-                                    <Image
-                                      src={
-                                        ticket?.selectedDropDown
-                                          ? arrowup
-                                          : arrowdown
-                                      }
-                                      width={11}
-                                      height={11}
-                                      alt="arrow"
-                                    />
+                                    <Image src={ticket?.selectedDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
 
                                   {ticket?.selectedDropDown && (
                                     <>
                                       <div className="h-fit overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                        {["Free", "Paid"].map(
-                                          (
-                                            option: any,
-                                            optionIndex: number
-                                          ) => (
-                                            <div
-                                              key={optionIndex}
-                                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                              onClick={() =>
-                                                handleTicketSelectionOption(
-                                                  option,
-                                                  index
-                                                )
-                                              }
-                                            >
-                                              <div className="flex items-center gap-[10px]">
-                                                <p
-                                                  className={`text-[16px] font-normal items-center ${
-                                                    ticket?.selected === option
-                                                      ? "text-[#00d059]"
-                                                      : "text-[#FFFFFF]"
-                                                  }`}
-                                                >
-                                                  {option}
-                                                </p>
-                                              </div>
-                                              {ticket?.selected === option && (
-                                                <Image
-                                                  src={tick}
-                                                  width={16}
-                                                  height={16}
-                                                  alt="tick"
-                                                />
-                                              )}
+                                        {["Free", "Paid"].map((option: any, optionIndex: number) => (
+                                          <div
+                                            key={optionIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketSelectionOption(option, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket?.selected === option ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {option}
+                                              </p>
                                             </div>
-                                          )
-                                        )}
+                                            {ticket?.selected === option && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
                                       </div>
                                     </>
                                   )}
@@ -7368,9 +5923,7 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0">
                                   <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Event Ticket Name
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -7380,10 +5933,7 @@ function EditeventOnBack() {
                                       value={ticket.name}
                                       onChange={(e) => {
                                         // setEventname(e.target.value);
-                                        handleTicketNameChange(
-                                          e.target.value,
-                                          index
-                                        );
+                                        handleTicketNameChange(e.target.value, index);
                                         field.onChange(e);
                                       }}
                                     />
@@ -7405,17 +5955,11 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Event Ticket Price (£)
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
-                                      disabled={
-                                        ticket.selected === "Free"
-                                          ? true
-                                          : false
-                                      }
+                                      disabled={ticket.selected === "Free" ? true : false}
                                       type="number"
                                       onWheel={(e: any) => e.target.blur()}
                                       placeholder="Enter Price"
@@ -7442,9 +5986,7 @@ function EditeventOnBack() {
 
                                         // Check if the numeric value exceeds 10,000
                                         if (numericValue > 10000) {
-                                          ErrorToast(
-                                            "Price cannot exceed 10,000!"
-                                          );
+                                          ErrorToast("Price cannot exceed 10,000!");
                                           return; // Prevent further processing if the value is invalid
                                         }
 
@@ -7468,9 +6010,7 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Event Number of Tickets
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -7482,16 +6022,11 @@ function EditeventOnBack() {
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                        const value = e.target.value.replace(
-                                          /[^0-9]/g,
-                                          ""
-                                        ); // Remove non-numeric characters
+                                        const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
                                       }}
-                                      onKeyPress={(
-                                        e: React.KeyboardEvent<HTMLInputElement>
-                                      ) => {
+                                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
                                         // Prevent any non-numeric character except numbers
                                         if (!/^\d$/.test(key)) {
@@ -7511,12 +6046,8 @@ function EditeventOnBack() {
                             {/* Ticket Start */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.ticketstart`}
@@ -7526,56 +6057,27 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Ticket Start Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                              <div
-                                                className="w-full"
-                                                onClick={() =>
-                                                  toggleTicketStartTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className="w-full" onClick={() => toggleTicketStartTimePicker(index)}>
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
                                                   //open={ticket.isTicketStartPickerOpen} // Control the open state with local state
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
+                                                  referenceDate={currentDateTime}
                                                   formatDensity="spacious"
-                                                  value={
-                                                    ticket.ticketstart
-                                                      ? dayjs(
-                                                          ticket.ticketstart
-                                                        )
-                                                      : null
-                                                  }
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  value={ticket.ticketstart ? dayjs(ticket.ticketstart) : null}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   autoOk={false}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      setTheTicketStartValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      setTheTicketStartValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
                                                       //setIsPickerOpen(false); // Close the picker after selection
-                                                      toggleTicketStartTimePicker(
-                                                        index
-                                                      );
+                                                      toggleTicketStartTimePicker(index);
                                                     }
                                                   }}
                                                   disablePast
@@ -7605,8 +6107,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
                                                     },
                                                   }}
                                                 />
@@ -7625,23 +6126,14 @@ function EditeventOnBack() {
                             {/* Ticket End */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.ticketend`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(
-                                          ticket?.ticketstart || new Date()
-                                        );
-                                        currentDateTime = currentDateTime.add(
-                                          10,
-                                          "minute"
-                                        );
+                                        let currentDateTime = dayjs(ticket?.ticketstart || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
 
                                         // Default to the current time if the adjusted start time has passed
@@ -7651,55 +6143,28 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Ticket End Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
-                                              <div
-                                                className=" w-full"
-                                                onClick={() =>
-                                                  toggleTicketEndTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
                                                 {/* <div className=" w-full" > */}
 
                                                 <StyledDateTimePicker
                                                   //open={ticket.isTicketEndPickerOpen}
                                                   // value={validStartTime}
-                                                  value={
-                                                    ticket.ticketend
-                                                      ? dayjs(ticket.ticketend)
-                                                      : null
-                                                  }
+                                                  value={ticket.ticketend ? dayjs(ticket.ticketend) : null}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceTicketDate}
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
+                                                  referenceDate={currentDateTime}
                                                   // minDate={currentDateTime}
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      setTheTicketEndValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      setTheTicketEndValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
                                                       // setIsEndDatePickerOpen(false);
-                                                      toggleTicketEndTimePicker(
-                                                        index
-                                                      );
+                                                      toggleTicketEndTimePicker(index);
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
@@ -7709,16 +6174,8 @@ function EditeventOnBack() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
-                                                          if (
-                                                            !(
-                                                              ticketTypes[
-                                                                index
-                                                              ] as any
-                                                            )?.ticketstart
-                                                          ) {
-                                                            ErrorToast(
-                                                              "Ticket start date is empty!"
-                                                            );
+                                                          if (!(ticketTypes[index] as any)?.ticketstart) {
+                                                            ErrorToast("Ticket start date is empty!");
                                                             e.stopPropagation();
                                                             return;
                                                           }
@@ -7748,8 +6205,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA ",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA ",
                                                     },
                                                   }}
                                                 />
@@ -7771,23 +6227,14 @@ function EditeventOnBack() {
                             {/* Event Start */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.eventstart`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(
-                                          ticket?.ticketend || new Date()
-                                        );
-                                        currentDateTime = currentDateTime.add(
-                                          10,
-                                          "minute"
-                                        );
+                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const minStartTime = dayjs(TicketEndDate || new Date());
 
                                         // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
@@ -7800,57 +6247,28 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Event Start Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
-                                              <div
-                                                className=" w-full"
-                                                onClick={() =>
-                                                  toggleStartEventTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
                                                 {/* <div className=" w-full"> */}
 
                                                 <StyledDateTimePicker
                                                   //open={ticket.isStartEventPickerOpen}
                                                   //  value={validStartTime}
-                                                  value={
-                                                    ticket?.eventstart
-                                                      ? dayjs(
-                                                          ticket?.eventstart
-                                                        )
-                                                      : null
-                                                  }
+                                                  value={ticket?.eventstart ? dayjs(ticket?.eventstart) : null}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceEventDate}
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  referenceDate={currentDateTime}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       // setEventStartTime(formattedDate);
-                                                      toggleStartEventValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
+                                                      toggleStartEventValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
                                                       // setIsStartEventPickerOpen(false);
-                                                      toggleStartEventTimePicker(
-                                                        index
-                                                      );
+                                                      toggleStartEventTimePicker(index);
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
@@ -7862,16 +6280,8 @@ function EditeventOnBack() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
-                                                          if (
-                                                            !(
-                                                              ticketTypes[
-                                                                index
-                                                              ] as any
-                                                            )?.ticketend
-                                                          ) {
-                                                            ErrorToast(
-                                                              "Ticket end date is empty!"
-                                                            );
+                                                          if (!(ticketTypes[index] as any)?.ticketend) {
+                                                            ErrorToast("Ticket end date is empty!");
                                                             e.stopPropagation();
                                                             return;
                                                           }
@@ -7901,8 +6311,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
                                                     },
                                                   }}
                                                 />
@@ -7921,23 +6330,14 @@ function EditeventOnBack() {
                             {/* Event Ends */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.eventend`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(
-                                          ticket?.eventstart || new Date()
-                                        );
-                                        currentDateTime = currentDateTime.add(
-                                          10,
-                                          "minute"
-                                        );
+                                        let currentDateTime = dayjs(ticket?.eventstart || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
                                         // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
@@ -7946,59 +6346,26 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Event End Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
-                                              <div
-                                                className=" w-full"
-                                                onClick={() =>
-                                                  toggleEndEventTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
                                                 <StyledDateTimePicker
                                                   //open={ticket.isEndEventPickerOpen}
                                                   // referenceDate={defaultEndTime}
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
-                                                  value={
-                                                    ticket?.eventend
-                                                      ? dayjs(ticket?.eventend)
-                                                      : null
-                                                  }
+                                                  referenceDate={currentDateTime}
+                                                  value={ticket?.eventend ? dayjs(ticket?.eventend) : null}
                                                   formatDensity="spacious"
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      toggleEndEventValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
-                                                      console.log(
-                                                        "my ened time",
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      toggleEndEventValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
+                                                      console.log("my ened time", formattedDate);
                                                       // setIsEndEventPickerOpen(false);
-                                                      toggleEndEventTimePicker(
-                                                        index
-                                                      );
-                                                      console.log(
-                                                        "my ened time",
-                                                        formattedDate
-                                                      );
+                                                      toggleEndEventTimePicker(index);
+                                                      console.log("my ened time", formattedDate);
                                                     }
                                                   }}
                                                   disablePast
@@ -8011,16 +6378,8 @@ function EditeventOnBack() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
-                                                          if (
-                                                            !(
-                                                              ticketTypes[
-                                                                index
-                                                              ] as any
-                                                            )?.eventstart
-                                                          ) {
-                                                            ErrorToast(
-                                                              "Event start date is empty!"
-                                                            );
+                                                          if (!(ticketTypes[index] as any)?.eventstart) {
+                                                            ErrorToast("Event start date is empty!");
                                                             e.stopPropagation();
                                                             return;
                                                           }
@@ -8050,8 +6409,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
                                                     },
                                                   }}
                                                 />
@@ -8071,24 +6429,12 @@ function EditeventOnBack() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div
-                                className="flex items-center justify-between cursor-pointer"
-                                onClick={() => handleDropdown(index)}
-                              >
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
                                   WHAT'S INCLUDED
-                                  <span className="text-red-600 text-[20px] relative">
-                                    *
-                                  </span>
+                                  <span className="text-red-600 text-[20px] relative">*</span>
                                 </p>
-                                <Image
-                                  src={
-                                    ticket.optionDropDown ? arrowup : arrowdown
-                                  }
-                                  width={11}
-                                  height={11}
-                                  alt="arrow"
-                                />
+                                <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket.optionDropDown && (
                                 <div className="grid-container">
@@ -8096,9 +6442,7 @@ function EditeventOnBack() {
                                     <div
                                       key={option.id}
                                       className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
-                                      onClick={() =>
-                                        handleOptionToggle(index, option)
-                                      }
+                                      onClick={() => handleOptionToggle(index, option)}
                                     >
                                       <div className="flex items-center gap-[10px]">
                                         <Image
@@ -8106,21 +6450,11 @@ function EditeventOnBack() {
                                           width={16}
                                           height={16}
                                           alt="img"
-                                          className={
-                                            ticket?.options?.some(
-                                              (o: any) => o?.id === option?.id
-                                            )
-                                              ? "filtergreen"
-                                              : ""
-                                          }
+                                          className={ticket?.options?.some((o: any) => o?.id === option?.id) ? "filtergreen" : ""}
                                         />
                                         <p
                                           className={`text-[16px] font-normal items-center ${
-                                            ticket?.options?.some(
-                                              (o: any) => o?.id === option?.id
-                                            )
-                                              ? "text-[#00d059]"
-                                              : "text-[#FFFFFF]"
+                                            ticket?.options?.some((o: any) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
                                           }`}
                                         >
                                           {option.label}
@@ -8128,8 +6462,7 @@ function EditeventOnBack() {
                                       </div>
                                     </div>
                                   ))}
-                                  <div className="column-separator"></div>{" "}
-                                  <div className="column-separator"></div>
+                                  <div className="column-separator"></div> <div className="column-separator"></div>
                                 </div>
                               )}
                             </div>
@@ -8138,79 +6471,53 @@ function EditeventOnBack() {
                           {/* Aditional Emails Adding Fields */}
                           {ticket.emailmanual?.length > 0 && (
                             <div className="w-full relative rounded-md border border-[#292929] gradient-slate flex flex-col items-start common-container px-[12px] py-[16px] mb-[24px]">
-                              <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">
-                                Manual Emails
-                              </p>
+                              <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">Manual Emails</p>
 
-                              <div
-                                ref={manualEmailRef}
-                                className="w-full flex-col flex gap-x-[24px] gap-y-0  max-h-[300px] overflow-y-auto mb-2"
-                              >
-                                {ticket.emailmanual.map(
-                                  (email: string, e_Index: number) => {
-                                    return (
-                                      <FormField
-                                        control={form.control}
-                                        name={`tickets.${index}.emailmanual.${e_Index}`}
-                                        render={({ field }) => (
-                                          <FormItem className="relative w-full space-y-0 input-custom-container">
-                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                                              Email {e_Index + 1}
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
-                                            </FormLabel>
-                                            <Image
-                                              src="/Images/CreateEventPage/trash.svg"
-                                              alt="delete-icon"
-                                              height={24}
-                                              width={24}
-                                              className="cursor-pointer absolute right-3 top-6 py-[4px]"
-                                              onClick={() =>
-                                                removeManualEmailField(
-                                                  index,
-                                                  e_Index
-                                                )
-                                              }
-                                            />
-                                            <FormControl>
-                                              <Input
-                                                onWheel={(e: any) =>
-                                                  e.target.blur()
+                              <div ref={manualEmailRef} className="w-full flex-col flex gap-x-[24px] gap-y-0  max-h-[300px] overflow-y-auto mb-2">
+                                {ticket.emailmanual.map((email: string, e_Index: number) => {
+                                  return (
+                                    <FormField
+                                      control={form.control}
+                                      name={`tickets.${index}.emailmanual.${e_Index}`}
+                                      render={({ field }) => (
+                                        <FormItem className="relative w-full space-y-0 input-custom-container">
+                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                            Email {e_Index + 1}
+                                            <span className="text-red-600 text-[20px] relative">*</span>
+                                          </FormLabel>
+                                          <Image
+                                            src="/Images/CreateEventPage/trash.svg"
+                                            alt="delete-icon"
+                                            height={24}
+                                            width={24}
+                                            className="cursor-pointer absolute right-3 top-6 py-[4px]"
+                                            onClick={() => removeManualEmailField(index, e_Index)}
+                                          />
+                                          <FormControl>
+                                            <Input
+                                              onWheel={(e: any) => e.target.blur()}
+                                              placeholder={`Enter Email ${e_Index + 1}`}
+                                              className="pt-12 pb-6 pr-10 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                              {...field}
+                                              value={email}
+                                              onChange={(e) => {
+                                                const value = e.target.value;
+
+                                                if (value.startsWith(" ")) {
+                                                  return;
                                                 }
-                                                placeholder={`Enter Email ${
-                                                  e_Index + 1
-                                                }`}
-                                                className="pt-12 pb-6 pr-10 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
-                                                {...field}
-                                                value={email}
-                                                onChange={(e) => {
-                                                  const value = e.target.value;
-
-                                                  if (value.startsWith(" ")) {
-                                                    return;
-                                                  }
-                                                  validateManualEmail(
-                                                    index,
-                                                    e_Index,
-                                                    value
-                                                  );
-                                                  field.onChange(e);
-                                                  handleManualEnmailValues(
-                                                    index,
-                                                    e_Index,
-                                                    value
-                                                  );
-                                                }}
-                                              />
-                                            </FormControl>
-                                            <FormMessage />
-                                          </FormItem>
-                                        )}
-                                      />
-                                    );
-                                  }
-                                )}
+                                                validateManualEmail(index, e_Index, value);
+                                                field.onChange(e);
+                                                handleManualEnmailValues(index, e_Index, value);
+                                              }}
+                                            />
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
+                                  );
+                                })}
                               </div>
 
                               {/* Add Aditional field Button */}
@@ -8227,12 +6534,7 @@ function EditeventOnBack() {
                                   className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
                                   // onClick={handleAddTicketType}
                                 >
-                                  <Image
-                                    src={addicon}
-                                    alt="Add-icon"
-                                    height={12}
-                                    width={12}
-                                  />
+                                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
                                   Additional Field
                                 </Button>
                               </div>
@@ -8254,12 +6556,7 @@ function EditeventOnBack() {
                                 className="flex items-center justify-between bg-[#FFFFFF0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
                                 // onClick={handleAddTicketType}
                               >
-                                <Image
-                                  src={whiteaddicon}
-                                  alt="Add-icon"
-                                  height={12}
-                                  width={12}
-                                />
+                                <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
                                 Add Emails manually
                               </Button>
                             )}
@@ -8284,12 +6581,7 @@ function EditeventOnBack() {
                                 width: "fit-content",
                               }}
                             >
-                              <Image
-                                src={addicon}
-                                alt="Add-icon"
-                                height={12}
-                                width={12}
-                              />
+                              <Image src={addicon} alt="Add-icon" height={12} width={12} />
                               Upload CSV (emails)
                               {/* Hidden file input */}
                               <input
@@ -8313,35 +6605,27 @@ function EditeventOnBack() {
                                   handleDeleteTicketType(index);
                                 }}
                               >
-                                <Image
-                                  src={deleteicon}
-                                  alt="delete-icon"
-                                  height={12}
-                                  width={12}
-                                />
+                                <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
                                 Delete Ticket Type
                               </Button>
                             </div>
                           )}
                         </div>
-                      ) : ticket.type ===
-                        "Passworded / Discounted Voucher Event" ? (
+                      ) : ticket.type === "Passworded / Discounted Voucher Event" ? (
                         <div key={index} className="mb-[24px]">
                           {/* Gradient Line to seperate Tickets from each other */}
                           {index !== 0 && (
                             <div
                               className="h-[3px] w-full relative mb-[28px] mt-[4px]"
                               style={{
-                                background:
-                                  "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                                background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
                               }}
                             >
                               <div
                                 className="absolute top-0 left-0 h-full"
                                 style={{
                                   width: "30%", // make the edges thinner
-                                  background:
-                                    "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                  background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
                                   filter: "blur(8px)", // blur the edges to make them thin and faded
                                 }}
                               ></div>
@@ -8349,8 +6633,7 @@ function EditeventOnBack() {
                                 className="absolute top-0 right-0 h-full"
                                 style={{
                                   width: "30%", // same width for both edges
-                                  background:
-                                    "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                  background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
                                   filter: "blur(8px)", // blur the edges to make them thin and faded
                                 }}
                               ></div>
@@ -8369,75 +6652,38 @@ function EditeventOnBack() {
                             file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                             disabled:opacity-50"
                                 >
-                                  <div
-                                    className="flex items-center justify-between"
-                                    onClick={() =>
-                                      handleTicketTypeDropDown(index)
-                                    }
-                                  >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
                                       <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                         EVENT Ticket Type
-                                        <span className="text-red-600 text-[20px] relative">
-                                          *
-                                        </span>
+                                        <span className="text-red-600 text-[20px] relative">*</span>
                                       </p>
-                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                                        Passworded / Discounted Voucher Event
-                                      </p>
+                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Passworded / Discounted Voucher Event</p>
                                     </div>
-                                    <Image
-                                      src={
-                                        ticket.typeDropDown
-                                          ? arrowup
-                                          : arrowdown
-                                      }
-                                      width={11}
-                                      height={11}
-                                      alt="arrow"
-                                    />
+                                    <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
 
                                   {ticket.typeDropDown && (
                                     <>
                                       <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                        {ticketTypesOptions?.map(
-                                          (
-                                            T_type: string,
-                                            typeIndex: number
-                                          ) => (
-                                            <div
-                                              key={typeIndex}
-                                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                              onClick={() =>
-                                                handleTicketTypeSelection(
-                                                  T_type,
-                                                  index
-                                                )
-                                              }
-                                            >
-                                              <div className="flex items-center gap-[10px]">
-                                                <p
-                                                  className={`text-[16px] font-normal items-center ${
-                                                    ticket.type === T_type
-                                                      ? "text-[#00d059]"
-                                                      : "text-[#FFFFFF]"
-                                                  }`}
-                                                >
-                                                  {T_type}
-                                                </p>
-                                              </div>
-                                              {ticket.type === T_type && (
-                                                <Image
-                                                  src={tick}
-                                                  width={16}
-                                                  height={16}
-                                                  alt="tick"
-                                                />
-                                              )}
+                                        {ticketTypesOptions?.map((T_type: string, typeIndex: number) => (
+                                          <div
+                                            key={typeIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketTypeSelection(T_type, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket.type === T_type ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {T_type}
+                                              </p>
                                             </div>
-                                          )
-                                        )}
+                                            {ticket.type === T_type && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
                                       </div>
                                     </>
                                   )}
@@ -8455,77 +6701,40 @@ function EditeventOnBack() {
                             file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                             disabled:opacity-50"
                                 >
-                                  <div
-                                    className="flex items-center justify-between"
-                                    onClick={() =>
-                                      handleTicketSelectedOptionDropDown(index)
-                                    }
-                                  >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
                                       <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                         paid or free
-                                        <span className="text-red-600 text-[20px] relative">
-                                          *
-                                        </span>
+                                        <span className="text-red-600 text-[20px] relative">*</span>
                                       </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                                        {ticket?.selected
-                                          ? ticket?.selected
-                                          : "Select paid or free ticket"}
+                                        {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
                                     </div>
-                                    <Image
-                                      src={
-                                        ticket?.selectedDropDown
-                                          ? arrowup
-                                          : arrowdown
-                                      }
-                                      width={11}
-                                      height={11}
-                                      alt="arrow"
-                                    />
+                                    <Image src={ticket?.selectedDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
 
                                   {ticket?.selectedDropDown && (
                                     <>
                                       <div className="h-fit overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                        {["Free", "Paid"].map(
-                                          (
-                                            option: any,
-                                            optionIndex: number
-                                          ) => (
-                                            <div
-                                              key={optionIndex}
-                                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                              onClick={() =>
-                                                handleTicketSelectionOption(
-                                                  option,
-                                                  index
-                                                )
-                                              }
-                                            >
-                                              <div className="flex items-center gap-[10px]">
-                                                <p
-                                                  className={`text-[16px] font-normal items-center ${
-                                                    ticket?.selected === option
-                                                      ? "text-[#00d059]"
-                                                      : "text-[#FFFFFF]"
-                                                  }`}
-                                                >
-                                                  {option}
-                                                </p>
-                                              </div>
-                                              {ticket?.selected === option && (
-                                                <Image
-                                                  src={tick}
-                                                  width={16}
-                                                  height={16}
-                                                  alt="tick"
-                                                />
-                                              )}
+                                        {["Free", "Paid"].map((option: any, optionIndex: number) => (
+                                          <div
+                                            key={optionIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketSelectionOption(option, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket?.selected === option ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {option}
+                                              </p>
                                             </div>
-                                          )
-                                        )}
+                                            {ticket?.selected === option && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
                                       </div>
                                     </>
                                   )}
@@ -8544,9 +6753,7 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0">
                                   <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     EVENT Ticket Type
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -8556,10 +6763,7 @@ function EditeventOnBack() {
                                       value={ticket.name}
                                       onChange={(e) => {
                                         // setEventname(e.target.value);
-                                        handleTicketNameChange(
-                                          e.target.value,
-                                          index
-                                        );
+                                        handleTicketNameChange(e.target.value, index);
                                         field.onChange(e);
                                       }}
                                     />
@@ -8581,17 +6785,11 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Event Ticket Price (£)
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
-                                      disabled={
-                                        ticket.selected === "Free"
-                                          ? true
-                                          : false
-                                      }
+                                      disabled={ticket.selected === "Free" ? true : false}
                                       type="number"
                                       onWheel={(e: any) => e.target.blur()}
                                       placeholder="Enter Price"
@@ -8618,9 +6816,7 @@ function EditeventOnBack() {
 
                                         // Check if the numeric value exceeds 10,000
                                         if (numericValue > 10000) {
-                                          ErrorToast(
-                                            "Price cannot exceed 10,000!"
-                                          );
+                                          ErrorToast("Price cannot exceed 10,000!");
                                           return; // Prevent further processing if the value is invalid
                                         }
 
@@ -8644,9 +6840,7 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Event Number of Tickets
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -8658,16 +6852,11 @@ function EditeventOnBack() {
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                        const value = e.target.value.replace(
-                                          /[^0-9]/g,
-                                          ""
-                                        ); // Remove non-numeric characters
+                                        const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
                                       }}
-                                      onKeyPress={(
-                                        e: React.KeyboardEvent<HTMLInputElement>
-                                      ) => {
+                                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
                                         // Prevent any non-numeric character except numbers
                                         if (!/^\d$/.test(key)) {
@@ -8687,12 +6876,8 @@ function EditeventOnBack() {
                             {/* Ticket Start */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.ticketstart`}
@@ -8702,56 +6887,27 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Ticket Start Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                              <div
-                                                className="w-full"
-                                                onClick={() =>
-                                                  toggleTicketStartTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className="w-full" onClick={() => toggleTicketStartTimePicker(index)}>
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
                                                   //open={ticket.isTicketStartPickerOpen} // Control the open state with local state
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
+                                                  referenceDate={currentDateTime}
                                                   formatDensity="spacious"
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   autoOk={false}
-                                                  value={
-                                                    ticket.ticketstart
-                                                      ? dayjs(
-                                                          ticket.ticketstart
-                                                        )
-                                                      : null
-                                                  }
+                                                  value={ticket.ticketstart ? dayjs(ticket.ticketstart) : null}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      setTheTicketStartValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      setTheTicketStartValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
                                                       //setIsPickerOpen(false); // Close the picker after selection
-                                                      toggleTicketStartTimePicker(
-                                                        index
-                                                      );
+                                                      toggleTicketStartTimePicker(index);
                                                     }
                                                   }}
                                                   disablePast
@@ -8781,8 +6937,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
                                                     },
                                                   }}
                                                 />
@@ -8801,23 +6956,14 @@ function EditeventOnBack() {
                             {/* Ticket End */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.ticketend`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(
-                                          ticket?.ticketstart || new Date()
-                                        );
-                                        currentDateTime = currentDateTime.add(
-                                          10,
-                                          "minute"
-                                        );
+                                        let currentDateTime = dayjs(ticket?.ticketstart || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
 
                                         // Default to the current time if the adjusted start time has passed
@@ -8827,19 +6973,10 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Ticket End Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
-                                              <div
-                                                className=" w-full"
-                                                onClick={() =>
-                                                  toggleTicketEndTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
                                                 {/* <div className=" w-full" > */}
 
                                                 <StyledDateTimePicker
@@ -8847,35 +6984,17 @@ function EditeventOnBack() {
                                                   // value={validStartTime}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceTicketDate}
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
+                                                  referenceDate={currentDateTime}
                                                   // minDate={currentDateTime}
-                                                  value={
-                                                    ticket.ticketend
-                                                      ? dayjs(ticket.ticketend)
-                                                      : null
-                                                  }
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  value={ticket.ticketend ? dayjs(ticket.ticketend) : null}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      setTheTicketEndValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      setTheTicketEndValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
                                                       // setIsEndDatePickerOpen(false);
-                                                      toggleTicketEndTimePicker(
-                                                        index
-                                                      );
+                                                      toggleTicketEndTimePicker(index);
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
@@ -8885,16 +7004,8 @@ function EditeventOnBack() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
-                                                          if (
-                                                            !(
-                                                              ticketTypes[
-                                                                index
-                                                              ] as any
-                                                            )?.ticketstart
-                                                          ) {
-                                                            ErrorToast(
-                                                              "Ticket start date is empty!"
-                                                            );
+                                                          if (!(ticketTypes[index] as any)?.ticketstart) {
+                                                            ErrorToast("Ticket start date is empty!");
                                                             e.stopPropagation();
                                                             return;
                                                           }
@@ -8924,8 +7035,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA ",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA ",
                                                     },
                                                   }}
                                                 />
@@ -8947,23 +7057,14 @@ function EditeventOnBack() {
                             {/* Event Start */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.eventstart`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(
-                                          ticket?.ticketend || new Date()
-                                        );
-                                        currentDateTime = currentDateTime.add(
-                                          10,
-                                          "minute"
-                                        );
+                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const minStartTime = dayjs(TicketEndDate || new Date());
 
                                         // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
@@ -8976,56 +7077,27 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Event Start Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
-                                              <div
-                                                className=" w-full"
-                                                onClick={() =>
-                                                  toggleStartEventTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
                                                 {/* <div className=" w-full"> */}
 
                                                 <StyledDateTimePicker
                                                   //open={ticket.isStartEventPickerOpen}
                                                   //  value={validStartTime}
-                                                  value={
-                                                    ticket?.eventstart
-                                                      ? dayjs(
-                                                          ticket?.eventstart
-                                                        )
-                                                      : null
-                                                  }
+                                                  value={ticket?.eventstart ? dayjs(ticket?.eventstart) : null}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceEventDate}
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  referenceDate={currentDateTime}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      toggleStartEventValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      toggleStartEventValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
                                                       // setIsStartEventPickerOpen(false);
-                                                      toggleStartEventTimePicker(
-                                                        index
-                                                      );
+                                                      toggleStartEventTimePicker(index);
                                                     }
                                                   }}
                                                   disablePast
@@ -9037,16 +7109,8 @@ function EditeventOnBack() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
-                                                          if (
-                                                            !(
-                                                              ticketTypes[
-                                                                index
-                                                              ] as any
-                                                            )?.ticketend
-                                                          ) {
-                                                            ErrorToast(
-                                                              "Ticket end date is empty!"
-                                                            );
+                                                          if (!(ticketTypes[index] as any)?.ticketend) {
+                                                            ErrorToast("Ticket end date is empty!");
                                                             e.stopPropagation();
                                                             return;
                                                           }
@@ -9076,8 +7140,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
                                                     },
                                                   }}
                                                 />
@@ -9096,23 +7159,14 @@ function EditeventOnBack() {
                             {/* Event Ends */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.eventend`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(
-                                          ticket?.eventstart || new Date()
-                                        );
-                                        currentDateTime = currentDateTime.add(
-                                          10,
-                                          "minute"
-                                        );
+                                        let currentDateTime = dayjs(ticket?.eventstart || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
                                         // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
@@ -9121,59 +7175,26 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Event End Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
-                                              <div
-                                                className=" w-full"
-                                                onClick={() =>
-                                                  toggleEndEventTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
                                                 <StyledDateTimePicker
                                                   //open={ticket.isEndEventPickerOpen}
                                                   // referenceDate={defaultEndTime}
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
-                                                  value={
-                                                    ticket?.eventend
-                                                      ? dayjs(ticket?.eventend)
-                                                      : null
-                                                  }
+                                                  referenceDate={currentDateTime}
+                                                  value={ticket?.eventend ? dayjs(ticket?.eventend) : null}
                                                   formatDensity="spacious"
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      toggleEndEventValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
-                                                      console.log(
-                                                        "my ened time",
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      toggleEndEventValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
+                                                      console.log("my ened time", formattedDate);
                                                       // setIsEndEventPickerOpen(false);
-                                                      toggleEndEventTimePicker(
-                                                        index
-                                                      );
-                                                      console.log(
-                                                        "my ened time",
-                                                        formattedDate
-                                                      );
+                                                      toggleEndEventTimePicker(index);
+                                                      console.log("my ened time", formattedDate);
                                                     }
                                                   }}
                                                   disablePast
@@ -9186,16 +7207,8 @@ function EditeventOnBack() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
-                                                          if (
-                                                            !(
-                                                              ticketTypes[
-                                                                index
-                                                              ] as any
-                                                            )?.eventstart
-                                                          ) {
-                                                            ErrorToast(
-                                                              "Event start date is empty!"
-                                                            );
+                                                          if (!(ticketTypes[index] as any)?.eventstart) {
+                                                            ErrorToast("Event start date is empty!");
                                                             e.stopPropagation();
                                                             return;
                                                           }
@@ -9225,8 +7238,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
                                                     },
                                                   }}
                                                 />
@@ -9246,24 +7258,12 @@ function EditeventOnBack() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div
-                                className="flex items-center justify-between cursor-pointer"
-                                onClick={() => handleDropdown(index)}
-                              >
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
                                   WHAT'S INCLUDED
-                                  <span className="text-red-600 text-[20px] relative">
-                                    *
-                                  </span>
+                                  <span className="text-red-600 text-[20px] relative">*</span>
                                 </p>
-                                <Image
-                                  src={
-                                    ticket.optionDropDown ? arrowup : arrowdown
-                                  }
-                                  width={11}
-                                  height={11}
-                                  alt="arrow"
-                                />
+                                <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket.optionDropDown && (
                                 <div className="grid-container">
@@ -9271,9 +7271,7 @@ function EditeventOnBack() {
                                     <div
                                       key={option.id}
                                       className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
-                                      onClick={() =>
-                                        handleOptionToggle(index, option)
-                                      }
+                                      onClick={() => handleOptionToggle(index, option)}
                                     >
                                       <div className="flex items-center gap-[10px]">
                                         <Image
@@ -9281,21 +7279,11 @@ function EditeventOnBack() {
                                           width={16}
                                           height={16}
                                           alt="img"
-                                          className={
-                                            ticket?.options?.some(
-                                              (o: any) => o?.id === option?.id
-                                            )
-                                              ? "filtergreen"
-                                              : ""
-                                          }
+                                          className={ticket?.options?.some((o: any) => o?.id === option?.id) ? "filtergreen" : ""}
                                         />
                                         <p
                                           className={`text-[16px] font-normal items-center ${
-                                            ticket?.options?.some(
-                                              (o: any) => o?.id === option?.id
-                                            )
-                                              ? "text-[#00d059]"
-                                              : "text-[#FFFFFF]"
+                                            ticket?.options?.some((o: any) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
                                           }`}
                                         >
                                           {option.label}
@@ -9303,8 +7291,7 @@ function EditeventOnBack() {
                                       </div>
                                     </div>
                                   ))}
-                                  <div className="column-separator"></div>{" "}
-                                  <div className="column-separator"></div>
+                                  <div className="column-separator"></div> <div className="column-separator"></div>
                                 </div>
                               )}
                             </div>
@@ -9315,80 +7302,53 @@ function EditeventOnBack() {
                             {/* Private Emails Adding Fields */}
                             {ticket?.emailmanual?.length > 0 && (
                               <div className="w-full relative rounded-md border border-[#292929] gradient-slate flex flex-col items-start common-container px-[12px] py-[16px] mb-[24px]">
-                                <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">
-                                  Manual Emails
-                                </p>
+                                <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">Manual Emails</p>
 
-                                <div
-                                  ref={manualEmailRef}
-                                  className="w-full flex-col flex gap-y-0 max-h-[230px] overflow-y-auto mb-2"
-                                >
-                                  {ticket.emailmanual.map(
-                                    (email: string, e_Index: number) => {
-                                      return (
-                                        <FormField
-                                          control={form.control}
-                                          name={`tickets.${index}.emailmanual.${e_Index}`}
-                                          render={({ field }) => (
-                                            <FormItem className="relative w-full space-y-0 input-custom-container ">
-                                              <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                                                Email {e_Index + 1}
-                                                <span className="text-red-600 text-[20px] relative">
-                                                  *
-                                                </span>
-                                              </FormLabel>
-                                              <Image
-                                                src="/Images/CreateEventPage/trash.svg"
-                                                alt="delete-icon"
-                                                height={24}
-                                                width={24}
-                                                className="cursor-pointer absolute right-3 top-6 py-[4px]"
-                                                onClick={() =>
-                                                  removeManualEmailField(
-                                                    index,
-                                                    e_Index
-                                                  )
-                                                }
-                                              />
-                                              <FormControl>
-                                                <Input
-                                                  onWheel={(e: any) =>
-                                                    e.target.blur()
+                                <div ref={manualEmailRef} className="w-full flex-col flex gap-y-0 max-h-[230px] overflow-y-auto mb-2">
+                                  {ticket.emailmanual.map((email: string, e_Index: number) => {
+                                    return (
+                                      <FormField
+                                        control={form.control}
+                                        name={`tickets.${index}.emailmanual.${e_Index}`}
+                                        render={({ field }) => (
+                                          <FormItem className="relative w-full space-y-0 input-custom-container ">
+                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                              Email {e_Index + 1}
+                                              <span className="text-red-600 text-[20px] relative">*</span>
+                                            </FormLabel>
+                                            <Image
+                                              src="/Images/CreateEventPage/trash.svg"
+                                              alt="delete-icon"
+                                              height={24}
+                                              width={24}
+                                              className="cursor-pointer absolute right-3 top-6 py-[4px]"
+                                              onClick={() => removeManualEmailField(index, e_Index)}
+                                            />
+                                            <FormControl>
+                                              <Input
+                                                onWheel={(e: any) => e.target.blur()}
+                                                placeholder={`Enter Email ${e_Index + 1}`}
+                                                className="pt-12 pb-6 pr-10 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                                {...field}
+                                                value={email}
+                                                onChange={(e) => {
+                                                  const value = e.target.value;
+
+                                                  if (value.startsWith(" ")) {
+                                                    return;
                                                   }
-                                                  placeholder={`Enter Email ${
-                                                    e_Index + 1
-                                                  }`}
-                                                  className="pt-12 pb-6 pr-10 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
-                                                  {...field}
-                                                  value={email}
-                                                  onChange={(e) => {
-                                                    const value =
-                                                      e.target.value;
-
-                                                    if (value.startsWith(" ")) {
-                                                      return;
-                                                    }
-                                                    validateManualEmail(
-                                                      index,
-                                                      e_Index,
-                                                      value
-                                                    );
-                                                    field.onChange(e);
-                                                    handleManualEnmailValues(
-                                                      index,
-                                                      e_Index,
-                                                      value
-                                                    );
-                                                  }}
-                                                />
-                                              </FormControl>
-                                              <FormMessage />
-                                            </FormItem>
-                                          )}
-                                        />
-                                      );
-                                    }
-                                  )}
+                                                  validateManualEmail(index, e_Index, value);
+                                                  field.onChange(e);
+                                                  handleManualEnmailValues(index, e_Index, value);
+                                                }}
+                                              />
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        )}
+                                      />
+                                    );
+                                  })}
                                 </div>
 
                                 {/* Add Aditional field Button */}
@@ -9405,12 +7365,7 @@ function EditeventOnBack() {
                                     className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
                                     // onClick={handleAddTicketType}
                                   >
-                                    <Image
-                                      src={addicon}
-                                      alt="Add-icon"
-                                      height={12}
-                                      width={12}
-                                    />
+                                    <Image src={addicon} alt="Add-icon" height={12} width={12} />
                                     Additional Field
                                   </Button>
                                 </div>
@@ -9420,80 +7375,53 @@ function EditeventOnBack() {
                             {/* Manual Password Adding Fields */}
                             {ticket?.pswrdmanual?.length > 0 && (
                               <div className="w-full relative rounded-md border border-[#292929] gradient-slate flex flex-col items-start common-container px-[12px] py-[16px] mb-[24px]">
-                                <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">
-                                  Manual Passwords
-                                </p>
+                                <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">Manual Passwords</p>
 
-                                <div
-                                  ref={manualPswrdRef}
-                                  className="w-full flex-col flex gap-x-[24px] max-h-[230px] overflow-y-auto mb-2"
-                                >
-                                  {ticket.pswrdmanual.map(
-                                    (pswrd: string, p_Index: number) => {
-                                      return (
-                                        <FormField
-                                          control={form.control}
-                                          name={`tickets.${index}.pswrdmanual.${p_Index}`}
-                                          render={({ field }) => (
-                                            <FormItem className="relative w-full space-y-0 input-custom-container">
-                                              <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                                                Password {p_Index + 1}
-                                                <span className="text-red-600 text-[20px] relative">
-                                                  *
-                                                </span>
-                                              </FormLabel>
-                                              <Image
-                                                src="/Images/CreateEventPage/trash.svg"
-                                                alt="delete-icon"
-                                                height={24}
-                                                width={24}
-                                                className="cursor-pointer absolute right-3 top-6 py-[4px]"
-                                                onClick={() =>
-                                                  removeManualPasswrdField(
-                                                    index,
-                                                    p_Index
-                                                  )
-                                                }
-                                              />
-                                              <FormControl>
-                                                <Input
-                                                  onWheel={(e: any) =>
-                                                    e.target.blur()
+                                <div ref={manualPswrdRef} className="w-full flex-col flex gap-x-[24px] max-h-[230px] overflow-y-auto mb-2">
+                                  {ticket.pswrdmanual.map((pswrd: string, p_Index: number) => {
+                                    return (
+                                      <FormField
+                                        control={form.control}
+                                        name={`tickets.${index}.pswrdmanual.${p_Index}`}
+                                        render={({ field }) => (
+                                          <FormItem className="relative w-full space-y-0 input-custom-container">
+                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                              Password {p_Index + 1}
+                                              <span className="text-red-600 text-[20px] relative">*</span>
+                                            </FormLabel>
+                                            <Image
+                                              src="/Images/CreateEventPage/trash.svg"
+                                              alt="delete-icon"
+                                              height={24}
+                                              width={24}
+                                              className="cursor-pointer absolute right-3 top-6 py-[4px]"
+                                              onClick={() => removeManualPasswrdField(index, p_Index)}
+                                            />
+                                            <FormControl>
+                                              <Input
+                                                onWheel={(e: any) => e.target.blur()}
+                                                placeholder={`Enter Password ${p_Index + 1}`}
+                                                className="pt-12 pb-6 pr-10 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                                {...field}
+                                                value={pswrd}
+                                                onChange={(e) => {
+                                                  const value = e.target.value;
+
+                                                  if (value.startsWith(" ")) {
+                                                    return;
                                                   }
-                                                  placeholder={`Enter Password ${
-                                                    p_Index + 1
-                                                  }`}
-                                                  className="pt-12 pb-6 pr-10 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
-                                                  {...field}
-                                                  value={pswrd}
-                                                  onChange={(e) => {
-                                                    const value =
-                                                      e.target.value;
-
-                                                    if (value.startsWith(" ")) {
-                                                      return;
-                                                    }
-                                                    validatePSWRDEmail(
-                                                      index,
-                                                      p_Index,
-                                                      value
-                                                    );
-                                                    field.onChange(e);
-                                                    handleManualPswrdInput(
-                                                      index,
-                                                      p_Index,
-                                                      value
-                                                    );
-                                                  }}
-                                                />
-                                              </FormControl>
-                                              <FormMessage />
-                                            </FormItem>
-                                          )}
-                                        />
-                                      );
-                                    }
-                                  )}
+                                                  validatePSWRDEmail(index, p_Index, value);
+                                                  field.onChange(e);
+                                                  handleManualPswrdInput(index, p_Index, value);
+                                                }}
+                                              />
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        )}
+                                      />
+                                    );
+                                  })}
                                 </div>
 
                                 {/* Add Aditional field Button */}
@@ -9510,12 +7438,7 @@ function EditeventOnBack() {
                                     className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
                                     // onClick={handleAddTicketType}
                                   >
-                                    <Image
-                                      src={addicon}
-                                      alt="Add-icon"
-                                      height={12}
-                                      width={12}
-                                    />
+                                    <Image src={addicon} alt="Add-icon" height={12} width={12} />
                                     Additional Field
                                   </Button>
                                 </div>
@@ -9526,88 +7449,64 @@ function EditeventOnBack() {
                           {/* Auto Generated password Fields */}
                           {ticket?.autoGeneratedPswrd?.length > 0 && (
                             <div className="w-full relative rounded-md border border-[#292929] gradient-slate flex flex-col items-start common-container px-[12px] py-[16px] mb-[24px]">
-                              <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">
-                                Automatic Generated Passwords
-                              </p>
+                              <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">Automatic Generated Passwords</p>
 
-                              <div
-                                ref={autoPswrdRef}
-                                className="w-full flex-col flex gap-x-[24px] gap-y-0 max-h-[230px] overflow-y-auto mb-2"
-                              >
-                                {ticket.autoGeneratedPswrd.map(
-                                  (autoPswrd: string, ag_Index: number) => {
-                                    return (
-                                      <FormField
-                                        control={form.control}
-                                        name={`tickets.${index}.autoGeneratedPswrd.${ag_Index}`}
-                                        render={({ field }) => (
-                                          <FormItem className="relative w-full space-y-0 input-custom-container">
-                                            <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                                              password {ag_Index + 1}
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
-                                            </FormLabel>
-                                            <div className="absolute right-3 top-6 py-[4px] flex justify-center items-center gap-3">
-                                              <Image
-                                                src="/Images/CreateEventPage/Copy_pswrd.svg"
-                                                alt="copy-icon"
-                                                height={24}
-                                                width={24}
-                                                color="white"
-                                                className="cursor-pointer"
-                                                onClick={() =>
-                                                  copyAutoPSWRD(
-                                                    ag_Index,
-                                                    (ticketTypes[index] as any)
-                                                      ?.autoGeneratedPswrd?.[
-                                                      ag_Index
-                                                    ]
-                                                  )
-                                                }
-                                              />
-                                              <Image
-                                                src="/Images/CreateEventPage/trash.svg"
-                                                alt="delete-icon"
-                                                height={24}
-                                                width={24}
-                                                className="cursor-pointer"
-                                                onClick={() =>
-                                                  removeAutoPSWRD(
-                                                    index,
-                                                    ag_Index
-                                                  )
-                                                }
-                                              />
-                                            </div>
-                                            <FormControl>
-                                              <Input
-                                                onWheel={(e: any) =>
-                                                  e.target.blur()
-                                                }
-                                                placeholder={autoPswrd}
-                                                className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
-                                                {...field}
-                                                value={autoPswrd}
-                                                onChange={(e) => {
-                                                  const value = e.target.value;
+                              <div ref={autoPswrdRef} className="w-full flex-col flex gap-x-[24px] gap-y-0 max-h-[230px] overflow-y-auto mb-2">
+                                {ticket.autoGeneratedPswrd.map((autoPswrd: string, ag_Index: number) => {
+                                  return (
+                                    <FormField
+                                      control={form.control}
+                                      name={`tickets.${index}.autoGeneratedPswrd.${ag_Index}`}
+                                      render={({ field }) => (
+                                        <FormItem className="relative w-full space-y-0 input-custom-container">
+                                          <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                                            password {ag_Index + 1}
+                                            <span className="text-red-600 text-[20px] relative">*</span>
+                                          </FormLabel>
+                                          <div className="absolute right-3 top-6 py-[4px] flex justify-center items-center gap-3">
+                                            <Image
+                                              src="/Images/CreateEventPage/Copy_pswrd.svg"
+                                              alt="copy-icon"
+                                              height={24}
+                                              width={24}
+                                              color="white"
+                                              className="cursor-pointer"
+                                              onClick={() => copyAutoPSWRD(ag_Index, (ticketTypes[index] as any)?.autoGeneratedPswrd?.[ag_Index])}
+                                            />
+                                            <Image
+                                              src="/Images/CreateEventPage/trash.svg"
+                                              alt="delete-icon"
+                                              height={24}
+                                              width={24}
+                                              className="cursor-pointer"
+                                              onClick={() => removeAutoPSWRD(index, ag_Index)}
+                                            />
+                                          </div>
+                                          <FormControl>
+                                            <Input
+                                              onWheel={(e: any) => e.target.blur()}
+                                              placeholder={autoPswrd}
+                                              className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
+                                              {...field}
+                                              value={autoPswrd}
+                                              onChange={(e) => {
+                                                const value = e.target.value;
 
-                                                  if (value.startsWith(" ")) {
-                                                    return;
-                                                  }
-                                                  field.onChange(e);
-
+                                                if (value.startsWith(" ")) {
                                                   return;
-                                                }}
-                                              />
-                                            </FormControl>
-                                            <FormMessage />
-                                          </FormItem>
-                                        )}
-                                      />
-                                    );
-                                  }
-                                )}
+                                                }
+                                                field.onChange(e);
+
+                                                return;
+                                              }}
+                                            />
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
+                                  );
+                                })}
                               </div>
 
                               {/* Add Aditional field Button */}
@@ -9624,12 +7523,7 @@ function EditeventOnBack() {
                                   className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
                                   // onClick={handleAddTicketType}
                                 >
-                                  <Image
-                                    src={addicon}
-                                    alt="Add-icon"
-                                    height={12}
-                                    width={12}
-                                  />
+                                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
                                   Additional Field
                                 </Button>
                               </div>
@@ -9652,12 +7546,7 @@ function EditeventOnBack() {
                                   className="flex items-center justify-between bg-[#FFFFFF0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
                                   // onClick={handleAddTicketType}
                                 >
-                                  <Image
-                                    src={whiteaddicon}
-                                    alt="Add-icon"
-                                    height={12}
-                                    width={12}
-                                  />
+                                  <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
                                   Add Emails manually
                                 </Button>
                               )}
@@ -9682,20 +7571,13 @@ function EditeventOnBack() {
                                   width: "fit-content",
                                 }}
                               >
-                                <Image
-                                  src={addicon}
-                                  alt="Add-icon"
-                                  height={12}
-                                  width={12}
-                                />
+                                <Image src={addicon} alt="Add-icon" height={12} width={12} />
                                 Upload CSV (emails)
                                 {/* Hidden file input */}
                                 <input
                                   type="file"
                                   accept=".csv"
-                                  onChange={(e) =>
-                                    handleCSVFileChange(e, index)
-                                  }
+                                  onChange={(e) => handleCSVFileChange(e, index)}
                                   style={{
                                     display: "none", // Hide the default file input button
                                   }}
@@ -9717,12 +7599,7 @@ function EditeventOnBack() {
                                   className="flex items-center justify-between bg-[#FFFFFF0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
                                   // onClick={handleAddTicketType}
                                 >
-                                  <Image
-                                    src={whiteaddicon}
-                                    alt="Add-icon"
-                                    height={12}
-                                    width={12}
-                                  />
+                                  <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
                                   Add Password Manually
                                 </Button>
                               )}
@@ -9740,12 +7617,7 @@ function EditeventOnBack() {
                                   className="flex items-center justify-between bg-[#0F0F0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
                                   // onClick={handleAddTicketType}
                                 >
-                                  <Image
-                                    src={whiteaddicon}
-                                    alt="Add-icon"
-                                    height={12}
-                                    width={12}
-                                  />
+                                  <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
                                   Generate Password Automatically
                                 </Button>
                               )}
@@ -9762,12 +7634,7 @@ function EditeventOnBack() {
                                   handleDeleteTicketType(index);
                                 }}
                               >
-                                <Image
-                                  src={deleteicon}
-                                  alt="delete-icon"
-                                  height={12}
-                                  width={12}
-                                />
+                                <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
                                 Delete Ticket Type
                               </Button>
                             </div>
@@ -9780,16 +7647,14 @@ function EditeventOnBack() {
                             <div
                               className="h-[3px] w-full relative mb-[28px] mt-[4px]"
                               style={{
-                                background:
-                                  "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                                background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
                               }}
                             >
                               <div
                                 className="absolute top-0 left-0 h-full"
                                 style={{
                                   width: "30%", // make the edges thinner
-                                  background:
-                                    "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                  background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
                                   filter: "blur(8px)", // blur the edges to make them thin and faded
                                 }}
                               ></div>
@@ -9797,8 +7662,7 @@ function EditeventOnBack() {
                                 className="absolute top-0 right-0 h-full"
                                 style={{
                                   width: "30%", // same width for both edges
-                                  background:
-                                    "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                  background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
                                   filter: "blur(8px)", // blur the edges to make them thin and faded
                                 }}
                               ></div>
@@ -9817,75 +7681,38 @@ function EditeventOnBack() {
                         file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                         disabled:opacity-50"
                                 >
-                                  <div
-                                    className="flex items-center justify-between"
-                                    onClick={() =>
-                                      handleTicketTypeDropDown(index)
-                                    }
-                                  >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketTypeDropDown(index)}>
                                     <div className="flex flex-col">
                                       <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                         EVENT Ticket Type
-                                        <span className="text-red-600 text-[20px] relative">
-                                          *
-                                        </span>
+                                        <span className="text-red-600 text-[20px] relative">*</span>
                                       </p>
-                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                                        Custom Ticketing
-                                      </p>
+                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Custom Ticketing</p>
                                     </div>
-                                    <Image
-                                      src={
-                                        ticket.typeDropDown
-                                          ? arrowup
-                                          : arrowdown
-                                      }
-                                      width={11}
-                                      height={11}
-                                      alt="arrow"
-                                    />
+                                    <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
 
                                   {ticket.typeDropDown && (
                                     <>
                                       <div className="h-[210px] overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                        {ticketTypesOptions?.map(
-                                          (
-                                            T_type: string,
-                                            typeIndex: number
-                                          ) => (
-                                            <div
-                                              key={typeIndex}
-                                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                              onClick={() =>
-                                                handleTicketTypeSelection(
-                                                  T_type,
-                                                  index
-                                                )
-                                              }
-                                            >
-                                              <div className="flex items-center gap-[10px]">
-                                                <p
-                                                  className={`text-[16px] font-normal items-center ${
-                                                    ticket.type === T_type
-                                                      ? "text-[#00d059]"
-                                                      : "text-[#FFFFFF]"
-                                                  }`}
-                                                >
-                                                  {T_type}
-                                                </p>
-                                              </div>
-                                              {ticket.type === T_type && (
-                                                <Image
-                                                  src={tick}
-                                                  width={16}
-                                                  height={16}
-                                                  alt="tick"
-                                                />
-                                              )}
+                                        {ticketTypesOptions?.map((T_type: string, typeIndex: number) => (
+                                          <div
+                                            key={typeIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketTypeSelection(T_type, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket.type === T_type ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {T_type}
+                                              </p>
                                             </div>
-                                          )
-                                        )}
+                                            {ticket.type === T_type && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
                                       </div>
                                     </>
                                   )}
@@ -9903,77 +7730,40 @@ function EditeventOnBack() {
                         file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                         disabled:opacity-50"
                                 >
-                                  <div
-                                    className="flex items-center justify-between"
-                                    onClick={() =>
-                                      handleTicketSelectedOptionDropDown(index)
-                                    }
-                                  >
+                                  <div className="flex items-center justify-between" onClick={() => handleTicketSelectedOptionDropDown(index)}>
                                     <div className="flex flex-col">
                                       <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                         paid or free
-                                        <span className="text-red-600 text-[20px] relative">
-                                          *
-                                        </span>
+                                        <span className="text-red-600 text-[20px] relative">*</span>
                                       </p>
                                       <p className="text-[16px] font-extrabold text-[#FFFFFF] ">
-                                        {ticket?.selected
-                                          ? ticket?.selected
-                                          : "Select paid or free ticket"}
+                                        {ticket?.selected ? ticket?.selected : "Select paid or free ticket"}
                                       </p>
                                     </div>
-                                    <Image
-                                      src={
-                                        ticket?.selectedDropDown
-                                          ? arrowup
-                                          : arrowdown
-                                      }
-                                      width={11}
-                                      height={11}
-                                      alt="arrow"
-                                    />
+                                    <Image src={ticket?.selectedDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>
 
                                   {ticket?.selectedDropDown && (
                                     <>
                                       <div className="h-fit overflow-auto scrollbar-hide absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px]">
-                                        {["Free", "Paid"].map(
-                                          (
-                                            option: any,
-                                            optionIndex: number
-                                          ) => (
-                                            <div
-                                              key={optionIndex}
-                                              className="flex items-center justify-between pt-[8px] cursor-pointer"
-                                              onClick={() =>
-                                                handleTicketSelectionOption(
-                                                  option,
-                                                  index
-                                                )
-                                              }
-                                            >
-                                              <div className="flex items-center gap-[10px]">
-                                                <p
-                                                  className={`text-[16px] font-normal items-center ${
-                                                    ticket?.selected === option
-                                                      ? "text-[#00d059]"
-                                                      : "text-[#FFFFFF]"
-                                                  }`}
-                                                >
-                                                  {option}
-                                                </p>
-                                              </div>
-                                              {ticket?.selected === option && (
-                                                <Image
-                                                  src={tick}
-                                                  width={16}
-                                                  height={16}
-                                                  alt="tick"
-                                                />
-                                              )}
+                                        {["Free", "Paid"].map((option: any, optionIndex: number) => (
+                                          <div
+                                            key={optionIndex}
+                                            className="flex items-center justify-between pt-[8px] cursor-pointer"
+                                            onClick={() => handleTicketSelectionOption(option, index)}
+                                          >
+                                            <div className="flex items-center gap-[10px]">
+                                              <p
+                                                className={`text-[16px] font-normal items-center ${
+                                                  ticket?.selected === option ? "text-[#00d059]" : "text-[#FFFFFF]"
+                                                }`}
+                                              >
+                                                {option}
+                                              </p>
                                             </div>
-                                          )
-                                        )}
+                                            {ticket?.selected === option && <Image src={tick} width={16} height={16} alt="tick" />}
+                                          </div>
+                                        ))}
                                       </div>
                                     </>
                                   )}
@@ -9992,9 +7782,7 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0">
                                   <FormLabel className="text-sm font-bold text-[#8F8F8F] absolute left-3  uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Event Ticket Name
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -10004,10 +7792,7 @@ function EditeventOnBack() {
                                       value={ticket.name}
                                       onChange={(e) => {
                                         // setEventname(e.target.value);
-                                        handleTicketNameChange(
-                                          e.target.value,
-                                          index
-                                        );
+                                        handleTicketNameChange(e.target.value, index);
                                         field.onChange(e);
                                       }}
                                     />
@@ -10029,17 +7814,11 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-gray-500 absolute left-3 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Event Ticket Price (£)
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
-                                      disabled={
-                                        ticket.selected === "Free"
-                                          ? true
-                                          : false
-                                      }
+                                      disabled={ticket.selected === "Free" ? true : false}
                                       type="number"
                                       onWheel={(e: any) => e.target.blur()}
                                       placeholder="Enter Price"
@@ -10066,9 +7845,7 @@ function EditeventOnBack() {
 
                                         // Check if the numeric value exceeds 10,000
                                         if (numericValue > 10000) {
-                                          ErrorToast(
-                                            "Price cannot exceed 10,000!"
-                                          );
+                                          ErrorToast("Price cannot exceed 10,000!");
                                           return; // Prevent further processing if the value is invalid
                                         }
 
@@ -10092,9 +7869,7 @@ function EditeventOnBack() {
                                 <FormItem className="relative w-full space-y-0 input-custom-container">
                                   <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                                     Event Number of Tickets
-                                    <span className="text-red-600 text-[20px] relative">
-                                      *
-                                    </span>
+                                    <span className="text-red-600 text-[20px] relative">*</span>
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -10106,16 +7881,11 @@ function EditeventOnBack() {
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                        const value = e.target.value.replace(
-                                          /[^0-9]/g,
-                                          ""
-                                        ); // Remove non-numeric characters
+                                        const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
                                       }}
-                                      onKeyPress={(
-                                        e: React.KeyboardEvent<HTMLInputElement>
-                                      ) => {
+                                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
                                         // Prevent any non-numeric character except numbers
                                         if (!/^\d$/.test(key)) {
@@ -10135,12 +7905,8 @@ function EditeventOnBack() {
                             {/* Ticket Start */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.ticketstart`}
@@ -10150,56 +7916,27 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate ps-[12px] rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500 uppercase pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Ticket Start Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                              <div
-                                                className="w-full"
-                                                onClick={() =>
-                                                  toggleTicketStartTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className="w-full" onClick={() => toggleTicketStartTimePicker(index)}>
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
                                                   // Control the open state with local state
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
+                                                  referenceDate={currentDateTime}
                                                   formatDensity="spacious"
-                                                  value={
-                                                    ticket?.ticketstart
-                                                      ? dayjs(
-                                                          ticket?.ticketstart
-                                                        )
-                                                      : null
-                                                  }
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  value={ticket?.ticketstart ? dayjs(ticket?.ticketstart) : null}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   autoOk={false}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      setTheTicketStartValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      setTheTicketStartValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
                                                       //setIsPickerOpen(false); // Close the picker after selection
-                                                      toggleTicketStartTimePicker(
-                                                        index
-                                                      );
+                                                      toggleTicketStartTimePicker(index);
                                                     }
                                                   }}
                                                   disablePast
@@ -10229,8 +7966,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
                                                     },
                                                   }}
                                                 />
@@ -10249,23 +7985,14 @@ function EditeventOnBack() {
                             {/* Ticket End */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.ticketend`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(
-                                          ticket?.ticketstart || new Date()
-                                        );
-                                        currentDateTime = currentDateTime.add(
-                                          10,
-                                          "minute"
-                                        );
+                                        let currentDateTime = dayjs(ticket?.ticketstart || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(TicketStartDate).add(10, "minute");
 
                                         // Default to the current time if the adjusted start time has passed
@@ -10275,53 +8002,26 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Ticket End Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
-                                              <div
-                                                className=" w-full"
-                                                onClick={() =>
-                                                  toggleTicketEndTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className=" w-full" onClick={() => toggleTicketEndTimePicker(index)}>
                                                 {/* <div className=" w-full" > */}
 
                                                 <StyledDateTimePicker
                                                   // value={validStartTime}
-                                                  value={
-                                                    ticket.ticketend
-                                                      ? dayjs(ticket.ticketend)
-                                                      : null
-                                                  }
+                                                  value={ticket.ticketend ? dayjs(ticket.ticketend) : null}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceTicketDate}
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  referenceDate={currentDateTime}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      setTheTicketEndValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      setTheTicketEndValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
                                                       // setIsEndDatePickerOpen(false);
-                                                      toggleTicketEndTimePicker(
-                                                        index
-                                                      );
+                                                      toggleTicketEndTimePicker(index);
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
@@ -10332,16 +8032,8 @@ function EditeventOnBack() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
-                                                          if (
-                                                            !(
-                                                              ticketTypes[
-                                                                index
-                                                              ] as any
-                                                            )?.ticketstart
-                                                          ) {
-                                                            ErrorToast(
-                                                              "Ticket start date is empty!"
-                                                            );
+                                                          if (!(ticketTypes[index] as any)?.ticketstart) {
+                                                            ErrorToast("Ticket start date is empty!");
                                                             e.stopPropagation();
                                                             return;
                                                           }
@@ -10371,8 +8063,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA ",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA ",
                                                     },
                                                   }}
                                                 />
@@ -10394,23 +8085,14 @@ function EditeventOnBack() {
                             {/* Event Start */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.eventstart`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(
-                                          ticket?.ticketend || new Date()
-                                        );
-                                        currentDateTime = currentDateTime.add(
-                                          10,
-                                          "minute"
-                                        );
+                                        let currentDateTime = dayjs(ticket?.ticketend || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const minStartTime = dayjs(TicketEndDate || new Date());
 
                                         // const defaultStartTime = field.value ? dayjs(field.value) : minStartTime;
@@ -10423,56 +8105,27 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Event Start Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
-                                              <div
-                                                className=" w-full"
-                                                onClick={() =>
-                                                  toggleStartEventTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className=" w-full" onClick={() => toggleStartEventTimePicker(index)}>
                                                 {/* <div className=" w-full"> */}
 
                                                 <StyledDateTimePicker
                                                   //  value={validStartTime}
-                                                  value={
-                                                    ticket?.eventstart
-                                                      ? dayjs(
-                                                          ticket?.eventstart
-                                                        )
-                                                      : null
-                                                  }
+                                                  value={ticket?.eventstart ? dayjs(ticket?.eventstart) : null}
                                                   formatDensity="spacious"
                                                   // referenceDate={referenceEventDate}
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  referenceDate={currentDateTime}
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       // setEventStartTime(formattedDate);
-                                                      toggleStartEventValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
+                                                      toggleStartEventValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
                                                       // setIsStartEventPickerOpen(false);
-                                                      toggleStartEventTimePicker(
-                                                        index
-                                                      );
+                                                      toggleStartEventTimePicker(index);
                                                     }
                                                   }}
                                                   //  label="Event End Date & Time"
@@ -10483,16 +8136,8 @@ function EditeventOnBack() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
-                                                          if (
-                                                            !(
-                                                              ticketTypes[
-                                                                index
-                                                              ] as any
-                                                            )?.ticketend
-                                                          ) {
-                                                            ErrorToast(
-                                                              "Ticket end date is empty!"
-                                                            );
+                                                          if (!(ticketTypes[index] as any)?.ticketend) {
+                                                            ErrorToast("Ticket end date is empty!");
                                                             e.stopPropagation();
                                                             return;
                                                           }
@@ -10522,8 +8167,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
                                                     },
                                                   }}
                                                 />
@@ -10542,23 +8186,14 @@ function EditeventOnBack() {
                             {/* Event Ends */}
                             <div className="w-full">
                               <ThemeProvider theme={themeMui}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <DemoContainer
-                                    components={["DateTimePicker"]}
-                                  >
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DemoContainer components={["DateTimePicker"]}>
                                     <FormField
                                       control={form.control}
                                       name={`tickets.${index}.eventend`}
                                       render={({ field }) => {
-                                        let currentDateTime = dayjs(
-                                          ticket?.eventstart || new Date()
-                                        );
-                                        currentDateTime = currentDateTime.add(
-                                          10,
-                                          "minute"
-                                        );
+                                        let currentDateTime = dayjs(ticket?.eventstart || new Date());
+                                        currentDateTime = currentDateTime.add(10, "minute");
                                         // const adjustedEventStartTime = dayjs(EventStartTime).add(10, "minute");
 
                                         // const defaultEndTime = dayjs().isAfter(adjustedEventStartTime) ? dayjs() : adjustedEventStartTime;
@@ -10567,58 +8202,25 @@ function EditeventOnBack() {
                                           <FormItem className="relative w-full space-y-0 gradient-slate  ps-[12px]  rounded-md border border-[#292929] pt-[12px]">
                                             <FormLabel className="text-sm text-gray-500  uppercase  pb-[4px] text-[#8f8f8f] flex justify-start items-center gap-[2px]">
                                               Event End Date & Time
-                                              <span className="text-red-600 text-[20px] relative">
-                                                *
-                                              </span>
+                                              <span className="text-red-600 text-[20px] relative">*</span>
                                             </FormLabel>
                                             <FormControl>
-                                              <div
-                                                className=" w-full"
-                                                onClick={() =>
-                                                  toggleEndEventTimePicker(
-                                                    index
-                                                  )
-                                                }
-                                              >
+                                              <div className=" w-full" onClick={() => toggleEndEventTimePicker(index)}>
                                                 <StyledDateTimePicker
                                                   // referenceDate={defaultEndTime}
-                                                  referenceDate={
-                                                    currentDateTime
-                                                  }
-                                                  value={
-                                                    ticket?.eventend
-                                                      ? dayjs(ticket?.eventend)
-                                                      : null
-                                                  }
+                                                  referenceDate={currentDateTime}
+                                                  value={ticket?.eventend ? dayjs(ticket?.eventend) : null}
                                                   formatDensity="spacious"
-                                                  onKeyDown={(e: any) =>
-                                                    e.preventDefault()
-                                                  }
+                                                  onKeyDown={(e: any) => e.preventDefault()}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
-                                                      const formattedDate =
-                                                        e.format(
-                                                          "YYYY-MM-DDTHH:mm"
-                                                        );
-                                                      toggleEndEventValue(
-                                                        formattedDate,
-                                                        index
-                                                      );
-                                                      field.onChange(
-                                                        formattedDate
-                                                      );
-                                                      console.log(
-                                                        "my ened time",
-                                                        formattedDate
-                                                      );
+                                                      const formattedDate = e.format("YYYY-MM-DDTHH:mm");
+                                                      toggleEndEventValue(formattedDate, index);
+                                                      field.onChange(formattedDate);
+                                                      console.log("my ened time", formattedDate);
                                                       // setIsEndEventPickerOpen(false);
-                                                      toggleEndEventTimePicker(
-                                                        index
-                                                      );
-                                                      console.log(
-                                                        "my ened time",
-                                                        formattedDate
-                                                      );
+                                                      toggleEndEventTimePicker(index);
+                                                      console.log("my ened time", formattedDate);
                                                     }
                                                   }}
                                                   disablePast
@@ -10630,16 +8232,8 @@ function EditeventOnBack() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
-                                                          if (
-                                                            !(
-                                                              ticketTypes[
-                                                                index
-                                                              ] as any
-                                                            )?.eventstart
-                                                          ) {
-                                                            ErrorToast(
-                                                              "Event start date is empty!"
-                                                            );
+                                                          if (!(ticketTypes[index] as any)?.eventstart) {
+                                                            ErrorToast("Event start date is empty!");
                                                             e.stopPropagation();
                                                             return;
                                                           }
@@ -10669,8 +8263,7 @@ function EditeventOnBack() {
                                                       inputProps: {
                                                         readOnly: true,
                                                       },
-                                                      placeholder:
-                                                        "MM / DD / YYYY HH:MM:AA",
+                                                      placeholder: "MM / DD / YYYY HH:MM:AA",
                                                     },
                                                   }}
                                                 />
@@ -10690,24 +8283,12 @@ function EditeventOnBack() {
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container mb-[24px]">
                             <div className="pb-[16px]  w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                              <div
-                                className="flex items-center justify-between cursor-pointer"
-                                onClick={() => handleDropdown(index)}
-                              >
+                              <div className="flex items-center justify-between cursor-pointer" onClick={() => handleDropdown(index)}>
                                 <p className="text-sm text-[#8F8F8F] uppercase flex justify-start items-center gap-[2px]">
                                   WHAT'S INCLUDED
-                                  <span className="text-red-600 text-[20px] relative">
-                                    *
-                                  </span>
+                                  <span className="text-red-600 text-[20px] relative">*</span>
                                 </p>
-                                <Image
-                                  src={
-                                    ticket.optionDropDown ? arrowup : arrowdown
-                                  }
-                                  width={11}
-                                  height={11}
-                                  alt="arrow"
-                                />
+                                <Image src={ticket.optionDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                               </div>
                               {ticket.optionDropDown && (
                                 <div className="grid-container">
@@ -10715,9 +8296,7 @@ function EditeventOnBack() {
                                     <div
                                       key={option.id}
                                       className="grid-item flex items-center justify-between pt-[8px] cursor-pointer"
-                                      onClick={() =>
-                                        handleOptionToggle(index, option)
-                                      }
+                                      onClick={() => handleOptionToggle(index, option)}
                                     >
                                       <div className="flex items-center gap-[10px]">
                                         <Image
@@ -10725,21 +8304,11 @@ function EditeventOnBack() {
                                           width={16}
                                           height={16}
                                           alt="img"
-                                          className={
-                                            ticket?.options?.some(
-                                              (o: any) => o?.id === option?.id
-                                            )
-                                              ? "filtergreen"
-                                              : ""
-                                          }
+                                          className={ticket?.options?.some((o: any) => o?.id === option?.id) ? "filtergreen" : ""}
                                         />
                                         <p
                                           className={`text-[16px] font-normal items-center ${
-                                            ticket?.options?.some(
-                                              (o: any) => o?.id === option?.id
-                                            )
-                                              ? "text-[#00d059]"
-                                              : "text-[#FFFFFF]"
+                                            ticket?.options?.some((o: any) => o?.id === option?.id) ? "text-[#00d059]" : "text-[#FFFFFF]"
                                           }`}
                                         >
                                           {option.label}
@@ -10747,8 +8316,7 @@ function EditeventOnBack() {
                                       </div>
                                     </div>
                                   ))}
-                                  <div className="column-separator"></div>{" "}
-                                  <div className="column-separator"></div>
+                                  <div className="column-separator"></div> <div className="column-separator"></div>
                                 </div>
                               )}
                             </div>
@@ -10764,12 +8332,7 @@ function EditeventOnBack() {
                                   handleDeleteTicketType(index);
                                 }}
                               >
-                                <Image
-                                  src={deleteicon}
-                                  alt="delete-icon"
-                                  height={12}
-                                  width={12}
-                                />
+                                <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
                                 Delete Ticket Type
                               </Button>
                             </div>
@@ -10788,12 +8351,7 @@ function EditeventOnBack() {
                         className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] py-[10px] px-[22px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[16px] font-extrabold leading-[24px]"
                         onClick={handleAddTicketType}
                       >
-                        <Image
-                          src={addicon}
-                          alt="Add-icon"
-                          height={13}
-                          width={13}
-                        />
+                        <Image src={addicon} alt="Add-icon" height={13} width={13} />
                         Add Ticket Type
                       </Button>
                     </div>
@@ -10804,13 +8362,11 @@ function EditeventOnBack() {
                 <div className="flex justify-center items-center mt-[12px] ">
                   {Object.keys(form.formState.errors)?.length > 0 && (
                     <div className="mt-[12px] text-red-500">
-                      {Object.values(form.formState.errors).map(
-                        (error: any, index: number) => (
-                          <p key={index} className="text-sm">
-                            {error.message}
-                          </p>
-                        )
-                      )}
+                      {Object.values(form.formState.errors).map((error: any, index: number) => (
+                        <p key={index} className="text-sm">
+                          {error.message}
+                        </p>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -10826,13 +8382,7 @@ function EditeventOnBack() {
                       </h1>
                     </div>
 
-                    <Image
-                      src={ufo}
-                      width={350}
-                      height={350}
-                      className="absolute right-[0] bottom-0"
-                      alt="ufo"
-                    />
+                    <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
                   </div>
                   {/* Social Body */}
                   <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
@@ -10844,9 +8394,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Facebook
-                              <span className="text-red-600 text-[20px] relative">
-                                *
-                              </span>
+                              <span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -10860,11 +8408,7 @@ function EditeventOnBack() {
                                 onChange={(e) => {
                                   const value = e.target.value;
 
-                                  if (
-                                    value.startsWith(
-                                      "https://www.facebook.com/"
-                                    )
-                                  ) {
+                                  if (value.startsWith("https://www.facebook.com/")) {
                                     setFBUrl(value);
                                     field.onChange(value);
                                   }
@@ -10882,9 +8426,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Instagram
-                              <span className="text-red-600 text-[20px] relative">
-                                *
-                              </span>
+                              <span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -10898,11 +8440,7 @@ function EditeventOnBack() {
                                 onChange={(e) => {
                                   const value = e.target.value;
 
-                                  if (
-                                    value.startsWith(
-                                      "https://www.instagram.com/"
-                                    )
-                                  ) {
+                                  if (value.startsWith("https://www.instagram.com/")) {
                                     setInstaUrl(value);
                                     field.onChange(value);
                                   }
@@ -10922,9 +8460,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Twitter
-                              <span className="text-red-600 text-[20px] relative">
-                                *
-                              </span>
+                              <span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -10956,9 +8492,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Youtube
-                              <span className="text-red-600 text-[20px] relative">
-                                *
-                              </span>
+                              <span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -10972,9 +8506,7 @@ function EditeventOnBack() {
                                 onChange={(e) => {
                                   const value = e.target.value;
 
-                                  if (
-                                    value.startsWith("https://www.youtube.com/")
-                                  ) {
+                                  if (value.startsWith("https://www.youtube.com/")) {
                                     setYoutubeUrl(value);
                                     field.onChange(value);
                                   }
@@ -10994,9 +8526,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Tiktok
-                              <span className="text-red-600 text-[20px] relative">
-                                *
-                              </span>
+                              <span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -11010,9 +8540,7 @@ function EditeventOnBack() {
                                 onChange={(e) => {
                                   const value = e.target.value;
 
-                                  if (
-                                    value.startsWith("https://www.tiktok.com/@")
-                                  ) {
+                                  if (value.startsWith("https://www.tiktok.com/@")) {
                                     settiktokUrl(value);
                                     field.onChange(value);
                                   }
@@ -11031,9 +8559,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Linkedin
-                              <span className="text-red-600 text-[20px] relative">
-                                *
-                              </span>
+                              <span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -11046,9 +8572,7 @@ function EditeventOnBack() {
                                 // }}
                                 onChange={(e) => {
                                   const value = e.target.value;
-                                  if (
-                                    value.startsWith("https://linkedin.com/in/")
-                                  ) {
+                                  if (value.startsWith("https://linkedin.com/in/")) {
                                     setlinkedinUrl(value);
                                     field.onChange(value);
                                   }
@@ -11068,9 +8592,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Telegram
-                              <span className="text-red-600 text-[20px] relative">
-                                *
-                              </span>
+                              <span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -11125,12 +8647,7 @@ function EditeventOnBack() {
             </Form>
           </div>
         </div>
-        {isWalletModalOpen && (
-          <EventSubmmitModal
-            onClose={() => setisWalletModalOpen(false)}
-            open={() => setisWalletModalOpen(true)}
-          />
-        )}
+        {isWalletModalOpen && <EventSubmmitModal onClose={() => setisWalletModalOpen(false)} open={() => setisWalletModalOpen(true)} />}
       </div>
     </section>
   );
