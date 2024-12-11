@@ -352,10 +352,11 @@ const BuyNow = () => {
                 </Button>
               </div>
             </div>
+            <div className="max-[786px]:flex max-[786px]:width-full max-[786px]:justify-center">
             <div className="BuyNowMarketPlace-gradient w-[400px] marginull mt-[40px] h-[512px]  max-[450px]:w-full  max-[450px]:h-auto">
               <div className="flex flex-col pb-[26.17px] pt-[13.8px] px-[13.8px] md:p-[16px] w-full gap-[17.5px] sm:gap-[20px]">
                 <Image
-                  className="w-full h-[342px] max-[450px]:h-[219px] max-[450px]:w-[400px] max-[450px]:h-[400px] max-[395px]:h-auto"
+                  className="w-full h-[342px] max-[450px]:h-auto max-[450px]:w-[100%] max-[450px]:h-[400px] max-[395px]:h-auto"
                   src={BuyNowImage}
                   alt="Image PlaceHolder"
                 />
@@ -371,6 +372,7 @@ const BuyNow = () => {
                   -- ETH
                 </p>
               </div>
+            </div>
             </div>
           </div>
         </div>
