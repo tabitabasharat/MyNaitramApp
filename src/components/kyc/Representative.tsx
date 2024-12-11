@@ -340,45 +340,52 @@ const Representative = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps
                 <FormField
                   control={form.control}
                   name="dob"
-                  render={({ field }) => (
-                    <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
-                      <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">DATE OF BIRTH </FormLabel>
-                      <Image src={dob} alt="img" className="absolute right-3 top-[30%]" />
-                      <FormControl>
-                        <Input
-                          type="date"
-                          aria-label="Date"
-                          placeholder="Enter DOB"
-                          className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
-                          {...field}
-                          onChange={(e) => {
-                            const value = e.target.value;
+                  render={({ field }) => {
+                    // Calculate the maximum date (current time - 1 year)
+                    const maxDate = new Date();
+                    maxDate.setFullYear(maxDate.getFullYear() - 1);
+                    const formattedMaxDate = maxDate.toISOString().split("T")[0]; // Format as yyyy-mm-dd
+                    return (
+                      <FormItem className="relative mb-[16px] md:mb-4 space-y-0">
+                        <FormLabel className="text-[12px] font-bold text-[#8F8F8F] absolute left-3 top-3">DATE OF BIRTH</FormLabel>
+                        <Image src={dob} alt="img" className="absolute right-3 top-[30%]" />
+                        <FormControl>
+                          <Input
+                            type="date"
+                            aria-label="Date"
+                            placeholder="Enter DOB"
+                            className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal cursor-pointer"
+                            {...field}
+                            max={formattedMaxDate}
+                            onChange={(e) => {
+                              const value = e.target.value;
 
-                            // Format date to yyyy-mm-dd if it is valid
-                            if (value) {
-                              const formattedDate = new Date(value).toISOString().split("T")[0];
-                              setDob(formattedDate);
-                              field.onChange(formattedDate);
-                            } else {
-                              setDob("");
-                              field.onChange("");
-                            }
-                          }}
-                          onKeyDown={(e) => {
-                            // Prevent leading space
-                            if (e.key === " " && field.value.length === 0) {
-                              e.preventDefault();
-                            }
-                            // Allow only Backspace and Tab since it's a date input
-                            if (!["Backspace", "Tab"].includes(e.key)) {
-                              e.preventDefault();
-                            }
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                              // Format date to yyyy-mm-dd if it is valid
+                              if (value) {
+                                const formattedDate = new Date(value).toISOString().split("T")[0];
+                                setDob(formattedDate);
+                                field.onChange(formattedDate);
+                              } else {
+                                setDob("");
+                                field.onChange("");
+                              }
+                            }}
+                            onFocus={(e) => {
+                              // Ensure the date picker opens when the field is focused
+                              e.target.showPicker?.();
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent leading space
+                              if (e.key === " " && field.value.length === 0) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
               </div>
               <div className="w-full">

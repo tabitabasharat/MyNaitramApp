@@ -7606,7 +7606,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Facebok<span className="text-red-600 text-[20px] relative">*</span>
+                              Facebok{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isFbVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7646,7 +7646,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Instagram<span className="text-red-600 text-[20px] relative">*</span>
+                              Instagram{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isInstaVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7687,7 +7687,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Telegram<span className="text-red-600 text-[20px] relative">*</span>
+                              Telegram{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isTeleVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7727,7 +7727,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Youtube<span className="text-red-600 text-[20px] relative">*</span>
+                              Youtube{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isYtVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7768,7 +7768,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Tiktok<span className="text-red-600 text-[20px] relative">*</span>
+                              Tiktok{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isTikTokVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7808,7 +7808,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Linkedin<span className="text-red-600 text-[20px] relative">*</span>
+                              Linkedin{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isLinkedInVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7849,7 +7849,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Twitter<span className="text-red-600 text-[20px] relative">*</span>
+                              Twitter{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isXVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">

@@ -8424,7 +8424,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Facebook
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -8456,7 +8456,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Instagram
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -8490,7 +8490,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Twitter
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -8522,7 +8522,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Youtube
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -8556,7 +8556,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Tiktok
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -8589,7 +8589,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Linkedin
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -8622,7 +8622,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Telegram
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input

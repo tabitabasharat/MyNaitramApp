@@ -4355,7 +4355,7 @@ function Editevent() {
                           {ticket.eventdates.map((event: any, eventIndex: number) => {
                             return (
                               <>
-                              {ticket?.eventdates?.length > 1 && (
+                                {ticket?.eventdates?.length > 1 && (
                                   <div className="w-full flex justify-center items-center">
                                     <div
                                       className="h-[1.5px] w-[70%] relative mb-[28px] mt-[4px]"
@@ -7658,7 +7658,7 @@ function Editevent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Facebook<span className="text-red-600 text-[20px] relative">*</span>
+                              Facebook{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -7689,7 +7689,7 @@ function Editevent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Instagram<span className="text-red-600 text-[20px] relative">*</span>
+                              Instagram{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -7723,7 +7723,7 @@ function Editevent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Twitter<span className="text-red-600 text-[20px] relative">*</span>
+                              Twitter{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -7754,7 +7754,7 @@ function Editevent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Youtube<span className="text-red-600 text-[20px] relative">*</span>
+                              Youtube{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -7787,7 +7787,7 @@ function Editevent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Tiktok<span className="text-red-600 text-[20px] relative">*</span>
+                              Tiktok{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -7819,7 +7819,7 @@ function Editevent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Linkedin<span className="text-red-600 text-[20px] relative">*</span>
+                              Linkedin{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -7851,7 +7851,7 @@ function Editevent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Telegram<span className="text-red-600 text-[20px] relative">*</span>
+                              Telegram{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
