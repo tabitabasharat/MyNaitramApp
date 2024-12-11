@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -165,6 +165,9 @@ const durationOptions = [
 ];
 
 const BuyNow = () => {
+  const [isMenuCurrencyOpen, setIsMenuCurrencyOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const selectRef = useRef<HTMLDivElement | null>(null);
   const [selectedOption, setSelectedOption] =
     React.useState<string>("fixed-price");
   const [selectedCurrency, setSelectedCurrency] = useState<string>("ETH");
@@ -184,6 +187,36 @@ const BuyNow = () => {
     router.push("/marketPlace/Profile"); // Navigate to the Buy Now page
   };
 
+  const handleMenuOpen = () => {
+    setIsMenuOpen(true);
+  };
+  const handlecurrencyMenuopen = () => {
+    setIsMenuCurrencyOpen(true);
+  };
+
+  const handleMenuClose = () => {
+    setIsMenuOpen(false);
+  };
+
+  const handlecurrencyMenuclose = () => {
+    setIsMenuCurrencyOpen(false);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      selectRef.current &&
+      !selectRef.current.contains(event.target as Node)
+    ) {
+      setIsMenuOpen(false);
+      setIsMenuCurrencyOpen(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <div className="relative overflow-hidden">
       <section className=" pt-[173px] pb-[108px] flex flex-col gap-[40px] pl-[92px] pr-[97px] max-[992px]:pl-[0px] max-[992px]:pr-[0px]  max-[992px]:pt-[0px] max-[992px]:pb-[0px] ">
@@ -244,7 +277,7 @@ const BuyNow = () => {
                   <div className="flex gap-[10px]">
                     <Input
                       type="number"
-                      className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] gradient-slate border border-[#292929] rounded-[8px] bg-transparent focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[540px]:w-[50%] "
+                      className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] gradient-slate border border-[#292929] rounded-[8px] bg-transparent focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[540px]:w-[60%] "
                       placeholder="Price"
                       style={{
                         background:
@@ -257,31 +290,41 @@ const BuyNow = () => {
                                     placeholder="Price"
                                     style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)", }}
                                 /> */}
-                    <Select
-                      className="w-[40%] h-[54px] bg-transparent rounded-[8px] gradient-slate border border-[#292929]  text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[50%]"
-                      options={options}
-                      onChange={handleChange}
-                      styles={customStyles}
-                      value={options.find(
-                        (option) => option.value === selectedCurrency
-                      )}
-                    />
+                    <div className="w-[40%]" ref={selectRef}>
+                      <Select
+                        className="w-[100%] h-[54px] bg-transparent rounded-[8px] gradient-slate border border-[#292929]  text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[100%]"
+                        options={options}
+                        onChange={handleChange}
+                        styles={customStyles}
+                        menuIsOpen={isMenuCurrencyOpen} // Control dropdown visibility
+                        onMenuOpen={handlecurrencyMenuopen}
+                        onMenuClose={handlecurrencyMenuclose}
+                        value={options.find(
+                          (option) => option.value === selectedCurrency
+                        )}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="flex flex-col gap-[12px]">
                   <p className="font-[800] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">
                     Duration
                   </p>
-                  <Select
-                    className="w-full h-[54px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[100%]"
-                    placeholder="1 Month"
-                    options={durationOptions}
-                    onChange={handleDurationChange}
-                    styles={customStyles}
-                    value={durationOptions.find(
-                      (option) => option.value === selectedDuration
-                    )}
-                  />
+                  <div ref={selectRef}>
+                    <Select
+                      className="w-full h-[54px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[100%]"
+                      placeholder="1 Month"
+                      options={durationOptions}
+                      onChange={handleDurationChange}
+                      styles={customStyles}
+                      menuIsOpen={isMenuOpen} // Control dropdown visibility
+                      onMenuOpen={handleMenuOpen}
+                      onMenuClose={handleMenuClose}
+                      value={durationOptions.find(
+                        (option) => option.value === selectedDuration
+                      )}
+                    />
+                  </div>
                 </div>
                 <div className="flex  w-full justify-between align-center">
                   <p className="font-[800] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">
@@ -353,26 +396,26 @@ const BuyNow = () => {
               </div>
             </div>
             <div className="max-[786px]:flex max-[786px]:width-full max-[786px]:justify-center">
-            <div className="BuyNowMarketPlace-gradient w-[400px] marginull mt-[40px] h-[512px]  max-[450px]:w-full  max-[450px]:h-auto">
-              <div className="flex flex-col pb-[26.17px] pt-[13.8px] px-[13.8px] md:p-[16px] w-full gap-[17.5px] sm:gap-[20px]">
-                <Image
-                  className="w-full h-[342px] max-[450px]:h-auto max-[450px]:w-[100%] max-[450px]:h-[400px] max-[395px]:h-auto"
-                  src={BuyNowImage}
-                  alt="Image PlaceHolder"
-                />
-                <div className="flex flex-col gap-[10.35px] sm:gap-[12px]">
-                  <p className="text-white font-[800] text-[18px] leading-[19.15px] max-[500px]:text-[16px] max-[500px]:leading-[16.51px] ">
-                    The Orbitians
-                  </p>
-                  <p className="text-[#BFBFBF] font-[400] text-[14px] leading-[16.8px] max-[500px]:text-[12px] max-[500px]:leading-[14.4px]">
-                    @silent-blue
+              <div className="BuyNowMarketPlace-gradient w-[400px] marginull mt-[40px] h-[512px]  max-[450px]:w-full  max-[450px]:h-auto">
+                <div className="flex flex-col pb-[26.17px] pt-[13.8px] px-[13.8px] md:p-[16px] w-full gap-[17.5px] sm:gap-[20px]">
+                  <Image
+                    className="w-full h-[342px] max-[450px]:h-auto max-[450px]:w-[100%] max-[450px]:h-[400px] max-[395px]:h-auto"
+                    src={BuyNowImage}
+                    alt="Image PlaceHolder"
+                  />
+                  <div className="flex flex-col gap-[10.35px] sm:gap-[12px]">
+                    <p className="text-white font-[800] text-[18px] leading-[19.15px] max-[500px]:text-[16px] max-[500px]:leading-[16.51px] ">
+                      The Orbitians
+                    </p>
+                    <p className="text-[#BFBFBF] font-[400] text-[14px] leading-[16.8px] max-[500px]:text-[12px] max-[500px]:leading-[14.4px]">
+                      @silent-blue
+                    </p>
+                  </div>
+                  <p className="text-[#00D059] font-[800] text-[24px] leading-[27.6px] -tracking-[0.04em] sm:pb-[28px] max-[500px]:text-[20px] max-[500px]:leading-[23px]">
+                    -- ETH
                   </p>
                 </div>
-                <p className="text-[#00D059] font-[800] text-[24px] leading-[27.6px] -tracking-[0.04em] sm:pb-[28px] max-[500px]:text-[20px] max-[500px]:leading-[23px]">
-                  -- ETH
-                </p>
               </div>
-            </div>
             </div>
           </div>
         </div>

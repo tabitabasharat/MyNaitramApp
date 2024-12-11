@@ -65,7 +65,7 @@ const MpHome = () => {
 
               {/* With <br> for large screens */}
               <span className="hidden lg:block">
-                NFT marketplace Collect, buy and sell art from more <br /> than 20k NFT artists.
+                NFT marketplace Collect, buy and sell art from more <br className="max-[1126px]:hidden"/> than 20k NFT artists.
               </span>
             </p>
           </div>
@@ -74,14 +74,14 @@ const MpHome = () => {
             Get Started
           </button>
 
-          <div className="hidden lg:flex space-x-8">
+          <div className="hidden lg:flex space-x-8 ">
             {[
               { value: "£240k+", description: "Total Sale" },
               { value: "100k+", description: "Collections" },
               { value: "10k+", description: "Creators" },
             ].map((item, index) => (
-              <div key={index} className="flex flex-col items-start space-y-1">
-                <h2 className="text-white text-xl font-extrabold">{item.value}</h2>
+              <div key={index} className="flex flex-col items-start xl:w-[169.9px] space-y-1">
+                <h2 className="text-white text-[22px] sm:text-[28px] font-extrabold">{item.value}</h2>
                 <p className="text-gray-400 text-lg">{item.description}</p>
               </div>
             ))}
