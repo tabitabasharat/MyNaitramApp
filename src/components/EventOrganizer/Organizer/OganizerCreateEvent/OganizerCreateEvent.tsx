@@ -1672,7 +1672,7 @@ function OganizerCreateEvent() {
     });
 
     if (isFormValid) {
-      const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any) =>
+      const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
         ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
           ? {
               selectedEventTicketType: ticket?.type,
@@ -1705,6 +1705,7 @@ function OganizerCreateEvent() {
               rsvpMail: ticket?.useremail,
               rsvpNumber: ticket?.usernumb,
               rsvpAdditionalFields: ticket?.additional?.map((add: AdditionalFields) => add?.title),
+              isIndex: t_Index,
             }
           : ticket.type === "Private Event Ticketing"
           ? {

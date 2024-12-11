@@ -1928,6 +1928,7 @@ function Editevent() {
               rsvpMail: ticket?.useremail,
               rsvpNumber: ticket?.usernumb,
               rsvpAdditionalFields: ticket?.additional?.map((add: AdditionalFields) => add?.title),
+              isIndex: t_Index,
             }
           : ticket.type === "Private Event Ticketing"
           ? {

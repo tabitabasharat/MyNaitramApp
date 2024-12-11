@@ -2010,6 +2010,7 @@ function EditeventOnBack() {
               rsvpMail: ticket?.useremail,
               rsvpNumber: ticket?.usernumb,
               rsvpAdditionalFields: ticket?.additional?.map((add: AdditionalFields) => add?.title),
+              isIndex: t_Index,
             }
           : ticket.type === "Private Event Ticketing"
           ? {
@@ -5057,7 +5058,7 @@ function EditeventOnBack() {
                           {ticket.eventdates.map((event: any, eventIndex: number) => {
                             return (
                               <>
-                              {ticket?.eventdates?.length > 1 && (
+                                {ticket?.eventdates?.length > 1 && (
                                   <div className="w-full flex justify-center items-center">
                                     <div
                                       className="h-[1.5px] w-[70%] relative mb-[28px] mt-[4px]"
