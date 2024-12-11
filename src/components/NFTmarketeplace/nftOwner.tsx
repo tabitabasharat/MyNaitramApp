@@ -129,7 +129,7 @@ const NftOwner = () => {
       </div>
       <div className="px-[24px] sm:pl-[35px] bg-imag md:pl-[92px] sm:pr-[35px] lg:pr-[163px]">
         <div className="flex items-center justify-end gap-[10px] mt-[60px] sm:mt-[100px] md:flex">
-         <div className="flex  items-center relative justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[308px] max-[430px]:h-[54px] min-[348px]:w-[376px]">
+         <div className="flex  items-center relative justify-between rounded-lg border border-[#292929] gradient-slate py-[19px] px-[16px] w-[308px] max-[431px]:h-[54px] min-[348px]:w-[376px]">
             <input
               className="text-[16px] bg-transparent block font-normal leading-5 text-[#BFBFBF] placeholder:text-[#BFBFBF] w-[90%] outline-none pr-10"
               type="text"
@@ -157,7 +157,7 @@ const NftOwner = () => {
               </button>
             </div> */}
           
-          <div className="border border-[#292929] gradient-slate w-[143px] max-[430px]:w-[54px] max-[430px]:justify-center max-[430px]:h-[54px]  py-[19px] px-[16px] rounded-lg min-[430px]:w-[143px] flex items-center justify-between ">
+          <div className="border border-[#292929] gradient-slate w-[143px] max-[431px]:w-[54px] max-[431px]:justify-center  max-[431px]:h-[54px]  py-[19px] px-[16px] rounded-lg min-[431px]:w-[143px] flex items-center justify-between ">
             <h2 className="text-[16px] font-normal max-[430px]:hidden leading-5 text-[#BFBFBF] ">Filter</h2>
             <img src="/Images/Nft_animakid_img/filtr.svg" className=" max-[430px]:h-[22px] filterImage " alt="Filter"/>
 

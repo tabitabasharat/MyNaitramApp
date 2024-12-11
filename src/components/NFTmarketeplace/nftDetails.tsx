@@ -528,9 +528,9 @@ const NftDetails = () => {
                                 <TableCell
                                   className="latertobeHide"
                                   style={{ fontFamily: "var(--font-base)", }}
-                                  sx={{ borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
+                                  sx={{paddingRight:"24px",  borderBottom: "none", borderTop: "1.41px solid  #29292980", color: "#FFFFFF" }}
                                 >
-                                  <Button className="w-[73px] h-[32px] size-lg px-[27px] rounded-[100px]">Buy</Button>
+                                  <Button className="w-full max-[1150px]:w-[73px] h-[32px] size-lg px-[27px] rounded-[100px]">Buy</Button>
                                 </TableCell>
                               </TableRow>
                             </TableBody>

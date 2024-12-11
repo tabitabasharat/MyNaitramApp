@@ -294,11 +294,12 @@ const BuyNow = () => {
                       <Select
                         className="w-[100%] h-[54px] bg-transparent rounded-[8px] gradient-slate border border-[#292929]  text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[100%]"
                         options={options}
-                        onChange={handleChange}
+                        // onChange={handleChange}
                         styles={customStyles}
                         menuIsOpen={isMenuCurrencyOpen} // Control dropdown visibility
                         onMenuOpen={handlecurrencyMenuopen}
                         onMenuClose={handlecurrencyMenuclose}
+                        isSearchable={false}
                         value={options.find(
                           (option) => option.value === selectedCurrency
                         )}
@@ -320,6 +321,7 @@ const BuyNow = () => {
                       menuIsOpen={isMenuOpen} // Control dropdown visibility
                       onMenuOpen={handleMenuOpen}
                       onMenuClose={handleMenuClose}
+                      isSearchable={false}
                       value={durationOptions.find(
                         (option) => option.value === selectedDuration
                       )}

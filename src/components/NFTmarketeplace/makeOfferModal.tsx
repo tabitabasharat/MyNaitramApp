@@ -254,6 +254,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                 options={options}
                 onChange={handleChange}
                 styles={customStyles}
+                isSearchable={false}
                 value={options.find((option) => option.value === selectedCurrency)}
                 menuIsOpen={isMenuCurrencyOpen} // Control dropdown visibility
                 onMenuOpen={handlecurrencyMenuopen}
@@ -271,6 +272,7 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
         options={durationOptions}
         onChange={handleDurationChange}
         styles={customStyles}
+        isSearchable={false}
         menuIsOpen={isMenuOpen} // Control dropdown visibility
         onMenuOpen={handleMenuOpen}
         onMenuClose={handleMenuClose}
