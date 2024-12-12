@@ -18,6 +18,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/side-drawer",
     "/side-drawer/live-event",
     "/venue",
+    // `/side-drawer/ticket-data $[id]`,
     "/side-drawer/dashboard",
     "/side-drawer/ticket-data",
     "/side-drawer/whitelist-event",

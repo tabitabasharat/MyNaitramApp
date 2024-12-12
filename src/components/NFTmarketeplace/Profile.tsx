@@ -69,77 +69,7 @@ const analytics = [
     avatar
   ),
 ];
-// Dropdown Component
-const Dropdown = ({
-  isOpen,
-  toggleDropdown,
-  items,
-  selectedItem,
-  onSelect,
-  buttonLabel,
-  refProp,
-}: {
-  isOpen: boolean;
-  toggleDropdown: () => void;
-  items: string[];
-  selectedItem: string;
-  onSelect: (item: string) => void;
-  buttonLabel: string;
-  refProp: React.RefObject<HTMLDivElement>;
-}) => (
-  <div
-    ref={refProp}
-    className="relative inline-block text-left w-full sm:w-[209px] dropdown-container"
-  >
-    <button
-      onClick={toggleDropdown}
-      className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
-    >
-      <span className="text-sm font-normal">{buttonLabel || selectedItem}</span>
-      <Image
-        src={arrowdown}
-        alt="dropdown-icon"
-        className={`w-[22px] h-[22px] transform transition-transform duration-300 ${
-          isOpen ? "rotate-180" : "rotate-0"
-        }`}
-      />
-    </button>
-    {isOpen && (
-      <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
-        <ul className="py-1">
-          {items.map((item) => (
-            <li
-              key={item}
-              onClick={() => onSelect(item)}
-              className={`px-4 py-2 cursor-pointer ${
-                selectedItem === item ? "font-bold text-[#00D059]" : ""
-              }`}
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-    )}
-  </div>
-);
 
-// Filter Button Component
-const FilterButton = ({
-  label,
-  onClick,
-}: {
-  label: string;
-  onClick: () => void;
-}) => (
-  <button
-    onClick={onClick}
-    className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
-  >
-    <span className="text-sm font-normal">{label}</span>
-    <Image src={arrowdown} alt="arrow-icon" className="w-[22px] h-[22px]" />
-  </button>
-);
 const Profile = () => {
   const [selectedTab, setSelectedTab] = useState("Collected");
   const [isOpen, setIsOpen] = useState(false);
@@ -147,7 +77,29 @@ const Profile = () => {
   const [isOpenrecent, setIsOpenrecent] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<string>("Status");
   const [selectedChain, setSelectedChain] = useState<string>("Chains");
-  const [selectedrecent, setSelectedrecent] = useState<string>("Recently Received");
+  const [selectedrecent, setSelectedrecent] =
+    useState<string>("Recently Received");
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownVisible(false);
+        setIsOpen(false);
+        setIsOpenchain(false);
+        setIsOpenrecent(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const filters = ["Status", "Collected", "Activity", "Favorites", "Owned"];
   const chain = ["Chains", "Collected", "Activity", "Favorites", "Owned"];
@@ -159,9 +111,9 @@ const Profile = () => {
     "Owned",
   ];
 
-  const filterRef = useRef<HTMLDivElement>(null);
-  const chainRef = useRef<HTMLDivElement>(null);
-  const recentRef = useRef<HTMLDivElement>(null);
+  const toggleDropdown = () => {
+    setIsDropdownVisible((prev) => !prev);
+  };
 
   const closeDropdown = (dropdown: string) => {
     if (dropdown === "filter") setIsOpen(false);
@@ -169,45 +121,21 @@ const Profile = () => {
     if (dropdown === "recent") setIsOpenrecent(false);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        filterRef.current &&
-        !filterRef.current.contains(event.target as Node)
-      ) {
-        closeDropdown("filter");
-      }
-      if (
-        chainRef.current &&
-        !chainRef.current.contains(event.target as Node)
-      ) {
-        closeDropdown("chain");
-      }
-      if (
-        recentRef.current &&
-        !recentRef.current.contains(event.target as Node)
-      ) {
-        closeDropdown("recent");
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
+  // Status filter handeling
   const applyFilter = (filter: string) => {
     setSelectedFilter(filter);
     setIsOpen(false);
   };
 
+  // chain Filter hanbeling
   const applychain = (chain: string) => {
     setSelectedChain(chain);
     setIsOpenchain(false);
   };
 
+  //recent Filter hanbdeling
   const applyrecent = (recent: string) => {
+    console.log("dfugdsjfgdsjfgdsjfgdsjfdsg");
     setSelectedrecent(recent);
     setIsOpenrecent(false);
   };
@@ -239,128 +167,177 @@ const Profile = () => {
   );
 
   const FilterButton1 = () => (
-    <div className="relative">
-      <div className=" gradient-slate border border-[#292929] flex justify-between items-center w-[54px] p-[16px] rounded-md cursor-pointer">
-        <Image src={filter} alt="filter-icon" className="w-[22px] h-[22px]" />
+    <>
+      <div className="flex relative flex-col">
+        {/* Filter Button */}
+        <div
+          onClick={toggleDropdown}
+          className="border border-[#292929] gradient-slate max-[500px]:w-fit w-[30%] p-[16px] rounded-lg min-[501px]:w-[143px] flex items-center justify-between"
+        >
+          <h2 className="text-[16px] max-[500px]:hidden font-normal max-[390px]:hidden leading-5 text-[#BFBFBF]">
+            Filter
+          </h2>
+          <img
+            src="/Images/Nft_animakid_img/filtr.svg"
+            width={22}
+            height={22}
+            className="w-[22px] h-[22px] max-w-[22px]"
+            alt="Filter Icon"
+          />
+        </div>
+
+        {/* Dropdown Content (Visible only below 500px screen width) */}
+        {isDropdownVisible && (
+          <div
+            ref={dropdownRef}
+            className="flex flex-col min-[501px]:hidden absolute z-[1] top-[58px] right-[0px] p-[16px] gradient-slate rounded-[8px] border border-[#292929] mt-[8px] gap-[16px]"
+          >
+            {/* Filter Dropdown */}
+            <div className="relative inline-block text-left w-[209px]">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
+              >
+                <span className="text-sm font-normal text-[#BFBFBF]">
+                  {selectedrecent}
+                </span>
+                <Image
+                  src={arrowdown}
+                  alt="dropdown-icon"
+                  width={22}
+                  height={22}
+                  className={`w-[22px] h-[22px] transform transition-transform duration-300 ${
+                    isOpen ? "rotate-180" : "rotate-0"
+                  }`}
+                />
+              </button>
+              {isOpen && (
+                <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
+                  <ul className="py-1">
+                    {/* Replace `filters` with your list */}
+                    {recent.map((filter, index) => (
+                      <li
+                        key={index}
+                        className={`px-4 py-2 cursor-pointer ${
+                          selectedrecent === filter
+                            ? "font-bold text-[#00D059]"
+                            : ""
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          applyrecent(filter);
+                          setIsOpen(!isOpen);
+                        }}
+                      >
+                        {filter}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Status Dropdown */}
+            <div className="relative inline-block text-left w-[209px]">
+              <button
+                onClick={() => setIsOpenchain(!isOpenchain)}
+                className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
+              >
+                <span className="text-sm font-normal text-[#BFBFBF]">
+                  {selectedFilter}
+                </span>
+                <Image
+                  src={arrowdown}
+                  alt="dropdown-icon"
+                  width={24}
+                  height={24}
+                  className={`w-[24px] h-[24px] transform transition-transform duration-300 ${
+                    isOpenchain ? "rotate-180" : "rotate-0"
+                  }`}
+                />
+              </button>
+              {isOpenchain && (
+                <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
+                  <ul className="py-1">
+                    {/* Replace `chain` with your list */}
+                    {filters.map((filter, index) => (
+                      <li
+                        key={index}
+                        className={`px-4 py-2 cursor-pointer ${
+                          selectedFilter === filter
+                            ? "font-bold text-[#00D059]"
+                            : ""
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          applyFilter(filter);
+                          setIsOpenchain(!isOpenchain);
+                        }}
+                      >
+                        {filter}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Chain Dropdown */}
+            <div className="relative inline-block text-left w-[209px]">
+              <button
+                onClick={() => setIsOpenrecent(!isOpenrecent)}
+                className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
+              >
+                <span className="text-sm font-normal text-[#BFBFBF]">
+                  {selectedChain}
+                </span>
+                <Image
+                  src={arrowdown}
+                  alt="dropdown-icon"
+                  width={24}
+                  height={24}
+                  className={`w-[24px] h-[24px] transform transition-transform duration-300 ${
+                    isOpenrecent ? "rotate-180" : "rotate-0"
+                  }`}
+                />
+              </button>
+              {isOpenrecent && (
+                <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
+                  <ul className="py-1">
+                    {/* Replace `recent` with your list */}
+                    {chain.map((filter, index) => (
+                      <li
+                        key={index}
+                        className={`px-4 py-2 cursor-pointer ${
+                          selectedChain === filter
+                            ? "font-bold text-[#00D059]"
+                            : ""
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          applychain(filter);
+                          setIsOpenrecent(!isOpenrecent);
+                        }}
+                      >
+                        {filter}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
-      <div className="absolute right-[0px] flex flex-col gap-[16px] top-[66px] z-[3]  gradient-slate rounded-[8px] p-[16px]">
-        {/* Recent Dropdown */}
-        <div
-          className="relative inline-block text-left w-[209px]"
-          ref={recentRef}
-        >
-          <button
-            onClick={() => setIsOpenrecent(!isOpenrecent)}
-            className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
-          >
-            <span className="text-sm font-normal">{selectedrecent}</span>
-            <Image
-              src={arrowdown}
-              alt="dropdown-icon"
-              className={`w-[24px] h-[24px] transform transition-transform duration-300 ${
-                isOpenrecent ? "rotate-180" : "rotate-0"
-              }`}
-            />
-          </button>
-          {isOpenrecent && (
-            <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
-              <ul className="py-1">
-                {recent.map((filter) => (
-                  <li
-                    key={filter}
-                    onClick={() => applyrecent(filter)}
-                    className={`px-4 py-2 cursor-pointer ${
-                      selectedrecent === filter
-                        ? "font-bold text-[#00D059]"
-                        : ""
-                    }`}
-                  >
-                    {filter}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      {/* Filter Dropdown */}
-        <div
-          className="relative inline-block text-left w-[209px]"
-          ref={filterRef}
-        >
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
-          >
-            <span className="text-sm font-normal">{selectedFilter}</span>
-            <Image
-              src={arrowdown}
-              alt="dropdown-icon"
-              className={`w-[22px] h-[22px] transform transition-transform duration-300 ${
-                isOpen ? "rotate-180" : "rotate-0"
-              }`}
-            />
-          </button>
-          {isOpen && (
-            <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
-              <ul className="py-1">
-                {filters.map((filter) => (
-                  <li
-                    key={filter}
-                    onClick={() => applyFilter(filter)}
-                    className={`px-4 py-2 cursor-pointer ${
-                      selectedFilter === filter
-                        ? "font-bold text-[#00D059]"
-                        : ""
-                    }`}
-                  >
-                    {filter}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-        {/* Chain Dropdown */}
-        <div
-          className="relative inline-block text-left w-[209px]"
-          ref={chainRef}
-        >
-          <button
-            onClick={() => setIsOpenchain(!isOpenchain)}
-            className="flex items-center justify-between w-full gradient-slate border border-[#292929] text-white p-[15px] rounded-md"
-          >
-            <span className="text-sm font-normal">{selectedChain}</span>
-            <Image
-              src={arrowdown}
-              alt="dropdown-icon"
-              className={`w-[24px] h-[24px] transform transition-transform duration-300 ${
-                isOpenchain ? "rotate-180" : "rotate-0"
-              }`}
-            />
-          </button>
-          {isOpenchain && (
-            <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
-              <ul className="py-1">
-                {chain.map((filter) => (
-                  <li
-                    key={filter}
-                    onClick={() => applychain(filter)}
-                    className={`px-4 py-2 cursor-pointer ${
-                      selectedChain === filter ? "font-bold text-[#00D059]" : ""
-                    }`}
-                  >
-                    {filter}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+    </>
   );
+
+  useEffect(() => {
+    console.log("State is getting update ==> ", selectedrecent);
+  }, [selectedrecent]);
+
   return (
-    <section className="min-h-screen pb-[8rem] lg:px-0 bg-v2 ">
+    <section className="min-h-screen sm:pb-[8rem] lg:px-0 bg-v2 ">
       {/* // <section className="min-h-screen bg-cover bg-no-repeat bg-reward"> */}
       {/* Background Image */}
       <div className="pt-[0px] lg:pt-[85px] ">
@@ -374,14 +351,14 @@ const Profile = () => {
       <div className="xl:px-[90px] sm:px-[35px] px-[24px] pb-[66px] sm:pb-[247px]">
         {/* Profile Info */}
         <div className="relative ">
-          <div className="gradient-profile max-[386px]:bottom-[170px] bottom-[145px] md:bottom-[177px] sm:bottom-[145px] absolute">
+          <div className="gradient-profile max-[386px]:bottom-[170px] max-[386px]:bottom-[122px] max-[385px]:bottom-[152px] max-[639px]:bottom-[124px] bottom-[145px] md:bottom-[177px] sm:bottom-[145px] absolute">
             <Image
               src={userlogo}
               alt="user-logo"
               className=" w-[88px] rounded-[9px] h-[88px]"
             />
           </div>
-          <h3 className="text-[24px] md:text-[30px] font-extrabold pt-[60px] pb-[20px]">
+          <h3 className="text-[24px] md:text-[30px] font-extrabold pt-[60px] sm:pb-[20px]">
             AKEMIWRLD
           </h3>
           <p className="flex items-center gap-[10px] sm:gap-[30px] flex-wrap text-[end] mt-[32px] pb-[10px] md:pt-[30px]">
@@ -414,12 +391,12 @@ const Profile = () => {
           <div>
             {selectedTab === "Collected" ? (
               <div>
-                <div className="flex max-[431px]:hidden flex-wrap xl:flex-nowrap gap-[17px]">
+                <div className="flex max-[500px]:hidden flex-wrap xl:flex-nowrap gap-[10px] max-[500px]:gap-[17px]">
                   <FilterButton />
-                  {/* Filter Dropdown */}
+                  {/* Status Filter */}
                   <div
                     className="relative inline-block text-left w-[158px]"
-                    ref={filterRef}
+                    ref={dropdownRef}
                   >
                     <button
                       onClick={() => setIsOpen(!isOpen)}
@@ -430,6 +407,8 @@ const Profile = () => {
                       </span>
                       <Image
                         src={arrowdown}
+                        width={22}
+                        height={22}
                         alt="dropdown-icon"
                         className={`w-[22px] h-[22px] transform transition-transform duration-300 ${
                           isOpen ? "rotate-180" : "rotate-0"
@@ -439,10 +418,14 @@ const Profile = () => {
                     {isOpen && (
                       <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
                         <ul className="py-1">
-                          {filters.map((filter) => (
+                          {filters.map((filter, index) => (
                             <li
-                              key={filter}
-                              onClick={() => applyFilter(filter)}
+                              key={index}
+                              onMouseDown={(e) => {
+                                e.stopPropagation();
+                                applyFilter(filter);
+                                setIsOpen(!isOpen);
+                              }}
                               className={`px-4 py-2 cursor-pointer ${
                                 selectedFilter === filter
                                   ? "font-bold text-[#00D059]"
@@ -457,10 +440,10 @@ const Profile = () => {
                     )}
                   </div>
 
-                  {/* Chain Dropdown */}
+                  {/* Chain Filter */}
                   <div
                     className="relative inline-block text-left w-[158px]"
-                    ref={chainRef}
+                    ref={dropdownRef}
                   >
                     <button
                       onClick={() => setIsOpenchain(!isOpenchain)}
@@ -471,6 +454,8 @@ const Profile = () => {
                       </span>
                       <Image
                         src={arrowdown}
+                        width={24}
+                        height={24}
                         alt="dropdown-icon"
                         className={`w-[24px] h-[24px] transform transition-transform duration-300 ${
                           isOpenchain ? "rotate-180" : "rotate-0"
@@ -480,10 +465,14 @@ const Profile = () => {
                     {isOpenchain && (
                       <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
                         <ul className="py-1">
-                          {chain.map((filter) => (
+                          {chain.map((filter, index) => (
                             <li
-                              key={filter}
-                              onClick={() => applychain(filter)}
+                              key={index}
+                              onMouseDown={(e) => {
+                                e.stopPropagation();
+                                applychain(filter);
+                                setIsOpenchain(!isOpenchain);
+                              }}
                               className={`px-4 py-2 cursor-pointer ${
                                 selectedChain === filter
                                   ? "font-bold text-[#00D059]"
@@ -500,7 +489,7 @@ const Profile = () => {
 
                   {/* Search Input */}
                   <div className="w-[510px] relative">
-                    <input
+                    <Input
                       className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal gradient-slate border border-[#292929]"
                       placeholder="Search"
                     />
@@ -510,10 +499,10 @@ const Profile = () => {
                     />
                   </div>
 
-                  {/* Recent Dropdown */}
+                  {/* Recent Filter */}
                   <div
                     className="relative inline-block text-left w-[220px]"
-                    ref={recentRef}
+                    ref={dropdownRef}
                   >
                     <button
                       onClick={() => setIsOpenrecent(!isOpenrecent)}
@@ -524,6 +513,8 @@ const Profile = () => {
                       </span>
                       <Image
                         src={arrowdown}
+                        width={24}
+                        height={24}
                         alt="dropdown-icon"
                         className={`w-[24px] h-[24px] transform transition-transform duration-300 ${
                           isOpenrecent ? "rotate-180" : "rotate-0"
@@ -533,10 +524,14 @@ const Profile = () => {
                     {isOpenrecent && (
                       <div className="absolute z-10 mt-2 w-full gradient-slate border border-[#292929] rounded-md shadow-lg">
                         <ul className="py-1">
-                          {recent.map((filter) => (
+                          {recent.map((filter, index) => (
                             <li
-                              key={filter}
-                              onClick={() => applyrecent(filter)}
+                              key={index}
+                              onMouseDown={(e) => {
+                                e.stopPropagation();
+                                setSelectedrecent(filter);
+                                setIsOpenrecent(!isOpenrecent);
+                              }}
                               className={`px-4 py-2 cursor-pointer ${
                                 selectedrecent === filter
                                   ? "font-bold text-[#00D059]"
@@ -551,22 +546,25 @@ const Profile = () => {
                     )}
                   </div>
                 </div>
-                <div className="flex min-[431px]:hidden xl:flex-nowrap gap-[17px]">
-                  {/* Search Input */}
-                  <div className="w-[510px] relative">
-                    <input
-                      className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal gradient-slate border border-[#292929]"
-                      placeholder="Search"
-                    />
-                    <MagnifyingGlass
-                      size={20}
-                      className="absolute top-1/2 -translate-y-1/2 right-5"
-                    />
+                <div className="flex flex-wrap xl:flex-nowrap gap-[17px]">
+                  <div className="flex w-full min-[501px]:hidden xl:flex-nowrap gap-[17px]">
+                    {/* Search Input */}
+                    <div className="w-[510px] relative">
+                      <Input
+                        className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal gradient-slate border border-[#292929]"
+                        placeholder="Search"
+                      />
+                      <MagnifyingGlass
+                        size={20}
+                        className="absolute top-1/2 -translate-y-1/2 right-5"
+                      />
+                    </div>
+                    <FilterButton1 />
                   </div>
-                  <FilterButton1 />
                 </div>
+
                 <div>
-                  <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-[24px] md:mt-[70px]">
+                  <div className="relative z-[0] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-[24px] md:mt-[70px]">
                     <Card />
                     <Card />
                     <Card />
