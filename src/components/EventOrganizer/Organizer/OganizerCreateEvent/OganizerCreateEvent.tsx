@@ -85,7 +85,7 @@ type TicketTypeOption = {
   label: string;
 };
 
-// 1) ===> Types for State of ( Festivals / Multi-Day Tickets / Season Passes )
+// 1) ===> Types for State of ( Festivals/Multi-Day Tickets/Season Passes )
 
 type FestivalEventsDate = {
   startDate: string;
@@ -429,9 +429,9 @@ const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
   eventHashtags: z
     .array(
-      z.string().min(2, { message: "Hashtag must be at least 2 characters" }) // Keep the minimum length requirement
+      z.string().min(2, { message: "Hashtag must be at least 2 characters" }) // Minimum length requirement for individual hashtags
     )
-    .min(1, { message: "At least one hashtag is required" }),
+    .optional(), // Makes the field optional
 
   eventcategory: z.object({
     label: z.string().min(1, { message: "Category cannot be empty" }),
@@ -466,9 +466,9 @@ const formSchema2 = z.object({
 
   eventHashtags: z
     .array(
-      z.string().min(2, { message: "Hashtag must be at least 2 characters" }) // Keep the minimum length requirement
+      z.string().min(2, { message: "Hashtag must be at least 2 characters" }) // Minimum length requirement for individual hashtags
     )
-    .min(1, { message: "At least one hashtag is required" }),
+    .optional(), // Makes the field optional
 
   eventcategory: z.object({
     label: z.string().min(1, { message: "Category cannot be empty" }),
@@ -741,7 +741,7 @@ function OganizerCreateEvent() {
   };
 
   const festivalTicket: FestivalType = {
-    type: "Festivals / Multi-Day Tickets / Season Passes",
+    type: "Festivals/Multi-Day Tickets/Season Passes",
     typeDropDown: false,
     selected: "",
     selectedDropDown: false,
@@ -1109,7 +1109,7 @@ function OganizerCreateEvent() {
   ];
 
   const ticketTypesOptions: string[] = [
-    "Festivals / Multi-Day Tickets / Season Passes",
+    "Festivals/Multi-Day Tickets/Season Passes",
     "RSVP Ticketing",
     "Private Event Ticketing",
     "Passworded / Discounted Voucher Event",
@@ -1585,7 +1585,7 @@ function OganizerCreateEvent() {
       }
 
       // Festival Ticket
-      if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+      if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
         if (new Date(ticket?.ticketstart) > new Date(ticket?.ticketend)) {
           // Set error in form for invalid email
           form.setError(`tickets.${ticketIndex}.ticketend`, {
@@ -1673,7 +1673,7 @@ function OganizerCreateEvent() {
 
     if (isFormValid) {
       const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
-        ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
+        ticket.type === "Festivals/Multi-Day Tickets/Season Passes"
           ? {
               selectedEventTicketType: ticket?.type,
               ticketFreePaid: ticket?.selected,
@@ -1823,7 +1823,7 @@ function OganizerCreateEvent() {
       if (ticketTypes.length !== 0 && nonRsvpTickets?.length !== 0) {
         const getMaxEventEndDateTime = (tickets: any) => {
           return tickets.reduce((maxDate: Date | null, ticket: any) => {
-            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+            if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
               ticket.eventdates.forEach((festivalDate: any) => {
                 const eventEndDateTime = new Date(festivalDate.endDate);
                 if (!maxDate || eventEndDateTime > maxDate) {
@@ -1836,7 +1836,7 @@ function OganizerCreateEvent() {
         };
         const getMinEventStartDateTime = (tickets: any) => {
           return tickets.reduce((minDate: Date | null, ticket: any) => {
-            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+            if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
               ticket.eventdates.forEach((festivalDate: any) => {
                 const eventStartDateTime = new Date(festivalDate.startDate);
                 if (!minDate || eventStartDateTime < minDate) {
@@ -1906,7 +1906,8 @@ function OganizerCreateEvent() {
             setLoader(false);
 
             setisWalletModalOpen(true);
-            // localStorage.removeItem("eventData");
+            localStorage.removeItem("eventData");
+            router.push("/management");
           } else {
             setLoader(false);
             ErrorToast(res?.payload?.message);
@@ -2151,7 +2152,7 @@ function OganizerCreateEvent() {
       }
 
       // Festival Ticket
-      if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+      if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
         if (new Date(ticket?.ticketstart) > new Date(ticket?.ticketend)) {
           // Set error in form for invalid email
           form.setError(`tickets.${ticketIndex}.ticketend`, {
@@ -2254,7 +2255,7 @@ function OganizerCreateEvent() {
     // setTicketEndDate(utcTicketEndTime); */
 
       const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
-        ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
+        ticket.type === "Festivals/Multi-Day Tickets/Season Passes"
           ? {
               ...ticket,
               ticketstart: ticket.ticketstart,
@@ -2362,7 +2363,7 @@ function OganizerCreateEvent() {
       if (ticketTypes.length !== 0 && nonRsvpTickets?.length !== 0) {
         const getMaxEventEndDateTime = (tickets: any) => {
           return tickets.reduce((maxDate: Date | null, ticket: any) => {
-            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+            if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
               ticket.eventdates.forEach((festivalDate: any) => {
                 const eventEndDateTime = new Date(festivalDate.endDate);
                 if (!maxDate || eventEndDateTime > maxDate) {
@@ -2375,7 +2376,7 @@ function OganizerCreateEvent() {
         };
         const getMinEventStartDateTime = (tickets: any) => {
           return tickets.reduce((minDate: Date | null, ticket: any) => {
-            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+            if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
               ticket.eventdates.forEach((festivalDate: any) => {
                 const eventStartDateTime = new Date(festivalDate.startDate);
                 if (!minDate || eventStartDateTime < minDate) {
@@ -2564,7 +2565,7 @@ function OganizerCreateEvent() {
   // ///////////////////////////////////////////// --- Handeling Ticket Types here below --- /////////////////////////////////
 
   useEffect(() => {
-    form.setValue(`tickets.${0}.type`, "Festivals / Multi-Day Tickets / Season Passes");
+    form.setValue(`tickets.${0}.type`, "Festivals/Multi-Day Tickets/Season Passes");
   }, []);
 
   // Drop Down for Type Selection
@@ -2633,7 +2634,7 @@ function OganizerCreateEvent() {
 
       isOptionErrorShown = false;
       const newValues = [...prevTickets, festivalTicket];
-      form.setValue(`tickets.${newValues.length - 1}.type`, "Festivals / Multi-Day Tickets / Season Passes");
+      form.setValue(`tickets.${newValues.length - 1}.type`, "Festivals/Multi-Day Tickets/Season Passes");
       form.clearErrors("tickets");
       return newValues;
     });
@@ -3851,7 +3852,7 @@ function OganizerCreateEvent() {
                   {/* Ticket Types Body */}
                   <div className="gradient-slate pt-[32px] pb-[49px] px-[60px] rounded-b-[12px]">
                     {ticketTypes.map((ticket: any, index: number) =>
-                      ticket.type === "Festivals / Multi-Day Tickets / Season Passes" ? (
+                      ticket.type === "Festivals/Multi-Day Tickets/Season Passes" ? (
                         <div key={index} className="mb-[24px]">
                           {/* Gradient Line to seperate Tickets from each other */}
                           {index !== 0 && (
@@ -3897,7 +3898,7 @@ function OganizerCreateEvent() {
                                       <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                         EVENT Ticket Type<span className="text-red-600 text-[20px] relative">*</span>
                                       </p>
-                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Festivals / Multi-Day Tickets / Season Passes</p>
+                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Festivals/Multi-Day Tickets/Season Passes</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>

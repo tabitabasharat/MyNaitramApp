@@ -98,7 +98,7 @@ type TicketTypeOption = {
   label: string;
 };
 
-// 1) ===> Types for State of ( Festivals / Multi-Day Tickets / Season Passes )
+// 1) ===> Types for State of ( Festivals/Multi-Day Tickets/Season Passes )
 
 type FestivalEventsDate = {
   startDate: string;
@@ -439,9 +439,9 @@ const formSchema = z.object({
   eventname: z.string().min(1, { message: "Event name cannot be empty." }),
   eventHashtags: z
     .array(
-      z.string().min(2, { message: "Hashtag must be at least 2 characters" }) // Keep the minimum length requirement
+      z.string().min(2, { message: "Hashtag must be at least 2 characters" }) // Minimum length requirement for individual hashtags
     )
-    .min(1, { message: "At least one hashtag is required" }),
+    .optional(), // Makes the field optional
 
   eventcategory: z.object({
     label: z.string().min(1, { message: "Category cannot be empty" }),
@@ -725,7 +725,7 @@ function EditeventOnBack() {
   };
 
   const festivalTicket: FestivalType = {
-    type: "Festivals / Multi-Day Tickets / Season Passes",
+    type: "Festivals/Multi-Day Tickets/Season Passes",
     typeDropDown: false,
     selected: "",
     selectedDropDown: false,
@@ -1090,7 +1090,7 @@ function EditeventOnBack() {
   ];
 
   const ticketTypesOptions: string[] = [
-    "Festivals / Multi-Day Tickets / Season Passes",
+    "Festivals/Multi-Day Tickets/Season Passes",
     "RSVP Ticketing",
     "Private Event Ticketing",
     "Passworded / Discounted Voucher Event",
@@ -1847,7 +1847,7 @@ function EditeventOnBack() {
       }
 
       // Festival Ticket
-      if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+      if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
         if (new Date(ticket?.ticketstart) > new Date(ticket?.ticketend)) {
           // Set error in form for invalid email
           form.setError(`tickets.${ticketIndex}.ticketend`, {
@@ -1979,7 +1979,7 @@ function EditeventOnBack() {
 
       //Updating all Ticket types
       const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
-        ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
+        ticket.type === "Festivals/Multi-Day Tickets/Season Passes"
           ? {
               selectedEventTicketType: ticket?.type,
               ticketFreePaid: ticket?.selected,
@@ -2125,7 +2125,7 @@ function EditeventOnBack() {
       if (ticketTypes.length !== 0 && nonRsvpTickets?.length !== 0) {
         const getMaxEventEndDateTime = (tickets: any) => {
           return tickets.reduce((maxDate: Date | null, ticket: any) => {
-            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+            if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
               ticket.eventdates.forEach((festivalDate: any) => {
                 const eventEndDateTime = new Date(festivalDate.endDate);
                 if (!maxDate || eventEndDateTime > maxDate) {
@@ -2138,7 +2138,7 @@ function EditeventOnBack() {
         };
         const getMinEventStartDateTime = (tickets: any) => {
           return tickets.reduce((minDate: Date | null, ticket: any) => {
-            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+            if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
               ticket.eventdates.forEach((festivalDate: any) => {
                 const eventStartDateTime = new Date(festivalDate.startDate);
                 if (!minDate || eventStartDateTime < minDate) {
@@ -2209,9 +2209,9 @@ function EditeventOnBack() {
           if (res?.payload?.status === 200) {
             setLoader(false);
             SuccessToast("Event Updated Successfully");
-            // router.push("/management");
             setisWalletModalOpen(true);
             localStorage.removeItem("eventData");
+            router.push("/management");
           } else {
             setLoader(false);
             ErrorToast(res?.payload?.message);
@@ -2456,7 +2456,7 @@ function EditeventOnBack() {
       }
 
       // Festival Ticket
-      if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+      if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
         if (new Date(ticket?.ticketstart) > new Date(ticket?.ticketend)) {
           // Set error in form for invalid email
           form.setError(`tickets.${ticketIndex}.ticketend`, {
@@ -2562,7 +2562,7 @@ function EditeventOnBack() {
       const imagesOfGallery = await handleFileChangeapi();
 
       const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
-        ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
+        ticket.type === "Festivals/Multi-Day Tickets/Season Passes"
           ? {
               ...ticket,
               ticketstart: ticket.ticketstart,
@@ -2670,7 +2670,7 @@ function EditeventOnBack() {
       if (ticketTypes.length !== 0 && nonRsvpTickets?.length !== 0) {
         const getMaxEventEndDateTime = (tickets: any) => {
           return tickets.reduce((maxDate: Date | null, ticket: any) => {
-            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+            if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
               ticket.eventdates.forEach((festivalDate: any) => {
                 const eventEndDateTime = new Date(festivalDate.endDate);
                 if (!maxDate || eventEndDateTime > maxDate) {
@@ -2683,7 +2683,7 @@ function EditeventOnBack() {
         };
         const getMinEventStartDateTime = (tickets: any) => {
           return tickets.reduce((minDate: Date | null, ticket: any) => {
-            if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+            if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
               ticket.eventdates.forEach((festivalDate: any) => {
                 const eventStartDateTime = new Date(festivalDate.startDate);
                 if (!minDate || eventStartDateTime < minDate) {
@@ -2793,7 +2793,7 @@ function EditeventOnBack() {
 
       // setting all tickets Types
       const ticketsFromAPIs: TicketType[] | any = EventData?.tickets?.map((ticket: any) =>
-        ticket?.type === "Festivals / Multi-Day Tickets / Season Passes"
+        ticket?.type === "Festivals/Multi-Day Tickets/Season Passes"
           ? {
               type: ticket?.type,
               typeDropDown: false,
@@ -3110,7 +3110,7 @@ function EditeventOnBack() {
   // ///////////////////////////////////////////// --- Handeling Ticket Types here below --- /////////////////////////////////
 
   useEffect(() => {
-    form.setValue(`tickets.${0}.type`, "Festivals / Multi-Day Tickets / Season Passes");
+    form.setValue(`tickets.${0}.type`, "Festivals/Multi-Day Tickets/Season Passes");
   }, []);
 
   //Send Ticket Object if the same type and index found in API Data
@@ -3118,7 +3118,7 @@ function EditeventOnBack() {
     console.log("Rgsfhgsfhsgfhdfghs ==> ", ticketType);
     const ticket = EventData?.tickets?.find((ticket: any, i: number) => ticket?.type === ticketType && i === ticketIndex);
 
-    if (ticketType == "Festivals / Multi-Day Tickets / Season Passes") {
+    if (ticketType == "Festivals/Multi-Day Tickets/Season Passes") {
       return {
         type: ticket?.type,
         typeDropDown: false,
@@ -3360,7 +3360,7 @@ function EditeventOnBack() {
 
       isOptionErrorShown = false;
       const newValues = [...prevTickets, festivalTicket];
-      form.setValue(`tickets.${newValues.length - 1}.type`, "Festivals / Multi-Day Tickets / Season Passes");
+      form.setValue(`tickets.${newValues.length - 1}.type`, "Festivals/Multi-Day Tickets/Season Passes");
       form.clearErrors("tickets");
       return newValues;
     });
@@ -4614,7 +4614,7 @@ function EditeventOnBack() {
                   {/* Ticket Types Body */}
                   <div className="gradient-slate pt-[32px] pb-[49px] px-[60px] rounded-b-[12px]">
                     {ticketTypes.map((ticket: any, index: number) =>
-                      ticket.type === "Festivals / Multi-Day Tickets / Season Passes" ? (
+                      ticket.type === "Festivals/Multi-Day Tickets/Season Passes" ? (
                         <div key={index} className="mb-[24px]">
                           {/* Gradient Line to seperate Tickets from each other */}
                           {index !== 0 && (
@@ -4661,7 +4661,7 @@ function EditeventOnBack() {
                                         EVENT Ticket Type
                                         <span className="text-red-600 text-[20px] relative">*</span>
                                       </p>
-                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Festivals / Multi-Day Tickets / Season Passes</p>
+                                      <p className="text-[16px] font-extrabold text-[#FFFFFF] ">Festivals/Multi-Day Tickets/Season Passes</p>
                                     </div>
                                     <Image src={ticket.typeDropDown ? arrowup : arrowdown} width={11} height={11} alt="arrow" />
                                   </div>

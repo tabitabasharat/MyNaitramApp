@@ -128,12 +128,12 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                           <Link
                             className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-fit whitespace-nowrap hover:text-[#00D059]"
                             href={`/management/edit-event/${event.id}`}
-                            onClick={(e) => {
-                              if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
-                                e.preventDefault(); // Prevent navigation
-                                ErrorToast("You cannot edit this event because tickets from this event have been sold already");
-                              }
-                            }}
+                            // onClick={(e) => {
+                            //   if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
+                            //     e.preventDefault(); // Prevent navigation
+                            //     ErrorToast("You cannot edit this event because tickets from this event have been sold already");
+                            //   }
+                            // }}
                           >
                             <Image src={editEventIcon} alt="Edit" className="w-[12px] h-[12px] mb-[2px]" />
                             Edit Event

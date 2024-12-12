@@ -83,13 +83,16 @@ const TicketData = () => {
 
       if (!isTicketExist) {
         const status = ticket?.noOfTickets === "0" ? "Sold Out" : "On Sale";
+        const nomiNator = ticket?.noOfTickets;
+        const deNominator = ticket?.originalNoOfTickets;
         updatedRows.push({
           name: ticket?.ticketName,
           status: status,
-          sales: "",
-          price: 0,
+          sales: `${nomiNator}/${deNominator}`,
+          price: ticket?.ticketPrice ? ticket?.ticketPrice * (ticket?.originalNoOfTickets - ticket?.noOfTickets) : 0,
           links: [{ type: ticket?.selectedEventTicketType.trim(), url: "" }],
         });
+      } else {
       }
     });
 
@@ -150,6 +153,7 @@ const TicketData = () => {
               },
               scrollbarWidth: "none",
               msOverflowStyle: "none",
+              paddingBottom: "60px",
             }}
           >
             <Table

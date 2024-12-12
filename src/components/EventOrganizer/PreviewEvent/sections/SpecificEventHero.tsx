@@ -364,6 +364,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
 
           setisWalletModalOpen(true);
           localStorage.removeItem("eventData");
+          router.push("/management");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
