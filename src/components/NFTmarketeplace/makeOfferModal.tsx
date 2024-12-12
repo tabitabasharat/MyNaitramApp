@@ -1,15 +1,31 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { submitFeedback } from "@/lib/middleware/event";
-import { SuccessToast, ErrorToast } from "@/components/reusable-components/Toaster/Toaster";
+import {
+  SuccessToast,
+  ErrorToast,
+} from "@/components/reusable-components/Toaster/Toaster";
 import { useRouter } from "next/navigation";
 import image1 from "@/assets/image28.svg";
 import Image from "next/image";
@@ -89,7 +105,11 @@ const customStyles = {
     fontWeight: "400",
     fontSize: "16px",
     lineHeight: "21.6px",
-    background: state.isSelected ? "transparent" : state.isFocused ? "transparent" : "transparent",
+    background: state.isSelected
+      ? "transparent"
+      : state.isFocused
+      ? "transparent"
+      : "transparent",
     borderRadius: "8px",
     "&:hover": {
       background: "transparent",
@@ -129,7 +149,7 @@ const durationOptions = [
 const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
   const [isMenuCurrencyOpen, setIsMenuCurrencyOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const selectRef =  useRef<HTMLDivElement | null>(null);
+  const selectRef = useRef<HTMLDivElement | null>(null);
   const [selectedCurrency, setSelectedCurrency] = useState<string>("ETH");
   const [selectedDuration, setSelectedDuration] = useState<string>("Select");
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -147,7 +167,9 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
       setSelectedCurrency(selectedOption.value);
     }
   };
-  const handleDurationChange = (selectedOption: SingleValue<{ value: string; label: string }>) => {
+  const handleDurationChange = (
+    selectedOption: SingleValue<{ value: string; label: string }>
+  ) => {
     if (selectedOption) {
       setSelectedDuration(selectedOption.value);
     }
@@ -163,9 +185,9 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
   const handleMenuOpen = () => {
     setIsMenuOpen(true);
   };
-  const handlecurrencyMenuopen =()=>{
+  const handlecurrencyMenuopen = () => {
     setIsMenuCurrencyOpen(true);
-  }
+  };
 
   const handleMenuClose = () => {
     setIsMenuOpen(false);
@@ -175,9 +197,11 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
     setIsMenuCurrencyOpen(false);
   };
 
-  
   const handleClickOutside = (event: MouseEvent) => {
-    if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+    if (
+      selectRef.current &&
+      !selectRef.current.contains(event.target as Node)
+    ) {
       setIsMenuOpen(false);
       setIsMenuCurrencyOpen(false);
     }
@@ -194,30 +218,45 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
         <form className=" w-full">
           <DialogContent className=" w-full max-w-[650px] h-[723px] max-h-[90vh] p-[0] gap-[0px] over-flow-x-hidden overflow-y-auto scrollbar-hide">
             <DialogHeader className="space-y-0 pl-[24px] w-full pr-[24px] pt-[20px]">
-              <DialogTitle className="font-extrabold  pb-[16px] text-[20px] md:text-[24px] leading-[27.6px]">Make an Offer</DialogTitle>
+              <DialogTitle className="font-extrabold  pb-[16px] text-[20px] md:text-[24px] leading-[27.6px]">
+                Make an Offer
+              </DialogTitle>
             </DialogHeader>
             <Separator className="scale--[1.12] bg-[#292929]" />
 
             <div className="flex gap-[20px] sm:gap-[16px] pt-[24px] pl-[24px] pr-[24px] ">
               <div className="w-[120px] imageFolder h-[120px] makeAnOffer-gradient  max-[600px]:h-[100px]  max-[600px]:w-[100px]  ">
-                <Image className=" pt-[1px] rounded-[9px] w-full h-[99%] object-cover" src={image1} alt="/" />
+                <Image
+                  className=" pt-[1px] rounded-[9px] w-full h-[99%] object-cover"
+                  src={image1}
+                  alt="/"
+                />
               </div>
               <div className="flex flex-col gp-[5px] sm:gap-[11px] justify-center ">
                 <p className="text-[24px] leading-[27.6px] font-[800] text-[white] max-[540px]:text-[20px] max-[540px]:leading-[20px]  ">
                   A Fasty Brush Flower Arts
                 </p>
-                <p className="text-[14px] leading-[16.8px] font-[400] text-[#BFBFBF]">@silent-blue</p>
+                <p className="text-[14px] leading-[16.8px] font-[400] text-[#BFBFBF]">
+                  @silent-blue
+                </p>
               </div>
             </div>
 
             <div
               className="mt-[24px] sm:mt-[32px] rounded-[12px] gradient-slate border border-[#292929] px-[12px] py-[16px] sm:p-[16px] ml-[24px] mr-[24px]"
-              style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)" }}
+              style={{
+                background:
+                  "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+              }}
             >
               <div className="flex flex-col gap-[15px]">
                 <div className="flex justify-between">
-                  <p className="text-[16px] leading-[22.4px] font-[400] text-[white] max-[540px]:text-[14px] max-[540px]:leading-[19.6px]">Balance</p>
-                  <p className="text-[#757575] text-[16px] leading-[22.4px] font-[400] max-[540px]:text-[14px] max-[540px]:leading-[19.6px]">0 ETH</p>
+                  <p className="text-[16px] leading-[22.4px] font-[400] text-[white] max-[540px]:text-[14px] max-[540px]:leading-[19.6px]">
+                    Balance
+                  </p>
+                  <p className="text-[#757575] text-[16px] leading-[22.4px] font-[400] max-[540px]:text-[14px] max-[540px]:leading-[19.6px]">
+                    0 ETH
+                  </p>
                 </div>
                 <div className="flex justify-between">
                   <p className="text-[16px] leading-[22.4px] font-[400] text-[white] max-[540px]:text-[14px] max-[540px]:leading-[19.6px]">
@@ -231,7 +270,9 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                   <p className="text-[16px] leading-[22.4px] font-[400] text-[white] max-[540px]:text-[14px] max-[540px]:leading-[19.6px]">
                     Best Offer
                   </p>
-                  <p className="text-[#757575] text-[16px] leading-[22.4px] font-[400] max-[540px]:text-[14px] max-[540px]:leading-[19.6px]">5USDC</p>
+                  <p className="text-[#757575] text-[16px] leading-[22.4px] font-[400] max-[540px]:text-[14px] max-[540px]:leading-[19.6px]">
+                    5USDC
+                  </p>
                 </div>
               </div>
             </div>
@@ -246,39 +287,48 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                 type="number"
                 className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none hover:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF] max-[450px]:w-[60%] "
                 placeholder="Price"
-                style={{ background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)" }}
+                style={{
+                  background:
+                    "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+                }}
               />
- <div className="w-[40%]" ref={selectRef}>
-              <Select
-                className="w-[100%] h-[54px]   bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] "
-                options={options}
-                onChange={handleChange}
-                styles={customStyles}
-                isSearchable={false}
-                value={options.find((option) => option.value === selectedCurrency)}
-                menuIsOpen={isMenuCurrencyOpen} // Control dropdown visibility
-                onMenuOpen={handlecurrencyMenuopen}
-                onMenuClose={handlecurrencyMenuclose}
-              />
+              <div className="w-[40%]" >
+                <Select
+                  className="w-[100%] h-[54px]   bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] "
+                  options={options}
+                  onChange={handleChange}
+                  styles={customStyles}
+                  isSearchable={false}
+                  value={options.find(
+                    (option) => option.value === selectedCurrency
+                  )}
+                  menuIsOpen={isMenuCurrencyOpen} // Control dropdown visibility
+                  onMenuOpen={handlecurrencyMenuopen}
+                  onMenuClose={handlecurrencyMenuclose}
+                />
               </div>
             </div>
             <div className="flex flex-col mt-[20px] sm:mt-[32px] gap-[10px] sm:gap-[8px] mr-[24px] ml-[24px]">
-              <p className="font-[800] text-[14px] leading-[19.6px] text-[#FFFFFF]">Duration</p>
+              <p className="font-[800] text-[14px] leading-[19.6px] text-[#FFFFFF]">
+                Duration
+              </p>
               <div className="flex justify-between max-[540px]:flex-col gap-[5px]">
-              <div ref={selectRef} className="w-[40%] max-[540px]:w-full">
-      <Select
-        className="w-[100%] h-[54px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
-        placeholder="Select"
-        options={durationOptions}
-        onChange={handleDurationChange}
-        styles={customStyles}
-        isSearchable={false}
-        menuIsOpen={isMenuOpen} // Control dropdown visibility
-        onMenuOpen={handleMenuOpen}
-        onMenuClose={handleMenuClose}
-        value={durationOptions.find((option) => option.value === selectedDuration)}
-      />
-    </div>
+                <div className="w-[40%] max-[540px]:w-full">
+                  <Select
+                    className="w-[100%] h-[54px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-full"
+                    placeholder="Select"
+                    options={durationOptions}
+                    onChange={handleDurationChange}
+                    styles={customStyles}
+                    isSearchable={false}
+                    menuIsOpen={isMenuOpen} // Control dropdown visibility
+                    onMenuOpen={handleMenuOpen}
+                    onMenuClose={handleMenuClose}
+                    value={durationOptions.find(
+                      (option) => option.value === selectedDuration
+                    )}
+                  />
+                </div>
                 {selectedDuration === "custom" ? (
                   <div className="flex  max-[540px]:flex-col  gap-[5px]  relative">
                     <Input
@@ -289,7 +339,8 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                       className=" h-[54px]  w-full pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent  gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px]"
                       placeholder="Start Date"
                       style={{
-                        background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+                        background:
+                          "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
                       }}
                     />
                     {isStartPickerOpen && (
@@ -311,7 +362,8 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                       className={`w-full h-[54px] pt-[16px] pb-[16px] pl-[16px] pr-[16px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] `}
                       placeholder="End Date"
                       style={{
-                        background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+                        background:
+                          "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
                       }}
                     />
                     {isEndPickerOpen && (
@@ -333,7 +385,8 @@ const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ open, onClose }) => {
                     className="text-[14px] h-[54px] font-[400] leading-[19.6px] text-[#BFBFBF] w-full px-[16px] py-[19px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] focus:outline-none placeholder:text-[14px] placeholder:leading-[19.6px] font-[400] text-[#BFBFBF]"
                     placeholder="5th Nov, 2024 - 5:25 PM"
                     style={{
-                      background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
+                      background:
+                        "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
                     }}
                   />
                 )}

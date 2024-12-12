@@ -160,7 +160,7 @@ const Profile = () => {
   );
 
   const FilterButton = () => (
-    <div className="gradient-slate border border-[#292929] flex justify-between items-center w-full sm:w-[143px] p-[16px] rounded-md cursor-pointer">
+    <div className="gradient-slate border border-[#292929] flex justify-between items-center w-full sm:w-[143px] p-[15px] rounded-md cursor-pointer">
       <p className="text-[#BFBFBF] text-base">Filter</p>
       <Image src={filter} alt="filter-icon" />
     </div>
@@ -172,7 +172,7 @@ const Profile = () => {
         {/* Filter Button */}
         <div
           onClick={toggleDropdown}
-          className="border border-[#292929] gradient-slate max-[500px]:w-fit w-[30%] p-[16px] rounded-lg min-[501px]:w-[143px] flex items-center justify-between"
+          className="border border-[#292929] gradient-slate max-[500px]:w-fit w-[30%] p-[15px] rounded-lg min-[501px]:w-[143px] flex items-center justify-between"
         >
           <h2 className="text-[16px] max-[500px]:hidden font-normal max-[390px]:hidden leading-5 text-[#BFBFBF]">
             Filter

@@ -284,11 +284,11 @@ const BuyNow = () => {
                           "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
                       }}
                     />
-                    <div className="w-[40%]" ref={selectRef}>
+                    <div className="w-[40%]">
                       <Select
                         className="w-[100%] h-[54px] bg-transparent rounded-[8px] gradient-slate border border-[#292929]  text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[100%]"
                         options={options}
-                        // onChange={handleChange}
+                        onChange={handleChange}
                         styles={customStyles}
                         menuIsOpen={isMenuCurrencyOpen} // Control dropdown visibility
                         onMenuOpen={handlecurrencyMenuopen}
@@ -305,7 +305,7 @@ const BuyNow = () => {
                   <p className="font-[800] text-[20px] leading-[32px] max-[500px]:text-[18px] max-[500px]:leading-[28.8px]">
                     Duration
                   </p>
-                  <div ref={selectRef}>
+                  <div >
                     <Select
                       className="w-full h-[54px] bg-transparent gradient-slate border border-[#292929] rounded-[8px] text-[#BFBFBF] font-[400] text-[16px] leading-[21.6px] max-[540px]:w-[100%]"
                       placeholder="1 Month"
