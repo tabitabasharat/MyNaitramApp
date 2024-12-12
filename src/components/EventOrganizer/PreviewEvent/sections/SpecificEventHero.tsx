@@ -139,7 +139,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
     /////////////////// Setting the ticke types according to the API data Formate
 
     const updatedAllTicketTypes = eventAllData?.tickets?.map((ticket: any, t_index: number) =>
-      ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
+      ticket.type === "Festivals/Multi-Day Tickets/Season Passes"
         ? {
             selectedEventTicketType: ticket?.type,
             ticketFreePaid: ticket?.selected,
@@ -187,7 +187,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
             whatsIncluded: ticket?.options,
             privateEventAdditionalFields: ticket?.emailmanual,
           }
-        : ticket.type === "Passworded / Discounted Voucher Event"
+        : ticket.type === "Passworded/Discounted Voucher Event"
         ? {
             selectedEventTicketType: ticket?.type,
             ticketFreePaid: ticket?.selected,
@@ -286,7 +286,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
     if (eventAllData?.tickets?.length !== 0 && nonRsvpTickets?.length !== 0) {
       const getMaxEventEndDateTime = (tickets: any) => {
         return tickets.reduce((maxDate: Date | null, ticket: any) => {
-          if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+          if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
             ticket.eventdates.forEach((festivalDate: any) => {
               const eventEndDateTime = new Date(festivalDate.endDate);
               if (!maxDate || eventEndDateTime > maxDate) {
@@ -299,7 +299,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
       };
       const getMinEventStartDateTime = (tickets: any) => {
         return tickets.reduce((minDate: Date | null, ticket: any) => {
-          if (ticket.type === "Festivals / Multi-Day Tickets / Season Passes") {
+          if (ticket.type === "Festivals/Multi-Day Tickets/Season Passes") {
             ticket.eventdates.forEach((festivalDate: any) => {
               const eventStartDateTime = new Date(festivalDate.startDate);
               if (!minDate || eventStartDateTime < minDate) {

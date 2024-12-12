@@ -713,6 +713,11 @@ function Editevent() {
   const [linkedinUrl, setlinkedinUrl] = useState(EventData?.linkedinUrl || "https://linkedin.com/in/");
   const [telegramUrl, setTelegramUrl] = useState(EventData?.telegramUrl || "https://t.me/");
 
+  const [isEventSalesStarts, setEventSalesStart] = useState<boolean>(false);
+
+  // State for disabling the fields on Sales start
+  const [disableField, setDisAblefIED] = useState<boolean>(false);
+
   const [eventsFiles, setEventsFile] = useState<any>([]);
   const router = useRouter();
 
@@ -1161,8 +1166,13 @@ function Editevent() {
     }
   };
 
-  const handleCatDropdownToggle = () => {
-    setIsCatDropdownOpen((prev) => !prev);
+  const handleCatDropdownToggle = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (!disableField) {
+      setIsCatDropdownOpen((prev) => !prev);
+    } else {
+      ErrorToast("Can't Edit");
+    }
   };
 
   // const handleOptionToggle = (index: number, option: TicketTypeOption) => {
@@ -1224,6 +1234,7 @@ function Editevent() {
   });
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);
 
@@ -1278,47 +1289,6 @@ function Editevent() {
       }
     }
   };
-
-  //////////////////// -----------------  Old Ticket Typing Handelling ----------------------------  ///////////////////////////
-
-  // const handleInputChange = (index: number, field: keyof TicketType, value: string | number | TicketTypeOption[]) => {
-  //   setTicketTypes((prevTickets) => prevTickets.map((ticket, i) => (i === index ? { ...ticket, [field]: value } : ticket)));
-  // };
-
-  // const handleAddTicketType = (e: any) => {
-  //   e.preventDefault();
-  //   setTicketTypes((prevTickets) => [
-  //     ...prevTickets,
-  //     {
-  //       type: "",
-  //       price: 0,
-  //       no: 0,
-  //       options: [],
-  //       dropdown: true,
-  //       selected: "free",
-  //     },
-  //   ]);
-  // };
-
-  // const handleDeleteTicketType = (index: number) => {
-  //   // Remove from the ticketTypes state
-  //   if (index === 0) {
-  //     // Optionally, display a message or handle the restriction
-  //     console.warn("Cannot delete the ticket type at index 0.");
-  //     return;
-  //   }
-  //   const updatedTickets = ticketTypes.filter((_, i) => i !== index);
-  //   setTicketTypes(updatedTickets);
-
-  //   // Remove the ticket data from the form state
-  //   form.setValue("tickets", updatedTickets); // Update form values
-
-  //   // Reset specific field data if necessary (optional)
-  //   form.reset({
-  //     ...form.getValues(), // Keep other form values
-  //     tickets: updatedTickets, // Update only the tickets field
-  //   });
-  // };
 
   const handleSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -1397,6 +1367,7 @@ function Editevent() {
   };
 
   const handleCoverSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
@@ -2152,6 +2123,11 @@ function Editevent() {
   // UseEffect for fetching data from API for this Ticket
   useEffect(() => {
     if (EventData) {
+      //Checking the sales Sart
+      if (EventData?.tickets?.some((t: any) => t?.noOfTickets < t?.originalNoOfTickets)) {
+        setDisAblefIED(true);
+      }
+
       if (EventData?.mainEventImage) {
         const imageName = EventData?.mainEventImage.split("/").pop() || "Upload Image";
         setMainImgName(imageName);
@@ -2188,7 +2164,7 @@ function Editevent() {
               selected: ticket?.ticketFreePaid,
               selectedDropDown: false,
               price: ticket?.ticketPrice,
-              no: ticket?.noOfTickets,
+              no: ticket?.originalNoOfTickets,
               typename: ticket?.ticketName,
               ticketstart: convertToLocal(ticket?.ticketStartDT),
               ticketend: convertToLocal(ticket?.ticketEndDT),
@@ -2224,7 +2200,7 @@ function Editevent() {
               name: ticket?.ticketName,
               deadline: convertToLocal(ticket?.rsvpDeadline),
               isDeadlinePickerOpen: false,
-              capacity: ticket?.noOfTickets,
+              capacity: ticket?.originalNoOfTickets,
               options: (ticket?.whatsIncluded || []).map((ticket: any) => ({
                 ...ticket,
                 options: (ticket?.options || []).map((option: any) => ({
@@ -2245,7 +2221,7 @@ function Editevent() {
               selected: ticket?.ticketFreePaid,
               selectedDropDown: false,
               price: ticket?.ticketPrice,
-              no: ticket?.noOfTickets,
+              no: ticket?.originalNoOfTickets,
               name: ticket?.ticketName,
               ticketstart: convertToLocal(ticket?.ticketStartDT),
               ticketend: convertToLocal(ticket?.ticketEndDT),
@@ -2277,7 +2253,7 @@ function Editevent() {
               selected: ticket?.ticketFreePaid,
               selectedDropDown: false,
               price: ticket?.ticketPrice,
-              no: ticket?.noOfTickets,
+              no: ticket?.originalNoOfTickets,
               name: ticket?.ticketName,
               ticketstart: convertToLocal(ticket?.ticketStartDT),
               ticketend: convertToLocal(ticket?.ticketEndDT),
@@ -2313,7 +2289,7 @@ function Editevent() {
               selected: ticket?.ticketFreePaid,
               selectedDropDown: false,
               price: ticket?.ticketPrice,
-              no: ticket?.noOfTickets,
+              no: ticket?.originalNoOfTickets,
               name: ticket?.ticketName,
               ticketstart: convertToLocal(ticket?.ticketStartDT),
               ticketend: convertToLocal(ticket?.ticketEndDT),
@@ -2431,6 +2407,9 @@ function Editevent() {
   }
 
   const removeTag = (ht: string): void => {
+    if (disableField) {
+      return;
+    }
     setChoosenHashtags((prevTags: string[]): string[] => prevTags.filter((tag: string) => tag !== ht));
     const currentHasTag = ht.replace("#", "");
     // Get the current eventHashtags from the form, filter out the removed hashtag, and update the form
@@ -2646,6 +2625,10 @@ function Editevent() {
 
   // Drop Down for Type Selection
   const handleTicketTypeDropDown = (ticketIndex: number) => {
+    if (disableField) {
+      ErrorToast("Can't Edit");
+      return;
+    }
     // Open or close the current Ticket's Type DropDown
     setTicketTypes((prevTickets) => {
       return prevTickets.map((ticket, index) => (index === ticketIndex ? { ...ticket, typeDropDown: !ticket.typeDropDown } : ticket));
@@ -2749,6 +2732,10 @@ function Editevent() {
 
   //handeling Ticket Slected Option DropDown (Paid, Free)
   const handleTicketSelectedOptionDropDown = (ticketIndex: number) => {
+    if (disableField) {
+      ErrorToast("Can't Edit");
+      return;
+    }
     //  Close or Open the selected DropDown of Current Ticket
     setTicketTypes((prevTickets) => {
       return prevTickets.map((ticket: any, index: number) =>
@@ -2805,6 +2792,10 @@ function Editevent() {
 
   // Handle Includes DropDown
   const handleDropdown = (ticketIndex: number) => {
+    if (disableField) {
+      ErrorToast("Can't edit");
+      return;
+    }
     isOptionErrorShown = false;
     setTicketTypes((prevTickets) =>
       prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, optionDropDown: !ticket.optionDropDown } : ticket))
@@ -2915,6 +2906,10 @@ function Editevent() {
 
   // RSVP Ticket Radio Selections
   const handleRsvpRadioSelections = (radioName: string, ticketIndex: number) => {
+    if (disableField) {
+      ErrorToast("Can't edit");
+      return;
+    }
     setTicketTypes((prevTickets) =>
       prevTickets.map((ticket: any, i: number) => (i === ticketIndex ? { ...ticket, [radioName]: !ticket[radioName] } : ticket))
     );
@@ -2953,6 +2948,10 @@ function Editevent() {
   };
 
   const removeAdditionalToRSVP = (ticketIndex: number, f_index: number) => {
+    if (disableField) {
+      ErrorToast("Can't edit");
+      return;
+    }
     setTicketTypes((prevTickets: any) => {
       const updatedTypes = prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex ? { ...ticket, additional: ticket?.additional.filter((f: any, fIdx: number) => fIdx !== f_index) } : ticket
@@ -3139,6 +3138,10 @@ function Editevent() {
 
   // remove a manual email
   const removeManualEmailField = (ticketIndex: number, emailIdx: number) => {
+    if (disableField) {
+      ErrorToast("Can't edit");
+      return;
+    }
     setTicketTypes((prevTickets: any) => {
       const newEmailsFields = prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex ? { ...ticket, emailmanual: ticket?.emailmanual?.filter((eml: string, eml_Idx: number) => eml_Idx !== emailIdx) } : ticket
@@ -3666,7 +3669,9 @@ function Editevent() {
                                 placeholder="Enter Event Name"
                                 className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                                 {...field}
+                                disabled={disableField}
                                 onChange={(e) => {
+                                  e.preventDefault();
                                   const inputValue = e.target.value;
                                   if (inputValue === "" || inputValue.trim() !== "") {
                                     setEventname(inputValue);
@@ -3687,7 +3692,7 @@ function Editevent() {
                         name="eventcategory"
                         render={({ field }) => (
                           <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                            <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
+                            <div className="flex items-center justify-between" onClick={(e) => handleCatDropdownToggle(e)}>
                               <div className="flex flex-col">
                                 <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                   EVENT category<span className="text-red-600 text-[20px] relative">*</span>
@@ -3782,29 +3787,27 @@ function Editevent() {
                         control={form.control}
                         name="eventdescription"
                         render={({ field }) => (
-                          <FormItem className="relative w-full gradient-slate-input space-y-0  h-[260px]  pb-3">
-                            <FormLabel className="text-sm text-[#8F8F8F]  absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
+                          <FormItem className="relative w-full gradient-slate-input space-y-0 h-[260px] pb-3">
+                            <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-0 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Event Description<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl className="relative">
-                              {/* <Textarea
-                          {...field}
-                          // value={Eventdescription}
-                          className="pt-11 create-txtarea-input "
-                          onChange={(e) => {
-                            setEventdescription(e.target.value);
-                            field.onChange(e);
-                          }}
-                          placeholder="Enter Event Description"
-                        /> */}
-                              <div className=" absolute inset-0 pb-3 overflow-auto top-[25px] h-[200px]">
+                              <div
+                                className={`absolute inset-0 pb-3 overflow-auto top-[25px] h-[200px] ${
+                                  disableField ? "pointer-events-none opacity-60" : ""
+                                }`}
+                              >
                                 <Editor
                                   value={field.value}
-                                  onChange={(content) => {
+                                  onChange={(content: any) => {
+                                    if (disableField) {
+                                      ErrorToast("Can't Edit");
+                                      return;
+                                    }
                                     field.onChange(content);
-
                                     setEventdescription(content);
                                   }}
+                                  // Add this logic here to handle onChange in the editor
                                 />
                               </div>
                             </FormControl>
@@ -3841,7 +3844,9 @@ function Editevent() {
                                   placeholder="Enter Hashtag"
                                   className="flex h-10 w-full rounded-md border-none px-0 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-0 pb-0 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                   value={hashINputValue}
+                                  disabled={disableField}
                                   onChange={(e) => {
+                                    e.preventDefault();
                                     handleHashFieldInput(e);
                                   }}
                                 />
@@ -3889,13 +3894,27 @@ function Editevent() {
                               Event Location<span className="text-red-600 text-[20px] relative">*</span>
                             </FormLabel>
                             <FormControl>
-                              <LocationAutocomplete
-                                value={field.value || EventData?.location || ""}
-                                onLocationSelect={(location) => {
-                                  setEventLocation(location);
-                                  field.onChange(location);
-                                }}
-                              />
+                              {/* Conditionally render either the LocationAutocomplete or a read-only div */}
+                              {disableField ? (
+                                <div className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex flex-col">
+                                      <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase flex justify-start items-center gap-[2px]">
+                                        Location<span className="text-red-600 text-[20px] relative">*</span>
+                                      </p>
+                                      <p>{field.value || EventData?.location}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : (
+                                <LocationAutocomplete
+                                  value={field.value || EventData?.location || ""}
+                                  onLocationSelect={(location) => {
+                                    setEventLocation(location);
+                                    field.onChange(location);
+                                  }}
+                                />
+                              )}
                             </FormControl>
 
                             <FormMessage />
@@ -4069,8 +4088,10 @@ function Editevent() {
                                       placeholder="Enter ticket name"
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                       {...field}
+                                      disabled={disableField}
                                       value={ticket.typename}
                                       onChange={(e) => {
+                                        e.preventDefault();
                                         handleFestivalTicketType(e.target.value, index);
                                         field.onChange(e);
                                       }}
@@ -4096,7 +4117,7 @@ function Editevent() {
                                   </FormLabel>
                                   <FormControl>
                                     <Input
-                                      disabled={ticket.selected === "Free" ? true : false}
+                                      disabled={ticket.selected === "Free" || disableField ? true : false}
                                       type="number"
                                       onWheel={(e: any) => e.target.blur()}
                                       placeholder="Enter Price"
@@ -4104,6 +4125,7 @@ function Editevent() {
                                       {...field}
                                       value={ticket.price}
                                       onChange={(e) => {
+                                        e.preventDefault();
                                         let value = e.target.value;
 
                                         // Remove negative (-) or plus (+) signs
@@ -4157,6 +4179,14 @@ function Editevent() {
                                       onWheel={(e: any) => e.target.blur()}
                                       value={ticket.no}
                                       onChange={(e) => {
+                                        // Check if the value don't lower the limit of total sales
+                                        if (
+                                          parseInt(e.target.value, 10) <=
+                                          EventData?.tickets?.[index]?.originalNoOfTickets - EventData?.tickets?.[index]?.noOfTickets
+                                        ) {
+                                          ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                          return;
+                                        }
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
@@ -4219,6 +4249,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation();
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -4306,6 +4343,11 @@ function Editevent() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation();
+                                                            return;
+                                                          }
                                                           if (!(ticketTypes[index] as any)?.ticketstart) {
                                                             ErrorToast("Ticket start date is empty!");
                                                             e.stopPropagation();
@@ -4445,6 +4487,11 @@ function Editevent() {
                                                           openPickerIcon: () => (
                                                             <CalendarTodayIcon
                                                               onClick={(e) => {
+                                                                if (disableField) {
+                                                                  ErrorToast("Can't edit");
+                                                                  e.stopPropagation();
+                                                                  return;
+                                                                }
                                                                 if (eventIndex === 0) {
                                                                   if (!(ticketTypes[index] as any)?.ticketend) {
                                                                     ErrorToast("Ticket end date is empty!");
@@ -4550,6 +4597,11 @@ function Editevent() {
                                                           openPickerIcon: () => (
                                                             <CalendarTodayIcon
                                                               onClick={(e) => {
+                                                                if (disableField) {
+                                                                  ErrorToast("Can't edit");
+                                                                  e.stopPropagation(); // Prevent the click event from propagating further
+                                                                  return;
+                                                                }
                                                                 if (!ticket?.eventdates[eventIndex]?.startDate) {
                                                                   ErrorToast("Last event Start date is empty!");
                                                                   e.stopPropagation(); // Prevent the click event from propagating further
@@ -4596,7 +4648,7 @@ function Editevent() {
                                   </div>
                                 </div>
                                 {/* Delete Event */}
-                                {ticket?.eventdates?.length > 1 && (
+                                {ticket?.eventdates?.length > 1 && disableField == false && (
                                   <div className="flex justify-end items-center mt-[5px] mb-5 ticket-btn">
                                     <Button
                                       className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
@@ -4615,22 +4667,24 @@ function Editevent() {
                           })}
 
                           {/* Add more Event timimg button here */}
-                          <div className="flex justify-end items-center ticket-btn mb-[24px]">
-                            <Button
-                              style={{
-                                background:
-                                  "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
-                              }}
-                              className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                addNewEventDateInFestival(index);
-                              }}
-                            >
-                              <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                              Add Event Timings
-                            </Button>
-                          </div>
+                          {disableField == false && (
+                            <div className="flex justify-end items-center ticket-btn mb-[24px]">
+                              <Button
+                                style={{
+                                  background:
+                                    "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                                }}
+                                className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  addNewEventDateInFestival(index);
+                                }}
+                              >
+                                <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                                Add Event Timings
+                              </Button>
+                            </div>
+                          )}
 
                           {/* What's Included Inputs */}
                           <div className="flex items-start gap-[24px] w-full common-container">
@@ -4674,7 +4728,7 @@ function Editevent() {
                           </div>
 
                           {/* Delete Ticket Type */}
-                          {index !== 0 && (
+                          {index !== 0 && disableField == false && (
                             <div className="flex justify-end items-center mt-[29px] ticket-btn">
                               <Button
                                 className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
@@ -4784,6 +4838,7 @@ function Editevent() {
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                       {...field}
                                       value={ticket.name}
+                                      disabled={disableField}
                                       onChange={(e) => {
                                         // setEventname(e.target.value);
                                         handleTicketNameChange(e.target.value, index);
@@ -4840,6 +4895,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -4894,6 +4956,14 @@ function Editevent() {
                                         className="pt-[2.83rem] pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                         {...field}
                                         onChange={(e) => {
+                                          // Check if the value don't get lower the total sales
+                                          if (
+                                            parseInt(e.target.value, 10) <=
+                                            EventData?.tickets?.[index]?.originalNoOfTickets - EventData?.tickets?.[index]?.noOfTickets
+                                          ) {
+                                            ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                            return;
+                                          }
                                           // handleInputChange(index, "no", parseInt(e.target.value, 10));
                                           const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                           handleCapacityRSVPTicket(value, index);
@@ -5036,6 +5106,7 @@ function Editevent() {
                                               placeholder="Enter Field Name"
                                               className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                               {...field}
+                                              disabled={disableField}
                                               value={addField.title}
                                               onChange={(e) => {
                                                 const value = e.target.value;
@@ -5057,27 +5128,29 @@ function Editevent() {
                             </div>
 
                             {/* Add Aaditional field Button */}
-                            <div className="flex justify-end items-center ticket-btn">
-                              <Button
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  addAdditionalToRSVP(index);
-                                }}
-                                style={{
-                                  background:
-                                    "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
-                                }}
-                                className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
-                                // onClick={handleAddTicketType}
-                              >
-                                <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                Additional Field
-                              </Button>
-                            </div>
+                            {disableField == false && (
+                              <div className="flex justify-end items-center ticket-btn">
+                                <Button
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    addAdditionalToRSVP(index);
+                                  }}
+                                  style={{
+                                    background:
+                                      "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                                  }}
+                                  className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
+                                  // onClick={handleAddTicketType}
+                                >
+                                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                                  Additional Field
+                                </Button>
+                              </div>
+                            )}
                           </div>
 
                           {/* Delete Ticket Type */}
-                          {index !== 0 && (
+                          {index !== 0 && disableField == false && (
                             <div className="flex justify-end items-center mt-[29px] ticket-btn">
                               <Button
                                 className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
@@ -5239,6 +5312,7 @@ function Editevent() {
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                       {...field}
                                       value={ticket.name}
+                                      disabled={disableField}
                                       onChange={(e) => {
                                         // setEventname(e.target.value);
                                         handleTicketNameChange(e.target.value, index);
@@ -5266,7 +5340,7 @@ function Editevent() {
                                   </FormLabel>
                                   <FormControl>
                                     <Input
-                                      disabled={ticket.selected === "Free" ? true : false}
+                                      disabled={ticket.selected === "Free" || disableField ? true : false}
                                       type="number"
                                       onWheel={(e: any) => e.target.blur()}
                                       placeholder="Enter Price"
@@ -5327,6 +5401,14 @@ function Editevent() {
                                       value={ticket.no}
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
+                                        // Check if the value don't get lower the total sales
+                                        if (
+                                          parseInt(e.target.value, 10) <=
+                                          EventData?.tickets?.[index]?.originalNoOfTickets - EventData?.tickets?.[index]?.noOfTickets
+                                        ) {
+                                          ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                          return;
+                                        }
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
@@ -5389,6 +5471,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -5476,6 +5565,11 @@ function Editevent() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
                                                           if (!(ticketTypes[index] as any)?.ticketstart) {
                                                             ErrorToast("Ticket start date is empty!");
                                                             e.stopPropagation();
@@ -5579,6 +5673,11 @@ function Editevent() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
                                                           if (!(ticketTypes[index] as any)?.ticketend) {
                                                             ErrorToast("Ticket end date is empty!");
                                                             e.stopPropagation();
@@ -5674,6 +5773,11 @@ function Editevent() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
                                                           if (!(ticketTypes[index] as any)?.eventstart) {
                                                             ErrorToast("Event start date is empty!");
                                                             e.stopPropagation();
@@ -5762,7 +5866,7 @@ function Editevent() {
                           </div>
 
                           {/* Aditional Emails Adding Fields */}
-                          {ticket.emailmanual?.length > 0 && (
+                          {ticket.emailmanual?.length > 0 && disableField == false && (
                             <div className="w-full relative rounded-md border border-[#292929] gradient-slate flex flex-col items-start common-container px-[12px] py-[16px] mb-[24px]">
                               <p className="text-sm font-bold text-[#8F8F8F] pb-[10px] uppercase">Manual Emails</p>
 
@@ -5793,6 +5897,7 @@ function Editevent() {
                                               className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                               {...field}
                                               value={email}
+                                              disabled={disableField}
                                               onChange={(e) => {
                                                 const value = e.target.value;
 
@@ -5815,82 +5920,86 @@ function Editevent() {
 
                               {/* Add Aditional field Button */}
 
-                              <div className="flex justify-end items-center ticket-btn">
+                              {disableField == false && (
+                                <div className="flex justify-end items-center ticket-btn">
+                                  <Button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      addManualEmailField(index);
+                                    }}
+                                    style={{
+                                      background:
+                                        "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                                    }}
+                                    className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
+                                    // onClick={handleAddTicketType}
+                                  >
+                                    <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                                    Additional Email
+                                  </Button>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Buttons to select add csv or manual Emails */}
+                          {disableField == false && (
+                            <div className="w-full flex flex-col gap-[24px]">
+                              {/* Add manual Email */}
+                              {ticket?.emailmanual?.length === 0 && (
                                 <Button
                                   onClick={(e) => {
                                     e.preventDefault();
                                     addManualEmailField(index);
                                   }}
                                   style={{
-                                    background:
-                                      "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                                    background: "#FFFFFF0F",
                                   }}
-                                  className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
+                                  className="flex items-center justify-between bg-[#FFFFFF0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
                                   // onClick={handleAddTicketType}
                                 >
-                                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                  Additional Email
+                                  <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
+                                  Add Emails manually
                                 </Button>
-                              </div>
+                              )}
+
+                              {/* Add manual Email By CSV */}
+                              <label
+                                style={{
+                                  background: "#FFFFFF0F",
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  justifyContent: "space-between",
+                                  gap: "5px",
+                                  backgroundColor: "#0F0F0F",
+                                  color: "white",
+                                  height: "32px",
+                                  padding: "8px 12px",
+                                  borderRadius: "9999px",
+                                  border: "0.86px solid transparent",
+                                  fontSize: "11px",
+                                  fontWeight: "800",
+                                  cursor: "pointer",
+                                  width: "fit-content",
+                                }}
+                              >
+                                <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                                Upload CSV (emails)
+                                {/* Hidden file input */}
+                                <input
+                                  type="file"
+                                  accept=".csv"
+                                  onChange={(e) => handleCSVFileChange(e, index)}
+                                  style={{
+                                    display: "none", // Hide the default file input button
+                                  }}
+                                />
+                              </label>
                             </div>
                           )}
 
-                          {/* Buttons to select add csv or manual Emails */}
-                          <div className="w-full flex flex-col gap-[24px]">
-                            {/* Add manual Email */}
-                            {ticket?.emailmanual?.length === 0 && (
-                              <Button
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  addManualEmailField(index);
-                                }}
-                                style={{
-                                  background: "#FFFFFF0F",
-                                }}
-                                className="flex items-center justify-between bg-[#FFFFFF0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
-                                // onClick={handleAddTicketType}
-                              >
-                                <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
-                                Add Emails manually
-                              </Button>
-                            )}
-
-                            {/* Add manual Email By CSV */}
-                            <label
-                              style={{
-                                background: "#FFFFFF0F",
-                                display: "inline-flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                gap: "5px",
-                                backgroundColor: "#0F0F0F",
-                                color: "white",
-                                height: "32px",
-                                padding: "8px 12px",
-                                borderRadius: "9999px",
-                                border: "0.86px solid transparent",
-                                fontSize: "11px",
-                                fontWeight: "800",
-                                cursor: "pointer",
-                                width: "fit-content",
-                              }}
-                            >
-                              <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                              Upload CSV (emails)
-                              {/* Hidden file input */}
-                              <input
-                                type="file"
-                                accept=".csv"
-                                onChange={(e) => handleCSVFileChange(e, index)}
-                                style={{
-                                  display: "none", // Hide the default file input button
-                                }}
-                              />
-                            </label>
-                          </div>
-
                           {/* Delete Ticket Type */}
-                          {index !== 0 && (
+                          {index !== 0 && disableField == false && (
                             <div className="flex justify-end items-center mt-[29px] ticket-btn">
                               <Button
                                 className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
@@ -6052,6 +6161,7 @@ function Editevent() {
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                       {...field}
                                       value={ticket.name}
+                                      disabled={disableField}
                                       onChange={(e) => {
                                         // setEventname(e.target.value);
                                         handleTicketNameChange(e.target.value, index);
@@ -6079,7 +6189,7 @@ function Editevent() {
                                   </FormLabel>
                                   <FormControl>
                                     <Input
-                                      disabled={ticket.selected === "Free" ? true : false}
+                                      disabled={ticket.selected === "Free" || disableField ? true : false}
                                       type="number"
                                       onWheel={(e: any) => e.target.blur()}
                                       placeholder="Enter Price"
@@ -6140,6 +6250,14 @@ function Editevent() {
                                       value={ticket.no}
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
+                                        // Check if the value don't get lower the total sales
+                                        if (
+                                          parseInt(e.target.value, 10) <=
+                                          EventData?.tickets?.[index]?.originalNoOfTickets - EventData?.tickets?.[index]?.noOfTickets
+                                        ) {
+                                          ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                          return;
+                                        }
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
@@ -6202,6 +6320,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -6289,6 +6414,11 @@ function Editevent() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
                                                           if (!(ticketTypes[index] as any)?.ticketstart) {
                                                             ErrorToast("Ticket start date is empty!");
                                                             e.stopPropagation();
@@ -6391,6 +6521,11 @@ function Editevent() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
                                                           if (!(ticketTypes[index] as any)?.ticketend) {
                                                             ErrorToast("Ticket end date is empty!");
                                                             e.stopPropagation();
@@ -6486,6 +6621,11 @@ function Editevent() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
                                                           if (!(ticketTypes[index] as any)?.eventstart) {
                                                             ErrorToast("Event start date is empty!");
                                                             e.stopPropagation();
@@ -6607,6 +6747,7 @@ function Editevent() {
                                                 className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                                 {...field}
                                                 value={email}
+                                                disabled={disableField}
                                                 onChange={(e) => {
                                                   const value = e.target.value;
 
@@ -6628,23 +6769,25 @@ function Editevent() {
                                 </div>
 
                                 {/* Add Aditional field Button */}
-                                <div className="flex justify-end items-center ticket-btn">
-                                  <Button
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      addManualEmailField(index);
-                                    }}
-                                    style={{
-                                      background:
-                                        "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
-                                    }}
-                                    className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
-                                    // onClick={handleAddTicketType}
-                                  >
-                                    <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                    Additional Email
-                                  </Button>
-                                </div>
+                                {disableField == false && (
+                                  <div className="flex justify-end items-center ticket-btn">
+                                    <Button
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        addManualEmailField(index);
+                                      }}
+                                      style={{
+                                        background:
+                                          "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                                      }}
+                                      className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
+                                      // onClick={handleAddTicketType}
+                                    >
+                                      <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                                      Additional Email
+                                    </Button>
+                                  </div>
+                                )}
                               </div>
                             )}
 
@@ -6679,6 +6822,7 @@ function Editevent() {
                                                 placeholder={`Enter Password ${p_Index + 1}`}
                                                 className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                                 {...field}
+                                                disabled={disableField}
                                                 value={pswrd}
                                                 onChange={(e) => {
                                                   const value = e.target.value;
@@ -6701,23 +6845,25 @@ function Editevent() {
                                 </div>
 
                                 {/* Add Aditional field Button */}
-                                <div className="flex justify-end items-center ticket-btn">
-                                  <Button
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      addManualPasswrdField(index);
-                                    }}
-                                    style={{
-                                      background:
-                                        "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
-                                    }}
-                                    className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
-                                    // onClick={handleAddTicketType}
-                                  >
-                                    <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                    Additional Password
-                                  </Button>
-                                </div>
+                                {disableField == false && (
+                                  <div className="flex justify-end items-center ticket-btn">
+                                    <Button
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        addManualPasswrdField(index);
+                                      }}
+                                      style={{
+                                        background:
+                                          "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                                      }}
+                                      className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
+                                      // onClick={handleAddTicketType}
+                                    >
+                                      <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                                      Additional Password
+                                    </Button>
+                                  </div>
+                                )}
                               </div>
                             )}
                           </div>
@@ -6786,122 +6932,126 @@ function Editevent() {
                               </div>
 
                               {/* Add Aditional field Button */}
-                              <div className="flex justify-end items-center ticket-btn">
-                                <Button
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    generateAutoPassword(index);
-                                  }}
-                                  style={{
-                                    background:
-                                      "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
-                                  }}
-                                  className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
-                                  // onClick={handleAddTicketType}
-                                >
-                                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                  Additional Password
-                                </Button>
-                              </div>
+                              {disableField == false && (
+                                <div className="flex justify-end items-center ticket-btn">
+                                  <Button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      generateAutoPassword(index);
+                                    }}
+                                    style={{
+                                      background:
+                                        "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                                    }}
+                                    className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold"
+                                    // onClick={handleAddTicketType}
+                                  >
+                                    <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                                    Additional Password
+                                  </Button>
+                                </div>
+                              )}
                             </div>
                           )}
 
                           {/* Buttons to select add csv or manual Emails */}
-                          <div className="w-full flex flex-col gap-[24px]">
-                            <div className="flex flex-wrap justify-center md:justify-start  gap-[16px] md:gap-[24px]">
-                              {/* Add manual Email */}
-                              {ticket?.emailmanual?.length === 0 && (
-                                <Button
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    addManualEmailField(index);
-                                  }}
+                          {disableField == false && (
+                            <div className="w-full flex flex-col gap-[24px]">
+                              <div className="flex flex-wrap justify-center md:justify-start  gap-[16px] md:gap-[24px]">
+                                {/* Add manual Email */}
+                                {ticket?.emailmanual?.length === 0 && (
+                                  <Button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      addManualEmailField(index);
+                                    }}
+                                    style={{
+                                      background: "#FFFFFF0F",
+                                    }}
+                                    className="flex items-center justify-between bg-[#FFFFFF0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
+                                    // onClick={handleAddTicketType}
+                                  >
+                                    <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
+                                    Add Emails manually
+                                  </Button>
+                                )}
+
+                                {/* Add manual Email By CSV */}
+                                <label
                                   style={{
                                     background: "#FFFFFF0F",
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    gap: "5px",
+                                    backgroundColor: "#0F0F0F",
+                                    color: "white",
+                                    height: "32px",
+                                    padding: "8px 12px",
+                                    borderRadius: "9999px",
+                                    border: "0.86px solid transparent",
+                                    fontSize: "11px",
+                                    fontWeight: "800",
+                                    cursor: "pointer",
+                                    width: "fit-content",
                                   }}
-                                  className="flex items-center justify-between bg-[#FFFFFF0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
-                                  // onClick={handleAddTicketType}
                                 >
-                                  <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
-                                  Add Emails manually
-                                </Button>
-                              )}
+                                  <Image src={addicon} alt="Add-icon" height={12} width={12} />
+                                  Upload CSV (emails)
+                                  {/* Hidden file input */}
+                                  <input
+                                    type="file"
+                                    accept=".csv"
+                                    onChange={(e) => handleCSVFileChange(e, index)}
+                                    style={{
+                                      display: "none", // Hide the default file input button
+                                    }}
+                                  />
+                                </label>
+                              </div>
 
-                              {/* Add manual Email By CSV */}
-                              <label
-                                style={{
-                                  background: "#FFFFFF0F",
-                                  display: "inline-flex",
-                                  alignItems: "center",
-                                  justifyContent: "space-between",
-                                  gap: "5px",
-                                  backgroundColor: "#0F0F0F",
-                                  color: "white",
-                                  height: "32px",
-                                  padding: "8px 12px",
-                                  borderRadius: "9999px",
-                                  border: "0.86px solid transparent",
-                                  fontSize: "11px",
-                                  fontWeight: "800",
-                                  cursor: "pointer",
-                                  width: "fit-content",
-                                }}
-                              >
-                                <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                Upload CSV (emails)
-                                {/* Hidden file input */}
-                                <input
-                                  type="file"
-                                  accept=".csv"
-                                  onChange={(e) => handleCSVFileChange(e, index)}
-                                  style={{
-                                    display: "none", // Hide the default file input button
-                                  }}
-                                />
-                              </label>
+                              <div className="flex justify-center md:justify-start flex-wrap gap-[16px] md:gap-[24px]">
+                                {/* Add manual password */}
+                                {ticket?.pswrdmanual?.length === 0 && (
+                                  <Button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      addManualPasswrdField(index);
+                                    }}
+                                    style={{
+                                      background: "#FFFFFF0F",
+                                    }}
+                                    className="flex items-center justify-between bg-[#FFFFFF0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
+                                    // onClick={handleAddTicketType}
+                                  >
+                                    <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
+                                    Add Password Manually
+                                  </Button>
+                                )}
+
+                                {/* Add Auto generated password */}
+                                {ticket?.autoGeneratedPswrd?.length === 0 && (
+                                  <Button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      generateAutoPassword(index);
+                                    }}
+                                    style={{
+                                      background: "#FFFFFF0F",
+                                    }}
+                                    className="flex items-center justify-between bg-[#0F0F0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
+                                    // onClick={handleAddTicketType}
+                                  >
+                                    <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
+                                    Generate Password Automatically
+                                  </Button>
+                                )}
+                              </div>
                             </div>
-
-                            <div className="flex justify-center md:justify-start flex-wrap gap-[16px] md:gap-[24px]">
-                              {/* Add manual password */}
-                              {ticket?.pswrdmanual?.length === 0 && (
-                                <Button
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    addManualPasswrdField(index);
-                                  }}
-                                  style={{
-                                    background: "#FFFFFF0F",
-                                  }}
-                                  className="flex items-center justify-between bg-[#FFFFFF0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
-                                  // onClick={handleAddTicketType}
-                                >
-                                  <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
-                                  Add Password Manually
-                                </Button>
-                              )}
-
-                              {/* Add Auto generated password */}
-                              {ticket?.autoGeneratedPswrd?.length === 0 && (
-                                <Button
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    generateAutoPassword(index);
-                                  }}
-                                  style={{
-                                    background: "#FFFFFF0F",
-                                  }}
-                                  className="flex items-center justify-between bg-[#0F0F0F] text-white h-[32px] py-[8px] px-[12px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[11px] font-extrabold w-fit"
-                                  // onClick={handleAddTicketType}
-                                >
-                                  <Image src={whiteaddicon} alt="Add-icon" height={12} width={12} />
-                                  Generate Password Automatically
-                                </Button>
-                              )}
-                            </div>
-                          </div>
+                          )}
 
                           {/* Delete Ticket Type */}
-                          {index !== 0 && (
+                          {index !== 0 && disableField == false && (
                             <div className="flex justify-end items-center mt-[29px] ticket-btn">
                               <Button
                                 className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
@@ -7062,6 +7212,7 @@ function Editevent() {
                                       placeholder="Enter ticket name"
                                       className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                       {...field}
+                                      disabled={disableField}
                                       value={ticket.name}
                                       onChange={(e) => {
                                         // setEventname(e.target.value);
@@ -7090,7 +7241,7 @@ function Editevent() {
                                   </FormLabel>
                                   <FormControl>
                                     <Input
-                                      disabled={ticket.selected === "Free" ? true : false}
+                                      disabled={ticket.selected === "Free" || disableField ? true : false}
                                       type="number"
                                       onWheel={(e: any) => e.target.blur()}
                                       placeholder="Enter Price"
@@ -7151,6 +7302,14 @@ function Editevent() {
                                       value={ticket.no}
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
+                                        // Check if the value don't get lower the total sales
+                                        if (
+                                          parseInt(e.target.value, 10) <=
+                                          EventData?.tickets?.[index]?.originalNoOfTickets - EventData?.tickets?.[index]?.noOfTickets
+                                        ) {
+                                          ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                          return;
+                                        }
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
@@ -7213,6 +7372,13 @@ function Editevent() {
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
+                                                        onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
+                                                        }}
                                                         style={{
                                                           color: "#5e5e5e",
                                                           fontSize: "15px",
@@ -7301,6 +7467,11 @@ function Editevent() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
                                                           if (!(ticketTypes[index] as any)?.ticketstart) {
                                                             ErrorToast("Ticket start date is empty!");
                                                             e.stopPropagation();
@@ -7404,6 +7575,11 @@ function Editevent() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
                                                           if (!(ticketTypes[index] as any)?.ticketend) {
                                                             ErrorToast("Ticket end date is empty!");
                                                             e.stopPropagation();
@@ -7499,6 +7675,11 @@ function Editevent() {
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
+                                                          if (disableField) {
+                                                            ErrorToast("Can't edit");
+                                                            e.stopPropagation(); // Prevent the click event from propagating further
+                                                            return;
+                                                          }
                                                           if (!(ticketTypes[index] as any)?.eventstart) {
                                                             ErrorToast("Event start date is empty!");
                                                             e.stopPropagation();
@@ -7589,7 +7770,7 @@ function Editevent() {
                           </div>
 
                           {/* Delete Ticket Type */}
-                          {index !== 0 && (
+                          {index !== 0 && disableField == false && (
                             <div className="flex justify-end items-center mt-[29px] ticket-btn">
                               <Button
                                 className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
@@ -7608,19 +7789,21 @@ function Editevent() {
                     )}
 
                     {/* Add more ticket Button */}
-                    <div className="flex justify-end items-center ticket-btn">
-                      <Button
-                        style={{
-                          background:
-                            "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
-                        }}
-                        className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] py-[10px] px-[22px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[16px] font-extrabold leading-[24px]"
-                        onClick={handleAddTicketType}
-                      >
-                        <Image src={addicon} alt="Add-icon" height={13} width={13} />
-                        Add Ticket Type
-                      </Button>
-                    </div>
+                    {disableField == false && (
+                      <div className="flex justify-end items-center ticket-btn">
+                        <Button
+                          style={{
+                            background:
+                              "linear-gradient(#0F0F0F, #1A1A1A) padding-box, linear-gradient(272.78deg, rgba(15, 255, 119, 0.32) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(15, 255, 119, 0.32) 100%) border-box",
+                          }}
+                          className="flex items-center justify-between bg-[#0F0F0F] text-[#00D059] py-[10px] px-[22px] gap-[9.75px] rounded-full border-[0.86px] border-transparent text-[16px] font-extrabold leading-[24px]"
+                          onClick={handleAddTicketType}
+                        >
+                          <Image src={addicon} alt="Add-icon" height={13} width={13} />
+                          Add Ticket Type
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
 
