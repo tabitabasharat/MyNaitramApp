@@ -861,6 +861,7 @@ function Editevent() {
   const [file, setCsvFile] = useState<File | null>(null); // Track the current file
 
   const handleCSVFileChange = (event: React.ChangeEvent<HTMLInputElement>, ticketIndex: number) => {
+    event.preventDefault();
     const uploadedFile = event.target.files ? event.target.files[0] : null;
 
     if (!uploadedFile) {
@@ -4179,6 +4180,7 @@ function Editevent() {
                                       onWheel={(e: any) => e.target.blur()}
                                       value={ticket.no}
                                       onChange={(e) => {
+                                        e.preventDefault();
                                         // Check if the value don't lower the limit of total sales
                                         if (
                                           parseInt(e.target.value, 10) <=
@@ -4191,6 +4193,7 @@ function Editevent() {
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
+                                        e.preventDefault();
                                       }}
                                       onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
@@ -4956,6 +4959,7 @@ function Editevent() {
                                         className="pt-[2.83rem] pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                         {...field}
                                         onChange={(e) => {
+                                          
                                           // Check if the value don't get lower the total sales
                                           if (
                                             parseInt(e.target.value, 10) <=
@@ -4968,6 +4972,7 @@ function Editevent() {
                                           const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                           handleCapacityRSVPTicket(value, index);
                                           field.onChange(value);
+                                          e.preventDefault();
                                         }}
                                         onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                           const key = e.key;
@@ -5413,6 +5418,7 @@ function Editevent() {
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
+                                        e.preventDefault();
                                       }}
                                       onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
@@ -6166,6 +6172,7 @@ function Editevent() {
                                         // setEventname(e.target.value);
                                         handleTicketNameChange(e.target.value, index);
                                         field.onChange(e);
+                                        e.preventDefault();
                                       }}
                                     />
                                   </FormControl>
@@ -6224,6 +6231,7 @@ function Editevent() {
 
                                         field.onChange(value); // Update the form field value
                                         handlTicketPriceChange(value, index); // Custom function for ticket price
+                                        e.preventDefault()
                                       }}
                                     />
                                   </FormControl>
@@ -6262,6 +6270,7 @@ function Editevent() {
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
+                                        e.preventDefault();
                                       }}
                                       onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
@@ -7314,6 +7323,7 @@ function Editevent() {
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
+                                        e.preventDefault();
                                       }}
                                       onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;

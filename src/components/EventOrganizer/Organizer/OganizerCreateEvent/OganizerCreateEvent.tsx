@@ -875,6 +875,7 @@ function OganizerCreateEvent() {
   const [file, setCsvFile] = useState<File | null>(null); // Track the current file
 
   const handleCSVFileChange = (event: React.ChangeEvent<HTMLInputElement>, ticketIndex: number) => {
+    event.preventDefault();
     const uploadedFile = event.target.files ? event.target.files[0] : null;
 
     if (!uploadedFile) {
@@ -1140,7 +1141,8 @@ function OganizerCreateEvent() {
   }
 
   // Toggle handleing for catagory Dropdown
-  const handleCatDropdownToggle = () => {
+  const handleCatDropdownToggle = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
     setIsCatDropdownOpen((prev) => !prev);
   };
 
@@ -1172,6 +1174,7 @@ function OganizerCreateEvent() {
   });
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);
 
@@ -1224,6 +1227,7 @@ function OganizerCreateEvent() {
   console.log("Form errors:", form.formState.errors);
 
   const handleCoverSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
@@ -3598,6 +3602,7 @@ function OganizerCreateEvent() {
                                 className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                 {...field}
                                 onChange={(e) => {
+                                  e.preventDefault();
                                   const inputValue = e.target.value;
                                   if (inputValue === "" || inputValue.trim() !== "") {
                                     setEventname(inputValue);
@@ -3621,7 +3626,7 @@ function OganizerCreateEvent() {
                         file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed
                         disabled:opacity-50"
                           >
-                            <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
+                            <div className="flex items-center justify-between" onClick={(e) => handleCatDropdownToggle(e)}>
                               <div className="flex flex-col">
                                 <p className="text-sm font-bold text-[#8F8F8F] pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                   EVENT category<span className="text-red-600 text-[20px] relative">*</span>
@@ -3772,6 +3777,7 @@ function OganizerCreateEvent() {
                                   className="flex h-10 w-full rounded-md border-none px-0 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-0 pb-0 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                   value={hashINputValue}
                                   onChange={(e) => {
+                                    e.preventDefault();
                                     handleHashFieldInput(e);
                                   }}
                                 />
@@ -4000,6 +4006,7 @@ function OganizerCreateEvent() {
                                       {...field}
                                       value={ticket.typename}
                                       onChange={(e) => {
+                                        e.preventDefault();
                                         handleFestivalTicketType(e.target.value, index);
                                         field.onChange(e);
                                       }}
@@ -4086,10 +4093,12 @@ function OganizerCreateEvent() {
                                       onWheel={(e: any) => e.target.blur()}
                                       value={ticket.no}
                                       onChange={(e) => {
+                                        e.preventDefault();
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
+                                        e.preventDefault();
                                       }}
                                       onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
@@ -4842,6 +4851,7 @@ function OganizerCreateEvent() {
                                           const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                           handleCapacityRSVPTicket(value, index);
                                           field.onChange(value);
+                                          e.preventDefault();
                                         }}
                                         onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                           const key = e.key;
@@ -5285,6 +5295,7 @@ function OganizerCreateEvent() {
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
+                                        e.preventDefault();
                                       }}
                                       onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
@@ -6013,6 +6024,7 @@ function OganizerCreateEvent() {
                                         // setEventname(e.target.value);
                                         handleTicketNameChange(e.target.value, index);
                                         field.onChange(e);
+                                        e.preventDefault();
                                       }}
                                     />
                                   </FormControl>
@@ -6101,6 +6113,7 @@ function OganizerCreateEvent() {
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
+                                        e.preventDefault();
                                       }}
                                       onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
@@ -7115,6 +7128,7 @@ function OganizerCreateEvent() {
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
+                                        e.preventDefault();
                                       }}
                                       onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;

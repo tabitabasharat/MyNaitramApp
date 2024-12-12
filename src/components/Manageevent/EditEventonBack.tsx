@@ -856,6 +856,7 @@ function EditeventOnBack() {
   const [file, setCsvFile] = useState<File | null>(null); // Track the current file
 
   const handleCSVFileChange = (event: React.ChangeEvent<HTMLInputElement>, ticketIndex: number) => {
+    event.preventDefault();
     const uploadedFile = event.target.files ? event.target.files[0] : null;
 
     if (!uploadedFile) {
@@ -1189,7 +1190,8 @@ function EditeventOnBack() {
     }
   };
 
-  const handleCatDropdownToggle = () => {
+  const handleCatDropdownToggle = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
     setIsCatDropdownOpen((prev) => !prev);
   };
 
@@ -1252,6 +1254,7 @@ function EditeventOnBack() {
   });
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);
 
@@ -1441,6 +1444,7 @@ function EditeventOnBack() {
   };
 
   const handleCoverSingleFileChangeOld = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     const file = e.target.files?.[0];
     console.log("Selected  cover img is:", file);
     const filename = file?.name;
@@ -1479,6 +1483,7 @@ function EditeventOnBack() {
   };
 
   const handleCoverSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
     const file = e.target.files?.[0];
     const filename = file?.name;
     setCoverImgName(filename);
@@ -4355,6 +4360,7 @@ function EditeventOnBack() {
                                 className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                                 {...field}
                                 onChange={(e) => {
+                                  e.preventDefault();
                                   const inputValue = e.target.value;
                                   if (inputValue === "" || inputValue.trim() !== "") {
                                     setEventname(inputValue);
@@ -4374,7 +4380,7 @@ function EditeventOnBack() {
                         name="eventcategory"
                         render={({ field }) => (
                           <FormItem className="relative pb-[8px] w-full rounded-md border border-[#292929] gradient-slate pt-[16px] px-[12px] text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#BFBFBF] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50">
-                            <div className="flex items-center justify-between" onClick={handleCatDropdownToggle}>
+                            <div className="flex items-center justify-between" onClick={(e) => handleCatDropdownToggle(e)}>
                               <div className="flex flex-col">
                                 <p className="text-sm font-bold text-gray-500 pb-[4px] uppercase flex justify-start items-center gap-[2px]">
                                   EVENT category
@@ -4532,6 +4538,7 @@ function EditeventOnBack() {
                                   className="flex h-10 w-full rounded-md border-none px-0 py-2 text-base text-white focus:border-[#087336] file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pt-0 pb-0 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]"
                                   value={hashINputValue}
                                   onChange={(e) => {
+                                    e.preventDefault();
                                     handleHashFieldInput(e);
                                   }}
                                 />
@@ -4765,6 +4772,7 @@ function EditeventOnBack() {
                                       {...field}
                                       value={ticket.typename}
                                       onChange={(e) => {
+                                        e.preventDefault()
                                         handleFestivalTicketType(e.target.value, index);
                                         field.onChange(e);
                                       }}
@@ -4799,6 +4807,7 @@ function EditeventOnBack() {
                                       {...field}
                                       value={ticket.price}
                                       onChange={(e) => {
+                                        e.preventDefault();
                                         let value = e.target.value;
 
                                         // Remove negative (-) or plus (+) signs
@@ -4853,10 +4862,12 @@ function EditeventOnBack() {
                                       onWheel={(e: any) => e.target.blur()}
                                       value={ticket.no}
                                       onChange={(e) => {
+                                        e.preventDefault();
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
+                                        e.preventDefault();
                                       }}
                                       onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
@@ -5544,6 +5555,7 @@ function EditeventOnBack() {
                                                   autoOk={false}
                                                   value={ticket.deadline ? dayjs(ticket.deadline) : null}
                                                   onChange={(e: any) => {
+                                                    
                                                     if (e && e.isValid()) {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       toggleRSVPTicketDeadlineValue(formattedDate, index);
@@ -5613,10 +5625,12 @@ function EditeventOnBack() {
                                         className="pt-[2.83rem] pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                         {...field}
                                         onChange={(e) => {
+                                          
                                           // handleInputChange(index, "no", parseInt(e.target.value, 10));
                                           const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                           handleCapacityRSVPTicket(value, index);
                                           field.onChange(value);
+                                          e.preventDefault();
                                         }}
                                         onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                           const key = e.key;
@@ -5998,6 +6012,7 @@ function EditeventOnBack() {
                                       {...field}
                                       value={ticket.price}
                                       onChange={(e) => {
+                                        e.preventDefault();
                                         let value = e.target.value;
 
                                         // Remove negative (-) or plus (+) signs
@@ -6056,6 +6071,7 @@ function EditeventOnBack() {
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
+                                        e.preventDefault();
                                       }}
                                       onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
@@ -6796,6 +6812,7 @@ function EditeventOnBack() {
                                         // setEventname(e.target.value);
                                         handleTicketNameChange(e.target.value, index);
                                         field.onChange(e);
+                                        e.preventDefault()
                                       }}
                                     />
                                   </FormControl>
@@ -6886,6 +6903,7 @@ function EditeventOnBack() {
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
+                                        e.preventDefault();
                                       }}
                                       onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
@@ -7915,6 +7933,7 @@ function EditeventOnBack() {
                                         const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
                                         handleNoTickets(value, index);
                                         field.onChange(value);
+                                        e.preventDefault();
                                       }}
                                       onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                         const key = e.key;
