@@ -44,7 +44,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
   const [isFree, setisFree] = useState<boolean>(false);
   const [showAllCategories, setShowAllCategories] = useState<boolean>(false);
 
-  const [value1, setValue1] = useState<number[]>([0, 5000]);
+  const [value1, setValue1] = useState<number[]>([0, 10000]);
 
   const categories: string[] = [
     "Arts",
@@ -147,7 +147,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
     setShowEndDatePicker(false);
     setFilterDate(null);
     setFilterEndDate(null);
-    setValue1([0, 5000]);
+    setValue1([0, 10000]);
 
     dispatch(getViewAllEvent({ page: 1 }));
   };
@@ -196,7 +196,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
     } else {
       setValue1([
         value1[0],
-        Math.min(5000, Math.max(newValue[1], value1[0] + minDistance)), // Ensure within bounds and respects minDistance
+        Math.min(10000, Math.max(newValue[1], value1[0] + minDistance)), // Ensure within bounds and respects minDistance
       ]);
     }
   };
@@ -209,7 +209,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
 
     const newValue = Number(number); // Parse the input value as a number
     // Check if the new value is a valid number
-    if (isNaN(newValue) || newValue > 5000) return; // Exit if the value is not a valid number
+    if (isNaN(newValue) || newValue > 10000) return; // Exit if the value is not a valid number
 
     if (inputNumber === 1) {
       if (newValue <= value1[1]) {
@@ -297,7 +297,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
               getAriaValueText={valuetext}
               disableSwap
               min={0} // Set the minimum value
-              max={5000} // Set the maximum value
+              max={10000} // Set the maximum value
               step={1} // Optional: step size
               sx={{
                 "& .MuiSlider-track": {
@@ -356,7 +356,7 @@ const FilterSideBar: React.FC = ({ Component, pageProps }: any) => {
           <p>To</p>
           <input
             type="text"
-            className="gradient-slate py-[8px] px-[30.5px] w-[109px] text-center rounded-[44px] border border-solid border-muted"
+            className="gradient-slate py-[8px] px-[20.5px] w-[109px] text-center rounded-[44px] border border-solid border-muted"
             value={`£${value1[1]}`}
             onChange={(e) => handlePriceInputChange(e, 2)}
           />
