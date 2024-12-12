@@ -3659,7 +3659,7 @@ function Editevent() {
                   </div>
 
                   {/* Ticket type Body */}
-                  <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
+                  <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[5px] lg:px-[60px]  create-container-head">
                     {/* Event Name and Catagiry Fields */}
                     <div className="flex items-start gap-[24px] w-full common-container">
                       {/* Event Name fields */}
@@ -3947,10 +3947,10 @@ function Editevent() {
                   </div>
 
                   {/* Ticket Types Body */}
-                  <div className="gradient-slate pt-[32px] pb-[49px] px-[60px] rounded-b-[12px]">
+                  <div className="gradient-slate pt-[32px] pb-[49px] px-[5px] lg:px-[60px] rounded-b-[12px]">
                     {ticketTypes.map((ticket: any, index: number) =>
                       ticket.type === "Festivals/Multi-Day Tickets/Season Passes" ? (
-                        <div key={index} className="mb-[24px]">
+                        <div key={index} className="mb-[24px] w-full">
                           {/* Gradient Line to seperate Tickets from each other */}
                           {index !== 0 && (
                             <div
@@ -4189,8 +4189,9 @@ function Editevent() {
                                         e.preventDefault();
                                         // Check if the value don't lower the limit of total sales
                                         if (
-                                          parseInt(e.target.value, 10) <=
-                                          EventData?.tickets?.[index]?.originalNoOfTickets - EventData?.tickets?.[index]?.noOfTickets
+                                          parseInt(e.target.value, 10) <
+                                          parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
+                                            parseInt(EventData?.tickets?.[index]?.noOfTickets, 10)
                                         ) {
                                           ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
                                           return;
@@ -4753,7 +4754,7 @@ function Editevent() {
                           )}
                         </div>
                       ) : ticket.type === "RSVP Ticketing" ? (
-                        <div key={index} className="mb-[24px]">
+                        <div key={index} className="mb-[24px] w-full">
                           {/* Gradient Line to seperate Tickets from each other */}
                           {index !== 0 && (
                             <div
@@ -4967,8 +4968,9 @@ function Editevent() {
                                         onChange={(e) => {
                                           // Check if the value don't get lower the total sales
                                           if (
-                                            parseInt(e.target.value, 10) <=
-                                            EventData?.tickets?.[index]?.originalNoOfTickets - EventData?.tickets?.[index]?.noOfTickets
+                                            parseInt(e.target.value, 10) <
+                                            parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
+                                              parseInt(EventData?.tickets?.[index]?.noOfTickets, 10)
                                           ) {
                                             ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
                                             return;
@@ -5176,7 +5178,7 @@ function Editevent() {
                           )}
                         </div>
                       ) : ticket.type === "Private Event Ticketing" ? (
-                        <div key={index} className="mb-[24px]">
+                        <div key={index} className="mb-[24px] w-full">
                           {/* Gradient Line to seperate Tickets from each other */}
                           {index !== 0 && (
                             <div
@@ -5413,8 +5415,9 @@ function Editevent() {
                                       onChange={(e) => {
                                         // Check if the value don't get lower the total sales
                                         if (
-                                          parseInt(e.target.value, 10) <=
-                                          EventData?.tickets?.[index]?.originalNoOfTickets - EventData?.tickets?.[index]?.noOfTickets
+                                          parseInt(e.target.value, 10) <
+                                          parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
+                                            parseInt(EventData?.tickets?.[index]?.noOfTickets, 10)
                                         ) {
                                           ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
                                           return;
@@ -6026,7 +6029,7 @@ function Editevent() {
                           )}
                         </div>
                       ) : ticket.type === "Passworded/Discounted Voucher Event" ? (
-                        <div key={index} className="mb-[24px]">
+                        <div key={index} className="mb-[24px] w-full">
                           {/* Gradient Line to seperate Tickets from each other */}
                           {index !== 0 && (
                             <div
@@ -6265,8 +6268,9 @@ function Editevent() {
                                       onChange={(e) => {
                                         // Check if the value don't get lower the total sales
                                         if (
-                                          parseInt(e.target.value, 10) <=
-                                          EventData?.tickets?.[index]?.originalNoOfTickets - EventData?.tickets?.[index]?.noOfTickets
+                                          parseInt(e.target.value, 10) <
+                                          parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
+                                            parseInt(EventData?.tickets?.[index]?.noOfTickets, 10)
                                         ) {
                                           ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
                                           return;
@@ -7081,7 +7085,7 @@ function Editevent() {
                           )}
                         </div>
                       ) : (
-                        <div key={index} className="mb-[24px]">
+                        <div key={index} className="mb-[24px] w-full">
                           {/* Gradient Line to seperate Tickets from each other */}
                           {index !== 0 && (
                             <div
@@ -7318,8 +7322,9 @@ function Editevent() {
                                       onChange={(e) => {
                                         // Check if the value don't get lower the total sales
                                         if (
-                                          parseInt(e.target.value, 10) <=
-                                          EventData?.tickets?.[index]?.originalNoOfTickets - EventData?.tickets?.[index]?.noOfTickets
+                                          parseInt(e.target.value, 10) <
+                                          parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
+                                            parseInt(EventData?.tickets?.[index]?.noOfTickets, 10)
                                         ) {
                                           ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
                                           return;
