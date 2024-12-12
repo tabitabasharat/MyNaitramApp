@@ -18,6 +18,8 @@ import { useState, useEffect } from "react";
 import { getEventsByUID } from "@/lib/middleware/organizer";
 import { ErrorToast } from "../reusable-components/Toaster/Toaster";
 
+import { VenueVerifyIndicaionModel } from "../EventSubmmitModal/EventSubmmitModal";
+
 import editEventIcon from "@/assets/editEventIcon.svg";
 import deleteEventIcon from "@/assets/deleteEventIcon.svg";
 import stopSalesIcon from "@/assets/stopEventSalesIcon.svg";
@@ -25,6 +27,7 @@ import stopSalesIcon from "@/assets/stopEventSalesIcon.svg";
 function AllVenueTickets({ img, height = "345px", width = "100%" }: any) {
   const dispatch = useAppDispatch();
   const [isPopUpOPen, setPOpUpOpen] = useState<number | null>(null);
+  const [isVenueVerifyModelOpen, setVenueModelOpen] = useState<boolean>(false);
 
   const handlePageChange = (page: number) => {
     const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -54,9 +57,29 @@ function AllVenueTickets({ img, height = "345px", width = "100%" }: any) {
   const imageUrl = img?.startsWith("http") || img?.startsWith("https") ? img : event12;
   console.log("image src is", imageUrl);
   // const title = selectedEvent ? selectedEvent.title : "All Events";
+
+  useEffect(() => {
+    // Check is any ticket have pending venue
+    const isAnyVenuePending = EventsData?.data?.events?.some((e: any) => e?.venue_verify === false);
+
+    // If any Ticket have pending Venue than Open Venue nmodel
+    if (!isAnyVenuePending) {
+      setVenueModelOpen(!isAnyVenuePending);
+    }
+  }, [EventsData]);
+
   return (
     <div className="w-full md:w-[100%] lg:pe-[88px] px-[24px] lg:ps-[80px] md:px-[75px] lg:w-full pt-[120px] pb-[57px] lg:pb-[170px] md:pt-[136px] lg:mx-0 relative  ">
       <Backward />
+      {isVenueVerifyModelOpen && (
+        <VenueVerifyIndicaionModel
+          onClose={() => setVenueModelOpen(false)}
+          open={() => setVenueModelOpen(true)}
+          text={"No events found for Venue Verification"}
+          link={"/organizer-event/event-dashboard"}
+          btnTXT={"Back😊"}
+        />
+      )}
       <h3 className=" font-bold lg:text-[48px] text-[32px] my-[24px] lg:my-[32px]">Pending Venues For</h3>
 
       {EventsData?.data?.events?.length > 0 ? (
@@ -86,66 +109,6 @@ function AllVenueTickets({ img, height = "345px", width = "100%" }: any) {
                           </div>
                         </div>
                       </Link>
-
-                      {/* Edit icon positioned outside of the Link */}
-                      <div
-                        className="absolute bottom-4 right-4 z-[999]"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setPOpUpOpen(isPopUpOPen === index ? null : index);
-                        }}
-                      >
-                        <Image className="z-[50]" src={edit} alt="edit" />
-                        {isPopUpOPen === index && (
-                          <div
-                            style={{
-                              background: "linear-gradient(360deg, #0F0F0F 72%, #1A1A1A 100%)",
-                            }}
-                            className="mt-[-190px] ml-[-130px] absolute shadow-lg ring-1 ring-black ring-opacity-5 border-transparent border-[1px] border-t-white/6 border-b-white/6 rounded-[12px] flex flex-col gap-[9px] justify-center items-start pl-[24px] pt-[24px] pb-[24px] pr-[24px] z-[999] w-fit"
-                          >
-                            {/* Your links or options here */}
-                            <Link
-                              className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-fit whitespace-nowrap hover:text-[#00D059]"
-                              href={`/management/edit-event/${event.id}`}
-                              onClick={(e) => {
-                                if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
-                                  e.preventDefault(); // Prevent navigation
-                                  ErrorToast("You cannot edit this event because tickets from this event have been sold already");
-                                }
-                              }}
-                            >
-                              <Image src={editEventIcon} alt="Edit" className="w-[12px] h-[12px] mb-[2px]" />
-                              Edit Event
-                            </Link>
-                            <Link
-                              className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-fit whitespace-nowrap hover:text-[#00D059]"
-                              href={`/management/delete-event/${event.id}`}
-                              onClick={(e) => {
-                                if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
-                                  e.preventDefault(); // Prevent navigation
-                                  ErrorToast("You cannot delete this event because tickets from this event have been sold already");
-                                }
-                              }}
-                            >
-                              <Image src={deleteEventIcon} alt="Edit" className="w-[12px] h-[12px] mb-[2px]" />
-                              Delete Event
-                            </Link>
-                            <Link
-                              className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-fit whitespace-nowrap hover:text-[#00D059]"
-                              href={`/management/stopsales/${event.id}`}
-                              onClick={(e) => {
-                                if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
-                                  e.preventDefault(); // Prevent navigation
-                                  ErrorToast("You cannot stopSales this event because tickets from this event have been sold already");
-                                }
-                              }}
-                            >
-                              <Image src={stopSalesIcon} alt="Edit" className="w-[12px] h-[12px] mb-[2px]" />
-                              {event.stopBy ? "Resume Sales" : "Stop Sales"}
-                            </Link>
-                          </div>
-                        )}
-                      </div>
                     </div>
                   </ScaleReveal>
                 );

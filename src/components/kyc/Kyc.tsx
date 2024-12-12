@@ -95,7 +95,7 @@ const Kyc = () => {
             console.log("Profile res", res?.payload?.data);
             dispatch(getUserByID(userID));
             SuccessToast("KYC Form Submitted successfully");
-            router.back();
+            router.push("/management");
           } else {
             setLoader(false);
             console.log(res?.payload?.message);

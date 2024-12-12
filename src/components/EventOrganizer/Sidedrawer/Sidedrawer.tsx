@@ -104,6 +104,16 @@ const Sidedrawer: React.FC<Props> = ({ window, children }) => {
       icon: scanner,
       url: "/organizer-event/sacnner-login",
     },
+    {
+      text: "KYC",
+      icon: "/Images/kycSVG.svg",
+      url: "/kyc",
+    },
+    {
+      text: "Venue Verification",
+      icon: "/Images/venueSVG.svg",
+      url: "/checkVenue",
+    },
   ];
   const help = [
     {

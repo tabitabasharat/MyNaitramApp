@@ -421,8 +421,16 @@ const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                           className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                           {...field}
                           onChange={(e) => {
-                            setAdd_1(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                            // Allow the input, but prevent leading space
+                            if (value.trimStart().length === 0) {
+                              // If input is only spaces, set to empty
+                              setAdd_1("");
+                              field.onChange("");
+                            } else {
+                              setAdd_1(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                         />
                       </FormControl>
@@ -563,8 +571,16 @@ const Business = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                           className="pt-11 pb-5 placeholder:text-base placeholder:text-[white] placeholder:font-normal"
                           {...field}
                           onChange={(e) => {
-                            setCountry(e.target.value);
-                            field.onChange(e);
+                            const value = e.target.value;
+                            // Allow the input, but prevent leading space
+                            if (value.trimStart().length === 0) {
+                              // If input is only spaces, set to empty
+                              setCountry("");
+                              field.onChange("");
+                            } else {
+                              setCountry(e.target.value);
+                              field.onChange(e);
+                            }
                           }}
                           onKeyDown={(e) => {
                             // Allow only letters and spaces

@@ -138,7 +138,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
 
     /////////////////// Setting the ticke types according to the API data Formate
 
-    const updatedAllTicketTypes = eventAllData?.tickets?.map((ticket: any) =>
+    const updatedAllTicketTypes = eventAllData?.tickets?.map((ticket: any, t_index: number) =>
       ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
         ? {
             selectedEventTicketType: ticket?.type,
@@ -170,6 +170,7 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
             rsvpMail: ticket?.useremail,
             rsvpNumber: ticket?.usernumb,
             rsvpAdditionalFields: ticket?.additional?.map((add: any) => add?.title),
+            isIndex: t_index,
           }
         : ticket.type === "Private Event Ticketing"
         ? {

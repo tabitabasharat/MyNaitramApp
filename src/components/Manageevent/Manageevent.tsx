@@ -22,9 +22,12 @@ import editEventIcon from "@/assets/editEventIcon.svg";
 import deleteEventIcon from "@/assets/deleteEventIcon.svg";
 import stopSalesIcon from "@/assets/stopEventSalesIcon.svg";
 
+import { VenueVerifyIndicaionModel } from "../EventSubmmitModal/EventSubmmitModal";
+
 function Manageevent({ events, eventType, title, img, eventId, height = "345px", width = "100%" }: any) {
   const dispatch = useAppDispatch();
   const [isPopUpOPen, setPOpUpOpen] = useState<number | null>(null);
+  const [isVenueModelOpen, setVenueModelOpen] = useState<boolean>(false);
 
   const handlePageChange = (page: number) => {
     const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -54,9 +57,29 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
   const imageUrl = img?.startsWith("http") || img?.startsWith("https") ? img : event12;
   console.log("image src is", imageUrl);
   // const title = selectedEvent ? selectedEvent.title : "All Events";
+
+  useEffect(() => {
+    // Check is any ticket have pending venue
+    const isAnyVenuePending = EventsData?.data?.events?.some((e: any) => e?.venue_verify === false);
+
+    // If any Ticket have pending Venue than Open Venue nmodel
+    if (isAnyVenuePending) {
+      setVenueModelOpen(isAnyVenuePending);
+    }
+  }, [EventsData]);
+
   return (
     <div className="w-full md:w-[100%] lg:pe-[88px] px-[24px] lg:ps-[80px] md:px-[75px] lg:w-full pt-[120px] pb-[57px] lg:pb-[170px] md:pt-[136px] lg:mx-0 relative  ">
       <Backward />
+      {isVenueModelOpen && (
+        <VenueVerifyIndicaionModel
+          onClose={() => setVenueModelOpen(false)}
+          open={() => setVenueModelOpen(true)}
+          text={"Some Events have pending for venue verifications"}
+          link={"/checkVenue"}
+          btnTXT={"Verify"}
+        />
+      )}
       <h3 className=" font-bold lg:text-[48px] text-[32px] my-[24px] lg:my-[32px]">Manage Event</h3>
 
       {EventsData?.data?.events?.length > 0 ? (

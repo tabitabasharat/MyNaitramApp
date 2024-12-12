@@ -2010,6 +2010,7 @@ function EditeventOnBack() {
               rsvpMail: ticket?.useremail,
               rsvpNumber: ticket?.usernumb,
               rsvpAdditionalFields: ticket?.additional?.map((add: AdditionalFields) => add?.title),
+              isIndex: t_Index,
             }
           : ticket.type === "Private Event Ticketing"
           ? {
@@ -4354,8 +4355,11 @@ function EditeventOnBack() {
                                 className="pt-12 pb-6 font-bold placeholder:font-normal placeholder:text-[#FFFFFF] "
                                 {...field}
                                 onChange={(e) => {
-                                  setEventname(e.target.value);
-                                  field.onChange(e);
+                                  const inputValue = e.target.value;
+                                  if (inputValue === "" || inputValue.trim() !== "") {
+                                    setEventname(inputValue);
+                                    field.onChange(e);
+                                  }
                                 }}
                               />
                             </FormControl>
@@ -5054,6 +5058,33 @@ function EditeventOnBack() {
                           {ticket.eventdates.map((event: any, eventIndex: number) => {
                             return (
                               <>
+                                {ticket?.eventdates?.length > 1 && (
+                                  <div className="w-full flex justify-center items-center">
+                                    <div
+                                      className="h-[1.5px] w-[70%] relative mb-[28px] mt-[4px]"
+                                      style={{
+                                        background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                                      }}
+                                    >
+                                      <div
+                                        className="absolute top-0 left-0 h-full"
+                                        style={{
+                                          width: "30%", // make the edges thinner
+                                          background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                          filter: "blur(8px)", // blur the edges to make them thin and faded
+                                        }}
+                                      ></div>
+                                      <div
+                                        className="absolute top-0 right-0 h-full"
+                                        style={{
+                                          width: "30%", // same width for both edges
+                                          background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                          filter: "blur(8px)", // blur the edges to make them thin and faded
+                                        }}
+                                      ></div>
+                                    </div>
+                                  </div>
+                                )}
                                 <div className="flex items-start gap-[24px] w-full common-container mt-[-9px] mb-[12px]">
                                   {/* Event Start */}
                                   <div className="w-full">
@@ -5277,7 +5308,7 @@ function EditeventOnBack() {
                                   </div>
                                 </div>
                                 {/* Delete Event */}
-                                {eventIndex !== 0 && (
+                                {ticket?.eventdates?.length > 1 && (
                                   <div className="flex justify-end items-center mt-[5px] mb-5 ticket-btn">
                                     <Button
                                       className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
@@ -5287,7 +5318,7 @@ function EditeventOnBack() {
                                       }}
                                     >
                                       <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
-                                      Delete Event
+                                      Delete event time
                                     </Button>
                                   </div>
                                 )}
@@ -6535,7 +6566,7 @@ function EditeventOnBack() {
                                   // onClick={handleAddTicketType}
                                 >
                                   <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                  Additional Field
+                                  Additional Email
                                 </Button>
                               </div>
                             </div>
@@ -7366,7 +7397,7 @@ function EditeventOnBack() {
                                     // onClick={handleAddTicketType}
                                   >
                                     <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                    Additional Field
+                                    Additional Email
                                   </Button>
                                 </div>
                               </div>
@@ -7439,7 +7470,7 @@ function EditeventOnBack() {
                                     // onClick={handleAddTicketType}
                                   >
                                     <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                    Additional Field
+                                    Additional Password
                                   </Button>
                                 </div>
                               </div>
@@ -7524,7 +7555,7 @@ function EditeventOnBack() {
                                   // onClick={handleAddTicketType}
                                 >
                                   <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                  Additional Field
+                                  Additional Password
                                 </Button>
                               </div>
                             </div>
@@ -8394,7 +8425,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Facebook
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -8426,7 +8457,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Instagram
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -8460,7 +8491,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Twitter
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -8492,7 +8523,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Youtube
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -8526,7 +8557,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Tiktok
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -8559,7 +8590,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Linkedin
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -8592,7 +8623,7 @@ function EditeventOnBack() {
                           <FormItem className="relative w-full">
                             <FormLabel className="text-sm text-[#8F8F8F] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
                               Telegram
-                              <span className="text-red-600 text-[20px] relative">*</span>
+                              {/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             <FormControl>
                               <Input

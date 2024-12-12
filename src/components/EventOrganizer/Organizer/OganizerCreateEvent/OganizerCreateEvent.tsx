@@ -1672,7 +1672,7 @@ function OganizerCreateEvent() {
     });
 
     if (isFormValid) {
-      const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any) =>
+      const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
         ticket.type === "Festivals / Multi-Day Tickets / Season Passes"
           ? {
               selectedEventTicketType: ticket?.type,
@@ -1705,6 +1705,7 @@ function OganizerCreateEvent() {
               rsvpMail: ticket?.useremail,
               rsvpNumber: ticket?.usernumb,
               rsvpAdditionalFields: ticket?.additional?.map((add: AdditionalFields) => add?.title),
+              isIndex: t_Index,
             }
           : ticket.type === "Private Event Ticketing"
           ? {
@@ -3592,11 +3593,15 @@ function OganizerCreateEvent() {
                             <FormControl>
                               <Input
                                 placeholder="Enter Event Name"
+                                // value={Eventname ?? ""}
                                 className="pt-12 pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                 {...field}
                                 onChange={(e) => {
-                                  setEventname(e.target.value);
-                                  field.onChange(e);
+                                  const inputValue = e.target.value;
+                                  if (inputValue === "" || inputValue.trim() !== "") {
+                                    setEventname(inputValue);
+                                    field.onChange(e);
+                                  }
                                 }}
                               />
                             </FormControl>
@@ -4287,6 +4292,33 @@ function OganizerCreateEvent() {
                           {ticket.eventdates.map((event: any, eventIndex: number) => {
                             return (
                               <>
+                                {ticket?.eventdates?.length > 1 && (
+                                  <div className="w-full flex justify-center items-center">
+                                    <div
+                                      className="h-[1.5px] w-[70%] relative mb-[28px] mt-[4px]"
+                                      style={{
+                                        background: "linear-gradient(135deg, #002b12 0.2%, #13ff7a 50.2%, #002b12 100.2%)", // main gradient in the center
+                                      }}
+                                    >
+                                      <div
+                                        className="absolute top-0 left-0 h-full"
+                                        style={{
+                                          width: "30%", // make the edges thinner
+                                          background: "linear-gradient(to left, transparent, #002b12)", // gradient that fades out from transparent
+                                          filter: "blur(8px)", // blur the edges to make them thin and faded
+                                        }}
+                                      ></div>
+                                      <div
+                                        className="absolute top-0 right-0 h-full"
+                                        style={{
+                                          width: "30%", // same width for both edges
+                                          background: "linear-gradient(to right, transparent, #002b12)", // gradient that fades out from transparent
+                                          filter: "blur(8px)", // blur the edges to make them thin and faded
+                                        }}
+                                      ></div>
+                                    </div>
+                                  </div>
+                                )}
                                 <div className="flex items-start gap-[24px] w-full common-container mt-[-9px] mb-[12px]">
                                   {/* Event Start */}
                                   <div className="w-full">
@@ -4505,7 +4537,7 @@ function OganizerCreateEvent() {
                                   </div>
                                 </div>
                                 {/* Delete Event */}
-                                {eventIndex !== 0 && (
+                                {ticket?.eventdates?.length > 1 && (
                                   <div className="flex justify-end items-center mt-[5px] mb-5 ticket-btn">
                                     <Button
                                       className=" bg-[#FF1717B2] text-white font-bold h-[32px] py-[8px] px-[12px] gap-[8px] flex items-center justify-between rounded-[100px] text-[11px]"
@@ -4515,7 +4547,7 @@ function OganizerCreateEvent() {
                                       }}
                                     >
                                       <Image src={deleteicon} alt="delete-icon" height={12} width={12} />
-                                      Delete Event
+                                      Delete event time
                                     </Button>
                                   </div>
                                 )}
@@ -5753,7 +5785,7 @@ function OganizerCreateEvent() {
                                   // onClick={handleAddTicketType}
                                 >
                                   <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                  Additional Field
+                                  Additional Email
                                 </Button>
                               </div>
                             </div>
@@ -6568,7 +6600,7 @@ function OganizerCreateEvent() {
                                     // onClick={handleAddTicketType}
                                   >
                                     <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                    Additional Field
+                                    Additional Email
                                   </Button>
                                 </div>
                               </div>
@@ -6641,7 +6673,7 @@ function OganizerCreateEvent() {
                                     // onClick={handleAddTicketType}
                                   >
                                     <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                    Additional Field
+                                    Additional Password
                                   </Button>
                                 </div>
                               </div>
@@ -6727,7 +6759,7 @@ function OganizerCreateEvent() {
                                   // onClick={handleAddTicketType}
                                 >
                                   <Image src={addicon} alt="Add-icon" height={12} width={12} />
-                                  Additional Field
+                                  Additional Password
                                 </Button>
                               </div>
                             </div>
@@ -7575,7 +7607,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Facebok<span className="text-red-600 text-[20px] relative">*</span>
+                              Facebok{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isFbVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7615,7 +7647,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Instagram<span className="text-red-600 text-[20px] relative">*</span>
+                              Instagram{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isInstaVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7656,7 +7688,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Telegram<span className="text-red-600 text-[20px] relative">*</span>
+                              Telegram{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isTeleVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7696,7 +7728,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Youtube<span className="text-red-600 text-[20px] relative">*</span>
+                              Youtube{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isYtVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7737,7 +7769,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Tiktok<span className="text-red-600 text-[20px] relative">*</span>
+                              Tiktok{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isTikTokVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7777,7 +7809,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Linkedin<span className="text-red-600 text-[20px] relative">*</span>
+                              Linkedin{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isLinkedInVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">
@@ -7818,7 +7850,7 @@ function OganizerCreateEvent() {
                         render={({ field }) => (
                           <FormItem className="relative w-full">
                             <FormLabel className="text-[16px] font-extrabold leading-[20px] text-left text-[#FFFFFF] absolute left-3 top-2 uppercase pt-[16px] pb-[4px] flex justify-start items-center gap-[2px]">
-                              Twitter<span className="text-red-600 text-[20px] relative">*</span>
+                              Twitter{/*<span className="text-red-600 text-[20px] relative">*</span>*/}
                             </FormLabel>
                             {/* {isXVerify ? (
                               <FormLabel className="text-[#00D059] text-[12px] leading-[18px] font-extrabold absolute right-3 top-6 py-[4px] flex justify-center items-center">

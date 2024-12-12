@@ -22,42 +22,51 @@ import { ErrorToast, SuccessToast } from "../reusable-components/Toaster/Toaster
 import api from "@/lib/apiInterceptor";
 import { API_URL } from "@/lib/client";
 
-const formSchema = z.object({
-  v_name: z.string().min(1, { message: "Venue Name cannot be empty." }),
-  v_address: z.string().min(1, { message: "Venue Address cannot be empty." }),
-  v_city: z.string().min(1, { message: "City cannot be empty." }),
-  state: z.string().min(1, { message: "State/Region cannot be empty." }),
-  postalcode: z.string().min(1, { message: "Postal Code cannot be empty." }),
-  country: z.string().min(1, { message: "Country cannot be empty." }),
+import { RxCrossCircled } from "react-icons/rx";
 
-  capacity: z.string().min(1, { message: "Capacity cannot be empty." }),
-  v_type: z.string().min(1, { message: "Venue Type cannot be empty." }),
-  e_type: z.string().min(1, { message: "Event Type cannot be empty." }),
-  is_licenseForEvent: z.string().min(1, { message: "Field cannot be empty." }),
-  license_copy: z.string().min(1, { message: "License Copy required" }),
+const formSchema = z
+  .object({
+    v_name: z.string().min(1, { message: "Venue Name cannot be empty." }),
+    v_address: z.string().min(1, { message: "Venue Address cannot be empty." }),
+    v_city: z.string().min(1, { message: "City cannot be empty." }),
+    state: z.string().min(1, { message: "State/Region cannot be empty." }),
+    postalcode: z.string().min(1, { message: "Postal Code cannot be empty." }),
+    country: z.string().min(1, { message: "Country cannot be empty." }),
 
-  managerName: z.string().min(1, { message: "Manager Name cannot be empty." }),
-  m_email: z
-    .string()
-    .email({ message: "Please enter a valid email address." }) // Email validation
-    .nonempty({ message: "Email cannot be empty." }),
-  m_phone: z
-    .string()
-    .regex(/^\+?[0-9]{10,15}$/, { message: "Please enter a valid phone number." }) // Only digits and optional leading '+'
-    .nonempty({ message: "Phone number cannot be empty." }),
-  inspection: z.string().min(1, { message: "Inspection cannot be empty." }),
-});
+    capacity: z.string().min(1, { message: "Capacity cannot be empty." }),
+    v_type: z.string().min(1, { message: "Venue Type cannot be empty." }),
+    is_licenseForEvent: z
+      .string()
+      .min(1, { message: "Field cannot be empty." })
+      .refine((value) => ["License", "No licensed"].includes(value), {
+        message: "Invalid value. Must be 'License' or 'No licensed'.",
+      }),
+    license_copy: z.string().optional(),
+
+    managerName: z.string().min(1, { message: "Manager Name cannot be empty." }),
+    m_email: z
+      .string()
+      .email({ message: "Please enter a valid email address." }) // Email validation
+      .nonempty({ message: "Email cannot be empty." }),
+    m_phone: z
+      .string()
+      .regex(/^\+?[0-9]{10,15}$/, { message: "Please enter a valid phone number." }) // Only digits and optional leading '+'
+      .nonempty({ message: "Phone number cannot be empty." }),
+    inspection: z.string().min(1, { message: "Inspection cannot be empty." }),
+  })
+  .superRefine((values, ctx) => {
+    if (values.is_licenseForEvent === "License" && (!values.license_copy || values.license_copy.trim().length === 0)) {
+      ctx.addIssue({
+        code: "custom", // Specifies this as a custom validation error
+        path: ["license_copy"], // The field where the error is associated
+        message: "License Copy is required", // Error message
+      });
+    }
+  });
 
 //  DropDown Options
 const venueTypes = [{ label: "Indoor" }, { label: "Outdoor" }];
-const eventType = [
-  { label: "Festivals / Multi-Day Tickets / Season Passes" },
-  { label: "RSVP Ticketing" },
-  { label: "Private Event Ticketing" },
-  { label: "Passworded / Discounted Voucher Event Ticketing" },
-  { label: "Custom Ticket type" },
-];
-const liscenseType = [{ label: "Yes" }, { label: "No" }];
+const liscenseType = [{ label: "License" }, { label: "No licensed" }];
 
 function VenueVerification() {
   const dispatch = useAppDispatch();
@@ -79,7 +88,6 @@ function VenueVerification() {
 
       capacity: "",
       v_type: "",
-      e_type: "",
       is_licenseForEvent: "",
       license_copy: "",
 
@@ -92,15 +100,13 @@ function VenueVerification() {
 
   // Drop Downs
   const [venueDropDOWN, setVenueDropDown] = useState(false);
-  const [eventDropDOWN, setEventDropDown] = useState(false);
   const [lisenceDropDOWN, setLiscenseDropDown] = useState(false);
+
   // Selected Values
   const [selctdVenueType, setVenueTYPE] = useState<string | null>(null);
-  const [slectdEventType, setEventTYPE] = useState<string | null>(null);
   const [selctdLisence, setLISCENCE] = useState<string | null>(null);
 
   const venueDropdown = () => setVenueDropDown(!venueDropDOWN);
-  const eventDropDown = () => setEventDropDown(!eventDropDOWN);
   const liscenceDropDown = () => setLiscenseDropDown(!lisenceDropDOWN);
 
   // Loader
@@ -118,33 +124,20 @@ function VenueVerification() {
     form.setValue("v_type", s_type);
   };
 
-  // Event Type Selection
-  const hanldeEventTypeSelection = (e_type: string) => {
-    setEventTYPE(e_type);
-    setEventDropDown(!eventDropDOWN);
-    form.clearErrors("e_type");
-    form.setValue("e_type", e_type);
-  };
-
   // Lisence Type Selection
   const handleLiscenceTypeSelection = (l_type: string) => {
     setLISCENCE(l_type);
     setLiscenseDropDown(!lisenceDropDOWN);
     form.clearErrors("is_licenseForEvent");
     form.setValue("is_licenseForEvent", l_type);
+    if (l_type == "No licensed") {
+      setGalleryFiles([]);
+      setCopyLiscenceURL("");
+      form.setValue("license_copy", "");
+    }
   };
 
-  //Uploading Lisence Copy
-  // const uploadLisenceCopy = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = event.target.files;
-  //   if (files) {
-
-  //     form.clearErrors("license_copy");
-  //     form.setValue("license_copy", fileArray[0]?.name);
-  //   }
-  // };
-
-  // Uploadiung Liscence Copy
+  // Uploading Liscence Copy
   const uploadLisenceCopy = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setLoader(true);
@@ -180,105 +173,6 @@ function VenueVerification() {
         });
       }
     }
-
-    // const file = e.target.files?.[0];
-    /* if (file) {
-      setLoader(true);
-
-      // Validate file type
-      const allowedFileTypes = [
-        "image/png",
-        "image/jpeg",
-        "image/jpg",
-        "application/pdf",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      ];
-      if (!allowedFileTypes.includes(file.type)) {
-        setLoader(false);
-        ErrorToast("Unsupported file type. Please upload an image, PDF, or DOC file.");
-        form.setError("license_copy", {
-          type: "manual",
-          message: "Unsupported file type.",
-        });
-        return;
-      }
-
-      try {
-        // Check if the file is an image
-        if (file.type.startsWith("image/")) {
-          const imgUrl = URL.createObjectURL(file);
-          const img = new window.Image();
-
-          img.onload = async () => {
-            try {
-              // Upload the image file
-              const formData = new FormData();
-              formData.append("file", file);
-
-              const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              });
-
-              if (res.status === 200) {
-                setLoader(false);
-                form.setValue("license_copy", file.name);
-                form.clearErrors("license_copy");
-                setCopyLiscenceURL(res.data.data);
-                SuccessToast("License copy uploaded successfully.");
-              } else {
-                throw new Error(res.payload?.message || "Error uploading license copy");
-              }
-            } catch (error) {
-              console.error("Error:", error);
-              setLoader(false);
-              ErrorToast("An error occurred while uploading license copy.");
-              form.setError("license_copy", {
-                type: "manual",
-                message: "Try another copy.",
-              });
-            }
-          };
-
-          img.onerror = () => {
-            setLoader(false);
-            ErrorToast("Failed to load the image.");
-          };
-
-          img.src = imgUrl;
-        } else {
-          // Handle non-image files
-          const formData = new FormData();
-          formData.append("file", file);
-
-          const res: any = await api.post(`${API_URL}/upload/uploadimage`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-
-          if (res.status === 200) {
-            setLoader(false);
-            form.setValue("license_copy", file.name);
-            form.clearErrors("license_copy");
-            setCopyLiscenceURL(res.data.data);
-            SuccessToast("License copy uploaded successfully.");
-          } else {
-            throw new Error(res.payload?.message || "Error uploading license copy");
-          }
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        setLoader(false);
-        ErrorToast("An error occurred while uploading license copy.");
-        form.setError("license_copy", {
-          type: "manual",
-          message: "Try another copy.",
-        });
-      }
-    } */
   };
 
   //Getting user ID
@@ -298,16 +192,13 @@ function VenueVerification() {
     // dispatch(getEventByEventId(value));
   }, []);
 
-  //Get the Data of Specific Event
-  // const EventsData = useAppSelector((state) => state?.getEventByEventID?.eventIdEvents?.data);
-  // const EventDataLoader = useAppSelector((state) => state?.getEventByEventID?.loading);
-  // useEffect(() => {
-  //   console.log("Ticket that havn't venue Verification is ==>", EventsData);
-  // }, [EventsData]);
-
   //Foem Submission here
   async function SubmitVebueForm(values: z.infer<typeof formSchema>) {
     setLoader(true);
+    if (form.getValues("is_licenseForEvent") === "License" && form.getValues("license_copy") == "") {
+      ErrorToast("License Copy is required");
+      return;
+    }
     try {
       const data = {
         eventId: eventID,
@@ -315,7 +206,7 @@ function VenueVerification() {
         City: form.getValues("v_city"),
         Country: form.getValues("country"),
         InspectionNotes: form.getValues("inspection"),
-        IsVenueLisenced: form.getValues("is_licenseForEvent") === "Yes" ? true : false,
+        IsVenueLisenced: form.getValues("is_licenseForEvent") === "License" ? true : false,
         LicensedCopy: copyLiscenceUrl || form.getValues("license_copy") || "",
         Region: form.getValues("state"),
         Venue_Address: form.getValues("v_address"),
@@ -344,6 +235,12 @@ function VenueVerification() {
       console.error("Error:", error);
     }
   }
+
+  const removeSelectedFile = () => {
+    setGalleryFiles([]);
+    setCopyLiscenceURL("");
+    form.setValue("license_copy", "");
+  };
 
   return (
     <section className="bg-img-effect bg-cover bg-center ">
@@ -384,6 +281,15 @@ function VenueVerification() {
                                   placeholder="Enter Venue Name"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Allow the input, but prevent leading space
+                                    if (value.trimStart().length === 0) {
+                                      field.onChange("");
+                                    } else {
+                                      field.onChange(e);
+                                    }
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -404,6 +310,15 @@ function VenueVerification() {
                                   placeholder="Enter Venue Address"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Allow the input, but prevent leading space
+                                    if (value.trimStart().length === 0) {
+                                      field.onChange("");
+                                    } else {
+                                      field.onChange(e);
+                                    }
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -424,6 +339,15 @@ function VenueVerification() {
                                   placeholder="Enter City"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Allow the input, but prevent leading space
+                                    if (value.trimStart().length === 0) {
+                                      field.onChange("");
+                                    } else {
+                                      field.onChange(e);
+                                    }
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -442,6 +366,15 @@ function VenueVerification() {
                                   placeholder="Enter State/Region"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Allow the input, but prevent leading space
+                                    if (value.trimStart().length === 0) {
+                                      field.onChange("");
+                                    } else {
+                                      field.onChange(e);
+                                    }
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -462,6 +395,15 @@ function VenueVerification() {
                                   placeholder="Enter Postal Code"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Allow the input, but prevent leading space
+                                    if (value.trimStart().length === 0) {
+                                      field.onChange("");
+                                    } else {
+                                      field.onChange(e);
+                                    }
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -480,6 +422,15 @@ function VenueVerification() {
                                   placeholder="Enter Country"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Allow the input, but prevent leading space
+                                    if (value.trimStart().length === 0) {
+                                      field.onChange("");
+                                    } else {
+                                      field.onChange(e);
+                                    }
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage className="space-t-0" />
@@ -602,59 +553,8 @@ function VenueVerification() {
                         </div>
                       </div>
 
-                      {/* Event Type and liscence Information */}
+                      {/* liscence Information AND Liscence Uploading */}
                       <div className="flex flex-col sm:flex-row items-start gap-[16px] sm:gap-[24px] w-full common-container">
-                        {/* Event Type field */}
-                        <div className=" w-full sm:w-[49%]">
-                          <div className="relative w-full py-[13px] mt-[8px] rounded-md border border-[#292929] gradient-slate px-[12px]">
-                            {/* Field */}
-                            <div className="flex items-center justify-between cursor-pointer" onClick={eventDropDown}>
-                              <div className="flex flex-col">
-                                <p className="text-base text-white font-extrabold pb-[4px] uppercase">event Type</p>
-                                <p className="text-[12px] font-bold text-[#8F8F8F]">{slectdEventType || "Select Event Type"}</p>
-                              </div>
-                              <Image
-                                src={arrowdown} // Replace with your actual image path
-                                width={11}
-                                height={11}
-                                alt="Toggle Dropdown"
-                              />
-                            </div>
-
-                            {/* Dropdown */}
-                            {eventDropDOWN && (
-                              <div className="absolute left-0 top-full mt-2 w-full bg-[#292929] border border-[#292929] rounded-md z-50 gradient-slate px-[12px] pb-[16px] pt-[8px] h-fit overflow-auto">
-                                {/* Category Options */}
-                                {eventType.map((e_type: any, idx: number) => (
-                                  <div
-                                    key={idx}
-                                    className="flex justify-between items-center py-2 cursor-pointer"
-                                    onClick={() => hanldeEventTypeSelection(e_type?.label)}
-                                  >
-                                    <p
-                                      className={`text-[16px] font-normal ${slectdEventType === e_type?.label ? "text-[#00d059]" : "text-[#FFFFFF]"}`}
-                                    >
-                                      {e_type?.label}
-                                    </p>
-                                    {slectdEventType === e_type?.label && (
-                                      <Image
-                                        src={arrowdown} // Replace with your actual tick image path
-                                        width={10}
-                                        height={10}
-                                        alt="Selected"
-                                      />
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                          {/* Error Message */}
-                          {form.formState.errors?.e_type?.message && (
-                            <p className="text-red-500 text-sm mt-2">{String(form.formState.errors?.e_type?.message)}</p>
-                          )}
-                        </div>
-
                         {/* Is the Venew Liscense For the Event Type */}
                         <div className=" w-full sm:w-[49%]">
                           <div className="relative w-full py-[13px] mt-[8px] rounded-md border border-[#292929] gradient-slate px-[12px]">
@@ -705,57 +605,62 @@ function VenueVerification() {
                             <p className="text-red-500 text-sm mt-2">{String(form.formState.errors?.is_licenseForEvent?.message)}</p>
                           )}
                         </div>
-                      </div>
 
-                      {/* Liscence Uploading */}
-                      <div className="flex flex-col sm:flex-row items-start gap-[16px] sm:gap-[24px] w-full common-container">
                         {/* Liscense PDF or Image Uploading Field */}
-                        <div className="w-full lg:w-[49%]">
-                          <div className="w-full xl:w-[49%] gradient-slate gradient-slate-input rounded-lg shadow-lg py-[16px] px-[12px] space-y-4">
-                            <div className="relative space-y-0">
-                              <p className="text-base text-white font-extrabold uppercase">licensed copy</p>
-                              <label
-                                htmlFor="fileUpload"
-                                className={`gallery-box-same border-none text-[#8F8F8F] font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold gradient-slatee rounded-md cursor-pointer flex items-end ${
-                                  galleryFiles?.length > 0 ? "gallery-box" : "gallery-tops"
-                                }`}
-                              >
-                                <span>{galleryFiles?.length > 0 ? `${galleryFiles.length} file(s) selected` : "Attach Licensed Copy"}</span>
-                                <input
-                                  type="file"
-                                  multiple
-                                  accept="image/*,application/pdf"
-                                  id="fileUpload"
-                                  className="hidden"
-                                  onChange={uploadLisenceCopy}
+                        {selctdLisence == "License" && (
+                          <div className="w-full sm:w-[49%]">
+                            <div className="relative w-full py-[13px] mt-[8px] rounded-md border border-[#292929] gradient-slate px-[12px]">
+                              <div className="relative space-y-[5px]">
+                                <p className="text-base text-white font-extrabold uppercase">licensed copy</p>
+                                <label
+                                  htmlFor="fileUpload"
+                                  className={`gallery-box-same border-none text-[#8F8F8F] font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold gradient-slatee rounded-md cursor-pointer flex items-end ${
+                                    galleryFiles?.length > 0 ? "gallery-box" : "gallery-tops"
+                                  }`}
+                                >
+                                  <span>{galleryFiles?.length > 0 ? `${galleryFiles.length} file(s) selected` : "Attach Licensed Copy"}</span>
+                                  <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*,application/pdf"
+                                    id="fileUpload"
+                                    className="hidden"
+                                    onChange={uploadLisenceCopy}
+                                  />
+                                </label>
+                                <Image
+                                  className="absolute top-[20%] right-0 cursor-pointer"
+                                  src="/Images/linkIcon.svg" // Replace with your actual image path
+                                  width={18}
+                                  height={18}
+                                  alt="Link Icon"
                                 />
-                              </label>
-                              <Image
-                                className="absolute top-[30%] right-0 cursor-pointer"
-                                src="/Images/linkIcon.svg" // Replace with your actual image path
-                                width={18}
-                                height={18}
-                                alt="Link Icon"
-                              />
-                            </div>
-
-                            {/* Display selected file names */}
-                            {galleryFiles?.length > 0 && (
-                              <div className="mt-4">
-                                <p className="text-gray-300 text-sm font-semibold">Selected Files:</p>
-                                <ul className="list-disc list-inside text-gray-400 text-sm mt-2">
-                                  {galleryFiles.map((file, index) => (
-                                    <li key={index}>{file.name}</li>
-                                  ))}
-                                </ul>
                               </div>
+
+                              {/* Display selected file names */}
+                              {galleryFiles?.length > 0 && (
+                                <div className="mt-4 relative w-full">
+                                  <RxCrossCircled
+                                    color="red"
+                                    size={20}
+                                    className="absolute bottom-0 right-[1%] top-[50%] cursor-pointer"
+                                    onClick={removeSelectedFile}
+                                  />
+                                  <p className="text-gray-300 text-sm font-semibold">Selected File:</p>
+                                  <ul className="list-disc list-inside text-gray-400 text-sm mt-2">
+                                    {galleryFiles.map((file, index) => (
+                                      <li key={index}>{file.name}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            </div>
+                            {/* Error Message */}
+                            {form.formState.errors?.license_copy?.message && (
+                              <p className="text-red-500 text-sm mt-2">{String(form.formState.errors?.license_copy?.message)}</p>
                             )}
                           </div>
-                          {/* Error Message */}
-                          {form.formState.errors?.license_copy?.message && (
-                            <p className="text-red-500 text-sm mt-2">{String(form.formState.errors?.license_copy?.message)}</p>
-                          )}
-                        </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -772,7 +677,7 @@ function VenueVerification() {
                     {/* Contact information Body */}
                     <div className="pt-[8px] flex flex-col gap-[16px] sm:gap-[24px] p-[24px] md:pb-[32px] md:pt-[8px] md:px-[60px]">
                       <div className="flex flex-col sm:flex-row items-start gap-[16px] sm:gap-[24px] w-full common-container">
-                        {/* Event Name fields */}
+                        {/* MANAGER Name fields */}
                         <FormField
                           control={form.control}
                           name="managerName"
@@ -788,6 +693,15 @@ function VenueVerification() {
                                   placeholder="Enter Venue Manager Name"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Allow the input, but prevent leading space
+                                    if (value.trimStart().length === 0) {
+                                      field.onChange("");
+                                    } else {
+                                      field.onChange(e);
+                                    }
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -808,6 +722,13 @@ function VenueVerification() {
                                   placeholder="Enter Venue Manager Email"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
+                                  onChange={(e) => {
+                                    // Allow the input, but prevent leading space
+                                    if (e.target.value.trimStart() == "") {
+                                      return;
+                                    }
+                                    field.onChange(e);
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -832,23 +753,35 @@ function VenueVerification() {
                                   {...field}
                                   type="text" // Use text for better input control
                                   onChange={(e) => {
-                                    const value = e.target.value;
-                                    // Allow only valid phone number characters: digits, spaces, dashes, parentheses, and `+`
-                                    if (/^[\d\s()+-]*$/.test(value)) {
-                                      field.onChange(value);
-                                    }
+                                    const value = e.target.value.trimStart(); // Trim leading spaces
+
+                                    // Sanitize input to allow only valid characters
+                                    const sanitizedValue = value.replace(/[^0-9\s()+]/g, "");
+
+                                    // Always update the field value, even if unchanged
+                                    field.onChange(sanitizedValue);
+
+                                    // Optionally, directly update the input's value for immediate UI feedback
+                                    e.target.value = sanitizedValue;
                                   }}
                                   onPaste={(e) => {
                                     const pastedValue = e.clipboardData.getData("text");
                                     // Prevent pasting invalid characters
-                                    if (!/^[\d\s()+-]+$/.test(pastedValue)) {
+                                    if (!/^[\d\s()+]+$/.test(pastedValue)) {
                                       e.preventDefault();
                                     }
                                   }}
                                   onKeyDown={(e) => {
+                                    // Allow keys like Backspace, Delete, Tab, Arrow keys, Enter, etc.
+                                    const allowedKeys = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab", "Enter", "Home", "End"];
+
+                                    if (allowedKeys.includes(e.key)) {
+                                      return; // Allow default behavior for these keys
+                                    }
+
                                     // Prevent invalid characters such as letters or symbols
                                     if (
-                                      e.key.match(/[^0-9()+-\s]/) || // Allow only numbers and valid phone symbols
+                                      e.key.match(/[^0-9()+\s]/) || // Allow only numbers and valid phone symbols
                                       e.key === "e" || // Prevent scientific notation
                                       e.key === "." // Prevent decimal points
                                     ) {
@@ -874,6 +807,11 @@ function VenueVerification() {
                                   placeholder="Enter Inspection Notes"
                                   className="pt-12 pb-6 font-bold text-[12px] placeholder:text-[12px] placeholder:font-bold placeholder:text-[#8F8F8F]"
                                   {...field}
+                                  onChange={(e) => {
+                                    const value = e.target.value.trimStart(); // Trim leading spaces
+                                    // Always update the field value, even if unchanged
+                                    field.onChange(value);
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -896,15 +834,11 @@ function VenueVerification() {
                     <div className="p-[24px] md:py-[32px] md:px-[60px]">
                       <div className="items-start gap-[24px] w-full common-container">
                         <p className="text-sm md:text-base mb-[20px]">
-                          By signing this form, I confirm that the above information is accurate and that I have provided all necessary documentation
-                          to verify the venue for the event.
-                        </p>
-                        <p className="text-sm md:text-base mb-[20px]">Organizer Signature: ___________________________</p>
-                        <p className="text-sm md:text-base mb-[20px]">Date: ___________________________</p>
-                        <p className="text-sm md:text-base mb-[20px]">Ticket Platform Representative Signature: ___________________________</p>
-                        <p className="text-sm md:text-base mb-[20px]"> Date: ___________________________</p>
-                        <p className="text-sm md:text-base mb-[20px]">
                           This form must be completed and approved by the ticket platform before ticket sales or event promotion can commence.
+                        </p>
+                        <p className="text-sm md:text-base mb-[20px]">
+                          By submitting this form, I confirm that the above information is accurate and that I have provided all necessary
+                          documentation to verify the venue for the event.
                         </p>
                       </div>
                     </div>

@@ -18,6 +18,7 @@ import percent from "@/assets/percent.svg";
 
 import { v4 as uuidv4 } from "uuid";
 import { Label } from "recharts";
+import { ErrorToast } from "../reusable-components/Toaster/Toaster";
 
 type CateOption = {
   label: string;
@@ -361,17 +362,45 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                                 {...field}
                                 onChange={(e) => {
                                   const value = e.target.value;
-                                  // Prevent leading space
-                                  if (value.trimStart().length === 0) {
+
+                                  // make sure field is not empty
+                                  if (value.startsWith("%") || value.trimStart() == "") {
                                     setOwnerForm((prevTickets) =>
                                       prevTickets.map((formObject, i) => (i === index ? { ...formObject, percentageSchema: "" } : formObject))
                                     );
                                     field.onChange("");
-                                  } else {
+                                    return;
+                                  }
+
+                                  // Validate and sanitize input
+                                  if (value.includes("%")) {
+                                    const parts = value.split("%");
+                                    const numericValue = parts[0].replace(/[^0-9.]/g, ""); // Keep only numbers and '.'
+                                    if (parseFloat(numericValue) > 100) {
+                                      ErrorToast("Percentage cannot be over 100.0");
+                                      return;
+                                    }
+                                    // Allow only numeric part and a single %
+                                    const sanitizedValue = numericValue + "%";
                                     setOwnerForm((prevTickets) =>
-                                      prevTickets.map((formObject, i) => (i === index ? { ...formObject, percentageSchema: value } : formObject))
+                                      prevTickets.map((formObject, i) =>
+                                        i === index ? { ...formObject, percentageSchema: sanitizedValue } : formObject
+                                      )
                                     );
-                                    field.onChange(value);
+                                    field.onChange(sanitizedValue);
+                                  } else {
+                                    // Allow numeric input up to 100 without '%'
+                                    const numericValue = value.replace(/[^0-9.]/g, "");
+                                    if (parseFloat(numericValue) > 100) {
+                                      ErrorToast("Percentage cannot be over 100.0");
+                                      return;
+                                    }
+                                    setOwnerForm((prevTickets) =>
+                                      prevTickets.map((formObject, i) =>
+                                        i === index ? { ...formObject, percentageSchema: numericValue } : formObject
+                                      )
+                                    );
+                                    field.onChange(numericValue);
                                   }
                                 }}
                                 onKeyDown={(e) => {
@@ -384,20 +413,20 @@ const Owners = ({ onNextBtnClicked, PageData = {} }: ChildComponentProps) => {
                                     return;
                                   }
 
-                                  // Prevent starting with '%'
-                                  if (key === "%" && target.value.length === 0) {
+                                  // Prevent entering anything after '%'
+                                  if (target.value.includes("%") && !["Backspace", "Tab"].includes(key)) {
                                     e.preventDefault();
                                     return;
                                   }
 
-                                  // Allow only one '.' and '%' in the input
-                                  if ((key === "." && target.value.includes(".")) || (key === "%" && target.value.includes("%"))) {
+                                  // Allow only valid characters
+                                  if (!/[0-9.%]/.test(key) && !["Backspace", "Tab", "ArrowLeft", "ArrowRight"].includes(key)) {
                                     e.preventDefault();
                                     return;
                                   }
 
-                                  // Allow digits (0-9), '.' and '%' symbols only
-                                  if (!/[0-9.%]/.test(key) && !["Backspace", "Tab"].includes(key)) {
+                                  // Prevent multiple '%'
+                                  if (key === "%" && target.value.includes("%")) {
                                     e.preventDefault();
                                   }
                                 }}
