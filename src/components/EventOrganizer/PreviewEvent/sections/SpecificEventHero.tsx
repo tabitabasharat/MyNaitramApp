@@ -115,7 +115,9 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
 
   function convertToUTC(localDateTime: string): string {
     // Create a Date object from the local date-time string
+    console.log("This is Date obtained Date==>  ", localDateTime);
     const localDate = new Date(localDateTime);
+    console.log("This is Date local Date==>  ", localDate);
 
     // Extract UTC time components
     const utcYear = localDate.getUTCFullYear();
@@ -123,13 +125,16 @@ const SpecificEventHero = ({ setShowTicket, eventAllData, backData }: any) => {
     const utcDate = localDate.getUTCDate();
     const utcHours = localDate.getUTCHours();
     const utcMinutes = localDate.getUTCMinutes();
+    const utcSeconds = localDate.getUTCSeconds();
+    const utcMilliseconds = localDate.getUTCMilliseconds();
 
-    // Format the components to match the 'yyyy-MM-ddTHH:mm' format
+    // Format the components to match the ISO 8601 format
     const formattedUTC = `${utcYear}-${String(utcMonth).padStart(2, "0")}-${String(utcDate).padStart(2, "0")}T${String(utcHours).padStart(
       2,
       "0"
-    )}:${String(utcMinutes).padStart(2, "0")}`;
+    )}:${String(utcMinutes).padStart(2, "0")}:${String(utcSeconds).padStart(2, "0")}.${String(utcMilliseconds).padStart(3, "0")}Z`;
 
+    console.log("This is Date converted Date==>  ", formattedUTC);
     return formattedUTC;
   }
 
