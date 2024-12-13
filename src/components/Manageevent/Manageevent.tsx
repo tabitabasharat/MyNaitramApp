@@ -22,12 +22,16 @@ import editEventIcon from "@/assets/editEventIcon.svg";
 import deleteEventIcon from "@/assets/deleteEventIcon.svg";
 import stopSalesIcon from "@/assets/stopEventSalesIcon.svg";
 
-import { VenueVerifyIndicaionModel } from "../EventSubmmitModal/EventSubmmitModal";
+import { VenueVerifyIndicaionModel, SalesStartindicationModel } from "../EventSubmmitModal/EventSubmmitModal";
 
 function Manageevent({ events, eventType, title, img, eventId, height = "345px", width = "100%" }: any) {
   const dispatch = useAppDispatch();
   const [isPopUpOPen, setPOpUpOpen] = useState<number | null>(null);
   const [isVenueModelOpen, setVenueModelOpen] = useState<boolean>(false);
+
+  //
+  const [issold, setSoldOpen] = useState<boolean>(false);
+  const [soldeventID, setSoldEventID] = useState<string | any>("");
 
   const handlePageChange = (page: number) => {
     const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
@@ -80,6 +84,24 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
           btnTXT={"Verify"}
         />
       )}
+      {issold && (
+        <SalesStartindicationModel
+          onClose={() => setSoldOpen(false)}
+          open={() => setSoldOpen(true)}
+          text={"The sales for this event have start so you can only edit price and images!"}
+          link={`/management/edit-event/${soldeventID}`}
+          btnTXT={"Edit Event"}
+        />
+      )}
+      {/* {issold && (
+        <VenueVerifyIndicaionModel
+          onClose={() => setSoldOpen(false)}
+          open={() => setSoldOpen(true)}
+          text={"The sales for this event have start so you can only edit price and images!"}
+          link={"/checkVenue"}
+          btnTXT={"Edit Event"}
+        />
+      )} */}
       <h3 className=" font-bold lg:text-[48px] text-[32px] my-[24px] lg:my-[32px]">Manage Event</h3>
 
       {EventsData?.data?.events?.length > 0 ? (
@@ -125,19 +147,27 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                           className="mt-[-190px] ml-[-130px] absolute shadow-lg ring-1 ring-black ring-opacity-5 border-transparent border-[1px] border-t-white/6 border-b-white/6 rounded-[12px] flex flex-col gap-[9px] justify-center items-start pl-[24px] pt-[24px] pb-[24px] pr-[24px] z-[999] w-fit"
                         >
                           {/* Your links or options here */}
+                          {/* edit */}
                           <Link
                             className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-fit whitespace-nowrap hover:text-[#00D059]"
                             href={`/management/edit-event/${event.id}`}
                             onClick={(e) => {
-                              if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
+                              // if (event?.eventTickets !== undefined && event?.eventTickets.length > 0) {
+                              //   e.preventDefault(); // Prevent navigation
+                              //   ErrorToast("You cannot edit this event because tickets from this event have been sold already");
+                              // }
+                              if (Array.isArray(event?.tickets) && event?.tickets?.some((t: any) => t?.noOfTickets < t?.originalNoOfTickets)) {
                                 e.preventDefault(); // Prevent navigation
-                                ErrorToast("You cannot edit this event because tickets from this event have been sold already");
+                                // ErrorToast("You cannot edit this event because tickets from this event have been sold already");
+                                setSoldOpen(true);
+                                setSoldEventID(event?.id);
                               }
                             }}
                           >
                             <Image src={editEventIcon} alt="Edit" className="w-[12px] h-[12px] mb-[2px]" />
                             Edit Event
                           </Link>
+                          {/* Delete */}
                           <Link
                             className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-fit whitespace-nowrap hover:text-[#00D059]"
                             href={`/management/delete-event/${event.id}`}
@@ -151,6 +181,7 @@ function Manageevent({ events, eventType, title, img, eventId, height = "345px",
                             <Image src={deleteEventIcon} alt="Edit" className="w-[12px] h-[12px] mb-[2px]" />
                             Delete Event
                           </Link>
+                          {/* StopSales */}
                           <Link
                             className="flex justify-start items-center gap-[8px] text-[16px] font-normal leading-[24px] text-left w-fit whitespace-nowrap hover:text-[#00D059]"
                             href={`/management/stopsales/${event.id}`}

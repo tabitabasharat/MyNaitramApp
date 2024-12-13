@@ -391,7 +391,7 @@ const Profile = () => {
           <div>
             {selectedTab === "Collected" ? (
               <div>
-                <div className="flex max-[500px]:hidden flex-wrap xl:flex-nowrap gap-[10px] max-[500px]:gap-[17px]">
+                <div className="flex max-[500px]:hidden flex-wrap xl:flex-nowrap gap-[10px] min-[500px]:gap-[17px]">
                   <FilterButton />
                   {/* Status Filter */}
                   <div
@@ -547,7 +547,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="flex flex-wrap xl:flex-nowrap gap-[17px]">
-                  <div className="flex w-full min-[501px]:hidden xl:flex-nowrap gap-[17px]">
+                  <div className="flex w-full min-[501px]:hidden xl:flex-nowrap gap-[10px]">
                     {/* Search Input */}
                     <div className="w-[510px] relative">
                       <Input

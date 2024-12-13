@@ -41,9 +41,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/organizer-event/payout-detail/bankaccount/add-bank-account",
     "/organizer-event/payout-detail/cryptowallet/addCryptowallet",
     "/organizer-event/payout-history",
-   "/organizer-event/get-paid",
-  
-    
+    "/organizer-event/get-paid",
 
     // "/wallet",
     // "/profile/reward-item"
@@ -52,8 +50,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
   // const isProfileRoute = profileRoutes.includes(pathname);
 
   const isProfileRoute =
-    profileRoutes.includes(pathname) ||
-    pathname.startsWith("/organizer-event/add-scanner/");
+    profileRoutes.includes(pathname) || pathname.startsWith("/organizer-event/add-scanner/") || pathname.match(/^\/side-drawer\/ticket-data\/[^/]+$/);
 
   return (
     <>
