@@ -2118,8 +2118,8 @@ function Editevent() {
   console.log("Form errors:", form.formState.errors);
 
   const convertToLocal = (utcDateTime: string) => {
-    // Parse the UTC time string
-    const date = new Date(`${utcDateTime}Z`); // Append 'Z' to indicate UTC time
+    // Create a Date object from the UTC string (automatically handles 'Z' if present)
+    const date = new Date(utcDateTime);
 
     // Format to local time
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}T${String(
