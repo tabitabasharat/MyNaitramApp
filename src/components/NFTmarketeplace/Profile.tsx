@@ -351,7 +351,7 @@ const Profile = () => {
       <div className="xl:px-[90px] sm:px-[35px] px-[24px] pb-[66px] sm:pb-[247px]">
         {/* Profile Info */}
         <div className="relative ">
-          <div className="gradient-profile max-[386px]:bottom-[170px] max-[386px]:bottom-[122px] max-[385px]:bottom-[152px] max-[639px]:bottom-[124px] bottom-[145px] md:bottom-[177px] sm:bottom-[145px] absolute">
+          <div className="gradient-profile max-[386px]:bottom-[170px] max-[386px]:bottom-[122px] max-[385px]:bottom-[152px] max-[639px]:bottom-[124px] bottom-[145px] md:bottom-[145px] sm:bottom-[145px] absolute">
             <Image
               src={userlogo}
               alt="user-logo"
