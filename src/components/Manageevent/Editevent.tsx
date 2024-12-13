@@ -598,58 +598,64 @@ const themeMui: any = createTheme({
 
 const StyledDateTimePicker: any = styled(DateTimePicker)`
   & .MuiButton-root {
-    // color: #8980f6;
     color: #ffffff;
   }
+
   & .MuiPaper-root {
     background-color: #eaea87;
     color: #ffffff;
   }
+
   & .MuiTypography-root {
     color: #ffffff;
   }
-  //  & .MuiDialog-paper {
-  //  background-color: #eaea87;
-  //  }
 
   & .MuiIconButton-root {
-    // color: #808080;
     color: #ffffff;
   }
 
   & .MuiInputBase-root {
     border: 1px solid transparent;
-    // border-radius: 8px;
     border: none;
-
-    // background: linear-gradient(to top, #0f0f0f, #0f0f0f, #0f0f0f, #1a1a1a);
     color: #ffffff;
     width: 100%;
+
+    // When disabled, change the text color to red
+    &.Mui-disabled {
+      color: red;
+    }
   }
+
   & input {
     color: #ffffff; /* Text color inside the input */
   }
 
-  // & .MuiSvgIcon-root {
-  //   color: #ff0000; /* Set your desired icon color here */
-  // }
-  & MuiPickersDay-root {
+  & .MuiPickersDay-root {
     color: #ffffff;
   }
-  & MuiPickersDay-dayOutsideMonth {
+
+  & .MuiPickersDay-dayOutsideMonth {
     color: #ffffff;
   }
+
   & .MuiPickersDay-today {
     color: #ffffff;
     border-color: #ffffff;
     background-color: "red";
   }
+
   & .MuiOutlinedInput-notchedOutline {
     border: none;
     color: #ffffff;
   }
+
   & .MuiClockNumber-root {
     color: #ffffff;
+  }
+
+  // When disabled, apply red text color to the input
+  & .MuiInputBase-input.Mui-disabled {
+    color: red; /* Red text color when the input is disabled */
   }
 `;
 
@@ -2919,7 +2925,7 @@ function Editevent() {
   // RSVP Ticket Radio Selections
   const handleRsvpRadioSelections = (radioName: string, ticketIndex: number) => {
     if (disableField) {
-      ErrorToast("Can't edit");
+      ErrorToast("Can't RSVP radio selection edit");
       return;
     }
     setTicketTypes((prevTickets) =>
@@ -2961,7 +2967,7 @@ function Editevent() {
 
   const removeAdditionalToRSVP = (ticketIndex: number, f_index: number) => {
     if (disableField) {
-      ErrorToast("Can't edit");
+      ErrorToast("Can't remove additional rsvp");
       return;
     }
     setTicketTypes((prevTickets: any) => {
@@ -3151,7 +3157,7 @@ function Editevent() {
   // remove a manual email
   const removeManualEmailField = (ticketIndex: number, emailIdx: number) => {
     if (disableField) {
-      ErrorToast("Can't edit");
+      ErrorToast("Can't remove manual email");
       return;
     }
     setTicketTypes((prevTickets: any) => {
@@ -3813,7 +3819,7 @@ function Editevent() {
                                   value={field.value}
                                   onChange={(content: any) => {
                                     if (disableField) {
-                                      ErrorToast("Can't Edit");
+                                      // ErrorToast("Can't Edit Event Description");
                                       return;
                                     }
                                     field.onChange(content);
@@ -4240,7 +4246,7 @@ function Editevent() {
                                             </FormLabel>
                                             <FormControl>
                                               {/* <div className="w-full" onClick={toggleDateTimePicker}> Attach click event here */}
-                                              <div className="w-full" onClick={() => toggleTicketStartTimePicker(index)}>
+                                              <div className="w-full text-red-600" onClick={() => toggleTicketStartTimePicker(index)}>
                                                 {" "}
                                                 {/* Attach click event here */}
                                                 <StyledDateTimePicker
@@ -4248,7 +4254,7 @@ function Editevent() {
                                                   referenceDate={currentDateTime}
                                                   formatDensity="spacious"
                                                   value={ticket?.ticketstart ? dayjs(ticket?.ticketstart) : null}
-                                                  onKeyDown={(e: any) => e.preventDefault()}
+                                                  onKeyDown={(e: React.KeyboardEvent) => e.preventDefault()}
                                                   autoOk={false}
                                                   onChange={(e: any) => {
                                                     if (e && e.isValid()) {
@@ -4259,13 +4265,13 @@ function Editevent() {
                                                       toggleTicketStartTimePicker(index);
                                                     }
                                                   }}
-                                                  disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit festival ticket start date");
                                                             e.stopPropagation();
                                                             return;
                                                           }
@@ -4358,7 +4364,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit festival ticket end");
                                                             e.stopPropagation();
                                                             return;
                                                           }
@@ -4502,7 +4508,7 @@ function Editevent() {
                                                             <CalendarTodayIcon
                                                               onClick={(e) => {
                                                                 if (disableField) {
-                                                                  ErrorToast("Can't edit");
+                                                                  ErrorToast("Can't edit festival event start");
                                                                   e.stopPropagation();
                                                                   return;
                                                                 }
@@ -4612,7 +4618,7 @@ function Editevent() {
                                                             <CalendarTodayIcon
                                                               onClick={(e) => {
                                                                 if (disableField) {
-                                                                  ErrorToast("Can't edit");
+                                                                  ErrorToast("Can't edit festival event end");
                                                                   e.stopPropagation(); // Prevent the click event from propagating further
                                                                   return;
                                                                 }
@@ -4911,7 +4917,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit rsvp deadine");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
@@ -5491,7 +5497,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit private ticket start date");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
@@ -5584,7 +5590,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit private ticket end");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
@@ -5692,7 +5698,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit private event start");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
@@ -5792,7 +5798,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit private event end");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
@@ -6344,7 +6350,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit password ticket ticket start");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
@@ -6437,7 +6443,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit password ticker ticket end");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
@@ -6544,7 +6550,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit password event start date");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
@@ -6644,7 +6650,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit password event end date");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
@@ -7398,7 +7404,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit custom ticket start date");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
@@ -7492,7 +7498,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit custom ticket end date");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
@@ -7600,7 +7606,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit custom event start date");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
@@ -7700,7 +7706,7 @@ function Editevent() {
                                                       <CalendarTodayIcon
                                                         onClick={(e) => {
                                                           if (disableField) {
-                                                            ErrorToast("Can't edit");
+                                                            ErrorToast("Can't edit custom event end date");
                                                             e.stopPropagation(); // Prevent the click event from propagating further
                                                             return;
                                                           }
