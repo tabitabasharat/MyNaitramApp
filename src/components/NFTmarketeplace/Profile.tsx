@@ -169,7 +169,7 @@ const Profile = () => {
   const FilterButton1 = () => (
     <>
       <div className="flex relative flex-col">
-        {/* Filter Button */}
+
         <div
           onClick={toggleDropdown}
           className="border border-[#292929] gradient-slate max-[500px]:w-fit w-[30%] p-[16px] rounded-lg min-[501px]:w-[143px] flex items-center justify-between"
