@@ -163,7 +163,7 @@ const NftOwner = () => {
 
           </div>
         </div>
-        <div className="flex flex-wrap gap-[20px] sm:gap-[35px] w-full w-full pt-[60px] md:pt-[30px] pb-[173px] justify-center mainCardss">
+        <div className="flex flex-wrap gap-[20px] sm:gap-[35px] w-full pt-[60px] md:pt-[30px] pb-[173px] justify-center mainCardss">
 
           {[...Array(15)].map((_, index) => (
             <div
@@ -171,7 +171,7 @@ const NftOwner = () => {
               onClick={() => {
                 router.push("/marketPlace/nft");
               }}
-              className="cursor-pointer w-[270px] relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] pt-[18.37px] pb-[19.05px] pr-[12.62px] pl-[11.82px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden hover-gradient-border"
+              className="cursor-pointer grow relative bg-gradient-to-t from-[#0F0F0F] to-[#1A1A1A] pt-[18.37px] pb-[19.05px] pr-[12.62px] pl-[11.82px] flex flex-col gap-[17px] rounded-[8px] overflow-hidden hover-gradient-border"
               // style={{ width: "270px" }}
             >
 

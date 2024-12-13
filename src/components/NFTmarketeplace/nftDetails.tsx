@@ -90,9 +90,9 @@ const NftDetails = () => {
     <div className="relative overflow-hidden">
       <section className=" pt-[173px] pb-[236px]  main pl-[92px] pr-[97px]">
         <div className="flex gap-[50px] xl:gap-[80px]">
-          <div className="flex flex-col w-full lg:w-[40%] min-[1500px]:w-[593px] rightDive">
-            <div className=" image w-full ">
-              <Image className="img w-full rounded-[8px]  " src={image1} alt="/" />
+          <div className="flex flex-col w-full lg:w-[40%] min-[1500px]:w-[500px] rightDive">
+            <div className=" image w-full min-[1500px]:w-[500px]">
+              <Image className="img w-full rounded-[8px] min-[1500px]:w-[500px]" src={image1} alt="/" />
             </div>
             <div className="flex flex-row gap-[25px]">
               <div className="flex gap-[10px] pt-[32px] items-center">
