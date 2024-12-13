@@ -361,7 +361,7 @@ const Profile = () => {
           <h3 className="text-[24px] md:text-[30px] font-extrabold pt-[60px] sm:pb-[20px]">
             AKEMIWRLD
           </h3>
-          <p className="flex items-center gap-[10px] sm:gap-[30px] flex-wrap text-[end] mt-[32px] pb-[10px] md:pt-[30px]">
+          <p className="flex items-center gap-[10px] sm:gap-[30px] flex-wrap text-[end] sm:mt-[0px] mt-[32px] pb-[10px] md:pt-[30px]">
             <div className="flex">
               <Image
                 src={ether}

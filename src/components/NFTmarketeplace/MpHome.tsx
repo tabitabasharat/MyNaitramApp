@@ -95,7 +95,7 @@ const MpHome = () => {
           <button className="lg:hidden w-full h-12 bg-green-500 space-y-[0px] space-y-[40px] text-black font-extrabold text-sm rounded-full py-2 px-6 hover:bg-[#13FF7A]">
             Get Started
           </button>
-          <div className="lg:hidden flex space-x-8">
+          <div className="lg:hidden max-[431px]:w-full max-[431px]:justify-between flex space-x-8">
             {[
               { value: "£240k+", label: "Total Sale" },
               { value: "100k+", label: "Collections" },
