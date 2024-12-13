@@ -386,7 +386,7 @@ const Profile = () => {
             <div className="flex w-full sm:w-[300px] mb-[24px] md:mb-[32px]">
               {tabs.map((tab) => renderTab(tab))}
             </div>
-            <div className="flex sm:block hidden border-b-2 border-b-[#292929] border border-x-transparent border-t-transparent mb-[24px] w-[0px]  sm:w-[76%] md:mb-[32px]"></div>
+            <div className="flex sm:block hidden border-b-2 border-b-[#292929] border border-x-transparent border-t-transparent mb-[24px] w-[0px]  sm:w-[100%] md:mb-[32px]"></div>
           </div>
           <div>
             {selectedTab === "Collected" ? (
@@ -488,7 +488,7 @@ const Profile = () => {
                   </div>
 
                   {/* Search Input */}
-                  <div className="w-[510px] relative">
+                  <div className="w-[510px] grow relative">
                     <Input
                       className="w-full h-14 rounded-[8px] px-[16px] py-[18px] text-sm font-normal gradient-slate border border-[#292929]"
                       placeholder="Search"
