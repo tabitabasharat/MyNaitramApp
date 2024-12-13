@@ -689,11 +689,11 @@ function EditeventOnBack() {
   const [EventStartTime, setEventStartTime] = useState("");
   const [EventEndTime, setEventEndTime] = useState("");
 
-  console.log("my event start date is", EventStartTime);
-  console.log("my ticket start date is", TicketStartDate);
+  // console.log("my event start date is", EventStartTime);
+  // console.log("my ticket start date is", TicketStartDate);
 
-  console.log("my event enddate is", EventEndTime);
-  console.log("my ticket endd date is", TicketEndDate);
+  // console.log("my event enddate is", EventEndTime);
+  // console.log("my ticket endd date is", TicketEndDate);
 
   const [Eventdescription, setEventdescription] = useState("");
 
@@ -1100,7 +1100,7 @@ function EditeventOnBack() {
 
   const [galleryFiles, setGalleryFiles] = useState<GalleryFile[]>([]);
   const [eventID, setEventId] = useState("");
-  console.log("files in gallery", galleryFiles);
+  // console.log("files in gallery", galleryFiles);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -1111,9 +1111,9 @@ function EditeventOnBack() {
           // Parse the JSON data from localStorage
           const parsedData: any = JSON.parse(storedData);
           setEventData(parsedData);
-          console.log("my parsedd data", parsedData);
+          // console.log("my parsedd data", parsedData);
         } catch (error) {
-          console.error("Error parsing event data from localStorage:", error);
+          // console.error("Error parsing event data from localStorage:", error);
           setEventData(null); // Reset state in case of an error
         }
       } else {
@@ -1122,11 +1122,11 @@ function EditeventOnBack() {
     }
   }, []);
 
-  console.log("my event data ", EventData);
+  // console.log("my event data ", EventData);
 
   const imageUrl =
     EventData?.coverEventImage?.startsWith("http") || EventData?.coverEventImage?.startsWith("https") ? EventData.coverEventImage : bgframe;
-  console.log("image src is", imageUrl);
+  // console.log("image src is", imageUrl);
 
   // const userLoading = useAppSelector((state) => state?.getEventByEventID);
 
@@ -1270,7 +1270,7 @@ function EditeventOnBack() {
           return [...prevFiles, ...limitedFilesArray];
         }
 
-        console.log("Added One more file ===> ", [...prevFiles, ...filesArray]); // 2 Adding more files in galleryFiles State
+        // console.log("Added One more file ===> ", [...prevFiles, ...filesArray]); // 2 Adding more files in galleryFiles State
         return [...prevFiles, ...filesArray];
       });
     }
@@ -1332,14 +1332,14 @@ function EditeventOnBack() {
           const formData = new FormData();
           fileObjects.forEach((file: any) => formData.append("files", file));
 
-          console.log("File objects to upload:", fileObjects);
+          // console.log("File objects to upload:", fileObjects);
 
           // Make API call to upload files
           const res: any = await api.post(`${API_URL}/upload/uploadMultiple`, formData);
 
           if (res?.status === 200) {
             fileUrls = res?.data?.imageUrls || [];
-            console.log("Uploaded file URLs:", fileUrls);
+            // console.log("Uploaded file URLs:", fileUrls);
           } else {
             ErrorToast(res?.payload?.message || "Error uploading files");
           }
@@ -1350,7 +1350,7 @@ function EditeventOnBack() {
 
         setLoader(false);
         setEventsFile(allUrls); // Save combined URLs
-        console.log("Final combined URLs:", allUrls);
+        // console.log("Final combined URLs:", allUrls);
 
         // Optionally show success toast
         // SuccessToast("Images processed successfully");
@@ -1358,7 +1358,7 @@ function EditeventOnBack() {
         return allUrls;
       } catch (error) {
         setLoader(false);
-        console.error("Error:", error);
+        // console.error("Error:", error);
         ErrorToast("An error occurred while processing images");
       }
     }
@@ -1407,9 +1407,9 @@ function EditeventOnBack() {
 
   const handleSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log("Selected Main cover img is:", file);
+    // console.log("Selected Main cover img is:", file);
     const filename = file?.name;
-    console.log("file name", filename);
+    // console.log("file name", filename);
     setMainImgName(filename);
 
     if (file) {
@@ -1427,18 +1427,18 @@ function EditeventOnBack() {
         if (res.status === 200) {
           setLoader(false);
 
-          console.log("Main cover image", res);
-          console.log("Main cover image uploaded");
+          // console.log("Main cover image", res);
+          // console.log("Main cover image uploaded");
           form.setValue("eventmainimg", res?.data?.data);
           setMainImg(res?.data?.data);
-          console.log(res?.data?.data, "this is the Main cover image url");
+          // console.log(res?.data?.data, "this is the Main cover image url");
           SuccessToast("Main Cover Image Uploaded Successfully");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message || "Error uploading image");
         }
       } catch (error) {
-        console.error("Error:", error);
+        // console.error("Error:", error);
       }
     }
   };
@@ -1446,9 +1446,9 @@ function EditeventOnBack() {
   const handleCoverSingleFileChangeOld = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const file = e.target.files?.[0];
-    console.log("Selected  cover img is:", file);
+    // console.log("Selected  cover img is:", file);
     const filename = file?.name;
-    console.log("file name", filename);
+    // console.log("file name", filename);
     setCoverImgName(filename);
     if (file) {
       setLoader(true);
@@ -1465,19 +1465,19 @@ function EditeventOnBack() {
         if (res.status === 200) {
           setLoader(false);
 
-          console.log(" cover image", res);
-          console.log(" cover image uploaded");
+          // console.log(" cover image", res);
+          // console.log(" cover image uploaded");
           form.setValue("eventcoverimg", res?.data?.data);
 
           setCoverImg(res?.data?.data);
-          console.log(res?.data?.data, "this is the cover image url");
+          // console.log(res?.data?.data, "this is the cover image url");
           SuccessToast("Cover Event Image Uploaded Successfully");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message || "Error uploading image");
         }
       } catch (error) {
-        console.error("Error:", error);
+        // console.error("Error:", error);
       }
     }
   };
@@ -1526,7 +1526,7 @@ function EditeventOnBack() {
             ErrorToast(res?.payload?.message || "Error uploading image");
           }
         } catch (error) {
-          console.error("Error:", error);
+          // console.error("Error:", error);
           setLoader(false);
           ErrorToast("An error occurred while uploading the image.");
         }
@@ -1569,7 +1569,7 @@ function EditeventOnBack() {
   useEffect(() => {
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
-    console.log("user ID logged in is", userID);
+    // console.log("user ID logged in is", userID);
   }, []);
 
   /* const filteredTicketTypes = ticketTypes.map((ticket) => ({
@@ -1586,9 +1586,9 @@ function EditeventOnBack() {
 
   function convertToUTC(localDateTime: string): string {
     // Create a Date object from the local date-time string
-    console.log("This is Date obtained Date==>  ", localDateTime);
+    // console.log("This is Date obtained Date==>  ", localDateTime);
     const localDate = new Date(localDateTime);
-    console.log("This is Date local Date==>  ", localDate);
+    // console.log("This is Date local Date==>  ", localDate);
 
     // Extract UTC time components
     const utcYear = localDate.getUTCFullYear();
@@ -1605,13 +1605,13 @@ function EditeventOnBack() {
       "0"
     )}:${String(utcMinutes).padStart(2, "0")}:${String(utcSeconds).padStart(2, "0")}.${String(utcMilliseconds).padStart(3, "0")}Z`;
 
-    console.log("This is Date converted Date==>  ", formattedUTC);
+    // console.log("This is Date converted Date==>  ", formattedUTC);
     return formattedUTC;
   }
 
   const isCategorySelected = categoryTypes && categoryTypes.label !== "";
 
-  console.log("is cat", isCategorySelected);
+  // console.log("is cat", isCategorySelected);
 
   const categorylabels = categoryTypes?.label;
 
@@ -1963,35 +1963,35 @@ function EditeventOnBack() {
 
     if (isFormValid) {
       // Updating media etc...!
-      console.log("my values", values);
-      console.log(" Event Updating");
+      // console.log("my values", values);
+      // console.log(" Event Updating");
 
       setLoader(true);
 
       const EventMediaAlready = [...(EventData?.eventmedia || [])];
       const imagesOfGallery = await handleFileChangeapi();
-      console.log("images of gallery", imagesOfGallery, EventMediaAlready);
+      // console.log("images of gallery", imagesOfGallery, EventMediaAlready);
 
       let updatedEventMedia: any = [];
       if (EventMediaAlready || imagesOfGallery) {
         updatedEventMedia = [...(EventMediaAlready ?? []), ...(imagesOfGallery ?? [])]?.filter((media) => !removedImages.includes(media));
       }
 
-      console.log("images updated", updatedEventMedia);
+      // console.log("images updated", updatedEventMedia);
 
       // Updating the Catagories
       let categories: string = "";
       try {
         categories = JSON.parse(EventData?.eventcategory || "");
       } catch (e) {
-        console.error("Error parsing category data:", e);
+        // console.error("Error parsing category data:", e);
       }
       const updatedCategoryTypes = { label: categories };
       setCategoryTypes(updatedCategoryTypes);
 
       // Updating the hashtags
       const updatedTags: string[] = chooseHashTags.map((tag: string) => (tag.trim().startsWith("#") ? tag : `#${tag}`));
-      console.log("Updated Tags are as ========>   ", updatedTags);
+      // console.log("Updated Tags are as ========>   ", updatedTags);
 
       //Updating all Ticket types
       const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
@@ -2112,7 +2112,7 @@ function EditeventOnBack() {
             maxTicketEndDT: myTickets[0],
           }
         );
-        console.log("this is result", result);
+        // console.log("this is result", result);
         timings = {
           ticketStartDate: result.minTicketStartDT?.ticketstart || "",
           ticketEndDate: result.maxTicketEndDT?.ticketend || "",
@@ -2121,7 +2121,7 @@ function EditeventOnBack() {
         };
       } else {
         const rsvpTickets = ticketTypes.filter((ticket: any) => ticket.type == "RSVP Ticketing");
-        console.log(rsvpTickets, "rsvp Tickets--");
+        // console.log(rsvpTickets, "rsvp Tickets--");
         let myTickets = rsvpTickets;
         const ticketWithMaxRsvpDeadline = myTickets.reduce((maxTicket: any, currentTicket: any) => {
           return new Date(currentTicket.deadline) > new Date(maxTicket.deadline) ? currentTicket : maxTicket;
@@ -2168,7 +2168,7 @@ function EditeventOnBack() {
         const maxEventEndDateTime = getMaxEventEndDateTime(ticketTypes);
         const minEventStartTime = getMinEventStartDateTime(ticketTypes);
 
-        console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
+        // console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
 
         if (maxEventEndDateTime !== null && minEventStartTime !== null) {
           timings = {
@@ -2179,8 +2179,8 @@ function EditeventOnBack() {
         }
       }
 
-      console.log("this is timming==>", timings);
-      console.log("This is ticketTypes==>", ticketTypes);
+      // console.log("this is timming==>", timings);
+      // console.log("This is ticketTypes==>", ticketTypes);
 
       //////////////////////////////////////////////////////
 
@@ -2189,7 +2189,7 @@ function EditeventOnBack() {
       const eventhashtags = chooseHashTags;
       // const imagesOfGallery = await handleFileChangeapi();
 
-      console.log("my values", values);
+      // console.log("my values", values);
 
       try {
         const data = {
@@ -2220,7 +2220,7 @@ function EditeventOnBack() {
           endTime: convertToUTC(timings?.endTime),
         };
 
-        console.log("This is data here =====> ", data);
+        // console.log("This is data here =====> ", data);
         dispatch(createevent(data)).then((res: any) => {
           if (res?.payload?.status === 200) {
             setLoader(false);
@@ -2234,7 +2234,7 @@ function EditeventOnBack() {
           }
         });
       } catch (error) {
-        console.error("Error:", error);
+        // console.error("Error:", error);
         ErrorToast(error);
       }
     }
@@ -2577,10 +2577,10 @@ function EditeventOnBack() {
     });
 
     if (isFormValid) {
-      console.log("New Preview Tags are as======> ", chooseHashTags);
+      // console.log("New Preview Tags are as======> ", chooseHashTags);
       // setLoader(true);
       setisWalletModalOpen(false);
-      console.log("my values", values);
+      // console.log("my values", values);
       const imagesOfGallery = await handleFileChangeapi();
 
       const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
@@ -2628,7 +2628,7 @@ function EditeventOnBack() {
 
       ////// Getting maximimum and minimum Dates from ticketTypes //////
 
-      console.log(ticketTypes, "this is ticket data");
+      // console.log(ticketTypes, "this is ticket data");
       const nonRsvpTickets = ticketTypes.filter((ticket: any) => ticket.type !== "RSVP Ticketing");
 
       let timings: any = {
@@ -2663,7 +2663,7 @@ function EditeventOnBack() {
             maxTicketEndDT: myTickets[0],
           }
         );
-        console.log("this is result", result);
+        // console.log("this is result", result);
         timings = {
           ticketStartDate: result.minTicketStartDT?.ticketstart || "",
           ticketEndDate: result.maxTicketEndDT?.ticketend || "",
@@ -2672,7 +2672,7 @@ function EditeventOnBack() {
         };
       } else {
         const rsvpTickets = ticketTypes.filter((ticket: any) => ticket.type == "RSVP Ticketing");
-        console.log(rsvpTickets, "rsvp Tickets--");
+        // console.log(rsvpTickets, "rsvp Tickets--");
         let myTickets = rsvpTickets;
         const ticketWithMaxRsvpDeadline = myTickets.reduce((maxTicket: any, currentTicket: any) => {
           return new Date(currentTicket.deadline) > new Date(maxTicket.deadline) ? currentTicket : maxTicket;
@@ -2719,7 +2719,7 @@ function EditeventOnBack() {
         const maxEventEndDateTime = getMaxEventEndDateTime(ticketTypes);
         const minEventStartTime = getMinEventStartDateTime(ticketTypes);
 
-        console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
+        // console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
         if (maxEventEndDateTime !== null && minEventStartTime !== null) {
           timings = {
             ...timings,
@@ -2729,14 +2729,14 @@ function EditeventOnBack() {
         }
       }
 
-      console.log("this is timming", timings);
+      // console.log("this is timming", timings);
 
       /////////////////////////////////////////////////////////////////
 
       const categorylabels = categoryTypes;
       const eventhashtags = chooseHashTags;
 
-      console.log("Ticket Types in Preview is As=====> ", updatedAllTicketTypes);
+      // console.log("Ticket Types in Preview is As=====> ", updatedAllTicketTypes);
 
       // const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
 
@@ -2755,14 +2755,14 @@ function EditeventOnBack() {
         eventstartdate: timings?.ticketStartDate,
         eventenddate: timings?.ticketEndDate,
       };
-      console.log("my updated values are", updatedValues);
+      // console.log("my updated values are", updatedValues);
 
       // setEventAllData(updatedValues);
       if (updatedValues !== null) {
         localStorage.setItem("eventData", JSON.stringify(updatedValues));
         router.push("/preview-event");
       } else {
-        console.log("error");
+        // console.log("error");
       }
     }
   }
@@ -2778,7 +2778,7 @@ function EditeventOnBack() {
     }
   };
 
-  console.log("Form errors:", form.formState.errors);
+  // console.log("Form errors:", form.formState.errors);
 
   // UseEffect for fetching data from Local Storage for this Ticket
   useEffect(() => {
@@ -2809,7 +2809,7 @@ function EditeventOnBack() {
             return null;
           })
           .filter(Boolean); // Filter out any null values in case of unexpected data
-        console.log("Files Data from preview==> ", files); // 1) Data is comminmg here as {type: '', url: ''} as object
+        // console.log("Files Data from preview==> ", files); // 1) Data is comminmg here as {type: '', url: ''} as object
         setGalleryFiles(files);
       }
 
@@ -2980,16 +2980,16 @@ function EditeventOnBack() {
         try {
           categories = JSON.parse(EventData?.eventcategory || "");
         } catch (e) {
-          console.log("Error parsing category data:", e);
+          // console.log("Error parsing category data:", e);
         }
       }
 
-      console.log("my cat", categories); //it  will be only a string getting through data string 0 index
+      // console.log("my cat", categories); //it  will be only a string getting through data string 0 index
 
       const updatedCategoryTypes = { label: categories };
 
       setCategoryTypes(updatedCategoryTypes);
-      console.log("updatedCategoryTypes", updatedCategoryTypes);
+      // console.log("updatedCategoryTypes", updatedCategoryTypes);
 
       //////////////////////////////// setting the hashtags
       let eventHashTags: string[] = [];
@@ -2999,14 +2999,14 @@ function EditeventOnBack() {
         try {
           eventHashTags = JSON.parse(EventData?.eventHashtags || []);
         } catch (e) {
-          console.log("Error parsing tags data:", e);
+          // console.log("Error parsing tags data:", e);
         }
       }
 
       const updatedTags = eventHashTags;
 
       setChoosenHashtags(updatedTags);
-      console.log("Updated Hashtags are ", updatedTags);
+      // console.log("Updated Hashtags are ", updatedTags);
 
       ////////// Set coverImage /////
       setCoverImg(EventData?.eventcoverimg);
@@ -3044,11 +3044,11 @@ function EditeventOnBack() {
       });
     }
 
-    console.log("This is Local Event Data ===> ", EventData);
+    // console.log("This is Local Event Data ===> ", EventData);
   }, [EventData]);
 
   useEffect(() => {
-    console.log("These all are forms value ===> ", form.getValues("tickets"));
+    // console.log("These all are forms value ===> ", form.getValues("tickets"));
   }, [form]);
 
   function extractDate(dateTime: string): string {
@@ -3086,7 +3086,7 @@ function EditeventOnBack() {
     const currentHasTag = ht.replace("#", "");
     // Get the current eventHashtags from the form, filter out the removed hashtag, and update the form
     const currentHashtags = form.getValues("eventHashtags") || [];
-    console.log("Current Hash tags are AS==================> ", typeof EventData?.eventHashtags);
+    // console.log("Current Hash tags are AS==================> ", typeof EventData?.eventHashtags);
     const updatedHashtags = currentHashtags.filter((tag: string) => tag !== currentHasTag);
     form.setValue("eventHashtags", updatedHashtags);
   };
@@ -3125,8 +3125,8 @@ function EditeventOnBack() {
       setFilterHash(() => (filtered?.length === 0 ? [inputValue] : filtered));
     }
 
-    console.log("hashInput is here ====> ", inputValue);
-    console.log("Updated filterHash:", filterHash); // check this value
+    // console.log("hashInput is here ====> ", inputValue);
+    // console.log("Updated filterHash:", filterHash); // check this value
   };
 
   // ///////////////////////////////////////////// --- Handeling Ticket Types here below --- /////////////////////////////////
@@ -3137,7 +3137,7 @@ function EditeventOnBack() {
 
   //Send Ticket Object if the same type and index found in API Data
   const findApiTicket = (ticketType: string, ticketIndex: number): TicketType | undefined | any => {
-    console.log("Rgsfhgsfhsgfhdfghs ==> ", ticketType);
+    // console.log("Rgsfhgsfhsgfhdfghs ==> ", ticketType);
     const ticket = EventData?.tickets?.find((ticket: any, i: number) => ticket?.type === ticketType && i === ticketIndex);
 
     if (ticketType == "Festivals/Multi-Day Tickets/Season Passes") {
@@ -3684,7 +3684,7 @@ function EditeventOnBack() {
       )
     );
 
-    console.log("Festival StartPicker is:==> ", ticketTypes[ticketIndex]);
+    // console.log("Festival StartPicker is:==> ", ticketTypes[ticketIndex]);
   };
 
   // handle end picker
@@ -3707,7 +3707,7 @@ function EditeventOnBack() {
       )
     );
 
-    console.log("Festival EndPicker is:==> ", ticketTypes[ticketIndex]);
+    // console.log("Festival EndPicker is:==> ", ticketTypes[ticketIndex]);
   };
 
   // handle start value
@@ -3748,7 +3748,7 @@ function EditeventOnBack() {
   const addManualEmailField = (ticketIndex: number) => {
     // Retrieve manual emails for the specific ticket index
     const manualEmails = (ticketTypes?.[ticketIndex] as any)?.emailmanual || [];
-    console.log("Manual EMAIL IS SDSFDFS=> ", manualEmails);
+    // console.log("Manual EMAIL IS SDSFDFS=> ", manualEmails);
 
     if (manualEmails.length > 0) {
       const lastEmail = manualEmails?.[manualEmails.length - 1]; // Get the last indexed element
@@ -3846,7 +3846,7 @@ function EditeventOnBack() {
   const validateManualEmail = (ticketIndex: number, emailIndex: number, currentEmail: string) => {
     // Retrieve manual emails for the specific ticket index
     const manualEmails = (ticketTypes?.[ticketIndex] as any)?.emailmanual || [];
-    console.log("Validating Manual Email => ", currentEmail);
+    // console.log("Validating Manual Email => ", currentEmail);
 
     // Check if the email format is valid
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -3881,7 +3881,7 @@ function EditeventOnBack() {
     }
 
     // If the email is valid and not duplicate, do nothing
-    console.log("Email is valid and unique.");
+    // console.log("Email is valid and unique.");
   };
 
   // handle Manual Emails Values
@@ -3904,7 +3904,7 @@ function EditeventOnBack() {
   const addManualPasswrdField = (ticketIndex: number) => {
     // Check if the last indexed element of manualPasswords matches any other elements
     const manualPSWRDS = (ticketTypes?.[ticketIndex] as any)?.pswrdmanual || [];
-    console.log("Manual PASSWORD IS => ", manualPSWRDS);
+    // console.log("Manual PASSWORD IS => ", manualPSWRDS);
 
     if (manualPSWRDS.length > 0) {
       const lastPSWRD = manualPSWRDS?.[manualPSWRDS.length - 1]; // Get the last indexed element
@@ -3987,7 +3987,7 @@ function EditeventOnBack() {
   const validatePSWRDEmail = (ticketIndex: number, paswrdIndex: number, currentPSWRD: string) => {
     // Retrieve manual passwords for the specific ticket index
     const manualPASWRD = (ticketTypes?.[ticketIndex] as any)?.pswrdmanual || [];
-    console.log("Validating Manual Password => ", currentPSWRD);
+    // console.log("Validating Manual Password => ", currentPSWRD);
 
     // Check if the password is a duplicate
     const isDuplicate = manualPASWRD.some((pswrd: string, index: number) => index !== paswrdIndex && pswrd === currentPSWRD);
@@ -4002,7 +4002,7 @@ function EditeventOnBack() {
     }
 
     // Password validation rules
-    const minLength = 13;
+    const minLength = 5;
     const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
     const uppercaseRegex = /[A-Z]/;
     const lowercaseRegex = /[a-z]/;
@@ -4012,7 +4012,7 @@ function EditeventOnBack() {
     if (currentPSWRD.length < minLength) {
       form.setError(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`, {
         type: "manual",
-        message: "Password must be at least 13 characters long",
+        message: "Password must be at least 5 characters long",
       });
       return;
     }
@@ -4051,7 +4051,7 @@ function EditeventOnBack() {
 
     // Clear any errors if the password is valid and unique
     form.clearErrors(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`);
-    console.log("Password is valid and unique.");
+    // console.log("Password is valid and unique.");
   };
 
   // handle mauual password input change
@@ -4339,7 +4339,7 @@ function EditeventOnBack() {
               <form
                 className=" w-full"
                 onSubmit={(event) => {
-                  console.log("Form submit triggered");
+                  // console.log("Form submit triggered");
                   form.handleSubmit(EventCreation)(event);
                 }}
               >
@@ -4358,7 +4358,7 @@ function EditeventOnBack() {
                   </div>
 
                   {/* Ticket type Body */}
-                  <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
+                  <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[5px] md:px-[60px] create-container-head">
                     {/* Event Name and Catagiry Fields */}
                     <div className="flex items-start gap-[24px] w-full common-container">
                       {/* Event Name fields */}
@@ -4636,7 +4636,7 @@ function EditeventOnBack() {
                   </div>
 
                   {/* Ticket Types Body */}
-                  <div className="gradient-slate pt-[32px] pb-[49px] px-[60px] rounded-b-[12px]">
+                  <div className="gradient-slate pt-[32px] pb-[49px] px-[5px] md:px-[60px] rounded-b-[12px]">
                     {ticketTypes.map((ticket: any, index: number) =>
                       ticket.type === "Festivals/Multi-Day Tickets/Season Passes" ? (
                         <div key={index} className="mb-[24px]">
@@ -5269,11 +5269,11 @@ function EditeventOnBack() {
                                                             const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                             festivalEndEventValue(index, eventIndex, formattedDate);
                                                             field.onChange(formattedDate);
-                                                            console.log("my ened time", formattedDate);
+                                                            // console.log("my ened time", formattedDate);
                                                             // setIsEndEventPickerOpen(false);
                                                             // toggleEndEventTimePicker(index);
                                                             festivalEndEventPicker(index, eventIndex);
-                                                            console.log("my ened time", formattedDate);
+                                                            // console.log("my ened time", formattedDate);
                                                           }
                                                         }}
                                                         disablePast
@@ -6424,10 +6424,10 @@ function EditeventOnBack() {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       toggleEndEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                       // setIsEndEventPickerOpen(false);
                                                       toggleEndEventTimePicker(index);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                     }
                                                   }}
                                                   disablePast
@@ -7255,10 +7255,10 @@ function EditeventOnBack() {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       toggleEndEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                       // setIsEndEventPickerOpen(false);
                                                       toggleEndEventTimePicker(index);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                     }
                                                   }}
                                                   disablePast
@@ -8282,10 +8282,10 @@ function EditeventOnBack() {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       toggleEndEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                       // setIsEndEventPickerOpen(false);
                                                       toggleEndEventTimePicker(index);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                     }
                                                   }}
                                                   disablePast
@@ -8450,7 +8450,7 @@ function EditeventOnBack() {
                     <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
                   </div>
                   {/* Social Body */}
-                  <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
+                  <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[5px] md:px-[60px]  create-container-head">
                     <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full common-container">
                       <FormField
                         control={form.control}

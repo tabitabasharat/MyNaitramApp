@@ -1142,9 +1142,9 @@ function OganizerCreateEvent() {
 
   function convertToUTC(localDateTime: string): string {
     // Create a Date object from the local date-time string
-    console.log("This is Date obtained Date==>  ", localDateTime);
+    // console.log("This is Date obtained Date==>  ", localDateTime);
     const localDate = new Date(localDateTime);
-    console.log("This is Date local Date==>  ", localDate);
+    // console.log("This is Date local Date==>  ", localDate);
 
     // Extract UTC time components
     const utcYear = localDate.getUTCFullYear();
@@ -1161,7 +1161,7 @@ function OganizerCreateEvent() {
       "0"
     )}:${String(utcMinutes).padStart(2, "0")}:${String(utcSeconds).padStart(2, "0")}.${String(utcMilliseconds).padStart(3, "0")}Z`;
 
-    console.log("This is Date converted Date==>  ", formattedUTC);
+    // console.log("This is Date converted Date==>  ", formattedUTC);
     return formattedUTC;
   }
 
@@ -1249,7 +1249,7 @@ function OganizerCreateEvent() {
     }
   };
 
-  console.log("Form errors:", form.formState.errors);
+  // console.log("Form errors:", form.formState.errors);
 
   const handleCoverSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -1287,7 +1287,7 @@ function OganizerCreateEvent() {
             ErrorToast(res?.payload?.message || "Error uploading image");
           }
         } catch (error) {
-          console.error("Error:", error);
+          // console.error("Error:", error);
           setLoader(false);
           ErrorToast("An error occurred while uploading the image.");
         }
@@ -1370,7 +1370,7 @@ function OganizerCreateEvent() {
 
   const isCategorySelected = categoryTypes && categoryTypes.label !== "";
 
-  console.log("is cat", isCategorySelected);
+  // console.log("is cat", isCategorySelected);
 
   // Hashing is here
   const encryptionKey = "naitramV2SecretKey";
@@ -1791,7 +1791,7 @@ function OganizerCreateEvent() {
             }
       );
 
-      console.log(ticketTypes, "this is ticket type");
+      // console.log(ticketTypes, "this is ticket type");
 
       ///////////////////////////////////////////////////
 
@@ -1829,7 +1829,7 @@ function OganizerCreateEvent() {
             maxTicketEndDT: myTickets[0],
           }
         );
-        console.log("this is result", result);
+        // console.log("this is result", result);
         timings = {
           ticketStartDate: result.minTicketStartDT?.ticketstart || "",
           ticketEndDate: result.maxTicketEndDT?.ticketend || "",
@@ -1838,7 +1838,7 @@ function OganizerCreateEvent() {
         };
       } else {
         const rsvpTickets = ticketTypes.filter((ticket: any) => ticket.type == "RSVP Ticketing");
-        console.log(rsvpTickets, "rsvp Tickets--");
+        // console.log(rsvpTickets, "rsvp Tickets--");
         let myTickets = rsvpTickets;
         const ticketWithMaxRsvpDeadline = myTickets.reduce((maxTicket: any, currentTicket: any) => {
           return new Date(currentTicket.deadline) > new Date(maxTicket.deadline) ? currentTicket : maxTicket;
@@ -1885,7 +1885,7 @@ function OganizerCreateEvent() {
         const maxEventEndDateTime = getMaxEventEndDateTime(ticketTypes);
         const minEventStartTime = getMinEventStartDateTime(ticketTypes);
 
-        console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
+        // console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
 
         if (maxEventEndDateTime !== null && minEventStartTime !== null) {
           timings = {
@@ -1896,7 +1896,7 @@ function OganizerCreateEvent() {
         }
       }
 
-      console.log("this is timming", timings);
+      // console.log("this is timming", timings);
 
       // //////////////////////////////////////////////////////////////////////////////
 
@@ -1905,7 +1905,7 @@ function OganizerCreateEvent() {
       const eventhashtags = chooseHashTags;
       const imagesOfGallery = await handleFileChangeapi();
 
-      console.log("my values", values);
+      // console.log("my values", values);
 
       try {
         const data = {
@@ -1935,7 +1935,7 @@ function OganizerCreateEvent() {
           endTime: convertToUTC(timings?.endTime),
         };
 
-        console.log("Ticket creation APi data is =======> ", data);
+        // console.log("Ticket creation APi data is =======> ", data);
         dispatch(createevent(data)).then((res: any) => {
           if (res?.payload?.status === 200) {
             setLoader(false);
@@ -1949,7 +1949,7 @@ function OganizerCreateEvent() {
           }
         });
       } catch (error) {
-        console.error("Error:", error);
+        // console.error("Error:", error);
         ErrorToast(error);
       }
     }
@@ -2280,10 +2280,10 @@ function OganizerCreateEvent() {
     });
 
     if (isFormValid) {
-      console.log("New Preview Tags are as======> ", chooseHashTags);
+      // console.log("New Preview Tags are as======> ", chooseHashTags);
       // setLoader(true);
       setisWalletModalOpen(false);
-      console.log("my values", values);
+      // console.log("my values", values);
       const imagesOfGallery = await handleFileChangeapi();
 
       /*const utcEventStartTime = convertToUTC(EventStartTime);
@@ -2340,7 +2340,7 @@ function OganizerCreateEvent() {
 
       /////////////////////// Counting maximum and minmum timing here for Event and Ticket
 
-      console.log(ticketTypes, "this is ticket data");
+      // console.log(ticketTypes, "this is ticket data");
       const nonRsvpTickets = ticketTypes.filter((ticket: any) => ticket.type !== "RSVP Ticketing");
 
       let timings: any = {
@@ -2375,7 +2375,7 @@ function OganizerCreateEvent() {
             maxTicketEndDT: myTickets[0],
           }
         );
-        console.log("this is result", result);
+        // console.log("this is result", result);
         timings = {
           ticketStartDate: result.minTicketStartDT?.ticketstart || "",
           ticketEndDate: result.maxTicketEndDT?.ticketend || "",
@@ -2384,7 +2384,7 @@ function OganizerCreateEvent() {
         };
       } else {
         const rsvpTickets = ticketTypes.filter((ticket: any) => ticket.type == "RSVP Ticketing");
-        console.log(rsvpTickets, "rsvp Tickets--");
+        // console.log(rsvpTickets, "rsvp Tickets--");
         let myTickets = rsvpTickets;
         const ticketWithMaxRsvpDeadline = myTickets.reduce((maxTicket: any, currentTicket: any) => {
           return new Date(currentTicket.deadline) > new Date(maxTicket.deadline) ? currentTicket : maxTicket;
@@ -2431,7 +2431,7 @@ function OganizerCreateEvent() {
         const maxEventEndDateTime = getMaxEventEndDateTime(ticketTypes);
         const minEventStartTime = getMinEventStartDateTime(ticketTypes);
 
-        console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
+        // console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
         if (maxEventEndDateTime !== null && minEventStartTime !== null) {
           timings = {
             ...timings,
@@ -2441,14 +2441,14 @@ function OganizerCreateEvent() {
         }
       }
 
-      console.log("this is timming", timings);
+      // console.log("this is timming", timings);
 
       //////////////////////////////////////////////////////////////
 
       const categorylabels = categoryTypes;
       const eventhashtags = chooseHashTags;
 
-      console.log("Ticket Types in Preview is As=====> ", updatedAllTicketTypes);
+      // console.log("Ticket Types in Preview is As=====> ", updatedAllTicketTypes);
 
       // const isFree = ticketTypes.every((ticket) => ticket.selected === "free");
 
@@ -2467,14 +2467,14 @@ function OganizerCreateEvent() {
         eventstartdate: timings?.ticketStartDate,
         eventenddate: timings?.ticketEndDate,
       };
-      console.log("my updated values are", updatedValues);
+      // console.log("my updated values are", updatedValues);
 
       setEventAllData(updatedValues);
       if (updatedValues !== null) {
         localStorage.setItem("eventData", JSON.stringify(updatedValues));
         router.push("/preview-event");
       } else {
-        console.log("error");
+        // console.log("error");
       }
     }
   }
@@ -2547,7 +2547,7 @@ function OganizerCreateEvent() {
     }
   };
 
-  console.log("my cat", categoryTypes);
+  // console.log("my cat", categoryTypes);
 
   // Handle and filter hash strings on user inoputs in hash field
   const handleHashFieldInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -2561,8 +2561,8 @@ function OganizerCreateEvent() {
       setFilterHash(() => (filtered.length === 0 ? [inputValue] : filtered));
     }
 
-    console.log("hashInput is here ====> ", inputValue);
-    console.log("Updated filterHash:", filterHash); // check this value
+    // console.log("hashInput is here ====> ", inputValue);
+    // console.log("Updated filterHash:", filterHash); // check this value
   };
 
   // When user click to a hash
@@ -2599,9 +2599,9 @@ function OganizerCreateEvent() {
     form.setValue("eventHashtags", updatedHashtags);
   };
 
-  useEffect(() => {
-    console.log("filterHash updated:", filterHash);
-  }, [filterHash]);
+  // useEffect(() => {
+  // console.log("filterHash updated:", filterHash);
+  // }, [filterHash]);
 
   // ///////////////////////////////////////////// --- Handeling Ticket Types here below --- /////////////////////////////////
 
@@ -2968,7 +2968,7 @@ function OganizerCreateEvent() {
       )
     );
 
-    console.log("Festival StartPicker is:==> ", ticketTypes[ticketIndex]);
+    // console.log("Festival StartPicker is:==> ", ticketTypes[ticketIndex]);
   };
 
   // handle end picker
@@ -2991,7 +2991,7 @@ function OganizerCreateEvent() {
       )
     );
 
-    console.log("Festival EndPicker is:==> ", ticketTypes[ticketIndex]);
+    // console.log("Festival EndPicker is:==> ", ticketTypes[ticketIndex]);
   };
 
   // handle start value
@@ -3032,7 +3032,7 @@ function OganizerCreateEvent() {
   const addManualEmailField = (ticketIndex: number) => {
     // Retrieve manual emails for the specific ticket index
     const manualEmails = (ticketTypes?.[ticketIndex] as any)?.emailmanual || [];
-    console.log("Manual EMAIL IS SDSFDFS=> ", manualEmails);
+    // console.log("Manual EMAIL IS SDSFDFS=> ", manualEmails);
 
     if (manualEmails.length > 0) {
       const lastEmail = manualEmails?.[manualEmails.length - 1]; // Get the last indexed element
@@ -3125,7 +3125,7 @@ function OganizerCreateEvent() {
   const validateManualEmail = (ticketIndex: number, emailIndex: number, currentEmail: string) => {
     // Retrieve manual emails for the specific ticket index
     const manualEmails = (ticketTypes?.[ticketIndex] as any)?.emailmanual || [];
-    console.log("Validating Manual Email => ", currentEmail);
+    // console.log("Validating Manual Email => ", currentEmail);
 
     // Check if the email format is valid
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -3160,7 +3160,7 @@ function OganizerCreateEvent() {
     }
 
     // If the email is valid and not duplicate, do nothing
-    console.log("Email is valid and unique.");
+    // console.log("Email is valid and unique.");
   };
 
   // handle Manual Emails Values
@@ -3183,7 +3183,7 @@ function OganizerCreateEvent() {
   const addManualPasswrdField = (ticketIndex: number) => {
     // Check if the last indexed element of manualPasswords matches any other elements
     const manualPSWRDS = ticketTypes?.[ticketIndex]?.pswrdmanual || [];
-    console.log("Manual PASSWORD IS => ", manualPSWRDS);
+    // console.log("Manual PASSWORD IS => ", manualPSWRDS);
 
     if (manualPSWRDS.length > 0) {
       const lastPSWRD = manualPSWRDS?.[manualPSWRDS.length - 1]; // Get the last indexed element
@@ -3261,7 +3261,7 @@ function OganizerCreateEvent() {
   const validatePSWRDEmail = (ticketIndex: number, paswrdIndex: number, currentPSWRD: string) => {
     // Retrieve manual passwords for the specific ticket index
     const manualPASWRD = (ticketTypes?.[ticketIndex] as any)?.pswrdmanual || [];
-    console.log("Validating Manual Password => ", currentPSWRD);
+    // console.log("Validating Manual Password => ", currentPSWRD);
 
     // Check if the password is a duplicate
     const isDuplicate = manualPASWRD.some((pswrd: string, index: number) => index !== paswrdIndex && pswrd === currentPSWRD);
@@ -3276,7 +3276,7 @@ function OganizerCreateEvent() {
     }
 
     // Password validation rules
-    const minLength = 13;
+    const minLength = 5;
     const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
     const uppercaseRegex = /[A-Z]/;
     const lowercaseRegex = /[a-z]/;
@@ -3286,7 +3286,7 @@ function OganizerCreateEvent() {
     if (currentPSWRD.length < minLength) {
       form.setError(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`, {
         type: "manual",
-        message: "Password must be at least 13 characters long",
+        message: "Password must be at least 5 characters long",
       });
       return;
     }
@@ -3325,7 +3325,7 @@ function OganizerCreateEvent() {
 
     // Clear any errors if the password is valid and unique
     form.clearErrors(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`);
-    console.log("Password is valid and unique.");
+    // console.log("Password is valid and unique.");
   };
 
   // handle mauual password input change
@@ -3621,7 +3621,7 @@ function OganizerCreateEvent() {
                     <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
                   </div>
                   {/* Second Section Body */}
-                  <div className="gradient-slate pt-[32px] pb-[49px] px-[60px] rounded-b-[12px]">
+                  <div className="gradient-slate pt-[32px] pb-[49px] px-[5px] md:px-[60px] rounded-b-[12px]">
                     {/* Event Name and Event Catagories Body */}
                     <div className="flex items-start gap-[24px] w-full common-container">
                       <FormField
@@ -3893,7 +3893,7 @@ function OganizerCreateEvent() {
                   </div>
 
                   {/* Ticket Types Body */}
-                  <div className="gradient-slate pt-[32px] pb-[49px] px-[60px] rounded-b-[12px]">
+                  <div className="gradient-slate pt-[32px] pb-[49px] px-[5px] md:px-[60px] rounded-b-[12px]">
                     {ticketTypes.map((ticket: any, index: number) =>
                       ticket.type === "Festivals/Multi-Day Tickets/Season Passes" ? (
                         <div key={index} className="mb-[24px]">
@@ -4517,11 +4517,11 @@ function OganizerCreateEvent() {
                                                             const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                             festivalEndEventValue(index, eventIndex, formattedDate);
                                                             field.onChange(formattedDate);
-                                                            console.log("my ened time", formattedDate);
+                                                            // console.log("my ened time", formattedDate);
                                                             // setIsEndEventPickerOpen(false);
                                                             // toggleEndEventTimePicker(index);
                                                             festivalEndEventPicker(index, eventIndex);
-                                                            console.log("my ened time", formattedDate);
+                                                            // console.log("my ened time", formattedDate);
                                                           }
                                                         }}
                                                         disablePast
@@ -5662,10 +5662,10 @@ function OganizerCreateEvent() {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       toggleEndEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                       // setIsEndEventPickerOpen(false);
                                                       toggleEndEventTimePicker(index);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                     }
                                                   }}
                                                   disablePast
@@ -6478,10 +6478,10 @@ function OganizerCreateEvent() {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       toggleEndEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                       // setIsEndEventPickerOpen(false);
                                                       toggleEndEventTimePicker(index);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                     }
                                                   }}
                                                   disablePast
@@ -7495,10 +7495,10 @@ function OganizerCreateEvent() {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       toggleEndEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                       // setIsEndEventPickerOpen(false);
                                                       toggleEndEventTimePicker(index);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                     }
                                                   }}
                                                   disablePast
@@ -7650,7 +7650,7 @@ function OganizerCreateEvent() {
                   </div>
 
                   {/* Social Links Body */}
-                  <div className="gradient-slate pt-[32px] pb-[49px] px-[60px] rounded-b-[12px]">
+                  <div className="gradient-slate pt-[32px] pb-[49px] px-[5px] md:px-[60px] rounded-b-[12px]">
                     <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full mt-[24px] common-container">
                       {/* Facebook Link INput */}
                       <FormField

@@ -622,7 +622,12 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
 
     // When disabled, change the text color to red
     &.Mui-disabled {
-      color: red;
+      color: white !important;
+    }
+
+    &.css-26bvvv-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
+      opacity: 1;
+      -webkit-text-fill-color: unset !important;
     }
   }
 
@@ -655,7 +660,12 @@ const StyledDateTimePicker: any = styled(DateTimePicker)`
 
   // When disabled, apply red text color to the input
   & .MuiInputBase-input.Mui-disabled {
-    color: red; /* Red text color when the input is disabled */
+    color: white !important; /* Red text color when the input is disabled */
+
+    &.css-26bvvv-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
+      opacity: 1;
+      -webkit-text-fill-color: unset !important;
+    }
   }
 `;
 
@@ -695,11 +705,11 @@ function Editevent() {
   const [EventStartTime, setEventStartTime] = useState("");
   const [EventEndTime, setEventEndTime] = useState("");
 
-  console.log("my event start date is", EventStartTime);
-  console.log("my ticket start date is", TicketStartDate);
+  // console.log("my event start date is", EventStartTime);
+  // console.log("my ticket start date is", TicketStartDate);
 
-  console.log("my event enddate is", EventEndTime);
-  console.log("my ticket endd date is", TicketEndDate);
+  // console.log("my event enddate is", EventEndTime);
+  // console.log("my ticket endd date is", TicketEndDate);
 
   const [Eventdescription, setEventdescription] = useState("");
 
@@ -1094,22 +1104,22 @@ function Editevent() {
 
   const [galleryFiles, setGalleryFiles] = useState<GalleryFile[]>([]);
   const [eventID, setEventId] = useState("");
-  console.log("files in gallery", galleryFiles);
+  // console.log("files in gallery", galleryFiles);
 
   useEffect(() => {
     const currentUrl: any = typeof window !== "undefined" ? window.location.href : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventId(value);
-    console.log("my event id is", value);
+    // console.log("my event id is", value);
     dispatch(getEventByEventId(value));
   }, []);
 
-  console.log("my event data ", EventData);
+  // console.log("my event data ", EventData);
 
   const imageUrl =
     EventData?.coverEventImage?.startsWith("http") || EventData?.coverEventImage?.startsWith("https") ? EventData.coverEventImage : bgframe;
-  console.log("image src is", imageUrl);
+  // console.log("image src is", imageUrl);
 
   const userLoading = useAppSelector((state) => state?.getEventByEventID);
 
@@ -1268,7 +1278,7 @@ function Editevent() {
       try {
         const filesArray = Array.from(galleryFiles);
 
-        console.log("Gallery files:", filesArray);
+        // console.log("Gallery files:", filesArray);
 
         const formData = new FormData();
 
@@ -1280,11 +1290,11 @@ function Editevent() {
         if (res?.status === 200) {
           setLoader(false);
 
-          console.log("gallery res", res);
-          console.log("gallery image uploasssded");
+          // console.log("gallery res", res);
+          // console.log("gallery image uploasssded");
           setEventsFile(res?.data?.imageUrls);
 
-          console.log(res?.data?.data, "this is the gallery url");
+          // console.log(res?.data?.data, "this is the gallery url");
           // SuccessToast("Images Uploaded Successfully");
           return res?.data?.imageUrls;
         } else {
@@ -1292,16 +1302,16 @@ function Editevent() {
           ErrorToast(res?.payload?.message || "Error uploading image");
         }
       } catch (error) {
-        console.error("Error:", error);
+        // console.error("Error:", error);
       }
     }
   };
 
   const handleSingleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log("Selected Main cover img is:", file);
+    // console.log("Selected Main cover img is:", file);
     const filename = file?.name;
-    console.log("file name", filename);
+    // console.log("file name", filename);
     setMainImgName(filename);
 
     if (file) {
@@ -1319,27 +1329,27 @@ function Editevent() {
         if (res.status === 200) {
           setLoader(false);
 
-          console.log("Main cover image", res);
-          console.log("Main cover image uploaded");
+          // console.log("Main cover image", res);
+          // console.log("Main cover image uploaded");
           form.setValue("eventmainimg", res?.data?.data);
           setMainImg(res?.data?.data);
-          console.log(res?.data?.data, "this is the Main cover image url");
+          // console.log(res?.data?.data, "this is the Main cover image url");
           SuccessToast("Main Cover Image Uploaded Successfully");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message || "Error uploading image");
         }
       } catch (error) {
-        console.error("Error:", error);
+        // console.error("Error:", error);
       }
     }
   };
 
   const handleCoverSingleFileChangeOld = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log("Selected  cover img is:", file);
+    // console.log("Selected  cover img is:", file);
     const filename = file?.name;
-    console.log("file name", filename);
+    // console.log("file name", filename);
     setCoverImgName(filename);
     if (file) {
       setLoader(true);
@@ -1356,19 +1366,19 @@ function Editevent() {
         if (res.status === 200) {
           setLoader(false);
 
-          console.log(" cover image", res);
-          console.log(" cover image uploaded");
+          // console.log(" cover image", res);
+          // console.log(" cover image uploaded");
           form.setValue("eventcoverimg", res?.data?.data);
 
           setCoverImg(res?.data?.data);
-          console.log(res?.data?.data, "this is the cover image url");
+          // console.log(res?.data?.data, "this is the cover image url");
           SuccessToast("Cover Event Image Uploaded Successfully");
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message || "Error uploading image");
         }
       } catch (error) {
-        console.error("Error:", error);
+        // console.error("Error:", error);
       }
     }
   };
@@ -1417,7 +1427,7 @@ function Editevent() {
             ErrorToast(res?.payload?.message || "Error uploading image");
           }
         } catch (error) {
-          console.error("Error:", error);
+          // console.error("Error:", error);
           setLoader(false);
           ErrorToast("An error occurred while uploading the image.");
         }
@@ -1460,7 +1470,7 @@ function Editevent() {
   useEffect(() => {
     const userID = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setUserid(userID);
-    console.log("user ID logged in is", userID);
+    // console.log("user ID logged in is", userID);
   }, []);
 
   /* const filteredTicketTypes = ticketTypes.map((ticket) => ({
@@ -1477,9 +1487,9 @@ function Editevent() {
 
   function convertToUTC(localDateTime: string): string {
     // Create a Date object from the local date-time string
-    console.log("This is Date obtained Date==>  ", localDateTime);
+    // console.log("This is Date obtained Date==>  ", localDateTime);
     const localDate = new Date(localDateTime);
-    console.log("This is Date local Date==>  ", localDate);
+    // console.log("This is Date local Date==>  ", localDate);
 
     // Extract UTC time components
     const utcYear = localDate.getUTCFullYear();
@@ -1496,13 +1506,13 @@ function Editevent() {
       "0"
     )}:${String(utcMinutes).padStart(2, "0")}:${String(utcSeconds).padStart(2, "0")}.${String(utcMilliseconds).padStart(3, "0")}Z`;
 
-    console.log("This is Date converted Date==>  ", formattedUTC);
+    // console.log("This is Date converted Date==>  ", formattedUTC);
     return formattedUTC;
   }
 
   const isCategorySelected = categoryTypes && categoryTypes.label !== "";
 
-  console.log("is cat", isCategorySelected);
+  // console.log("is cat", isCategorySelected);
 
   const categorylabels = categoryTypes?.label;
 
@@ -1857,32 +1867,32 @@ function Editevent() {
 
     if (isFormValid) {
       // Updating media etc...!
-      console.log("my values", values);
-      console.log(" Event Updating");
+      // console.log("my values", values);
+      // console.log(" Event Updating");
 
       setLoader(true);
 
       const EventMediaAlready = [...(EventData?.eventmedia || [])];
       const imagesOfGallery = await handleFileChangeapi();
-      console.log("images of gallery", imagesOfGallery, EventMediaAlready);
+      // console.log("images of gallery", imagesOfGallery, EventMediaAlready);
 
       const updatedEventMedia = [...EventMediaAlready, ...imagesOfGallery].filter((media) => !removedImages.includes(media));
 
-      console.log("images updated", updatedEventMedia);
+      // console.log("images updated", updatedEventMedia);
 
       // Updating the Catagories
       let categories: string = "";
       try {
         categories = JSON.parse(EventData?.category[0] || "");
       } catch (e) {
-        console.error("Error parsing category data:", e);
+        // console.error("Error parsing category data:", e);
       }
       const updatedCategoryTypes = { label: categories };
       setCategoryTypes(updatedCategoryTypes);
 
       // Updating the hashtags
       const updatedTags: string[] = chooseHashTags.map((tag: string) => (tag.trim().startsWith("#") ? tag : `#${tag}`));
-      console.log("Updated Tags are as ========>   ", updatedTags);
+      // console.log("Updated Tags are as ========>   ", updatedTags);
 
       //Updating all Ticket types
       const updatedAllTicketTypes: TicketType[] | any = ticketTypes.map((ticket: any, t_Index: number) =>
@@ -1969,7 +1979,7 @@ function Editevent() {
       );
 
       // ///// Getting minimum and Maximum Timiings for Event /////////////
-      console.log(ticketTypes, "this is ticket data");
+      // console.log(ticketTypes, "this is ticket data");
       const nonRsvpTickets = ticketTypes.filter((ticket: any) => ticket.type !== "RSVP Ticketing");
 
       let timings: any = {
@@ -2004,7 +2014,7 @@ function Editevent() {
             maxTicketEndDT: myTickets[0],
           }
         );
-        console.log("this is result", result);
+        // console.log("this is result", result);
         timings = {
           ticketStartDate: result.minTicketStartDT?.ticketstart || "",
           ticketEndDate: result.maxTicketEndDT?.ticketend || "",
@@ -2013,7 +2023,7 @@ function Editevent() {
         };
       } else {
         const rsvpTickets = ticketTypes.filter((ticket: any) => ticket.type == "RSVP Ticketing");
-        console.log(rsvpTickets, "rsvp Tickets--");
+        // console.log(rsvpTickets, "rsvp Tickets--");
         let myTickets = rsvpTickets;
         const ticketWithMaxRsvpDeadline = myTickets.reduce((maxTicket: any, currentTicket: any) => {
           return new Date(currentTicket.deadline) > new Date(maxTicket.deadline) ? currentTicket : maxTicket;
@@ -2060,7 +2070,7 @@ function Editevent() {
         const maxEventEndDateTime = getMaxEventEndDateTime(ticketTypes);
         const minEventStartTime = getMinEventStartDateTime(ticketTypes);
 
-        console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
+        // console.log("maxEventEndDateTime--", maxEventEndDateTime, minEventStartTime);
 
         if (maxEventEndDateTime !== null && minEventStartTime !== null) {
           timings = {
@@ -2078,7 +2088,7 @@ function Editevent() {
       const eventhashtags = chooseHashTags;
       // const imagesOfGallery = await handleFileChangeapi();
 
-      console.log("my values", values);
+      // console.log("my values", values);
 
       try {
         const data = {
@@ -2109,7 +2119,7 @@ function Editevent() {
           endTime: convertToUTC(timings?.endTime),
         };
 
-        console.log("This is data here =====> ", data);
+        // console.log("This is data here =====> ", data);
         dispatch(updateEvent(data)).then((res: any) => {
           if (res?.payload?.status === 200) {
             setLoader(false);
@@ -2121,12 +2131,12 @@ function Editevent() {
           }
         });
       } catch (error) {
-        console.error("Error:", error);
+        // console.error("Error:", error);
         ErrorToast(error);
       }
     }
   }
-  console.log("Form errors:", form.formState.errors);
+  // console.log("Form errors:", form.formState.errors);
 
   const convertToLocal = (utcDateTime: string) => {
     // Create a Date object from the UTC string (automatically handles 'Z' if present)
@@ -2339,16 +2349,16 @@ function Editevent() {
         try {
           categories = JSON.parse(EventData?.category[0] || "");
         } catch (e) {
-          console.log("Error parsing category data:", e);
+          // console.log("Error parsing category data:", e);
         }
       }
 
-      console.log("my cat", categories); //it  will be only a string getting through data string 0 index
+      // console.log("my cat", categories); //it  will be only a string getting through data string 0 index
 
       const updatedCategoryTypes = { label: categories };
 
       setCategoryTypes(updatedCategoryTypes);
-      console.log("updatedCategoryTypes", updatedCategoryTypes);
+      // console.log("updatedCategoryTypes", updatedCategoryTypes);
 
       //////////////////////////////// setting the hashtags
       let eventHashTags: string[] = [];
@@ -2358,14 +2368,14 @@ function Editevent() {
         try {
           eventHashTags = JSON.parse(EventData?.tags || []);
         } catch (e) {
-          console.log("Error parsing tags data:", e);
+          // console.log("Error parsing tags data:", e);
         }
       }
 
       const updatedTags = eventHashTags;
 
       setChoosenHashtags(updatedTags);
-      console.log("Updated Hashtags are ", updatedTags);
+      // console.log("Updated Hashtags are ", updatedTags);
 
       form.reset({
         eventname: EventData?.name || form.getValues("eventname"),
@@ -2391,7 +2401,7 @@ function Editevent() {
   }, [EventData]);
 
   useEffect(() => {
-    console.log("These all are forms value ===> ", form.getValues("tickets"));
+    // console.log("These all are forms value ===> ", form.getValues("tickets"));
   }, [form]);
 
   function extractDate(dateTime: string): string {
@@ -2432,7 +2442,7 @@ function Editevent() {
     const currentHasTag = ht.replace("#", "");
     // Get the current eventHashtags from the form, filter out the removed hashtag, and update the form
     const currentHashtags = form.getValues("eventHashtags") || [];
-    console.log("Current Hash tags are AS==================> ", typeof EventData?.eventHashtags);
+    // console.log("Current Hash tags are AS==================> ", typeof EventData?.eventHashtags);
     const updatedHashtags = currentHashtags.filter((tag: string) => tag !== currentHasTag);
     form.setValue("eventHashtags", updatedHashtags);
   };
@@ -2471,8 +2481,8 @@ function Editevent() {
       setFilterHash(() => (filtered?.length === 0 ? [inputValue] : filtered));
     }
 
-    console.log("hashInput is here ====> ", inputValue);
-    console.log("Updated filterHash:", filterHash); // check this value
+    // console.log("hashInput is here ====> ", inputValue);
+    // console.log("Updated filterHash:", filterHash); // check this value
   };
 
   // ///////////////////////////////////////////// --- Handeling Ticket Types here below --- /////////////////////////////////
@@ -2483,7 +2493,7 @@ function Editevent() {
 
   //Send Ticket Object if the same type and index found in API Data
   const findApiTicket = (ticketType: string, ticketIndex: number): TicketType | undefined | any => {
-    console.log("Rgsfhgsfhsgfhdfghs ==> ", ticketType);
+    // console.log("Rgsfhgsfhsgfhdfghs ==> ", ticketType);
     const ticket = EventData?.tickets?.find((ticket: any, i: number) => ticket?.selectedEventTicketType === ticketType && i === ticketIndex);
 
     if (ticketType == "Festivals/Multi-Day Tickets/Season Passes") {
@@ -3018,7 +3028,7 @@ function Editevent() {
       )
     );
 
-    console.log("Festival StartPicker is:==> ", ticketTypes[ticketIndex]);
+    // console.log("Festival StartPicker is:==> ", ticketTypes[ticketIndex]);
   };
 
   // handle end picker
@@ -3036,7 +3046,7 @@ function Editevent() {
       )
     );
 
-    console.log("Festival EndPicker is:==> ", ticketTypes[ticketIndex]);
+    // console.log("Festival EndPicker is:==> ", ticketTypes[ticketIndex]);
   };
 
   // handle start value
@@ -3077,7 +3087,7 @@ function Editevent() {
   const addManualEmailField = (ticketIndex: number) => {
     // Retrieve manual emails for the specific ticket index
     const manualEmails = (ticketTypes?.[ticketIndex] as any)?.emailmanual || [];
-    console.log("Manual EMAIL IS SDSFDFS=> ", manualEmails);
+    // console.log("Manual EMAIL IS SDSFDFS=> ", manualEmails);
 
     if (manualEmails.length > 0) {
       const lastEmail = manualEmails?.[manualEmails.length - 1]; // Get the last indexed element
@@ -3174,7 +3184,7 @@ function Editevent() {
   const validateManualEmail = (ticketIndex: number, emailIndex: number, currentEmail: string) => {
     // Retrieve manual emails for the specific ticket index
     const manualEmails = (ticketTypes?.[ticketIndex] as any)?.emailmanual || [];
-    console.log("Validating Manual Email => ", currentEmail);
+    // console.log("Validating Manual Email => ", currentEmail);
 
     // Check if the email format is valid
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -3209,7 +3219,7 @@ function Editevent() {
     }
 
     // If the email is valid and not duplicate, do nothing
-    console.log("Email is valid and unique.");
+    // console.log("Email is valid and unique.");
   };
 
   // handle Manual Emails Values
@@ -3229,7 +3239,7 @@ function Editevent() {
   const addManualPasswrdField = (ticketIndex: number) => {
     // Check if the last indexed element of manualPasswords matches any other elements
     const manualPSWRDS = (ticketTypes?.[ticketIndex] as any)?.pswrdmanual || [];
-    console.log("Manual PASSWORD IS => ", manualPSWRDS);
+    // console.log("Manual PASSWORD IS => ", manualPSWRDS);
 
     if (manualPSWRDS.length > 0) {
       const lastPSWRD = manualPSWRDS?.[manualPSWRDS.length - 1]; // Get the last indexed element
@@ -3307,7 +3317,7 @@ function Editevent() {
   const validatePSWRDEmail = (ticketIndex: number, paswrdIndex: number, currentPSWRD: string) => {
     // Retrieve manual passwords for the specific ticket index
     const manualPASWRD = (ticketTypes?.[ticketIndex] as any)?.pswrdmanual || [];
-    console.log("Validating Manual Password => ", currentPSWRD);
+    // console.log("Validating Manual Password => ", currentPSWRD);
 
     // Check if the password is a duplicate
     const isDuplicate = manualPASWRD.some((pswrd: string, index: number) => index !== paswrdIndex && pswrd === currentPSWRD);
@@ -3322,7 +3332,7 @@ function Editevent() {
     }
 
     // Password validation rules
-    const minLength = 13;
+    const minLength = 5;
     const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
     const uppercaseRegex = /[A-Z]/;
     const lowercaseRegex = /[a-z]/;
@@ -3332,7 +3342,7 @@ function Editevent() {
     if (currentPSWRD.length < minLength) {
       form.setError(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`, {
         type: "manual",
-        message: "Password must be at least 13 characters long",
+        message: "Password must be at least 5 characters long",
       });
       return;
     }
@@ -3371,7 +3381,7 @@ function Editevent() {
 
     // Clear any errors if the password is valid and unique
     form.clearErrors(`tickets.${ticketIndex}.pswrdmanual.${paswrdIndex}`);
-    console.log("Password is valid and unique.");
+    // console.log("Password is valid and unique.");
   };
 
   // handle mauual password input change
@@ -3651,7 +3661,7 @@ function Editevent() {
               <form
                 className=" w-full"
                 onSubmit={(event) => {
-                  console.log("Form submit triggered");
+                  // console.log("Form submit triggered");
                   form.handleSubmit(EventCreation)(event);
                 }}
               >
@@ -3670,7 +3680,7 @@ function Editevent() {
                   </div>
 
                   {/* Ticket type Body */}
-                  <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[5px] lg:px-[60px]  create-container-head">
+                  <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[5px] md:px-[60px]  create-container-head">
                     {/* Event Name and Catagiry Fields */}
                     <div className="flex items-start gap-[24px] w-full common-container">
                       {/* Event Name fields */}
@@ -3958,7 +3968,7 @@ function Editevent() {
                   </div>
 
                   {/* Ticket Types Body */}
-                  <div className="gradient-slate pt-[32px] pb-[49px] px-[5px] lg:px-[60px] rounded-b-[12px]">
+                  <div className="gradient-slate pt-[32px] pb-[49px] px-[5px] md:px-[60px] rounded-b-[12px]">
                     {ticketTypes.map((ticket: any, index: number) =>
                       ticket.type === "Festivals/Multi-Day Tickets/Season Passes" ? (
                         <div key={index} className="mb-[24px] w-full">
@@ -4197,13 +4207,14 @@ function Editevent() {
                                       onWheel={(e: any) => e.target.blur()}
                                       value={ticket.no}
                                       onChange={(e) => {
-                                        // Check if the value don't lower the limit of total sales
-                                        if (
-                                          parseInt(e.target.value, 10) <
+                                        // Check if the value doesn't lower the limit of total sales
+                                        const newValue = parseInt(e.target.value, 10);
+                                        const limit =
                                           parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
-                                            parseInt(EventData?.tickets?.[index]?.noOfTickets, 10)
-                                        ) {
-                                          ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                          parseInt(EventData?.tickets?.[index]?.noOfTickets, 10);
+
+                                        if (disableField && newValue < limit) {
+                                          ErrorToast(`Can't enter less than ${EventData?.tickets?.[index]?.noOfTickets}`);
                                           return;
                                         }
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
@@ -4265,6 +4276,7 @@ function Editevent() {
                                                       toggleTicketStartTimePicker(index);
                                                     }
                                                   }}
+                                                  disablePast
                                                   disabled={disableField} // Disable interaction with the picker
                                                   slots={{
                                                     openPickerIcon: () => (
@@ -4358,6 +4370,7 @@ function Editevent() {
                                                   }}
                                                   //  label="Event End Date & Time"
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   minDateTime={currentDateTime}
                                                   slots={{
                                                     openPickerIcon: () => (
@@ -4502,6 +4515,7 @@ function Editevent() {
                                                         // minDateTime={minStartTime}
                                                         // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                                         disablePast
+                                                        disabled={disableField} // Disable interaction with the picker
                                                         minDateTime={currentDateTime}
                                                         slots={{
                                                           openPickerIcon: () => (
@@ -4600,14 +4614,15 @@ function Editevent() {
                                                             const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                             festivalEndEventValue(index, eventIndex, formattedDate);
                                                             field.onChange(formattedDate);
-                                                            console.log("my ened time", formattedDate);
+                                                            // console.log("my ened time", formattedDate);
                                                             // setIsEndEventPickerOpen(false);
                                                             // toggleEndEventTimePicker(index);
                                                             festivalEndEventPicker(index, eventIndex);
-                                                            console.log("my ened time", formattedDate);
+                                                            // console.log("my ened time", formattedDate);
                                                           }
                                                         }}
                                                         disablePast
+                                                        disabled={disableField} // Disable interaction with the picker
                                                         minDateTime={currentDateTime}
                                                         //  label="Event End Date & Time"
                                                         // minDateTime={dayjs("2024-10-15T08:30")}
@@ -4912,6 +4927,7 @@ function Editevent() {
                                                     }
                                                   }}
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
@@ -4976,13 +4992,14 @@ function Editevent() {
                                         className="pt-[2.83rem] pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                         {...field}
                                         onChange={(e) => {
-                                          // Check if the value don't get lower the total sales
-                                          if (
-                                            parseInt(e.target.value, 10) <
+                                          // Check if the value doesn't lower the limit of total sales
+                                          const newValue = parseInt(e.target.value, 10);
+                                          const limit =
                                             parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
-                                              parseInt(EventData?.tickets?.[index]?.noOfTickets, 10)
-                                          ) {
-                                            ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                            parseInt(EventData?.tickets?.[index]?.noOfTickets, 10);
+
+                                          if (disableField && newValue < limit) {
+                                            ErrorToast(`Can't enter less than ${EventData?.tickets?.[index]?.noOfTickets}`);
                                             return;
                                           }
                                           // handleInputChange(index, "no", parseInt(e.target.value, 10));
@@ -5423,13 +5440,14 @@ function Editevent() {
                                       value={ticket.no}
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
-                                        // Check if the value don't get lower the total sales
-                                        if (
-                                          parseInt(e.target.value, 10) <
+                                        // Check if the value doesn't lower the limit of total sales
+                                        const newValue = parseInt(e.target.value, 10);
+                                        const limit =
                                           parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
-                                            parseInt(EventData?.tickets?.[index]?.noOfTickets, 10)
-                                        ) {
-                                          ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                          parseInt(EventData?.tickets?.[index]?.noOfTickets, 10);
+
+                                        if (disableField && newValue < limit) {
+                                          ErrorToast(`Can't enter less than ${EventData?.tickets?.[index]?.noOfTickets}`);
                                           return;
                                         }
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
@@ -5492,6 +5510,7 @@ function Editevent() {
                                                     }
                                                   }}
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
@@ -5584,6 +5603,7 @@ function Editevent() {
                                                   }}
                                                   //  label="Event End Date & Time"
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   minDateTime={currentDateTime}
                                                   slots={{
                                                     openPickerIcon: () => (
@@ -5692,6 +5712,7 @@ function Editevent() {
                                                   // minDateTime={minStartTime}
                                                   // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   minDateTime={currentDateTime}
                                                   slots={{
                                                     openPickerIcon: () => (
@@ -5781,13 +5802,14 @@ function Editevent() {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       toggleEndEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                       // setIsEndEventPickerOpen(false);
                                                       toggleEndEventTimePicker(index);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                     }
                                                   }}
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   minDateTime={currentDateTime}
                                                   //  label="Event End Date & Time"
                                                   // minDateTime={dayjs("2024-10-15T08:30")}
@@ -6276,13 +6298,14 @@ function Editevent() {
                                       value={ticket.no}
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
-                                        // Check if the value don't get lower the total sales
-                                        if (
-                                          parseInt(e.target.value, 10) <
+                                        // Check if the value doesn't lower the limit of total sales
+                                        const newValue = parseInt(e.target.value, 10);
+                                        const limit =
                                           parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
-                                            parseInt(EventData?.tickets?.[index]?.noOfTickets, 10)
-                                        ) {
-                                          ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                          parseInt(EventData?.tickets?.[index]?.noOfTickets, 10);
+
+                                        if (disableField && newValue < limit) {
+                                          ErrorToast(`Can't enter less than ${EventData?.tickets?.[index]?.noOfTickets}`);
                                           return;
                                         }
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
@@ -6345,6 +6368,7 @@ function Editevent() {
                                                     }
                                                   }}
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
@@ -6437,6 +6461,7 @@ function Editevent() {
                                                   }}
                                                   //  label="Event End Date & Time"
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   minDateTime={currentDateTime}
                                                   slots={{
                                                     openPickerIcon: () => (
@@ -6541,6 +6566,7 @@ function Editevent() {
                                                     }
                                                   }}
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   minDateTime={currentDateTime}
                                                   //  label="Event End Date & Time"
                                                   // minDateTime={minStartTime}
@@ -6633,13 +6659,14 @@ function Editevent() {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       toggleEndEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                       // setIsEndEventPickerOpen(false);
                                                       toggleEndEventTimePicker(index);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                     }
                                                   }}
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   minDateTime={currentDateTime}
                                                   //  label="Event End Date & Time"
                                                   // minDateTime={dayjs("2024-10-15T08:30")}
@@ -7330,13 +7357,14 @@ function Editevent() {
                                       value={ticket.no}
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
-                                        // Check if the value don't get lower the total sales
-                                        if (
-                                          parseInt(e.target.value, 10) <
+                                        // Check if the value doesn't lower the limit of total sales
+                                        const newValue = parseInt(e.target.value, 10);
+                                        const limit =
                                           parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
-                                            parseInt(EventData?.tickets?.[index]?.noOfTickets, 10)
-                                        ) {
-                                          ErrorToast(`Can't enter less ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                          parseInt(EventData?.tickets?.[index]?.noOfTickets, 10);
+
+                                        if (disableField && newValue < limit) {
+                                          ErrorToast(`Can't enter less than ${EventData?.tickets?.[index]?.noOfTickets}`);
                                           return;
                                         }
                                         // handleInputChange(index, "no", parseInt(e.target.value, 10));
@@ -7399,6 +7427,7 @@ function Editevent() {
                                                     }
                                                   }}
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   slots={{
                                                     openPickerIcon: () => (
                                                       <CalendarTodayIcon
@@ -7491,6 +7520,7 @@ function Editevent() {
                                                   }}
                                                   //  label="Event End Date & Time"
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   // minDate={currentDateTime}
                                                   minDateTime={currentDateTime}
                                                   slots={{
@@ -7600,6 +7630,7 @@ function Editevent() {
                                                   //  label="Event End Date & Time"
                                                   // slots={{ openPickerIcon: CalendarTodayIcon }} // Custom icon
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   minDateTime={currentDateTime}
                                                   slots={{
                                                     openPickerIcon: () => (
@@ -7690,13 +7721,14 @@ function Editevent() {
                                                       const formattedDate = e.format("YYYY-MM-DDTHH:mm");
                                                       toggleEndEventValue(formattedDate, index);
                                                       field.onChange(formattedDate);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                       // setIsEndEventPickerOpen(false);
                                                       toggleEndEventTimePicker(index);
-                                                      console.log("my ened time", formattedDate);
+                                                      // console.log("my ened time", formattedDate);
                                                     }
                                                   }}
                                                   disablePast
+                                                  disabled={disableField} // Disable interaction with the picker
                                                   minDateTime={currentDateTime}
                                                   //  label="Event End Date & Time"
                                                   // minDateTime={dayjs("2024-10-15T08:30")}
@@ -7864,7 +7896,7 @@ function Editevent() {
                     <Image src={ufo} width={350} height={350} className="absolute right-[0] bottom-0" alt="ufo" />
                   </div>
                   {/* Social Body */}
-                  <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[60px]  create-container-head">
+                  <div className="gradient-slate w-full pt-[32px] pb-[88px] px-[5px] md:px-[60px] create-container-head">
                     <div className="flex items-start lg:gap-[24px] xl:gap-[24px] gap-[16px] w-full common-container">
                       <FormField
                         control={form.control}
