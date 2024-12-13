@@ -4191,7 +4191,6 @@ function Editevent() {
                                       onWheel={(e: any) => e.target.blur()}
                                       value={ticket.no}
                                       onChange={(e) => {
-                                        e.preventDefault();
                                         // Check if the value don't lower the limit of total sales
                                         if (
                                           parseInt(e.target.value, 10) <
