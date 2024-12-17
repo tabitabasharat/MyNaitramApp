@@ -6,6 +6,7 @@ import { getOrganizerLiveSocialProfile } from "@/lib/middleware/organizer";
 import rocket from "@/assets/Wallet/rocket-empty.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Grid = () => {
   const router = useRouter();
@@ -57,6 +58,7 @@ const Grid = () => {
       ) : (
         <div className="relative gradient-slate py-[94.5px] border border-[#292929] flex items-center justify-center flex-col gap-[12px] rounded-[12px] w-full">
           <p className="text-base font-extrabold">There’s No upcoming Event</p>
+          <Link href="/viewallevents">
           <button
             className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto "
             // onClick={() =>
@@ -68,6 +70,7 @@ const Grid = () => {
             <Image src={rocket} alt="add-icon" />
             See What's On
           </button>
+          </Link>
         </div>
       )}
     </>

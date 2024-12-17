@@ -155,7 +155,7 @@ const PayoutHistory = () => {
               <p className="text-[16px] text-extrabold">There's no Payout History</p>
               <Button
                 className="text-[16px]  font-extrabold bg-[#00D059] text-[#030303] flex items-center h-auto justify-center gap-[6px] py-[10px] ps-[10px] pr-[16px] rounded-[100px] w-auto "
-                onClick={() => router.push("/organizer-event/payout-detail/cryptowallet/addCryptowallet")}
+                onClick={() => router.push("/organizer-event/payout-detail")}
               >
                 <Image src={rocket} alt="add-icon" />
                  See What's On

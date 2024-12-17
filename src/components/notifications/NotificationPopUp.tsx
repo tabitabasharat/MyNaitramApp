@@ -235,25 +235,6 @@ const NotificationPopUp = ({
           )}
         </div>
       )}
-
-      {/* {activeTab === "ORGANISER" && (
-        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
-          {filterNotifications(NotifyOrg)?.length > 0 &&
-            filterNotifications(NotifyOrg).map((item: any, index: any) => (
-              <EventNotificationCard
-                key={index}
-                msg={item?.msg}
-                heading={item?.action}
-                notifyTime={item?.createdAt}
-                readStatus={item?.NotifyRead}
-                notificationId={item?.id}
-                notifyType={"organization"}
-                profileimg={item?.picture}
-              />
-            ))}
-        </div>
-      )} */}
-
       {activeTab === "ORGANISER" && (
         <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
           {filterNotifications(NotifyOrg)?.length === 0 ? (

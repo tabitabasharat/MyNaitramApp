@@ -5,7 +5,7 @@ import Backbtn from "@/assets/Wallet/Back - Button.svg";
 import { Badge } from "@/components/ui/badge";
 import rhsimg from "@/assets/qr.svg";
 import location from "@/assets/Location.svg";
-import candendar from "@/assets/calendar1.svg";
+import candendar from "@/assets/V2assets/calender.svg";
 import time from "@/assets/clock1.svg";
 import blurqrcode from "@/assets/Wallet/BlurQrGreen.svg";
 import blurqrmb from "@/assets/Wallet/Blur qr- mobile.svg";

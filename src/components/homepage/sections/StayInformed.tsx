@@ -28,7 +28,7 @@ const StayInformed = () => {
     setLoader(false);
     const input = e.target.value;
     // Allow only letters, numbers, and "@"
-    const regex = /^[a-zA-Z0-9@]*$/;
+    const regex = /^[a-zA-Z0-9@.]*$/;
     if (regex.test(input)) {
       setEmail(input); // Update state only if input is valid
     }
