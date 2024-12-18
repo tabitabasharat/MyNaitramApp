@@ -31,9 +31,11 @@ import logout from "../../assets/logout.svg";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { showProfile } from "@/lib/middleware/profile";
+import { getOrganizerDetail } from "@/lib/middleware/organizer";
 import bellred from "@/assets/Wallet/bell red.svg";
 import { getUserNotifications, getOrgNotifications, UserNotificationReadAll, OrgNotificationReadAll } from "@/lib/middleware/notification";
 import { SuccessToast, ErrorToast } from "../reusable-components/Toaster/Toaster";
+
 const Header = () => {
   const router = useRouter();
   const [authMode, setAuthMode] = useState<AuthMode>("SIGNIN");
@@ -45,6 +47,7 @@ const Header = () => {
   const [activeTab, setActiveTab] = useState<"USER" | "ORGANISER">("USER");
   const [loader, setLoader] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [profilePic, setProfilePic] = useState<string>("/person3.jpg");
 
   // Toggle the dropdown open/close state
   const toggleDropdown = () => setIsOpen(!isOpen);
@@ -70,6 +73,14 @@ const Header = () => {
   const handleLinkClick = (link: string) => {
     setActiveLink(link);
     setIsOpen(false); // Optional: close the menu after selection
+
+    if (link === "Organizer Profile") {
+      setProfilePic(myOrgData?.userDetails?.organizerProfile?.profilePicture || "/person3.jpg");
+      localStorage.setItem("profilePic", myOrgData?.userDetails?.organizerProfile?.profilePicture ?? "/person3.jpg");
+    } else {
+      setProfilePic(myProfile?.profilePicture || "/person3.jpg");
+      localStorage.setItem("profilePic", myProfile?.profilePicture ?? "/person3.jpg");
+    }
   };
 
   // Toggle dropdown function
@@ -149,10 +160,13 @@ const Header = () => {
     const id = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     setToken(id);
   }, [token, count]);
+
+  // Dispatcing the user profile and Organizer profile
   useEffect(() => {
     const userid = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     dispatch(showProfile(userid));
+    dispatch(getOrganizerDetail(userid));
   }, []);
 
   const Logout = () => {
@@ -161,13 +175,21 @@ const Header = () => {
     dispatch({ type: "LOGOUT" });
     router.push("/");
   };
-  const myProfile = useAppSelector((state) => state?.getShowProfile?.myProfile?.data);
-  // const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
-  // const handleDropdownToggle = (id: number) => {
-  //   setOpenDropdown(openDropdown === id ? null : id);
-  // };
-  // console.log("my Profile is", myProfile);
+  const myProfile = useAppSelector((state) => state?.getShowProfile?.myProfile?.data);
+  const myOrgData = useAppSelector((state) => state?.getOrgDetail?.orgDetail?.data?.data);
+
+  useEffect(() => {
+    if (localStorage.getItem("profilePic")) {
+      setProfilePic(localStorage.getItem("profilePic") || "/person3.jpg");
+    } else {
+      if (myProfile) {
+        setProfilePic(myProfile?.profilePicture || "/person3.jpg");
+      } else {
+        setProfilePic("/person3.jpg");
+      }
+    }
+  }, [myProfile, myOrgData]);
 
   const handleHostToggle = () => {
     if (!token) {
@@ -407,7 +429,8 @@ const Header = () => {
                       <div>
                         <Link href={"/profile/profile-main"} className="display-none">
                           <Image
-                            src={myProfile?.profilePicture ? myProfile?.profilePicture : "/person3.jpg"}
+                            // src={myProfile?.profilePicture ? myProfile?.profilePicture : ""}
+                            src={profilePic}
                             width={32}
                             height={32}
                             className="object-cover object-center rounded-full w-[32px] h-[32px]"

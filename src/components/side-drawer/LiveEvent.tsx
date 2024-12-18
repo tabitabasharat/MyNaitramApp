@@ -30,8 +30,8 @@ const LiveEvent = () => {
     const userid: string | null = typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
 
-    dispatch(getOrganizerProfileFutures("8"));
-    setUSERID("8");
+    dispatch(getOrganizerProfileFutures(userid));
+    setUSERID(userid);
   }, []);
 
   const OrganizerLiveEvent = useAppSelector((state) => state?.getOrganizerProfileFutures?.allOrganizerProfileFutures?.data);

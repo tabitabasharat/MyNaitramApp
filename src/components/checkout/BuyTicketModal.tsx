@@ -1,16 +1,7 @@
 "use client";
 
-import {
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
@@ -28,41 +19,31 @@ import { ErrorToast } from "../reusable-components/Toaster/Toaster";
 import moment from "moment-timezone";
 
 // import { setTicketPrice } from "@/lib/reducer/setBuyTicket";
-const BuyTicketModal = ({
-  onNext,
-  setTicketPrice,
-  setTicketType,
-  setTicketIndex,
-}: any) => {
+const BuyTicketModal = ({ onNext, setTicketPrice, setTicketType, setTicketIndex }: any) => {
   const [selectedTicket, setSelectedTicket] = useState(-1);
   const [selectedTicketPrice, setSelectedTicketPrice] = useState(0);
   const [selectedTicketType, setSelectedTIcketType] = useState<any>();
   const [eventid, setEventid] = useState<any>();
   // const [disableContinue, setDisabledContinue] = useState<boolean>(false);
   const [deadLineDate, setDeadlineDate] = useState<string>("");
-  const EventData = useAppSelector(
-    (state) => state?.getEventByEventID?.eventIdEvents?.data?.tickets
-  );
+  const EventData = useAppSelector((state) => state?.getEventByEventID?.eventIdEvents?.data?.tickets);
 
   const dispatch = useAppDispatch();
 
   function buyTicket() {
-    if (
-      EventData[selectedTicket].selectedEventTicketType !== "RSVP Ticketing"
-    ) {
+    if (EventData[selectedTicket].selectedEventTicketType !== "RSVP Ticketing") {
       if (new Date(EventData[selectedTicket].ticketStartDT) > new Date()) {
         ErrorToast("Ticket start time not started yet");
         return;
       }
-    }else{
+    } else {
       if (new Date(EventData[selectedTicket].rsvpDeadline) < new Date()) {
-        console.log("this is testing",EventData[selectedTicket].rsvpDeadline)
+        console.log("this is testing", EventData[selectedTicket].rsvpDeadline);
         ErrorToast("RSVP Deadline Reach");
         return;
       }
     }
 
-    
     setTicketPrice(selectedTicketPrice);
 
     setTicketType(selectedTicketType);
@@ -71,8 +52,7 @@ const BuyTicketModal = ({
   }
 
   useEffect(() => {
-    const currentUrl: any =
-      typeof window !== "undefined" ? window.location.href : null;
+    const currentUrl: any = typeof window !== "undefined" ? window.location.href : null;
     const parts = currentUrl.split("/");
     const value = parts[parts.length - 1];
     setEventid(value);
@@ -80,9 +60,7 @@ const BuyTicketModal = ({
     // dispatch(getEventById(value));
   }, []);
 
-  const EventDatas = useAppSelector(
-    (state) => state?.getEventByEventID?.eventIdEvents
-  );
+  const EventDatas = useAppSelector((state) => state?.getEventByEventID?.eventIdEvents);
   console.log("my data in buy tickets", EventDatas?.data?.totalSoldOut);
 
   function formatDate(inputDate: any) {
@@ -96,14 +74,7 @@ const BuyTicketModal = ({
     const year = date.getFullYear();
 
     // Get the ordinal suffix for the day
-    const suffix =
-      day % 10 === 1 && day !== 11
-        ? "st"
-        : day % 10 === 2 && day !== 12
-        ? "nd"
-        : day % 10 === 3 && day !== 13
-        ? "rd"
-        : "th";
+    const suffix = day % 10 === 1 && day !== 11 ? "st" : day % 10 === 2 && day !== 12 ? "nd" : day % 10 === 3 && day !== 13 ? "rd" : "th";
 
     // Construct the formatted string
     return `${dayOfWeek}, ${day}${suffix} ${month} ${year}`;
@@ -123,19 +94,15 @@ const BuyTicketModal = ({
 
   return (
     // <Dialog open={isOpen} onOpenChange={onClose}>
-    <DialogContent className="sm:max-w-md lg:max-w-[600px] text-white">
+    <DialogContent className="sm:max-w-md lg:max-w-[600px] text-white overflow-y-auto">
       <div>
         <DialogHeader className="mb-5">
-          <DialogTitle className="font-bold text-2xl mb-1">
-            Buy Tickets
-          </DialogTitle>
+          <DialogTitle className="font-bold text-2xl mb-1">Buy Tickets</DialogTitle>
           <Separator className="scale--[1.12] bg-[#292929]" />
         </DialogHeader>
 
         <div>
-          <p className="text-[#ffffff] font-extrabold text-[15px] pb-4">
-            CHOOSE TICKET TYPE
-          </p>
+          <p className="text-[#ffffff] font-extrabold text-[15px] pb-4">CHOOSE TICKET TYPE</p>
 
           {/* <ScrollArea className="h-[30rem] w-full">
             <div className="flex flex-col gap-3">
@@ -205,12 +172,10 @@ const BuyTicketModal = ({
               )}
             </div>
           </ScrollArea> */}
-          <ScrollArea className="w-full">
+          <ScrollArea className="max-h-[20rem] w-full overflow-y-scroll pr-2">
             <div className="flex flex-col gap-3">
               {/* ENTRY TICKET */}
-              <p className="text-[14px] text-[#BFBFBF] font-[400]">
-                Entry Ticket
-              </p>
+              <p className="text-[14px] text-[#BFBFBF] font-[400]">Entry Ticket</p>
               {EventData?.map((ticket: any, index: any) => {
                 let isSoldOut = false; // Check if the ticket is sold out
 
@@ -235,31 +200,19 @@ const BuyTicketModal = ({
                       <GradientBorder>
                         <div
                           className={`border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer ${
-                            isSoldOut
-                              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                              : ""
+                            isSoldOut ? "bg-gray-300 text-gray-500 cursor-not-allowed" : ""
                           }`}
                         >
                           <div className="flex justify-between">
-                            <p className="font-bold">
-                              {ticket.selectedEventTicketType}
-                            </p>
-                            <p className="font-extrabold">
-                              {ticket.selectedEventTicketType !==
-                              "RSVP Ticketing"
-                                ? `£${ticket.ticketPrice}`
-                                : ""}
-                            </p>
+                            <p className="font-bold">{ticket.selectedEventTicketType}</p>
+                            <p className="font-extrabold">{ticket.selectedEventTicketType !== "RSVP Ticketing" ? `£${ticket.ticketPrice}` : ""}</p>
                           </div>
 
                           <CollapsibleContent className="border-t border-t-[#282828] mt-2 text-left">
-                            {ticket.selectedEventTicketType ===
-                              "RSVP Ticketing" && (
+                            {ticket.selectedEventTicketType === "RSVP Ticketing" && (
                               <>
                                 <div className="flex flex-col items-start mt-2">
-                                  <p className="text-[#BFBFBF] font-extrabold text-[12px]">
-                                    RSVP Deadline
-                                  </p>
+                                  <p className="text-[#BFBFBF] font-extrabold text-[12px]">RSVP Deadline</p>
                                   <div className="mt-3">
                                     <p key={index} className={`text-[12px]`}>
                                       {`${formatDate(ticket?.rsvpDeadline)}`}
@@ -267,9 +220,7 @@ const BuyTicketModal = ({
                                   </div>
                                 </div>
                                 <div className="flex flex-col items-start mt-2">
-                                  <p className="text-[#BFBFBF] font-extrabold text-[12px]">
-                                    RSVP Capacity
-                                  </p>
+                                  <p className="text-[#BFBFBF] font-extrabold text-[12px]">RSVP Capacity</p>
                                   <div className="mt-3">
                                     <p key={index} className="text-[12px]">
                                       {`${ticket?.noOfTickets} persons`}
@@ -281,21 +232,14 @@ const BuyTicketModal = ({
                             <>
                               {ticket?.whatsIncluded && (
                                 <div className="flex flex-col items-start mt-2">
-                                  <p className="text-[#BFBFBF] font-extrabold text-[12px]">
-                                    INCLUDED
-                                  </p>
+                                  <p className="text-[#BFBFBF] font-extrabold text-[12px]">INCLUDED</p>
                                   <div className="mt-3">
                                     {ticket?.whatsIncluded &&
-                                      ticket?.whatsIncluded?.map(
-                                        (include: any, index: any) => (
-                                          <p
-                                            key={index}
-                                            className="text-[12px]"
-                                          >
-                                            {include?.label}
-                                          </p>
-                                        )
-                                      )}
+                                      ticket?.whatsIncluded?.map((include: any, index: any) => (
+                                        <p key={index} className="text-[12px]">
+                                          {include?.label}
+                                        </p>
+                                      ))}
                                   </div>
                                 </div>
                               )}
@@ -312,11 +256,7 @@ const BuyTicketModal = ({
                       open={selectedTicket === index}
                       onOpenChange={() => {
                         if (!isSoldOut) {
-                          if (
-                            ticket.selectedEventTicketType !==
-                              "RSVP Ticketing" &&
-                            ticket?.rsvpDeadline > new Date().toISOString()
-                          ) {
+                          if (ticket.selectedEventTicketType !== "RSVP Ticketing" && ticket?.rsvpDeadline > new Date().toISOString()) {
                             setSelectedTicket(index);
                           } else {
                             setSelectedTicket(index);
@@ -325,10 +265,7 @@ const BuyTicketModal = ({
                           setSelectedTIcketType(ticket.selectedEventTicketType);
                           setTicketIndex(index);
                           setDeadlineDate(ticket?.rsvpDeadline || "");
-                          console.log(
-                            ticket?.rsvpDeadline,
-                            "this is rsvp deadline"
-                          );
+                          console.log(ticket?.rsvpDeadline, "this is rsvp deadline");
                         }
                       }}
                       className="w-full"
@@ -336,22 +273,12 @@ const BuyTicketModal = ({
                       <CollapsibleTrigger className="w-full">
                         <div
                           className={`border border-muted rounded-lg gradient-slate px-3 py-[0.65rem] cursor-pointer ${
-                            isSoldOut ||
-                            ticket?.rsvpDeadline < new Date().toISOString()
-                              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                              : ""
+                            isSoldOut || ticket?.rsvpDeadline < new Date().toISOString() ? "bg-gray-300 text-gray-500 cursor-not-allowed" : ""
                           }`}
                         >
                           <div className="flex justify-between">
-                            <p className="font-bold">
-                              {ticket.selectedEventTicketType}
-                            </p>
-                            <p className="font-extrabold">
-                              {ticket.selectedEventTicketType !==
-                              "RSVP Ticketing"
-                                ? `£${ticket.ticketPrice}`
-                                : ""}
-                            </p>
+                            <p className="font-bold">{ticket.selectedEventTicketType}</p>
+                            <p className="font-extrabold">{ticket.selectedEventTicketType !== "RSVP Ticketing" ? `£${ticket.ticketPrice}` : ""}</p>
                           </div>
                         </div>
                       </CollapsibleTrigger>
@@ -369,10 +296,7 @@ const BuyTicketModal = ({
               <div>
                 <span className="text-primary text-sm">Total Price</span>
                 <p className="font-bold text-2xl">
-                  £{selectedTicketPrice}.00{" "}
-                  <span className="text-[12px] text-[#BFBFBF] font-normal">
-                    inc fees
-                  </span>
+                  £{selectedTicketPrice}.00 <span className="text-[12px] text-[#BFBFBF] font-normal">inc fees</span>
                 </p>
               </div>
             </div>

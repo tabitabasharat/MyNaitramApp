@@ -88,7 +88,7 @@ import styled from "styled-components";
 import { useTheme } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import moment from "moment";
+// import moment from "moment";
 
 import { addHours } from "date-fns";
 
@@ -2192,7 +2192,7 @@ function Editevent() {
               selected: ticket?.ticketFreePaid,
               selectedDropDown: false,
               price: ticket?.ticketPrice,
-              no: ticket?.originalNoOfTickets,
+              no: ticket?.noOfTickets,
               typename: ticket?.ticketName,
               ticketstart: convertToLocal(ticket?.ticketStartDT),
               ticketend: convertToLocal(ticket?.ticketEndDT),
@@ -2228,7 +2228,7 @@ function Editevent() {
               name: ticket?.ticketName,
               deadline: convertToLocal(ticket?.rsvpDeadline),
               isDeadlinePickerOpen: false,
-              capacity: ticket?.originalNoOfTickets,
+              capacity: ticket?.noOfTickets,
               options: (ticket?.whatsIncluded || []).map((ticket: any) => ({
                 ...ticket,
                 options: (ticket?.options || []).map((option: any) => ({
@@ -2249,7 +2249,7 @@ function Editevent() {
               selected: ticket?.ticketFreePaid,
               selectedDropDown: false,
               price: ticket?.ticketPrice,
-              no: ticket?.originalNoOfTickets,
+              no: ticket?.noOfTickets,
               name: ticket?.ticketName,
               ticketstart: convertToLocal(ticket?.ticketStartDT),
               ticketend: convertToLocal(ticket?.ticketEndDT),
@@ -2268,7 +2268,7 @@ function Editevent() {
               })),
               optionDropDown: false,
 
-              emailmanual: ticket?.privateEventAdditionalFields,
+              emailmanual: [...ticket?.privateEventAdditionalFields, ...(ticket?.csvEmails ?? [])],
               manualEmailCount: 0,
               csvEmails: [],
               isCSVuploaded: false,
@@ -2281,7 +2281,7 @@ function Editevent() {
               selected: ticket?.ticketFreePaid,
               selectedDropDown: false,
               price: ticket?.ticketPrice,
-              no: ticket?.originalNoOfTickets,
+              no: ticket?.noOfTickets,
               name: ticket?.ticketName,
               ticketstart: convertToLocal(ticket?.ticketStartDT),
               ticketend: convertToLocal(ticket?.ticketEndDT),
@@ -2300,7 +2300,7 @@ function Editevent() {
               })),
               optionDropDown: false,
 
-              emailmanual: ticket?.privateEventAdditionalFields,
+              emailmanual: [...ticket?.privateEventAdditionalFields, ...(ticket?.csvEmails ?? [])],
               manualEmailCount: 0,
               csvEmails: [],
               isCSVuploaded: false,
@@ -2317,7 +2317,7 @@ function Editevent() {
               selected: ticket?.ticketFreePaid,
               selectedDropDown: false,
               price: ticket?.ticketPrice,
-              no: ticket?.originalNoOfTickets,
+              no: ticket?.noOfTickets,
               name: ticket?.ticketName,
               ticketstart: convertToLocal(ticket?.ticketStartDT),
               ticketend: convertToLocal(ticket?.ticketEndDT),
@@ -3451,6 +3451,10 @@ function Editevent() {
 
   // remove Auto Generated Passwords
   const removeAutoPSWRD = (ticketIndex: number, pswrdIdx: number) => {
+    if (disableField) {
+      return;
+    }
+
     setTicketTypes((prevTickets: any) => {
       const newPswrdFields = prevTickets.map((ticket: any, i: number) =>
         i === ticketIndex
@@ -4207,29 +4211,47 @@ function Editevent() {
                                       onWheel={(e: any) => e.target.blur()}
                                       value={ticket.no}
                                       onChange={(e) => {
-                                        // Check if the value doesn't lower the limit of total sales
-                                        const newValue = parseInt(e.target.value, 10);
-                                        const limit =
-                                          parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
-                                          parseInt(EventData?.tickets?.[index]?.noOfTickets, 10);
+                                        const rawValue = e.target.value; // Get the input value as it is
+                                        const value = rawValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
 
-                                        if (disableField && newValue < limit) {
-                                          ErrorToast(`Can't enter less than ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                        // Allow the input to be cleared completely
+                                        if (value === "") {
+                                          handleNoTickets(value, index);
+                                          field.onChange(value);
                                           return;
                                         }
-                                        // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                        const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+
+                                        // Convert value to a number for validation
+                                        const newValue = Number(value);
+
+                                        const limit =
+                                          Number(EventData?.tickets?.[index]?.originalNoOfTickets) - Number(EventData?.tickets?.[index]?.noOfTickets);
+
+                                        // console.log("Limit is as ==> ", limit, ` Type is as ${typeof limit} : ${typeof newValue}`);
+
+                                        // Check if value is less than the limit
+                                        if (disableField && newValue < limit) {
+                                          ErrorToast(`Can't enter less than ${limit}`);
+                                          return;
+                                        }
+
+                                        if (newValue === 0) {
+                                          ErrorToast(`Capacity can't be 0`);
+                                          return;
+                                        }
+
+                                        // Pass valid values to the handler
                                         handleNoTickets(value, index);
                                         field.onChange(value);
                                         e.preventDefault();
                                       }}
-                                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                        const key = e.key;
-                                        // Prevent any non-numeric character except numbers
-                                        if (!/^\d$/.test(key)) {
-                                          e.preventDefault();
-                                        }
-                                      }}
+                                      // onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                      //   const key = e.key;
+                                      //   // Prevent any non-numeric character except numbers
+                                      //   if (!/^\d$/.test(key)) {
+                                      //     e.preventDefault();
+                                      //   }
+                                      // }}
                                     />
                                   </FormControl>
                                   <FormMessage />
@@ -4992,28 +5014,40 @@ function Editevent() {
                                         className="pt-[2.83rem] pb-6 placeholder:text-[16px] placeholder:font-extrabold placeholder:text-[#FFFFFF]  "
                                         {...field}
                                         onChange={(e) => {
-                                          // Check if the value doesn't lower the limit of total sales
-                                          const newValue = parseInt(e.target.value, 10);
-                                          const limit =
-                                            parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
-                                            parseInt(EventData?.tickets?.[index]?.noOfTickets, 10);
+                                          const rawValue = e.target.value; // Get the input value as it is
+                                          const value = rawValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
 
-                                          if (disableField && newValue < limit) {
-                                            ErrorToast(`Can't enter less than ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                          // Allow the input to be cleared completely
+                                          if (value === "") {
+                                            handleCapacityRSVPTicket(value, index);
+                                            field.onChange(value);
                                             return;
                                           }
-                                          // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                          const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+
+                                          // Convert value to a number for validation
+                                          const newValue = Number(value);
+
+                                          const limit =
+                                            Number(EventData?.tickets?.[index]?.originalNoOfTickets) -
+                                            Number(EventData?.tickets?.[index]?.noOfTickets);
+
+                                          // console.log("Limit is as ==> ", limit, ` Type is as ${typeof limit} : ${typeof newValue}`);
+
+                                          // Check if value is less than the limit
+                                          if (disableField && newValue < limit) {
+                                            ErrorToast(`Can't enter less than ${limit}`);
+                                            return;
+                                          }
+
+                                          if (newValue === 0) {
+                                            ErrorToast(`Capacity can't be 0`);
+                                            return;
+                                          }
+
+                                          // Pass valid values to the handler
                                           handleCapacityRSVPTicket(value, index);
                                           field.onChange(value);
                                           e.preventDefault();
-                                        }}
-                                        onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                          const key = e.key;
-                                          // Prevent any non-numeric character except numbers
-                                          if (!/^\d$/.test(key)) {
-                                            e.preventDefault();
-                                          }
                                         }}
                                       />
                                     </FormControl>
@@ -5440,29 +5474,47 @@ function Editevent() {
                                       value={ticket.no}
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
-                                        // Check if the value doesn't lower the limit of total sales
-                                        const newValue = parseInt(e.target.value, 10);
-                                        const limit =
-                                          parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
-                                          parseInt(EventData?.tickets?.[index]?.noOfTickets, 10);
+                                        const rawValue = e.target.value; // Get the input value as it is
+                                        const value = rawValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
 
-                                        if (disableField && newValue < limit) {
-                                          ErrorToast(`Can't enter less than ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                        // Allow the input to be cleared completely
+                                        if (value === "") {
+                                          handleNoTickets(value, index);
+                                          field.onChange(value);
                                           return;
                                         }
-                                        // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                        const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+
+                                        // Convert value to a number for validation
+                                        const newValue = Number(value);
+
+                                        const limit =
+                                          Number(EventData?.tickets?.[index]?.originalNoOfTickets) - Number(EventData?.tickets?.[index]?.noOfTickets);
+
+                                        // console.log("Limit is as ==> ", limit, ` Type is as ${typeof limit} : ${typeof newValue}`);
+
+                                        // Check if value is less than the limit
+                                        if (disableField && newValue < limit) {
+                                          ErrorToast(`Can't enter less than ${limit}`);
+                                          return;
+                                        }
+
+                                        if (newValue === 0) {
+                                          ErrorToast(`Capacity can't be 0`);
+                                          return;
+                                        }
+
+                                        // Pass valid values to the handler
                                         handleNoTickets(value, index);
                                         field.onChange(value);
                                         e.preventDefault();
                                       }}
-                                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                        const key = e.key;
-                                        // Prevent any non-numeric character except numbers
-                                        if (!/^\d$/.test(key)) {
-                                          e.preventDefault();
-                                        }
-                                      }}
+                                      // onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                      //   const key = e.key;
+                                      //   // Prevent any non-numeric character except numbers
+                                      //   if (!/^\d$/.test(key)) {
+                                      //     e.preventDefault();
+                                      //   }
+                                      // }}
                                     />
                                   </FormControl>
                                   <FormMessage />
@@ -6298,29 +6350,47 @@ function Editevent() {
                                       value={ticket.no}
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
-                                        // Check if the value doesn't lower the limit of total sales
-                                        const newValue = parseInt(e.target.value, 10);
-                                        const limit =
-                                          parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
-                                          parseInt(EventData?.tickets?.[index]?.noOfTickets, 10);
+                                        const rawValue = e.target.value; // Get the input value as it is
+                                        const value = rawValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
 
-                                        if (disableField && newValue < limit) {
-                                          ErrorToast(`Can't enter less than ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                        // Allow the input to be cleared completely
+                                        if (value === "") {
+                                          handleNoTickets(value, index);
+                                          field.onChange(value);
                                           return;
                                         }
-                                        // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                        const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+
+                                        // Convert value to a number for validation
+                                        const newValue = Number(value);
+
+                                        const limit =
+                                          Number(EventData?.tickets?.[index]?.originalNoOfTickets) - Number(EventData?.tickets?.[index]?.noOfTickets);
+
+                                        // console.log("Limit is as ==> ", limit, ` Type is as ${typeof limit} : ${typeof newValue}`);
+
+                                        // Check if value is less than the limit
+                                        if (disableField && newValue < limit) {
+                                          ErrorToast(`Can't enter less than ${limit}`);
+                                          return;
+                                        }
+
+                                        if (newValue === 0) {
+                                          ErrorToast(`Capacity can't be 0`);
+                                          return;
+                                        }
+
+                                        // Pass valid values to the handler
                                         handleNoTickets(value, index);
                                         field.onChange(value);
                                         e.preventDefault();
                                       }}
-                                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                        const key = e.key;
-                                        // Prevent any non-numeric character except numbers
-                                        if (!/^\d$/.test(key)) {
-                                          e.preventDefault();
-                                        }
-                                      }}
+                                      // onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                      //   const key = e.key;
+                                      //   // Prevent any non-numeric character except numbers
+                                      //   if (!/^\d$/.test(key)) {
+                                      //     e.preventDefault();
+                                      //   }
+                                      // }}
                                     />
                                   </FormControl>
                                   <FormMessage />
@@ -7357,29 +7427,47 @@ function Editevent() {
                                       value={ticket.no}
                                       onWheel={(e: any) => e.target.blur()}
                                       onChange={(e) => {
-                                        // Check if the value doesn't lower the limit of total sales
-                                        const newValue = parseInt(e.target.value, 10);
-                                        const limit =
-                                          parseInt(EventData?.tickets?.[index]?.originalNoOfTickets, 10) -
-                                          parseInt(EventData?.tickets?.[index]?.noOfTickets, 10);
+                                        const rawValue = e.target.value; // Get the input value as it is
+                                        const value = rawValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
 
-                                        if (disableField && newValue < limit) {
-                                          ErrorToast(`Can't enter less than ${EventData?.tickets?.[index]?.noOfTickets}`);
+                                        // Allow the input to be cleared completely
+                                        if (value === "") {
+                                          handleNoTickets(value, index);
+                                          field.onChange(value);
                                           return;
                                         }
-                                        // handleInputChange(index, "no", parseInt(e.target.value, 10));
-                                        const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+
+                                        // Convert value to a number for validation
+                                        const newValue = Number(value);
+
+                                        const limit =
+                                          Number(EventData?.tickets?.[index]?.originalNoOfTickets) - Number(EventData?.tickets?.[index]?.noOfTickets);
+
+                                        // console.log("Limit is as ==> ", limit, ` Type is as ${typeof limit} : ${typeof newValue}`);
+
+                                        // Check if value is less than the limit
+                                        if (disableField && newValue < limit) {
+                                          ErrorToast(`Can't enter less than ${limit}`);
+                                          return;
+                                        }
+
+                                        if (newValue === 0) {
+                                          ErrorToast(`Capacity can't be 0`);
+                                          return;
+                                        }
+
+                                        // Pass valid values to the handler
                                         handleNoTickets(value, index);
                                         field.onChange(value);
                                         e.preventDefault();
                                       }}
-                                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                        const key = e.key;
-                                        // Prevent any non-numeric character except numbers
-                                        if (!/^\d$/.test(key)) {
-                                          e.preventDefault();
-                                        }
-                                      }}
+                                      // onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                      //   const key = e.key;
+                                      //   // Prevent any non-numeric character except numbers
+                                      //   if (!/^\d$/.test(key)) {
+                                      //     e.preventDefault();
+                                      //   }
+                                      // }}
                                     />
                                   </FormControl>
                                   <FormMessage />

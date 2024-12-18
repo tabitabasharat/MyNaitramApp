@@ -10,13 +10,6 @@ import { LikeEvent, disLikeEvent } from "@/lib/middleware/event";
 import girl from "@/assets/Images.png"; // Use the same image or dynamic data
 import { Heart } from "@phosphor-icons/react/dist/ssr";
 
-// Array containing data for 6 event cards
-const eventCardsData = new Array(6).fill({
-  id: 1,
-  title: "Amet est massa volutpat faucibus",
-  image: girl, // Use the same image for all cards here, replace with dynamic data if available
-});
-
 interface EventcardTextProps {
   currentEvents: any;
 }
@@ -28,7 +21,7 @@ const EventcardText: React.FC<EventcardTextProps> = ({ currentEvents }) => {
         <ScaleReveal key={index} extraStyle="">
           <Link
             href={`/side-drawer/ticket-data/${event?.id}`}
-            className="relative overflow-hidden rounded-lg h-[288px] w-full md:w-full xl:h-[380px] sm:w-[288px] border border-[#424242]"
+            className="relative overflow-hidden rounded-lg h-[288px] w-full md:w-full xl:h-[380px] sm:w-[288px] border border-[#424242] shadow-innerBottom"
           >
             <Image
               src={event?.coverEventImage}
@@ -40,8 +33,8 @@ const EventcardText: React.FC<EventcardTextProps> = ({ currentEvents }) => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
 
-            <div className="absolute flex justify-between gap-4 h-full items-end z-[2] p-4 top-0 w-full">
-              <p className="font-bold w-[75%] text-white text-lg sm:text-xl">{event?.name}</p>
+            <div className="absolute flex justify-between gap-4 h-full items-end z-[2] pt-4 pb-4 pr-4 pl-5 top-0 w-full">
+              <p className="font-bold w-[75%] text-white text-lg sm:text-xl mb-8">{event?.name}</p>
             </div>
           </Link>
         </ScaleReveal>

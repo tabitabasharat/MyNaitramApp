@@ -41,8 +41,18 @@ const TicketData = () => {
   const eventLoader = useAppSelector((state) => state?.getEventByEventID?.loading);
 
   useEffect(() => {
-    const currentUrl: any = typeof window !== "undefined" ? window.location.href : null;
+    setSumData(0);
+    setSumSales(0);
+    setTotalRevenue(0.0);
+    setDataRows([]);
+    // const [totals, setTotals] = useState({ numerator: 0, denominator: 0 });
+    setTotalNumerator(0);
+    setTotalDenominator(0);
+    setEvent({});
+  }, []);
 
+  useEffect(() => {
+    const currentUrl: any = typeof window !== "undefined" ? window.location.href : null;
     if (currentUrl) {
       const url = new URL(currentUrl);
       const pathname = url.pathname;
@@ -52,15 +62,19 @@ const TicketData = () => {
       console.log("my event id is", eventId);
       dispatch(getEventByEventId(eventId));
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     console.log("This is The event data ===> ", eventData);
     setEvent(eventData);
+    setDataRows([]);
 
     // Calculating total sales from tickets
     const totalSales = eventData?.tickets?.reduce((sum: number, ticket: any) => {
-      return sum + (ticket?.originalNoOfTickets - ticket?.noOfTickets);
+      const originalTickets = Number(ticket?.originalNoOfTickets) || 0;
+      const remainingTickets = Number(ticket?.noOfTickets) || 0;
+      const diff = originalTickets - remainingTickets;
+      return sum + diff; // Skip tickets that don't qualify
     }, 0);
     setSumSales(totalSales);
 
@@ -72,27 +86,48 @@ const TicketData = () => {
     setTotalRevenue(totalRevenue);
 
     // Temporary array to accumulate data for the table
-    const updatedRows: any[] = [...(dataRows || [])];
+    const updatedRows: any[] = [];
 
-    // Getting data for the table
-    eventData?.tickets?.forEach((ticket: any, index: number) => {
-      // Check if ticketType already exists
-      const isTicketExist = updatedRows.some((row: any) =>
+    eventData?.tickets?.forEach((ticket: any) => {
+      // Find if a ticket type already exists
+      const existingRowIndex = updatedRows.findIndex((row: any) =>
         row?.links?.some((link: any) => link?.type?.trim() === ticket?.selectedEventTicketType?.trim())
       );
 
-      if (!isTicketExist) {
-        const status = ticket?.noOfTickets === "0" ? "Sold Out" : "On Sale";
-        const nomiNator = ticket?.noOfTickets;
-        const deNominator = ticket?.originalNoOfTickets;
+      const status = Number(ticket?.noOfTickets) === 0 ? "Sold Out" : "On Sale";
+      const nomiNator = Number(ticket?.noOfTickets) || 0;
+      const deNominator = Number(ticket?.originalNoOfTickets) || 0;
+      const ticketRevenue = ticket?.ticketPrice ? ticket?.ticketPrice * (ticket?.originalNoOfTickets - ticket?.noOfTickets) : 0;
+      const navLink =
+        ticket?.selectedEventTicketType == "Festivals/Multi-Day Tickets/Season Passes"
+          ? "/side-drawer/festivals-tickets"
+          : ticket?.selectedEventTicketType == "RSVP Ticketing"
+          ? "/side-drawer/rsvp-ticketing"
+          : ticket?.selectedEventTicketType == "Private Event Ticketing"
+          ? "/side-drawer/private-event-ticketing"
+          : ticket?.selectedEventTicketType == "Passworded/Discounted Voucher Event"
+          ? "/side-drawer/passworded-event"
+          : "/side-drawer/customer-ticket";
+
+      if (existingRowIndex === -1) {
+        // If it doesn't exist, add a new row
         updatedRows.push({
           name: ticket?.ticketName,
           status: status,
           sales: `${nomiNator}/${deNominator}`,
-          price: ticket?.ticketPrice ? ticket?.ticketPrice * (ticket?.originalNoOfTickets - ticket?.noOfTickets) : 0,
-          links: [{ type: ticket?.selectedEventTicketType.trim(), url: "" }],
+          price: ticketRevenue,
+          links: [{ type: ticket?.selectedEventTicketType.trim(), url: navLink }],
         });
       } else {
+        // If it exists, update the existing row
+        const existingRow = updatedRows[existingRowIndex];
+
+        // Update the sales numerator and denominator
+        const [existingNumerator, existingDenominator] = existingRow.sales.split("/").map((value: any) => parseInt(value, 10));
+        existingRow.sales = `${existingNumerator + nomiNator}/${existingDenominator + deNominator}`;
+
+        // Update the total price
+        existingRow.price += ticketRevenue;
       }
     });
 
