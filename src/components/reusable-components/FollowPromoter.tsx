@@ -36,6 +36,7 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
   const [loading, setLoading] = useState(false);
   const [followStatus, setFollowStatus] = useState(false);
   const [isClaimOpen, setisClaimOpen] = useState(false);
+    const [profilePic, setProfilePic] = useState<string>("/person3.jpg");
 
 
   console.log("my follow status", followStatus);
@@ -81,7 +82,7 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
     myProfile?.profile?.profilePicture?.startsWith("http") ||
     myProfile?.profile?.profilePicture?.startsWith("https")
       ? myProfile?.profile?.profilePicture
-      : promoter;
+      : promoter?? "/person3.jpg";
 
   useEffect(() => {
     const token =

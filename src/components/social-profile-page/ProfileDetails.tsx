@@ -12,6 +12,7 @@ import GoldGradientBorder from "../ui/gold-gradient-border";
 import { shimmer, toBase64 } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { showProfile } from "@/lib/middleware/profile";
 import JoinEventCard from "@/components/reusable-components/JoinEventCard";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -34,14 +35,15 @@ const ProfileDetails = () => {
     const value = parts[parts.length - 1];
     setUserId(value);
     console.log("user id ", userid);
-    dispatch(getUserSocialProfile(value));
+    dispatch(showProfile(value));
   }, []);
 
   const myProfile = useAppSelector(
-    (state) => state?.getUserSocialProfile?.myProfile?.data
+    (state) => state?.getShowProfile?.myProfile?.data
   );
 
   console.log("my Social Profile info is", myProfile);
+  const userLoading = useAppSelector((state) => state?.getShowProfile);
 
   return (
     <div className="flex flex-col md:flex-row w-full items-center justify-between  gap-[0px] md:gap-[100px]">
@@ -49,11 +51,11 @@ const ProfileDetails = () => {
         <GoldGradientBorder className="w-fit rounded-full p-[3px] h-fit">
           <div className="bg-black rounded-full p-[7px]">
             <Image
-              src={
-                myProfile?.profilePicture
-                  ? myProfile?.profilePicture
-                  : "/person3.jpg"
-              }
+                      src={
+                        myProfile?.profilePicture
+                          ? myProfile?.profilePicture
+                          : "/person3.jpg"
+                      }
               width={136}
               height={136}
               className="h-[128px] w-[128px] sm:h-[136px] sm:w-[136px] object-cover object-top rounded-full cursor-pointer"
@@ -68,19 +70,16 @@ const ProfileDetails = () => {
         <div className="w-full md:w-fit ">
           <p className="font-extrabold mt-[12px] flex justify-center md:justify-start items-center gap-1 text-[24px]">
             {myProfile?.fullname ? myProfile?.fullname : ""}{" "}
-            {/* <SealCheck
-              className="text-[#FFC109] w-[16px] h-[16px] sm::w-[20px] sm:h-[20px] -translate-y-1"
-               size={20}
-              weight="fill"
-            /> */}
-          </p>
+            </p>
           <p className="text-primary font-extrabold text-sm md:pt-[6px] md:pb-[4px] sm:text-base text-center md:text-left">
             {myProfile?.email ? myProfile?.email : ""}
           </p>
           <p className="mt-1 font-bold text-center md:text-left hidden md:block">
             <span className="text-[24px] sm:text-base">
               {/* {myProfile?.totalEvents ? myProfile?.totalEvents : 0}{" "} */}
-              {myProfile?.personalEvents ? myProfile?.personalEvents : 0}
+              {myProfile?.eventsCount !== null
+                        ? myProfile?.eventsCount
+                        : "0"}
 
               <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
                 {" "}
@@ -91,7 +90,9 @@ const ProfileDetails = () => {
             <span className="text-[24px] sm:text-base">
               {" "}
               {/* {myProfile?.totalAttendees ? myProfile?.totalAttendees : 0}{" "} */}
-              {myProfile?.tattendedEvents? myProfile?.attendedEvents : 0}{" "}
+              {myProfile?.attendees !== null
+                        ? myProfile?.attendees
+                        : "0"}
 
               <span className="text-[12px] sm:text-base sm:text-[white] text-[#A6A6A6]">
                 {" "}

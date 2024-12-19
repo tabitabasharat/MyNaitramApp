@@ -38,18 +38,6 @@ const EventNotificationCard = ({
     (state:any) => state?.getOrgNotifications?.myNotifications?.data
   );
   console.log("All Org Notifications are", NotifyOrg);
-  // const handleLinkClick = (link: string) => {
-  //   setActiveLink(link);
-  //   setIsOpen(false); // Optional: close the menu after selection
-
-  //   if (notifyType === "Organizer Profile") {
-  //     setProfilePic(myOrgData?.userDetails?.organizerProfile?.profilePicture || "/person3.jpg");
-  //     localStorage.setItem("profilePic", myOrgData?.userDetails?.organizerProfile?.profilePicture ?? "/person3.jpg");
-  //   } else {
-  //     setProfilePic(myProfile?.profilePicture || "/person3.jpg");
-  //     localStorage.setItem("profilePic", myProfile?.profilePicture ?? "/person3.jpg");
-  //   }
-  // };
   console.log("All Notifications are", Notify);
   const formatTimeol = (isoString: string): string => {
     const date = new Date(isoString);
@@ -59,10 +47,6 @@ const EventNotificationCard = ({
       hour12: true,
     });
   };
-
-  // const formatTimeAGo = (isoString: string): string => {
-  //   return dayjs(isoString).fromNow();
-  // };
 
   const formatTime = (isoString: string): string => {
     const notificationTime = dayjs(isoString);
@@ -156,18 +140,6 @@ const EventNotificationCard = ({
           alt=""
         />
       </div>
-      {/* <div className="size-[50px] rounded-full border border-[#FF8A08] overflow-hidden">
-        <Image
-          src={'/person3.jpg'}
-          width={500}
-          height={500}
-          className="object-cover size-[50px]"
-          placeholder={`data:image/svg+xml;base64,${toBase64(
-            shimmer(1200, 1800),
-          )}`}
-          alt=""
-        />
-      </div> */}
       <div className="w-full">
         <div className="flex justify-between w-full">
           <h3 className="font-bold break-words overflow-hidden text-ellipsis text-[14px] capitalize">
