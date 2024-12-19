@@ -234,16 +234,6 @@ const Followpromoter = ({ userId, eventName, EventData }: any) => {
           >
             {myProfile?.userProfile?.fullname}
           </p>
-          {/* <p className="text-[#FFFFFF3D] text-[12px]">
-            <span className="text-[11px] text-[#E6E6E6]">
-              {myProfile?.events?.length} Events
-            </span>{" "}
-            |{" "}
-            <span className="text-[11px] text-[#E6E6E6]">
-              {" "}
-              {myProfile?.profile?.totalAttendees} Attendees
-            </span>
-          </p> */}
         </div>
       </div>
       <hr className="border-white/10 my-[16px]" />
