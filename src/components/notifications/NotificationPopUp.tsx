@@ -28,6 +28,10 @@ const NotificationPopUp = ({
 
   // const [activeTab, setActiveTab] = useState<"USER" | "ORGANISER">("USER");
   const [active, setActive] = useState<string>("today");
+  const [activeLink, setActiveLink] = useState<string | null>(null);
+  const [profilePic, setProfilePic] = useState<string>("/person3.jpg");
+  const [organiserPic,setOrganiserPic] = useState<string>("/person3.jpg");
+    const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const userid =
@@ -43,7 +47,10 @@ const NotificationPopUp = ({
   const Notify = useAppSelector(
     (state) => state?.getUserNotifications?.myNotifications?.data
   );
-
+  const myOrgData = useAppSelector((state) => state?.getOrgDetail?.orgDetail?.data?.data);
+  const myProfile = useAppSelector(
+    (state) => state?.getShowProfile?.myProfile?.data
+  );
   console.log("All User Notifications are", Notify);
   const NotifyOrg = useAppSelector(
     (state) => state?.getOrgNotifications?.myNotifications?.data
@@ -55,6 +62,7 @@ const NotificationPopUp = ({
       typeof window !== "undefined" ? localStorage.getItem("_id") : null;
     console.log("user id ", userid);
     dispatch(getUserNotifications(userid));
+    dispatch(getOrgNotifications(userid))
   };
 
   useEffect(() => {
@@ -109,6 +117,25 @@ const NotificationPopUp = ({
     }
   }, []);
 
+  
+  const handleLinkClick = (link: string) => {
+    setActiveLink(link);
+    
+    setIsOpen(false); // Optional: close the menu after selection
+
+    if (link === "USER") {
+      setActiveTab("USER")
+      setProfilePic(myProfile?.profilePicture || "/person3.jpg");
+      localStorage.setItem("profilePic", myProfile?.profilePicture ?? "/person3.jpg");
+      console.log("porfile data",myProfile)
+    } else {
+      setActiveTab("ORGANISER")
+      setOrganiserPic(myOrgData?.userDetails?.organizerProfile?.profilePicture || "/person3.jpg");
+      console.log("organiser data", myOrgData)
+      // localStorage.setItem("profilePic", myOrgData?.userDetails?.organizerProfile?.profilePicture ?? "/person3.jpg");
+   
+    }
+  };
   const Unreadnotification =
     Notify && Notify?.some((item: any) => item && item?.NotifyRead === false);
 
@@ -150,6 +177,33 @@ const NotificationPopUp = ({
     console.log(`Filtered notifications for ${active}:`, filteredNotifications); // Log filtered notifications
     return filteredNotifications;
   };
+  
+  useEffect(() => {
+    if (localStorage.getItem("profilePic")) {
+      setProfilePic(localStorage.getItem("profilePic") || "/person3.jpg");
+    } else {
+      if (myProfile) {
+        setProfilePic(myProfile?.profilePicture ||"/person3.jpg");
+      }
+       else {
+        // setProfilePic("/person3.jpg");
+        setOrganiserPic(myOrgData?.userDetails?.organizerProfile?.profilePicture ||"/person3.jpg");
+      }
+    } 
+  }, [myProfile]);
+
+  useEffect(() => {
+    if (localStorage.getItem("organiserPic")) {
+      setOrganiserPic(localStorage.getItem("organiserPic") || "/person3.jpg");
+    } else {
+      if (myOrgData) {
+        setOrganiserPic(myOrgData?.userDetails?.organizerProfile?.profilePicture ||"/person3.jpg");
+      }
+       else {
+        setOrganiserPic("/person3.jpg");
+      }
+    }
+  }, [myOrgData]);
 
   return (
     <div className="bg-black relative z-[1400]">
@@ -171,7 +225,7 @@ const NotificationPopUp = ({
                 ? "text-[white] border-[#00A849] border-b-2"
                 : "border-b text-[#757575] border-[#292929]"
             } cursor-pointer`}
-            onClick={() => setActiveTab("USER")}
+            onClick={() => handleLinkClick("USER")}
           >
             USER
           </p>
@@ -184,15 +238,13 @@ const NotificationPopUp = ({
                 ? "text-[white] border-[#00A849] border-b-2"
                 : "border-b text-[#757575] border-solid border-[#292929]"
             } cursor-pointer`}
-            onClick={() => setActiveTab("ORGANISER")}
+            onClick={() => handleLinkClick("ORGANISER")}
           >
             ORGANISER
           </p>
         </div>
 }
       </div>
-
-      {/* Time Period Buttons */}
       <div className="flex flex-wrap gap-2 mt-[20px]">
         {["today", "This Week", "This Month"].map((period) => (
           <div
@@ -210,12 +262,10 @@ const NotificationPopUp = ({
           </div>
         ))}
       </div>
-
-    
-    
+ 
 
       {activeTab === "USER" && (
-        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
+        <div   onClick={() => handleLinkClick("USER")} className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
           {filterNotifications(Notify)?.length === 0 ? (
             <p className="text-gray-500 text-center">No New Notification</p>
           ) : (
@@ -229,14 +279,14 @@ const NotificationPopUp = ({
                 readStatus={item?.NotifyRead}
                 notificationId={item?.id}
                 notifyType={"user"}
-                profileimg={item?.picture}
+                profileimg={profilePic}
               />
             ))
           )}
         </div>
       )}
       {activeTab === "ORGANISER" && (
-        <div className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
+        <div  onClick={() => handleLinkClick("ORGANISER")} className="mt-[24px] lg:mt-[28px] flex flex-col gap-2">
           {filterNotifications(NotifyOrg)?.length === 0 ? (
             <p className="text-gray-500 text-center">No New Notification</p>
           ) : (
@@ -250,7 +300,7 @@ const NotificationPopUp = ({
                 readStatus={item?.NotifyRead}
                 notificationId={item?.id}
                 notifyType={"organization"}
-                profileimg={item?.picture}
+                profileimg={organiserPic}
               />
             ))
           )}

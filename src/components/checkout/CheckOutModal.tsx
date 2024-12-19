@@ -61,6 +61,7 @@ const CheckOutModal = ({ event }: any) => {
           setProfileInformation={setProfileInformation}
           currentTicketType={ticketType}
           setCurrentModal={setCurrentModal}
+          currentTicketIndex={ticketIndex}
         />
       )}
       {currentModal === "Payments" && (

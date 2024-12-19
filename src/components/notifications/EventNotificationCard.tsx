@@ -16,22 +16,40 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
+
 const EventNotificationCard = ({
   msg,
   heading,
   notifyTime,
   profileimg,
-  profilePicture,
   readStatus,
   notificationId,
   notifyType,
 }: any) => {
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(false);
+  const [activeLink, setActiveLink] = useState<string | null>(null);
+  const [profilePic, setProfilePic] = useState<string>("");
+  const [isOpen, setIsOpen] = useState(false);
   const Notify = useAppSelector(
-    (state) => state?.getUserNotifications?.myNotifications?.data
+    (state:any) => state?.getUserNotifications?.myNotifications?.data
   );
+  const NotifyOrg = useAppSelector(
+    (state:any) => state?.getOrgNotifications?.myNotifications?.data
+  );
+  console.log("All Org Notifications are", NotifyOrg);
+  // const handleLinkClick = (link: string) => {
+  //   setActiveLink(link);
+  //   setIsOpen(false); // Optional: close the menu after selection
 
+  //   if (notifyType === "Organizer Profile") {
+  //     setProfilePic(myOrgData?.userDetails?.organizerProfile?.profilePicture || "/person3.jpg");
+  //     localStorage.setItem("profilePic", myOrgData?.userDetails?.organizerProfile?.profilePicture ?? "/person3.jpg");
+  //   } else {
+  //     setProfilePic(myProfile?.profilePicture || "/person3.jpg");
+  //     localStorage.setItem("profilePic", myProfile?.profilePicture ?? "/person3.jpg");
+  //   }
+  // };
   console.log("All Notifications are", Notify);
   const formatTimeol = (isoString: string): string => {
     const date = new Date(isoString);
@@ -75,6 +93,7 @@ const EventNotificationCard = ({
           console.log("Notification Status Res", res?.payload?.data);
           // SuccessToast("Read Success");
           dispatch(getUserNotifications(userid));
+          dispatch(getOrgNotifications(userid))
         } else {
           setLoader(false);
           ErrorToast(res?.payload?.message);
@@ -99,7 +118,6 @@ const EventNotificationCard = ({
         if (res?.payload?.status === 200) {
           setLoader(false);
           console.log("Notification Status Res", res?.payload?.data);
-          // SuccessToast("Read Success");
           dispatch(getOrgNotifications(userid));
         } else {
           setLoader(false);
@@ -110,35 +128,25 @@ const EventNotificationCard = ({
       console.error("Error:", error);
     }
   }
-  const organizationProfile = useAppSelector(
-    (state) => state?.getOrgByID?.myOrgData?.data?.organizerProfiles[0]
-  );
-  const myProfile = useAppSelector(
-    (state) => state?.getShowProfile?.myProfile?.data
-  );
-  // console.log(organizatio)
 
   const handleRead = () => {
     if (notifyType == "user") {
       console.log("user");
       readnotification(notificationId);
-      readnotification(organizationProfile);
     } else {
-      console.log("organization");
+      console.log("ORGANISER");
       readOrgnotification(notificationId);
-      readnotification(myProfile);
     }
   };
+
+  
+
+
   return (
     <div className="gradient-slate border border-muted w-full rounded-lg p-3 flex gap-3">
       <div className="w-[56px] h-[48px] rounded-[30px] border border-white overflow-hidden">
         <Image
-          src={
-            notifyType === "ORGANISER"
-              ? organizationProfile?.profilePicture || "/default-org.jpg"
-              : myProfile?.profilePicture || "/person3.jpg"
-          }
-          // src={myProfile?.profilePicture ? myProfile?.profilePicture : "/person3.jpg"}
+          src={profileimg}
           width={500}
           height={500}
           className="object-cover size-[60px]"

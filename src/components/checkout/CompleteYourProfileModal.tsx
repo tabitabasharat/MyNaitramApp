@@ -35,12 +35,14 @@ const CompleteYourProfileModal = ({
   setProfileInformation,
   currentTicketType,
   setCurrentModal,
+  currentTicketIndex,
 }: {
   onNext: () => void;
   handleNext: any;
   setProfileInformation: any;
   currentTicketType: string;
   setCurrentModal: any;
+  currentTicketIndex: any;
 }) => {
   console.log("this is ticket type in modal", currentTicketType);
   const [email, setEmail] = useState<string>("");
@@ -91,7 +93,7 @@ const CompleteYourProfileModal = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      phone: currentTicketType === "RSVP Ticketing" ? "+1234567891011" : undefined,
+      phone: currentTicketType === "RSVP Ticketing" ? "+0000" : undefined,
       CSVadditnals: currentTicketType === "RSVP Ticketing" ? [] : [{ ans: "NOT Need" }],
     },
   });
@@ -129,18 +131,19 @@ const CompleteYourProfileModal = ({
           email: email,
         };
       }
+
       if (ticketDat[0]?.rsvpNumber) {
         additionalAns = {
           ...additionalAns,
           phoneNo: phoneValue,
         };
       }
+
       profileData = { ...allValues, full_name: name, email, ...additionalAns };
 
       setProfileInformation(profileData);
       try {
         setLoader(true);
-
         const data = await axios.post(`${API_URL}/event/createRsvpBatch`, {
           eventId: eventID,
           rsvpData: [additionalAns],
@@ -149,7 +152,7 @@ const CompleteYourProfileModal = ({
 
         console.log("i am calling how many times");
 
-        setLoader(false);
+        // setLoader(false);
         const apiUrl = `${API_URL}/buying/buyTicket?userId=${userID}&ismobile=true&isindex=${ticketIndex}&ticketType=${ticketDat[0]?.selectedEventTicketType}&ticketPrice=0&eventId=${eventID}&fullName=${name}&email=${email}`;
         const buyTicketData = await axios.get(apiUrl);
 
@@ -162,8 +165,10 @@ const CompleteYourProfileModal = ({
 
         if (data?.data?.url) {
           typeof window !== "undefined" ? (window.location.href = data?.data?.url) : null;
+          setLoader(false);
         } else {
           console.error("No URL received");
+          setLoader(false);
         }
       } catch (error: any) {
         setLoader(false);
@@ -198,7 +203,7 @@ const CompleteYourProfileModal = ({
   const EventDatas = useAppSelector((state) => state?.getEventByEventID?.eventIdEvents);
 
   useEffect(() => {
-    setTicketData(EventDatas?.data?.tickets?.filter((t: any) => t?.selectedEventTicketType === currentTicketType));
+    setTicketData(EventDatas?.data?.tickets?.filter((t: any, index: number) => Number(currentTicketIndex) === index));
     setEventID(EventDatas?.data?.id);
     setUserID(localStorage.getItem("_id"));
     const matchingIndex = EventDatas?.data?.tickets?.findIndex((t: any) => t?.selectedEventTicketType === currentTicketType);
@@ -238,10 +243,10 @@ const CompleteYourProfileModal = ({
         </DialogTitle>
         <Separator className="scale--[1.12] bg-[#292929]" />
       </DialogHeader>
-      {currentTicketType === "Passworded / Discounted Voucher Event" &&
+      {currentTicketType == "Passworded/Discounted Voucher Event" &&
       passTrue == false &&
-      ticketDat[0]?.privateEventAdditionalFields?.includes(localStorage.getItem("email")) == false &&
-      ticketDat[0]?.csvEmails?.includes(localStorage.getItem("email")) == false ? (
+      ticketDat?.[0]?.privateEventAdditionalFields?.includes(localStorage.getItem("email")) == false &&
+      !(ticketDat?.[0]?.csvEmails ?? []).includes(localStorage.getItem("email")) ? (
         <>
           <div className="flex flex-col gap-2 w-full max-h-30 overflow-auto">
             <div className="relative w-full">

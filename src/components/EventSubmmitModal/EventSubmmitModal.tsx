@@ -191,7 +191,7 @@ const SalesStartindicationModel = ({ onClose, open, text, link, btnTXT }: any) =
             </DialogHeader> */}
 
             <div className="flex items-center flex-col">
-              <div className="bg-red-400 p-6 rounded-full">
+              <div className="p-6 rounded-full" style={{ backgroundColor: "rgba(255, 0, 0, 0.5)" }}>
                 <MdOutlineBlock color="red" size={35} />
               </div>
               <p className="mt-[16px] font-extrabold text-base leading-[24px] whitelist-txt text-center">{text}</p>
