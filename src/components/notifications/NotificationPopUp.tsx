@@ -186,8 +186,8 @@ const NotificationPopUp = ({
   useEffect(() => {
     setProfilePic(myProfile?.profilePicture || "/person3.jpg");
   }, [myProfile]);
-
   useEffect(() => {
+    // Set the default organizer picture
     setOrganiserPic(
       myOrgData?.userDetails?.organizerProfile?.profilePicture || "/person3.jpg"
     );
@@ -269,7 +269,7 @@ const NotificationPopUp = ({
                 readStatus={item?.NotifyRead}
                 notificationId={item?.id}
                 notifyType={"user"}
-                profileimg={profilePic}
+                profileimg={item.picture ?? "/person3.jpg"}
               />
             ))
           )}
@@ -290,7 +290,7 @@ const NotificationPopUp = ({
                 readStatus={item?.NotifyRead}
                 notificationId={item?.id}
                 notifyType={"organization"}
-                profileimg={organiserPic}
+                 profileimg={item.picture ?? "/person3.jpg"}
               />
             ))
           )}

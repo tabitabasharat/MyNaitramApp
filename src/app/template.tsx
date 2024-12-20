@@ -42,12 +42,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
     "/organizer-event/payout-detail/cryptowallet/addCryptowallet",
     "/organizer-event/payout-history",
     "/organizer-event/get-paid",
-
-    // "/wallet",
-    // "/profile/reward-item"
   ];
   const pathname = usePathname();
-  // const isProfileRoute = profileRoutes.includes(pathname);
+
 
   const isProfileRoute =
     profileRoutes.includes(pathname) || pathname.startsWith("/organizer-event/add-scanner/") || pathname.match(/^\/side-drawer\/ticket-data\/[^/]+$/);
@@ -69,7 +66,6 @@ export default function Template({ children }: { children: React.ReactNode }) {
         <Header />
         {children}
         {!isProfileRoute && <Footer />}
-        {/* <Footer /> */}
       </Transition>
     </>
   );

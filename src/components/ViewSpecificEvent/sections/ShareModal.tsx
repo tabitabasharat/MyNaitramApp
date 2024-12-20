@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogPortal,
 } from "@/components/ui/newdialog";
-import copyurl from "@/assets/Wallet/copyy-url.svg"
+import copyurl from "@/assets/Wallet/copyy-url.svg";
 import arrowdown from "@/assets/arrow-down-drop.svg";
 import copylinkicon from "@/assets/Wallet/copy-link-icon.svg";
 import { Separator } from "@/components/ui/separator";
@@ -45,8 +45,6 @@ import {
 } from "@/components/reusable-components/Toaster/Toaster";
 import ScreenLoader from "@/components/loader/Screenloader";
 
-
-
 type LunchModalProps = {
   onClose: () => void; // Function to close the dialog
   open: () => void; // Boolean to control the dialog's visibility
@@ -56,12 +54,9 @@ const ShareModal = ({ onClose, open, eventUrl }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-
   const [userid, setUserid] = useState<any>("");
 
   console.log("my all event data", eventUrl);
-
-
 
   useEffect(() => {
     const userID =
@@ -69,20 +64,30 @@ const ShareModal = ({ onClose, open, eventUrl }: any) => {
     setUserid(userID);
     console.log("user ID logged in is", userID);
   }, []);
-
+  const urlRef = useRef<HTMLDivElement>(null);
   const handlelinkValue = () => {
-    if (eventUrl) {
-      navigator.clipboard.writeText(eventUrl)
+    if (urlRef.current) {
+      const range = document.createRange();
+      const selection = window.getSelection();
+      range.selectNodeContents(urlRef.current);
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+
+      const textToCopy = urlRef.current.textContent || "";
+      navigator.clipboard
+        .writeText(textToCopy)
         .then(() => {
-          console.log("URL copied to clipboard!");
+          SuccessToast("URL copied successfully");
+          console.log("Placeholder copied to clipboard!");
         })
-        .catch(err => {
-          console.error("Failed to copy URL: ", err);
+        .catch((err) => {
+          ErrorToast("Failed to copy URL.");
+          console.error("Failed to copy placeholder: ", err);
         });
+    } else {
+      ErrorToast("Failed to copy URL.");
     }
   };
-
-  const urlRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (urlRef.current) {
@@ -112,7 +117,7 @@ const ShareModal = ({ onClose, open, eventUrl }: any) => {
               Copy link to this event
             </p>
             <div className="relative w-full md:w-[416px] scrollbar-hidden">
-              <div className="flex items-center gradient-slate-input gradient-slate text-white rounded-md w-full">
+              {/* <div className="flex items-center gradient-slate-input gradient-slate text-white rounded-md w-full">
                 <div
                   ref={urlRef}
                   className="flex-1 ps-[12px] pe-[35px] sm:pe-[16px] py-[12.5px] text-base text-[#757575] font-normal truncate"
@@ -120,6 +125,20 @@ const ShareModal = ({ onClose, open, eventUrl }: any) => {
                     overflow: "hidden",
                     whiteSpace: "nowrap",
                     textOverflow: "ellipsis"
+                  }}
+                  title={eventUrl}
+                >
+                  {eventUrl}
+                </div>
+              </div> */}
+              <div className="flex items-center gradient-slate-input gradient-slate text-white rounded-md w-full">
+                <div
+                  ref={urlRef}
+                  className="flex-1 ps-[12px] pe-[35px] sm:pe-[16px] py-[12.5px] text-base text-[#757575] font-normal truncate"
+                  style={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
                   }}
                   title={eventUrl}
                 >
